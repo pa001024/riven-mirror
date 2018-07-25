@@ -1,0 +1,184 @@
+import {
+  RivenDataBase, RivenPropertyDataBase, RivenProperty
+} from "./data"
+import { strSimilarity } from "./util"
+import _ from "lodash";
+
+export class ValuedRivenProperty {
+  /** 属性原型 */
+  prop: RivenProperty
+  /** 属性值 */
+  value: number
+  /** 属性基础值 */
+  baseValue: number
+  /** 调整数值 */
+  upLevel: number
+
+  constructor(prop: RivenProperty, value: number, baseValue?: number, upLevel?: number) {
+    this.prop = prop;
+    this.value = value;
+    this.baseValue = baseValue;
+    this.upLevel = upLevel;
+  }
+  /**  获取属性名称 */
+  get name() { return this.prop.name }
+  /** 获取属性显示数据 */
+  get displayValue() {
+    let val = this.prop.nopercent ? this.value.toFixed(1) : this.value.toFixed(1) + "%";
+    if (val[0] != "-")
+      return "+" + val;
+    else return val;
+  }
+  /** 获取本条属性是否是负面属性 */
+  get isNegative() {
+    return this.prop.negative ? this.value > 0 : this.value < 0;
+  }
+  get negativeUpLevel() {
+    return this.upLevel == 1 ? 0.75 : .5
+  }
+  /** 根据属性基础值计算属性偏差值 */
+  get deviation() {
+    return (this.isNegative ? -1 : 1) * this.value / (this.isNegative ? this.negativeUpLevel : this.upLevel) / this.baseValue;
+  }
+  /** 获取偏差值显示数据 */
+  get displayDeviation() {
+    let val = (this.deviation * 100 - 100).toFixed(1) + "%";
+    if (val[0] != "-")
+      return "+" + val;
+    return val;
+  }
+  /** 根据属性基础值标准化属性值 */
+  normalize() {
+    let devi = this.deviation;
+    if (devi > 5)
+      this.value /= 10;
+    else if (devi < 0.3)
+      this.value *= 9;
+    return this
+  }
+}
+
+export class RivenMod {
+  /** 武器名称 */
+  name: string
+  /** 后缀 */
+  subfix: string
+  /** 等级 */
+  level: number = 8
+  /** 极性 */
+  polarity: "r" | "-" | "d"
+  /** 根据卡面所带来的提升值 一共三种 0.75 | 1 | 1.25 分别代表 3+; 2+/3+1-; 2+1- */
+  upLevel = 1
+  /** 全名 如: 西诺斯 Critacan*/
+  get fullName() { return this.name + " " + this.subfix }
+  /** 属性列表 */
+  properties: ValuedRivenProperty[] = []
+  hasNegativeProp: boolean
+  recycleTimes = 0
+  rank: number
+  db = new RivenDataBase();
+
+  constructor(parm?: string | {}) {
+    if (typeof parm === "string") {
+      this.parseString(parm);
+    } else {
+      // TODO
+    }
+  }
+  /**
+   * 读取OCR识别的MOD文本
+   * @param modText MOD文本
+   */
+  parseString(modText: string) {
+    this.name = "";
+    this.properties = [];
+    this.hasNegativeProp = false;
+    this.rank = this.recycleTimes = 0;
+    let lines = modText.replace(/(（\S*?)\s(\S*?）)|(\(\S*?)\s(\S*?\))/g, "$1$2$3$4").replace("·", "-").split(/\s+/g);
+    let subfixIndex = lines.findIndex(v => v.match(this.db.PrefixAll) != null);
+    if (subfixIndex < 0) return new Error("紫卡属性识别错误: 找不到后缀");
+    else {
+      let idt = lines[subfixIndex].match(this.db.PrefixAll).index;
+      if (idt > 0) {
+        let subfix = lines[subfixIndex].substr(idt);
+        lines[subfixIndex] = lines[subfixIndex].substr(0, idt)
+        lines.splice(++subfixIndex, 0, subfix);
+      }
+    }
+    let rawName = lines[subfixIndex - 1];
+    // 查询名称最接近的武器
+    let weapon = this.db.findMostSimRivenWeapon(rawName);
+    this.subfix = lines[subfixIndex];
+    // 识别到的名字是否正确, 否则模糊匹配
+    this.name = weapon.name;
+    // 获取后缀属性
+    let rivenProps = this.parseSubfix(this.subfix, weapon.mod == "Melee" ? "melee" : "gun");
+    let propRegExp = /([+\-]?\d+(?:\.\d+)?)%?.*?([\u4e00-\u9fa5].+)/;
+    let properties: [RivenProperty, number][] = [];
+    for (let i = subfixIndex + 1; i < lines.length; i++) {
+      let propLine = lines[i].match(propRegExp);
+      if (properties.length < 4 && !this.hasNegativeProp && propLine) {
+        // 如果后缀已识别则优先使用(只识别一定次数)
+        console.log(propLine[2]);
+        let prop = ((i <= subfixIndex + rivenProps.length) && rivenProps && _.maxBy(rivenProps, v => strSimilarity(v[0].name, propLine[2]))[0])
+          // 识别到的属性是否正确, 否则模糊匹配
+          || this.db.findMostSimProp(propLine[2]);
+        // 判断前缀不是+或者-就加上-
+        let propValue = +(v => v[0] != '-' && v[0] != '+' ? -v : v)(propLine[1]);
+        // 对于只有正面的属性去除负号
+        if (prop.onlyPositive && propValue < 0) propValue = -propValue;
+        // 检测负属性
+        if ((prop.negative ? -propValue : propValue) < 0)
+          this.hasNegativeProp = true;
+        // 如果有4条则最后一个一定是负
+        else if (properties.length === 3) {
+          propValue = -propValue;
+          this.hasNegativeProp = true;
+        }
+        if (properties.length > 3) {
+          console.log("[ERR]more than 4 properties found", [prop.name, prop, propValue]);
+          continue;
+        }
+        // 将属性值加入
+        properties.push([prop, propValue]);
+      } else {
+        // 识别段位和重roll次数
+        let extra = _.compact(lines[i].split(/\D+/g));
+        this.rank = extra[0] && +extra[0] || 0;
+        this.recycleTimes = extra[1] && +extra[1] || 0;
+        if (this.recycleTimes == 0 && this.rank > 100) {
+          // 1003变成10 3
+          this.recycleTimes = this.rank - ~~(this.rank / 100) * 100;
+          this.rank = ~~(this.rank / 100);
+        }
+      }
+    }
+    // console.log(lines);
+    // console.log(this.hasNegativeProp, properties);
+    if (properties.length > (this.hasNegativeProp ? 4 : 3)) return new Error("紫卡属性识别错误: 正面属性过多");
+    // 计算upLevel
+    // 3+1- = [4-3]>> 1
+    // 3+ = [3-1]>>2
+    // 2+ = [2-1]>>1
+    // 2+1- = [3-3]>>0
+    this.upLevel = [1.25, 1, 0.75][properties.length - (this.hasNegativeProp ? 3 : 1)];
+    // 写入属性并标准化
+    this.properties = properties.map(v =>
+      new ValuedRivenProperty(v[0], v[1], this.db.getPropBaseValue(this.name, v[0].name), this.upLevel).normalize());
+    return;
+  }
+  /**
+   * 识别后缀
+   * @param subfix 后缀
+   * @param stype MOD类型
+   */
+  parseSubfix(subfix: string, stype: string): [RivenProperty, string][] {
+    let rst = subfix.toLowerCase().match(this.db.PropRegExps[stype]);
+    if (rst) {
+      let fixs = rst.slice(rst[1] ? 1 : 2, 4);
+      return fixs.map((v, i): [RivenProperty, string] =>
+        [RivenPropertyDataBase[stype].find(p => v == p[i < fixs.length - 1 ? "prefix" : "subfix"]), v]);
+    }
+    return;
+  }
+}
