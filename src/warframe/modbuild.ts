@@ -233,6 +233,8 @@ export class GunModBuild {
     if (mod.props.length == 1) {
       let oriDmg: [string, number];
       switch (mod.props[0][0]) {
+        case 'D': // 伤害 baseDmg
+          return mod.props[0][1] / this._baseDamageMul;
         case '4': // 火焰伤害 fireDmg
         case '5': // 冰冻伤害 iceDmg
         case '6': // 毒素伤害 toxiDmg
@@ -298,9 +300,11 @@ export class GunModBuild {
       sortableMods.forEach(v => { v[1] = this.testMod(v[0]); });
       // 3. 把所有卡按收益排序
       sortableMods.sort((a, b) => b[1] - a[1]);
+      // console.log("sortableMods[0]", sortableMods[0][0].name);
       // 4. 将收益最高的一项插入并移出数组
       this.applyMod(sortableMods.shift()[0]);
       // 5. 重复以上步骤直到卡槽充满
+      // console.log("compareDamage", this.compareDamage);
     }
   }
   /** 重置所有属性增幅器 */
@@ -349,17 +353,17 @@ export class GunModBuild {
             this._extraDmgMul += prop[1];
             break;
           case '8': // 冲击伤害 puncDmg
-            oriDmg = this.weapon.dmg.find(v => v[0] == "Puncture");
+            oriDmg = this.weapon.dmg.find(v => v[0] === "Puncture");
             if (oriDmg)
               this._extraDmgMul += prop[1] * oriDmg[1] / this.originalDamage;
             break;
           case '9': // 穿刺伤害 impaDmg
-            oriDmg = this.weapon.dmg.find(v => v[0] == "Impact");
+            oriDmg = this.weapon.dmg.find(v => v[0] === "Impact");
             if (oriDmg)
               this._extraDmgMul += prop[1] * oriDmg[1] / this.originalDamage;
             break;
           case 'A': // 切割伤害 slasDmg
-            oriDmg = this.weapon.dmg.find(v => v[0] == "Slash");
+            oriDmg = this.weapon.dmg.find(v => v[0] === "Slash");
             if (oriDmg)
               this._extraDmgMul += prop[1] * oriDmg[1] / this.originalDamage;
             break;
@@ -574,6 +578,7 @@ export class ModBuildMelee {
       // 2. 把所有卡按收益排序
       sortableMods.sort((a, b) => b[1] - a[1]);
       // 3. 将收益最高的一项插入并移出数组
+      console.log("insert mod", sortableMods[0]);
       this.applyMod(sortableMods.shift()[0]);
       // 4. 重复以上步骤直到卡槽充满
     }

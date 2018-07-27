@@ -205,7 +205,10 @@ func loadConfig() {
 
 func main() {
 	loadConfig()
-	logFile, err := os.Create("ocr.log")
+	logFile, err := os.Open("ocr.log")
+	if err != nil {
+		logFile, err = os.Create("ocr.log")
+	}
 	defer logFile.Close()
 	if err != nil {
 		log.Fatalln("open file error")

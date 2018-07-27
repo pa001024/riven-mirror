@@ -25,7 +25,7 @@
     <div class="build-list">
       <el-row type="flex" :gutter="12" class="build-item" v-for="build in builds" :key="build[0]">
         <el-col :span="24" class="build-title">
-          {{build[0]}} - {{build[1].compareDamage.toFixed(1)}}
+          {{build[0]}} &nbsp; - &nbsp; {{build[1].compareDamage.toFixed(1)}} {{selectCompMethod}}
         </el-col>
         <el-col :sm="12" :lg="3" v-for="mod in build[1].mods" :key="mod.name">
           <el-card shadow="hover" class="build-card-box">
@@ -64,7 +64,10 @@ export default class GunModBuildView extends Vue {
   score = 0
   @Watch("selectCompMethod")
   compMethodChange(val: string) {
-    console.log(this.selectCompMethod);
+    this.recalc();
+  }
+  @Watch("slots")
+  slotChange(){
     this.recalc();
   }
   @Watch("riven")
