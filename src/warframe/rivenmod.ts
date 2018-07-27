@@ -1,5 +1,5 @@
 import {
-  RivenDataBase, RivenPropertyDataBase, RivenProperty
+  RivenDataBase, RivenPropertyDataBase, RivenProperty, NormalMod, GunWeaponDataBase
 } from "./data"
 import { strSimilarity } from "./util"
 import _ from "lodash";
@@ -59,6 +59,8 @@ export class ValuedRivenProperty {
 }
 
 export class RivenMod {
+  /** 武器英文名称 */
+  id: string
   /** 武器名称 */
   name: string
   /** 后缀 */
@@ -73,16 +75,28 @@ export class RivenMod {
   get fullName() { return this.name + " " + this.subfix }
   /** 属性列表 */
   properties: ValuedRivenProperty[] = []
+  /** 是否有负面属性 */
   hasNegativeProp: boolean
+  /** 循环次数 */
   recycleTimes = 0
+  /** 段位 */
   rank: number
   db = new RivenDataBase();
 
-  constructor(parm?: string | {}) {
+  constructor(parm?: string | RivenMod) {
     if (typeof parm === "string") {
       this.parseString(parm);
     } else {
-      // TODO
+      this.id = parm.id;
+      this.name = parm.name;
+      this.subfix = parm.subfix;
+      this.level = parm.level;
+      this.polarity = parm.polarity;
+      this.upLevel = parm.upLevel;
+      this.properties = _.cloneDeep(parm.properties);
+      this.hasNegativeProp = parm.hasNegativeProp;
+      this.recycleTimes = parm.recycleTimes;
+      this.rank = parm.rank;
     }
   }
   /**
@@ -90,7 +104,7 @@ export class RivenMod {
    * @param modText MOD文本
    */
   parseString(modText: string) {
-    this.name = "";
+    this.id = this.name = "";
     this.properties = [];
     this.hasNegativeProp = false;
     this.rank = this.recycleTimes = 0;
@@ -111,6 +125,7 @@ export class RivenMod {
     this.subfix = lines[subfixIndex];
     // 识别到的名字是否正确, 否则模糊匹配
     this.name = weapon.name;
+    this.id = weapon.id;
     // 获取后缀属性
     let rivenProps = this.parseSubfix(this.subfix, weapon.mod == "Melee" ? "melee" : "gun");
     let propRegExp = /([+\-]?\d+(?:\.\d+)?)%?.*?([\u4e00-\u9fa5].+)/;
@@ -180,5 +195,22 @@ export class RivenMod {
         [RivenPropertyDataBase[stype].find(p => v == p[i < fixs.length - 1 ? "prefix" : "subfix"]), v]);
     }
     return;
+  }
+  /** 返回适用的武器列表 */
+  get weapons() {
+    return GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
+  }
+  /** 返回一个标准MOD对象 */
+  get normalMod(): NormalMod {
+    return {
+      id: this.id,
+      name: this.fullName,
+      type: this.name,
+      desc: "裂罅MOD",
+      polarity: this.polarity,
+      cost: 18,
+      rarity: "x",
+      props: this.properties.map(v => [v.prop.id, v.value / 100] as [string, number])
+    };
   }
 }

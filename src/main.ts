@@ -6,11 +6,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import WarframeWatch from './components/WarframeWatch.vue';
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
-Vue.component("wf-watch", WarframeWatch);
 
 /* eslint-disable no-new */
 new Vue({

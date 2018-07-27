@@ -1,25 +1,19 @@
 <template>
   <div class="mod-container" @paste="handlePaste" v-loading="ocrLoading">
-    <el-row>
-      <el-col :sm=24 :lg=6>
+    <el-row :gutter="20">
+      <el-col :sm="24" :md="12" :lg="6">
         <el-row>
           <el-col :span="24">
-            <el-switch class="mode-select" v-model="useText"
-              active-text="剪贴板识别" inactive-text="文件识别">
+            <el-switch class="mode-select" v-model="useText" active-text="剪贴板识别" inactive-text="文件识别">
             </el-switch>
           </el-col>
           <el-col :span="24">
             <el-input v-if="useText" v-model="modText" @focus="handleFocus" placeholder="在此处粘贴紫卡截图或文本进行识别" type="textarea" rows="1"></el-input>
-            <el-upload v-else class="upload-pic"
-              ref="upload"
-              drag
-              :before-upload="onUploadStart"
-              :on-success="onUploadSuccess"
-              :on-error="onUploadError"
-              :show-file-list="false"
-              action="http://api.0-0.at/ocr">
+            <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="http://api.0-0.at/ocr">
               <i class="el-icon-upload"></i>
-              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__text">将文件拖到此处，或
+                <em>点击上传</em>
+              </div>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </el-col>
@@ -45,10 +39,13 @@
           </el-col>
         </el-row>
       </el-col>
-      <el-col :sm=24 :lg=18>
+      <el-col :sm="24" :md="12" :lg="18">
         <el-row>
-          <el-col :span=24>
-
+          <el-col :span="24">
+            <gun-mod-build-view :riven="mod" v-if="isGun">
+            </gun-mod-build-view>
+            <el-alert v-else title="暂不支持近战自动分析" type="error" :closable="false">
+            </el-alert>
           </el-col>
         </el-row>
       </el-col>
@@ -61,20 +58,28 @@ import _ from "lodash";
 import axios from 'axios';
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { RivenMod } from "../warframe";
+import GunModBuildView from "@/components/GunModBuildView.vue";
 import store from "../store";
+
 
 interface OCRResult {
   result: string[]
   success: number
 }
-@Component
+@Component({
+  components: { GunModBuildView }
+})
 export default class Mod extends Vue {
   // 使用剪贴板识别
   useText = true;
   modText = "";
   ocrLoading = false;
   debouncedmodTextChange: (() => void);
-  get mod() { return store.getters.mod; }
+  get mod(): RivenMod { return store.getters.mod; }
+  get isGun() {
+    let vp = this.mod.db.getRivenWeaponByName(this.mod.name);
+    return vp && vp.mod != "Melee";
+  }
 
   handlePaste(ev: ClipboardEvent) {
     let vm = this;
@@ -121,7 +126,7 @@ export default class Mod extends Vue {
       this.debouncedmodTextChange();
     }
   }
-  mounted() {
+  beforeMount() {
     this.debouncedmodTextChange = _.debounce(() => {
       this.mod.parseString(this.modText);
       store.commit('newModTextInput', this.modText);
@@ -139,6 +144,8 @@ export default class Mod extends Vue {
 +96.5%暴击伤害
 +54.2%弹匣容量
 段位8`);
+  }
+  mounted() {
   }
 }
 </script>

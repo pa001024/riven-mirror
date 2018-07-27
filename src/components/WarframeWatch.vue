@@ -28,7 +28,7 @@ interface WarframeTime {
   day: boolean
   text: string
 }
-@Component({ name: "wf-watch" })
+@Component
 export default class WarframeWatch extends Vue {
   cetusTime: WarframeTime = { day: true, text: "00:00" }
   earthTime: WarframeTime = { day: true, text: "00:00" }

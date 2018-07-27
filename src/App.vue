@@ -11,6 +11,9 @@
         <router-link to="/">
           <el-button icon="el-icon-view" circle></el-button>
         </router-link>
+        <router-link to="/huangli">
+          <el-button icon="el-icon-date" circle></el-button>
+        </router-link>
       </el-aside>
       <el-main>
         <router-view/>
@@ -21,9 +24,11 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { IngameTime } from "./warframe";
+import WarframeWatch from "./components/WarframeWatch.vue";
 
-@Component
+@Component({
+  components: { "wf-watch": WarframeWatch }
+})
 export default class App extends Vue { }
 </script>
 
