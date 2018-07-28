@@ -1,4 +1,4 @@
-import { GunWeapon, NormalMod, NormalModDatabase, NormalCardDependTable } from "./data";
+import { GunWeapon, NormalMod, NormalModDatabase, NormalCardDependTable, AcolyteModsList } from "./data";
 import { RivenMod } from "./rivenmod";
 import _ from "lodash";
 
@@ -50,6 +50,8 @@ export class GunModBuild {
   private _handShotChance = 0;
   private _enemyDmgType = "";
   compareMode: CompareMode = CompareMode.TotalDamage;
+  usrAcolyteMods = true;
+  allowElementTypes: string[] = null;
   /** 歧视伤害类型 */
   get enemyDmgType() {
     return this._enemyDmgType;
@@ -167,9 +169,17 @@ export class GunModBuild {
   get magazineSize() {
     return Math.round(this.weapon.magazine * this.magazineMul);
   }
+  /** 暴击率 */
+  get critChance() {
+    return this.weapon.criticalChances / 100 * this.critChanceMul;
+  }
+  /** 暴击倍率 */
+  get critMul() {
+    return this.weapon.criticalMultiplier * this.critMulMul;
+  }
   /** 平均暴击区增幅倍率 */
   get critDamageMul() {
-    return this.calcCritDamage(this.weapon.criticalChances / 100 * this.critChanceMul, this.weapon.criticalMultiplier * this.critMulMul, this.handShotChance, this.handShotMul);
+    return this.calcCritDamage(this.critChance, this.critMul, this.handShotChance, this.handShotMul);
   }
   /** 爆发伤害增幅倍率 */
   get burstDamageMul() {
@@ -223,12 +233,19 @@ export class GunModBuild {
           return false;
       }
     }
+    if (!this.usrAcolyteMods && AcolyteModsList.some(v => v === mod.name))
+      return false;
+    if (this.allowElementTypes) {
+      if (mod.props.some(v => ["4", "5", "6", "7"].includes(v[0])))
+        if (!mod.props.every(v => this.allowElementTypes.includes(v[0])))
+          return false;
+    }
     return true;
   }
   /** 返回MOD增幅数值 */
   testMod(mod: NormalMod) {
     // MOD查重
-    if (!this.isValidMod(mod)) return 0;
+    if (!this.isValidMod(mod)) return -1;
     // 效率优化
     if (mod.props.length == 1) {
       let oriDmg: [string, number];
