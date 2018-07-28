@@ -4,7 +4,7 @@
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item label="武器" v-if="riven.weapons.length > 1">
         <el-select size="medium" v-model="selectWeapon" placeholder="请选择">
-          <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.name" :value="weapon.name">
+          <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.name" :value="weapon">
           </el-option>
         </el-select>
       </el-form-item>
@@ -32,7 +32,7 @@
       </el-form-item>
       <el-form-item label="">
         <el-tooltip effect="dark" content="如尖刃弹头等需要瞄准的MOD" placement="bottom">
-          <el-checkbox v-model="usrAcolyteMods">使用追随者MOD</el-checkbox>
+          <el-checkbox v-model="useAcolyteMods">使用追随者MOD</el-checkbox>
         </el-tooltip>
       </el-form-item>
       <!-- <el-form-item label="使用MOD">
@@ -83,7 +83,13 @@ export default class GunModBuildView extends Vue {
   selectCompMethod: CompareMode = CompareMode.TotalDamage
   selectDamageType: string[] = null
   builds: [string, GunModBuild][] = []
-  /**  */
+  /** 使用追随者MOD */
+  useAcolyteMods = false
+  /** 插槽使用数 */
+  slots = 8
+  /** 紫卡分数 */
+  score = 0
+  /** 元素类型 */
   get elementTypes() {
     return [
       ["爆炸", ["4", "5"]],
@@ -94,14 +100,9 @@ export default class GunModBuildView extends Vue {
       ["病毒", ["5", "6"]],
     ];
   }
-  usrAcolyteMods = true
   get selectCompMethodText() {
     return ["单发伤害", "爆发伤害", "持续伤害"][this.selectCompMethod];
   }
-  /** 插槽使用数 */
-  slots = 8
-  /** 紫卡分数 */
-  score = 0
   @Watch("selectCompMethod")
   compMethodChange(val: string) {
     this.recalc();
@@ -115,9 +116,15 @@ export default class GunModBuildView extends Vue {
     this.selectWeapon = this.riven.weapons[0];
     this.recalc();
   }
-  @Watch("usrAcolyteMods")
-  usrAcolyteModsChange() {
+  @Watch("selectWeapon")
+  selectWeaponChange() {
+    console.log(this.selectWeapon);
     this.recalc();
+  }
+  @Watch("useAcolyteMods")
+  useAcolyteModsChange() {
+    this.recalc();
+    localStorage.setItem("useAcolyteMods", JSON.stringify(this.useAcolyteMods));
   }
   @Watch("selectDamageType")
   selectDamageTypeChange() {
@@ -126,6 +133,7 @@ export default class GunModBuildView extends Vue {
   }
   mounted() { }
   beforeMount() {
+    this.useAcolyteMods = JSON.parse(localStorage.getItem("useAcolyteMods"));
     this.selectWeapon = this.riven.weapons[0];
     this.recalc();
   }
@@ -134,10 +142,10 @@ export default class GunModBuildView extends Vue {
     let stand = new GunModBuild(this.riven, this.selectWeapon.name);
     let riven = new GunModBuild(this.riven, this.selectWeapon.name);
     stand.compareMode = riven.compareMode = this.selectCompMethod;
-    stand.usrAcolyteMods = riven.usrAcolyteMods = this.usrAcolyteMods;
+    stand.useAcolyteMods = riven.useAcolyteMods = this.useAcolyteMods;
     stand.allowElementTypes = riven.allowElementTypes = this.selectDamageType || null;
     stand.fill(this.slots, 0);
-    riven.fill(this.slots, 1);
+    riven.fill(this.slots, 2);
     this.builds.push(["标准配置", stand]);
     this.builds.push(["紫卡配置", riven]);
     this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);

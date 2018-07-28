@@ -50,7 +50,7 @@ export class GunModBuild {
   private _handShotChance = 0;
   private _enemyDmgType = "";
   compareMode: CompareMode = CompareMode.TotalDamage;
-  usrAcolyteMods = true;
+  useAcolyteMods = true;
   allowElementTypes: string[] = null;
   /** 歧视伤害类型 */
   get enemyDmgType() {
@@ -171,10 +171,16 @@ export class GunModBuild {
   }
   /** 暴击率 */
   get critChance() {
+    // 兰卡开镜暴击
+    if ((this.weapon.rivenName || this.weapon.id) === "Lanka")
+      return this.weapon.criticalChances / 100 * this.critChanceMul + 0.5;
     return this.weapon.criticalChances / 100 * this.critChanceMul;
   }
   /** 暴击倍率 */
   get critMul() {
+    // 绝路开镜暴伤
+    if ((this.weapon.rivenName || this.weapon.id) === "Rubico")
+      return this.weapon.criticalMultiplier * this.critMulMul + 0.5;
     return this.weapon.criticalMultiplier * this.critMulMul;
   }
   /** 平均暴击区增幅倍率 */
@@ -224,7 +230,7 @@ export class GunModBuild {
   }
   /** 检测相应的P卡是否已存在 */
   isValidMod(mod: NormalMod) {
-    if (mod.primed && this._mods.some(v => v.id === mod.primed))
+    if (this._mods.some(v => v.id === mod.primed || v.primed === mod.id))
       return false;
     for (let i = 0; i < NormalCardDependTable.length; i++) {
       const depend = NormalCardDependTable[i];
@@ -233,7 +239,7 @@ export class GunModBuild {
           return false;
       }
     }
-    if (!this.usrAcolyteMods && AcolyteModsList.some(v => v === mod.name))
+    if (!this.useAcolyteMods && AcolyteModsList.some(v => v === mod.name))
       return false;
     if (this.allowElementTypes) {
       if (mod.props.some(v => ["4", "5", "6", "7"].includes(v[0])))
