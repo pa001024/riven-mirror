@@ -187,7 +187,7 @@ export default class GunModBuildView extends Vue {
 }
 .build-card-box {
   overflow: hidden;
-  transition: 0.3s;
+  transition: 0.3s cubic-bezier(0.48, 1.09, 0.74, -0.23);
   max-height: 56px;
   margin-bottom: 8px;
   position: absolute;

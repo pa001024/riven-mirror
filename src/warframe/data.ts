@@ -499,25 +499,8 @@ export interface GunWeapon extends Weapon {
  */
 export interface MeleeWeapon extends Weapon { }
 /*
-Data from http://warframe-builder.com/Weapon_comparator
-控制台运行如下脚本
-let RivenWeaponDataBase = [...];
-$("[data-type=archgun]").remove();
-JSON.stringify(Array.prototype.map.call($(".detail_tir.base"), v => ({
-  id: $(v).parent().find(".nom_liste_arme").text().trim(),
-  name: RivenWeaponDataBase.find(v=>v.id==$(v).parent().find(".nom_liste_arme").text().trim()).name,
-  dmg: Array.prototype.map.call($(v).find("tr.separateur").prevAll("tr"),v=>[$(v).find("td:nth(0)").text(),+$(v).find("td:nth(1)").text().replace(",","")]),
+Data from https://warframe.huijiwiki.com/wiki/%E6%A8%A1%E5%9D%97:Weapons/data
 
-  accuracy: +$(v).parent().find(".detail_arme.base").find(".precision>span").text().replace(",",""),
-  bullets: +$(v).parent().find(".detail_arme.base").find(".balles>span").text().replace(",",""),
-  fireRate: +$(v).parent().find(".detail_arme.base").find(".cadence_de_tir>span").text().replace(",",""),
-  criticalMultiplier: +$(v).parent().find(".detail_arme.base").find(".valeur_de_critique>span").text().replace(",",""),
-  criticalChances: +$(v).parent().find(".detail_arme.base").find(".chances_de_critique>span").text().replace(",",""),
-  status: +$(v).parent().find(".detail_arme.base").find(".status>span").text().replace(",",""),
-  magazine: +$(v).parent().find(".detail_arme.base").find(".chargeur>span").text().replace(",",""),
-  reload: +$(v).parent().find(".detail_arme.base").find(".recharger>span").text().replace(",",""),
-  ammo: +$(v).parent().find(".detail_arme.base").find(".munitions>span").text().replace(",",""),
-})))
 */
 export const GunWeaponDataBase: GunWeapon[] = [
   {
