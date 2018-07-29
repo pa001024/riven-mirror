@@ -1,7 +1,5 @@
-import {
-  RivenDataBase, RivenPropertyDataBase, RivenProperty, NormalMod, GunWeaponDataBase
-} from "./data"
-import { strSimilarity } from "./util"
+import { GunWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase } from "@/warframe/data";
+import { strSimilarity } from "@/warframe/util";
 import _ from "lodash";
 
 export class ValuedRivenProperty {
@@ -163,8 +161,15 @@ export class RivenMod {
         this.recycleTimes = extra[1] && +extra[1] || 0;
         if (this.recycleTimes == 0 && this.rank > 100) {
           // 1003变成10 3
-          this.recycleTimes = this.rank - ~~(this.rank / 100) * 100;
-          this.rank = ~~(this.rank / 100);
+          let str = this.rank.toFixed();
+          // 万一紫卡就出到20段了呢
+          if (str.startsWith("1") || str.startsWith("2")) {
+            this.rank = +str.substr(0, 2);
+            this.recycleTimes = +str.substr(3);
+          } else {
+            this.rank = +str.substr(0, 1);
+            this.recycleTimes = +str.substr(2);
+          }
         }
       }
     }
@@ -203,7 +208,7 @@ export class RivenMod {
   /** 返回一个标准MOD对象 */
   get normalMod(): NormalMod {
     return {
-      id: this.id,
+      id: this.id + " " + this.subfix,
       name: this.fullName,
       type: this.name,
       desc: "裂罅MOD",

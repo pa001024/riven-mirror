@@ -1,7 +1,7 @@
 {
   "name": "riven-mirror",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "Warframe riven mods analyzer",
   "author": "pa001024 <pa001024@qq.com>",
   "private": true,
   "scripts": {

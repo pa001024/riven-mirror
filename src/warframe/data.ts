@@ -1,4 +1,4 @@
-import { strSimilarity } from "./util"
+import { strSimilarity } from "@/warframe/util"
 import _ from "lodash";
 
 /**MOD上的裂罅属性 */
@@ -469,46 +469,56 @@ export const RivenWeaponDataBase = _rivenWeaponDataBase.map(v => ({
   mod: v[3],
 } as RivenWeapon));
 
+
 /**
  * 武器信息
  */
-export interface GunWeapon {
+export interface Weapon {
   id: string;
   name: string;
   rivenName?: string;
   tags: string[];
   dmg: [string, number][];
+  criticalMultiplier: number;
+  criticalChances: number;
+}
+/**
+ * 枪武器信息
+ */
+export interface GunWeapon extends Weapon {
   accuracy: number;
   bullets: number;
   fireRate: number;
-  criticalMultiplier: number;
-  criticalChances: number;
   status: number;
   magazine: number;
   reload: number;
   ammo: number;
 }
+/**
+ * 近战武器信息
+ */
+export interface MeleeWeapon extends Weapon { }
 /*
 Data from http://warframe-builder.com/Weapon_comparator
 控制台运行如下脚本
 let RivenWeaponDataBase = [...];
- $("[data-type=archgun]").remove();
+$("[data-type=archgun]").remove();
 JSON.stringify(Array.prototype.map.call($(".detail_tir.base"), v => ({
-    id: $(v).parent().find(".nom_liste_arme").text().trim(),
-    name: RivenWeaponDataBase.find(v=>v.id==$(v).parent().find(".nom_liste_arme").text().trim()).name,
-    dmg: Array.prototype.map.call($(v).find("tr.separateur").prevAll("tr"),v=>[$(v).find("td:nth(0)").text(),+$(v).find("td:nth(1)").text().replace(",","")]),
+  id: $(v).parent().find(".nom_liste_arme").text().trim(),
+  name: RivenWeaponDataBase.find(v=>v.id==$(v).parent().find(".nom_liste_arme").text().trim()).name,
+  dmg: Array.prototype.map.call($(v).find("tr.separateur").prevAll("tr"),v=>[$(v).find("td:nth(0)").text(),+$(v).find("td:nth(1)").text().replace(",","")]),
 
-    accuracy: +$(v).parent().find(".detail_arme.base").find(".precision>span").text().replace(",",""),
-    bullets: +$(v).parent().find(".detail_arme.base").find(".balles>span").text().replace(",",""),
-    fireRate: +$(v).parent().find(".detail_arme.base").find(".cadence_de_tir>span").text().replace(",",""),
-    criticalMultiplier: +$(v).parent().find(".detail_arme.base").find(".valeur_de_critique>span").text().replace(",",""),
-    criticalChances: +$(v).parent().find(".detail_arme.base").find(".chances_de_critique>span").text().replace(",",""),
-    status: +$(v).parent().find(".detail_arme.base").find(".status>span").text().replace(",",""),
-    magazine: +$(v).parent().find(".detail_arme.base").find(".chargeur>span").text().replace(",",""),
-    reload: +$(v).parent().find(".detail_arme.base").find(".recharger>span").text().replace(",",""),
-    ammo: +$(v).parent().find(".detail_arme.base").find(".munitions>span").text().replace(",",""),
+  accuracy: +$(v).parent().find(".detail_arme.base").find(".precision>span").text().replace(",",""),
+  bullets: +$(v).parent().find(".detail_arme.base").find(".balles>span").text().replace(",",""),
+  fireRate: +$(v).parent().find(".detail_arme.base").find(".cadence_de_tir>span").text().replace(",",""),
+  criticalMultiplier: +$(v).parent().find(".detail_arme.base").find(".valeur_de_critique>span").text().replace(",",""),
+  criticalChances: +$(v).parent().find(".detail_arme.base").find(".chances_de_critique>span").text().replace(",",""),
+  status: +$(v).parent().find(".detail_arme.base").find(".status>span").text().replace(",",""),
+  magazine: +$(v).parent().find(".detail_arme.base").find(".chargeur>span").text().replace(",",""),
+  reload: +$(v).parent().find(".detail_arme.base").find(".recharger>span").text().replace(",",""),
+  ammo: +$(v).parent().find(".detail_arme.base").find(".munitions>span").text().replace(",",""),
 })))
- */
+*/
 export const GunWeaponDataBase: GunWeapon[] = [
   {
     "name": "阿克里德", "tags": ["枪", "手枪"],
@@ -672,13 +682,6 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "criticalChances": 25, "criticalMultiplier": 2.5,
     "status": 20, "magazine": 1, "reload": 0.9, "ammo": 72
   }, {
-    "name": "月神狩弓 (蓄力)", "tags": ["枪", "技能武器", "弓", "蓄力"],
-    "id": "Artemis Bow (charged)", "rivenName": "Artemis Bow",
-    "dmg": [["Slash", 14.4], ["Puncture", 192], ["Impact", 33.6]],
-    "accuracy": 100, "bullets": 7, "fireRate": 0,
-    "criticalChances": 25, "criticalMultiplier": 2.5,
-    "status": 20, "magazine": 1, "reload": 0.9, "ammo": 72
-  }, {
     "name": "碎裂者", "tags": ["枪", "主要武器", "霰弹枪"],
     "id": "Astilla",
     "dmg": [["Slash", 78], ["Puncture", 42], ["Impact", 70]],
@@ -706,20 +709,6 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "accuracy": 15.4, "bullets": 1, "fireRate": 10,
     "criticalChances": 16, "criticalMultiplier": 2,
     "status": 16, "magazine": 75, "reload": 1.4, "ammo": 525
-  }, {
-    "name": "布里斯提卡", "tags": ["枪", "手枪"],
-    "id": "Ballistica",
-    "dmg": [["Slash", 2.5], ["Puncture", 20], ["Impact", 2.5]],
-    "accuracy": 4, "bullets": 4, "fireRate": 8.584,
-    "criticalChances": 3.75, "criticalMultiplier": 1.5,
-    "status": 2.5, "magazine": 16, "reload": 2, "ammo": 210
-  }, {
-    "name": "布里斯提卡 Prime", "tags": ["枪", "手枪"],
-    "id": "Ballistica Prime", "rivenName": "Ballistica",
-    "dmg": [["Slash", 15.2], ["Puncture", 20.9], ["Impact", 1.9]],
-    "accuracy": 4, "bullets": 4, "fireRate": 8.584,
-    "criticalChances": 20, "criticalMultiplier": 2,
-    "status": 20, "magazine": 32, "reload": 1.2, "ammo": 210
   }, {
     "name": "苍鹰", "tags": ["枪", "主要武器", "步枪", "突击步枪"],
     "id": "Baza",
@@ -838,28 +827,28 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "dmg": [["Slash", 5.5], ["Puncture", 5.5], ["Impact", 99]],
     "accuracy": 16.7, "bullets": 1, "fireRate": 1.67,
     "criticalChances": 18, "criticalMultiplier": 1.5,
-    "status": 18, "magazine": 0, "reload": 0.6, "ammo": 72
+    "status": 18, "magazine": 1, "reload": 0.6, "ammo": 72
   }, {
     "name": "西诺斯 (蓄力)", "tags": ["枪", "主要武器", "步枪", "弓", "蓄力"],
     "id": "Cernos (charged)", "rivenName": "Cernos",
     "dmg": [["Slash", 11], ["Puncture", 11], ["Impact", 198]],
-    "accuracy": 16.7, "bullets": 1, "fireRate": 0,
+    "accuracy": 16.7, "bullets": 1, "fireRate": 2,
     "criticalChances": 36, "criticalMultiplier": 2,
-    "status": 18, "magazine": 0, "reload": 0.6, "ammo": 72
+    "status": 18, "magazine": 1, "reload": 0.6, "ammo": 72
   }, {
     "name": "西诺斯 Prime", "tags": ["枪", "主要武器", "步枪", "弓"],
     "id": "Cernos Prime", "rivenName": "Cernos",
     "dmg": [["Slash", 9], ["Puncture", 9], ["Impact", 162]],
-    "accuracy": 16.7, "bullets": 1, "fireRate": 1,
+    "accuracy": 16.7, "bullets": 3, "fireRate": 1,
     "criticalChances": 35, "criticalMultiplier": 2,
     "status": 30, "magazine": 1, "reload": 1, "ammo": 72
   }, {
     "name": "西诺斯 Prime (蓄力)", "tags": ["枪", "主要武器", "步枪", "弓", "蓄力"],
     "id": "Cernos Prime (charged)", "rivenName": "Cernos",
     "dmg": [["Slash", 6], ["Puncture", 6], ["Impact", 108]],
-    "accuracy": 16.7, "bullets": 3, "fireRate": 0,
+    "accuracy": 16.7, "bullets": 3, "fireRate": 2,
     "criticalChances": 35, "criticalMultiplier": 2,
-    "status": 10, "magazine": 0, "reload": 0.65, "ammo": 72
+    "status": 10, "magazine": 1, "reload": 0.65, "ammo": 72
   }, {
     "name": "锡斯特", "tags": ["枪", "手枪"],
     "id": "Cestra",
@@ -892,9 +881,9 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "大久和弓", "tags": ["枪", "主要武器", "步枪", "弓", "蓄力"],
     "id": "Daikyu",
     "dmg": [["Slash", 138], ["Puncture", 184], ["Impact", 138]],
-    "accuracy": 16.7, "bullets": 1, "fireRate": 0,
+    "accuracy": 16.7, "bullets": 1, "fireRate": 1,
     "criticalChances": 20, "criticalMultiplier": 2,
-    "status": 50, "magazine": 0, "reload": 0.6, "ammo": 72
+    "status": 50, "magazine": 1, "reload": 0.6, "ammo": 72
   }, {
     "name": "德拉", "tags": ["枪", "主要武器", "步枪"],
     "id": "Dera",
@@ -955,7 +944,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "龙骑兵 (蓄力)", "tags": ["枪", "主要武器", "霰弹枪", "蓄力"],
     "id": "Drakgoon (charged)", "rivenName": "Drakgoon",
     "dmg": [["Slash", 560], ["Puncture", 70], ["Impact", 70]],
-    "accuracy": 1.4, "bullets": 10, "fireRate": 0,
+    "accuracy": 1.4, "bullets": 10, "fireRate": 2,
     "criticalChances": 7.5, "criticalMultiplier": 2,
     "status": 23, "magazine": 7, "reload": 2.3, "ammo": 210
   }, {
@@ -964,14 +953,14 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "dmg": [["Slash", 117], ["Puncture", 6.5], ["Impact", 6.5]],
     "accuracy": 16.7, "bullets": 1, "fireRate": 1.43,
     "criticalChances": 25, "criticalMultiplier": 2,
-    "status": 20, "magazine": 0, "reload": 0.7, "ammo": 72
+    "status": 20, "magazine": 1, "reload": 0.7, "ammo": 72
   }, {
     "name": "恐惧 (蓄力)", "tags": ["枪", "主要武器", "步枪", "弓", "蓄力"],
     "id": "Dread (charged)", "rivenName": "Dread",
     "dmg": [["Slash", 180], ["Puncture", 10], ["Impact", 10]],
-    "accuracy": 16.7, "bullets": 1, "fireRate": 0,
+    "accuracy": 16.7, "bullets": 1, "fireRate": 2,
     "criticalChances": 50, "criticalMultiplier": 2,
-    "status": 20, "magazine": 0, "reload": 0.7, "ammo": 72
+    "status": 20, "magazine": 1, "reload": 0.7, "ammo": 72
   }, {
     "name": "锡斯特双枪", "tags": ["枪", "手枪"],
     "id": "Dual Cestra",
@@ -1004,7 +993,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "铁晶磁轨炮", "tags": ["枪", "主要武器", "突击步枪", "步枪"],
     "id": "Ferrox",
     "dmg": [["Slash", 70], ["Puncture", 245], ["Impact", 35]],
-    "accuracy": 16.7, "bullets": 1, "fireRate": 0,
+    "accuracy": 16.7, "bullets": 1, "fireRate": 2,
     "criticalChances": 32, "criticalMultiplier": 2.8,
     "status": 10, "magazine": 10, "reload": 1.8, "ammo": 540
   }, {
@@ -1074,14 +1063,14 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "哈帕克", "tags": ["枪", "主要武器", "步枪", "突击步枪"],
     "id": "Harpak",
     "dmg": [["Slash", 7.5], ["Puncture", 37.5], ["Impact", 5]],
-    "accuracy": 18.2, "bullets": 3, "fireRate": 6,
+    "accuracy": 18.2, "bullets": 1, "fireRate": 6,
     "criticalChances": 20, "criticalMultiplier": 2.3,
     "status": 17, "magazine": 45, "reload": 2, "ammo": 540
   }, {
     "name": "哈帕克 (蓄力)", "tags": ["枪", "主要武器", "步枪", "突击步枪", "蓄力"],
     "id": "Harpak (charged)", "rivenName": "Harpak",
     "dmg": [["Slash", 10], ["Puncture", 50], ["Impact", 40]],
-    "accuracy": 18.2, "bullets": 1, "fireRate": 0,
+    "accuracy": 18.2, "bullets": 1, "fireRate": 1.5,
     "criticalChances": 20, "criticalMultiplier": 2.3,
     "status": 17, "magazine": 45, "reload": 2, "ammo": 540
   }, {
@@ -1095,7 +1084,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "血肢", "tags": ["枪", "主要武器", "步枪", "突击步枪"],
     "id": "Hema",
     "dmg": [["Toxin", 23.5], ["Cold", 23.5]],
-    "accuracy": 20, "bullets": 3, "fireRate": 6,
+    "accuracy": 20, "bullets": 1, "fireRate": 6,
     "criticalChances": 11, "criticalMultiplier": 2,
     "status": 25, "magazine": 60, "reload": 2, "ammo": 540
   }, {
@@ -1116,7 +1105,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "雌鹿", "tags": ["枪", "主要武器", "步枪", "突击步枪"],
     "id": "Hind",
     "dmg": [["Slash", 15], ["Puncture", 7.5], ["Impact", 7.5]],
-    "accuracy": 33.3, "bullets": 5, "fireRate": 7.693,
+    "accuracy": 33.3, "bullets": 1, "fireRate": 7.693,
     "criticalChances": 7, "criticalMultiplier": 1.5,
     "status": 15, "magazine": 65, "reload": 2, "ammo": 540
   }, {
@@ -1144,14 +1133,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "燃焰标枪", "tags": ["枪", "主要武器", "步枪", "突击步枪"],
     "id": "Javlok",
     "dmg": [["Heat", 280]],
-    "accuracy": 100, "bullets": 1, "fireRate": 0,
-    "criticalChances": 20, "criticalMultiplier": 2,
-    "status": 25, "magazine": 6, "reload": 1.9, "ammo": 540
-  }, {
-    "name": "燃焰标枪 (蓄力)", "tags": ["枪", "主要武器", "步枪", "突击步枪", "蓄力"],
-    "id": "Javlok (charged)", "rivenName": "Javlok",
-    "dmg": [["Heat", 300], ["Slash", 30], ["Puncture", 75], ["Impact", 45]],
-    "accuracy": 100, "bullets": 1, "fireRate": 0,
+    "accuracy": 100, "bullets": 1, "fireRate": 3.33,
     "criticalChances": 20, "criticalMultiplier": 2,
     "status": 25, "magazine": 6, "reload": 1.9, "ammo": 540
   }, {
@@ -1193,7 +1175,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "北海巨妖", "tags": ["枪", "手枪"],
     "id": "Kraken",
     "dmg": [["Slash", 6.1], ["Puncture", 6.1], ["Impact", 36.8]],
-    "accuracy": 16, "bullets": 2, "fireRate": 2.8,
+    "accuracy": 16, "bullets": 1, "fireRate": 2.8,
     "criticalChances": 5, "criticalMultiplier": 2,
     "status": 13, "magazine": 14, "reload": 2.5, "ammo": 210
   }, {
@@ -1221,7 +1203,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "兰卡 (蓄力)", "tags": ["枪", "主要武器", "步枪", "狙击枪", "蓄力"],
     "id": "Lanka (charged)", "rivenName": "Lanka",
     "dmg": [["Electric", 525]],
-    "accuracy": 100, "bullets": 1, "fireRate": 0,
+    "accuracy": 100, "bullets": 1, "fireRate": 1,
     "criticalChances": 25, "criticalMultiplier": 2,
     "status": 25, "magazine": 10, "reload": 2, "ammo": 72
   }, {
@@ -1270,9 +1252,9 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "楞次弓", "tags": ["枪", "主要武器", "步枪", "弓", "蓄力"],
     "id": "Lenz",
     "dmg": [["Cold", 10], ["Cold", 330], ["Heat", 330], ["Impact", 50]],
-    "accuracy": 16.7, "bullets": 1, "fireRate": 0,
+    "accuracy": 16.7, "bullets": 1, "fireRate": 0.83,
     "criticalChances": 50, "criticalMultiplier": 2,
-    "status": 5, "magazine": 0, "reload": 0.6, "ammo": 6
+    "status": 5, "magazine": 1, "reload": 0.6, "ammo": 6
   }, {
     "name": "雷克斯", "tags": ["枪", "手枪"],
     "id": "Lex",
@@ -1319,7 +1301,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "米特尔 (蓄力)", "tags": ["枪", "主要武器", "步枪", "突击步枪", "蓄力"],
     "id": "Miter (charged)", "rivenName": "Miter",
     "dmg": [["Slash", 225], ["Puncture", 12.5], ["Impact", 12.5]],
-    "accuracy": 100, "bullets": 1, "fireRate": 0,
+    "accuracy": 100, "bullets": 1, "fireRate": 1.33,
     "criticalChances": 10, "criticalMultiplier": 2,
     "status": 50, "magazine": 20, "reload": 2, "ammo": 72
   }, {
@@ -1349,14 +1331,14 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "dmg": [["Slash", 9], ["Puncture", 49], ["Impact", 3]],
     "accuracy": 16.7, "bullets": 1, "fireRate": 1.67,
     "criticalChances": 30, "criticalMultiplier": 1.5,
-    "status": 10, "magazine": 0, "reload": 0.6, "ammo": 72
+    "status": 10, "magazine": 1, "reload": 0.6, "ammo": 72
   }, {
     "name": "MK1-帕里斯 (蓄力)", "tags": ["枪", "主要武器", "步枪", "弓", "蓄力"],
     "id": "MK1-Paris (charged)", "rivenName": "Paris",
     "dmg": [["Slash", 18], ["Puncture", 96], ["Impact", 6]],
-    "accuracy": 16.7, "bullets": 1, "fireRate": 0,
+    "accuracy": 16.7, "bullets": 1, "fireRate": 2,
     "criticalChances": 30, "criticalMultiplier": 2,
-    "status": 10, "magazine": 0, "reload": 0.6, "ammo": 72
+    "status": 10, "magazine": 1, "reload": 0.6, "ammo": 72
   }, {
     "name": "MK1-斯特朗", "tags": ["枪", "主要武器", "霰弹枪"],
     "id": "MK1-Strun", "rivenName": "Strun",
@@ -1370,14 +1352,14 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "dmg": [["Slash", 5.63], ["Puncture", 5.63], ["Impact", 101.25]],
     "accuracy": 16.7, "bullets": 1, "fireRate": 1.67,
     "criticalChances": 15, "criticalMultiplier": 2,
-    "status": 49, "magazine": 0, "reload": 0.6, "ammo": 72
+    "status": 49, "magazine": 1, "reload": 0.6, "ammo": 72
   }, {
     "name": "异融 西诺斯 (蓄力)", "tags": ["枪", "主要武器", "步枪", "弓", "蓄力"],
     "id": "Mutalist Cernos (charged)", "rivenName": "Mutalist Cernos",
     "dmg": [["Slash", 11.25], ["Puncture", 11.25], ["Impact", 202.5]],
-    "accuracy": 16.7, "bullets": 1, "fireRate": 0,
+    "accuracy": 16.7, "bullets": 1, "fireRate": 2,
     "criticalChances": 15, "criticalMultiplier": 2,
-    "status": 49, "magazine": 0, "reload": 0.6, "ammo": 72
+    "status": 49, "magazine": 1, "reload": 0.6, "ammo": 72
   }, {
     "name": "异融量子枪", "tags": ["枪", "主要武器", "步枪", "突击步枪"],
     "id": "Mutalist Quanta",
@@ -1403,14 +1385,14 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "食人女魔 (蓄力)", "tags": ["枪", "主要武器", "步枪", "突击步枪", "发射器", "蓄力"],
     "id": "Ogris (charged)", "rivenName": "Ogris",
     "dmg": [["Cold", 300], ["Heat", 300]],
-    "accuracy": 100, "bullets": 1, "fireRate": 0,
+    "accuracy": 100, "bullets": 1, "fireRate": 3.33,
     "criticalChances": 5, "criticalMultiplier": 2,
     "status": 35, "magazine": 5, "reload": 2.5, "ammo": 20
   }, {
     "name": "奥堤克光子枪", "tags": ["枪", "主要武器", "步枪", "突击步枪", "蓄力"],
     "id": "Opticor",
     "dmg": [["Slash", 50], ["Puncture", 850], ["Impact", 100]],
-    "accuracy": 100, "bullets": 1, "fireRate": 0,
+    "accuracy": 100, "bullets": 1, "fireRate": 0.5,
     "criticalChances": 20, "criticalMultiplier": 2.5,
     "status": 20, "magazine": 5, "reload": 2, "ammo": 540
   }, {
@@ -1431,7 +1413,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "附肢寄生者", "tags": ["枪", "主要武器", "步枪", "突击步枪"],
     "id": "Paracyst",
     "dmg": [["Toxin", 33]],
-    "accuracy": 25, "bullets": 3, "fireRate": 6.04,
+    "accuracy": 25, "bullets": 1, "fireRate": 6.04,
     "criticalChances": 10, "criticalMultiplier": 2,
     "status": 30, "magazine": 60, "reload": 2, "ammo": 540
   }, {
@@ -1440,28 +1422,28 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "dmg": [["Slash", 18], ["Puncture", 96], ["Impact", 6]],
     "accuracy": 16.7, "bullets": 1, "fireRate": 1.54,
     "criticalChances": 15, "criticalMultiplier": 1.5,
-    "status": 10, "magazine": 0, "reload": 0.65, "ammo": 72
+    "status": 10, "magazine": 1, "reload": 0.65, "ammo": 72
   }, {
     "name": "帕里斯 (蓄力)", "tags": ["枪", "主要武器", "步枪", "弓", "蓄力"],
     "id": "Paris (charged)", "rivenName": "Paris",
     "dmg": [["Slash", 27], ["Puncture", 144], ["Impact", 9]],
-    "accuracy": 16.7, "bullets": 1, "fireRate": 0,
+    "accuracy": 16.7, "bullets": 1, "fireRate": 2,
     "criticalChances": 30, "criticalMultiplier": 2,
-    "status": 10, "magazine": 0, "reload": 0.7, "ammo": 72
+    "status": 10, "magazine": 1, "reload": 0.7, "ammo": 72
   }, {
     "name": "帕里斯 Prime", "tags": ["枪", "主要武器", "步枪", "弓"],
     "id": "Paris Prime", "rivenName": "Paris",
     "dmg": [["Slash", 22.75], ["Puncture", 104], ["Impact", 3.25]],
     "accuracy": 16.7, "bullets": 1, "fireRate": 1.43,
     "criticalChances": 22.5, "criticalMultiplier": 2,
-    "status": 20, "magazine": 0, "reload": 0.7, "ammo": 72
+    "status": 20, "magazine": 1, "reload": 0.7, "ammo": 72
   }, {
     "name": "帕里斯 Prime (蓄力)", "tags": ["枪", "主要武器", "步枪", "弓", "蓄力"],
     "id": "Paris Prime (charged)", "rivenName": "Paris",
     "dmg": [["Slash", 45.5], ["Puncture", 208], ["Impact", 6.5]],
-    "accuracy": 16.7, "bullets": 1, "fireRate": 0,
+    "accuracy": 16.7, "bullets": 1, "fireRate": 2,
     "criticalChances": 45, "criticalMultiplier": 2,
-    "status": 20, "magazine": 0, "reload": 0.7, "ammo": 72
+    "status": 20, "magazine": 1, "reload": 0.7, "ammo": 72
   }, {
     "name": "潘塔", "tags": ["枪", "主要武器", "步枪", "突击步枪", "发射器"],
     "id": "Penta",
@@ -1543,30 +1525,65 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "夸塔克", "tags": ["枪", "主要武器", "步枪", "突击步枪"],
     "id": "Quartakk",
     "dmg": [["Slash", 16.7], ["Puncture", 14.2], ["Impact", 18.1]],
-    "accuracy": 90.9, "bullets": 4, "fireRate": 6.327,
+    "accuracy": 90.9, "bullets": 1, "fireRate": 6.327,
     "criticalChances": 19, "criticalMultiplier": 2.3,
     "status": 27, "magazine": 84, "reload": 1.9, "ammo": 540
+  }, {
+    "name": "布里斯提卡", "tags": ["枪", "手枪"],
+    "id": "Ballistica",
+    "dmg": [["Slash", 2.5], ["Puncture", 20], ["Impact", 2.5]],
+    "accuracy": 4, "bullets": 1, "fireRate": 3.33,
+    "criticalChances": 3.75, "criticalMultiplier": 1.5,
+    "status": 2.5, "magazine": 16, "reload": 2, "ammo": 210
+  }, {
+    "name": "布里斯提卡 (蓄力)", "tags": ["枪", "手枪", "蓄力"],
+    "id": "Ballistica", "rivenName": "Ballistica",
+    "dmg": [["Slash", 10], ["Puncture", 80], ["Impact", 10]],
+    "accuracy": 4, "bullets": 4, "fireRate": 1,
+    "criticalChances": 3.75, "criticalMultiplier": 1.5,
+    "status": 2.5, "magazine": 16, "reload": 2, "ammo": 210
   }, {
     "name": "绯红 布里斯提卡", "tags": ["枪", "手枪"],
     "id": "Rakta Ballistica", "rivenName": "Ballistica",
     "dmg": [["Slash", 3.75], ["Puncture", 67.5], ["Impact", 3.75]],
-    "accuracy": 4, "bullets": 4, "fireRate": 8.584,
+    "accuracy": 4, "bullets": 1, "fireRate": 3.33,
     "criticalChances": 5, "criticalMultiplier": 1.5,
     "status": 2.5, "magazine": 20, "reload": 2, "ammo": 210
+  }, {
+    "name": "绯红 布里斯提卡 (蓄力)", "tags": ["枪", "手枪", "蓄力"],
+    "id": "Rakta Ballistica", "rivenName": "Ballistica",
+    "dmg": [["Slash", 15], ["Puncture", 270], ["Impact", 15]],
+    "accuracy": 4, "bullets": 4, "fireRate": 1,
+    "criticalChances": 5, "criticalMultiplier": 1.5,
+    "status": 2.5, "magazine": 5, "reload": 2, "ammo": 210
+  }, {
+    "name": "布里斯提卡 Prime", "tags": ["枪", "手枪"],
+    "id": "Ballistica Prime", "rivenName": "Ballistica",
+    "dmg": [["Slash", 15.2], ["Puncture", 20.9], ["Impact", 1.9]],
+    "accuracy": 4, "bullets": 1, "fireRate": 3.33,
+    "criticalChances": 20, "criticalMultiplier": 2,
+    "status": 20, "magazine": 32, "reload": 1.2, "ammo": 210
+  }, {
+    "name": "布里斯提卡 Prime (蓄力)", "tags": ["枪", "手枪", "蓄力"],
+    "id": "Ballistica Prime", "rivenName": "Ballistica",
+    "dmg": [["Slash", 121.6], ["Puncture", 167.2], ["Impact", 15.2]],
+    "accuracy": 4, "bullets": 4, "fireRate": 1.25,
+    "criticalChances": 20, "criticalMultiplier": 2,
+    "status": 20, "magazine": 32, "reload": 1.2, "ammo": 210
   }, {
     "name": "绯红 西诺斯", "tags": ["枪", "主要武器", "步枪", "弓"],
     "id": "Rakta Cernos", "rivenName": "Cernos",
     "dmg": [["Slash", 6.25], ["Puncture", 6.25], ["Impact", 112.5]],
     "accuracy": 16.7, "bullets": 1, "fireRate": 1.67,
     "criticalChances": 35, "criticalMultiplier": 2,
-    "status": 15, "magazine": 0, "reload": 0.6, "ammo": 72
+    "status": 15, "magazine": 1, "reload": 0.6, "ammo": 72
   }, {
     "name": "绯红 西诺斯 (蓄力)", "tags": ["枪", "主要武器", "步枪", "弓", "蓄力"],
     "id": "Rakta Cernos (charged)", "rivenName": "Cernos",
     "dmg": [["Slash", 12.5], ["Puncture", 12.5], ["Impact", 225]],
-    "accuracy": 16.7, "bullets": 1, "fireRate": 0,
+    "accuracy": 16.7, "bullets": 1, "fireRate": 4,
     "criticalChances": 35, "criticalMultiplier": 2,
-    "status": 15, "magazine": 0, "reload": 0.6, "ammo": 72
+    "status": 15, "magazine": 1, "reload": 0.6, "ammo": 72
   }, {
     "name": "监察者双枪", "tags": ["枪", "技能武器", "手枪"],
     "id": "Regulators",
@@ -1606,7 +1623,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "祸根 (蓄力)", "tags": ["枪", "主要武器", "步枪", "突击步枪", "蓄力"],
     "id": "Scourge (charged)", "rivenName": "Scourge",
     "dmg": [["Slash", 122.5], ["Puncture", 72.5], ["Impact", 455]],
-    "accuracy": 100, "bullets": 1, "fireRate": 0,
+    "accuracy": 100, "bullets": 1, "fireRate": 2,
     "criticalChances": 4, "criticalMultiplier": 2,
     "status": 30, "magazine": 20, "reload": 2.5, "ammo": 540
   }, {
@@ -1634,14 +1651,14 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "暗杀者", "tags": ["枪", "手枪"],
     "id": "Sicarus",
     "dmg": [["Slash", 4.5], ["Puncture", 4.5], ["Impact", 21]],
-    "accuracy": 20, "bullets": 3, "fireRate": 5.715,
+    "accuracy": 20, "bullets": 1, "fireRate": 5.715,
     "criticalChances": 16, "criticalMultiplier": 2,
     "status": 6, "magazine": 15, "reload": 2, "ammo": 210
   }, {
     "name": "暗杀者 Prime", "tags": ["枪", "手枪"],
     "id": "Sicarus Prime", "rivenName": "Sicarus",
     "dmg": [["Slash", 15], ["Puncture", 15], ["Impact", 20]],
-    "accuracy": 25, "bullets": 3, "fireRate": 7.087,
+    "accuracy": 25, "bullets": 1, "fireRate": 7.087,
     "criticalChances": 25, "criticalMultiplier": 2,
     "status": 20, "magazine": 24, "reload": 2, "ammo": 210
   }, {
@@ -1774,14 +1791,14 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "席芭莉丝", "tags": ["枪", "主要武器", "步枪", "突击步枪"],
     "id": "Sybaris",
     "dmg": [["Slash", 27.2], ["Puncture", 26.4], ["Impact", 26.4]],
-    "accuracy": 28.6, "bullets": 2, "fireRate": 4,
+    "accuracy": 28.6, "bullets": 1, "fireRate": 4,
     "criticalChances": 25, "criticalMultiplier": 2,
     "status": 10, "magazine": 10, "reload": 2, "ammo": 540
   }, {
     "name": "席芭莉丝 Prime", "tags": ["枪", "主要武器", "步枪", "突击步枪"],
     "id": "Sybaris Prime", "rivenName": "Sybaris",
     "dmg": [["Slash", 29.9], ["Puncture", 29], ["Impact", 29]],
-    "accuracy": 25, "bullets": 2, "fireRate": 4.762,
+    "accuracy": 25, "bullets": 1, "fireRate": 4.762,
     "criticalChances": 30, "criticalMultiplier": 2,
     "status": 25, "magazine": 20, "reload": 2, "ammo": 540
   }, {
@@ -1837,7 +1854,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "双簧管 (蓄力)", "tags": ["枪", "主要武器", "步枪", "突击步枪", "蓄力"],
     "id": "Tenora (charged)", "rivenName": "Tenora",
     "dmg": [["Slash", 48], ["Puncture", 144], ["Impact", 48]],
-    "accuracy": 12.5, "bullets": 1, "fireRate": 0,
+    "accuracy": 12.5, "bullets": 1, "fireRate": 1.25,
     "criticalChances": 33, "criticalMultiplier": 3,
     "status": 11, "magazine": 150, "reload": 2.5, "ammo": 900
   }, {
@@ -1851,14 +1868,14 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "狂鲨", "tags": ["枪", "主要武器", "步枪"],
     "id": "Tiberon",
     "dmg": [["Slash", 11], ["Puncture", 22], ["Impact", 11]],
-    "accuracy": 33.3, "bullets": 3, "fireRate": 9.006,
+    "accuracy": 33.3, "bullets": 1, "fireRate": 9.006,
     "criticalChances": 26, "criticalMultiplier": 2.4,
     "status": 16, "magazine": 30, "reload": 2.3, "ammo": 540
   }, {
     "name": "狂鲨 Prime", "tags": ["枪", "主要武器", "步枪"],
     "id": "Tiberon Prime", "rivenName": "Tiberon",
     "dmg": [["Slash", 13.8], ["Puncture", 18.4], ["Impact", 13.8]],
-    "accuracy": 33.3, "bullets": 3, "fireRate": 7.38,
+    "accuracy": 33.3, "bullets": 1, "fireRate": 7.38,
     "criticalChances": 28, "criticalMultiplier": 3,
     "status": 2, "magazine": 42, "reload": 2, "ammo": 540
   }, {
@@ -1893,7 +1910,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "name": "双子葛拉卡达", "tags": ["枪", "手枪"],
     "id": "Twin Grakatas",
     "dmg": [["Slash", 2.65], ["Puncture", 3.35], ["Impact", 4]],
-    "accuracy": 28.6, "bullets": 2, "fireRate": 20,
+    "accuracy": 28.6, "bullets": 1, "fireRate": 20,
     "criticalChances": 25, "criticalMultiplier": 2.7,
     "status": 11, "magazine": 120, "reload": 3, "ammo": 1200
   }, {
@@ -2417,7 +2434,6 @@ export const NormalModDatabase = _normalModSource.map(v => {
 export const NormalCardDependTable: [string, string][] = [
   ["尖刃弹头", "弱点感应"],
   ["重口径", "膛线"],
-  ["低温弹头 Prime", "膛线"]
 ];
 
 export const AcolyteModsList: string[] = [

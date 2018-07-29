@@ -2,7 +2,9 @@
   <el-container id="app">
     <el-header>
       <i class="i-mirror-logo"></i>
-      <h1>Riven Mirror</h1>
+      <h1>Riven Mirror
+        <span class="beta">BETA</span>
+      </h1>
       <wf-watch>
       </wf-watch>
     </el-header>
@@ -39,6 +41,9 @@ body {
   height: 100%;
   width: 100%;
   display: flex;
+}
+.beta {
+  font-size: 0.4em;
 }
 .el-header,
 .el-footer {

@@ -4,7 +4,7 @@
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item label="武器" v-if="riven.weapons.length > 1">
         <el-select size="medium" v-model="selectWeapon" placeholder="请选择">
-          <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.name" :value="weapon">
+          <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.name" :value="weapon.name">
           </el-option>
         </el-select>
       </el-form-item>
@@ -25,8 +25,8 @@
         <el-input-number size="small" v-model="slots" :min="4" :max="8" label="使用MOD槽位"></el-input-number>
       </el-form-item>
       <el-form-item label="限制元素类型">
-        <el-select size="medium" v-model="selectDamageType" placeholder="请选择元素类型" clearable>
-          <el-option v-for="type in elementTypes" :key="type[0]" :label="type[0]" :value="type[1]">
+        <el-select size="medium" v-model="selectDamageType" placeholder="不限制" clearable style="width: 120px;">
+          <el-option v-for="(value, name) in elementTypes" :key="name" :label="name" :value="name">
           </el-option>
         </el-select>
       </el-form-item>
@@ -46,7 +46,7 @@
         </div>
         <el-row type="flex" :gutter="12" class="build-item">
           <el-col class="build-card" :sm="12" :md="6" :lg="3" v-for="mod in build[1].mods" :key="mod.name">
-            <div shadow="hover" class="build-card-box" :class="[mod.rarity]">
+            <div class="build-card-box" :class="[mod.rarity]">
               <div class="shine"></div>
               <div slot="header" class="build-card-header">
                 <div class="build-card-name">{{mod.name}}</div>
@@ -73,15 +73,15 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenMod, GunModBuild } from "@/warframe";
 import { ValuedRivenProperty } from "@/warframe/rivenmod";
-import { CompareMode } from "@/warframe/modbuild";
+import { GunCompareMode } from "@/warframe/GunModBuild";
 import { GunWeapon, DamageType, DamageTypeDatabase } from "@/warframe/data";
 
 @Component
 export default class GunModBuildView extends Vue {
   @Prop() riven: RivenMod
-  selectWeapon: GunWeapon = null
-  selectCompMethod: CompareMode = CompareMode.TotalDamage
-  selectDamageType: string[] = null
+  selectWeapon = ""
+  selectCompMethod: GunCompareMode = GunCompareMode.TotalDamage
+  selectDamageType: any = null
   builds: [string, GunModBuild][] = []
   /** 使用追随者MOD */
   useAcolyteMods = false
@@ -90,35 +90,21 @@ export default class GunModBuildView extends Vue {
   /** 紫卡分数 */
   score = 0
   /** 元素类型 */
-  get elementTypes() {
-    return [
-      ["爆炸", ["4", "5"]],
-      ["腐蚀", ["7", "6"]],
-      ["毒气", ["4", "6"]],
-      ["磁力", ["5", "7"]],
-      ["辐射", ["4", "7"]],
-      ["病毒", ["5", "6"]],
-    ];
+  elementTypes = {
+    "物理": ["8", "9", "A"],
+    "辐射": ["4", "7"],
+    "腐蚀": ["7", "6"],
+    "毒气": ["4", "6"],
+    "病毒": ["5", "6"],
+    "爆炸": ["4", "5"],
+    "磁力": ["5", "7"],
   }
   get selectCompMethodText() {
     return ["单发伤害", "爆发伤害", "持续伤害"][this.selectCompMethod];
   }
-  @Watch("selectCompMethod")
-  compMethodChange(val: string) {
-    this.recalc();
-  }
-  @Watch("slots")
-  slotChange() {
-    this.recalc();
-  }
   @Watch("riven")
   rivenChange() {
-    this.selectWeapon = this.riven.weapons[0];
-    this.recalc();
-  }
-  @Watch("selectWeapon")
-  selectWeaponChange() {
-    console.log(this.selectWeapon);
+    this.selectWeapon = this.riven.weapons[this.riven.weapons.length - 1].name;
     this.recalc();
   }
   @Watch("useAcolyteMods")
@@ -129,21 +115,29 @@ export default class GunModBuildView extends Vue {
   @Watch("selectDamageType")
   selectDamageTypeChange() {
     this.recalc();
-    console.log(this.selectDamageType);
+    if (this.selectDamageType)
+      localStorage.setItem("selectDamageType", this.selectDamageType);
+    else
+      localStorage.removeItem("selectDamageType");
   }
   mounted() { }
   beforeMount() {
+    this.selectDamageType = localStorage.getItem("selectDamageType") || null;
     this.useAcolyteMods = JSON.parse(localStorage.getItem("useAcolyteMods"));
-    this.selectWeapon = this.riven.weapons[0];
+    this.selectWeapon = this.riven.weapons[0].name;
     this.recalc();
   }
+
+  @Watch("selectCompMethod")
+  @Watch("slots")
+  @Watch("selectWeapon")
   recalc() {
     this.builds = [];
-    let stand = new GunModBuild(this.riven, this.selectWeapon.name);
-    let riven = new GunModBuild(this.riven, this.selectWeapon.name);
+    let stand = new GunModBuild(this.riven, this.selectWeapon);
+    let riven = new GunModBuild(this.riven, this.selectWeapon);
     stand.compareMode = riven.compareMode = this.selectCompMethod;
     stand.useAcolyteMods = riven.useAcolyteMods = this.useAcolyteMods;
-    stand.allowElementTypes = riven.allowElementTypes = this.selectDamageType || null;
+    stand.allowElementTypes = riven.allowElementTypes = this.selectDamageType && this.elementTypes[this.selectDamageType] || null;
     stand.fill(this.slots, 0);
     riven.fill(this.slots, 2);
     this.builds.push(["标准配置", stand]);
@@ -207,12 +201,6 @@ export default class GunModBuildView extends Vue {
   text-shadow: rgba(0, 0, 0, 0.9) 0px 1px 2px;
   border-radius: 4px;
   box-shadow: 0 0 1px white inset, 0 0 1px black;
-  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px,
-    inset rgba(255, 255, 255, 0.25) 0px 1px 0px,
-    inset rgba(0, 0, 0, 0.25) 0px 0px 0px,
-    inset rgba(255, 255, 255, 0.03) 0px 20px 0px,
-    inset rgba(0, 0, 0, 0.15) 0px -20px 20px,
-    inset rgba(255, 255, 255, 0.05) 0px 20px 20px; */
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.15), transparent);
 }
 @media only screen and (min-width: 768px) {
@@ -233,13 +221,6 @@ export default class GunModBuildView extends Vue {
 .build-card-box:hover {
   max-height: 300px;
   z-index: 9;
-
-  /* box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 5px,
-    inset rgba(255, 255, 255, 0.25) 0px 1px 0px,
-    inset rgba(0, 0, 0, 0.1) 0px 0px 0px,
-    inset rgba(255, 255, 255, 0.05) 0px 20px 0px,
-    inset rgba(0, 0, 0, 0.1) 0px -20px 20px,
-    inset rgba(255, 255, 255, 0.05) 0px 20px 20px; */
 }
 
 .build-card-box.n {

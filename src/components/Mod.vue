@@ -139,11 +139,7 @@ export default class Mod extends Vue {
     if (sto) {
       store.commit('newModTextInput', sto);
     } else
-      store.commit('newModTextInput', `光谱切割器Visi-armatis
-+241%伤害
-+96.5%暴击伤害
-+54.2%弹匣容量
-段位8`);
+      store.commit('newModTextInput', "兰卡 Acri-satiata +135.5%暴击伤害 +97.9%多重射击 +171.9%伤害 -47.3%变焦 段位160233");
   }
   mounted() {
   }
