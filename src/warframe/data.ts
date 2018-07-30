@@ -205,21 +205,22 @@ const _rivenWeaponDataBase = [
   ["Harpak", "哈帕克", 1.55, "Rifle"],
   ["Mutalist Quanta", "异融量子枪", 1.55, "Rifle"],
   ["Buzlok", "巴兹火枪", 1.55, "Rifle"],
-  ["Tiberon", "狂鲨", 1.5, "Rifle"],
   ["Tetra", "特拉", 1.5, "Rifle"],
   ["Phage", "噬菌者", 1.5, "Shotgun"],
   ["Deth Machine Rifle", "死亡机枪", 1.46, "Rifle"],
-  ["Vulkar", "金工火神", 1.45, "Rifle"],
   ["Hind", "雌鹿", 1.42, "Rifle"],
   ["Attica", "阿提卡", 1.42, "Rifle"],
+  ["Tiberon", "狂鲨", 1.4, "Rifle"],
+  ["Vulkar", "金工火神", 1.38, "Rifle"],
   ["Glaxion", "冷冻光束步枪", 1.35, "Rifle"],
   ["Stinger", "毒刺", 1.31, "Rifle"],
-  ["Synapse", "突触生化枪", 1.31, "Rifle"],
   ["Paracyst", "附肢寄生者", 1.31, "Rifle"],
   ["Karak", "卡拉克", 1.28, "Rifle"],
   ["Grinlok", "葛恩火枪", 1.25, "Rifle"],
   ["Dera", "德拉", 1.25, "Rifle"],
   ["Ogris", "食人女魔", 1.25, "Rifle"],
+  ["Stradalet", "斯特拉迪瓦", 1.25, "Rifle"],
+  ["Synapse", "突触生化枪", 1.24, "Rifle"],
   ["Vulklok", "金工火枪", 1.245, "Rifle"],
   ["Laser Rifle", "激光步枪", 1.21, "Rifle"],
   ["Opticor", "奥堤克光子枪", 1.21, "Rifle"],
@@ -227,7 +228,6 @@ const _rivenWeaponDataBase = [
   ["Daikyu", "大久和弓", 1.21, "Rifle"],
   ["Quartakk", "夸塔克", 1.2, "Rifle"],
   ["Penta", "潘塔", 1.18, "Rifle"],
-  ["Stradalet", "斯特拉迪瓦", 1.18, "Rifle"],
   ["Gorgon", "蛇发女妖", 1.18, "Rifle"],
   ["Burston", "伯斯顿", 1.175, "Rifle"],
   ["Snipetron", "狙击特昂", 1.165, "Rifle"],
@@ -242,7 +242,6 @@ const _rivenWeaponDataBase = [
   ["Javlok", "燃焰标枪", 1, "Rifle"],
   ["Tenora", "双簧管", 1, "Rifle"],
   ["Zenith", "天穹之顶", 1, "Rifle"],
-  ["Zarr", "沙皇", 1, "Rifle"],
   ["Ferrox", "铁晶磁轨炮", 1, "Rifle"],
   ["Veldt", "草原猎手", 1, "Rifle"],
   ["Scourge", "祸根", 1, "Rifle"],
@@ -250,13 +249,14 @@ const _rivenWeaponDataBase = [
   ["Argonak", "氩格纳克", 1, "Rifle"],
   ["Vectis", "守望者", 1, "Rifle"],
   ["Artax", "阿塔克斯", 1, "Rifle"],
+  ["Amprex", "安培克斯", 0.965, "Rifle"],
+  ["Zarr", "沙皇", 0.96, "Rifle"],
   ["Braton", "布莱顿", 0.96, "Rifle"],
-  ["Amprex", "安培克斯", 0.96, "Rifle"],
   ["Paris", "帕里斯", 0.96, "Rifle"],
-  ["Sybaris", "席芭莉丝", 0.9, "Rifle"],
   ["Quanta", "量子切割器", 0.9, "Rifle"],
   ["Lenz", "楞次弓", 0.9, "Rifle"],
   ["Cernos", "西诺斯", 0.86, "Rifle"],
+  ["Sybaris", "席芭莉丝", 0.85, "Rifle"],
   ["Dread", "恐惧", 0.82, "Rifle"],
   ["Boltor", "螺钉步枪", 0.79, "Rifle"],
   ["Ignis", "伊格尼斯", 0.79, "Rifle"],
@@ -309,7 +309,6 @@ const _rivenWeaponDataBase = [
   ["Akmagnus", "麦格努斯双枪", 1.28, "Pistol"],
   ["Aksomati", "轻灵月神双枪", 1.26, "Pistol"],
   ["Stubba", "史度巴", 1.25, "Pistol"],
-  ["Akvasto", "瓦斯托双枪", 1.24, "Pistol"],
   ["Despair", "绝望", 1.24, "Pistol"],
   ["Pyrana", "食人鱼", 1.2, "Pistol"],
   ["Fusilai", "齐射玻刃", 1.2, "Pistol"],
@@ -317,10 +316,10 @@ const _rivenWeaponDataBase = [
   ["Bronco", "野马", 1.2, "Pistol"],
   ["Akbronco", "野马双枪", 1.2, "Pistol"],
   ["Dual Toxocyst", "毒囊双枪", 1.19, "Pistol"],
+  ["Akvasto", "瓦斯托双枪", 1.15, "Pistol"],
   ["Kulstar", "杀星", 1.1, "Pistol"],
   ["Twin Kohmak", "双子寇恩霰机枪", 1.1, "Pistol"],
   ["Twin Rogga", "双子罗格", 1, "Pistol"],
-  ["Aklex", "雷克斯双枪", 1, "Pistol"],
   ["Pandero", "手鼓", 1, "Pistol"],
   ["Zakti", "毒芽", 1, "Pistol"],
   ["Hystrix", "猬刺", 1, "Pistol"],
@@ -328,14 +327,15 @@ const _rivenWeaponDataBase = [
   ["Arca Scisco", "弧电探知者", 1, "Pistol"],
   ["Cycron", "循环离子枪", 1, "Pistol"],
   ["Detron", "德特昂", 1, "Pistol"],
+  ["Aklex", "雷克斯双枪", 1, "Pistol"],
   ["Atomos", "原子矿融炮", 0.87, "Pistol"],
   ["Akbolto", "螺钉双枪", 0.85, "Pistol"],
   ["Ballistica", "布里斯提卡", 0.85, "Pistol"],
   ["Pox", "脓痘", 0.82, "Pistol"],
   ["Twin Grakatas", "双子葛拉卡达", 0.76, "Pistol"],
   ["Brakk", "布拉克", 0.75, "Pistol"],
-  ["Euphona Prime", "悦音 Prime", 0.75, "Pistol"],
   ["Hikou", "飞扬", 0.69, "Pistol"],
+  ["Euphona Prime", "悦音 Prime", 0.66, "Pistol"],
   ["Spira", "旋刃飞刀", 0.66, "Pistol"],
   ["Gammacor", "咖玛腕甲枪", 0.53, "Pistol"],
   ["Staticor", "静电能量导引枪", 0.53, "Pistol"],
@@ -387,10 +387,10 @@ const _rivenWeaponDataBase = [
   ["Shaku", "双节尺棍", 1.35, "Melee"],
   ["Sibear", "西伯利亚冰锤", 1.35, "Melee"],
   ["Gazal Machete", "加扎勒反曲刀", 1.35, "Melee"],
+  ["Scoliac", "嵴椎节鞭", 1.32, "Melee"],
   ["Okina", "翁", 1.31, "Melee"],
   ["Tipedo", "提佩多", 1.31, "Melee"],
   ["Lacera", "悲痛之刃", 1.31, "Melee"],
-  ["Scoliac", "嵴椎节鞭", 1.3, "Melee"],
   ["Caustacyst", "灼蚀变体镰", 1.3, "Melee"],
   ["Prova", "普罗沃", 1.29, "Melee"],
   ["Bo", "玻之武杖", 1.29, "Melee"],
@@ -422,11 +422,10 @@ const _rivenWeaponDataBase = [
   ["Ooltha", "乌尔萨", 1, "Melee"],
   ["Balla", "宝拉", 1, "Melee"],
   ["Dehtat", "德塔特", 1, "Melee"],
-  ["Plague Kripath", "瘟疫 克里帕丝", 1, "Melee"],
   ["Plague Keewar", "瘟疫 奇沃", 1, "Melee"],
   ["Cyath", "西亚什", 1, "Melee"],
+  ["Plague Kripath", "瘟疫 克里帕丝", 0.93, "Melee"],
 
-  ["Guandao", "关刀", 1, "Melee"],
   ["Gunsen", "军扇", 1, "Melee"],
   ["Silva & Aegis", "席瓦 & 神盾", 1, "Melee"],
   ["Sigma & Octantis", "西格玛 & 南极座", 1, "Melee"],
@@ -437,18 +436,19 @@ const _rivenWeaponDataBase = [
   ["Sephahn", "瑟普梵", 1, "Melee"],
   ["Cassowar", "鹤鸵长戟", 1, "Melee"],
   ["Boltace", "螺钉拐刃", 1, "Melee"],
-  ["Ohma", "欧玛", 1, "Melee"],
   ["Rabvee", "拉比威", 1, "Melee"],
   ["Dokrahm", "多克拉姆", 1, "Melee"],
   ["Skiajati", "影生", 1, "Melee"],
+  ["Ohma", "欧玛", 0.97, "Melee"],
   ["Fragor", "重击巨锤", 0.96, "Melee"],
   ["Mios", "牝狮神", 0.95, "Melee"],
   ["Heliocor", "赫利俄光锤", 0.94, "Melee"],
+  ["Guandao", "关刀", 0.9, "Melee"],
   ["Ack & Brunt", "认知 & 冲击", 0.9, "Melee"],
   ["Sydon", "恶龙", 0.84, "Melee"],
   ["Jat Kusar", "喷射锁镰", 0.81, "Melee"],
   ["Dual Kamas", "双短柄战镰", 0.81, "Melee"],
-  ["Broken-War", "破碎的战争之剑", 0.79, "Melee"],
+  ["Broken War", "破碎的战争之剑", 0.79, "Melee"],
   ["Jat Kittag", "喷射战锤", 0.75, "Melee"],
   ["War", "战争之剑", 0.5, "Melee"],
   ["Atterax", "阿特拉克斯", 0.5, "Melee"],
@@ -481,6 +481,8 @@ export interface Weapon {
   dmg: [string, number][];
   criticalMultiplier: number;
   criticalChances: number;
+  fireRate: number;
+  status: number;
 }
 /**
  * 枪武器信息
@@ -488,8 +490,6 @@ export interface Weapon {
 export interface GunWeapon extends Weapon {
   accuracy: number;
   bullets: number;
-  fireRate: number;
-  status: number;
   magazine: number;
   reload: number;
   ammo: number;
@@ -497,7 +497,9 @@ export interface GunWeapon extends Weapon {
 /**
  * 近战武器信息
  */
-export interface MeleeWeapon extends Weapon { }
+export interface MeleeWeapon extends Weapon {
+  slideDmg: number;
+}
 /*
 Data from https://warframe.huijiwiki.com/wiki/%E6%A8%A1%E5%9D%97:Weapons/data
 
@@ -2047,6 +2049,265 @@ export const GunWeaponDataBase: GunWeapon[] = [
 ];
 
 
+export const MeleeWeaponDataBase: MeleeWeapon[] = [
+  { "id": "Sibear", "name": "西伯利亚冰锤", "tags": ["近战", "Hammer"], "dmg": [["Cold", 130]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 260, "status": 0.1 },
+  { "id": "Endura", "name": "三叶坚韧", "tags": ["近战", "Rapier"], "dmg": [["Puncture", 66.5], ["Slash", 23.75], ["Impact", 4.75]], "criticalMultiplier": 2, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 204, "status": 0.25 },
+  {
+    "id": "Nami Skyla Prime", "name": "海波斯库拉对剑 Prime", "rivenName": "Nami Skyla",
+    "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 12], ["Slash", 42], ["Impact", 6]], "criticalMultiplier": 1.5, "criticalChances": 0.2, "fireRate": 1.33, "slideDmg": 360, "status": 0.3
+  },
+  { "id": "Redeemer", "name": "救赎者", "tags": ["近战", "Gunblade"], "dmg": [["Puncture", 12], ["Slash", 42], ["Impact", 6]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.833, "slideDmg": 180, "status": 0.1 },
+  { "id": "Sigma & Octantis", "name": "西格玛 & 南极座", "tags": ["近战", "剑盾"], "dmg": [["Puncture", 9.6], ["Slash", 37.2], ["Impact", 13.2]], "criticalMultiplier": 2.2, "criticalChances": 0.28, "fireRate": 1.08, "slideDmg": 129, "status": 0.16 },
+  { "id": "Prova", "name": "普罗沃", "tags": ["近战", "Machete"], "dmg": [["Electricity", 35]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 105, "status": 0.1 },
+  {
+    "id": "Prova Vandal", "name": "普罗沃 破坏者", "rivenName": "Prova",
+    "tags": ["近战", "Machete"], "dmg": [["Electricity", 48]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 144, "status": 0.2
+  },
+  { "id": "Furax", "name": "弗拉克斯", "tags": ["近战", "Fist"], "dmg": [["Puncture", 5.3], ["Slash", 5.2], ["Impact", 24.5]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1, "slideDmg": 105, "status": 0.1 },
+  {
+    "id": "MK1-Furax", "name": "MK1-弗拉克斯", "rivenName": "Furax",
+    "tags": ["近战", "Fist"], "dmg": [["Puncture", 4.5], ["Slash", 4.5], ["Impact", 21]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1, "slideDmg": 90, "status": 0.1
+  }, {
+    "id": "Furax Wraith", "name": "弗拉克斯 亡魂", "rivenName": "Furax",
+    "tags": ["近战", "Fist"], "dmg": [["Puncture", 5.3], ["Slash", 5.2], ["Impact", 24.5]], "criticalMultiplier": 2.5, "criticalChances": 0.25, "fireRate": 1.08, "slideDmg": 105, "status": 0.1
+  },
+  { "id": "Boltace", "name": "螺钉拐刃", "tags": ["近战", "Tonfa"], "dmg": [["Puncture", 68], ["Slash", 8.5], ["Impact", 8.5]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 510, "status": 0.25 },
+  {
+    "id": "Telos Boltace", "name": "终极 螺钉拐刃", "rivenName": "Boltace",
+    "tags": ["近战", "Tonfa"], "dmg": [["Puncture", 72.3], ["Slash", 4.2], ["Impact", 8.5]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 1.08, "slideDmg": 510, "status": 0.25
+  },
+  { "id": "Dragon Nikana", "name": "龙之侍刃", "tags": ["近战", "Nikana"], "dmg": [["Puncture", 8.5], ["Slash", 72.25], ["Impact", 4.25]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 182, "status": 0.15 },
+  { "id": "Magistar", "name": "执法者", "tags": ["近战", "Hammer"], "dmg": [["Puncture", 12], ["Slash", 4], ["Impact", 64]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 0.833, "slideDmg": 160, "status": 0.1 },
+  {
+    "id": "Sancti Magistar", "name": "圣洁 执法者", "rivenName": "Magistar",
+    "tags": ["近战", "Hammer"], "dmg": [["Puncture", 18], ["Slash", 6], ["Impact", 96]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1, "slideDmg": 240, "status": 0.1
+  },
+  { "id": "Atterax", "name": "阿特拉克斯", "tags": ["近战", "Whip"], "dmg": [["Puncture", 2.25], ["Slash", 40.5], ["Impact", 2.25]], "criticalMultiplier": 3, "criticalChances": 0.25, "fireRate": 0.917, "slideDmg": 96, "status": 0.2 },
+  { "id": "Dual Ichor", "name": "恶脓双斧", "tags": ["近战", "Dual Swords"], "dmg": [["Toxin", 35]], "criticalMultiplier": 3, "criticalChances": 0.25, "fireRate": 1.08, "slideDmg": 210, "status": 0.15 },
+  { "id": "Ack & Brunt", "name": "认知 & 冲击", "tags": ["近战", "剑盾"], "dmg": [["Puncture", 5], ["Slash", 40], ["Impact", 5]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 0.833, "slideDmg": 107, "status": 0.1 },
+  { "id": "Amphis", "name": "双头蛇", "tags": ["近战", "Staff"], "dmg": [["Puncture", 8.3], ["Slash", 8.2], ["Impact", 38.5]], "criticalMultiplier": 1.5, "criticalChances": 0.075, "fireRate": 1.25, "slideDmg": 75, "status": 0.1 },
+  { "id": "Dual Skana", "name": "空刃双刀", "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 4.8], ["Slash", 22.4], ["Impact", 4.8]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.833, "slideDmg": 192, "status": 0.1 },
+  { "id": "Nami Solo", "name": "海波单剑", "tags": ["近战", "Machete"], "dmg": [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 105, "status": 0.25 },
+  { "id": "Twin Krohkur", "name": "双子克鲁古尔", "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 12.6], ["Slash", 49], ["Impact", 8.4]], "criticalMultiplier": 1.7, "criticalChances": 0.19, "fireRate": 0.917, "slideDmg": 420, "status": 0.33 },
+  { "id": "Lacera", "name": "悲痛之刃", "tags": ["近战", "Blade and Whip"], "dmg": [["Electricity", 80]], "criticalMultiplier": 2, "criticalChances": 0.025, "fireRate": 0.917, "slideDmg": 171, "status": 0.45 },
+  { "id": "Skana", "name": "空刃", "tags": ["近战", "Sword"], "dmg": [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.833, "slideDmg": 75, "status": 0.1 },
+  {
+    "id": "Skana Prime", "name": "空刃 Prime", "rivenName": "Skana",
+    "tags": ["近战", "Sword"], "dmg": [["Puncture", 6.3], ["Slash", 29.4], ["Impact", 6.3]], "criticalMultiplier": 1.5, "criticalChances": 0.1, "fireRate": 1, "slideDmg": 90, "status": 0.1
+  }, {
+    "id": "Prisma Skana", "name": "棱晶 空刃", "rivenName": "Skana",
+    "tags": ["近战", "Sword"], "dmg": [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1, "slideDmg": 75, "status": 0.1
+  },
+  { "id": "Serro", "name": "电能斩锯", "tags": ["近战", "Polearm"], "dmg": [["Electricity", 75]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 167, "status": 0.25 },
+  { "id": "Dual Kamas", "name": "双短柄战镰", "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 4.2], ["Slash", 35.7], ["Impact", 2.1]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1.17, "slideDmg": 252, "status": 0.075 },
+  {
+    "id": "Dual Kamas Prime", "name": "双短柄战镰 Prime", "rivenName": "Dual Kamas",
+    "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 14], ["Slash", 52.5], ["Impact", 3.5]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1.17, "slideDmg": 420, "status": 0.2
+  },
+  { "id": "Ceramic Dagger", "name": "陶瓷匕首", "tags": ["近战", "Dagger"], "dmg": [["Puncture", 31.5], ["Impact", 3.5]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 75, "status": 0.1 },
+  { "id": "Cerata", "name": "裸鳃刃", "tags": ["近战", "Glaive"], "dmg": [["Toxin", 44]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 220, "status": 0.3 },
+
+  { "id": "Galatine", "name": "迦伦提恩", "tags": ["近战", "Heavy Blade"], "dmg": [["Puncture", 3.1], ["Slash", 118.8], ["Impact", 3.1]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 1, "slideDmg": 250, "status": 0.2 },
+  {
+    "id": "Galatine Prime", "name": "迦伦提恩 Prime", "rivenName": "Galatine",
+    "tags": ["近战", "Heavy Blade"], "dmg": [["Puncture", 4.1], ["Slash", 156.8], ["Impact", 4.1]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1, "slideDmg": 330, "status": 0.2
+  },
+  { "id": "Dual Cleavers", "name": "斩肉双刀", "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]], "criticalMultiplier": 3, "criticalChances": 0.25, "fireRate": 0.833, "slideDmg": 210, "status": 0.1 },
+  {
+    "id": "Prisma Dual Cleavers", "name": "棱晶 斩肉双刀", "rivenName": "Dual Cleavers",
+    "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 3.5], ["Slash", 28], ["Impact", 3.5]], "criticalMultiplier": 3, "criticalChances": 0.25, "fireRate": 1, "slideDmg": 210, "status": 0.25
+  },
+  { "id": "Jat Kittag", "name": "喷射战锤", "tags": ["近战", "Hammer"], "dmg": [["Puncture", 19.5], ["Slash", 6.5], ["Impact", 104]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 260, "status": 0.25 },
+  { "id": "Fang", "name": "狼牙", "tags": ["近战", "Dual Daggers"], "dmg": [["Puncture", 21], ["Slash", 4.5], ["Impact", 4.5]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 150, "status": 0.08 },
+  {
+    "id": "Fang Prime", "name": "狼牙 Prime", "rivenName": "Fang",
+    "tags": ["近战", "Dual Daggers"], "dmg": [["Puncture", 32.4], ["Impact", 3.6]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 180, "status": 0.05
+  },
+  { "id": "Lesion", "name": "病变", "tags": ["近战", "Polearm"], "dmg": [["Puncture", 5], ["Slash", 75], ["Impact", 20]], "criticalMultiplier": 2, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 222, "status": 0.3 },
+  { "id": "Gram", "name": "格拉姆", "tags": ["近战", "Heavy Blade"], "dmg": [["Puncture", 15], ["Slash", 70], ["Impact", 15]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 0.95, "slideDmg": 200, "status": 0.15 },
+  { "id": "Jaw Sword", "name": "蛇颚刀", "tags": ["近战", "Sword"], "dmg": [["Puncture", 8.8], ["Slash", 33], ["Impact", 2.2]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 94, "status": 0.1 },
+  { "id": "Bo", "name": "玻之武杖", "tags": ["近战", "Staff"], "dmg": [["Puncture", 5], ["Impact", 45]], "criticalMultiplier": 2, "criticalChances": 0.125, "fireRate": 1, "slideDmg": 107, "status": 0.2 },
+  {
+    "id": "MK1-Bo", "name": "MK1-玻之武杖", "rivenName": "Bo",
+    "tags": ["近战", "Staff"], "dmg": [["Puncture", 4.5], ["Impact", 40.5]], "criticalMultiplier": 2, "criticalChances": 0.125, "fireRate": 1, "slideDmg": 96, "status": 0.2
+  },
+  {
+    "id": "Bo Prime", "name": "玻之武杖 Prime", "rivenName": "Bo",
+    "tags": ["近战", "Staff"], "dmg": [["Puncture", 7.5], ["Impact", 67.5]], "criticalMultiplier": 2, "criticalChances": 0.125, "fireRate": 1.08, "slideDmg": 161, "status": 0.25
+  },
+  { "id": "Fragor", "name": "重击巨锤", "tags": ["近战", "Hammer"], "dmg": [["Puncture", 17.3], ["Slash", 17.2], ["Impact", 80.5]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 0.833, "slideDmg": 230, "status": 0.1 },
+  {
+    "id": "Fragor Prime", "name": "重击巨锤 Prime", "rivenName": "Fragor",
+    "tags": ["近战", "Hammer"], "dmg": [["Puncture", 19.5], ["Slash", 19.5], ["Impact", 91]], "criticalMultiplier": 2.5, "criticalChances": 0.35, "fireRate": 0.8, "slideDmg": 260, "status": 0.1
+  },
+  { "id": "Skiajati", "name": "影生", "tags": ["近战", "Nikana"], "dmg": [["Puncture", 5.4], ["Slash", 60.1], ["Impact", 11.6]], "criticalMultiplier": 1.9, "criticalChances": 0.15, "fireRate": 1.17, "slideDmg": 165, "status": 0.27 },
+  { "id": "Anku", "name": "夺魂死神", "tags": ["近战", "Scythe"], "dmg": [["Puncture", 56], ["Slash", 3.5], ["Impact", 10.5]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1.08, "slideDmg": 140, "status": 0.1 },
+  { "id": "Caustacyst", "name": "灼蚀变体镰", "tags": ["近战", "Scythe"], "dmg": [["Corrosive", 75]], "criticalMultiplier": 2, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 150, "status": 0.3 },
+  { "id": "Nikana", "name": "侍刃", "tags": ["近战", "Nikana"], "dmg": [["Puncture", 4.5], ["Slash", 38.25], ["Impact", 2.25]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 0.917, "slideDmg": 96, "status": 0.1 },
+  {
+    "id": "Nikana Prime", "name": "侍刃 Prime", "rivenName": "Nikana",
+    "tags": ["近战", "Nikana"], "dmg": [["Puncture", 4.75], ["Slash", 85.5], ["Impact", 4.75]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1.08, "slideDmg": 204, "status": 0.2
+  },
+  { "id": "Kama", "name": "短柄战镰", "tags": ["近战", "Machete"], "dmg": [["Puncture", 6.75], ["Slash", 31.5], ["Impact", 6.75]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1.17, "slideDmg": 135, "status": 0.02 },
+  { "id": "Heat Sword", "name": "烈焰长剑", "tags": ["近战", "Sword"], "dmg": [["Puncture", 4.4], ["Slash", 35.2], ["Impact", 4.4]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 94, "status": 0.2 },
+  { "id": "Machete", "name": "马谢特砍刀", "tags": ["近战", "Machete"], "dmg": [["Puncture", 3.75], ["Slash", 17.5], ["Impact", 3.75]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 75, "status": 0.1 },
+  {
+    "id": "Machete Wraith", "name": "马谢特砍刀 亡魂", "rivenName": "Machete",
+    "tags": ["近战", "Machete"], "dmg": [["Puncture", 6.75], ["Slash", 31.5], ["Impact", 6.75]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1.08, "slideDmg": 135, "status": 0.1
+  },
+  {
+    "id": "Prisma Machete", "name": "棱晶 马谢特砍刀", "rivenName": "Machete",
+    "tags": ["近战", "Machete"], "dmg": [["Puncture", 3.75], ["Slash", 17.5], ["Impact", 3.75]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 75, "status": 0.1
+  },
+  { "id": "Hirudo", "name": "蚂蝗", "tags": ["近战", "Sparring"], "dmg": [["Puncture", 44], ["Slash", 2.7], ["Impact", 8.3]], "criticalMultiplier": 3, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 220, "status": 0.05 },
+  { "id": "Tekko", "name": "铁钩手甲", "tags": ["近战", "Fist"], "dmg": [["Puncture", 4.5], ["Slash", 31.5], ["Impact", 9]], "criticalMultiplier": 2, "criticalChances": 0.3, "fireRate": 0.917, "slideDmg": 135, "status": 0.1 },
+  { "id": "Arca Titron", "name": "弧电振子锤", "tags": ["近战", "Hammer"], "dmg": [["Puncture", 0], ["Slash", 63], ["Impact", 117]], "criticalMultiplier": 2, "criticalChances": 0.24, "fireRate": 0.733, "slideDmg": 360, "status": 0.38 },
+  { "id": "Dual Raza", "name": "锋月双斧", "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 14.4], ["Slash", 28.8], ["Impact", 4.8]], "criticalMultiplier": 3, "criticalChances": 0.2, "fireRate": 0.917, "slideDmg": 288, "status": 0.05 },
+  { "id": "Dakra Prime", "name": "达克拉 Prime", "tags": ["近战", "Sword"], "dmg": [["Puncture", 6], ["Slash", 48], ["Impact", 6]], "criticalMultiplier": 1.5, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 129, "status": 0.1 },
+  { "id": "Gunsen", "name": "军扇", "tags": ["近战", "Warfan"], "dmg": [["Puncture", 6], ["Slash", 40], ["Impact", 4]], "criticalMultiplier": 2, "criticalChances": 0.16, "fireRate": 1.17, "slideDmg": 107, "status": 0.28 },
+  { "id": "Karyst", "name": "凯洛斯特", "tags": ["近战", "Dagger"], "dmg": [["Toxin", 50]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 0.75, "slideDmg": 107, "status": 0.15 },
+  { "id": "Mios", "name": "牝狮神", "tags": ["近战", "Blade and Whip"], "dmg": [["Puncture", 20], ["Slash", 36], ["Impact", 24]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1.08, "slideDmg": 171, "status": 0.25 },
+  { "id": "Destreza", "name": "技巧之剑", "tags": ["近战", "Rapier"], "dmg": [["Puncture", 63.8], ["Slash", 9.4], ["Impact", 1.9]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1, "slideDmg": 161, "status": 0.05 },
+  {
+    "id": "Destreza Prime", "name": "技巧之剑 Prime", "rivenName": "Destreza",
+    "tags": ["近战", "Rapier"], "dmg": [["Puncture", 53.2], ["Slash", 13.7], ["Impact", 9.1]], "criticalMultiplier": 3, "criticalChances": 0.24, "fireRate": 0.917, "slideDmg": 163, "status": 0.18
+  },
+  {
+    "id": "Iron Staff", "name": "定海神针",
+    "tags": ["近战", "技能武器"], "dmg": [["Puncture", 37.5], ["Impact", 212.5]], "criticalMultiplier": 2, "criticalChances": 0.25, "fireRate": 1, "slideDmg": 536, "status": 0.1
+  },
+  {
+    "id": "Valkyr Talons", "name": "Valkyr之爪",
+    "tags": ["近战", "技能武器"], "dmg": [["Puncture", 83.3], ["Slash", 83.3], ["Impact", 83.3]], "criticalMultiplier": 2, "criticalChances": 0.5, "fireRate": 1.5, "slideDmg": 750, "status": 0.1
+  },
+  {
+    "id": "Exalted Blade", "name": "显赫刀剑",
+    "tags": ["近战", "技能武器"], "dmg": [["Puncture", 37.5], ["Slash", 175], ["Impact", 37.5]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 0.833, "slideDmg": 536, "status": 0.1
+  },
+  { "id": "Kogake", "name": "科加基", "tags": ["近战", "Sparring"], "dmg": [["Puncture", 5.3], ["Slash", 5.2], ["Impact", 24.5]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 0.917, "slideDmg": 140, "status": 0.1 },
+  {
+    "id": "Kogake Prime", "name": "科加基 Prime", "rivenName": "Kogake",
+    "tags": ["近战", "Sparring"], "dmg": [["Puncture", 10.5], ["Slash", 10.5], ["Impact", 49]], "criticalMultiplier": 1.8, "criticalChances": 0.16, "fireRate": 0.917, "slideDmg": 280, "status": 0.34
+  },
+  { "id": "Pangolin Sword", "name": "鲮鲤剑", "tags": ["近战", "Sword"], "dmg": [["Puncture", 5.55], ["Slash", 29.6], ["Impact", 1.85]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 79, "status": 0.12 },
+  { "id": "Scoliac", "name": "嵴椎节鞭", "tags": ["近战", "Whip"], "dmg": [["Puncture", 8.25], ["Slash", 38.5], ["Impact", 8.25]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1.25, "slideDmg": 118, "status": 0.15 },
+  { "id": "Dual Keres", "name": "双持凯瑞斯", "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 13.2], ["Slash", 25.5], ["Impact", 5.3]], "criticalMultiplier": 2.6, "criticalChances": 0.28, "fireRate": 1.25, "slideDmg": 264, "status": 0.14 },
+  { "id": "Sydon", "name": "恶龙", "tags": ["近战", "Polearm"], "dmg": [["Puncture", 71.3], ["Impact", 3.8]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 0.917, "slideDmg": 167, "status": 0.25 },
+  { "id": "Kronen", "name": "皇家拐刃", "tags": ["近战", "Tonfa"], "dmg": [["Puncture", 6.5], ["Slash", 52], ["Impact", 6.5]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1.08, "slideDmg": 390, "status": 0.2 },
+  {
+    "id": "Kronen Prime", "name": "皇家拐刃 Prime", "rivenName": "Kronen",
+    "tags": ["近战", "Tonfa"], "dmg": [["Puncture", 6.6], ["Slash", 52.8], ["Impact", 6.6]], "criticalMultiplier": 2, "criticalChances": 0.12, "fireRate": 1.17, "slideDmg": 396, "status": 0.24
+  },
+  { "id": "Tonbo", "name": "蜻蛉薙", "tags": ["近战", "Polearm"], "dmg": [["Puncture", 12], ["Slash", 60], ["Impact", 8]], "criticalMultiplier": 2, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 178, "status": 0.25 },
+  { "id": "Obex", "name": "奥比克斯", "tags": ["近战", "Sparring"], "dmg": [["Puncture", 3.8], ["Slash", 3.7], ["Impact", 17.5]], "criticalMultiplier": 2, "criticalChances": 0.25, "fireRate": 1, "slideDmg": 100, "status": 0.1 },
+  {
+    "id": "Prisma Obex", "name": "棱晶 奥比克斯", "rivenName": "Obex",
+    "tags": ["近战", "Sparring"], "dmg": [["Puncture", 3.8], ["Slash", 3.7], ["Impact", 17.5]], "criticalMultiplier": 2, "criticalChances": 0.25, "fireRate": 1.33, "slideDmg": 100, "status": 0.3
+  },
+  {
+    "id": "Diwata", "name": "仙女",
+    "tags": ["近战", "技能武器"], "dmg": [["Puncture", 150], ["Slash", 20], ["Impact", 30]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1.08, "slideDmg": 429, "status": 0.1
+  },
+  {
+    "id": "Vaykor Sydon", "name": "勇气 恶龙", "rivenName": "Sydon",
+    "tags": ["近战", "Polearm"], "dmg": [["Puncture", 80.8], ["Impact", 4.3]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1.08, "slideDmg": 189, "status": 0.25
+  },
+  { "id": "Ankyros", "name": "甲龙双拳", "tags": ["近战", "Fist"], "dmg": [["Puncture", 4.5], ["Slash", 4.5], ["Impact", 21]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1.17, "slideDmg": 90, "status": 0.1 },
+  {
+    "id": "Ankyros Prime", "name": "甲龙双拳 Prime", "rivenName": "Ankyros",
+    "tags": ["近战", "Fist"], "dmg": [["Puncture", 5.7], ["Slash", 5.7], ["Impact", 26.6]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1.25, "slideDmg": 114, "status": 0.15
+  },
+  { "id": "Silva & Aegis", "name": "席瓦 & 神盾", "tags": ["近战", "剑盾"], "dmg": [["Heat", 35]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 75, "status": 0.2 },
+  {
+    "id": "Silva & Aegis Prime", "name": "席瓦 & 神盾 Prime", "rivenName": "Silva & Aegis",
+    "tags": ["近战", "剑盾"], "dmg": [["Heat", 120]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 0.75, "slideDmg": 257, "status": 0.25
+  },
+  { "id": "Sheev", "name": "希芙", "tags": ["近战", "Dagger"], "dmg": [["Puncture", 2.25], ["Slash", 40.5], ["Impact", 2.25]], "criticalMultiplier": 2, "criticalChances": 0.05, "fireRate": 0.667, "slideDmg": 96, "status": 0.25 },
+  {
+    "id": "Cadus", "name": "光棍",
+    "tags": ["近战", "Staff"], "dmg": [["Electricity", 50]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 107, "status": 0.25
+  },
+  { "id": "Heat Dagger", "name": "烈焰短剑", "tags": ["近战", "Dagger"], "dmg": [["Puncture", 36], ["Slash", 6.7], ["Impact", 2.3]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.75, "slideDmg": 96, "status": 0.05 },
+  { "id": "Gazal Machete", "name": "加扎勒反曲刀", "tags": ["近战", "Machete"], "dmg": [["Puncture", 7.8], ["Slash", 39], ["Impact", 5.2]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 1.08, "slideDmg": 156, "status": 0.25 },
+  { "id": "Ether Daggers", "name": "苍穹匕首", "tags": ["近战", "Dual Daggers"], "dmg": [["Puncture", 6.8], ["Slash", 31.5], ["Impact", 6.8]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.833, "slideDmg": 225, "status": 0.15 },
+  { "id": "Dex Dakra", "name": "DEX 达克拉双剑", "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 6.5], ["Slash", 52], ["Impact", 6.5]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 0.883, "slideDmg": 390, "status": 0.2 },
+  { "id": "Dark Sword", "name": "暗黑长剑", "tags": ["近战", "Sword"], "dmg": [["Radiation", 37]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.833, "slideDmg": 79, "status": 0.1 },
+  { "id": "Ripkas", "name": "锐卡斯", "tags": ["近战", "Claws"], "dmg": [["Puncture", 5.5], ["Slash", 46.8], ["Impact", 2.8]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 0.883, "slideDmg": 165, "status": 0.15 },
+  { "id": "Broken Scepter", "name": "破损珽杖", "tags": ["近战", "Staff"], "dmg": [["Puncture", 6], ["Slash", 12], ["Impact", 42]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 1.25, "slideDmg": 129, "status": 0.3 },
+  { "id": "Orthos", "name": "欧特鲁斯", "tags": ["近战", "Polearm"], "dmg": [["Puncture", 7.5], ["Slash", 35], ["Impact", 7.5]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 111, "status": 0.15 },
+  {
+    "id": "Orthos Prime", "name": "欧特鲁斯", "rivenName": "Orthos",
+    "tags": ["近战", "Polearm"], "dmg": [["Puncture", 9.75], ["Slash", 45.5], ["Impact", 9.75]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 1.17, "slideDmg": 144, "status": 0.15
+  },
+  { "id": "Twin Basolk", "name": "双子巴萨克", "tags": ["近战", "Dual Swords"], "dmg": [["Heat", 65]], "criticalMultiplier": 2, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 390, "status": 0.4 },
+  { "id": "Scindo", "name": "分裂斩斧", "tags": ["近战", "Heavy Blade"], "dmg": [["Puncture", 10], ["Slash", 80], ["Impact", 10]], "criticalMultiplier": 1.5, "criticalChances": 0.15, "fireRate": 0.917, "slideDmg": 200, "status": 0.1 },
+  {
+    "id": "Scindo Prime", "name": "分裂斩斧 Prime", "rivenName": "Scindo",
+    "tags": ["近战", "Heavy Blade"], "dmg": [["Puncture", 13], ["Slash", 104], ["Impact", 13]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 0.967, "slideDmg": 260, "status": 0.15
+  },
+  { "id": "Krohkur", "name": "克鲁古尔", "tags": ["近战", "Sword"], "dmg": [["Puncture", 12.6], ["Slash", 49], ["Impact", 8.4]], "criticalMultiplier": 1.7, "criticalChances": 0.29, "fireRate": 0.833, "slideDmg": 150, "status": 0.19 },
+  { "id": "Tipedo", "name": "提佩多", "tags": ["近战", "Staff"], "dmg": [["Puncture", 5], ["Slash", 40], ["Impact", 5]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1.33, "slideDmg": 107, "status": 0.2 },
+  { "id": "Okina", "name": "翁", "tags": ["近战", "Dual Daggers"], "dmg": [["Puncture", 18], ["Slash", 20], ["Impact", 2]], "criticalMultiplier": 2, "criticalChances": 0.05, "fireRate": 1.08, "slideDmg": 200, "status": 0.15 },
+  { "id": "Shaku", "name": "双节尺棍", "tags": ["近战", "Nunchaku"], "dmg": [["Puncture", 0], ["Slash", 0], ["Impact", 55]], "criticalMultiplier": 2, "criticalChances": 0.075, "fireRate": 1.17, "slideDmg": 118, "status": 0.25 },
+  { "id": "Kestrel", "name": "红隼", "tags": ["近战", "Glaive"], "dmg": [["Puncture", 5.3], ["Slash", 5.2], ["Impact", 24.5]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 1.08, "slideDmg": 175, "status": 0.1 },
+  {
+    "id": "Dark Split-Sword (Heavy Blade)", "name": "暗黑分合剑（巨刃）", "rivenName": "Dark Split-Sword",
+    "tags": ["近战", "Heavy Blade"], "dmg": [["Radiation", 90]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 0.917, "slideDmg": 180, "status": 0.25
+  }, {
+    "id": "Dark Split-Sword (Dual Swords)", "name": "暗黑分合剑（双剑）", "rivenName": "Dark Split-Sword",
+    "tags": ["近战", "Dual Swords"], "dmg": [["Radiation", 65]], "criticalMultiplier": 2.5, "criticalChances": 0.25, "fireRate": 1.17, "slideDmg": 390, "status": 0.15
+  },
+  { "id": "Reaper Prime", "name": "收割者 Prime", "tags": ["近战", "Scythe"], "dmg": [["Puncture", 11.3], ["Slash", 52.5], ["Impact", 11.3]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 1.08, "slideDmg": 150, "status": 0.12 },
+  { "id": "Glaive", "name": "战刃", "tags": ["近战", "Glaive"], "dmg": [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 1, "slideDmg": 225, "status": 0.1 },
+  {
+    "id": "Glaive Prime", "name": "战刃 Prime", "rivenName": "Glaive",
+    "tags": ["近战", "Glaive"], "dmg": [["Puncture", 7.5], ["Slash", 35], ["Impact", 7.5]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1.25, "slideDmg": 250, "status": 0.3
+  },
+  { "id": "Cronus", "name": "克洛诺斯", "tags": ["近战", "Sword"], "dmg": [["Puncture", 5.3], ["Slash", 19.2], ["Impact", 10.5]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 75, "status": 0.1 },
+  { "id": "Dual Ether", "name": "苍穹双剑", "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 6], ["Slash", 28], ["Impact", 6]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 240, "status": 0.1 },
+  { "id": "Dual Heat Swords", "name": "烈焰双剑", "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 6.75], ["Slash", 31.5], ["Impact", 6.75]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 270, "status": 0.1 },
+
+  { "id": "Halikar", "name": "哈利卡", "tags": ["近战", "Glaive"], "dmg": [["Puncture", 36], ["Slash", 4.5], ["Impact", 4.5]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 1.17, "slideDmg": 225, "status": 0.2 },
+  { "id": "Ether Reaper", "name": "苍穹死神", "tags": ["近战", "Scythe"], "dmg": [["Puncture", 9.8], ["Slash", 45.5], ["Impact", 9.8]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1.08, "slideDmg": 130, "status": 0.15 },
+  { "id": "Venka", "name": "凯旋之爪", "tags": ["近战", "Claws"], "dmg": [["Puncture", 9.25], ["Slash", 25.9], ["Impact", 1.85]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 111, "status": 0.15 },
+  {
+    "id": "Venka Prime", "name": "凯旋之爪 Prime", "rivenName": "Venka",
+    "tags": ["近战", "Claws"], "dmg": [["Puncture", 11], ["Slash", 41.25], ["Impact", 2.75]], "criticalMultiplier": 2.5, "criticalChances": 0.25, "fireRate": 1.05, "slideDmg": 165, "status": 0.15
+  },
+  { "id": "Dark Dagger", "name": "暗黑匕首", "tags": ["近战", "Dagger"], "dmg": [["Radiation", 35]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 75, "status": 0.1 },
+  {
+    "id": "Rakta Dark Dagger", "name": "绯红 暗黑匕首", "rivenName": "Dark Dagger",
+    "tags": ["近战", "Dagger"], "dmg": [["Radiation", 50]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 107, "status": 0.1
+  },
+  { "id": "Heliocor", "name": "赫利俄光锤", "tags": ["近战", "Hammer"], "dmg": [["Puncture", 14], ["Slash", 7], ["Impact", 119]], "criticalMultiplier": 2, "criticalChances": 0.25, "fireRate": 0.833, "slideDmg": 280, "status": 0.025 },
+  {
+    "id": "Synoid Heliocor", "name": "枢议 赫利俄光锤", "rivenName": "Heliocor",
+    "tags": ["近战", "Hammer"], "dmg": [["Puncture", 12], ["Slash", 6], ["Impact", 102]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 1.08, "slideDmg": 240, "status": 0.2
+  },
+  { "id": "Dual Zoren", "name": "佐伦双斧", "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 1.5], ["Slash", 27], ["Impact", 1.5]], "criticalMultiplier": 3, "criticalChances": 0.25, "fireRate": 1.17, "slideDmg": 180, "status": 0.05 },
+  { "id": "Lecta", "name": "勒克塔", "tags": ["近战", "Whip"], "dmg": [["Electricity", 45]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 96, "status": 0.25 },
+  {
+    "id": "Secura Lecta", "name": "保障 勒克塔", "rivenName": "Lecta",
+    "tags": ["近战", "Whip"], "dmg": [["Electricity", 75]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1.25, "slideDmg": 161, "status": 0.25
+  },
+  { "id": "Kesheg", "name": "怯薛", "tags": ["近战", "Polearm"], "dmg": [["Puncture", 10.5], ["Slash", 52.5], ["Impact", 42]], "criticalMultiplier": 2.5, "criticalChances": 0.075, "fireRate": 0.833, "slideDmg": 233, "status": 0.1 },
+  { "id": "Mire", "name": "米尔", "tags": ["近战", "Sword"], "dmg": [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1.08, "slideDmg": 75, "status": 0.1 },
+  { "id": "Sarpa", "name": "蛇刃", "tags": ["近战", "Gunblade"], "dmg": [["Puncture", 14], ["Slash", 49], ["Impact", 7]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 210, "status": 0.1 },
+  { "id": "War", "name": "战争之剑", "tags": ["近战", "Heavy Blade"], "dmg": [["Puncture", 3.5], ["Slash", 24.5], ["Impact", 112]], "criticalMultiplier": 2, "criticalChances": 0.2, "fireRate": 0.917, "slideDmg": 280, "status": 0.2 },
+  { "id": "Zenistar", "name": "天顶之星", "tags": ["近战", "Heavy Blade"], "dmg": [["Heat", 130]], "criticalMultiplier": 2, "criticalChances": 0.05, "fireRate": 0.833, "slideDmg": 260, "status": 0.25 },
+  { "id": "Volnus", "name": "创伤", "tags": ["近战", "Hammer"], "dmg": [["Puncture", 32], ["Slash", 46], ["Impact", 22]], "criticalMultiplier": 1.6, "criticalChances": 0.18, "fireRate": 1.2, "slideDmg": 200, "status": 0.3 },
+  { "id": "Jat Kusar", "name": "喷射锁镰", "tags": ["近战", "Blade and Whip"], "dmg": [["Heat", 80]], "criticalMultiplier": 2.5, "criticalChances": 0.35, "fireRate": 0.833, "slideDmg": 171, "status": 0.05 },
+  { "id": "Orvius", "name": "灵枢", "tags": ["近战", "Glaive"], "dmg": [["Puncture", 3.5], ["Slash", 52.5], ["Impact", 14]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 0.75, "slideDmg": 350, "status": 0.15 },
+  { "id": "Cassowar", "name": "鹤鸵长戟", "tags": ["近战", "Polearm"], "dmg": [["Puncture", 23.8], ["Slash", 30.8], ["Impact", 15.4]], "criticalMultiplier": 1.4, "criticalChances": 0.06, "fireRate": 1.17, "slideDmg": 156, "status": 0.28 },
+  { "id": "Plasma Sword", "name": "等离子长剑", "tags": ["近战", "Sword"], "dmg": [["Electricity", 35]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 0.667, "slideDmg": 75, "status": 0.15 },
+  { "id": "Ohma", "name": "欧玛", "tags": ["近战", "Tonfa"], "dmg": [["Electricity", 100]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 0.917, "slideDmg": 600, "status": 0.3 },
+  { "id": "Ether Sword", "name": "苍穹之剑", "tags": ["近战", "Sword"], "dmg": [["Puncture", 5.55], ["Slash", 25.9], ["Impact", 5.55]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 1, "slideDmg": 79, "status": 0.1 },
+  { "id": "Hate", "name": "憎恨", "tags": ["近战", "Scythe"], "dmg": [["Puncture", 10.5], ["Slash", 49], ["Impact", 10.5]], "criticalMultiplier": 2.5, "criticalChances": 0.2, "fireRate": 0.917, "slideDmg": 140, "status": 0.15 },
+  { "id": "Ninkondi", "name": "降灵追猎者", "tags": ["近战", "Nunchaku"], "dmg": [["Electricity", 45]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 1, "slideDmg": 96, "status": 0.35 },
+  { "id": "Nami Skyla", "name": "海波斯库拉对剑", "tags": ["近战", "Dual Swords"], "dmg": [["Puncture", 7.5], ["Slash", 35], ["Impact", 7.5]], "criticalMultiplier": 1.5, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 300, "status": 0.1 },
+  { "id": "Guandao", "name": "关刀", "tags": ["近战", "Polearm"], "dmg": [["Puncture", 4.5], ["Slash", 63], ["Impact", 22.5]], "criticalMultiplier": 2.2, "criticalChances": 0.24, "fireRate": 0.833, "slideDmg": 200, "status": 0.04 },
+  { "id": "Broken War", "name": "破碎的战争之剑", "tags": ["近战", "Sword"], "dmg": [["Puncture", 9], ["Slash", 72], ["Impact", 9]], "criticalMultiplier": 1.5, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 193, "status": 0.1 }];
+
 export interface DamageType {
   id: string
   name: string
@@ -2333,13 +2594,16 @@ const _normalModSource = [
   // ["Primed Pistol Ammo Mutation", "手枪弹药转换 Prime", [["弹药转换", 0]], "将任意尚未被拾起的其他种类弹药转换成手枪弹药", "手枪", "-", "r", 14],
   // ["Ruinous Extension", "毁灭扩展", [["射程", 8]], "增加射线类武器的射程", "手枪", "-", "c", 5],
   // 近战
-  ["Weeping Wounds", "创口溃烂", [["独立卡", 0]], "随着近战连击数增加触发机率", "近战", "r", "c", 9],
-  ["Blood Rush", "急进猛突", [["独立卡", 0]], "随着近战连击数增加暴击机率", "近战", "r", "c", 14],
-  ["Guardian Derision", "奚落守护", [["独立卡", 0]], "当格挡时增加 攻击者对你的仇恨值", "近战", "d", "r", 11],
-  ["Healing Return", "治愈归复", [["独立卡", 0]], "当攻击触发了异常状态的目标时恢复 生命值", "近战", "d", "r", 16],
-  ["Condition Overload", "异况超量", [["独立卡", 0]], "根据已触发的异常状态增加对目标的近战伤害", "近战", "r", "r", 15],
-  ["Energy Channel", "能量导引", [["独立卡", 0]], "在攻击中加入基于战甲能力的能量消耗量的额外近战伤害", "近战", "r", "r", 7],
-  ["Relentless Combination", "残酷组合", [["独立卡", 0]], "当攻击触发了切割状态的目标时，有几率获得额外的近战连击数", "近战", "-", "c", 9],
+  ["Gladiator Rush", "角斗士 猛突", [["N", 6], ["连击数增加暴击率", 0.15]], "随着近战连击数增加触发机率", "近战", "r", "n", 9],
+  ["Gladiator Vice", "角斗士 钳制", [["J", 0.6], ["连击数增加暴击率", 0.15]], "随着近战连击数增加触发机率", "近战", "r", "r", 9],
+  ["Gladiator Might", "角斗士 威猛", [["1", 0.6], ["连击数增加暴击率", 0.15]], "随着近战连击数增加触发机率", "近战", "r", "c", 9],
+  ["Blood Rush", "急进猛突", [["连击数增加暴击率", 1.65]], "随着近战连击数增加暴击机率", "近战", "r", "c", 14],
+  ["Weeping Wounds", "创口溃烂", [["连击数增加触发率", 0.45]], "随着近战连击数增加触发机率", "近战", "r", "c", 9],
+  ["Condition Overload", "异况超量", [["异常状态增加近战伤害", 0.6]], "根据已触发的异常状态增加对目标的近战伤害", "近战", "r", "r", 15],
+  // ["Guardian Derision", "奚落守护", [["独立卡", 0]], "当格挡时增加 攻击者对你的仇恨值", "近战", "d", "r", 11],
+  // ["Healing Return", "治愈归复", [["独立卡", 0]], "当攻击触发了异常状态的目标时恢复 生命值", "近战", "d", "r", 16],
+  // ["Energy Channel", "能量导引", [["独立卡", 0]], "在攻击中加入基于战甲能力的能量消耗量的额外近战伤害", "近战", "r", "r", 7],
+  ["Relentless Combination", "残酷组合", [["残酷组合", 1]], "当攻击触发了切割状态的目标时，有几率获得额外的近战连击数", "近战", "-", "c", 9],
   ["Pressure Point", "压迫点", [["K", 1.2]], "增加基础近战伤害", "近战", "r", "n", 9],
   ["Primed Pressure Point", "压迫点 Prime", [["K", 1.65]], "增加基础近战伤害", "近战", "r", "n", 14],
   ["Spoiled Strike", "腐坏打击", [["K", 1], ["J", -0.2]], "增加 基础伤害减少 攻击速度", "近战", "r", "r", 7],
@@ -2393,7 +2657,8 @@ const _normalModSource = [
   ["Power Throw", "奋力一掷", [["P", 0.6]], "增加投掷武器的穿透 （如战刃, 战刃 Prime, 哈利卡,和红隼），对其他武器无效", "投掷武器", "r", "r", 9],
   ["Quick Return", "快速收回", [["弹跳", -4]], "减少投掷武器（如战刃, 战刃 Prime, 哈利卡,和红隼）的弹跳次数", "投掷武器", "-", "n", 7],
   ["Rebound", "弹跳", [["弹跳", 4]], "增加投掷武器（如战刃, 战刃 Prime, 哈利卡,和红隼）的弹跳次数", "投掷武器", "-", "n", 7],
-  ["Whirlwind", "旋风", [["飞行速度", 1.8]], "增加投掷武器（如战刃, 战刃 Prime, 哈利卡,和红隼）的飞行速度", "投掷武器", "r", "r", 9],
+  ["Whirlwind", "旋风", [["飞行速度", 1.8]], "增加投掷武器（如战刃, 战刃 Prime, 哈利卡,和红隼）的飞行速度", "投掷武器", "-", "r", 7],
+  ["Justice Blades", "正义刀锋", [["K", 1]], "增加近战伤害和正义效果", "斩肉双刀", "r", "r", 9],
 ] as [string, string, [string, number][], string, string, "r" | "-" | "d" | "=", "n" | "c" | "r" | "l" | "x", number][];
 /**
  * 普通MOD信息
@@ -2521,7 +2786,7 @@ export class RivenDataBase {
     let weapon = this.getRivenWeaponByName(weaponName);
     let prop = this.getPropByName(propName);
     if (weapon && prop)
-      return RivenPropertyValueBaseDataBase[weapon.mod][prop.id] * weapon.ratio * (prop.nopercent ? 0.1 : 10) * .9405;
+      return RivenPropertyValueBaseDataBase[weapon.mod][prop.id] * weapon.ratio * (prop.nopercent ? 0.1 : 10);
     else
       return -1;
   }

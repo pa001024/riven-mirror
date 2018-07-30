@@ -5,49 +5,101 @@ import { RivenMod } from "@/warframe/rivenmod";
 export class MeleeModBuild extends ModBuild {
   weapon: MeleeWeapon
   // 增幅器
-  private _rangeMul = 1; /** 范围增幅倍率 */  get rangeMul() { return this._rangeMul; }
-  private _attackSpeedMul = 1; /** 攻击速度增幅倍率 */  get attackSpeedMul() { return this._attackSpeedMul; }
+  private _rangeMul = 1;
+  /** 范围增幅倍率 */
+  get rangeMul() { return this._rangeMul; }
   private _chargeMulMul = 1; /** 充能倍率增幅倍率 */  get chargeMulMul() { return this._chargeMulMul; }
   private _chargeEffMul = 1; /** 充能效率增幅倍率 */  get chargeEffMul() { return this._chargeEffMul; }
   private _comboDurationAdd = 0; /** 连击时间增值 */  get comboDurationAdd() { return this._comboDurationAdd; }
-  private _slideCritChanceMul = 1; /** 滑行暴击增幅倍率 */  get slideCritChanceMul() { return this._slideCritChanceMul; }
+  private _slideCritChanceAdd = 0; /** 滑行暴击增值 */  get slideCritChanceAdd() { return this._slideCritChanceAdd; }
   private _execDmgMul = 1; /** 处决伤害增幅倍率 */  get execDmgMul() { return this._execDmgMul; }
+  private _comboCritChanceMul = 0; /** 连击数增加暴击率 */  get comboCritChanceMul() { return this._comboCritChanceMul; }
+  private _comboStatusMul = 0; /** 连击数增加触发率 */  get comboStatusMul() { return this._comboStatusMul; }
+  private _statusDamageMul = 0; /** 异常状态增加近战伤害 */  get statusDamageMul() { return this._statusDamageMul; }
+
   // 额外参数
+
+  /** 连击层数 */
+  comboLevel = 0;
+  /** 异况触发量 */
+  statusCount = 2;
+  /** 是否计算滑行伤害 */
+  isCalcSlide = true;
+
+  /** 设置连击数 */
+  set comboCount(value) {
+    this.comboLevel = value > 4 ? ~~(Math.log(value / 5) / Math.log(3)) + 1 : 0;
+  }
 
   constructor(riven: RivenMod, selected: string) {
     super(riven);
-    let weapons = riven.weapons;
+    let weapons = riven.weapons as MeleeWeapon[];
     this.weapon = weapons.find(v => selected === v.name) || weapons[0];
     this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.includes(v.type));
   }
 
+  // ### 计算属性 ###
+
+  /** 连击倍率 */
+  get comboMul() {
+    if (this.weapon.name === "凯旋之爪 Prime")
+      return this.comboLevel * 0.75 + 1;
+    else
+      return this.comboLevel * 0.5 + 1;
+  }
+  /** 暴击率 */
+  get critChance() {
+    return this.weapon.criticalChances * this.critChanceMul * (this.comboMul > 1 ? this.comboMul * this.comboCritChanceMul : 1);
+  }
+  /** 滑行暴击率 */
+  get slideCritDamage() {
+    return (this.weapon.criticalChances * this.critChanceMul + this.slideCritChanceAdd) * (this.comboMul > 1 ? this.comboMul * this._comboCritChanceMul : 1)
+  }
+  /** 暴击倍率 */
+  get critMul() {
+    return this.weapon.criticalMultiplier * this.critMulMul;
+  }
   /** 平均暴击区增幅倍率 */
   get critDamageMul() {
-    return this.calcCritDamage(this.weapon.criticalChances * this.critChanceMul, this.weapon.criticalMultiplier * this.critMulMul);
+    return this.calcCritDamage(this.critChance, this.critMul);
+  }
+  /** 滑行平均暴击区增幅倍率 */
+  get slideCritDamageMul() {
+    return this.calcCritDamage(this.slideCritDamage, this.critMul);
+  }
+  /** 总伤增幅倍率 */
+  get totalDamageMul() {
+    return this.baseDamageMul * this.extraDmgMul * this.critDamageMul * this.comboMul;
+  }
+  get slideDamageMul() {
+    return this.baseDamageMul * this.extraDmgMul * this.slideCritDamageMul * this.comboMul;
   }
   /** 总伤害 */
   get totalDamage() {
-    return 0;
+    return this.originalDamage * this.totalDamageMul * this.fireRate;
+  }
+  /** 滑行攻击伤害 */
+  get slideDamage() {
+    return this.weapon.slideDmg * this.slideDamageMul * this.fireRate;
   }
   get compareDamage() {
-    return this.totalDamage;
+    return this.isCalcSlide ? this.slideDamage : this.totalDamage;
   }
+
+  // ### 基类方法 ###
+
   /** 重置所有属性增幅器 */
   reset() {
-    this._baseDamageMul = 1;
-    this._critChanceMul = 1;
-    this._critMulMul = 1;
-    this._extraDmgMul = 1;
-    this._procChanceMul = 1;
-    this._procDurationMul = 1;
-    this._enemyDmgMul = 1;
+    super.reset();
     this._rangeMul = 1;
-    this._attackSpeedMul = 1;
     this._chargeMulMul = 1;
     this._chargeEffMul = 1;
     this._comboDurationAdd = 0;
-    this._slideCritChanceMul = 1;
+    this._slideCritChanceAdd = 0;
     this._execDmgMul = 1;
+    this._comboCritChanceMul = 0;
+    this._comboStatusMul = 0;
+    this._statusDamageMul = 0;
   }
   // ### 基类方法 ###
 
@@ -68,14 +120,17 @@ export class MeleeModBuild extends ModBuild {
     switch (pName) {
       case 'K': /* 近战伤害 baseDmg */ this._baseDamageMul += pValue; break;
       case 'T': /* 攻击范围 range */ this._rangeMul += pValue; break;
-      case 'J': /* 攻击速度 attackSpeed */ this._attackSpeedMul += pValue; break;
+      case 'J': /* 攻击速度 attackSpeed */ this._fireRateMul += pValue; break;
       case 'B': /* 充能伤害 chargeMul */ this._chargeMulMul += pValue; break;
       case 'U': /* 充能效率 chargeEff */ this._chargeEffMul += pValue; break;
       case 'N': /* 连击持续时间 comboDuration */ this._comboDurationAdd += pValue; break;
-      case 'E': /* 滑行攻击造成暴击几率 slideCritChance */ this._slideCritChanceMul += pValue; break;
+      case 'E': /* 滑行攻击造成暴击几率 slideCritChance */ this._slideCritChanceAdd += pValue; break;
       case 'X': /* 处决伤害 execDmg */ this._execDmgMul += pValue; break;
+      case '连击数增加暴击率': this._comboCritChanceMul += pValue; break;
+      case '连击数增加触发率': this._comboStatusMul += pValue; break;
+      case '异常状态增加近战伤害': this._statusDamageMul += pValue; break;
       default:
-        super.applyProp(mod, pName, pValue);
+        super.applyProp(mod, pName, pValue); break;
     }
   }
 }

@@ -17,3 +17,6 @@ selenium-debug.log
 *.sln
 *.code-workspace
 backend/config.json
+
+# auto deploy files
+deploy.*

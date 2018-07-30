@@ -44,8 +44,8 @@
           <el-col :span="24">
             <gun-mod-build-view :riven="mod" v-if="isGun">
             </gun-mod-build-view>
-            <el-alert v-else title="暂不支持近战自动分析" type="error" :closable="false">
-            </el-alert>
+            <melee-mod-build-view :riven="mod" v-else>
+            </melee-mod-build-view>
           </el-col>
         </el-row>
       </el-col>
@@ -59,6 +59,7 @@ import axios from 'axios';
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { RivenMod } from "../warframe";
 import GunModBuildView from "@/components/GunModBuildView.vue";
+import MeleeModBuildView from "@/components/MeleeModBuildView.vue";
 import store from "../store";
 
 
@@ -67,7 +68,7 @@ interface OCRResult {
   success: number
 }
 @Component({
-  components: { GunModBuildView }
+  components: { GunModBuildView, MeleeModBuildView }
 })
 export default class Mod extends Vue {
   // 使用剪贴板识别

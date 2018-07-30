@@ -25,7 +25,6 @@ export class GunModBuild extends ModBuild {
   // 增幅器
   private _multishotMul = 1; /** 多重增幅倍率 */  get multishotMul() { return this._multishotMul; }
   private _magazineMul = 1; /** 弹夹容量增幅倍率 */  get magazineMul() { return this._magazineMul; }
-  private _fireRateMul = 1; /** 射速增幅倍率 */  get fireRateMul() { return this._fireRateMul; }
   private _reloadSpeedMul = 1; /** 换弹增幅倍率 */  get reloadSpeedMul() { return this._reloadSpeedMul; }
   private _handShotMulMul = 1;
 
@@ -45,18 +44,17 @@ export class GunModBuild extends ModBuild {
 
   compareMode: GunCompareMode = GunCompareMode.TotalDamage;
   useAcolyteMods = true;
+  useHeavyCaliber = true;
 
   constructor(riven: RivenMod, selected: string) {
     super(riven);
-    let weapons = riven.weapons;
+    let weapons = riven.weapons as GunWeapon[];
     this.weapon = weapons.find(v => selected === v.name) || weapons[0];
     this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.includes(v.type));
   }
 
   // ### 计算属性 ###
 
-  /** 射速 */
-  get fireRate() { return this.weapon.fireRate * this.fireRateMul; }
   /** 换弹时间 */
   get reloadTIme() { return this.weapon.reload / this.reloadSpeedMul; }
   /** 弹夹容量 */
@@ -133,6 +131,8 @@ export class GunModBuild extends ModBuild {
       }
     }
     if (!this.useAcolyteMods && AcolyteModsList.some(v => v === mod.name))
+      return false;
+    if (!this.useHeavyCaliber && "重口径" === mod.name)
       return false;
     return true;
   }

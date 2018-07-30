@@ -4,11 +4,16 @@ import _ from "lodash";
 
 // 基础类
 export abstract class ModBuild {
-  abstract weapon: Weapon
-  riven: RivenMod
+  // ### 变量 ###
+
+  public abstract weapon: Weapon
+  public riven: RivenMod
+
   /** 所有适用的MOD */
   protected avaliableMods: NormalMod[]
   protected _mods: NormalMod[] = []; /** MOD列表 */  get mods() { return _.cloneDeep(this._mods); }
+
+  // ### 属性 ###
 
   protected _baseDamageMul = 1; /** 基伤增幅倍率 */ get baseDamageMul() { return this._baseDamageMul; }
   protected _extraDmgMul = 1; /** 额伤增幅倍率 */  get extraDmgMul() { return this._extraDmgMul; }
@@ -17,14 +22,17 @@ export abstract class ModBuild {
   protected _procChanceMul = 1; /** 触发几率增幅倍率 */  get procChanceMul() { return this._procChanceMul; }
   protected _procDurationMul = 1; /** 触发时间增幅倍率 */  get procDurationMul() { return this._procDurationMul; }
   protected _enemyDmgMul = 1; /** 种族伤害增幅倍率 */  get enemyDmgMul() { return this._enemyDmgMul; }
+  protected _fireRateMul = 1; /** 攻速增幅倍率 */  get fireRateMul() { return this._fireRateMul; }
   protected _originalDamage: number;
   abstract get compareDamage(): any;
 
   // 额外参数
   allowElementTypes: string[] = null;
 
-
   // ### 计算属性 ###
+
+  /** 攻速 */
+  get fireRate() { return this.weapon.fireRate * this.fireRateMul; }
 
   /** 武器原本伤害 */
   get originalDamage(): number {
@@ -85,6 +93,7 @@ export abstract class ModBuild {
     this._procChanceMul = 1;
     this._procDurationMul = 1;
     this._enemyDmgMul = 1;
+    this._fireRateMul = 1;
   };
   /** 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
@@ -164,7 +173,7 @@ export abstract class ModBuild {
       });
       // 3. 把所有卡按收益排序
       sortableMods.sort((a, b) => b[1] - a[1]);
-      console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[1]);
+      console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
       // 4. 将收益最高的一项插入并移出数组
       this.applyMod(sortableMods.shift()[0]);
       // 5. 重复以上步骤直到卡槽充满

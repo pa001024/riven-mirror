@@ -3,13 +3,13 @@
     <header class="build-header">MOD自动配置</header>
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item label="武器" v-if="riven.weapons.length > 1">
-        <el-select size="medium" v-model="selectWeapon" placeholder="请选择">
+        <el-select size="small" v-model="selectWeapon" placeholder="请选择">
           <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.name" :value="weapon.name">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-radio-group size="medium" v-model="selectCompMethod">
+        <el-radio-group size="small" v-model="selectCompMethod">
           <el-tooltip effect="dark" content="不考虑射速算出的伤害" placement="bottom">
             <el-radio-button label="0">单发伤害</el-radio-button>
           </el-tooltip>
@@ -22,22 +22,26 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="限制MOD槽位">
-        <el-input-number size="small" v-model="slots" :min="4" :max="8" label="使用MOD槽位"></el-input-number>
+        <el-tooltip effect="dark" content="给武器专属或后坐力等MOD预留位置" placement="bottom">
+          <el-input-number size="small" v-model="slots" :min="4" :max="8" label="使用MOD槽位"></el-input-number>
+        </el-tooltip>
       </el-form-item>
       <el-form-item label="限制元素类型">
-        <el-select size="medium" v-model="selectDamageType" placeholder="不限制" clearable style="width: 120px;">
-          <el-option v-for="(value, name) in elementTypes" :key="name" :label="name" :value="name">
-          </el-option>
-        </el-select>
+        <el-tooltip effect="dark" content="计算时只会使用可构成该元素的MOD" placement="bottom">
+          <el-select size="small" v-model="selectDamageType" placeholder="不限制" clearable style="width: 120px;">
+            <el-option v-for="(value, name) in elementTypes" :key="name" :label="name" :value="name">
+            </el-option>
+          </el-select>
+        </el-tooltip>
       </el-form-item>
       <el-form-item label="">
         <el-tooltip effect="dark" content="如尖刃弹头等需要瞄准的MOD" placement="bottom">
           <el-checkbox v-model="useAcolyteMods">使用追随者MOD</el-checkbox>
         </el-tooltip>
       </el-form-item>
-      <!-- <el-form-item label="使用MOD">
+      <el-form-item label="使用MOD">
         <el-checkbox v-model="useHeavyCaliber">重口径</el-checkbox>
-      </el-form-item> -->
+      </el-form-item>
     </el-form>
     <div class="build-list">
       <el-card class="build-container" v-for="build in builds" :key="build[0]">
@@ -73,7 +77,7 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenMod, GunModBuild } from "@/warframe";
 import { ValuedRivenProperty } from "@/warframe/rivenmod";
-import { GunCompareMode } from "@/warframe/GunModBuild";
+import { GunCompareMode } from "@/warframe/gunmodbuild";
 import { GunWeapon, DamageType, DamageTypeDatabase } from "@/warframe/data";
 
 @Component
@@ -81,10 +85,12 @@ export default class GunModBuildView extends Vue {
   @Prop() riven: RivenMod
   selectWeapon = ""
   selectCompMethod: GunCompareMode = GunCompareMode.TotalDamage
-  selectDamageType: any = null
+  selectDamageType: string = null
   builds: [string, GunModBuild][] = []
   /** 使用追随者MOD */
   useAcolyteMods = false
+  /** 使用重口径 */
+  useHeavyCaliber = true
   /** 插槽使用数 */
   slots = 8
   /** 紫卡分数 */
@@ -104,7 +110,10 @@ export default class GunModBuildView extends Vue {
   }
   @Watch("riven")
   rivenChange() {
-    this.selectWeapon = this.riven.weapons[this.riven.weapons.length - 1].name;
+    let weapons = this.riven.weapons;
+    this.selectWeapon = weapons[weapons.length - 1].name;
+    if (this.selectCompMethod == GunCompareMode.TotalDamage && weapons[weapons.length - 1].tags.includes("射线"))
+      this.selectCompMethod = GunCompareMode.BurstDamage;
     this.recalc();
   }
   @Watch("useAcolyteMods")
@@ -124,10 +133,10 @@ export default class GunModBuildView extends Vue {
   beforeMount() {
     this.selectDamageType = localStorage.getItem("selectDamageType") || null;
     this.useAcolyteMods = JSON.parse(localStorage.getItem("useAcolyteMods"));
-    this.selectWeapon = this.riven.weapons[0].name;
-    this.recalc();
+    this.rivenChange();
   }
 
+  @Watch("useHeavyCaliber")
   @Watch("selectCompMethod")
   @Watch("slots")
   @Watch("selectWeapon")
@@ -137,6 +146,7 @@ export default class GunModBuildView extends Vue {
     let riven = new GunModBuild(this.riven, this.selectWeapon);
     stand.compareMode = riven.compareMode = this.selectCompMethod;
     stand.useAcolyteMods = riven.useAcolyteMods = this.useAcolyteMods;
+    stand.useHeavyCaliber = riven.useHeavyCaliber = this.useHeavyCaliber;
     stand.allowElementTypes = riven.allowElementTypes = this.selectDamageType && this.elementTypes[this.selectDamageType] || null;
     stand.fill(this.slots, 0);
     riven.fill(this.slots, 2);

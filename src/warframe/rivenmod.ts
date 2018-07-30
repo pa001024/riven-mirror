@@ -1,4 +1,4 @@
-import { GunWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase } from "@/warframe/data";
+import { GunWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase, MeleeWeaponDataBase } from "@/warframe/data";
 import { strSimilarity } from "@/warframe/util";
 import _ from "lodash";
 
@@ -79,6 +79,8 @@ export class RivenMod {
   recycleTimes = 0
   /** 段位 */
   rank: number
+  /** 类型 */
+  type: string
   db = new RivenDataBase();
 
   constructor(parm?: string | RivenMod) {
@@ -120,6 +122,7 @@ export class RivenMod {
     let rawName = lines[subfixIndex - 1];
     // 查询名称最接近的武器
     let weapon = this.db.findMostSimRivenWeapon(rawName);
+    this.type = weapon.mod;
     this.subfix = lines[subfixIndex];
     // 识别到的名字是否正确, 否则模糊匹配
     this.name = weapon.name;
@@ -203,6 +206,8 @@ export class RivenMod {
   }
   /** 返回适用的武器列表 */
   get weapons() {
+    if (this.type === "Melee")
+      return MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
     return GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
   }
   /** 返回一个标准MOD对象 */
