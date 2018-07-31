@@ -96,7 +96,10 @@ export default class Mod extends Vue {
         ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
         let imageData = ctx.getImageData(0, 0, cvs.width, cvs.height);
         const code = jsQR(imageData.data, imageData.width, imageData.height);
-        resolve(code.data);
+        if (code)
+          resolve(code.data);
+        else
+          reject("no code");
       };
       img.src = ur;
     });
@@ -126,13 +129,13 @@ export default class Mod extends Vue {
         ev.preventDefault();
         let blob = item.getAsFile();
         this.readQRCode(blob).then(msg => {
-          if (msg && msg != "error decoding QR Code") {
+          if (msg) {
             console.log("readQRCode=>", msg);
             store.commit('newBase64Text', msg.replace("http://rm.0-0.at/riven/", ""));
           } else this.readOCR(blob);
         }).catch(err => {
           console.log(err);
-          // this.readOCR(blob);
+          this.readOCR(blob);
         });
         return;
       }

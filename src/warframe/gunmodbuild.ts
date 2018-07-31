@@ -111,7 +111,10 @@ export class GunModBuild extends ModBuild {
   /** 面板伤害 */
   get panelDamage() { return this.originalDamage * this.panelDamageMul; }
   /** [猎人战备]切割DoT伤害 */
-  get slashDotDamage() { return this.originalDamage * this.baseDamageMul * this.multishotMul * (this.critChance > 1 ? 1 : this.critChance) * this.slashWhenCrit * 0.35 * ~~(6 * this.procDurationMul + 1); }
+  get slashDotDamage() {
+    return this.originalDamage * this.baseDamageMul * this.multishotMul * this.critDamageMul *
+      (this.critChance > 1 ? 1 : this.critChance) * this.slashWhenCrit * 0.35 * ~~(6 * this.procDurationMul + 1);
+  }
   /** 总伤害 */
   get totalDamage() { return this.originalDamage * this.totalDamageMul + this.slashDotDamage; }
   /** 爆发伤害 */
