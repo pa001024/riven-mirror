@@ -26,13 +26,15 @@ export class GunModBuild extends ModBuild {
   private _multishotMul = 1; /** 多重增幅倍率 */  get multishotMul() { return this._multishotMul; }
   private _magazineMul = 1; /** 弹夹容量增幅倍率 */  get magazineMul() { return this._magazineMul; }
   private _reloadSpeedMul = 1; /** 换弹增幅倍率 */  get reloadSpeedMul() { return this._reloadSpeedMul; }
-  private _handShotMulMul = 1;
 
   private _maxAmmoMul = 1; /** 最大弹容增幅倍率 */  get maxAmmoMul() { return this._maxAmmoMul; }
   private _zoomMul = 1; /** 变焦增幅倍率 */  get zoomMul() { return this._zoomMul; }
   private _projectileSpeedMul = 1; /** 抛射物飞行速度增幅倍率 */  get projectileSpeedMul() { return this._projectileSpeedMul; }
   private _recoilMul = 1; /** 后坐力增幅倍率 */  get recoilMul() { return this._recoilMul; }
   private _punchThrough = 0; /** 穿透增幅量 */  get punchThrough() { return this._punchThrough; }
+  private _handShotMulMul = 1; /** 爆头倍率增幅倍率 */  get handShotMulMul() { return this._handShotMulMul; }
+  private _slashWhenCrit = 0; /** 暴击时触发切割伤害 */  get slashWhenCrit() { return this._slashWhenCrit; }
+  private _critLevelUpChance = 0; /** 暴击强化 */  get critLevelUpChance() { return this._critLevelUpChance; }
   // 额外参数
   private _handShotChance = 0; /** 爆头概率 */  get handShotChance() { return this._handShotChance; }
   /** 设置爆头概率 */
@@ -43,8 +45,12 @@ export class GunModBuild extends ModBuild {
   }
 
   compareMode: GunCompareMode = GunCompareMode.TotalDamage;
-  useAcolyteMods = true;
+  /** 使用追随者MOD */
+  useAcolyteMods = false;
+  /** 使用重口径 */
   useHeavyCaliber = true;
+  /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
+  useHunterMunitions = 0;
 
   constructor(riven: RivenMod, selected: string) {
     super(riven);
@@ -60,7 +66,7 @@ export class GunModBuild extends ModBuild {
   /** 弹夹容量 */
   get magazineSize() { return Math.round(this.weapon.magazine * this.magazineMul); }
   /** 爆头倍率 */
-  get handShotMul() { return 2 * this._handShotMulMul; }
+  get handShotMul() { return 2 * this.handShotMulMul; }
   /** 暴击率 */
   get critChance() {
     // 兰卡开镜暴击
@@ -77,16 +83,21 @@ export class GunModBuild extends ModBuild {
   }
   /** 平均暴击区增幅倍率 */
   get critDamageMul() {
-    return this.calcCritDamage(this.critChance, this.critMul, this.handShotChance, this.handShotMul);
+    // 私法系列的暴击强化可以直接加在这里
+    return this.calcCritDamage(this.critChance + this.critLevelUpChance, this.critMul, this.handShotChance, this.handShotMul);
   }
+  /** 平均爆头增伤倍率 */
+  get handShotDmgMul() { return this.handShotChance * (this.handShotMul - 1) + 1; }
   /** 爆发伤害增幅倍率 */
-  get burstDamageMul() {
-    return this.totalDamageMul * this.fireRateMul;
-  }
+  get burstDamageMul() { return this.totalDamageMul * this.fireRateMul; }
+  /** 每个弹片触发几率 */
+  get originalProcChancePerBullet() { return 1 - (1 - this.weapon.status / 100) ** (1 / this.weapon.bullets); }
+  /** 每个弹片触发几率 */
+  get procChancePerBullet() { return this.originalProcChancePerBullet * this.procChanceMul > 1 ? 1 : this.originalProcChancePerBullet * this.procChanceMul; }
+  /** 面板伤害增幅倍率 */
+  get panelDamageMul() { return this.baseDamageMul * this.multishotMul * this.extraDmgMul; }
   /** 总伤增幅倍率 */
-  get totalDamageMul() {
-    return this.baseDamageMul * this.multishotMul * this.extraDmgMul * this.critDamageMul;
-  }
+  get totalDamageMul() { return this.panelDamageMul * this.critDamageMul * this.handShotDmgMul; }
   /** 平均射速增幅倍率  */
   get sustainedFireRateMul() {
     return (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate;
@@ -96,21 +107,17 @@ export class GunModBuild extends ModBuild {
     return 1 / (1 / this.fireRate + this.reloadTIme / this.magazineSize);
   }
   /** 持续伤害增幅倍率  */
-  get sustainedDamageMul() {
-    return this.totalDamageMul * this.sustainedFireRateMul;
-  }
+  get sustainedDamageMul() { return this.totalDamageMul * this.sustainedFireRateMul; }
+  /** 面板伤害 */
+  get panelDamage() { return this.originalDamage * this.panelDamageMul; }
+  /** [猎人战备]切割DoT伤害 */
+  get slashDotDamage() { return this.originalDamage * this.baseDamageMul * this.multishotMul * (this.critChance > 1 ? 1 : this.critChance) * this.slashWhenCrit * 0.35 * ~~(6 * this.procDurationMul + 1); }
   /** 总伤害 */
-  get totalDamage() {
-    return this.originalDamage * this.totalDamageMul;
-  }
+  get totalDamage() { return this.originalDamage * this.totalDamageMul + this.slashDotDamage; }
   /** 爆发伤害 */
-  get burstDamage() {
-    return this.totalDamage * this.fireRate;
-  }
+  get burstDamage() { return this.totalDamage * this.fireRate; }
   /** 持续伤害 */
-  get sustainedDamage() {
-    return this.totalDamage * this.sustainedFireRate;
-  }
+  get sustainedDamage() { return this.totalDamage * this.sustainedFireRate; }
   /** 用于比较的伤害 */
   get compareDamage() {
     return this.compareMode == GunCompareMode.TotalDamage ? this.totalDamage : this.compareMode == GunCompareMode.BurstDamage ? this.burstDamage : this.sustainedDamage;
@@ -134,6 +141,8 @@ export class GunModBuild extends ModBuild {
       return false;
     if (!this.useHeavyCaliber && "重口径" === mod.name)
       return false;
+    if (!this.useHunterMunitions && "猎人 战备" === mod.name)
+      return false;
     return true;
   }
 
@@ -150,8 +159,19 @@ export class GunModBuild extends ModBuild {
     this._projectileSpeedMul = 1;
     this._recoilMul = 1;
     this._handShotMulMul = 1;
+    this._slashWhenCrit = 0;
+    this._critLevelUpChance = 0;
   }
-
+  /**
+   * 自动按武器属性填充MOD
+   * @param slots 可用的插槽数
+   * @param useRiven 是否使用紫卡 0=不用 1=自动选择 2=必须用
+   */
+  fill(slots = 8, useRiven = 1) {
+    if (this.useHunterMunitions === 2)
+      this.applyMod(NormalModDatabase.find(v => v.name === "猎人 战备"));
+    super.fill(slots, useRiven);
+  }
   /**
   * 应用枪属性
   * @param mod MOD
@@ -171,6 +191,8 @@ export class GunModBuild extends ModBuild {
       case 'V': /* 抛射物飞行速度 projectileSpeed */ this._projectileSpeedMul += pValue; break;
       case 'Z': /* 后坐力 recoil */ this._recoilMul += pValue; break;
       case '爆头伤害': /* 爆头伤害 handShotMul */this._handShotMulMul += pValue; break;
+      case '暴击时触发切割伤害': /* 暴击时触发切割伤害 slashWhenCrit */this._slashWhenCrit += pValue; break;
+      case '暴击强化': /* 暴击强化 critLevelUpChance */this._critLevelUpChance += pValue; break;
       default:
         super.applyProp(mod, pName, pValue);
     }

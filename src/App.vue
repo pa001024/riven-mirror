@@ -91,6 +91,7 @@ body {
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
   .i-mirror-logo {
     background-image: url("assets/LOGO@2x.png");
+    background-size: 50%;
   }
 }
 </style>

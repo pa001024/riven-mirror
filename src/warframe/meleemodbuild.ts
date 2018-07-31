@@ -60,28 +60,22 @@ export class MeleeModBuild extends ModBuild {
     return this.weapon.criticalMultiplier * this.critMulMul;
   }
   /** 平均暴击区增幅倍率 */
-  get critDamageMul() {
-    return this.calcCritDamage(this.critChance, this.critMul);
-  }
+  get critDamageMul() { return this.calcCritDamage(this.critChance, this.critMul); }
   /** 滑行平均暴击区增幅倍率 */
-  get slideCritDamageMul() {
-    return this.calcCritDamage(this.slideCritDamage, this.critMul);
-  }
+  get slideCritDamageMul() { return this.calcCritDamage(this.slideCritDamage, this.critMul); }
+  /** 面板伤害增幅倍率 */
+  get panelDamageMul() { return this.baseDamageMul * this.extraDmgMul; }
   /** 总伤增幅倍率 */
-  get totalDamageMul() {
-    return this.baseDamageMul * this.extraDmgMul * this.critDamageMul * this.comboMul;
-  }
-  get slideDamageMul() {
-    return this.baseDamageMul * this.extraDmgMul * this.slideCritDamageMul * this.comboMul;
-  }
+  get totalDamageMul() { return this.panelDamageMul * this.critDamageMul * this.comboMul; }
+  /** 滑行攻击伤增幅倍率 */
+  get slideDamageMul() { return this.panelDamageMul * this.slideCritDamageMul * this.comboMul; }
+  /** 面板伤害 */
+  get panelDamage() { return this.originalDamage * this.panelDamageMul; }
   /** 总伤害 */
-  get totalDamage() {
-    return this.originalDamage * this.totalDamageMul * this.fireRate;
-  }
+  get totalDamage() { return this.originalDamage * this.totalDamageMul * this.fireRate; }
   /** 滑行攻击伤害 */
-  get slideDamage() {
-    return this.weapon.slideDmg * this.slideDamageMul * this.fireRate;
-  }
+  get slideDamage() { return this.weapon.slideDmg * this.slideDamageMul * this.fireRate; }
+  /** 用于比较的伤害 */
   get compareDamage() {
     return this.isCalcSlide ? this.slideDamage : this.totalDamage;
   }

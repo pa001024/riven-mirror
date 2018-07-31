@@ -10,7 +10,7 @@ export abstract class ModBuild {
   public riven: RivenMod
 
   /** 所有适用的MOD */
-  protected avaliableMods: NormalMod[]
+  protected avaliableMods: NormalMod[] = []
   protected _mods: NormalMod[] = []; /** MOD列表 */  get mods() { return _.cloneDeep(this._mods); }
 
   // ### 属性 ###
@@ -156,7 +156,6 @@ export abstract class ModBuild {
    */
   fill(slots = 8, useRiven = 1) {
     // 根据武器自动选择所有可安装的MOD
-    console.log("计算收益");
     let mods = this.avaliableMods.slice();// 通过.slice()返回一个COPY
     if (useRiven > 0) {
       if (useRiven == 2)
@@ -172,11 +171,13 @@ export abstract class ModBuild {
         // v[1] > 0 && console.log("测试收益: ", v[0].name, "的收益是", v[1]);
       });
       // 3. 把所有卡按收益排序
-      sortableMods.sort((a, b) => b[1] - a[1]);
-      console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
-      // 4. 将收益最高的一项插入并移出数组
-      this.applyMod(sortableMods.shift()[0]);
-      // 5. 重复以上步骤直到卡槽充满
+      sortableMods.sort((a, b) => b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]);
+      if (sortableMods.length > 0) {
+        console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
+        // 4. 将收益最高的一项插入并移出数组
+        this.applyMod(sortableMods.shift()[0]);
+        // 5. 重复以上步骤直到卡槽充满
+      }
     }
   }
   /**

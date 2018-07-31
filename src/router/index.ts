@@ -13,6 +13,12 @@ export default new Router({
       name: 'Mod',
       component: Mod
     },
+    {
+      path: '/riven/:source',
+      name: 'ModWithSource',
+      component: Mod,
+      props: true
+    },
     // {
     //   path: '/time',
     //   name: 'Time',

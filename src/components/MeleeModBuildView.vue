@@ -1,6 +1,7 @@
 <template>
-  <div class="build-container">
-    <header class="build-header">MOD自动配置</header>
+  <el-alert v-if="riven.isZaw" title="暂不支持Zaw" type="error">
+  </el-alert>
+  <div class="build-container" v-else>
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item label="武器" v-if="riven.weapons.length > 1">
         <el-select size="small" v-model="selectWeapon" placeholder="请选择">
@@ -18,7 +19,7 @@
       </el-form-item>
       <el-form-item label="连击倍率">
         <el-tooltip effect="dark" content="将会按照此连击倍率来进行计算 (爪子P会自动相应增加)" placement="bottom">
-          <el-input-number size="small" v-model="comboMul" :min="1.5" :max="6" :step="0.5" label="使用MOD槽位"></el-input-number>
+          <el-input-number size="small" v-model="comboMul" :min="1" :max="6" :step="0.5" label="使用MOD槽位"></el-input-number>
         </el-tooltip>
       </el-form-item>
       <el-form-item label="限制元素类型">
@@ -52,6 +53,12 @@
               </div>
             </div>
           </el-col>
+        </el-row>
+        <el-row type="flex" :gutter="12" class="build-item">
+          <el-tag style="margin-left: 8px;">面板伤害: {{build[1].panelDamage.toFixed(1)}} </el-tag>
+          <el-tag style="margin-left: 8px;">暴击率: {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
+          <el-tag style="margin-left: 8px;">暴击伤害: {{(build[1].critMul).toFixed(1)}}x </el-tag>
+          <el-tag style="margin-left: 8px;">攻速: {{(build[1].fireRate).toFixed(1)}} </el-tag>
         </el-row>
       </el-card>
       <el-card class="build-result">
@@ -93,6 +100,14 @@ export default class MeleeModBuildView extends Vue {
     "磁力": ["5", "7"],
   }
 
+  _debouncedRecalc: (() => void);
+  @Watch("isSlide")
+  @Watch("slots")
+  @Watch("selectWeapon")
+  @Watch("comboMul")
+  debouncedRecalc() {
+    this._debouncedRecalc();
+  }
   get selectCompMethodText() {
     return this.isSlide ? "滑砍伤害" : "平砍伤害";
   }
@@ -100,20 +115,14 @@ export default class MeleeModBuildView extends Vue {
   rivenChange() {
     let weapons = this.riven.weapons;
     if (weapons.length === 0) {
-      this["$message"]({
-        showClose: true,
-        message: '暂不支持ZAW紫卡自动分析',
-        type: 'warning',
-        duration: 5e3
-      });
       return;
     }
     this.selectWeapon = weapons[weapons.length - 1].name;
-    this.recalc();
+    this.debouncedRecalc();
   }
   @Watch("selectDamageType")
   selectDamageTypeChange() {
-    this.recalc();
+    this.debouncedRecalc();
     if (this.selectDamageType)
       localStorage.setItem("selectDamageType.melee", this.selectDamageType);
     else
@@ -121,20 +130,21 @@ export default class MeleeModBuildView extends Vue {
   }
   mounted() { }
   beforeMount() {
+    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 10);
     this.selectDamageType = localStorage.getItem("selectDamageType.melee") || null;
     this.rivenChange();
   }
-  @Watch("isSlide")
-  @Watch("slots")
-  @Watch("selectWeapon")
   recalc() {
+    if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
     this.builds = [];
     let stand = new MeleeModBuild(this.riven, this.selectWeapon);
     let riven = new MeleeModBuild(this.riven, this.selectWeapon);
     stand.isCalcSlide = riven.isCalcSlide = this.isSlide;
     stand.comboLevel = riven.comboLevel = ~~((this.comboMul - 1) * 2);
     stand.allowElementTypes = riven.allowElementTypes = this.selectDamageType && this.elementTypes[this.selectDamageType] || null;
+    console.log("计算收益: 标准配置");
     stand.fill(this.slots, 0);
+    console.log("计算收益: 紫卡配置");
     riven.fill(this.slots, 2);
     this.builds.push(["标准配置", stand]);
     this.builds.push(["紫卡配置", riven]);

@@ -2388,10 +2388,10 @@ Array.from($(".mw-parser-output tr")
     .join("\n");
     */
 const _normalModSource = [
-  ["Hunter Munitions", "猎人 战备", [["独立卡", 0]], "暴击时，有几率触发 切割伤害", "主要武器", "r", "c", 9],
-  ["Vigilante Armaments", "私法 军备", [["S", 0.6]], "增加多重射击的几率", "主要武器", "-", "n", 9],
-  ["Vigilante Fervor", "私法 热诚", [["R", 0.45]], "增加射速", "主要武器", "r", "c", 9],
-  ["Hunter Munitions", "私法 侵犯", [["P", 1.5]], "增加穿透", "主要武器", "-", "r", 9],
+  ["Hunter Munitions", "猎人 战备", [["暴击时触发切割伤害", 0.3]], "暴击时，有几率触发切割伤害", "主要武器", "r", "c", 9],
+  ["Vigilante Armaments", "私法 军备", [["S", 0.6], ["暴击强化", 0.05]], "增加多重射击的几率", "主要武器", "-", "n", 9],
+  ["Vigilante Fervor", "私法 热诚", [["R", 0.45], ["暴击强化", 0.05]], "增加射速", "主要武器", "r", "c", 9],
+  ["Vigilante Offense", "私法 侵犯", [["P", 1.5], ["暴击强化", 0.05]], "增加穿透", "主要武器", "-", "r", 9],
 
   // 步枪
   ["Serration", "膛线", [["D", 1.65]], "提升基础伤害", "步枪", "r", "c", 14],
@@ -2595,7 +2595,7 @@ const _normalModSource = [
   // ["Ruinous Extension", "毁灭扩展", [["射程", 8]], "增加射线类武器的射程", "手枪", "-", "c", 5],
   // 近战
   ["Gladiator Rush", "角斗士 猛突", [["N", 6], ["连击数增加暴击率", 0.15]], "随着近战连击数增加触发机率", "近战", "r", "n", 9],
-  ["Gladiator Vice", "角斗士 钳制", [["J", 0.6], ["连击数增加暴击率", 0.15]], "随着近战连击数增加触发机率", "近战", "r", "r", 9],
+  ["Gladiator Vice", "角斗士 钳制", [["J", 0.3], ["连击数增加暴击率", 0.15]], "随着近战连击数增加触发机率", "近战", "r", "r", 9],
   ["Gladiator Might", "角斗士 威猛", [["1", 0.6], ["连击数增加暴击率", 0.15]], "随着近战连击数增加触发机率", "近战", "r", "c", 9],
   ["Blood Rush", "急进猛突", [["连击数增加暴击率", 1.65]], "随着近战连击数增加暴击机率", "近战", "r", "c", 14],
   ["Weeping Wounds", "创口溃烂", [["连击数增加触发率", 0.45]], "随着近战连击数增加触发机率", "近战", "r", "c", 9],
@@ -2677,7 +2677,6 @@ export const NormalModDatabase = _normalModSource.map(v => {
     primed: pr && pr[0]
   } as NormalMod;
 });
-//   ["Hunter Munitions", "猎人 战备", [["独立卡", 0]], "暴击时，有几率触发 切割伤害", "主要武器", "r", "c"]
 
 export const NormalCardDependTable: [string, string][] = [
   ["尖刃弹头", "弱点感应"],
@@ -2750,20 +2749,11 @@ export class RivenDataBase {
     return propFinded;
   }
   /**
-   * 通过名称获取属性
-   * @param name 属性名称
+   * 通过名称或id获取属性
+   * @param nameOrId 属性名称|id
    */
-  getPropByName(name: string) {
-    return RivenPropertyDataBase.all[this.propDict.get(name)];
-  }
-
-  /**
-   * 通过id获取属性
-   * @param id id
-   * @param stype 类型 ["gun" | "melee"]
-   */
-  getPropById(id: string, stype: "gun" | "melee") {
-    return this.propDict.get(id);
+  getPropByName(nameOrId: string) {
+    return RivenPropertyDataBase.all[this.propDict.get(nameOrId)];
   }
 
   /**

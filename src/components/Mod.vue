@@ -8,7 +8,7 @@
             </el-switch>
           </el-col>
           <el-col :span="24">
-            <el-input v-if="useText" v-model="modText" @focus="handleFocus" placeholder="在此处粘贴紫卡截图或文本进行识别" type="textarea" rows="1"></el-input>
+            <el-input v-if="useText" v-model="modText" @focus="handleFocus" placeholder="在此处粘贴紫卡截图或二维码进行识别" type="textarea" rows="1"></el-input>
             <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="http://api.0-0.at/ocr">
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或
@@ -34,6 +34,7 @@
                   <el-tag size="medium" class="mod-recycleTimes">循环: {{mod.recycleTimes}}</el-tag>
                   <el-tag size="medium" class="mod-level">等级: {{mod.level}}</el-tag>
                 </div>
+                <qrcode :value="mod.qrCodeURL" class="mod-qrcode" :options="{ size: 150, foreground: '#333' }"></qrcode>
               </el-card>
             </div>
           </el-col>
@@ -56,23 +57,25 @@
 <script lang="ts">
 import _ from "lodash";
 import axios from 'axios';
-import { Vue, Component, Watch } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenMod } from "../warframe";
 import GunModBuildView from "@/components/GunModBuildView.vue";
 import MeleeModBuildView from "@/components/MeleeModBuildView.vue";
+import qrcode from "@/components/QRCode";
 import store from "../store";
-
+import jsQR from "jsqr";
 
 interface OCRResult {
   result: string[]
   success: number
 }
 @Component({
-  components: { GunModBuildView, MeleeModBuildView }
+  components: { GunModBuildView, MeleeModBuildView, qrcode }
 })
 export default class Mod extends Vue {
   // 使用剪贴板识别
   useText = true;
+  @Prop() source: string;
   modText = "";
   ocrLoading = false;
   debouncedmodTextChange: (() => void);
@@ -81,28 +84,58 @@ export default class Mod extends Vue {
     let vp = this.mod.db.getRivenWeaponByName(this.mod.name);
     return vp && vp.mod != "Melee";
   }
-
+  readQRCode(file: File) {
+    return new Promise((resolve: (msg: string) => void, reject) => {
+      let ur = URL.createObjectURL(file);
+      let cvs = document.createElement("canvas");
+      let ctx = cvs.getContext("2d");
+      let img = new Image();
+      img.onload = () => {
+        cvs.height = img.height;
+        cvs.width = img.width;
+        ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
+        let imageData = ctx.getImageData(0, 0, cvs.width, cvs.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+        resolve(code.data);
+      };
+      img.src = ur;
+    });
+  }
+  readOCR(file: File) {
+    let formData = new FormData();
+    formData.append('file', file);
+    this.ocrLoading = true;
+    axios.post("http://api.0-0.at/ocr", formData, { timeout: 3000, headers: { 'Content-Type': 'multipart/form-data' } })
+      .then(response => {
+        this.ocrLoading = false;
+        let rst = response.data as OCRResult;
+        if (rst) {
+          this.modText = rst.result.map(v => v.trim()).join("\n");
+        }
+      })
+      .catch(error => {
+        this.ocrLoading = false;
+        console.log("[ocrLoading] FAIL", error);
+      });
+  }
   handlePaste(ev: ClipboardEvent) {
-    let vm = this;
     let items = ev.clipboardData.items;
-    if (items && items[0].type.startsWith("image")) {
-      ev.preventDefault();
-      let blob = items[0].getAsFile();
-      let formData = new FormData();
-      formData.append('file', blob);
-      vm.ocrLoading = true;
-      axios.post("http://api.0-0.at/ocr", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-        .then(function (response) {
-          vm.ocrLoading = false;
-          let rst = response.data as OCRResult;
-          if (rst) {
-            vm.modText = rst.result.map(v => v.trim()).join("\n");
-          }
-        })
-        .catch(function (error) {
-          vm.ocrLoading = false;
-          console.log(error);
-        });;
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.type.startsWith("image")) {
+        ev.preventDefault();
+        let blob = item.getAsFile();
+        this.readQRCode(blob).then(msg => {
+          if (msg && msg != "error decoding QR Code") {
+            console.log("readQRCode=>", msg);
+            store.commit('newBase64Text', msg.replace("http://rm.0-0.at/riven/", ""));
+          } else this.readOCR(blob);
+        }).catch(err => {
+          console.log(err);
+          // this.readOCR(blob);
+        });
+        return;
+      }
     }
   }
   handleFocus() {
@@ -129,25 +162,34 @@ export default class Mod extends Vue {
   }
   beforeMount() {
     this.debouncedmodTextChange = _.debounce(() => {
-      this.mod.parseString(this.modText);
       store.commit('newModTextInput', this.modText);
-      if (this.mod.name)
+      if (this.mod.name) {
         localStorage.setItem("modText", this.modText);
-      this.modText = "";
-    }, 200);
+        console.log("状态更新:", this.modText);
+        this["$router"].push({ name: 'ModWithSource', params: { source: this.mod.qrCodeBase64 } });
+        this.modText = "";
+      }
+    }, 100);
     // TEST DATA
-    let sto = localStorage.getItem("modText");
-    if (sto) {
-      store.commit('newModTextInput', sto);
-    } else
-      store.commit('newModTextInput', "兰卡 Acri-satiata +135.5%暴击伤害 +97.9%多重射击 +171.9%伤害 -47.3%变焦 段位160233");
+    if (this.source) {
+      store.commit('newBase64Text', this.source);
+    } else {
+      let sto = localStorage.getItem("modText");
+      if (sto) {
+        this.modText = sto;
+      } else
+        this.modText = "兰卡 Acri-satiata +135.5%暴击伤害 +97.9%多重射击 +171.9%伤害 -47.3%变焦 段位160233";
+    }
   }
-  mounted() {
-  }
+  mounted() { }
 }
 </script>
 
-<style scoped>
+<style>
+.mod-qrcode {
+  margin: 16px 0;
+  float: right;
+}
 .mode-select {
   margin: 8px;
 }
@@ -164,12 +206,10 @@ export default class Mod extends Vue {
 .negative-prop {
   color: #f56c6c;
 }
-.tip {
-  padding: 8px 16px;
-  background-color: #ecf8ff;
-  border-radius: 4px;
-  border-left: 5px solid #50bfff;
-  margin: 20px 0;
-  line-height: 24px;
+.upload-pic .el-upload {
+  display: block;
+}
+.upload-pic .el-upload-dragger {
+  width: initial;
 }
 </style>
