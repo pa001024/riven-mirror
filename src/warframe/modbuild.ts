@@ -210,17 +210,17 @@ export abstract class ModBuild {
       case '8': // 冲击伤害 impaDmg
         oriDmg = this.weapon.dmg.find(v => v[0] == "Impact");
         if (oriDmg)
-          this._extraDmgMul += pValue * oriDmg[1] / this.originalDamage;
+          this._extraDmgMul += (pValue < -1 ? -1 : pValue) * oriDmg[1] / this.originalDamage;
         break;
       case '9': // 穿刺伤害 puncDmg
         oriDmg = this.weapon.dmg.find(v => v[0] == "Puncture");
         if (oriDmg)
-          this._extraDmgMul += pValue * oriDmg[1] / this.originalDamage;
+          this._extraDmgMul += (pValue < -1 ? -1 : pValue) * oriDmg[1] / this.originalDamage;
         break;
       case 'A': // 切割伤害 slasDmg
         oriDmg = this.weapon.dmg.find(v => v[0] === "Slash");
         if (oriDmg)
-          this._extraDmgMul += pValue * oriDmg[1] / this.originalDamage;
+          this._extraDmgMul += (pValue < -1 ? -1 : pValue) * oriDmg[1] / this.originalDamage;
         break;
       case 'G': // 对Grineer伤害 grinDmg
         if (this._enemyDmgType === "G")
