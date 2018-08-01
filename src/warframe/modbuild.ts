@@ -1,4 +1,4 @@
-import { NormalMod, Weapon } from "@/warframe/data";
+import { NormalMod, Weapon, RivenPropertyDataBase } from "@/warframe/data";
 import { RivenMod } from "@/warframe/rivenmod";
 import _ from "lodash";
 
@@ -32,7 +32,11 @@ export abstract class ModBuild {
   // ### 计算属性 ###
 
   /** 攻速 */
-  get fireRate() { return this.weapon.fireRate * this.fireRateMul; }
+  get fireRate() {
+    let fr = this.weapon.fireRate * this.fireRateMul;
+    // 攻速下限
+    return fr < 0.05 ? 0.05 : fr;
+  }
 
   /** 武器原本伤害 */
   get originalDamage(): number {
@@ -84,8 +88,9 @@ export abstract class ModBuild {
       mod.props.forEach(prop => this.applyProp(mod, prop[0], prop[1]));
     })
   }
-  /** 重置所有属性增幅器 */
+  /** 重置所有属性增幅器和mod */
   reset() {
+    this._mods = [];
     this._baseDamageMul = 1;
     this._extraDmgMul = 1;
     this._critChanceMul = 1;
@@ -155,6 +160,8 @@ export abstract class ModBuild {
    * @param useRiven 是否使用紫卡 0=不用 1=自动选择 2=必须用
    */
   fill(slots = 8, useRiven = 1) {
+    // 初始化
+    this.reset();
     // 根据武器自动选择所有可安装的MOD
     let mods = this.avaliableMods.slice();// 通过.slice()返回一个COPY
     if (useRiven > 0) {
@@ -179,6 +186,43 @@ export abstract class ModBuild {
         // 5. 重复以上步骤直到卡槽充满
       }
     }
+  }
+  /**
+   * 自动按武器属性生成最佳紫卡
+   */
+  findBestRiven(): RivenMod {
+    let newBuild = _.cloneDeep(this);
+    let newRiven = new RivenMod(this.riven);
+    newRiven.properties = [];
+    newRiven.upLevel = 1;
+    newRiven.rank = 16;
+    newRiven.recycleTimes = 999;
+    newRiven.hasNegativeProp = true;
+    // 1. 列出所有属性
+    let avaliableProps = RivenPropertyDataBase[this.riven.propType];
+    // 2. 将所有属性映射为普通MOD
+    let sortablePropMods = avaliableProps.map(v => [{
+      id: newRiven.fullId,
+      name: newRiven.fullName,
+      type: newRiven.name,
+      desc: "裂罅MOD",
+      polarity: newRiven.polarity,
+      cost: 18,
+      rarity: "x",
+      props: [[v.id, this.riven.db.getPropBaseValue(this.weapon.name, v.name)]]
+    }, 0] as [NormalMod, number]);
+
+    while (newBuild._mods.length < 3) {
+      // 2. 计算收益
+      sortablePropMods.forEach(v => {
+        v[1] = newBuild.testMod(v[0]);
+      });
+      // 3. 把所有卡按收益排序
+      sortablePropMods.sort((a, b) => b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]);
+      // 4. 将收益最高的一项插入并移出数组
+      this.applyMod(sortablePropMods.shift()[0]);
+    }
+    return null;
   }
   /**
    * 应用通用属性

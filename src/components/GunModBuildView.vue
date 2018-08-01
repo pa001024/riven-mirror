@@ -1,6 +1,5 @@
 <template>
   <div class="build-container">
-    <header class="build-header">MOD自动配置</header>
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item label="武器" v-if="riven.weapons.length > 1">
         <el-select size="small" v-model="selectWeapon" placeholder="请选择">

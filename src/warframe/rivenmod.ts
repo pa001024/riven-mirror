@@ -62,7 +62,18 @@ export class RivenMod {
   /** 武器名称 */
   name: string
   /** 后缀 */
-  subfix: string
+  private _subfix: string;
+  public get subfix(): string {
+    if (this._subfix)
+      return this._subfix;
+    else {
+      this.shortSubfix = this.properties.map(v => v.prop.id).join("");
+      return this._subfix;
+    }
+  }
+  public set subfix(value: string) {
+    this._subfix = value;
+  }
   /** 等级 */
   level: number = 8
   /** 极性 */
@@ -85,6 +96,8 @@ export class RivenMod {
   rank: number
   /** 类型 */
   type: string
+  /** 属性类型 */
+  get propType() { return this.type === "Melee" ? "melee" : "gun" }
   db = new RivenDataBase();
 
   constructor(parm?: string | RivenMod) {
@@ -131,7 +144,7 @@ export class RivenMod {
     this.name = weapon.name;
     this.id = weapon.id;
     // 获取后缀属性
-    let rivenProps = this.parseSubfix(this.subfix, weapon.mod == "Melee" ? "melee" : "gun");
+    let rivenProps = this.parseSubfix(this.subfix, this.propType);
     let propRegExp = /([+\-]?\d+(?:\.\d+)?)%? *.*?([\u4e00-\u9fa5].+)/;
     let properties: [RivenProperty, number][] = [];
     for (let i = subfixIndex + 1; i < lines.length; i++) {
@@ -217,7 +230,7 @@ export class RivenMod {
   /** 返回一个标准MOD对象 */
   get normalMod(): NormalMod {
     return {
-      id: this.id + " " + this.subfix,
+      id: this.fullId,
       name: this.fullName,
       type: this.name,
       desc: "裂罅MOD",
@@ -235,7 +248,7 @@ export class RivenMod {
   }
   /** 短后缀 */
   get shortSubfix() {
-    let subs = this.parseSubfix(this.subfix, this.type == "Melee" ? "melee" : "gun");
+    let subs = this.parseSubfix(this.subfix, this.propType);
     if (subs)
       return subs.map(v => v[0].id).join("");
     return "";
