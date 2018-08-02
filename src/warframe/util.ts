@@ -35,6 +35,7 @@ function hAccOperator(reducer: (a: number, b: number) => number) {
       let dig = v.toString().split(".");
       if (dig.length > 1) {
         let shift = dig[1].length;
+        if (shift > 20) return v;
         totalShift += shift;
         return v * (10 ** shift);
       } else return v;

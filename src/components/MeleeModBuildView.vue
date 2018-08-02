@@ -30,9 +30,10 @@
           </el-select>
         </el-tooltip>
       </el-form-item>
-      <!-- <el-form-item label="使用MOD">
-        <el-checkbox v-model="useHeavyCaliber">重口径</el-checkbox>
-      </el-form-item> -->
+      <el-form-item label="赋能">
+        <el-checkbox v-model="isUseFury" @change="recalc">狂怒</el-checkbox>
+        <el-checkbox v-model="isUseStrike" @change="recalc">速攻</el-checkbox>
+      </el-form-item>
     </el-form>
     <div class="build-list">
       <el-card style="padding:0;overflow:visible;">
@@ -92,6 +93,10 @@ export default class MeleeModBuildView extends ModBuildView {
   comboMul = 2
   /** 插槽使用数 */
   slots = 7
+  /** 狂怒赋能 */
+  isUseFury = false;
+  /** 速攻赋能 */
+  isUseStrike = false;
   _debouncedRecalc: (() => void);
 
   @Watch("slots")
@@ -114,6 +119,8 @@ export default class MeleeModBuildView extends ModBuildView {
       isCalcSlide: this.isSlide,
       comboLevel: ~~((this.comboMul - 1) * 2),
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
+      isUseFury: this.isUseFury,
+      isUseStrike: this.isUseStrike,
     };
     let stand = new MeleeModBuild(this.riven, this.selectWeapon, options);
     let riven = new MeleeModBuild(this.riven, this.selectWeapon, options);

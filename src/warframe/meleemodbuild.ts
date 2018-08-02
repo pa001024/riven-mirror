@@ -6,6 +6,8 @@ export interface MeleeModBuildOptions {
   isCalcSlide: boolean
   comboLevel: number
   allowElementTypes: string[]
+  isUseFury: boolean
+  isUseStrike: boolean
 }
 
 export class MeleeModBuild extends ModBuild {
@@ -31,6 +33,10 @@ export class MeleeModBuild extends ModBuild {
   statusCount = 2;
   /** 是否计算滑行伤害 */
   isCalcSlide = true;
+  /** 狂怒赋能 */
+  isUseFury = false;
+  /** 速攻赋能 */
+  isUseStrike = false;
 
   /** 设置连击数 */
   set comboCount(value) {
@@ -54,12 +60,16 @@ export class MeleeModBuild extends ModBuild {
     this.isCalcSlide = options.isCalcSlide;
     this.comboLevel = options.comboLevel;
     this.allowElementTypes = options.allowElementTypes;
+    this.isUseFury = options.isUseFury;
+    this.isUseStrike = options.isUseStrike;
   }
   get options(): any {
     return {
       isCalcSlide: this.isCalcSlide,
       comboLevel: this.comboLevel,
       allowElementTypes: this.allowElementTypes,
+      isUseFury: this.isUseFury,
+      isUseStrike: this.isUseStrike,
     } as MeleeModBuildOptions;
   }
 
@@ -115,10 +125,11 @@ export class MeleeModBuild extends ModBuild {
     return true;
   }
 
-
   /** 重置所有属性增幅器 */
   reset() {
     super.reset();
+    if (this.isUseFury) this._baseDamageMul = 2.2;
+    if (this.isUseStrike) this._fireRateMul = 1.8;
     this._rangeMul = 1;
     this._chargeMulMul = 1;
     this._chargeEffMul = 1;
@@ -129,7 +140,6 @@ export class MeleeModBuild extends ModBuild {
     this._comboStatusMul = 0;
     this._statusDamageMul = 0;
   }
-
 
   /**
    * 应用通用属性

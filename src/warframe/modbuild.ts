@@ -1,8 +1,6 @@
 import { NormalMod, Weapon, RivenPropertyDataBase, RivenDataBase } from "@/warframe/data";
 import { RivenMod, ValuedRivenProperty } from "@/warframe/rivenmod";
 import _ from "lodash";
-import { GunModBuild } from "@/warframe/gunmodbuild";
-import { MeleeModBuild } from "@/warframe/meleemodbuild";
 
 // 基础类
 export abstract class ModBuild {
