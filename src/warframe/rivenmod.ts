@@ -63,7 +63,7 @@ export class RivenMod {
   name: string
   /** 后缀 */
   private _subfix: string;
-  public get subfix(): string {
+  get subfix(): string {
     if (this._subfix)
       return this._subfix;
     else {
@@ -71,7 +71,7 @@ export class RivenMod {
       return this._subfix;
     }
   }
-  public set subfix(value: string) {
+  set subfix(value: string) {
     this._subfix = value;
   }
   /** 等级 */
@@ -95,10 +95,9 @@ export class RivenMod {
   /** 段位 */
   rank: number
   /** 类型 */
-  type: string
+  mod: string
   /** 属性类型 */
-  get propType() { return this.type === "Melee" ? "melee" : "gun" }
-  db = new RivenDataBase();
+  get propType() { return this.mod === "Melee" ? "melee" : "gun" }
 
   constructor(parm?: string | RivenMod) {
     if (typeof parm === "string") {
@@ -114,6 +113,7 @@ export class RivenMod {
       this.hasNegativeProp = parm.hasNegativeProp;
       this.recycleTimes = parm.recycleTimes;
       this.rank = parm.rank;
+      this.mod = parm.mod;
     }
   }
   /**
@@ -124,11 +124,11 @@ export class RivenMod {
     this.id = this.name = "";
     this.hasNegativeProp = false;
     this.rank = this.recycleTimes = 0;
-    let lines = modText.replace(/(（\S*?)\s(\S*?）)|(\(\S*?)\s(\S*?\))/g, "$1$2$3$4").replace("·", "-").split(/\s+/g);
-    let subfixIndex = lines.findIndex(v => v.match(this.db.PrefixAll) != null);
+    let lines = modText.replace(/(（\S*?)\s(\S*?）)|(\(\S*?)\s(\S*?\))/g, "$1$2$3$4").replace("·", "-").split(/\n+/g);
+    let subfixIndex = lines.findIndex(v => v.match(RivenDataBase.PrefixAll) != null);
     if (subfixIndex < 0) return new Error("紫卡属性识别错误: 找不到后缀");
     else {
-      let idt = lines[subfixIndex].match(this.db.PrefixAll).index;
+      let idt = lines[subfixIndex].match(RivenDataBase.PrefixAll).index;
       if (idt > 0) {
         let subfix = lines[subfixIndex].substr(idt).trim();
         lines[subfixIndex] = lines[subfixIndex].substr(0, idt).trim();
@@ -137,8 +137,8 @@ export class RivenMod {
     }
     let rawName = lines[subfixIndex - 1];
     // 查询名称最接近的武器
-    let weapon = this.db.findMostSimRivenWeapon(rawName);
-    this.type = weapon.mod;
+    let weapon = RivenDataBase.findMostSimRivenWeapon(rawName);
+    this.mod = weapon.mod;
     this.subfix = lines[subfixIndex];
     // 识别到的名字是否正确, 否则模糊匹配
     this.name = weapon.name;
@@ -154,7 +154,7 @@ export class RivenMod {
         console.log(propLine);
         let prop = ((i <= subfixIndex + rivenProps.length) && rivenProps && _.maxBy(rivenProps, v => strSimilarity(v[0].name, propLine[2]))[0])
           // 识别到的属性是否正确, 否则模糊匹配
-          || this.db.findMostSimProp(propLine[2]);
+          || RivenDataBase.findMostSimProp(propLine[2]);
         // 判断前缀不是+或者-就加上-
         let propValue = +(v => v[0] != '-' && v[0] != '+' ? -v : v)(propLine[1]);
         // 对于只有正面的属性去除负号
@@ -203,7 +203,7 @@ export class RivenMod {
     this.upLevel = [1.3, 1, 0.8][properties.length - (this.hasNegativeProp ? 3 : 1)];
     // 写入属性并标准化
     this.properties = properties.map(v =>
-      new ValuedRivenProperty(v[0], v[1], this.db.getPropBaseValue(this.name, v[0].name), this.upLevel).normalize());
+      new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel).normalize());
     return;
   }
   /**
@@ -213,7 +213,7 @@ export class RivenMod {
    */
   parseSubfix(subfix: string, stype: string): [RivenProperty, string][] {
     if (!subfix) return;
-    let rst = subfix.toLowerCase().match(this.db.PropRegExps[stype]);
+    let rst = subfix.toLowerCase().match(RivenDataBase.PropRegExps[stype]);
     if (rst) {
       let fixs = rst.slice(rst[1] ? 1 : 2, 4);
       return fixs.map((v, i): [RivenProperty, string] =>
@@ -221,9 +221,19 @@ export class RivenMod {
     }
     return;
   }
+  /**
+   * 识别普通MOD格式的属性
+   */
+  parseProps(props: [string, number][]) {
+    this.properties = props.map(v => {
+      let prop = RivenDataBase.getPropByName(v[0]);
+      return new ValuedRivenProperty(prop, v[1], RivenDataBase.getPropBaseValue(this.name, prop.name), this.upLevel);
+    });
+    this.hasNegativeProp = true;
+  }
   /** 返回适用的武器列表 */
   get weapons() {
-    if (this.type === "Melee")
+    if (this.mod === "Melee")
       return MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
     return GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
   }
@@ -242,7 +252,7 @@ export class RivenMod {
   }
   /** 是否是Zaw */
   get isZaw() {
-    if (this.type === "Melee")
+    if (this.mod === "Melee")
       return MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id)).length === 0;
     return false;
   }
@@ -254,7 +264,7 @@ export class RivenMod {
     return "";
   }
   set shortSubfix(value) {
-    let props = value.split("").map(v => this.db.getPropByName(v));
+    let props = value.split("").map(v => RivenDataBase.getPropByName(v));
     if (props.length === 3)
       this.subfix = _.startCase(props[0].prefix) + "-" + props[1].prefix + props[2].subfix;
     else if (props.length === 2)
@@ -270,14 +280,14 @@ export class RivenMod {
     let d = value.split("|");
     this.id = d[0];
     this.shortSubfix = d[1];
-    let weapon = this.db.findMostSimRivenWeapon(this.id);
+    let weapon = RivenDataBase.findMostSimRivenWeapon(this.id);
     this.name = weapon.name;
-    this.type = weapon.mod;
+    this.mod = weapon.mod;
     this.rank = +d[2];
     this.recycleTimes = +d[3];
     let props = d[4].split("&").map(v => {
       let kv = v.split("#");
-      let prop = this.db.getPropByName(kv[0]);
+      let prop = RivenDataBase.getPropByName(kv[0]);
       let propValue = +kv[1];
       return [prop, propValue];
     }) as [RivenProperty, number][];
@@ -287,7 +297,7 @@ export class RivenMod {
     }
     this.upLevel = [1.3, 1, 0.8][props.length - (this.hasNegativeProp ? 3 : 1)];
     this.properties = props.map(v =>
-      new ValuedRivenProperty(v[0], v[1], this.db.getPropBaseValue(this.name, v[0].name), this.upLevel));
+      new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel));
   }
   /** Base64形式的二维码 */
   get qrCodeBase64() {

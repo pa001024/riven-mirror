@@ -19,6 +19,14 @@ export enum GunCompareMode {
   BurstDamage,// 爆发伤害
   SustainedDamage // 持续伤害
 }
+export interface GunModBuildOptions {
+  compareMode: GunCompareMode
+  useAcolyteMods: boolean
+  useHeavyCaliber: boolean
+  useHunterMunitions: number
+  handShotChance: number
+  allowElementTypes: string[]
+}
 /** 枪类 */
 export class GunModBuild extends ModBuild {
   weapon: GunWeapon
@@ -52,11 +60,35 @@ export class GunModBuild extends ModBuild {
   /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
   useHunterMunitions = 0;
 
-  constructor(riven: RivenMod, selected: string) {
+  constructor(riven: RivenMod = null, selected: string = null, options: GunModBuildOptions = null) {
     super(riven);
-    let weapons = riven.weapons as GunWeapon[];
-    this.weapon = weapons.find(v => selected === v.name) || weapons[0];
-    this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.includes(v.type));
+    if (riven) {
+      let weapons = riven.weapons as GunWeapon[];
+      this.weapon = weapons.find(v => selected === v.name) || weapons[0];
+      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.includes(v.type));
+    }
+    if (options) {
+      this.options = options;
+    }
+  }
+
+  set options(options: any) {
+    this.compareMode = options.compareMode;
+    this.useAcolyteMods = options.useAcolyteMods;
+    this.useHeavyCaliber = options.useHeavyCaliber;
+    this.useHunterMunitions = options.useHunterMunitions;
+    this.handShotChance = options.handShotChance;
+    this.allowElementTypes = options.allowElementTypes;
+  }
+  get options(): any {
+    return {
+      compareMode: this.compareMode,
+      useAcolyteMods: this.useAcolyteMods,
+      useHeavyCaliber: this.useHeavyCaliber,
+      useHunterMunitions: this.useHunterMunitions,
+      handShotChance: this.handShotChance,
+      allowElementTypes: this.allowElementTypes,
+    } as GunModBuildOptions;
   }
 
   // ### 计算属性 ###
@@ -132,7 +164,7 @@ export class GunModBuild extends ModBuild {
   isValidMod(mod: NormalMod) {
     if (!super.isValidMod(mod))
       return false;
-    // 过滤一些收益相同但是有负面的MOD 使其不在高优先级位出现
+    // 过滤一些需要前置MOD的MOD
     for (let i = 0; i < NormalCardDependTable.length; i++) {
       const depend = NormalCardDependTable[i];
       if (mod.name === depend[0]) {

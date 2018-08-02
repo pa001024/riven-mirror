@@ -10,9 +10,9 @@ const mutations = {
     state.rivenModText = newModText;
     state.mod = new RivenMod(newModText);
   },
-  newBase64Text(state, newBase64Text) {
+  newBase64Text(state, text) {
     let rm = new RivenMod();
-    rm.qrCodeBase64 = newBase64Text;
+    rm.qrCodeBase64 = text;
     state.mod = rm;
   }
 }

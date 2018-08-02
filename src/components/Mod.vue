@@ -64,6 +64,7 @@ import MeleeModBuildView from "@/components/MeleeModBuildView.vue";
 import qrcode from "@/components/QRCode";
 import store from "../store";
 import jsQR from "jsqr";
+import { RivenDataBase } from "@/warframe/data";
 
 interface OCRResult {
   result: string[]
@@ -81,7 +82,7 @@ export default class Mod extends Vue {
   debouncedmodTextChange: (() => void);
   get mod(): RivenMod { return store.getters.mod; }
   get isGun() {
-    let vp = this.mod.db.getRivenWeaponByName(this.mod.name);
+    let vp = RivenDataBase.getRivenWeaponByName(this.mod.name);
     return vp && vp.mod != "Melee";
   }
   readQRCode(file: File) {
@@ -175,6 +176,7 @@ export default class Mod extends Vue {
     }, 100);
     // TEST DATA
     if (this.source) {
+      console.log("read source:", this.source);
       store.commit('newBase64Text', this.source);
     } else {
       let sto = localStorage.getItem("modText");

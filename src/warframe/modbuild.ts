@@ -1,6 +1,8 @@
-import { NormalMod, Weapon, RivenPropertyDataBase } from "@/warframe/data";
-import { RivenMod } from "@/warframe/rivenmod";
+import { NormalMod, Weapon, RivenPropertyDataBase, RivenDataBase } from "@/warframe/data";
+import { RivenMod, ValuedRivenProperty } from "@/warframe/rivenmod";
 import _ from "lodash";
+import { GunModBuild } from "@/warframe/gunmodbuild";
+import { MeleeModBuild } from "@/warframe/meleemodbuild";
 
 // 基础类
 export abstract class ModBuild {
@@ -25,6 +27,8 @@ export abstract class ModBuild {
   protected _fireRateMul = 1; /** 攻速增幅倍率 */  get fireRateMul() { return this._fireRateMul; }
   protected _originalDamage: number;
   abstract get compareDamage(): any;
+  abstract set options(val: any);
+  abstract get options(): any;
 
   // 额外参数
   allowElementTypes: string[] = null;
@@ -88,9 +92,8 @@ export abstract class ModBuild {
       mod.props.forEach(prop => this.applyProp(mod, prop[0], prop[1]));
     })
   }
-  /** 重置所有属性增幅器和mod */
+  /** 重置所有属性增幅器 */
   reset() {
-    this._mods = [];
     this._baseDamageMul = 1;
     this._extraDmgMul = 1;
     this._critChanceMul = 1;
@@ -100,6 +103,11 @@ export abstract class ModBuild {
     this._enemyDmgMul = 1;
     this._fireRateMul = 1;
   };
+  /** 清除所有MOD并重置属性增幅器 */
+  clear() {
+    this._mods = [];
+    this.reset();
+  }
   /** 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
     // 如果相应的P卡已经存在则不使用
@@ -161,7 +169,7 @@ export abstract class ModBuild {
    */
   fill(slots = 8, useRiven = 1) {
     // 初始化
-    this.reset();
+    this.clear();
     // 根据武器自动选择所有可安装的MOD
     let mods = this.avaliableMods.slice();// 通过.slice()返回一个COPY
     if (useRiven > 0) {
@@ -191,38 +199,36 @@ export abstract class ModBuild {
    * 自动按武器属性生成最佳紫卡
    */
   findBestRiven(): RivenMod {
-    let newBuild = _.cloneDeep(this);
+    let newBuild: ModBuild = new (this.constructor as any)(this.riven, this.weapon.name, this.options);
     let newRiven = new RivenMod(this.riven);
     newRiven.properties = [];
     newRiven.upLevel = 1;
     newRiven.rank = 16;
+    newRiven.subfix = "";
     newRiven.recycleTimes = 999;
     newRiven.hasNegativeProp = true;
     // 1. 列出所有属性
     let avaliableProps = RivenPropertyDataBase[this.riven.propType];
     // 2. 将所有属性映射为普通MOD
-    let sortablePropMods = avaliableProps.map(v => [{
-      id: newRiven.fullId,
-      name: newRiven.fullName,
+    newBuild.avaliableMods = avaliableProps.map(v => ({
+      id: v.id,
+      name: v.name,
       type: newRiven.name,
-      desc: "裂罅MOD",
+      desc: "裂罅MOD属性",
       polarity: newRiven.polarity,
       cost: 18,
       rarity: "x",
-      props: [[v.id, this.riven.db.getPropBaseValue(this.weapon.name, v.name)]]
-    }, 0] as [NormalMod, number]);
-
-    while (newBuild._mods.length < 3) {
-      // 2. 计算收益
-      sortablePropMods.forEach(v => {
-        v[1] = newBuild.testMod(v[0]);
-      });
-      // 3. 把所有卡按收益排序
-      sortablePropMods.sort((a, b) => b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]);
-      // 4. 将收益最高的一项插入并移出数组
-      this.applyMod(sortablePropMods.shift()[0]);
-    }
-    return null;
+      props: [[v.id, RivenDataBase.getPropBaseValue(this.riven.name, v.id)]]
+    } as NormalMod));
+    newBuild.fill(3, 0); // 只用三条属性 代表3+1-
+    let rstMods = newBuild.mods;
+    // 插入负面属性
+    let negativePropMod = newBuild.avaliableMods.find(v => v.name === "变焦" || v.name === "处决伤害");
+    negativePropMod.props[0][1] *= -0.75;
+    rstMods.push(negativePropMod);
+    console.log(negativePropMod, rstMods);
+    newRiven.parseProps(rstMods.map(v => v.props[0]));
+    return newRiven;
   }
   /**
    * 应用通用属性

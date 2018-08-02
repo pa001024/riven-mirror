@@ -2,6 +2,12 @@ import { ModBuild } from "@/warframe/modbuild";
 import { NormalMod, MeleeWeapon, NormalModDatabase } from "@/warframe/data";
 import { RivenMod } from "@/warframe/rivenmod";
 
+export interface MeleeModBuildOptions {
+  isCalcSlide: boolean
+  comboLevel: number
+  allowElementTypes: string[]
+}
+
 export class MeleeModBuild extends ModBuild {
   weapon: MeleeWeapon
   // 增幅器
@@ -31,12 +37,32 @@ export class MeleeModBuild extends ModBuild {
     this.comboLevel = value > 4 ? ~~(Math.log(value / 5) / Math.log(3)) + 1 : 0;
   }
 
-  constructor(riven: RivenMod, selected: string) {
+  constructor(riven: RivenMod = null, selected: string = null, options: MeleeModBuildOptions = null) {
     super(riven);
-    let weapons = riven.weapons as MeleeWeapon[];
-    this.weapon = weapons.find(v => selected === v.name) || weapons[0];
-    this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.includes(v.type));
+    if (riven) {
+      let weapons = riven.weapons as MeleeWeapon[];
+      // console.log()
+      this.weapon = weapons.find(v => selected === v.name) || weapons[0];
+      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.includes(v.type));
+    }
+    if (options) {
+      this.options = options;
+    }
   }
+
+  set options(options: any) {
+    this.isCalcSlide = options.isCalcSlide;
+    this.comboLevel = options.comboLevel;
+    this.allowElementTypes = options.allowElementTypes;
+  }
+  get options(): any {
+    return {
+      isCalcSlide: this.isCalcSlide,
+      comboLevel: this.comboLevel,
+      allowElementTypes: this.allowElementTypes,
+    } as MeleeModBuildOptions;
+  }
+
 
   // ### 计算属性 ###
 
@@ -82,6 +108,14 @@ export class MeleeModBuild extends ModBuild {
 
   // ### 基类方法 ###
 
+  /** 检测当前MOD是否可用 */
+  isValidMod(mod: NormalMod) {
+    if (!super.isValidMod(mod))
+      return false;
+    return true;
+  }
+
+
   /** 重置所有属性增幅器 */
   reset() {
     super.reset();
@@ -95,14 +129,7 @@ export class MeleeModBuild extends ModBuild {
     this._comboStatusMul = 0;
     this._statusDamageMul = 0;
   }
-  // ### 基类方法 ###
 
-  /** 检测当前MOD是否可用 */
-  isValidMod(mod: NormalMod) {
-    if (!super.isValidMod(mod))
-      return false;
-    return true;
-  }
 
   /**
    * 应用通用属性

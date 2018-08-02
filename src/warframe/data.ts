@@ -2695,13 +2695,14 @@ export const AcolyteModsList: string[] = [
 export class RivenDataBase {
   private weaponDict = new Map<string, number>()
   private propDict = new Map<string, number>()
-  private rivenDict = new Map<string, number>()
 
-  PropRegExps = {
+  private static instance = new RivenDataBase();
+
+  static PropRegExps = {
     gun: new RegExp(`(?:(${RivenPropertyDataBase.gun.map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase.gun.map(v => v.prefix).join("|")})(${RivenPropertyDataBase.gun.map(v => v.subfix).join("|")})`, "i"),
     melee: new RegExp(`(?:(${RivenPropertyDataBase.melee.map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase.melee.map(v => v.prefix).join("|")})(${RivenPropertyDataBase.melee.map(v => v.subfix).join("|")})`, "i"),
   }
-  PrefixAll = new RegExp(`(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})`, "i")
+  static PrefixAll = new RegExp(`(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})`, "i")
 
   constructor() {
     // 同时添加中英文名称
@@ -2712,22 +2713,22 @@ export class RivenDataBase {
    * 查询是否有这个武器
    * @param name 武器名称
    */
-  hasWeapon(name: string) {
-    return this.weaponDict.has(name);
+  static hasWeapon(name: string) {
+    return this.instance.weaponDict.has(name);
   }
 
   /**
    * 获取武器
    * @param name 武器名称
    */
-  getRivenWeaponByName(name: string) {
-    return RivenWeaponDataBase[this.weaponDict.get(name)];
+  static getRivenWeaponByName(name: string) {
+    return RivenWeaponDataBase[this.instance.weaponDict.get(name)];
   }
   /**
    * 模糊识别武器名称
    * @param name 模糊匹配的名称
    */
-  findMostSimRivenWeapon(name: string) {
+  static findMostSimRivenWeapon(name: string) {
     if (this.hasWeapon(name)) return this.getRivenWeaponByName(name);
     let weaponFinded = _.maxBy(RivenWeaponDataBase, v => strSimilarity(name, v.name));
     return weaponFinded;
@@ -2736,15 +2737,15 @@ export class RivenDataBase {
     * 查询是否有这个属性
     * @param name 属性名称
     */
-  hasProp(name: string) {
-    return this.propDict.has(name);
+  static hasProp(name: string) {
+    return this.instance.propDict.has(name);
   }
   /**
    * 模糊识别属性名称
    * @param prop 属性名称
    */
-  findMostSimProp(prop: string) {
-    if (this.hasProp(name)) return RivenPropertyDataBase.all[this.propDict.get(name)];
+  static findMostSimProp(prop: string) {
+    if (this.hasProp(name)) return RivenPropertyDataBase.all[this.instance.propDict.get(name)];
     let propFinded = _.maxBy(RivenPropertyDataBase.all, v => strSimilarity(prop, v.name));
     return propFinded;
   }
@@ -2752,8 +2753,8 @@ export class RivenDataBase {
    * 通过名称或id获取属性
    * @param nameOrId 属性名称|id
    */
-  getPropByName(nameOrId: string) {
-    return RivenPropertyDataBase.all[this.propDict.get(nameOrId)];
+  static getPropByName(nameOrId: string) {
+    return RivenPropertyDataBase.all[this.instance.propDict.get(nameOrId)];
   }
 
   /**
@@ -2762,7 +2763,7 @@ export class RivenDataBase {
    * @param stype 类型 ["gun" | "melee"]
    * @param isPrefix 是否是前缀
    */
-  getPropByTag(tag: string, stype: "gun" | "melee", isPrefix: boolean) {
+  static getPropByTag(tag: string, stype: "gun" | "melee", isPrefix: boolean) {
     return RivenPropertyDataBase[stype].find(v => v[isPrefix ? "prefix" : "subfix"] == tag);
   }
 
@@ -2772,7 +2773,7 @@ export class RivenDataBase {
    * @param prop
    * @return 返回基础值 如果为-1说明错误
    */
-  getPropBaseValue(weaponName: string, propName: string): number {
+  static getPropBaseValue(weaponName: string, propName: string): number {
     let weapon = this.getRivenWeaponByName(weaponName);
     let prop = this.getPropByName(propName);
     if (weapon && prop)
