@@ -174,7 +174,6 @@ export default class Mod extends Vue {
         this.modText = "";
       }
     }, 100);
-    // TEST DATA
     if (this.source) {
       console.log("read source:", this.source);
       store.commit('newBase64Text', this.source);

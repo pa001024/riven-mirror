@@ -1,6 +1,6 @@
 <template>
   <div class="build-container">
-    <el-form :inline="true" class="demo-form-inline">
+    <el-form :inline="true" class="build-form-inline">
       <el-form-item label="武器" v-if="riven.weapons.length > 1" @change="debouncedRecalc">
         <el-select size="small" v-model="selectWeapon" placeholder="请选择">
           <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.name" :value="weapon.name">
@@ -39,8 +39,8 @@
         </el-tooltip>
       </el-form-item>
       <el-form-item label="使用MOD">
-        <el-checkbox v-if="riven.type === 'Rifle'" v-model="useHeavyCaliber" @change="recalc">重口径</el-checkbox>
-        <el-tooltip v-if="riven.type === 'Rifle'" effect="dark" content="增伤很强大，但切割伤害不是立刻死亡，请自行选择" placement="bottom">
+        <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="recalc">重口径</el-checkbox>
+        <el-tooltip v-if="riven.mod === 'Rifle'" effect="dark" content="增伤很强大，但切割伤害不是立刻死亡，请自行选择" placement="bottom">
           <el-checkbox v-model="useHunterMunitions" :indeterminate="notMustUseHunterMunitions" @change="useHunterMunitionsChange">猎人战备</el-checkbox>
         </el-tooltip>
         <el-tooltip effect="dark" content="如尖刃弹头等需要瞄准的MOD" placement="bottom">
@@ -176,6 +176,9 @@ export default class GunModBuildView extends ModBuildView {
 </script>
 
 <style>
+.build-form-inline .el-form-item {
+  margin-bottom: 8px;
+}
 .build-container {
   overflow: visible;
   padding: 0;
