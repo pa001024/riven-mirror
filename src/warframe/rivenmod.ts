@@ -23,9 +23,10 @@ export class ValuedRivenProperty {
   /** 获取属性显示数据 */
   get displayValue() {
     let val = this.prop.nopercent ? this.value.toFixed(1) : this.value.toFixed(1) + "%";
+    let pre = this.prop.displayPre ? this.prop.displayPre + " " : "";
     if (val[0] != "-")
-      return "+" + val;
-    else return val;
+      return pre + "+" + val;
+    else return pre + val;
   }
   /** 获取本条属性是否是负面属性 */
   get isNegative() {
@@ -67,7 +68,9 @@ export class RivenMod {
     if (this._subfix)
       return this._subfix;
     else {
-      this.shortSubfix = this.properties.map(v => v.prop.id).join("");
+      let props = this.properties.map(v => v.prop.id);
+      if (this.hasNegativeProp) props.pop();
+      this.shortSubfix = props.join("");
       return this._subfix;
     }
   }
@@ -151,12 +154,12 @@ export class RivenMod {
       let propLine = lines[i].match(propRegExp);
       if (properties.length < 4 && !this.hasNegativeProp && propLine) {
         // 如果后缀已识别则优先使用(只识别一定次数)
-        console.log(propLine);
         let prop = ((i <= subfixIndex + rivenProps.length) && rivenProps && _.maxBy(rivenProps, v => strSimilarity(v[0].name, propLine[2]))[0])
           // 识别到的属性是否正确, 否则模糊匹配
           || RivenDataBase.findMostSimProp(propLine[2]);
         // 判断前缀不是+或者-就加上-
         let propValue = +(v => v[0] != '-' && v[0] != '+' ? -v : v)(propLine[1]);
+        console.log(propLine, "prop=", prop, "propValue=", propValue);
         // 对于只有正面的属性去除负号
         if (prop.onlyPositive && propValue < 0) propValue = -propValue;
         // 检测负属性

@@ -21,6 +21,7 @@ export interface RivenProperty {
   nopercent?: boolean;
   negative?: boolean;
   noDmg?: boolean;
+  displayPre?: string;
 }
 
 const baseProperty: RivenProperty[] = [
@@ -61,7 +62,7 @@ const meleeProperty: RivenProperty[] = [
   { id: 'B', name: "充能伤害", prefix: "tori", subfix: "bo", noDmg: true },
   { id: 'U', name: "充能效率", prefix: "uti", subfix: "tia", noDmg: true },
   { id: 'N', name: "连击持续时间", prefix: "tempi", subfix: "nem", nopercent: true, noDmg: true },
-  { id: 'E', name: "滑行攻击造成暴击几率", prefix: "pleci", subfix: "nent" },
+  { id: 'E', displayPre: "滑行攻击有", name: "的几率造成暴击", prefix: "pleci", subfix: "nent" },
   { id: 'X', name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true },
 ];
 

@@ -84,7 +84,7 @@
         </el-collapse>
       </el-card>
       <el-card class="build-result">
-        综合评级: [ {{scoreLevelText}} ] ({{scoreLevel.toFixed()}}分) 可提升
+        综合评级: [ <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100) 可提升
         <span class="score-text">{{score}}%</span> 的{{selectCompMethodText}}
       </el-card>
     </div>
@@ -112,8 +112,6 @@ export default class GunModBuildView extends ModBuildView {
   notMustUseHunterMunitions = false;
   /** 爆头几率 */
   handShotChance = 0
-  /** 最佳紫卡是否计算完毕 */
-  bestComputed = false;
 
   get selectCompMethodText() {
     return ["单发伤害", "爆发伤害", "持续伤害"][this.selectCompMethod];
@@ -156,7 +154,20 @@ export default class GunModBuildView extends ModBuildView {
       handShotChance: this.handShotChance / 100,
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
     };
-    this.backgroundRecalc(GunModBuild, options);
+    let stand = new GunModBuild(this.riven, this.selectWeapon, options);
+    let riven = new GunModBuild(this.riven, this.selectWeapon, options);
+    let best = stand.findBestRiven();
+    console.log(best.modText);
+    let bestRiven = new GunModBuild(best, this.selectWeapon, options);
+    stand.fill(this.slots, 0);
+    riven.fill(this.slots, 2);
+    bestRiven.fill(this.slots, 2);
+    this.builds = [];
+    this.builds.push(["标准配置", stand]);
+    this.builds.push(["紫卡配置", riven]);
+    this.builds.push(["最佳紫卡配置", bestRiven]);
+    this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);
+    this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
   }
 }
 </script>
@@ -180,7 +191,7 @@ export default class GunModBuildView extends ModBuildView {
   border: 0;
 }
 .build-card-header {
-  padding: 18px 8px;
+  padding: 15px 8px;
   border-bottom: 1px solid #ebeef5;
   box-sizing: border-box;
   overflow: hidden;
@@ -193,6 +204,9 @@ export default class GunModBuildView extends ModBuildView {
 .build-card {
   height: 56px;
   margin-bottom: 12px;
+}
+.build-list{
+  margin-top: 8px;
 }
 .score-text {
   color: #f56c6c;

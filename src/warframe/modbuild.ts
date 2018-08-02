@@ -205,7 +205,13 @@ export abstract class ModBuild {
     let avaliableProps = RivenPropertyDataBase[this.riven.propType].filter(v => {
       if (v.noDmg) return false;
       if (!this.enemyDmgType && ["G", "I", "C", "O"].includes(v.id)) return false;
-      if (["4", "5", "6", "7"].includes(v.id)) return false;
+      if (this.allowElementTypes) {
+        if (["4", "5", "6", "7", "8", "9", "A"].includes(v.id))
+          if (!this.allowElementTypes.includes(v[0]))
+            return false;
+      } else if (["4", "5", "6"].includes(v.id)) {
+        return false;
+      }
       return true;
     }).map(v => {
       let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id);
@@ -220,7 +226,6 @@ export abstract class ModBuild {
       let newRiven = new RivenMod(this.riven);
       newRiven.properties = v;
       newRiven.properties.push(valuedNegativeProp);
-      console.log(newRiven.properties);
       newRiven.upLevel = 1;
       newRiven.rank = 16;
       newRiven.subfix = "";

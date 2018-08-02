@@ -39,29 +39,6 @@ export abstract class ModBuildView extends Vue {
   activeNames: string[] = ["紫卡配置"]
 
   _debouncedRecalc: (() => void);
-  worker: any;
-  $worker: VueWorker;
-
-  backgroundRecalc(ctype: any, options: GunModBuildOptions | MeleeModBuildOptions) {
-    this.$worker.run((theriven, selectWeapon, options) => {
-      let stand = new (ctype)(theriven, selectWeapon, options);
-      let riven = new (ctype)(theriven, selectWeapon, options);
-      let best = stand.findBestRiven();
-      console.log(best);
-      let bestRiven = new (ctype)(best, selectWeapon, options);
-      stand.fill(this.slots, 0);
-      riven.fill(this.slots, 2);
-      bestRiven.fill(this.slots, 2);
-      return { stand, riven, bestRiven };
-    }, [this.riven, this.selectWeapon, options]).then(rst => {
-      this.builds = [];
-      this.builds.push(["标准配置", rst.stand]);
-      this.builds.push(["紫卡配置", rst.riven]);
-      this.builds.push(["最佳紫卡配置", rst.bestRiven]);
-      this.score = Math.round(rst.riven.compareDamage / rst.stand.compareDamage * 100 - 100);
-      this.scoreLevel = this.score * 100 / Math.round(rst.bestRiven.compareDamage / rst.stand.compareDamage * 100 - 100);
-    });
-  }
 
   @Watch("riven")
   rivenChange() {

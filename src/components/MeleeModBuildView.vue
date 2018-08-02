@@ -2,7 +2,7 @@
   <el-alert v-if="riven.isZaw" title="暂不支持Zaw" type="error">
   </el-alert>
   <div class="build-container" v-else>
-    <el-form :inline="true" class="demo-form-inline">
+    <el-form :inline="true" class="build-form-inline">
       <el-form-item label="武器" v-if="riven.weapons.length > 1">
         <el-select size="small" v-model="selectWeapon" @change="recalc" placeholder="请选择">
           <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.name" :value="weapon.name">
@@ -69,7 +69,7 @@
         </el-collapse>
       </el-card>
       <el-card class="build-result">
-        综合评级: [ {{scoreLevelText}} ] ({{scoreLevel.toFixed()}}分) 可提升
+        综合评级: [ <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100) 可提升
         <span class="score-text">{{score}}%</span> 的{{selectCompMethodText}}
       </el-card>
     </div>
@@ -120,7 +120,20 @@ export default class MeleeModBuildView extends ModBuildView {
       isUseFury: this.isUseFury,
       isUseStrike: this.isUseStrike,
     };
-    this.backgroundRecalc(MeleeModBuild, options);
+    let stand = new MeleeModBuild(this.riven, this.selectWeapon, options);
+    let riven = new MeleeModBuild(this.riven, this.selectWeapon, options);
+    let best = stand.findBestRiven();
+    console.log(best.modText);
+    let bestRiven = new MeleeModBuild(best, this.selectWeapon, options);
+    stand.fill(this.slots, 0);
+    riven.fill(this.slots, 2);
+    bestRiven.fill(this.slots, 2);
+    this.builds = [];
+    this.builds.push(["标准配置", stand]);
+    this.builds.push(["紫卡配置", riven]);
+    this.builds.push(["最佳紫卡配置", bestRiven]);
+    this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);
+    this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
   }
 }
 </script>
