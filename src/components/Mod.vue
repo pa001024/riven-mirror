@@ -183,7 +183,7 @@ export default class Mod extends Vue {
       if (sto) {
         this.modText = sto;
       } else
-        this.modText = "兰卡 Acri-satiata +135.5%暴击伤害 +97.9%多重射击 +171.9%伤害 -47.3%变焦 段位160233";
+        this.modText = "兰卡\nAcri-satiata\n+135.5%暴击伤害\n+97.9%多重射击\n+171.9%伤害\n-47.3%变焦\n段位160233";
     }
   }
   mounted() { }
