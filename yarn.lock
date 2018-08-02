@@ -4526,6 +4526,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "http://registry.npm.taobao.org/signal-exit/download/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
+simple-web-worker@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/simple-web-worker/-/simple-web-worker-1.2.0.tgz#2deffd0998976b824b141a27ce504d31d0d99108"
+
 slash@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/slash/download/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
@@ -5107,6 +5111,12 @@ vue-template-compiler@^2.5.2:
 vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "http://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
+
+vue-worker@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/vue-worker/-/vue-worker-1.2.1.tgz#deae14b98a9d89daabb20e7fc6190642849b6d93"
+  dependencies:
+    simple-web-worker "1.2.0"
 
 vue@^2.5.2:
   version "2.5.16"

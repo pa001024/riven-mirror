@@ -1,6 +1,7 @@
 import { NormalMod, Weapon, RivenPropertyDataBase, RivenDataBase } from "@/warframe/data";
 import { RivenMod, ValuedRivenProperty } from "@/warframe/rivenmod";
 import _ from "lodash";
+import { choose } from "@/warframe/util";
 
 // 基础类
 export abstract class ModBuild {
@@ -186,7 +187,7 @@ export abstract class ModBuild {
       // 3. 把所有卡按收益排序
       sortableMods.sort((a, b) => b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]);
       if (sortableMods.length > 0) {
-        console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
+        // console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
         // 4. 将收益最高的一项插入并移出数组
         this.applyMod(sortableMods.shift()[0]);
         // 5. 重复以上步骤直到卡槽充满
@@ -196,37 +197,43 @@ export abstract class ModBuild {
   /**
    * 自动按武器属性生成最佳紫卡
    */
-  findBestRiven(): RivenMod {
+  findBestRiven(slots = 8): RivenMod {
     let newBuild: ModBuild = new (this.constructor as any)(this.riven, this.weapon.name, this.options);
-    let newRiven = new RivenMod(this.riven);
-    newRiven.properties = [];
-    newRiven.upLevel = 1;
-    newRiven.rank = 16;
-    newRiven.subfix = "";
-    newRiven.recycleTimes = 999;
-    newRiven.hasNegativeProp = true;
+    // 生成所有紫卡
+
     // 1. 列出所有属性
-    let avaliableProps = RivenPropertyDataBase[this.riven.propType];
-    // 2. 将所有属性映射为普通MOD
-    newBuild.avaliableMods = avaliableProps.map(v => ({
-      id: v.id,
-      name: v.name,
-      type: newRiven.name,
-      desc: "裂罅MOD属性",
-      polarity: newRiven.polarity,
-      cost: 18,
-      rarity: "x",
-      props: [[v.id, RivenDataBase.getPropBaseValue(this.riven.name, v.id)]]
-    } as NormalMod));
-    newBuild.fill(3, 0); // 只用三条属性 代表3+1-
-    let rstMods = newBuild.mods;
-    // 插入负面属性
-    let negativePropMod = newBuild.avaliableMods.find(v => v.name === "变焦" || v.name === "处决伤害");
-    negativePropMod.props[0][1] *= -0.75;
-    rstMods.push(negativePropMod);
-    console.log(negativePropMod, rstMods);
-    newRiven.parseProps(rstMods.map(v => v.props[0]));
-    return newRiven;
+    let avaliableProps = RivenPropertyDataBase[this.riven.propType].filter(v => {
+      if (v.noDmg) return false;
+      if (!this.enemyDmgType && ["G", "I", "C", "O"].includes(v.id)) return false;
+      if (["4", "5", "6", "7"].includes(v.id)) return false;
+      return true;
+    }).map(v => {
+      let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id);
+      return new ValuedRivenProperty(v, base, base, 1);
+    });
+    let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
+    // 负面属性
+    let negativeProp = RivenPropertyDataBase[this.riven.propType].find(v => v.name === "变焦" || v.name === "处决伤害");
+    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -0.75, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), 1);
+
+    let newRivens = propsOfMods.map(v => {
+      let newRiven = new RivenMod(this.riven);
+      newRiven.properties = v;
+      newRiven.properties.push(valuedNegativeProp);
+      console.log(newRiven.properties);
+      newRiven.upLevel = 1;
+      newRiven.rank = 16;
+      newRiven.subfix = "";
+      newRiven.recycleTimes = 999;
+      newRiven.hasNegativeProp = true;
+      return newRiven;
+    });
+    let bestRiven = _.maxBy(newRivens, v => {
+      newBuild.riven = v;
+      newBuild.fill(slots, 2);
+      return newBuild.compareDamage;
+    });
+    return bestRiven;
   }
   /**
    * 应用通用属性

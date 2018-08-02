@@ -112,9 +112,7 @@ export default class MeleeModBuildView extends ModBuildView {
     this.rivenChange();
   }
   recalc() {
-    console.log(" recalc()", this.riven);
     if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
-    this.builds = [];
     let options = {
       isCalcSlide: this.isSlide,
       comboLevel: ~~((this.comboMul - 1) * 2),
@@ -122,22 +120,7 @@ export default class MeleeModBuildView extends ModBuildView {
       isUseFury: this.isUseFury,
       isUseStrike: this.isUseStrike,
     };
-    let stand = new MeleeModBuild(this.riven, this.selectWeapon, options);
-    let riven = new MeleeModBuild(this.riven, this.selectWeapon, options);
-    let best = stand.findBestRiven();
-    console.log(best);
-    let bestRiven = new MeleeModBuild(best, this.selectWeapon, options);
-    console.log("计算收益: 标准配置");
-    stand.fill(this.slots, 0);
-    console.log("计算收益: 紫卡配置");
-    riven.fill(this.slots, 2);
-    console.log("计算收益: 最佳紫卡配置");
-    bestRiven.fill(this.slots, 2);
-    this.builds.push(["标准配置", stand]);
-    this.builds.push(["紫卡配置", riven]);
-    this.builds.push(["最佳紫卡配置", bestRiven]);
-    this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);
-    this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
+    this.backgroundRecalc(MeleeModBuild, options);
   }
 }
 </script>

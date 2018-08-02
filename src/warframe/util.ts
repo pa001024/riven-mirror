@@ -51,3 +51,35 @@ export const hAccMul: (...args: number[]) => number = hAccOperator((a, b) => a *
 export const hAccDiv: (...args: number[]) => number = hAccOperator((a, b) => a / b);
 
 export { Base64 } from './lib/base64';
+
+/**
+ * 获得指定数组的所有组合
+ */
+export function choose<S>(arr: S[], size: number) {
+  var allResult = [] as S[][];
+  function sub(arr, size, result) {
+    var arrLen = arr.length;
+    if (size > arrLen) {
+      return;
+    }
+    if (size == arrLen) {
+      allResult.push([].concat(result, arr))
+    } else {
+      for (var i = 0; i < arrLen; i++) {
+        var newResult = [].concat(result);
+        newResult.push(arr[i]);
+
+        if (size == 1) {
+          allResult.push(newResult);
+        } else {
+          var newArr = [].concat(arr);
+          newArr.splice(0, i + 1);
+          sub(newArr, size - 1, newResult);
+        }
+      }
+    }
+  }
+  sub(arr, size, []);
+
+  return allResult;
+}

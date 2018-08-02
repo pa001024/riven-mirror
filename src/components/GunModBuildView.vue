@@ -112,6 +112,8 @@ export default class GunModBuildView extends ModBuildView {
   notMustUseHunterMunitions = false;
   /** 爆头几率 */
   handShotChance = 0
+  /** 最佳紫卡是否计算完毕 */
+  bestComputed = false;
 
   get selectCompMethodText() {
     return ["单发伤害", "爆发伤害", "持续伤害"][this.selectCompMethod];
@@ -146,7 +148,6 @@ export default class GunModBuildView extends ModBuildView {
 
   recalc() {
     if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
-    this.builds = [];
     let options = {
       compareMode: this.selectCompMethod,
       useAcolyteMods: this.useAcolyteMods,
@@ -155,22 +156,7 @@ export default class GunModBuildView extends ModBuildView {
       handShotChance: this.handShotChance / 100,
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
     };
-    let stand = new GunModBuild(this.riven, this.selectWeapon, options);
-    let riven = new GunModBuild(this.riven, this.selectWeapon, options);
-    let best = stand.findBestRiven();
-    console.log(best);
-    let bestRiven = new GunModBuild(best, this.selectWeapon, options);
-    console.log("计算收益: 标准配置");
-    stand.fill(this.slots, 0);
-    console.log("计算收益: 紫卡配置");
-    riven.fill(this.slots, 2);
-    console.log("计算收益: 最佳紫卡配置");
-    bestRiven.fill(this.slots, 2);
-    this.builds.push(["标准配置", stand]);
-    this.builds.push(["紫卡配置", riven]);
-    this.builds.push(["最佳紫卡配置", bestRiven]);
-    this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);
-    this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
+    this.backgroundRecalc(GunModBuild, options);
   }
 }
 </script>
