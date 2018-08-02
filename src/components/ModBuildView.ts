@@ -86,7 +86,7 @@ export abstract class ModBuildView extends Vue {
     let rp = RivenDataBase.getPropByName(prop[0]);
     if (rp) {
       let vp = new ValuedRivenProperty(rp, prop[1] * 100);
-      return vp.name + " " + vp.displayValue;
+      return vp.displayValue + " " + vp.name;
     }
     return prop[0] + " " + (prop[1] * 100).toFixed() + "%";
   }
