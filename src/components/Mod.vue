@@ -34,7 +34,17 @@
                   <el-tag size="medium" class="mod-recycleTimes">循环: {{mod.recycleTimes}}</el-tag>
                   <el-tag size="medium" class="mod-level">等级: {{mod.level}}</el-tag>
                 </div>
-                <qrcode :value="mod.qrCodeURL" class="mod-qrcode" :options="{ size: 150, foreground: '#333' }"></qrcode>
+                <div class="mod-qrcode">
+                  <el-popover placement="bottom" trigger="hover">
+                    <div style="text-align:center;">
+                      <qrcode :value="mod.qrCodeURL" :options="{ size: 150, foreground: '#333' }"></qrcode>
+                    </div>
+                    <div style="text-align:center;">
+                      手机扫描或直接粘贴
+                    </div>
+                    <el-button slot="reference" icon="el-icon-share">分享</el-button>
+                  </el-popover>
+                </div>
               </el-card>
             </div>
           </el-col>
@@ -190,9 +200,13 @@ export default class Mod extends Vue {
 </script>
 
 <style>
+.mod-qrcode button.el-popover__reference {
+  display: block;
+  width: 100%;
+}
 .mod-qrcode {
-  margin: 16px 0;
-  float: right;
+  margin: 16px 0 0;
+  text-align: center;
 }
 .mode-select {
   margin: 8px;

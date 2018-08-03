@@ -84,7 +84,8 @@
         </el-collapse>
       </el-card>
       <el-card class="build-result">
-        综合评级: [ <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100) 可提升
+        综合评级: [
+        <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100) 可提升
         <span class="score-text">{{score}}%</span> 的{{selectCompMethodText}}
       </el-card>
     </div>
@@ -186,12 +187,16 @@ export default class GunModBuildView extends ModBuildView {
 .build-container .el-collapse-item__wrap {
   overflow: visible;
 }
+.build-container .el-collapse-item__header {
+  height: auto;
+  min-height: 48px;
+}
 .build-container .el-collapse-item:last-child .el-collapse-item__wrap,
 .build-container .el-collapse-item:last-child .el-collapse-item__header {
   border: 0;
 }
 .build-card-header {
-  padding: 15px 8px;
+  padding: 18px 8px;
   border-bottom: 1px solid #ebeef5;
   box-sizing: border-box;
   overflow: hidden;
@@ -199,13 +204,13 @@ export default class GunModBuildView extends ModBuildView {
   white-space: nowrap;
 }
 .build-card-body {
-  padding: 20px;
+  padding: 10px;
 }
 .build-card {
   height: 56px;
   margin-bottom: 12px;
 }
-.build-list{
+.build-list {
   margin-top: 8px;
 }
 .score-text {
@@ -304,6 +309,7 @@ export default class GunModBuildView extends ModBuildView {
 }
 .build-card-name {
   font-size: 11pt;
+  line-height: 20px;
 }
 .build-card-prop {
   font-size: 9pt;
