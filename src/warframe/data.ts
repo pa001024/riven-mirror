@@ -185,7 +185,7 @@ export const RivenPropertyValueBaseDataBase = {
 }
 
 /**
- * 武器属性及裂罅倾向
+ * 武器名称及裂罅倾向
  * Data from https://wfaw.richasy.cn/
  */
 export interface RivenWeapon {
@@ -464,13 +464,19 @@ const _rivenWeaponDataBase = [
   ["Nikana", "侍刃", 0.5, "Melee"],
   ["Orthos", "欧特鲁斯", 0.5, "Melee"]
 ];
+export const ModTypeTable = {
+  "Rifle": "步枪",
+  "Shotgun": "霰弹枪",
+  "Pistol": "手枪",
+  "Melee": "近战",
+};
+
 export const RivenWeaponDataBase = _rivenWeaponDataBase.map(v => ({
   id: v[0],
   name: v[1],
   ratio: v[2],
   mod: v[3],
 } as RivenWeapon));
-
 
 /**
  * 武器信息

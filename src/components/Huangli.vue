@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="line-tip">
-      <strong>朝向：</strong>面向<span class="direction_value">{{directionString}}</span>破关节，伤害最高
+      <!-- <strong>朝向：</strong>面向<span class="direction_value">{{directionString}}</span>破关节，伤害最高 -->
     </div>
   </div>
 </template>
