@@ -51,9 +51,7 @@ export default class WeaponSelector extends Vue {
     if (weapons.length === 0) {
       this.$message.error("暂无该武器资料");
     } else if (weapons.length === 1) {
-      this.$router.push({ name: 'BuildEditor', params: { source: id.replace(/ /g, "_") } });
-    } else {
-      // this.$message.info("请选择具体型号");
+      this.$router.push({ name: 'BuildEditor', params: { id: id.replace(/ /g, "_") } });
     }
   }
 }
