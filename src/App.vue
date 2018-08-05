@@ -2,9 +2,9 @@
   <el-container id="app">
     <el-header>
       <i class="i-mirror-logo"></i>
-      <h1>Riven Mirror
+      <router-link tag="h1" to="/">Riven Mirror
         <span class="beta">BETA</span>
-      </h1>
+      </router-link>
       <wf-watch class="hidden-sm-and-down">
       </wf-watch>
       <button class="app-nav-button hidden-md-and-up" @click="menuOpen=!menuOpen">
@@ -14,7 +14,7 @@
     <transition name="el-zoom-in-top">
       <ul class="app-nav-menu" v-if="menuOpen" @click="menuOpen=false">
         <router-link v-for="link in links" :key="link.title" tag="li" :to="link.path" class="menu-item">
-          <i :class="link.icon" circle></i>
+          <i :class="link.icon"></i>
           <span class="app-nav-title">{{link.title}}</span>
         </router-link>
       </ul>
@@ -24,7 +24,7 @@
         <ul class="aside-nav-menu">
           <el-tooltip v-for="link in links" :key="link.title" :content="link.title" placement="right" :enterable="false">
             <router-link tag="li" :to="link.path" class="menu-item">
-              <i :class="link.icon" circle></i>
+              <i :class="link.icon"></i>
             </router-link>
           </el-tooltip>
         </ul>

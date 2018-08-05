@@ -54,7 +54,7 @@
         <!-- 历史记录区域 -->
         <el-row>
           <el-col :span="24">
-            <div v-show="mod.name" class="mod-history">
+            <div class="mod-history">
               <el-card class="mod-history-box">
                 <div slot="header" class="mod-history-title">
                   历史记录
@@ -244,8 +244,8 @@ export default class Mod extends Vue {
 .mod-extra {
   margin-top: 8px;
 }
-.mod-props-box {
-  margin: 16px 0;
+.mod-props-box,.mod-history-box {
+  margin: 16px 0 0;
 }
 .negative-prop {
   color: #f56c6c;

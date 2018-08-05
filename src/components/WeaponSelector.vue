@@ -42,7 +42,6 @@ export default class WeaponSelector extends Vue {
     this.tabs = _.map(ModTypeTable, (name, id) => ({ id, name, rivens: RivenWeaponDataBase.filter(v => v.mod === id), weapons: [] }));
   }
   handleCommand(id: string) {
-    console.log(id);
     this.$router.push({ name: 'BuildEditor', params: { id: id.replace(/ /g, "_") } });
   }
   handleClick(id: string) {
@@ -51,7 +50,7 @@ export default class WeaponSelector extends Vue {
     if (weapons.length === 0) {
       this.$message.error("暂无该武器资料");
     } else if (weapons.length === 1) {
-      this.$router.push({ name: 'BuildEditor', params: { id: id.replace(/ /g, "_") } });
+      this.handleCommand(id);
     }
   }
 }
