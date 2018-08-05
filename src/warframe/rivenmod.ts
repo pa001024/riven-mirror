@@ -1,4 +1,4 @@
-import { GunWeaponDataBase, MeleeWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase } from "@/warframe/data";
+import { GunWeaponDataBase, MeleeWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase, RivenWeaponDataBase } from "@/warframe/data";
 import { Base64, strSimilarity } from "@/warframe/util";
 import _ from "lodash";
 
@@ -33,7 +33,7 @@ export class ValuedRivenProperty {
     return this.prop.negative ? this.value > 0 : this.value < 0;
   }
   get negativeUpLevel() {
-    return this.upLevel == 1 ? 0.75 : .5
+    return this.upLevel == 1 ? 0.833 : .5
   }
   /** 根据属性基础值计算属性偏差值 */
   get deviation() {
@@ -125,6 +125,7 @@ export class RivenMod {
   is(tag: string) {
     tag = tag.toLowerCase();
     switch (tag) {
+      case "gun": return this.mod !== "Melee";
       case "melee": return this.mod === "Melee";
       case "pistol": return this.mod === "Pistol";
       case "rifle": return this.mod === "Rifle";
@@ -247,6 +248,30 @@ export class RivenMod {
       return new ValuedRivenProperty(prop, v[1], RivenDataBase.getPropBaseValue(this.name, prop.name), this.upLevel);
     });
     this.hasNegativeProp = true;
+  }
+  /**
+   * 随机化所有
+   */
+  random() {
+    let { id, name, mod } = RivenWeaponDataBase[~~(Math.random() * RivenWeaponDataBase.length)];
+    [this.id, this.name, this.mod] = [id, name, mod];
+    this.randomProp();
+  }
+  /**
+   * 只随机化属性
+   */
+  randomProp() {
+    let count = ~~(Math.random() * 2) + 2;
+    this.hasNegativeProp = ~~(Math.random() * 2) > 0;
+    this.upLevel = [1.33, 1, 0.8][count - (this.hasNegativeProp ? 2 : 1)];
+    let negaUplvl = this.upLevel == 1 ? 0.833 : .5;
+    let props = _.sampleSize(RivenPropertyDataBase[this.propType], count)
+      .map(v => [v.id, this.upLevel * RivenDataBase.getPropBaseValue(this.name, v.id)]) as [string, number][];
+    if (this.hasNegativeProp) {
+      let neProp = _.sample(RivenPropertyDataBase[this.propType].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
+      props.push([neProp.id, -negaUplvl * RivenDataBase.getPropBaseValue(this.name, neProp.id)]);
+    }
+    this.parseProps(props);
   }
   /** 返回适用的武器列表 */
   get weapons() {

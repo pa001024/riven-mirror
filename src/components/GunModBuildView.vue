@@ -99,10 +99,8 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, GunModBuild } from "@/warframe";
-import { ValuedRivenProperty } from "@/warframe/rivenmod";
-import { GunCompareMode } from "@/warframe/gunmodbuild";
-import { GunWeapon, DamageType, DamageTypeDatabase, RivenDataBase } from "@/warframe/data";
+import { RivenMod, GunModBuild, ValuedRivenProperty } from "@/warframe";
+import { RivenDataBase } from "@/warframe/data";
 import { ModBuildView } from "@/components/ModBuildView";
 
 @Component

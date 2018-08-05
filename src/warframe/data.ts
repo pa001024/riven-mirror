@@ -39,7 +39,6 @@ const baseProperty: RivenProperty[] = [
   { id: 'G', name: "对Grineer伤害", prefix: "argi", subfix: "con" },
   { id: 'I', name: "对Infested伤害", prefix: "pura", subfix: "ada" },
   { id: 'C', name: "对Corpus伤害", prefix: "manti", subfix: "tron" },
-  { id: 'O', name: "对堕落者伤害", prefix: "unknown", subfix: "unknown" },
 ];
 
 const gunProperty: RivenProperty[] = [
@@ -2843,7 +2842,7 @@ export class RivenDataBase {
 
   /**
    * 获取属性基础值
-   * @param weaponName 武器名
+   * @param weaponName 武器通用名称
    * @param prop
    * @return 返回基础值 如果为-1说明错误
    */

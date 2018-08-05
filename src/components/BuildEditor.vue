@@ -10,10 +10,10 @@
             </div>
             <table class="weapon-props">
               <tbody>
-                <tr><td>暴击率</td><td>{{weapon.criticalChances}}</td></tr>
-                <tr><td>暴击伤害</td><td>{{weapon.criticalMultiplier}}</td></tr>
+                <tr><td>暴击率</td><td>{{weapon.criticalChances}}%</td></tr>
+                <tr><td>暴击伤害</td><td>{{weapon.criticalMultiplier}}x</td></tr>
                 <tr><td>攻速</td><td>{{weapon.fireRate}}</td></tr>
-                <tr><td>触发几率</td><td>{{weapon.status}}</td></tr>
+                <tr><td>触发几率</td><td>{{weapon.status}}%</td></tr>
               </tbody>
             </table>
           </el-card>
@@ -21,6 +21,16 @@
         <div v-else class="error">
           错误
         </div>
+      </el-col>
+      <el-col :sm="24" :md="12" :lg="18">
+        <el-row>
+          <el-col :span="24">
+            <!-- <gun-mod-build-view :riven="mod" v-if="isGun">
+            </gun-mod-build-view>
+            <melee-mod-build-view :riven="mod" v-else>
+            </melee-mod-build-view> -->
+          </el-col>
+        </el-row>
       </el-col>
     </el-row>
   </div>
@@ -40,3 +50,9 @@ export default class BuildEditor extends Vue {
   }
 }
 </script>
+
+<style>
+.weapon-props{
+  width: 100%;
+}
+</style>

@@ -36,7 +36,6 @@ export default class WarframeWatch extends Vue {
   cetus: IngameTime
   earth: IngameTime
 
-
   mounted() {
     this.cetus = new IngameTime("cetus");
     this.earth = new IngameTime("earth");
@@ -47,7 +46,6 @@ export default class WarframeWatch extends Vue {
     clearInterval(this.timerID);
   }
   updateTime() {
-    console.log();
     this.cetusTime = { day: this.cetus.isDay, text: this.cetus.text };
     this.earthTime = { day: this.earth.isDay, text: this.earth.text };
   }

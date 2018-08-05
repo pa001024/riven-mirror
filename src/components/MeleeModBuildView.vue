@@ -83,8 +83,7 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, MeleeModBuild } from "@/warframe";
-import { ValuedRivenProperty } from "@/warframe/rivenmod";
+import { RivenMod, MeleeModBuild, ValuedRivenProperty } from "@/warframe";
 import { RivenDataBase } from "@/warframe/data";
 import { ModBuildView } from "@/components/ModBuildView";
 
