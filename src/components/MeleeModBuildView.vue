@@ -9,8 +9,10 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item>
-        <el-checkbox size="small" v-model="isSlide" @change="recalc" border>滑砍</el-checkbox>
+      <el-form-item label="攻击方式">
+        <el-switch v-model="isSlide" active-text="滑砍" @change="recalc" inactive-text="平砍">
+        </el-switch>
+        <!-- <el-checkbox size="small" v-model="isSlide" @change="recalc" border>滑砍</el-checkbox> -->
       </el-form-item>
       <el-form-item label="限制MOD槽位">
         <el-tooltip effect="dark" content="给剑风等MOD预留位置" placement="bottom">
@@ -41,7 +43,7 @@
           <el-collapse-item v-for="build in builds" :key="build[0]" :name="build[0]">
             <template slot="title">
               <div class="build-title" style="margin:0 16px;">
-                {{build[0]}} &nbsp; - &nbsp; {{build[1].compareDamage.toFixed(1)}} {{selectCompMethodText}}
+                {{build[0]}} &nbsp; - &nbsp; {{(build[1].compareDamage/build[1].fireRate).toFixed(1)}} X {{build[1].fireRate.toFixed(1)}}{{selectCompMethodText}}
               </div>
             </template>
             <el-row type="flex" :gutter="12" class="build-item" style="margin:8px;">
@@ -69,7 +71,8 @@
         </el-collapse>
       </el-card>
       <el-card class="build-result">
-        综合评级: [ <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100) 可提升
+        综合评级: [
+        <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100) 可提升
         <span class="score-text">{{score}}%</span> 的{{selectCompMethodText}}
       </el-card>
     </div>
@@ -120,20 +123,7 @@ export default class MeleeModBuildView extends ModBuildView {
       isUseFury: this.isUseFury,
       isUseStrike: this.isUseStrike,
     };
-    let stand = new MeleeModBuild(this.riven, this.selectWeapon, options);
-    let riven = new MeleeModBuild(this.riven, this.selectWeapon, options);
-    let best = stand.findBestRiven();
-    console.log(best.modText);
-    let bestRiven = new MeleeModBuild(best, this.selectWeapon, options);
-    stand.fill(this.slots, 0);
-    riven.fill(this.slots, 2);
-    bestRiven.fill(this.slots, 2);
-    this.builds = [];
-    this.builds.push(["标准配置", stand]);
-    this.builds.push(["紫卡配置", riven]);
-    this.builds.push(["最佳紫卡配置", bestRiven]);
-    this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);
-    this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
+    super.recalc(MeleeModBuild, options);
   }
 }
 </script>

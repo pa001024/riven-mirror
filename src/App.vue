@@ -30,7 +30,9 @@
         </ul>
       </el-aside>
       <el-main>
-        <router-view/>
+        <keep-alive>
+          <router-view/>
+        </keep-alive>
       </el-main>
     </el-container>
   </el-container>
@@ -46,6 +48,7 @@ import WarframeWatch from "./components/WarframeWatch.vue";
 export default class App extends Vue {
   menuOpen = false;
   links = [
+    { title: "主页", path: "/news", icon: "el-icon-news" },
     { title: "紫卡分析", path: "/riven", icon: "el-icon-view" },
     { title: "武器配装", path: "/weapon", icon: "el-icon-edit-outline" },
     { title: "WF黄历", path: "/huangli", icon: "el-icon-date" },
@@ -183,7 +186,7 @@ ol {
 }
 
 .el-main {
-  background-color: #f3f3f380;
+  background-color: #ececec80;
   color: #333;
 }
 

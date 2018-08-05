@@ -1,20 +1,17 @@
 import { Vue, Watch, Prop } from "vue-property-decorator";
 import { RivenMod } from "@/warframe";
-import { GunCompareMode, GunModBuild, GunModBuildOptions } from "@/warframe/gunmodbuild";
+import { GunCompareMode } from "@/warframe/gunmodbuild";
 import { ModBuild } from "@/warframe/modbuild";
 import { ValuedRivenProperty } from "@/warframe/rivenmod";
-import { RivenDataBase } from "@/warframe/data";
-import { MeleeModBuildOptions } from "@/warframe/meleemodbuild";
+import { RivenDataBase, Weapon } from "@/warframe/data";
 
-declare interface VueWorker {
-  postMessage(msg: string, parms: any[]): Promise<any>
-  create([...actions]): VueWorker
-  run(fun: Function, [...args]): Promise<any>
-}
 
 export abstract class ModBuildView extends Vue {
   @Prop() riven: RivenMod
   selectWeapon = ""
+  get weapon() {
+    return (this.riven.weapons as Weapon[]).find(v => v.name === this.selectWeapon);
+  }
   selectCompMethod: GunCompareMode = GunCompareMode.TotalDamage
   selectDamageType: string = null
   builds: [string, ModBuild][] = []
@@ -50,7 +47,23 @@ export abstract class ModBuildView extends Vue {
     this.selectWeapon = weapons[weapons.length - 1].name;
     this._debouncedRecalc();
   }
-
+  recalc(cls: any, options: any) {
+    if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
+    let stand = new cls(this.riven, this.selectWeapon, options);
+    let riven = new cls(this.riven, this.selectWeapon, options);
+    let best = stand.findBestRiven();
+    console.log("findBestRiven=>", best.modText);
+    let bestRiven = new cls(best, this.selectWeapon, options);
+    stand.fill(this.slots, 0);
+    riven.fill(this.slots, 2);
+    bestRiven.fill(this.slots, 2);
+    this.builds = [];
+    this.builds.push(["标准配置", stand]);
+    this.builds.push(["紫卡配置", riven]);
+    this.builds.push(["最佳紫卡配置", bestRiven]);
+    this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);
+    this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
+  }
   selectDamageTypeChange() {
     this._debouncedRecalc();
     if (this.selectDamageType)

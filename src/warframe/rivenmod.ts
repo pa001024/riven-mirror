@@ -1,5 +1,5 @@
-import { GunWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase, MeleeWeaponDataBase } from "@/warframe/data";
-import { strSimilarity, Base64 } from "@/warframe/util";
+import { GunWeaponDataBase, MeleeWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase } from "@/warframe/data";
+import { Base64, strSimilarity } from "@/warframe/util";
 import _ from "lodash";
 
 export class ValuedRivenProperty {
@@ -104,7 +104,10 @@ export class RivenMod {
 
   constructor(parm?: string | RivenMod) {
     if (typeof parm === "string") {
-      this.parseString(parm);
+      if (parm.indexOf("|") >= 0)
+        this.qrCode = parm;
+      else
+        this.parseString(parm);
     } else if (parm) {
       this.id = parm.id;
       this.name = parm.name;
@@ -203,7 +206,7 @@ export class RivenMod {
     // 3+ = [3-1]>>2
     // 2+ = [2-1]>>1
     // 2+1- = [3-3]>>0
-    this.upLevel = [1.3, 1, 0.8][properties.length - (this.hasNegativeProp ? 3 : 1)];
+    this.upLevel = [1.33, 1, 0.8][properties.length - (this.hasNegativeProp ? 3 : 1)];
     // 写入属性并标准化
     this.properties = properties.map(v =>
       new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel).normalize());
@@ -236,9 +239,7 @@ export class RivenMod {
   }
   /** 返回适用的武器列表 */
   get weapons() {
-    if (this.mod === "Melee")
-      return MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
-    return GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
+    return RivenDataBase.getNormalWeaponsByRivenName(this.id);
   }
   /** 返回一个标准MOD对象 */
   get normalMod(): NormalMod {
@@ -295,10 +296,10 @@ export class RivenMod {
       return [prop, propValue];
     }) as [RivenProperty, number][];
     let lastProp = props[props.length - 1];
-    if (props.length === 4 || lastProp[0].negative == (lastProp[1] < 0)) {
-      this.hasNegativeProp = true;
-    }
-    this.upLevel = [1.3, 1, 0.8][props.length - (this.hasNegativeProp ? 3 : 1)];
+    this.hasNegativeProp = props.length === 4 || lastProp[0].negative != (lastProp[1] < 0);
+    this.upLevel = [1.33, 1, 0.8][props.length - (this.hasNegativeProp ? 3 : 1)];
+    console.log("upLevel", props.length, this.hasNegativeProp, this.upLevel);
+
     this.properties = props.map(v =>
       new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel));
   }

@@ -188,7 +188,7 @@ export const RivenPropertyValueBaseDataBase = {
  * 武器名称及裂罅倾向
  * Data from https://wfaw.richasy.cn/
  */
-export interface RivenWeapon {
+export class RivenWeapon {
   /** 武器英文名 */
   id: string;
   /** 武器中文名 */
@@ -197,6 +197,22 @@ export interface RivenWeapon {
   ratio: number;
   /** 武器MOD类型 */
   mod: string;
+  /** 武器MOD类型中文 */
+  get modcn() {
+    return ModTypeTable[this.mod];
+  }
+  get weapons() {
+    if (this.mod === "Melee")
+      return MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
+    else
+      return GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
+  }
+  constructor(id: string, name: string, ratio: number, mod: string) {
+    this.id = id;
+    this.name = name;
+    this.ratio = ratio;
+    this.mod = mod;
+  }
 }
 
 const _rivenWeaponDataBase = [
@@ -290,7 +306,6 @@ const _rivenWeaponDataBase = [
   ["Tysis", "啐沫者", 1.51, "Pistol"],
   ["Lato", "拉托", 1.51, "Pistol"],
   ["Kunai", "苦无", 1.51, "Pistol"],
-  ["Sicarus", "暗杀者", 1.5, "Pistol"],
   ["Seer", "预言者", 1.5, "Pistol"],
   ["Twin Gremlins", "双子小精灵", 1.5, "Pistol"],
   ["Spectra", "光谱切割器", 1.49, "Pistol"],
@@ -303,6 +318,7 @@ const _rivenWeaponDataBase = [
   ["Castanas", "雷爆信标", 1.42, "Pistol"],
   ["Twin Vipers", "双子蝰蛇", 1.41, "Pistol"],
   ["Angstrum", "安格斯壮", 1.4, "Pistol"],
+  ["Sicarus", "暗杀者", 1.4, "Pistol"],
   ["Afuris", "盗贼双枪", 1.39, "Pistol"],
   ["Furis", "盗贼", 1.35, "Pistol"],
   ["Dual Cestra", "锡斯特双枪", 1.35, "Pistol"],
@@ -312,13 +328,13 @@ const _rivenWeaponDataBase = [
   ["Aksomati", "轻灵月神双枪", 1.26, "Pistol"],
   ["Stubba", "史度巴", 1.25, "Pistol"],
   ["Despair", "绝望", 1.24, "Pistol"],
-  ["Pyrana", "食人鱼", 1.2, "Pistol"],
   ["Fusilai", "齐射玻刃", 1.2, "Pistol"],
   ["Kohmak", "寇恩霰机枪", 1.2, "Pistol"],
   ["Bronco", "野马", 1.2, "Pistol"],
   ["Akbronco", "野马双枪", 1.2, "Pistol"],
   ["Dual Toxocyst", "毒囊双枪", 1.19, "Pistol"],
   ["Akvasto", "瓦斯托双枪", 1.15, "Pistol"],
+  ["Pyrana", "食人鱼", 1.1, "Pistol"],
   ["Kulstar", "杀星", 1.1, "Pistol"],
   ["Twin Kohmak", "双子寇恩霰机枪", 1.1, "Pistol"],
   ["Twin Rogga", "双子罗格", 1, "Pistol"],
@@ -424,8 +440,8 @@ const _rivenWeaponDataBase = [
   ["Ooltha", "乌尔萨", 1, "Melee"],
   ["Balla", "宝拉", 1, "Melee"],
   ["Dehtat", "德塔特", 1, "Melee"],
-  ["Plague Keewar", "瘟疫 奇沃", 1, "Melee"],
   ["Cyath", "西亚什", 1, "Melee"],
+  ["Plague Keewar", "瘟疫 奇沃", 1, "Melee"],
   ["Plague Kripath", "瘟疫 克里帕丝", 0.93, "Melee"],
 
   ["Gunsen", "军扇", 1, "Melee"],
@@ -463,7 +479,7 @@ const _rivenWeaponDataBase = [
   ["Venka", "凯旋之爪", 0.5, "Melee"],
   ["Nikana", "侍刃", 0.5, "Melee"],
   ["Orthos", "欧特鲁斯", 0.5, "Melee"]
-];
+] as [string, string, number, string][];
 export const ModTypeTable = {
   "Rifle": "步枪",
   "Shotgun": "霰弹枪",
@@ -471,12 +487,7 @@ export const ModTypeTable = {
   "Melee": "近战",
 };
 
-export const RivenWeaponDataBase = _rivenWeaponDataBase.map(v => ({
-  id: v[0],
-  name: v[1],
-  ratio: v[2],
-  mod: v[3],
-} as RivenWeapon));
+export const RivenWeaponDataBase = _rivenWeaponDataBase.map(v => new RivenWeapon(v[0], v[1], v[2], v[3]));
 
 /**
  * 武器信息
@@ -1530,7 +1541,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "status": 2.5, "magazine": 16, "reload": 2, "ammo": 210
   }, {
     "name": "布里斯提卡 (蓄力)", "tags": ["枪", "手枪", "蓄力"],
-    "id": "Ballistica", "rivenName": "Ballistica",
+    "id": "Ballistica (charged)", "rivenName": "Ballistica",
     "dmg": [["Slash", 10], ["Puncture", 80], ["Impact", 10]],
     "accuracy": 4, "bullets": 4, "fireRate": 1,
     "criticalChances": 3.75, "criticalMultiplier": 1.5,
@@ -1544,7 +1555,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "status": 2.5, "magazine": 20, "reload": 2, "ammo": 210
   }, {
     "name": "绯红 布里斯提卡 (蓄力)", "tags": ["枪", "手枪", "蓄力"],
-    "id": "Rakta Ballistica", "rivenName": "Ballistica",
+    "id": "Rakta Ballistica (charged)", "rivenName": "Ballistica",
     "dmg": [["Slash", 15], ["Puncture", 270], ["Impact", 15]],
     "accuracy": 4, "bullets": 4, "fireRate": 1,
     "criticalChances": 5, "criticalMultiplier": 1.5,
@@ -1558,7 +1569,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
     "status": 20, "magazine": 32, "reload": 1.2, "ammo": 210
   }, {
     "name": "布里斯提卡 Prime (蓄力)", "tags": ["枪", "手枪", "蓄力"],
-    "id": "Ballistica Prime", "rivenName": "Ballistica",
+    "id": "Ballistica Prime (charged)", "rivenName": "Ballistica",
     "dmg": [["Slash", 121.6], ["Puncture", 167.2], ["Impact", 15.2]],
     "accuracy": 4, "bullets": 4, "fireRate": 1.25,
     "criticalChances": 20, "criticalMultiplier": 2,
@@ -2701,7 +2712,12 @@ export const AcolyteModsList: string[] = [
  * 主要工具类
  */
 export class RivenDataBase {
-  private weaponDict = new Map<string, number>()
+  /** 通用名称 -> index */
+  private rWeaponDict = new Map<string, number>()
+  /** 武器名称 -> index */
+  private nWeaponDict = new Map<string, number>()
+  /** 通用名称 -> 武器名称 index list */
+  private ccWeaponDict = new Map<string, number[]>()
   private propDict = new Map<string, number>()
 
   private static instance = new RivenDataBase();
@@ -2714,23 +2730,73 @@ export class RivenDataBase {
 
   constructor() {
     // 同时添加中英文名称
-    RivenWeaponDataBase.forEach((v, i) => { this.weaponDict.set(v.id, i); this.weaponDict.set(v.name, i); });
+    RivenWeaponDataBase.forEach((v, i) => { this.rWeaponDict.set(v.id, i); this.rWeaponDict.set(v.name, i); });
     RivenPropertyDataBase.all.forEach((v, i) => { this.propDict.set(v.id, i); this.propDict.set(v.name, i); });
+    (GunWeaponDataBase as Weapon[]).concat(MeleeWeaponDataBase).forEach((v, i) => this.addWeapon(v, i));
+  }
+
+  addWeapon(weapon: Weapon, index: number) {
+    this.nWeaponDict.set(weapon.id, index);
+    this.nWeaponDict.set(weapon.name, index);
+    let riven = RivenWeaponDataBase[this.rWeaponDict.get(weapon.rivenName || weapon.id)];
+    if (!riven) {
+      // 部分技能武器
+      return;
+    }
+    if (this.ccWeaponDict.has(riven.name)) {
+      this.ccWeaponDict.get(riven.id).push(index);
+      this.ccWeaponDict.get(riven.name).push(index);
+    }
+    else {
+      this.ccWeaponDict.set(riven.id, [index]);
+      this.ccWeaponDict.set(riven.name, [index]);
+    }
+  }
+
+  /**
+   * 通过武器具体名称获取武器实例
+   * @param name 武器具体名称
+   */
+  static getNormalWeaponsByName(name: string) {
+    let rst = this.instance.nWeaponDict.get(name),
+      gunCount = GunWeaponDataBase.length;
+    if (rst < 0) return null;
+    if (rst < gunCount)
+      return GunWeaponDataBase[rst];
+    else
+      return MeleeWeaponDataBase[rst - gunCount];
+  }
+
+  /**
+   * 通过武器通用名称获取武器实例
+   * @param name 武器通用名称
+   */
+  static getNormalWeaponsByRivenName(name: string) {
+    let rst = this.instance.ccWeaponDict.get(name),
+      gunCount = GunWeaponDataBase.length;
+    if (rst) {
+      if (rst[0] < gunCount)
+        return rst.map(v => GunWeaponDataBase[v])
+      else
+        return rst.map(v => MeleeWeaponDataBase[v - gunCount])
+    } else {
+      return [];
+    }
   }
   /**
    * 查询是否有这个武器
-   * @param name 武器名称
+   * @param name 武器通用名称
    */
   static hasWeapon(name: string) {
-    return this.instance.weaponDict.has(name);
+    return this.instance.rWeaponDict.has(name);
   }
 
   /**
    * 获取武器
-   * @param name 武器名称
+   * @param name 武器通用名称
    */
   static getRivenWeaponByName(name: string) {
-    return RivenWeaponDataBase[this.instance.weaponDict.get(name)];
+    return RivenWeaponDataBase[this.instance.rWeaponDict.get(name)];
   }
   /**
    * 模糊识别武器名称

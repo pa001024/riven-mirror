@@ -3,9 +3,19 @@
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
       <span slot="label" class="weapon-tablable">{{tab.name}}</span>
       <ul class="weapon-select">
-        <li v-for="riven in tab.rivens" :key="riven.id" class="weapon-item" @click="handleClick(riven.id)">
-          {{riven.name}}
-        </li>
+        <div class="weapon-item-container" v-for="riven in tab.rivens" :key="riven.id">
+          <el-dropdown v-if="riven.weapons.length > 1" trigger="click" @command="handleCommand">
+            <li class="weapon-item" @click="handleClick(riven.id)">
+              {{riven.name}}
+            </li>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{weapon.name}}</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <li v-else class="weapon-item el-dropdown" @click="handleClick(riven.id)">
+            {{riven.name}}
+          </li>
+        </div>
       </ul>
     </el-tab-pane>
   </el-tabs>
@@ -15,12 +25,13 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { GunWeapon, DamageType, DamageTypeDatabase, RivenDataBase, RivenWeapon, ModTypeTable, RivenWeaponDataBase } from "@/warframe/data";
+import { RivenDataBase, RivenWeapon, ModTypeTable, RivenWeaponDataBase } from "@/warframe/data";
 
 declare interface WeaponSelectorTab {
   id: string
   name: string
   rivens: RivenWeapon[]
+  weapons: string[][]
 }
 
 @Component
@@ -28,15 +39,30 @@ export default class WeaponSelector extends Vue {
   modType = "Rifle"
   tabs: WeaponSelectorTab[] = []
   beforeMount() {
-    this.tabs = _.map(ModTypeTable, (name, id) => ({ id, name, rivens: RivenWeaponDataBase.filter(v => v.mod === id) }));
+    this.tabs = _.map(ModTypeTable, (name, id) => ({ id, name, rivens: RivenWeaponDataBase.filter(v => v.mod === id), weapons: [] }));
   }
-  handleClick(id) {
+  handleCommand(id: string) {
     console.log(id);
+    this.$router.push({ name: 'BuildEditor', params: { id: id.replace(/ /g, "_") } });
+  }
+  handleClick(id: string) {
+    let weapon = RivenDataBase.getRivenWeaponByName(id);
+    let weapons = weapon.weapons;
+    if (weapons.length === 0) {
+      this.$message.error("暂无该武器资料");
+    } else if (weapons.length === 1) {
+      this.$router.push({ name: 'BuildEditor', params: { source: id.replace(/ /g, "_") } });
+    } else {
+      // this.$message.info("请选择具体型号");
+    }
   }
 }
 </script>
 
 <style>
+.weapon-item-container {
+  display: inline-block;
+}
 .weapon-tablable {
   font-size: 16px;
   padding: 0 8px;

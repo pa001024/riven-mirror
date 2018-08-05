@@ -1,30 +1,48 @@
 import { RivenMod } from "@/warframe";
+import { ActionContext } from "vuex";
 
-let state = {
-  rivenModText: "",
-  mod: null
+interface State {
+  mod: RivenMod
+  history: RivenMod[]
 }
 
+let state = {
+  mod: ((sto) => sto || "兰卡\nAcri-satiata\n+135.5%暴击伤害\n+97.9%多重射击\n+171.9%伤害\n-47.3%变焦\n段位160233")(localStorage.getItem("modText")),
+  history: localStorage.getItem("modHistory") ? JSON.parse(localStorage.getItem("modHistory")).map(v => new RivenMod(v)) : []
+}
+
+const MAX_HISTORY_COUNT = 8;
+
 const mutations = {
-  newModTextInput(state, newModText) {
-    state.rivenModText = newModText;
-    state.mod = new RivenMod(newModText);
-  },
-  newBase64Text(state, text) {
-    let rm = new RivenMod();
-    rm.qrCodeBase64 = text;
-    state.mod = rm;
+  newRiven(state: State, riven: RivenMod) {
+    state.mod = riven;
+    if (state.history.length === 0 || riven.qrCode !== state.history[0].qrCode)
+      state.history = [riven].concat(state.history.filter((v, i) => v.qrCode !== riven.qrCode || i >= MAX_HISTORY_COUNT));
+    localStorage.setItem("modHistory", JSON.stringify(state.history.map(v => v.qrCode)));
   }
 }
 
+const actions = {
+  newModTextInput(context: ActionContext<State, any>, newModText: string) {
+    let rm = new RivenMod(newModText);
+    context.commit("newRiven", rm);
+  },
+  newBase64Text(context: ActionContext<State, any>, text: String) {
+    let rm = new RivenMod();
+    rm.qrCodeBase64 = text;
+    context.commit("newRiven", rm);
+  }
+};
+
 const getters = {
-  rivenModText: state => state.rivenModText,
-  mod: state => state.mod
+  rivenModText: state => state.mod.modText,
+  mod: state => state.mod,
+  modHistoty: state => state.history
 }
 
 export default {
   state,
   mutations,
-  actions: {},
+  actions,
   getters
 }

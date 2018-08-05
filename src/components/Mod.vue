@@ -2,13 +2,14 @@
   <div class="mod-container" @paste="handlePaste" v-loading="ocrLoading">
     <el-row :gutter="20">
       <el-col :sm="24" :md="12" :lg="6">
+        <!-- 识别区域 -->
         <el-row>
           <el-col :span="24">
             <el-switch class="mode-select" v-model="useText" active-text="剪贴板识别" inactive-text="文件识别">
             </el-switch>
           </el-col>
           <el-col :span="24">
-            <el-input v-if="useText" v-model="modText" @focus="handleFocus" placeholder="在此处粘贴紫卡截图或二维码进行识别" type="textarea" rows="1"></el-input>
+            <el-input v-if="useText" v-model="modText" @focus="handleFocus" placeholder="在此处粘贴紫卡截图或二维码识别" type="textarea" rows="1"></el-input>
             <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="http://api.0-0.at/ocr">
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或
@@ -18,6 +19,7 @@
             </el-upload>
           </el-col>
         </el-row>
+        <!-- 紫卡显示区域 -->
         <el-row>
           <el-col :span="24">
             <div v-show="mod.name" class="mod-display">
@@ -49,6 +51,23 @@
             </div>
           </el-col>
         </el-row>
+        <!-- 历史记录区域 -->
+        <el-row>
+          <el-col :span="24">
+            <div v-show="mod.name" class="mod-history">
+              <el-card class="mod-history-box">
+                <div slot="header" class="mod-history-title">
+                  历史记录
+                </div>
+                <ul class="mod-history-list">
+                  <li v-for="(hiRiven, index) in modHistoty" :key="index" @click="newBase64Text(hiRiven.qrCodeBase64)" class="mod-history-item">
+                    {{hiRiven.fullName}}
+                  </li>
+                </ul>
+              </el-card>
+            </div>
+          </el-col>
+        </el-row>
       </el-col>
       <el-col :sm="24" :md="12" :lg="18">
         <el-row>
@@ -72,7 +91,7 @@ import { RivenMod } from "../warframe";
 import GunModBuildView from "@/components/GunModBuildView.vue";
 import MeleeModBuildView from "@/components/MeleeModBuildView.vue";
 import qrcode from "@/components/QRCode";
-import store from "../store";
+import { Getter, Action } from 'vuex-class'
 import jsQR from "jsqr";
 import { RivenDataBase } from "@/warframe/data";
 
@@ -84,13 +103,18 @@ interface OCRResult {
   components: { GunModBuildView, MeleeModBuildView, qrcode }
 })
 export default class Mod extends Vue {
+  // prop
+  @Prop() source: string;
+
   // 使用剪贴板识别
   useText = true;
-  @Prop() source: string;
   modText = "";
   ocrLoading = false;
   debouncedmodTextChange: (() => void);
-  get mod(): RivenMod { return store.getters.mod; }
+  @Getter("mod") mod: RivenMod;
+  @Getter("modHistoty") modHistoty: RivenMod[];
+  @Action("newBase64Text") newBase64Text: (text: string) => void
+  @Action("newModTextInput") newModTextInput: (text: string) => void
   get isGun() {
     let vp = RivenDataBase.getRivenWeaponByName(this.mod.name);
     return vp && vp.mod != "Melee";
@@ -142,7 +166,7 @@ export default class Mod extends Vue {
         this.readQRCode(blob).then(msg => {
           if (msg) {
             console.log("readQRCode=>", msg);
-            store.commit('newBase64Text', msg.replace("http://rm.0-0.at/riven/", ""));
+            this.newBase64Text(msg.replace("http://rm.0-0.at/riven/", ""));
           } else this.readOCR(blob);
         }).catch(err => {
           console.log(err);
@@ -176,30 +200,32 @@ export default class Mod extends Vue {
   }
   beforeMount() {
     this.debouncedmodTextChange = _.debounce(() => {
-      store.commit('newModTextInput', this.modText);
+      this.newModTextInput(this.modText);
       if (this.mod.name) {
         localStorage.setItem("modText", this.modText);
         console.log("状态更新:", this.modText);
-        this["$router"].push({ name: 'ModWithSource', params: { source: this.mod.qrCodeBase64 } });
+        this.$router.push({ name: 'ModWithSource', params: { source: this.mod.qrCodeBase64 } });
         this.modText = "";
       }
     }, 100);
     if (this.source) {
       console.log("read source:", this.source);
-      store.commit('newBase64Text', this.source);
-    } else {
-      let sto = localStorage.getItem("modText");
-      if (sto) {
-        this.modText = sto;
-      } else
-        this.modText = "兰卡\nAcri-satiata\n+135.5%暴击伤害\n+97.9%多重射击\n+171.9%伤害\n-47.3%变焦\n段位160233";
+      this.newBase64Text(this.source);
     }
+    console.log("modHistoty", this.modHistoty);
   }
   mounted() { }
 }
 </script>
 
 <style>
+.mod-history-item {
+  cursor: pointer;
+
+}
+.mod-history-item:hover {
+  text-decoration: underline;
+}
 .mod-qrcode button.el-popover__reference {
   display: block;
   width: 100%;

@@ -47,6 +47,10 @@
           <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">追随者MOD</el-checkbox>
         </el-tooltip>
       </el-form-item>
+      <!-- <el-form-item label="赋能">
+        <el-checkbox v-model="isUseMomentum" @change="recalc">动量</el-checkbox>
+        <el-checkbox v-model="isUseVelocity" @change="recalc">迅速</el-checkbox>
+      </el-form-item> -->
     </el-form>
     <div class="build-list">
       <el-card class="build-container">
@@ -155,20 +159,7 @@ export default class GunModBuildView extends ModBuildView {
       handShotChance: this.handShotChance / 100,
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
     };
-    let stand = new GunModBuild(this.riven, this.selectWeapon, options);
-    let riven = new GunModBuild(this.riven, this.selectWeapon, options);
-    let best = stand.findBestRiven();
-    console.log(best.modText);
-    let bestRiven = new GunModBuild(best, this.selectWeapon, options);
-    stand.fill(this.slots, 0);
-    riven.fill(this.slots, 2);
-    bestRiven.fill(this.slots, 2);
-    this.builds = [];
-    this.builds.push(["标准配置", stand]);
-    this.builds.push(["紫卡配置", riven]);
-    this.builds.push(["最佳紫卡配置", bestRiven]);
-    this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);
-    this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
+    super.recalc(GunModBuild, options);
   }
 }
 </script>

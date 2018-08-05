@@ -28,7 +28,18 @@
       </div>
     </div>
     <div class="line-tip">
-      <!-- <strong>朝向：</strong>面向<span class="direction_value">{{directionString}}</span>破关节，伤害最高 -->
+      <strong>朝向：</strong>面向<span class="direction_value">{{directionString}}</span>破关节，伤害最高
+    </div>
+    <div class="line-tip">
+      <strong>星球：</strong>去<span class="direction_value">{{starsString}}</span>刷裂缝，出金最多
+    </div>
+    <div class="line-tip">
+      <strong>大佬指数：</strong><span class="dalao_value">{{dalaoValue}}</span>
+    </div>
+    <div class="comment">
+      <ul>
+        <li>*仅供参考</li>
+      </ul>
     </div>
   </div>
 </template>
@@ -51,6 +62,7 @@ interface Activitie {
   name: string;
   good: string;
   bad: string;
+  weekend?: boolean
 }
 const weeks = ["日", "一", "二", "三", "四", "五", "六"];
 const directions = ["北方", "东北方", "东方", "东南方", "南方", "西南方", "西方", "西北方"];
@@ -68,10 +80,11 @@ const activities = [
   { name: "收东西", good: "能收到很便宜的东西", bad: "收了半天全是奸商" },
   { name: "卖东西", good: "非常畅销", bad: "完全没人理" },
   { name: "刷垃圾", good: "保底都是45币", bad: "打了半天全是15币" },
-  { name: "收垃圾", good: "下回奸商会带好东西", bad: "根本收不到便宜的" },
+  { name: "收垃圾", good: "下回奸商会带好东西", bad: "都是些15的垃圾" },
   { name: "刷洪潮", good: "今天猫的心情不错", bad: "猫根本不会叫" },
+  { name: "打超过%l波无尽", good: "连金传说", bad: "什么都不出" },
   { name: "去%a水", good: "别人觉得你是个大佬", bad: "今天杠精很多" },
-  { name: "逛B站", good: "还需要理由吗？", bad: "满屏兄贵亮瞎你的眼", weekend: true },
+  { name: "逛B站", good: "会发现不错的东♂西", bad: "满眼广告区大佬", weekend: true },
 ] as Activitie[];
 
 
@@ -79,21 +92,26 @@ const warframes = ["黑咖喱", "Ash", "Atlas", "Banshee", "Chroma", "Ember", "E
   "Gara", "Harrow", "Hydroid", "Inaros", "Ivara", "Khora", "Limbo", "Loki", "Mag", "Mesa", "Mirage",
   "Nekros", "Nezha", "Nidus", "Nova", "Nyx", "Oberon", "Octavia", "Rhino", "Saryn", "Titania",
   "Trinity", "Valkyr", "Vauban", "Volt", "Wukong", "Zephyr"];
-const weapons = ["兰卡", "安培克斯", "沙皇", "悦音Prime", "暗杀者", "弧电离子枪", "关刀"];
+const weapons = "兰卡,狂鲨,金工火神,奥堤克光子枪,苏普拉,绝路,双簧管,铁晶磁轨炮,安培克斯,沙皇,楞次弓,席芭莉丝,斯特朗,野猪,碎裂者,科林斯,食人鱼,循环离子枪,雷克斯双枪,安培克斯,悦音Prime,暗杀者,弧电离子枪,布拉克,嵴椎节鞭,提佩多,玻之武杖,怯薛,西亚什,瘟疫 克里帕丝,欧玛,关刀".split(",");
 const areas = ["贴吧", "氏族", "区域频道", "联盟"];
+const stars = "水星,金星,地球,月球,火星,火卫一,谷神星,木星,欧罗巴,土星,天王星,海王星,冥王星,赛德娜,阋神星,虚空".split(",");
 
 @Component
 export default class Huangli extends Vue {
   today = new Date();
   get iday() { return this.today.getFullYear() * 10000 + (this.today.getMonth() + 1) * 100 + this.today.getDate(); }
-  get directionString() { return directions[random(this.iday, 2) % directions.length] }
+  get directionString() { return directions[random(this.iday, 55) % directions.length] }
+  get starsString() { return stars[random(this.iday, 233) % stars.length] }
+  get dalaoValue() {
+    return Array(5).fill("").map((v, o) => o <= random(this.iday, 18) % 6 ? "★" : "☆").join("");
+  }
   goods = []
   bads = []
   beforeMount() {
     this.goods = [];
     this.bads = [];
-    let numGood = random(this.iday, 56) % 3 + 2;
-    let numBad = random(this.iday, 33) % 3 + 2;
+    let numGood = random(this.iday, 56) % 3 + 1;
+    let numBad = random(this.iday, 33) % 3 + 1;
     let eventArr = this.pickRandomActivity(numGood + numBad);
     for (var i = 0; i < numGood; i++) {
       this.goods.push(eventArr[i]);
@@ -150,14 +168,22 @@ export default class Huangli extends Vue {
 </script>
 
 <style>
+.huangli .comment {
+  color: #aaa;
+  margin: 8px;
+  text-align: right;
+}
 .direction_value {
   color: #4a4;
   font-weight: bold;
 }
+.dalao_value {
+  color: #f87;
+}
 .line-tip {
   font-size: 11pt;
-  margin-top: 10px;
-  margin-left: 10px;
+  padding: 8px;
+  background: white;
 }
 .ev-title {
   flex: 1;
