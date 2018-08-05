@@ -1,6 +1,5 @@
-import { GunWeapon, NormalMod, NormalModDatabase, NormalCardDependTable, AcolyteModsList } from "@/warframe/data";
-import { RivenMod } from "@/warframe/rivenmod";
-import { ModBuild } from "@/warframe/modbuild";
+import { AcolyteModsList, GunWeapon, NormalCardDependTable, NormalMod, NormalModDatabase, ModBuild, RivenMod } from "@/warframe";
+import { hAccSum } from "@/warframe/util";
 
 
 /*
@@ -26,6 +25,8 @@ export interface GunModBuildOptions {
   useHunterMunitions: number
   handShotChance: number
   allowElementTypes: string[]
+  isUseMomentum: boolean
+  isUseVelocity: boolean
 }
 /** 枪类 */
 export class GunModBuild extends ModBuild {
@@ -43,6 +44,7 @@ export class GunModBuild extends ModBuild {
   private _handShotMulMul = 1; /** 爆头倍率增幅倍率 */  get handShotMulMul() { return this._handShotMulMul; }
   private _slashWhenCrit = 0; /** 暴击时触发切割伤害 */  get slashWhenCrit() { return this._slashWhenCrit; }
   private _critLevelUpChance = 0; /** 暴击强化 */  get critLevelUpChance() { return this._critLevelUpChance; }
+
   // 额外参数
   private _handShotChance = 0; /** 爆头概率 */  get handShotChance() { return this._handShotChance; }
   /** 设置爆头概率 */
@@ -59,6 +61,10 @@ export class GunModBuild extends ModBuild {
   useHeavyCaliber = true;
   /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
   useHunterMunitions = 0;
+  /** 动量赋能 */
+  isUseMomentum = false;
+  /** 迅速赋能 */
+  isUseVelocity = false;
 
   constructor(riven: RivenMod = null, selected: string = null, options: GunModBuildOptions = null) {
     super(riven);
@@ -79,6 +85,8 @@ export class GunModBuild extends ModBuild {
     this.useHunterMunitions = options.useHunterMunitions;
     this.handShotChance = options.handShotChance;
     this.allowElementTypes = options.allowElementTypes;
+    this.isUseMomentum = options.isUseMomentum;
+    this.isUseVelocity = options.isUseVelocity;
   }
   get options(): any {
     return {
@@ -88,13 +96,15 @@ export class GunModBuild extends ModBuild {
       useHunterMunitions: this.useHunterMunitions,
       handShotChance: this.handShotChance,
       allowElementTypes: this.allowElementTypes,
+      isUseMomentum: this.isUseMomentum,
+      isUseVelocity: this.isUseVelocity,
     } as GunModBuildOptions;
   }
 
   // ### 计算属性 ###
 
   /** 换弹时间 */
-  get reloadTIme() { return this.weapon.reload / this.reloadSpeedMul; }
+  get reloadTIme() { return this.weapon.reload / hAccSum(this.reloadSpeedMul, (this.isUseMomentum ? 1 : 0)); }
   /** 弹夹容量 */
   get magazineSize() { return Math.round(this.weapon.magazine * this.magazineMul); }
   /** 爆头倍率 */
@@ -133,6 +143,12 @@ export class GunModBuild extends ModBuild {
   /** 平均射速增幅倍率  */
   get sustainedFireRateMul() {
     return (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate;
+  }
+  /** 射速 */
+  get fireRate() {
+    let fr = this.weapon.fireRate * hAccSum(this.fireRateMul, (this.isUseVelocity ? 0.8 : 0));
+    // 攻速下限
+    return fr < 0.05 ? 0.05 : fr;
   }
   /** 平均射速=1/(1/射速+装填/弹匣) */
   get sustainedFireRate() {

@@ -71,7 +71,7 @@
         </el-collapse>
       </el-card>
       <el-card class="build-result">
-        综合评级: [
+        评级: [
         <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100) 可提升
         <span class="score-text">{{score}}%</span> 的{{selectCompMethodText}}
       </el-card>
@@ -100,18 +100,27 @@ export default class MeleeModBuildView extends ModBuildView {
   isUseFury = false;
   /** 速攻赋能 */
   isUseStrike = false;
-  _debouncedRecalc: (() => void);
 
+  // === 计算属性 ===
+  get selectCompMethodText() {
+    return this.isSlide ? "滑砍伤害" : "平砍伤害";
+  }
+
+  // === 事件处理器 ===
   @Watch("slots")
   debouncedRecalc() {
     this._debouncedRecalc();
   }
-  get selectCompMethodText() {
-    return this.isSlide ? "滑砍伤害" : "平砍伤害";
+
+  selectDamageTypeChange() {
+    super.selectDamageTypeChange();
+    this.recalc();
   }
+
+  // === 生命周期钩子 ===
   beforeMount() {
     this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 10);
-    this.selectDamageType = localStorage.getItem("selectDamageType.melee") || null;
+    this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || null;
     this.rivenChange();
   }
   recalc() {
@@ -125,6 +134,7 @@ export default class MeleeModBuildView extends ModBuildView {
     };
     super.recalc(MeleeModBuild, options);
   }
+
 }
 </script>
 <style>

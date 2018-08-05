@@ -7,7 +7,7 @@ interface State {
 }
 
 let state = {
-  mod: ((sto) => sto || "兰卡\nAcri-satiata\n+135.5%暴击伤害\n+97.9%多重射击\n+171.9%伤害\n-47.3%变焦\n段位160233")(localStorage.getItem("modText")),
+  mod: new RivenMod(((sto) => sto || "兰卡\nAcri-satiata\n+135.5%暴击伤害\n+97.9%多重射击\n+171.9%伤害\n-47.3%变焦\n段位160233")(localStorage.getItem("modText"))),
   history: localStorage.getItem("modHistory") ? JSON.parse(localStorage.getItem("modHistory")).map(v => new RivenMod(v)) : []
 }
 

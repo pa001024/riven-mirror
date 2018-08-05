@@ -30,16 +30,16 @@ export function strSimilarity(str1: string, str2: string) {
 /** 高精度模板 */
 function hAccOperator(reducer: (a: number, b: number) => number) {
   return (...args: number[]) => {
-    let totalShift = 1 - args.length;
+    let maxShift = 0;
     return args.map(v => {
       let dig = v.toString().split(".");
       if (dig.length > 1) {
         let shift = dig[1].length;
-        if (shift > 20) return v;
-        totalShift += shift;
-        return v * (10 ** shift);
-      } else return v;
-    }).reduce(reducer) / (10 ** totalShift);
+        if (shift < 15 && shift > maxShift)
+          maxShift = shift;
+      }
+      return v;
+    }).map(v => v * (10 ** maxShift)).reduce(reducer) / (10 ** maxShift);
   };
 }
 

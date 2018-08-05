@@ -47,10 +47,10 @@
           <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">追随者MOD</el-checkbox>
         </el-tooltip>
       </el-form-item>
-      <!-- <el-form-item label="赋能">
-        <el-checkbox v-model="isUseMomentum" @change="recalc">动量</el-checkbox>
-        <el-checkbox v-model="isUseVelocity" @change="recalc">迅速</el-checkbox>
-      </el-form-item> -->
+      <el-form-item label="赋能">
+        <el-checkbox v-model="isUseMomentum" v-if="riven.is('sniper')" @change="recalc">动量</el-checkbox>
+        <el-checkbox v-model="isUseVelocity" v-if="riven.is('pistol')" @change="recalc">迅速</el-checkbox>
+      </el-form-item>
     </el-form>
     <div class="build-list">
       <el-card class="build-container">
@@ -88,7 +88,7 @@
         </el-collapse>
       </el-card>
       <el-card class="build-result">
-        综合评级: [
+        评级: [
         <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100) 可提升
         <span class="score-text">{{score}}%</span> 的{{selectCompMethodText}}
       </el-card>
@@ -116,11 +116,18 @@ export default class GunModBuildView extends ModBuildView {
   useHunterMunitions = false;
   notMustUseHunterMunitions = false;
   /** 爆头几率 */
-  handShotChance = 0
+  handShotChance = 0;
+  /** 动量赋能 */
+  isUseMomentum = false;
+  /** 迅速赋能 */
+  isUseVelocity = false;
 
+  // === 计算属性 ===
   get selectCompMethodText() {
     return ["单发伤害", "爆发伤害", "持续伤害"][this.selectCompMethod];
   }
+
+  // === 事件处理器 ===
   useHunterMunitionsChange(newVal, oldVal) {
     // 三种状态 state:use,notMust = 0:ff 1:?t 2:tf
     if (this.notMustUseHunterMunitions) {
@@ -142,9 +149,15 @@ export default class GunModBuildView extends ModBuildView {
     this.debouncedRecalc();
     localStorage.setItem("useAcolyteMods", JSON.stringify(this.useAcolyteMods));
   }
+  selectDamageTypeChange() {
+    super.selectDamageTypeChange();
+    this.recalc();
+  }
+
+  // === 生命周期钩子 ===
   beforeMount() {
     this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 10);
-    this.selectDamageType = localStorage.getItem("selectDamageType") || null;
+    this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || null;
     this.useAcolyteMods = JSON.parse(localStorage.getItem("useAcolyteMods"));
     this.rivenChange();
   }
@@ -158,6 +171,8 @@ export default class GunModBuildView extends ModBuildView {
       useHunterMunitions: this.useHunterMunitions ? this.notMustUseHunterMunitions ? 1 : 2 : 0,
       handShotChance: this.handShotChance / 100,
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
+      isUseMomentum: this.riven.is('sniper') && this.isUseMomentum,
+      isUseVelocity: this.riven.is('pistol') && this.isUseVelocity,
     };
     super.recalc(GunModBuild, options);
   }

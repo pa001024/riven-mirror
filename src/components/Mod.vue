@@ -204,7 +204,6 @@ export default class Mod extends Vue {
       if (this.mod.name) {
         localStorage.setItem("modText", this.modText);
         console.log("状态更新:", this.modText);
-        this.$router.push({ name: 'ModWithSource', params: { source: this.mod.qrCodeBase64 } });
         this.modText = "";
       }
     }, 100);
@@ -212,7 +211,10 @@ export default class Mod extends Vue {
       console.log("read source:", this.source);
       this.newBase64Text(this.source);
     }
-    console.log("modHistoty", this.modHistoty);
+  }
+  @Watch("mod")
+  modChange() {
+    this.$router.push({ name: 'ModWithSource', params: { source: this.mod.qrCodeBase64 } });
   }
   mounted() { }
 }
@@ -221,7 +223,6 @@ export default class Mod extends Vue {
 <style>
 .mod-history-item {
   cursor: pointer;
-
 }
 .mod-history-item:hover {
   text-decoration: underline;
@@ -244,7 +245,8 @@ export default class Mod extends Vue {
 .mod-extra {
   margin-top: 8px;
 }
-.mod-props-box,.mod-history-box {
+.mod-props-box,
+.mod-history-box {
   margin: 16px 0 0;
 }
 .negative-prop {

@@ -14,9 +14,9 @@ export default new Router({
   mode: 'history',
   routes: [
     { path: '/', name: 'Index', component: Index },
-    { path: '/news', name: 'IndexNews', component: Index },
+    // { path: '/news', name: 'IndexNews', component: Index },
     { path: '/about', name: 'About', component: About },
-    { path: '/roll', name: 'Simulator', component: Simulator },
+    { path: '/sim', name: 'Simulator', component: Simulator },
     { path: '/weapon', name: 'WeaponSelector', component: WeaponSelector },
     { path: '/weapon/:id', name: 'BuildEditor', component: BuildEditor, props: true },
     { path: '/huangli', name: 'Huangli', component: Huangli },

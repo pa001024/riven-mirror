@@ -122,6 +122,17 @@ export class RivenMod {
       this.mod = parm.mod;
     }
   }
+  is(tag: string) {
+    tag = tag.toLowerCase();
+    switch (tag) {
+      case "melee": return this.mod === "Melee";
+      case "pistol": return this.mod === "Pistol";
+      case "rifle": return this.mod === "Rifle";
+      case "sniper": return this.mod === "Rifle" && this.weapons[0].tags.includes("狙击枪");
+      case "zaw": return this.mod === "Melee" && MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id)).length === 0;
+    }
+    return false;
+  }
   /**
    * 读取OCR识别的MOD文本
    * @param modText MOD文本
@@ -255,11 +266,7 @@ export class RivenMod {
     };
   }
   /** 是否是Zaw */
-  get isZaw() {
-    if (this.mod === "Melee")
-      return MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id)).length === 0;
-    return false;
-  }
+  get isZaw() { return this.is("zaw"); }
   /** 短后缀 */
   get shortSubfix() {
     let subs = this.parseSubfix(this.subfix, this.propType);
@@ -298,7 +305,6 @@ export class RivenMod {
     let lastProp = props[props.length - 1];
     this.hasNegativeProp = props.length === 4 || lastProp[0].negative != (lastProp[1] < 0);
     this.upLevel = [1.33, 1, 0.8][props.length - (this.hasNegativeProp ? 3 : 1)];
-    console.log("upLevel", props.length, this.hasNegativeProp, this.upLevel);
 
     this.properties = props.map(v =>
       new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel));

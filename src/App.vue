@@ -23,7 +23,7 @@
       <el-aside width="60px" class="hidden-sm-and-down">
         <ul class="aside-nav-menu">
           <el-tooltip v-for="link in links" :key="link.title" :content="link.title" placement="right" :enterable="false">
-            <router-link tag="li" :to="link.path" class="menu-item">
+            <router-link tag="li" :to="link.path" class="menu-item" :exact="link.path === '/'">
               <i :class="link.icon"></i>
             </router-link>
           </el-tooltip>
@@ -48,9 +48,10 @@ import WarframeWatch from "./components/WarframeWatch.vue";
 export default class App extends Vue {
   menuOpen = false;
   links = [
-    { title: "主页", path: "/news", icon: "el-icon-news" },
+    { title: "主页", path: "/", icon: "el-icon-news" },
     { title: "紫卡分析", path: "/riven", icon: "el-icon-view" },
     { title: "武器配装", path: "/weapon", icon: "el-icon-edit-outline" },
+    { title: "洗卡模拟", path: "/sim", icon: "el-icon-refresh" },
     { title: "WF黄历", path: "/huangli", icon: "el-icon-date" },
     { title: "关于", path: "/about", icon: "el-icon-info" },
   ];

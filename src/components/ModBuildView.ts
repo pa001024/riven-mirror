@@ -36,6 +36,7 @@ export abstract class ModBuildView extends Vue {
   activeNames: string[] = ["紫卡配置"]
 
   _debouncedRecalc: (() => void);
+  abstract debouncedRecalc();
 
   @Watch("riven")
   rivenChange() {
@@ -45,14 +46,13 @@ export abstract class ModBuildView extends Vue {
       return;
     }
     this.selectWeapon = weapons[weapons.length - 1].name;
-    this._debouncedRecalc();
+    this.debouncedRecalc();
   }
   recalc(cls: any, options: any) {
     if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
     let stand = new cls(this.riven, this.selectWeapon, options);
     let riven = new cls(this.riven, this.selectWeapon, options);
     let best = stand.findBestRiven();
-    console.log("findBestRiven=>", best.modText);
     let bestRiven = new cls(best, this.selectWeapon, options);
     stand.fill(this.slots, 0);
     riven.fill(this.slots, 2);
@@ -65,11 +65,10 @@ export abstract class ModBuildView extends Vue {
     this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
   }
   selectDamageTypeChange() {
-    this._debouncedRecalc();
     if (this.selectDamageType)
-      localStorage.setItem("selectDamageType." + this.constructor.name, this.selectDamageType);
+      localStorage.setItem(this.constructor.name + ".selectDamageType", this.selectDamageType);
     else
-      localStorage.removeItem("selectDamageType." + this.constructor.name);
+      localStorage.removeItem(this.constructor.name + ".selectDamageType");
   }
 
   get scoreLevelText() {
@@ -87,13 +86,9 @@ export abstract class ModBuildView extends Vue {
       return "A";
     if (this.scoreLevel < 80)
       return "S";
-    if (this.scoreLevel < 85)
-      return "SS";
     if (this.scoreLevel < 90)
-      return "SSS";
-    if (this.scoreLevel < 95)
-      return "EX";
-    return "EX+";
+      return "S+";
+    return "EX";
   }
   convertToPropName(prop: [string, number]) {
     let rp = RivenDataBase.getPropByName(prop[0]);
