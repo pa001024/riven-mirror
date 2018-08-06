@@ -3,7 +3,7 @@
     <el-header>
       <i class="i-mirror-logo"></i>
       <router-link tag="h1" to="/">Riven Mirror
-        <span class="beta">BETA</span>
+        <span class="beta">ALPHA</span>
       </router-link>
       <wf-watch class="hidden-sm-and-down">
       </wf-watch>
@@ -148,12 +148,23 @@ export default class App extends Vue {
   float: left;
 }
 
+@font-face {
+  font-family: FuturaPT;
+  src: url("/static/fonts/Futura Heavy Italic BT.ttf");
+}
+@font-face {
+  font-family: SAOUI;
+  src: url("/static/fonts/SAOUI-Regular.otf");
+}
+
 html,
 body {
   margin: 0;
   height: 100%;
   width: 100%;
   display: flex;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
 .beta {
   font-size: 0.4em;
@@ -170,6 +181,10 @@ body {
   margin: 0 0 0 16px;
   font-weight: normal;
   float: left;
+  cursor: pointer;
+  font-family: FuturaPT, "Helvetica Neue", Helvetica, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-size: 24px;
 }
 ul,
 ol {

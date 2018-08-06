@@ -52,7 +52,7 @@ export default class WarframeWatch extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
 .time-container {
   height: 60px;
   display: flex;
@@ -64,5 +64,10 @@ export default class WarframeWatch extends Vue {
   font-size: 10pt;
   display: inline-block;
   vertical-align: middle;
+}
+.time-clock {
+  font-family: SAOUI;
+  font-size: 18px;
+  letter-spacing: 1px;
 }
 </style>

@@ -13,7 +13,7 @@ export abstract class ModBuildView extends Vue {
     return (this.riven.weapons as Weapon[]).find(v => v.name === this.selectWeapon);
   }
   selectCompMethod: GunCompareMode = GunCompareMode.TotalDamage
-  selectDamageType: string = null
+  selectDamageType: string = "腐蚀"
   builds: [string, ModBuild][] = []
 
   /** 插槽使用数 */

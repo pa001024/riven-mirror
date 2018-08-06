@@ -19,7 +19,8 @@
           </el-card>
         </div>
         <div v-else class="error">
-          错误
+          <el-alert title="错误" type="error" :closable="false">
+          </el-alert>
         </div>
       </el-col>
       <el-col :sm="24" :md="12" :lg="18">
@@ -52,7 +53,7 @@ export default class BuildEditor extends Vue {
 </script>
 
 <style>
-.weapon-props{
+.weapon-props {
   width: 100%;
 }
 </style>
