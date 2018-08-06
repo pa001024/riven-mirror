@@ -221,7 +221,7 @@ export class RivenMod {
     // 2+ = [2-1]>>1
     // 2+1- = [3-3]>>0
     this.upLevel = [1.33, 1, 0.8][properties.length - (this.hasNegativeProp ? 3 : 1)];
-    // 写入属性并标准化
+    // 写入属性
     this.parseProps(properties.map(v => [v[0].name, v[1]] as [string, number]));
     return;
   }
@@ -248,7 +248,7 @@ export class RivenMod {
     this.properties = props.map((v, i) => {
       let prop = RivenDataBase.getPropByName(v[0]);
       if (i >= 3 || (prop.negative ? -v[1] : v[1]) < 0) this.hasNegativeProp = true;
-      return new ValuedRivenProperty(prop, v[1], RivenDataBase.getPropBaseValue(this.name, prop.name), this.upLevel);
+      return new ValuedRivenProperty(prop, v[1], RivenDataBase.getPropBaseValue(this.name, prop.name), this.upLevel).normalize();
     });
   }
   /**
@@ -344,7 +344,7 @@ export class RivenMod {
     this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == (lastProp[1] < 0);
     this.upLevel = [1.33, 1, 0.8][props.length - (this.hasNegativeProp ? 3 : 1)];
     this.properties = props.map(v =>
-      new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel));
+      new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel).normalize());
   }
   /** Base64形式的二维码 */
   get qrCodeBase64() {
