@@ -44,7 +44,7 @@ const baseProperty: RivenProperty[] = [
 const gunProperty: RivenProperty[] = [
   { id: 'D', name: "伤害", prefix: "visi", subfix: "ata" },
   { id: 'S', name: "多重射击", prefix: "sati", subfix: "can" },
-  { id: 'R', name: "射速（弓类武器效果加倍）", prefix: "croni", subfix: "dra" },
+  { id: 'R', name: "射速", prefix: "croni", subfix: "dra" },
   { id: 'L', name: "弹匣容量", prefix: "arma", subfix: "tin" },
   { id: 'F', name: "装填速度", prefix: "feva", subfix: "tak" },
   { id: 'M', name: "弹药最大值", prefix: "ampi", subfix: "bin", noDmg: true },
@@ -66,8 +66,10 @@ const meleeProperty: RivenProperty[] = [
 ];
 
 export const RivenPropertyDataBase: { [key: string]: RivenProperty[] } = {
-  gun: baseProperty.concat(gunProperty),
-  melee: baseProperty.concat(meleeProperty),
+  Rifle: baseProperty.concat(gunProperty.map(v => v.id === "R" ? { id: 'R', name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v)),
+  Shotgun: baseProperty.concat(gunProperty),
+  Pistol: baseProperty.concat(gunProperty),
+  Melee: baseProperty.concat(meleeProperty),
   all: baseProperty.concat(gunProperty, meleeProperty),
 };
 
@@ -120,7 +122,7 @@ export const RivenPropertyValueBaseDataBase = {
     O: 4.5, // 对堕落者伤害
     D: 16.5,// 伤害
     S: 12,  // 多重射击
-    R: 9,   // 射速（弓类武器效果加倍）
+    R: 9,   // 射速
     L: 5,   // 弹匣容量
     F: 5,   // 装填速度
     M: 9,   // 弹药最大值
@@ -147,7 +149,7 @@ export const RivenPropertyValueBaseDataBase = {
     O: 4.5, // 对堕落者伤害
     D: 22,  // 伤害
     S: 12,  // 多重射击
-    R: 7.5, // 射速（弓类武器效果加倍）
+    R: 7.5, // 射速
     L: 5,   // 弹匣容量
     F: 5,   // 装填速度
     M: 5,   // 弹药最大值
@@ -2066,7 +2068,6 @@ export const GunWeaponDataBase: GunWeapon[] = [
   }
 ];
 
-
 export const MeleeWeaponDataBase: MeleeWeapon[] = [
   { "id": "Sibear", "name": "西伯利亚冰锤", "tags": ["近战", "Hammer"], "dmg": [["Cold", 130]], "criticalMultiplier": 2, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 260, "status": 0.1 },
   { "id": "Endura", "name": "三叶坚韧", "tags": ["近战", "Rapier"], "dmg": [["Puncture", 66.5], ["Slash", 23.75], ["Impact", 4.75]], "criticalMultiplier": 2, "criticalChances": 0.05, "fireRate": 0.917, "slideDmg": 204, "status": 0.25 },
@@ -2722,8 +2723,8 @@ export class RivenDataBase {
   private static instance = new RivenDataBase();
 
   static PropRegExps = {
-    gun: new RegExp(`(?:(${RivenPropertyDataBase.gun.map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase.gun.map(v => v.prefix).join("|")})(${RivenPropertyDataBase.gun.map(v => v.subfix).join("|")})`, "i"),
-    melee: new RegExp(`(?:(${RivenPropertyDataBase.melee.map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase.melee.map(v => v.prefix).join("|")})(${RivenPropertyDataBase.melee.map(v => v.subfix).join("|")})`, "i"),
+    gun: new RegExp(`(?:(${RivenPropertyDataBase.Rifle.map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase.Rifle.map(v => v.prefix).join("|")})(${RivenPropertyDataBase.Rifle.map(v => v.subfix).join("|")})`, "i"),
+    melee: new RegExp(`(?:(${RivenPropertyDataBase.Melee.map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase.Melee.map(v => v.prefix).join("|")})(${RivenPropertyDataBase.Melee.map(v => v.subfix).join("|")})`, "i"),
   }
   static PrefixAll = new RegExp(`(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})`, "i")
 
@@ -2833,10 +2834,10 @@ export class RivenDataBase {
   /**
    * 通过tag获取属性
    * @param tag tag
-   * @param stype 类型 ["gun" | "melee"]
+   * @param stype
    * @param isPrefix 是否是前缀
    */
-  static getPropByTag(tag: string, stype: "gun" | "melee", isPrefix: boolean) {
+  static getPropByTag(tag: string, stype: string, isPrefix: boolean) {
     return RivenPropertyDataBase[stype].find(v => v[isPrefix ? "prefix" : "subfix"] == tag);
   }
 

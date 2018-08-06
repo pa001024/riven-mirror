@@ -233,7 +233,7 @@ export class GunModBuild extends ModBuild {
     switch (pName) {
       case 'D': /* 伤害 baseDmg */ this._baseDamageMul += pValue; break;
       case 'S': /* 多重射击 multiShot */ this._multishotMul += pValue; break;
-      case 'R': /* 射速（弓类武器效果加倍） fireRate */ this._fireRateMul += pValue; break;
+      case 'R': /* 射速（弓类武器效果加倍） fireRate */ this._fireRateMul += (this.weapon.tags.includes("弓") ? 2 * pValue : pValue); break;
       case 'L': /* 弹匣容量 magazine */ this._magazineMul += pValue; break;
       case 'F': /* 装填速度 reloadSpeed */ this._reloadSpeedMul += pValue; break;
       case 'M': /* 弹药最大值 maxAmmo' */ this._maxAmmoMul += pValue; break;

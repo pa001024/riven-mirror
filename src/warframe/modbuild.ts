@@ -202,7 +202,7 @@ export abstract class ModBuild {
     // 生成所有紫卡
 
     // 1. 列出所有属性
-    let avaliableProps = RivenPropertyDataBase[this.riven.propType].filter(v => {
+    let avaliableProps = RivenPropertyDataBase[this.riven.mod].filter(v => {
       if (v.noDmg) return false;
       if (!this.enemyDmgType && ["G", "I", "C", "O"].includes(v.id)) return false;
       if (this.allowElementTypes) {
@@ -219,7 +219,7 @@ export abstract class ModBuild {
     });
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
     // 负面属性
-    let negativeProp = RivenPropertyDataBase[this.riven.propType].find(v => v.name === "变焦" || v.name === "处决伤害");
+    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.name === "变焦" || v.name === "处决伤害");
     let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -0.75, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), 1);
 
     let newRivens = propsOfMods.map(v => {

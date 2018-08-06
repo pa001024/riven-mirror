@@ -13,7 +13,7 @@
     </el-header>
     <transition name="el-zoom-in-top">
       <ul class="app-nav-menu" v-if="menuOpen" @click="menuOpen=false">
-        <router-link v-for="link in links" :key="link.title" tag="li" :to="link.path" class="menu-item">
+        <router-link v-for="link in links" :key="link.title" tag="li" :to="link.path" class="menu-item" :exact="link.exact">
           <i :class="link.icon"></i>
           <span class="app-nav-title">{{link.title}}</span>
         </router-link>
@@ -23,7 +23,7 @@
       <el-aside width="60px" class="hidden-sm-and-down">
         <ul class="aside-nav-menu">
           <el-tooltip v-for="link in links" :key="link.title" :content="link.title" placement="right" :enterable="false">
-            <router-link tag="li" :to="link.path" class="menu-item" :exact="link.path === '/'">
+            <router-link tag="li" :to="link.path" class="menu-item" :exact="link.exact">
               <i :class="link.icon"></i>
             </router-link>
           </el-tooltip>
@@ -48,7 +48,7 @@ import WarframeWatch from "./components/WarframeWatch.vue";
 export default class App extends Vue {
   menuOpen = false;
   links = [
-    { title: "主页", path: "/", icon: "el-icon-news" },
+    { title: "主页", path: "/", icon: "el-icon-news", exact: true },
     { title: "紫卡分析", path: "/riven", icon: "el-icon-view" },
     { title: "武器配装", path: "/weapon", icon: "el-icon-edit-outline" },
     { title: "洗卡模拟", path: "/sim", icon: "el-icon-refresh" },
@@ -59,9 +59,10 @@ export default class App extends Vue {
 </script>
 
 <style>
+/* APP */
 .app-nav-menu {
-  background: #3147c1;
-  color: white;
+  background: #3d5afe;
+  color: #ecf5ff;
   padding: 8px 0;
   transition: 0.5s;
   position: absolute;
@@ -75,13 +76,12 @@ export default class App extends Vue {
   align-items: center;
 }
 .app-nav-menu .menu-item.router-link-active {
-  background: #4c5ee4;
+  background-color: #89b2fb;
+  color: white;
 }
 .app-nav-menu .menu-item:hover {
-  background: #5c6de8;
-}
-.app-nav-menu .menu-item:active {
-  background: #707de2;
+  background-color: #6199ff;
+  color: white;
 }
 .app-nav-menu .menu-item i {
   padding: 20px;
@@ -108,11 +108,14 @@ export default class App extends Vue {
   border-color: #768aff;
   background-color: #768aff;
 }
-.aside-nav-menu .menu-item i {
-  font-size: 24px;
-  padding: 18px;
-}
 
+/* ASIDE */
+.el-aside {
+  background-color: #3d5afe;
+  color: #333;
+  text-align: center;
+  box-shadow: inset 0 0 8px 0px #0000001f;
+}
 .aside-nav-menu .menu-item {
   width: 100%;
   cursor: pointer;
@@ -121,16 +124,19 @@ export default class App extends Vue {
   transition: 0.2s;
   line-height: 36px;
   display: block;
-  color: #6199ff;
+  color: #ecf5ff;
 }
 .aside-nav-menu .menu-item.router-link-active {
-  background-color: #a8c7ff;
+  background-color: #89b2fb;
   color: white;
 }
-
 .aside-nav-menu .menu-item:hover {
   background-color: #6199ff;
   color: white;
+}
+.aside-nav-menu .menu-item i {
+  font-size: 24px;
+  padding: 18px;
 }
 .aside-nav-menu .menu-item-title {
   font-size: 16px;
@@ -170,20 +176,6 @@ ol {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-
-.el-aside {
-  background-color: #ffffff80;
-  color: #333;
-  text-align: center;
-  box-shadow: inset 0 0 8px 0px #0000001f;
-}
-.el-aside .el-button.is-circle {
-  margin-top: 8px;
-  padding: 14px;
-}
-.el-aside .el-button.is-circle:start {
-  margin-top: 30px;
 }
 
 .el-main {

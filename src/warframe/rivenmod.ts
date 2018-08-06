@@ -99,8 +99,6 @@ export class RivenMod {
   rank: number
   /** 类型 */
   mod: string
-  /** 属性类型 */
-  get propType() { return this.mod === "Melee" ? "melee" : "gun" }
 
   constructor(parm?: string | RivenMod) {
     if (typeof parm === "string") {
@@ -162,19 +160,23 @@ export class RivenMod {
     this.name = weapon.name;
     this.id = weapon.id;
     // 获取后缀属性
-    let rivenProps = this.parseSubfix(this.subfix, this.propType);
+    let rivenProps = this.parseSubfix(this.subfix, this.mod);
     let propRegExp = /([+\-]?\d+(?:\.\d+)?)%? *.*?([\u4e00-\u9fa5].+)/;
     let properties: [RivenProperty, number][] = [];
     for (let i = subfixIndex + 1; i < lines.length; i++) {
       let propLine = lines[i].match(propRegExp);
       if (properties.length < 4 && !this.hasNegativeProp && propLine) {
         // 如果后缀已识别则优先使用(只识别一定次数)
-        let prop = ((i <= subfixIndex + rivenProps.length) && rivenProps && _.maxBy(rivenProps, v => strSimilarity(v[0].name, propLine[2]))[0])
+        let prop = ((i <= subfixIndex + rivenProps.length) && rivenProps && _.maxBy(rivenProps, v => {
+          let s = strSimilarity(v[0].name, propLine[2]);
+          console.log("strSimilarity: ", v[0].name, propLine[2], "s=", s)
+          return s;
+        })[0])
           // 识别到的属性是否正确, 否则模糊匹配
           || RivenDataBase.findMostSimProp(propLine[2]);
         // 判断前缀不是+或者-就加上-
         let propValue = +(v => v[0] != '-' && v[0] != '+' ? -v : v)(propLine[1]);
-        console.log(propLine, "prop=", prop, "propValue=", propValue);
+        console.log(propLine[0], "prop=", prop, "propValue=", propValue);
         // 对于只有正面的属性去除负号
         if (prop.onlyPositive && propValue < 0) propValue = -propValue;
         // 检测负属性
@@ -220,8 +222,7 @@ export class RivenMod {
     // 2+1- = [3-3]>>0
     this.upLevel = [1.33, 1, 0.8][properties.length - (this.hasNegativeProp ? 3 : 1)];
     // 写入属性并标准化
-    this.properties = properties.map(v =>
-      new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel).normalize());
+    this.parseProps(properties.map(v => [v[0].name, v[1]] as [string, number]));
     return;
   }
   /**
@@ -269,10 +270,10 @@ export class RivenMod {
     this.upLevel = [1.33, 1, 0.8][count - (this.hasNegativeProp ? 2 : 1)];
     let negaUplvl = this.upLevel == 1 ? 0.833 : .5;
     let devi = () => (100 + ((Math.random() - .5) * 5) ** 3) / 100;
-    let props = _.sampleSize(RivenPropertyDataBase[this.propType], count)
+    let props = _.sampleSize(RivenPropertyDataBase[this.mod], count)
       .map(v => [v.id, _.round(devi() * this.upLevel * RivenDataBase.getPropBaseValue(this.name, v.id), 1)]) as [string, number][];
     if (this.hasNegativeProp) {
-      let neProp = _.sample(RivenPropertyDataBase[this.propType].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
+      let neProp = _.sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
       props.push([neProp.id, _.round(devi() * -negaUplvl * RivenDataBase.getPropBaseValue(this.name, neProp.id), 1)]);
     }
     this.parseProps(props);
@@ -308,7 +309,7 @@ export class RivenMod {
   get isZaw() { return this.is("zaw"); }
   /** 短后缀 */
   get shortSubfix() {
-    let subs = this.parseSubfix(this.subfix, this.propType);
+    let subs = this.parseSubfix(this.subfix, this.mod);
     if (subs)
       return subs.map(v => v[0].id).join("");
     return "";
