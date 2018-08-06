@@ -131,7 +131,7 @@ export default class App extends Vue {
   color: #6199ff;
 }
 .aside-nav-menu .menu-item.router-link-active {
-  background-color: #a8c7ff;
+  background-color: #89b2fd;
   color: white;
 }
 .aside-nav-menu .menu-item:hover {
