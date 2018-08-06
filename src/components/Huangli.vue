@@ -1,47 +1,49 @@
 <template>
-  <div class="huangli">
-    <div class="title">
-      仓鼠老黄历
-      <sup>beta</sup>
-    </div>
-    <div class="date">
-      {{todayString}}
-    </div>
-    <div class="evs">
-      <div class="ev good">
-        <div class="ev-title">宜</div>
-        <ul class="ev-list">
-          <li v-for="good in goods" :key="good.name">
-            <div class="ev-name">{{good.name}}</div>
-            <div class="ev-desc">{{good.good}}</div>
-          </li>
+  <el-row type="flex" :gutter="20" justify="center">
+    <div class="huangli">
+      <div class="title">
+        仓鼠老黄历
+        <sup>beta</sup>
+      </div>
+      <div class="date">
+        {{todayString}}
+      </div>
+      <div class="evs">
+        <div class="ev good">
+          <div class="ev-title">宜</div>
+          <ul class="ev-list">
+            <li v-for="good in goods" :key="good.name">
+              <div class="ev-name">{{good.name}}</div>
+              <div class="ev-desc">{{good.good}}</div>
+            </li>
+          </ul>
+        </div>
+        <div class="ev bad">
+          <div class="ev-title">不宜</div>
+          <ul class="ev-list">
+            <li v-for="bad in bads" :key="bad.name">
+              <div class="ev-name">{{bad.name}}</div>
+              <div class="ev-desc">{{bad.bad}}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="line-tip">
+        <strong>朝向：</strong>面向<span class="direction_value">{{directionString}}</span>破关节，伤害最高
+      </div>
+      <div class="line-tip">
+        <strong>星球：</strong>去<span class="direction_value">{{starsString}}</span>刷裂缝，出金最多
+      </div>
+      <div class="line-tip">
+        <strong>大佬指数：</strong><span class="dalao_value">{{dalaoValue}}</span>
+      </div>
+      <div class="comment">
+        <ul>
+          <li>*仅供参考</li>
         </ul>
       </div>
-      <div class="ev bad">
-        <div class="ev-title">不宜</div>
-        <ul class="ev-list">
-          <li v-for="bad in bads" :key="bad.name">
-            <div class="ev-name">{{bad.name}}</div>
-            <div class="ev-desc">{{bad.bad}}</div>
-          </li>
-        </ul>
-      </div>
     </div>
-    <div class="line-tip">
-      <strong>朝向：</strong>面向<span class="direction_value">{{directionString}}</span>破关节，伤害最高
-    </div>
-    <div class="line-tip">
-      <strong>星球：</strong>去<span class="direction_value">{{starsString}}</span>刷裂缝，出金最多
-    </div>
-    <div class="line-tip">
-      <strong>大佬指数：</strong><span class="dalao_value">{{dalaoValue}}</span>
-    </div>
-    <div class="comment">
-      <ul>
-        <li>*仅供参考</li>
-      </ul>
-    </div>
-  </div>
+  </el-row>
 </template>
 
 <script lang="ts">
