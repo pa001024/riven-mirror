@@ -57,17 +57,16 @@ export default class WarframeWatch extends Vue {
   height: 60px;
   display: flex;
   align-items: center;
-  padding-left: 80px;
 }
 .time-block {
   margin: 0 20px;
   font-size: 10pt;
   display: inline-block;
-  vertical-align: middle;
+  text-align: center;
 }
 .time-clock {
   font-family: SAOUI;
-  font-size: 18px;
+  font-size: 16px;
   letter-spacing: 1px;
 }
 </style>

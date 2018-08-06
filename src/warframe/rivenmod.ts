@@ -341,9 +341,8 @@ export class RivenMod {
       return [RivenDataBase.getPropByName(kv[0]), +kv[1]];
     }) as [RivenProperty, number][];
     let lastProp = props[props.length - 1];
-    this.hasNegativeProp = props.length === 4 || lastProp[0].negative != (lastProp[1] < 0);
+    this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == (lastProp[1] < 0);
     this.upLevel = [1.33, 1, 0.8][props.length - (this.hasNegativeProp ? 3 : 1)];
-
     this.properties = props.map(v =>
       new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel));
   }

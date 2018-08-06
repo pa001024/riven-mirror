@@ -1,11 +1,13 @@
 <template>
   <el-container id="app">
     <el-header>
-      <i class="i-mirror-logo"></i>
-      <router-link tag="h1" to="/">Riven Mirror
-        <span class="beta">ALPHA</span>
+      <router-link tag="div" class="site-logo" to="/">
+        <i class="i-mirror-logo"></i>
+        <h1>Riven Mirror
+          <span class="beta">ALPHA</span>
+        </h1>
       </router-link>
-      <wf-watch class="hidden-sm-and-down">
+      <wf-watch class="hidden-sm-and-down header-watch">
       </wf-watch>
       <button class="app-nav-button hidden-md-and-up" @click="menuOpen=!menuOpen">
         <i class="el-icon-more hidden-md-and-up"></i>
@@ -156,7 +158,6 @@ export default class App extends Vue {
   font-family: SAOUI;
   src: url("/static/fonts/SAOUI-Regular.otf");
 }
-
 html,
 body {
   margin: 0;
@@ -169,22 +170,22 @@ body {
 .beta {
   font-size: 0.4em;
 }
-.el-header,
-.el-footer {
+.el-header {
+  display: flex;
+  align-items: center;
   background-color: #3d5afe;
   color: #fff;
   padding: 0 10px;
   box-shadow: 0 0 6px 0 #000;
 }
 .el-header h1 {
-  line-height: 60px;
   margin: 0 0 0 16px;
   font-weight: normal;
-  float: left;
   cursor: pointer;
   font-family: FuturaPT, "Helvetica Neue", Helvetica, "PingFang SC",
     "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   font-size: 24px;
+  user-select: none;
 }
 ul,
 ol {
@@ -197,7 +198,13 @@ ol {
   background-color: #ececec80;
   color: #333;
 }
-
+.site-logo {
+  display: flex;
+  align-items: inherit;
+}
+.header-watch {
+  margin-left: 60px;
+}
 .i-mirror-logo {
   background-image: url("assets/LOGO@2x.png");
   background-size: 100%;
