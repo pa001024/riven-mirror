@@ -33,7 +33,7 @@
                     <div style="text-align:center;">
                       手机扫描或直接粘贴
                     </div>
-                    <el-button slot="reference" icon="el-icon-share" @click="ttoRiven(mod)">分析</el-button>
+                    <el-button slot="reference" icon="el-icon-search" @click="toRiven(mod)">分析</el-button>
                   </el-popover>
                   <el-button class="simulator-choose" type="primary" icon="el-icon-check" v-if="newMod" @click="choose(false)">确认选择</el-button>
                 </div>
@@ -64,7 +64,7 @@
                     <div style="text-align:center;">
                       手机扫描或直接粘贴
                     </div>
-                    <el-button slot="reference" icon="el-icon-share" @click="toRiven(newMod)">分析</el-button>
+                    <el-button slot="reference" icon="el-icon-search" @click="toRiven(newMod)">分析</el-button>
                   </el-popover>
                   <el-button class="simulator-choose" type="primary" icon="el-icon-check" v-if="newMod" @click="choose(true)">确认选择</el-button>
                 </div>
@@ -139,7 +139,8 @@ export default class Simulator extends Vue {
     localStorage.setItem("simulator", this.mod.qrCodeBase64);
   }
   toRiven(mod: RivenMod) {
-    this.$router.push({ name: "ModWithSource", params: { source: this.mod.qrCodeBase64 } });
+    window.open("/riven/" + mod.qrCodeBase64);
+    // this.$router.push({ name: "ModWithSource", params: { source: mod.qrCodeBase64 } });
   }
   // === 生命周期钩子 ===
   beforeMount() {
