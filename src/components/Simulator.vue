@@ -43,7 +43,7 @@
         </transition>
         <!-- 新卡 -->
         <transition name="el-zoom-in-center">
-          <el-col :sm="24" :md="12" :lg="8" v-if="newMod">
+          <el-col :sm="24" :md="12" :lg="8" v-if="newMod && !hasChoosen">
             <div class="mod-display">
               <el-card class="mod-props-box">
                 <div slot="header" class="mod-name">
@@ -113,11 +113,12 @@ export default class Simulator extends Vue {
     setTimeout(() => {
       this.mod = new RivenMod();
       this.mod.random();
+      this.hasChoosen = true;
+      localStorage.setItem("simulator", this.mod.qrCodeBase64);
     }, 1e3);
 
     this.newMod = null;
     countDown(5, v => this.openCountdown = v);
-    localStorage.setItem("simulator", this.mod.qrCodeBase64);
   }
   simulatorRoll() {
     let oldMod = this.mod;
