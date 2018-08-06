@@ -47,14 +47,14 @@
             <div class="mod-display">
               <el-card class="mod-props-box">
                 <div slot="header" class="mod-name">
-                  <span>{{newMod.name}} {{mod.subfix}}</span>
+                  <span>{{newMod.name}} {{newMod.subfix}}</span>
                 </div>
                 <div v-for="prop in newMod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
                   {{prop.displayValue}} {{prop.name}}
                 </div>
                 <div class="mod-extra">
                   <el-tag size="medium" class="mod-rank">段位: {{newMod.rank}}</el-tag>
-                  <el-tag size="medium" class="mod-recycleTimes">循环: {{mod.recycleTimes}}</el-tag>
+                  <el-tag size="medium" class="mod-recycleTimes">循环: {{newMod.recycleTimes}}</el-tag>
                 </div>
                 <div class="mod-qrcode">
                   <el-popover placement="bottom" trigger="hover">
