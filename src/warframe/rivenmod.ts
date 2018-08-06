@@ -243,35 +243,49 @@ export class RivenMod {
    * 识别普通MOD格式的属性
    */
   parseProps(props: [string, number][]) {
-    this.properties = props.map(v => {
+    this.hasNegativeProp = false;
+    this.properties = props.map((v, i) => {
       let prop = RivenDataBase.getPropByName(v[0]);
+      if (i >= 3 || (prop.negative ? -v[1] : v[1]) < 0) this.hasNegativeProp = true;
       return new ValuedRivenProperty(prop, v[1], RivenDataBase.getPropBaseValue(this.name, prop.name), this.upLevel);
     });
-    this.hasNegativeProp = true;
   }
   /**
    * 随机化所有
    */
   random() {
     let { id, name, mod } = RivenWeaponDataBase[~~(Math.random() * RivenWeaponDataBase.length)];
-    [this.id, this.name, this.mod] = [id, name, mod];
+    let rank = ~~(Math.random() * 8) + 9;
+    [this.id, this.name, this.mod, this.rank, this.recycleTimes] = [id, name, mod, rank, 0];
     this.randomProp();
   }
   /**
    * 只随机化属性
    */
   randomProp() {
+    this.subfix = "";
     let count = ~~(Math.random() * 2) + 2;
     this.hasNegativeProp = ~~(Math.random() * 2) > 0;
     this.upLevel = [1.33, 1, 0.8][count - (this.hasNegativeProp ? 2 : 1)];
     let negaUplvl = this.upLevel == 1 ? 0.833 : .5;
+    let devi = () => (100 + ((Math.random() - .5) * 5) ** 3) / 100;
     let props = _.sampleSize(RivenPropertyDataBase[this.propType], count)
-      .map(v => [v.id, this.upLevel * RivenDataBase.getPropBaseValue(this.name, v.id)]) as [string, number][];
+      .map(v => [v.id, _.round(devi() * this.upLevel * RivenDataBase.getPropBaseValue(this.name, v.id), 1)]) as [string, number][];
     if (this.hasNegativeProp) {
       let neProp = _.sample(RivenPropertyDataBase[this.propType].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
-      props.push([neProp.id, -negaUplvl * RivenDataBase.getPropBaseValue(this.name, neProp.id)]);
+      props.push([neProp.id, _.round(devi() * -negaUplvl * RivenDataBase.getPropBaseValue(this.name, neProp.id), 1)]);
     }
     this.parseProps(props);
+  }
+  /**
+   * 模拟洗卡
+   * @return newMod RivenMod
+   */
+  reroll() {
+    ++this.recycleTimes;
+    let newMod = new RivenMod(this);
+    newMod.randomProp();
+    return newMod;
   }
   /** 返回适用的武器列表 */
   get weapons() {
@@ -308,7 +322,7 @@ export class RivenMod {
   }
   /** 返回二维码使用的序列化字符串 */
   get qrCode() {
-    return [this.id, this.shortSubfix, this.rank, this.recycleTimes, this.properties.map(v => v.prop.id + "#" + v.value).join("&")].join("|");
+    return [this.id, this.shortSubfix, this.rank, this.recycleTimes, this.properties.map(v => v.prop.id + "#" + +v.value.toFixed(1)).join("&")].join("|");
   }
   /** 读取二维码识别后的序列化字符串 */
   set qrCode(value) {
@@ -323,9 +337,7 @@ export class RivenMod {
     this.recycleTimes = +d[3];
     let props = d[4].split("&").map(v => {
       let kv = v.split("#");
-      let prop = RivenDataBase.getPropByName(kv[0]);
-      let propValue = +kv[1];
-      return [prop, propValue];
+      return [RivenDataBase.getPropByName(kv[0]), +kv[1]];
     }) as [RivenProperty, number][];
     let lastProp = props[props.length - 1];
     this.hasNegativeProp = props.length === 4 || lastProp[0].negative != (lastProp[1] < 0);

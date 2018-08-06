@@ -27,7 +27,7 @@
                 <div slot="header" class="mod-name">
                   <span>{{mod.name}} {{mod.subfix}}</span>
                 </div>
-                <div v-for="prop in mod.properties" :key="prop.name" :class="{'negative-prop':prop.isNegative}">
+                <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
                   {{prop.displayValue}} {{prop.name}}
                   <el-tag size="small" class="mod-dis" :type="prop.deviation > 1 ^ prop.isNegative ? 'success' : 'danger'"> {{ prop.deviation > 1 ? '高于平均' : '低于平均'}} {{prop.displayDeviation}}</el-tag>
                 </div>
