@@ -61,8 +61,8 @@ export default class App extends Vue {
 <style>
 /* APP */
 .app-nav-menu {
-  background: #3d5afe;
-  color: #ecf5ff;
+  background: #3952e0;
+  color: white;
   padding: 8px 0;
   transition: 0.5s;
   position: absolute;
@@ -76,12 +76,13 @@ export default class App extends Vue {
   align-items: center;
 }
 .app-nav-menu .menu-item.router-link-active {
-  background-color: #89b2fb;
-  color: white;
+  background: #3d5afe;
 }
 .app-nav-menu .menu-item:hover {
-  background-color: #6199ff;
-  color: white;
+  background: #5c6de8;
+}
+.app-nav-menu .menu-item:active {
+  background: #707de2;
 }
 .app-nav-menu .menu-item i {
   padding: 20px;
@@ -108,13 +109,16 @@ export default class App extends Vue {
   border-color: #768aff;
   background-color: #768aff;
 }
-
 /* ASIDE */
 .el-aside {
-  background-color: #3d5afe;
+  background-color: #ffffff80;
   color: #333;
   text-align: center;
   box-shadow: inset 0 0 8px 0px #0000001f;
+}
+.aside-nav-menu .menu-item i {
+  font-size: 24px;
+  padding: 18px;
 }
 .aside-nav-menu .menu-item {
   width: 100%;
@@ -124,19 +128,15 @@ export default class App extends Vue {
   transition: 0.2s;
   line-height: 36px;
   display: block;
-  color: #ecf5ff;
+  color: #6199ff;
 }
 .aside-nav-menu .menu-item.router-link-active {
-  background-color: #89b2fb;
+  background-color: #a8c7ff;
   color: white;
 }
 .aside-nav-menu .menu-item:hover {
   background-color: #6199ff;
   color: white;
-}
-.aside-nav-menu .menu-item i {
-  font-size: 24px;
-  padding: 18px;
 }
 .aside-nav-menu .menu-item-title {
   font-size: 16px;
