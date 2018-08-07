@@ -9,7 +9,9 @@
       </router-link>
       <wf-watch class="hidden-sm-and-down header-watch">
       </wf-watch>
-      <button class="app-nav-button hidden-md-and-up" @click="menuOpen=!menuOpen">
+      <div class="app-nav-pad hidden-md-and-up">
+      </div>
+      <button class="app-nav-button hidden-md-and-up" @click="menuOpen = !menuOpen">
         <i class="el-icon-more hidden-md-and-up"></i>
       </button>
     </el-header>
@@ -61,6 +63,9 @@ export default class App extends Vue {
 </script>
 
 <style>
+.app-nav-pad {
+  flex: 1;
+}
 /* APP */
 .app-nav-menu {
   background: #3952e0;
