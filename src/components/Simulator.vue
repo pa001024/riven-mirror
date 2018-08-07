@@ -3,7 +3,16 @@
     <el-row :gutter="20">
       <el-row type="flex" justify="center">
         <el-col :sm="24" :md="12" :lg="8" style="padding:0 11px;">
-          <el-button class="simulator-new" type="primary" size="medium" :disabled="openCountdown > 0" icon="el-icon-plus" @click="simulatorNew">{{openCountdown > 0 ? `请等待${openCountdown}秒` : '开卡'}}</el-button>
+          <el-dropdown class="simulator-new" :class="{ 'is-disabled': openCountdown > 0 }"  size="medium" split-button type="primary" @click="simulatorNew" @command="newTypeSelect" trigger="click">
+            <i class="el-icon-plus"></i> {{openCountdown > 0 ? `请等待${openCountdown}秒` : '开卡：' + newTypeString}}
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="">随机</el-dropdown-item>
+              <el-dropdown-item command="Rifle">步枪</el-dropdown-item>
+              <el-dropdown-item command="Shotgun">霰弹</el-dropdown-item>
+              <el-dropdown-item command="Pistol">手枪</el-dropdown-item>
+              <el-dropdown-item command="Melee">近战</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </el-col>
         <el-col :sm="24" :md="12" :lg="8" style="padding:0 11px;">
           <el-button class="simulator-roll" type="primary" size="medium" :disabled="refreshCountdown > 0 || !hasChoosen" icon="el-icon-refresh" @click="simulatorRoll">{{refreshCountdown > 0 ? `请等待${refreshCountdown}秒` : '循环'}}</el-button>
@@ -107,12 +116,18 @@ export default class Simulator extends Vue {
   openCountdown = 0;
   refreshCountdown = 0;
   hasChoosen = true;
+  newType = "";
+  types = { "Rifle": "步枪", "Shotgun": "霰弹枪", "Pistol": "手枪", "Melee": "近战" };
+  get newTypeString() { return this.types[this.newType] || "随机" }
   // === 事件处理 ===
+  newTypeSelect(cmd: string) {
+    this.newType = cmd;
+  }
   simulatorNew() {
     this.mod = null;
     setTimeout(() => {
       this.mod = new RivenMod();
-      this.mod.random();
+      this.mod.random(this.newType);
       this.hasChoosen = true;
       localStorage.setItem("simulator", this.mod.qrCodeBase64);
     }, 1e3);
@@ -153,7 +168,31 @@ export default class Simulator extends Vue {
 }
 </script>
 <style>
-.simulator-new,
+.simulator-new {
+  display: block;
+  width: 100%;
+  /* pointer-events: visible; */
+}
+.simulator-new .el-button-group {
+  display: flex;
+}
+.simulator-new button {
+  background-color: #6199ff;
+  border-color: #6199ff;
+}
+.simulator-new button:first-child {
+  flex: 1;
+}
+.simulator-new.is-disabled .el-button,
+.simulator-new.is-disabled .el-button:focus,
+.simulator-new.is-disabled .el-button:hover {
+  color: #fff;
+  background-color: #a0cfff;
+  border-color: #a0cfff;
+  cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
+}
 .simulator-roll,
 .simulator-choose {
   width: 100%;

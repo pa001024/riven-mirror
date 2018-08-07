@@ -1,5 +1,5 @@
 import { GunWeaponDataBase, MeleeWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase, RivenWeaponDataBase } from "@/warframe/data";
-import { Base64, strSimilarity } from "@/warframe/util";
+import { Base64, strSimilarity, randomNormalDistribution } from "@/warframe/util";
 import _ from "lodash";
 
 export class ValuedRivenProperty {
@@ -254,8 +254,9 @@ export class RivenMod {
   /**
    * 随机化所有
    */
-  random() {
-    let { id, name, mod } = RivenWeaponDataBase[~~(Math.random() * RivenWeaponDataBase.length)];
+  random(stype: string = "") {
+    let data = stype ? RivenWeaponDataBase.filter(v => v.mod === stype) : RivenWeaponDataBase;
+    let { id, name, mod } = data[~~(Math.random() * data.length)];
     let rank = ~~(Math.random() * 8) + 9;
     [this.id, this.name, this.mod, this.rank, this.recycleTimes] = [id, name, mod, rank, 0];
     this.randomProp();
@@ -269,7 +270,8 @@ export class RivenMod {
     this.hasNegativeProp = ~~(Math.random() * 2) > 0;
     this.upLevel = [1.33, 1, 0.8][count - (this.hasNegativeProp ? 2 : 1)];
     let negaUplvl = this.upLevel == 1 ? 0.833 : .5;
-    let devi = () => (100 + ((Math.random() - .5) * 5) ** 3) / 100;
+    // 偏差值 正态分布 标准差=5
+    let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
     let props = _.sampleSize(RivenPropertyDataBase[this.mod], count)
       .map(v => [v.id, _.round(devi() * this.upLevel * RivenDataBase.getPropBaseValue(this.name, v.id), 1)]) as [string, number][];
     if (this.hasNegativeProp) {
