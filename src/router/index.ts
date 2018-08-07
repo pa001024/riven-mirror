@@ -18,7 +18,7 @@ export default new Router({
     { path: '/about', name: 'About', component: About },
     { path: '/sim', name: 'Simulator', component: Simulator },
     { path: '/weapon', name: 'WeaponSelector', component: WeaponSelector },
-    { path: '/weapon/:id', name: 'BuildEditor', component: BuildEditor, props: true },
+    { path: '/weapon/:id', name: 'BuildEditor', component: BuildEditor },
     { path: '/huangli', name: 'Huangli', component: Huangli },
     { path: '/riven', name: 'Mod', component: Mod },
     { path: '/riven/:source', name: 'ModWithSource', component: Mod, props: true },

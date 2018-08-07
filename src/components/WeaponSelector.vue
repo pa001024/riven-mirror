@@ -5,14 +5,14 @@
       <ul class="weapon-select">
         <div class="weapon-item-container" v-for="riven in tab.rivens" :key="riven.id">
           <el-dropdown v-if="riven.weapons.length > 1" trigger="click" @command="handleCommand">
-            <li class="weapon-item" @click="handleClick(riven.id)">
+            <li class="weapon-item">
               {{riven.name}}
             </li>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{weapon.name}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <li v-else class="weapon-item el-dropdown" @click="handleClick(riven.id)">
+          <li v-else-if="riven.weapons.length > 0" class="weapon-item el-dropdown" @click="handleClick(riven.id)">
             {{riven.name}}
           </li>
         </div>

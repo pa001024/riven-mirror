@@ -140,7 +140,7 @@ export class RivenMod {
     this.id = this.name = "";
     this.hasNegativeProp = false;
     this.rank = this.recycleTimes = 0;
-    let lines = modText.replace(/(（\S*?)\s(\S*?）)|(\(\S*?)\s(\S*?\))/g, "$1$2$3$4").replace("·", "-").split(/\n+/g);
+    let lines = modText.replace(/\n([A-z\u4e00-\u9fa5])/g, "$1").replace(/(（\S*?)\s(\S*?）)|(\(\S*?)\s(\S*?\))/g, "$1$2$3$4").replace("·", "-").split(/\n+/g);
     let subfixIndex = lines.findIndex(v => v.match(RivenDataBase.PrefixAll) != null);
     if (subfixIndex < 0) return new Error("紫卡属性识别错误: 找不到后缀");
     else {
@@ -161,15 +161,15 @@ export class RivenMod {
     this.id = weapon.id;
     // 获取后缀属性
     let rivenProps = this.parseSubfix(this.subfix, this.mod);
-    let propRegExp = /([+\-]?\d+(?:\.\d+)?)%? *.*?([\u4e00-\u9fa5].+)/;
+    let propRegExp = /([+\-]?\d+(?:\.\d+)?)%? *.*?([A-Zc\u4e00-\u9fa5]\D+)/;
     let properties: [RivenProperty, number][] = [];
     for (let i = subfixIndex + 1; i < lines.length; i++) {
       let propLine = lines[i].match(propRegExp);
       if (properties.length < 4 && !this.hasNegativeProp && propLine) {
         // 如果后缀已识别则优先使用(只识别一定次数)
         let prop = ((i <= subfixIndex + rivenProps.length) && rivenProps && _.maxBy(rivenProps, v => {
-          let s = strSimilarity(v[0].name, propLine[2]);
-          console.log("strSimilarity: ", v[0].name, propLine[2], "s=", s)
+          let s = _.max([strSimilarity(v[0].name, propLine[2]), strSimilarity(v[0].eName, propLine[2])]);
+          console.log("strSimilarity: ", v[0].name, propLine[2], "s=", s);
           return s;
         })[0])
           // 识别到的属性是否正确, 否则模糊匹配

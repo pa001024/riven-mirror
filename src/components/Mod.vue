@@ -149,6 +149,7 @@ export default class Mod extends Vue {
         this.ocrLoading = false;
         let rst = response.data as OCRResult;
         if (rst) {
+          console.log("readOCR=>", rst);
           this.modText = rst.result.map(v => v.trim()).join("\n");
         }
       })

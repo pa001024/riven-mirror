@@ -171,14 +171,9 @@ export default class Simulator extends Vue {
 .simulator-new {
   display: block;
   width: 100%;
-  /* pointer-events: visible; */
 }
 .simulator-new .el-button-group {
   display: flex;
-}
-.simulator-new button {
-  background-color: #6199ff;
-  border-color: #6199ff;
 }
 .simulator-new button:first-child {
   flex: 1;
@@ -196,8 +191,6 @@ export default class Simulator extends Vue {
 .simulator-roll,
 .simulator-choose {
   width: 100%;
-  background-color: #6199ff;
-  border-color: #6199ff;
 }
 .simulator-choose {
   margin-top: 12px;

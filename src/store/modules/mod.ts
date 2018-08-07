@@ -11,13 +11,13 @@ let state = {
   history: localStorage.getItem("modHistory") ? JSON.parse(localStorage.getItem("modHistory")).map(v => new RivenMod(v)) : []
 }
 
-const MAX_HISTORY_COUNT = 8;
+const MAX_HISTORY_COUNT = 10;
 
 const mutations = {
   newRiven(state: State, riven: RivenMod) {
     state.mod = riven;
     if (state.history.length === 0 || riven.qrCode !== state.history[0].qrCode)
-      state.history = [riven].concat(state.history.filter((v, i) => v.qrCode !== riven.qrCode || i >= MAX_HISTORY_COUNT));
+      state.history = [riven].concat(state.history.filter((v, i) => v.qrCode !== riven.qrCode && i < MAX_HISTORY_COUNT));
     localStorage.setItem("modHistory", JSON.stringify(state.history.map(v => v.qrCode)));
   }
 }

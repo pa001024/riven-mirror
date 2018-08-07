@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col :sm="24" :md="12" :lg="6">
         <!-- 武器信息区域 -->
-        <div v-if="weapon" class="weapon-display">
+        <div v-if="id" class="weapon-display">
           <el-card class="weapon-box">
             <div slot="header" class="weapon-name">
               <span>{{weapon.name}}</span>
@@ -43,23 +43,13 @@ import { RivenWeapon, ModBuild, RivenDataBase, Weapon } from "@/warframe";
 
 @Component
 export default class BuildEditor extends Vue {
-  @Prop() id: string
+  get id() { return this.$route.params.id; }
   build: ModBuild = null
   private _weapon: Weapon;
   private _rWeapon: RivenWeapon;
-  @Watch("id")
-  weaponChange() {
-    this._weapon = RivenDataBase.getNormalWeaponsByName(this.id.replace(/_/g, " "));
-    this._rWeapon = RivenDataBase.getRivenWeaponByName(this.weapon.rivenName || this.weapon.id);
-    return this._weapon;
-  }
-  get weapon() { return this._weapon || this.weaponChange(); }
-  get rWeapon() { return this._rWeapon; }
+  get weapon() { return RivenDataBase.getNormalWeaponsByName(this.id.replace(/_/g, " ")); }
+  get rWeapon() { return RivenDataBase.getRivenWeaponByName(this.weapon.rivenName || this.weapon.id); }
 
-  // === 生命周期钩子 ===
-  beforeMount() {
-    console.log(this.id.replace(/_/g, " "), this.weapon);
-  }
 }
 </script>
 
