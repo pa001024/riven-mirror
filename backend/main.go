@@ -88,17 +88,17 @@ func (u OCRService) OCR(request *restful.Request, response *restful.Response) {
 	response.AddHeader("Content-Type", "application/json;charset=UTF-8")
 	file, _, err := request.Request.FormFile("file")
 	if err != nil {
-		log.Println(err)
+		log.Println("request.Request.FormFile", err)
 		io.WriteString(response.ResponseWriter, `{"result":[],"success":0,"msg":"图片格式不正确"}`)
 		return
 	}
 	ocrrst, err := sogouOCR(file)
 	if err != nil {
-		log.Println(err)
+		log.Println("sogouOCR", err)
 		io.WriteString(response.ResponseWriter, `{"result":[],"success":0,"msg":"OCR错误"}`)
 		return
 	}
-	ocrLog.Println(ocrrst)
+	ocrLog.Println("ocrrst", ocrrst)
 	io.WriteString(response.ResponseWriter, ocrrst)
 }
 

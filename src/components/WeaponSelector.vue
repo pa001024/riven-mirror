@@ -42,6 +42,7 @@ export default class WeaponSelector extends Vue {
     this.tabs = _.map(ModTypeTable, (name, id) => ({ id, name, rivens: RivenWeaponDataBase.filter(v => v.mod === id), weapons: [] }));
   }
   handleCommand(id: string) {
+    console.log("BuildEditor->", id);
     this.$router.push({ name: 'BuildEditor', params: { id: id.replace(/ /g, "_") } });
   }
   handleClick(id: string) {

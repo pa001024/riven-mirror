@@ -15,6 +15,7 @@ export interface RivenPropertyValue {
 export interface RivenProperty {
   id: string;
   name: string;
+  eName: string;
   prefix: string;
   subfix: string;
   onlyPositive?: boolean;
@@ -25,48 +26,48 @@ export interface RivenProperty {
 }
 
 const baseProperty: RivenProperty[] = [
-  { id: '0', name: "暴击率", prefix: "crita", subfix: "cron" },
-  { id: '1', name: "暴击伤害", prefix: "acri", subfix: "tis" },
-  { id: '2', name: "触发几率", prefix: "hexa", subfix: "dex", noDmg: true },
-  { id: '3', name: "触发时间", prefix: "deci", subfix: "des", noDmg: true },
-  { id: '4', name: "火焰伤害", prefix: "igni", subfix: "pha", onlyPositive: true },
-  { id: '5', name: "冰冻伤害", prefix: "geli", subfix: "do", onlyPositive: true },
-  { id: '6', name: "毒素伤害", prefix: "toxi", subfix: "tox", onlyPositive: true },
-  { id: '7', name: "电击伤害", prefix: "vexi", subfix: "tio", onlyPositive: true },
-  { id: '8', name: "冲击伤害", prefix: "magna", subfix: "ton" },
-  { id: '9', name: "穿刺伤害", prefix: "insi", subfix: "cak" },
-  { id: 'A', name: "切割伤害", prefix: "sci", subfix: "sus" },
-  { id: 'G', name: "对Grineer伤害", prefix: "argi", subfix: "con" },
-  { id: 'I', name: "对Infested伤害", prefix: "pura", subfix: "ada" },
-  { id: 'C', name: "对Corpus伤害", prefix: "manti", subfix: "tron" },
+  { id: '0', eName: "Critical Chance", name: "暴击率", prefix: "crita", subfix: "cron" },
+  { id: '1', eName: "Critical Damage", name: "暴击伤害", prefix: "acri", subfix: "tis" },
+  { id: '2', eName: "Status Chance", name: "触发几率", prefix: "hexa", subfix: "dex", noDmg: true },
+  { id: '3', eName: "Status Duration", name: "触发时间", prefix: "deci", subfix: "des", noDmg: true },
+  { id: '4', eName: "Fire Damage", name: "火焰伤害", prefix: "igni", subfix: "pha", onlyPositive: true },
+  { id: '5', eName: "Ice Damage", name: "冰冻伤害", prefix: "geli", subfix: "do", onlyPositive: true },
+  { id: '6', eName: "Toxic Damage", name: "毒素伤害", prefix: "toxi", subfix: "tox", onlyPositive: true },
+  { id: '7', eName: "Electricity Damage", name: "电击伤害", prefix: "vexi", subfix: "tio", onlyPositive: true },
+  { id: '8', eName: "Impact Damage", name: "冲击伤害", prefix: "magna", subfix: "ton" },
+  { id: '9', eName: "Puncture Damage", name: "穿刺伤害", prefix: "insi", subfix: "cak" },
+  { id: 'A', eName: "Slash Damage", name: "切割伤害", prefix: "sci", subfix: "sus" },
+  { id: 'G', eName: "Grineer Damage", name: "对Grineer伤害", prefix: "argi", subfix: "con" },
+  { id: 'I', eName: "Infested Damage", name: "对Infested伤害", prefix: "pura", subfix: "ada" },
+  { id: 'C', eName: "Corpus Damage", name: "对Corpus伤害", prefix: "manti", subfix: "tron" },
 ];
 
 const gunProperty: RivenProperty[] = [
-  { id: 'D', name: "伤害", prefix: "visi", subfix: "ata" },
-  { id: 'S', name: "多重射击", prefix: "sati", subfix: "can" },
-  { id: 'R', name: "射速", prefix: "croni", subfix: "dra" },
-  { id: 'L', name: "弹匣容量", prefix: "arma", subfix: "tin" },
-  { id: 'F', name: "装填速度", prefix: "feva", subfix: "tak" },
-  { id: 'M', name: "弹药最大值", prefix: "ampi", subfix: "bin", noDmg: true },
-  { id: 'P', name: "穿透", prefix: "lexi", subfix: "nok", onlyPositive: true, nopercent: true, noDmg: true },
-  { id: 'H', name: "变焦", prefix: "hera", subfix: "lis", noDmg: true },
-  { id: 'V', name: "抛射物飞行速度", prefix: "conci", subfix: "nak", noDmg: true },
-  { id: 'Z', name: "后坐力", prefix: "zeti", subfix: "mag", negative: true, noDmg: true },
+  { id: 'D', eName: "Damage", name: "伤害", prefix: "visi", subfix: "ata" },
+  { id: 'S', eName: "Multishot", name: "多重射击", prefix: "sati", subfix: "can" },
+  { id: 'R', eName: "Firerate", name: "射速", prefix: "croni", subfix: "dra" },
+  { id: 'L', eName: "", name: "弹匣容量", prefix: "arma", subfix: "tin" },
+  { id: 'F', eName: "Reload Speed", name: "装填速度", prefix: "feva", subfix: "tak" },
+  { id: 'M', eName: "", name: "弹药最大值", prefix: "ampi", subfix: "bin", noDmg: true },
+  { id: 'P', eName: "Punch Through", name: "穿透", prefix: "lexi", subfix: "nok", onlyPositive: true, nopercent: true, noDmg: true },
+  { id: 'H', eName: "", name: "变焦", prefix: "hera", subfix: "lis", noDmg: true },
+  { id: 'V', eName: "", name: "抛射物飞行速度", prefix: "conci", subfix: "nak", noDmg: true },
+  { id: 'Z', eName: "", name: "后坐力", prefix: "zeti", subfix: "mag", negative: true, noDmg: true },
 ];
 
 const meleeProperty: RivenProperty[] = [
-  { id: 'K', name: "近战伤害", prefix: "visi", subfix: "ata" },
-  { id: 'T', name: "攻击范围", prefix: "locti", subfix: "tor", noDmg: true },
-  { id: 'J', name: "攻击速度", prefix: "croni", subfix: "dra" },
-  { id: 'B', name: "充能伤害", prefix: "tori", subfix: "bo", noDmg: true },
-  { id: 'U', name: "充能效率", prefix: "uti", subfix: "tia", noDmg: true },
-  { id: 'N', name: "连击持续时间", prefix: "tempi", subfix: "nem", nopercent: true, noDmg: true },
-  { id: 'E', displayPre: "滑行攻击有", name: "的几率造成暴击", prefix: "pleci", subfix: "nent" },
-  { id: 'X', name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true },
+  { id: 'K', eName: "", name: "近战伤害", prefix: "visi", subfix: "ata" },
+  { id: 'T', eName: "", name: "攻击范围", prefix: "locti", subfix: "tor", noDmg: true },
+  { id: 'J', eName: "", name: "攻击速度", prefix: "croni", subfix: "dra" },
+  { id: 'B', eName: "", name: "充能伤害", prefix: "tori", subfix: "bo", noDmg: true },
+  { id: 'U', eName: "", name: "充能效率", prefix: "uti", subfix: "tia", noDmg: true },
+  { id: 'N', eName: "", name: "连击持续时间", prefix: "tempi", subfix: "nem", nopercent: true, noDmg: true },
+  { id: 'E', eName: "", displayPre: "滑行攻击有", name: "的几率造成暴击", prefix: "pleci", subfix: "nent" },
+  { id: 'X', eName: "", name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true },
 ];
 
 export const RivenPropertyDataBase: { [key: string]: RivenProperty[] } = {
-  Rifle: baseProperty.concat(gunProperty.map(v => v.id === "R" ? { id: 'R', name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v)),
+  Rifle: baseProperty.concat(gunProperty.map(v => v.id === "R" ? { id: 'R', eName: "Firerate ()", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v)),
   Shotgun: baseProperty.concat(gunProperty),
   Pistol: baseProperty.concat(gunProperty),
   Melee: baseProperty.concat(meleeProperty),
