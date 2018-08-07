@@ -250,4 +250,10 @@ export default class Huangli extends Vue {
 .ev.bad {
   background: #d8502b;
 }
+.ev.good .ev-list {
+  background: #fdf1ae;
+}
+.ev.bad .ev-list {
+  background: #edb09f;
+}
 </style>

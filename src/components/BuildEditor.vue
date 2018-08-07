@@ -39,13 +39,24 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenWeapon, ModBuild, RivenDataBase } from "@/warframe";
+import { RivenWeapon, ModBuild, RivenDataBase, Weapon } from "@/warframe";
 
 @Component
 export default class BuildEditor extends Vue {
   @Prop() id: string
   build: ModBuild = null
-  get weapon() { return RivenDataBase.getNormalWeaponsByName(this.id.replace(/_/g, " ")); }
+  private _weapon: Weapon;
+  private _rWeapon: RivenWeapon;
+  @Watch("id")
+  weaponChange() {
+    this._weapon = RivenDataBase.getNormalWeaponsByName(this.id.replace(/_/g, " "));
+    this._rWeapon = RivenDataBase.getRivenWeaponByName(this.weapon.rivenName || this.weapon.id);
+    return this._weapon;
+  }
+  get weapon() { return this._weapon || this.weaponChange(); }
+  get rWeapon() { return this._rWeapon; }
+
+  // === 生命周期钩子 ===
   beforeMount() {
     console.log(this.id.replace(/_/g, " "), this.weapon);
   }

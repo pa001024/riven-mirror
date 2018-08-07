@@ -222,7 +222,7 @@ export class RivenMod {
     // 2+1- = [3-3]>>0
     this.upLevel = [1.33, 1, 0.8][properties.length - (this.hasNegativeProp ? 3 : 1)];
     // 写入属性
-    this.parseProps(properties.map(v => [v[0].name, v[1]] as [string, number]));
+    this.parseProps(properties.map(v => [v[0].id, v[1]] as [string, number]));
     return;
   }
   /**
