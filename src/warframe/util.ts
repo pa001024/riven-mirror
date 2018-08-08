@@ -1,3 +1,4 @@
+import _ from "lodash";
 /**
   * 检查两个字符串的相似度
   */
@@ -25,6 +26,31 @@ export function strSimilarity(str1: string, str2: string) {
     }
   }
   return (1 - d[n][m] / l);
+}
+
+/**
+ * 字符串搜索(前缀)树
+ */
+export class StringTree<T> {
+  vals: [string, T][]
+  tt: {}
+  constructor(vals: [string, T][]) {
+    this.vals = vals;
+    vals.forEach((v, i) => {
+      _.set(this.tt, v[0].split("").join("."), i);
+    });
+  }
+  find(prefix: string) {
+    let subTree = _.get(this.tt, prefix.split("").join(".")),
+      reducer = function (result, value, key) {
+        if (typeof value === "object")
+          return result.concat(_.reduce(value, reducer.bind({ deep: this.deep + 1 }), []));
+        else
+          result.push([this.deep, value]);
+        return result;
+      };
+    return _.reduce(subTree, reducer.bind({ deep: 0 }), []).sort((a, b) => b[0] - a[0]).map(v => this.vals[v[1]][1]);
+  }
 }
 
 /** 高精度模板 */

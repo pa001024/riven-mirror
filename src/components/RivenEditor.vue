@@ -2,7 +2,7 @@
   <div class="rivenedit">
     <el-row :gutter="20">
       <el-col :span="24">
-        <el-cascader class="weapon-picker" expand-trigger="hover" size="medium" placeholder="请选择武器" :options="nameOptions" :show-all-levels="false" v-model="selectWeapon" @change="handleChange">
+        <el-cascader filterable class="weapon-picker" expand-trigger="hover" size="medium" placeholder="请选择武器" :options="nameOptions" :show-all-levels="false" v-model="selectWeapon" @change="handleChange">
         </el-cascader>
         <div class="prop-picker" v-if="mod" v-for="(prop, index) in props" :key="index">
           <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
@@ -29,18 +29,26 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
-import { RivenMod, ModTypeTable, RivenWeaponDataBase, RivenDataBase, RivenProperty, RivenPropertyDataBase } from "@/warframe";
+import { RivenMod, ModTypeTable, RivenWeaponDataBase, RivenDataBase, RivenProperty, RivenPropertyDataBase, CNPY_RivenWeapon } from "@/warframe";
 
+interface CascaderValue {
+  value: string
+  label: string
+  children?: CascaderValue[];
+}
 @Component
 export default class RivenEditor extends Vue {
   @Model("change") value = "";
   riven: RivenMod = null
-  nameOptions = [];
+  nameOptions: CascaderValue[] = [];
   selectWeapon = [];
   mod = ""
   props: { id: string, prop: RivenProperty, value: number, visable: boolean }[] = [];
   get allProps() { return RivenPropertyDataBase[this.mod]; }
-
+  cnpyFilter(input: string) {
+    let names = input.match(/^\w+$/) && CNPY_RivenWeapon.find(input) || [input];
+    return this.nameOptions.filter(v => names.some(k => v.label.indexOf(k) >= 0));
+  }
   // === 事件处理 ===
   handleChange() {
     let rWeapon = RivenDataBase.getRivenWeaponByName(_.last(this.selectWeapon));
