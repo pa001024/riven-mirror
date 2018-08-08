@@ -12,7 +12,7 @@
               <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{weapon.name}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <li v-else-if="riven.weapons.length > 0" class="weapon-item el-dropdown" @click="handleClick(riven.id)">
+          <li v-else class="weapon-item el-dropdown" @click="handleClick(riven.id)">
             {{riven.name}}
           </li>
         </div>
@@ -39,7 +39,7 @@ export default class WeaponSelector extends Vue {
   modType = "Rifle"
   tabs: WeaponSelectorTab[] = []
   beforeMount() {
-    this.tabs = _.map(ModTypeTable, (name, id) => ({ id, name, rivens: RivenWeaponDataBase.filter(v => v.mod === id), weapons: [] }));
+    this.tabs = _.map(ModTypeTable, (name, id) => ({ id, name, rivens: RivenWeaponDataBase.filter(v => v.mod === id && v.weapons.length > 0), weapons: [] }));
   }
   handleCommand(id: string) {
     console.log("BuildEditor->", id);

@@ -175,6 +175,10 @@ body {
 .beta {
   font-size: 0.4em;
 }
+.block {
+  display: block;
+  width: inherit;
+}
 .el-header {
   display: flex;
   align-items: center;

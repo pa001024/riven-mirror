@@ -5,15 +5,23 @@
         <!-- 识别区域 -->
         <el-row>
           <el-col :span="24">
-            <el-switch class="mode-select" v-model="useText" active-text="剪贴板识别" inactive-text="文件识别">
+            <el-switch class="mode-select" v-model="useText" active-text="手动输入" inactive-text="截图上传">
             </el-switch>
           </el-col>
           <el-col :span="24">
-            <el-input v-if="useText" v-model="modText" @focus="handleFocus" placeholder="在此处粘贴紫卡截图或二维码识别" type="textarea" rows="1"></el-input>
+            <!-- <el-input v-if="useText" v-model="modText" @focus="handleFocus" placeholder="在此处粘贴紫卡截图或二维码识别" type="textarea" rows="1"></el-input> -->
+            <el-popover class="block" v-if="useText" placement="bottom" width="400" v-model="editorVisible">
+              <RivenEditor v-model="editorRivenCode"></RivenEditor>
+              <div style="text-align: right; margin: 0">
+                <el-button size="small" type="text" @click="editorVisible = false">取消</el-button>
+                <el-button type="primary" size="small" @click="newRiven">确定</el-button>
+              </div>
+              <el-button slot="reference" class="block" size="medium" v-model="modText" icon="el-icon-plus">添加裂罅MOD</el-button>
+            </el-popover>
             <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="http://api.0-0.at/ocr">
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或
-                <em>点击上传</em>
+                <em>点击上传</em>截图，也可以直接粘贴
               </div>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
@@ -29,12 +37,14 @@
                 </div>
                 <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
                   {{prop.displayValue}} {{prop.name}}
-                  <el-tag size="small" class="mod-dis" :type="prop.deviation > 1 ^ prop.isNegative ? 'success' : 'danger'"> {{ prop.deviation > 1 ? '高于平均' : '低于平均'}} {{prop.displayDeviation}}</el-tag>
+                  <el-tag v-if="prop.displayDeviation" size="small" class="mod-dis" :type="prop.deviation > 1 ^ prop.isNegative ? 'success' : 'danger'"> {{ prop.deviation > 1 ? '高于平均' : '低于平均'}} {{prop.displayDeviation}}</el-tag>
+                  <el-tag v-else size="small" class="mod-dis" type="success">平均值</el-tag>
                 </div>
                 <div class="mod-extra">
                   <el-tag size="medium" class="mod-rank">段位: {{mod.rank}}</el-tag>
                   <el-tag size="medium" class="mod-recycleTimes">循环: {{mod.recycleTimes}}</el-tag>
                   <el-tag size="medium" class="mod-level">等级: {{mod.level}}</el-tag>
+                  <el-tag size="medium" class="mod-ratio">倾向性: {{mod.ratio}}</el-tag>
                 </div>
                 <div class="mod-qrcode">
                   <el-popover placement="bottom" trigger="hover">
@@ -73,10 +83,10 @@
       <el-col :sm="24" :md="12" :lg="18">
         <el-row>
           <el-col :span="24">
-            <gun-mod-build-view :riven="mod" v-if="isGun">
-            </gun-mod-build-view>
-            <melee-mod-build-view :riven="mod" v-else>
-            </melee-mod-build-view>
+            <GunModBuildView :riven="mod" v-if="isGun">
+            </GunModBuildView>
+            <MeleeModBuildView :riven="mod" v-else>
+            </MeleeModBuildView>
           </el-col>
         </el-row>
       </el-col>
@@ -95,13 +105,14 @@ import qrcode from "@/components/QRCode";
 import { Getter, Action } from 'vuex-class'
 import jsQR from "jsqr";
 import { RivenDataBase } from "@/warframe/data";
+import RivenEditor from "@/components/RivenEditor.vue";
 
 interface OCRResult {
   result: string[]
   success: number
 }
 @Component({
-  components: { GunModBuildView, MeleeModBuildView, qrcode }
+  components: { GunModBuildView, MeleeModBuildView, qrcode, RivenEditor }
 })
 export default class Mod extends Vue {
   // prop
@@ -112,6 +123,8 @@ export default class Mod extends Vue {
   modText = "";
   ocrLoading = false;
   debouncedmodTextChange: (() => void);
+  editorVisible = false;
+  editorRivenCode = "";
   @Getter("mod") mod: RivenMod;
   @Getter("modHistoty") modHistoty: RivenMod[];
   @Action("newBase64Text") newBase64Text: (text: string) => void
@@ -158,6 +171,11 @@ export default class Mod extends Vue {
         console.log("[ocrLoading] FAIL", error);
       });
   }
+  // === 事件处理 ===
+  newRiven() {
+    this.editorVisible = false;
+    this.newBase64Text(this.editorRivenCode);
+  }
   handlePaste(ev: ClipboardEvent) {
     let items = ev.clipboardData.items;
     for (let i = 0; i < items.length; i++) {
@@ -171,7 +189,7 @@ export default class Mod extends Vue {
             this.newBase64Text(msg.replace("http://rm.0-0.at/riven/", ""));
           } else this.readOCR(blob);
         }).catch(err => {
-          console.log(err);
+          console.log("[handlePaste]", err);
           this.readOCR(blob);
         });
         return;
@@ -200,6 +218,11 @@ export default class Mod extends Vue {
       this.debouncedmodTextChange();
     }
   }
+  @Watch("mod")
+  modChange() {
+    this.$router.push({ name: 'ModWithSource', params: { source: this.mod.qrCodeBase64 } });
+  }
+  // === 生命周期钩子 ===
   beforeMount() {
     this.debouncedmodTextChange = _.debounce(() => {
       this.newModTextInput(this.modText);
@@ -213,10 +236,6 @@ export default class Mod extends Vue {
       console.log("read source:", this.source);
       this.newBase64Text(this.source);
     }
-  }
-  @Watch("mod")
-  modChange() {
-    this.$router.push({ name: 'ModWithSource', params: { source: this.mod.qrCodeBase64 } });
   }
   mounted() { }
 }

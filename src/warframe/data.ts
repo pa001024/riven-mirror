@@ -28,10 +28,10 @@ export interface RivenProperty {
 }
 
 const baseProperty: RivenProperty[] = [
-  { id: '0', sName: "暴击", eName: "Critical Chance", name: "暴击率", prefix: "crita", subfix: "cron" },
-  { id: '1', sName: "暴伤", eName: "Critical Damage", name: "暴击伤害", prefix: "acri", subfix: "tis" },
-  { id: '2', sName: "触率", eName: "Status Chance", name: "触发几率", prefix: "hexa", subfix: "dex", noDmg: true },
-  { id: '3', sName: "触时", eName: "Status Duration", name: "触发时间", prefix: "deci", subfix: "des", noDmg: true },
+  { id: '0', sName: "暴击率", eName: "Critical Chance", name: "暴击率", prefix: "crita", subfix: "cron" },
+  { id: '1', sName: "暴击伤害", eName: "Critical Damage", name: "暴击伤害", prefix: "acri", subfix: "tis" },
+  { id: '2', sName: "触发率", eName: "Status Chance", name: "触发几率", prefix: "hexa", subfix: "dex", noDmg: true },
+  { id: '3', sName: "触发时间", eName: "Status Duration", name: "触发时间", prefix: "deci", subfix: "des", noDmg: true },
   { id: '4', sName: "火伤", eName: "Fire", name: "火焰伤害", prefix: "igni", subfix: "pha", onlyPositive: true },
   { id: '5', sName: "冰伤", eName: "Ice", name: "冰冻伤害", prefix: "geli", subfix: "do", onlyPositive: true },
   { id: '6', sName: "毒伤", eName: "Toxic", name: "毒素伤害", prefix: "toxi", subfix: "tox", onlyPositive: true },
@@ -39,13 +39,13 @@ const baseProperty: RivenProperty[] = [
   { id: '8', sName: "冲击", eName: "Impact", name: "冲击伤害", prefix: "magna", subfix: "ton" },
   { id: '9', sName: "穿刺", eName: "Puncture", name: "穿刺伤害", prefix: "insi", subfix: "cak" },
   { id: 'A', sName: "切割", eName: "Slash", name: "切割伤害", prefix: "sci", subfix: "sus" },
-  { id: 'G', sName: "G伤", eName: "Damage to Grineer", name: "对Grineer伤害", prefix: "argi", subfix: "con" },
-  { id: 'I', sName: "I伤", eName: "Damage to Infested", name: "对Infested伤害", prefix: "pura", subfix: "ada" },
-  { id: 'C', sName: "C伤", eName: "Damage to Corpus", name: "对Corpus伤害", prefix: "manti", subfix: "tron" },
+  { id: 'G', sName: "Grineer伤害", eName: "Damage to Grineer", name: "对Grineer伤害", prefix: "argi", subfix: "con" },
+  { id: 'I', sName: "Infested伤害", eName: "Damage to Infested", name: "对Infested伤害", prefix: "pura", subfix: "ada" },
+  { id: 'C', sName: "Corpus伤害", eName: "Damage to Corpus", name: "对Corpus伤害", prefix: "manti", subfix: "tron" },
 ];
 
 const gunProperty: RivenProperty[] = [
-  { id: 'D', sName: "基伤", eName: "Damage", name: "伤害", prefix: "visi", subfix: "ata" },
+  { id: 'D', sName: "伤害", eName: "Damage", name: "伤害", prefix: "visi", subfix: "ata" },
   { id: 'S', sName: "多重", eName: "Multishot", name: "多重射击", prefix: "sati", subfix: "can" },
   { id: 'R', sName: "射速", eName: "Fire Rate", name: "射速", prefix: "croni", subfix: "dra" },
   { id: 'L', sName: "弹容", eName: "Magazine Capacity", name: "弹匣容量", prefix: "arma", subfix: "tin" },
@@ -58,14 +58,14 @@ const gunProperty: RivenProperty[] = [
 ];
 
 const meleeProperty: RivenProperty[] = [
-  { id: 'K', sName: "基伤", eName: "Melee Damage", name: "近战伤害", prefix: "visi", subfix: "ata" },
+  { id: 'K', sName: "伤害", eName: "Melee Damage", name: "近战伤害", prefix: "visi", subfix: "ata" },
   { id: 'T', sName: "范围", eName: "Range", name: "攻击范围", prefix: "locti", subfix: "tor", noDmg: true },
   { id: 'J', sName: "攻速", eName: "Attack Speed", name: "攻击速度", prefix: "croni", subfix: "dra" },
-  { id: 'B', sName: "导伤", eName: "Channeling Damage", name: "充能伤害", prefix: "tori", subfix: "bo", noDmg: true },
-  { id: 'U', sName: "导效", eName: "Channeling Efficiency", name: "充能效率", prefix: "uti", subfix: "tia", noDmg: true },
-  { id: 'N', sName: "连击", eName: "Combo Duration", name: "连击持续时间", prefix: "tempi", subfix: "nem", nopercent: true, noDmg: true },
-  { id: 'E', sName: "滑暴", eName: "chance to be a Critical Hit.", eDisplayPre: "Slide Attack has", displayPre: "滑行攻击有", name: "的几率造成暴击", prefix: "pleci", subfix: "nent" },
-  { id: 'X', sName: "处决", eName: "Finisher Damage", name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true },
+  { id: 'B', sName: "充能伤害", eName: "Channeling Damage", name: "充能伤害", prefix: "tori", subfix: "bo", noDmg: true },
+  { id: 'U', sName: "充能效率", eName: "Channeling Efficiency", name: "充能效率", prefix: "uti", subfix: "tia", noDmg: true },
+  { id: 'N', sName: "连击时间", eName: "Combo Duration", name: "连击持续时间", prefix: "tempi", subfix: "nem", nopercent: true, noDmg: true },
+  { id: 'E', sName: "滑行暴击", eName: "chance to be a Critical Hit.", eDisplayPre: "Slide Attack has", displayPre: "滑行攻击有", name: "的几率造成暴击", prefix: "pleci", subfix: "nent" },
+  { id: 'X', sName: "处决伤害", eName: "Finisher Damage", name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true },
 ];
 
 export const RivenPropertyDataBase: { [key: string]: RivenProperty[] } = {
@@ -357,7 +357,7 @@ const _rivenWeaponDataBase = [
   ["Twin Grakatas", "双子葛拉卡达", 0.76, "Pistol"],
   ["Brakk", "布拉克", 0.75, "Pistol"],
   ["Hikou", "飞扬", 0.69, "Pistol"],
-  ["Euphona Prime", "悦音 Prime", 0.66, "Pistol"],
+  ["Euphona Prime", "悦音 Prime", 0.69, "Pistol"],
   ["Spira", "旋刃飞刀", 0.66, "Pistol"],
   ["Gammacor", "咖玛腕甲枪", 0.53, "Pistol"],
   ["Staticor", "静电能量导引枪", 0.53, "Pistol"],
@@ -955,9 +955,6 @@ export interface NormalMod {
 
 /*
 步枪: https://warframe.huijiwiki.com/wiki/%E7%89%B9%E6%AE%8A:%E8%AF%A2%E9%97%AE/format%3Dcsv/offset%3D0/limit%3D500/-5B-5B%E6%A6%82%E5%BF%B5:Rifle-20mod-20list-5D-5D/-3FEffect/-3FEquippedon/-3FPolarity/-3FRarity/mainlabel%3D/prettyprint%3Dtrue/unescape%3Dtrue/searchlabel%3DCSV
-手枪: https://warframe.huijiwiki.com/wiki/%E7%89%B9%E6%AE%8A:%E8%AF%A2%E9%97%AE/format%3Dcsv/offset%3D0/limit%3D500/-5B-5B%E6%A6%82%E5%BF%B5:Handgun-20mod-20list-5D-5D/-3FEffect/-3FEquippedon/-3FPolarity/-3FRarity/mainlabel%3D/prettyprint%3Dtrue/unescape%3Dtrue/searchlabel%3DCSV
-霰弹枪: https://warframe.huijiwiki.com/wiki/%E7%89%B9%E6%AE%8A:%E8%AF%A2%E9%97%AE/format%3Dcsv/offset%3D0/limit%3D500/-5B-5B%E6%A6%82%E5%BF%B5:Shotgun-20mod-20list-5D-5D/-3FEffect/-3FEquippedon/-3FPolarity/-3FRarity/mainlabel%3D/prettyprint%3Dtrue/unescape%3Dtrue/searchlabel%3DCSV
-近战: https://warframe.huijiwiki.com/wiki/%E7%89%B9%E6%AE%8A:%E8%AF%A2%E9%97%AE/format%3Dcsv/offset%3D0/limit%3D500/-5B-5B%E6%A6%82%E5%BF%B5:Melee-20mod-20list-5D-5D/-3FEffect/-3FEquippedon/-3FPolarity/-3FRarity/mainlabel%3D/prettyprint%3Dtrue/unescape%3Dtrue/searchlabel%3DCSV
 Array.from($(".mw-parser-output tr")
         .filter((i, v) => !v.style.display)
         .find("td:nth(1)"))
@@ -1274,6 +1271,64 @@ export const AcolyteModsList: string[] = [
   "狭窄枪膛", "破片射击", "纳米涂覆", "转轮弹匣", "雷射瞄具",
   "内置触媒", "增压弹匣", "定位辅助", "尖锐子弹", "液压准心",
 ];
+
+export interface Arcane {
+  id: string;
+  name: string;
+  /** 属性 */
+  prop: [string, number];
+  /** 生效条件 */
+  condition: string;
+  /** 生效目标 */
+  type: string;
+  /** 生效几率 */
+  chance: number;
+  /** 持续 */
+  duration: number;
+}
+const _arcaneListSource = [
+  ["Pulse", "生机", ["额外生命", 0], "拾起生命", "Warframe", 0.2, 0],
+  ["Energize", "充沛", ["额外能量", 0], "拾起能量", "Warframe", 0.4, 0],
+  ["Eruption", "爆发", ["击倒", 0], "拾起能量", "Warframe", 0.4, 0],
+  ["Agility", "灵敏", ["移动速度", 0.40], "受到伤害", "Warframe", 0.12, 8],
+  ["Barrier", "壁垒", ["回满护盾", 0], "受到伤害", "Warframe", 0.04, 0],
+  ["Aegis", "神盾", ["护盾回复", 60], "受到伤害", "Warframe", 0.06, 20],
+  ["Trickery", "诡计", ["隐身", 0], "终结攻击", "Warframe", 0.1, 20],
+  ["Ultimatum", "通牒", ["护甲", 600], "终结攻击", "Warframe", 1, 20],
+  ["Arachne", "蜘蛛", ["额外伤害", 1], "壁面攀附", "Warframe", 0.6, 0],
+  ["Grace", "优雅", ["生命回复", 0.04], "受到伤害", "Warframe", 0.06, 6],
+  ["Guardian", "保卫者", ["护甲", 600], "受到伤害", "Warframe", 0.2, 20],
+  ["Phantasm", "幻象", ["移动速度", 0.4], "格挡", "Warframe", 0.32, 12],
+  ["Healing", "复原", ["抵挡辐射", 0], "被动", "Warframe", 0.8, 0],
+  ["Resistance", "抗毒", ["抵挡毒素", 0], "被动", "Warframe", 0.8, 0],
+  ["Deflection", "偏折", ["抵挡切割", 0], "被动", "Warframe", 0.8, 0],
+  ["Ice", "冰冷", ["抵挡火焰", 0], "被动", "Warframe", 0.8, 0],
+  ["Warmth", "温暖", ["抵挡冰冻", 0], "被动", "Warframe", 0.8, 0],
+  ["Nullifier", "消磁", ["抵挡磁力", 0], "被动", "Warframe", 0.8, 0],
+  ["Acceleration", "加速", ["R", 0.6], "造成暴击", "步枪", 0.2, 6],
+  ["Avenger", "复仇者", ["加法暴击", 0.3], "受到伤害", "全域", 0.14, 8],
+  ["Awakening", "觉醒", ["D", 1], "装弹", "手枪", 0.4, 16],
+  ["Consequence", "结果", ["旋身飞跃", 0.4], "造成爆头", "", 1, 12],
+  ["Fury", "狂怒", ["K", 0], "造成暴击", "近战", 0.4, 12],
+  ["Strike", "速攻", ["J", 0.4], "击中", "近战", 0.1, 12],
+  ["Momentum", "动量", ["F", 1], "造成暴击", "狙击枪", 0.4, 8],
+  ["Precision", "精确", ["D", 1.2], "造成爆头", "手枪", 0.8, 8],
+  ["Rage", "愤怒", ["D", 0.1], "造成爆头", "主要武器", 0.1, 16],
+  ["Tempo", "节奏", ["R", 0.6], "造成暴击", "霰弹枪", 0.1, 8],
+  ["Velocity", "迅速", ["R", 0.8], "造成暴击", "手枪", 0.6, 6],
+  ["Victory", "胜利", ["生命回复", 0.02], "造成爆头", "Warframe", 0.08, 8],
+] as [string, string, [string, number], string, string, number, number][];
+
+export const ArcaneList: Arcane[] = _arcaneListSource.map(v => ({
+  id: v[0],
+  name: v[1],
+  prop: v[2],
+  condition: v[3],
+  type: v[4],
+  chance: v[5],
+  duration: v[6],
+}));
+
 /**
  * 主要工具类
  */

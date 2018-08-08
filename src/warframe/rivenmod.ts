@@ -42,6 +42,7 @@ export class ValuedRivenProperty {
   /** 获取偏差值显示数据 */
   get displayDeviation() {
     let val = (this.deviation * 100 - 100).toFixed(1) + "%";
+    if (val === "0.0%" || val === "-0.0%") return "";
     if (val[0] != "-")
       return "+" + val;
     return val;
@@ -99,6 +100,7 @@ export class RivenMod {
   rank: number
   /** 类型 */
   mod: string
+  get ratio() { return RivenDataBase.getRivenWeaponByName(this.id).ratio; }
 
   constructor(parm?: string | RivenMod) {
     if (typeof parm === "string") {
