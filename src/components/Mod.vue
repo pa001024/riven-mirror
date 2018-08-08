@@ -16,7 +16,7 @@
                 <el-button size="small" type="text" @click="editorVisible = false">取消</el-button>
                 <el-button type="primary" size="small" @click="newRiven">确定</el-button>
               </div>
-              <el-button slot="reference" class="block" size="medium" v-model="modText" icon="el-icon-plus">添加裂罅MOD</el-button>
+              <el-button slot="reference" class="block" size="medium" v-model="modText" icon="el-icon-plus">添加MOD</el-button>
             </el-popover>
             <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="http://api.0-0.at/ocr">
               <i class="el-icon-upload"></i>

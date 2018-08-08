@@ -31,8 +31,23 @@ export abstract class ModBuild {
 
   // 额外参数
   allowElementTypes: string[] = null;
+  useStatus = false;
 
   // ### 计算属性 ###
+
+  /** 触发率是否存在跃迁 */
+  get isStatusJump() {
+    let neededMul = (1 - this.weapon.status) / this.weapon.status;
+    let procChanceProp = this.riven.properties.find(v => v.prop.id === "2");
+    if (procChanceProp)
+      return procChanceProp.value + 2.4 > neededMul;
+    return 2.4 > neededMul;
+  }
+
+  /** 触发几率 */
+  get procChance() {
+    return this.weapon.status * this.procChanceMul;
+  }
 
   /** 攻速 */
   get fireRate() {
