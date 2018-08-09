@@ -46,7 +46,14 @@ export abstract class ModBuild {
 
   /** 触发几率 */
   get procChance() {
-    return this.weapon.status * this.procChanceMul;
+    let s = this.weapon.status * this.procChanceMul;
+    return s > 1 ? 1 : s < 0 ? 0 : s;
+  }
+
+  /** 触发权重 */
+  get elementsWeights() {
+
+    return [];
   }
 
   /** 攻速 */
@@ -104,7 +111,7 @@ export abstract class ModBuild {
     this.reset();
     this._mods.forEach(mod => {
       mod.props.forEach(prop => this.applyProp(mod, prop[0], prop[1]));
-    })
+    });
   }
   /** 重置所有属性增幅器 */
   reset() {
