@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item>
         <el-radio-group size="small" v-model="selectCompMethod" @change="recalc">
-          <el-tooltip effect="dark" content="不考虑射速算出的伤害" placement="bottom">
+          <el-tooltip effect="dark" content="不考虑射速算出的伤害DPH" placement="bottom">
             <el-radio-button label="0">单发伤害</el-radio-button>
           </el-tooltip>
           <el-tooltip effect="dark" content="只考虑射速算出的DPS" placement="bottom">

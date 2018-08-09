@@ -446,7 +446,7 @@ const _rivenWeaponDataBase = [
   ["Dehtat", "德塔特", 1, "Melee"],
   ["Cyath", "西亚什", 1, "Melee"],
   ["Plague Keewar", "瘟疫 奇沃", 1, "Melee"],
-  ["Plague Kripath", "瘟疫 克里帕丝", 0.93, "Melee"],
+  ["Plague Kripath", "瘟疫 克里帕丝", 0.862, "Melee"],
 
   ["Gunsen", "军扇", 1, "Melee"],
   ["Silva & Aegis", "席瓦 & 神盾", 1, "Melee"],
@@ -895,44 +895,9 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = [
   { "id": "Hate", "name": "憎恨", "tags": ["近战", "Scythe"], "dmg": [["Puncture", 10.5], ["Slash", 49], ["Impact", 10.5]], "criticalMultiplier": 2.5, "criticalChances": 0.2, "fireRate": 0.917, "slideDmg": 140, "status": 0.15 },
   { "id": "Ninkondi", "name": "降灵追猎者", "tags": ["近战", "Nunchaku"], "dmg": [["Electricity", 45]], "criticalMultiplier": 2, "criticalChances": 0.1, "fireRate": 1, "slideDmg": 96, "status": 0.35 },
   { "id": "Guandao", "name": "关刀", "tags": ["近战", "Polearm"], "dmg": [["Puncture", 4.5], ["Slash", 63], ["Impact", 22.5]], "criticalMultiplier": 2.2, "criticalChances": 0.24, "fireRate": 0.833, "slideDmg": 200, "status": 0.04 },
-  { "id": "Broken War", "name": "破碎的战争之剑", "tags": ["近战", "Sword"], "dmg": [["Puncture", 9], ["Slash", 72], ["Impact", 9]], "criticalMultiplier": 1.5, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 193, "status": 0.1 }];
-
-export interface DamageType {
-  id: string
-  name: string
-  type: "Physical" | "Elemental" | "Combined"
-  desc: string
-  combinedBy?: string[]
-}
-const _damageTypeDatabase = [
-  ["Impact     ", "冲击", "Physical ", null, "蹒跚"],
-  ["Puncture   ", "穿刺", "Physical ", null, "伤害输出"],
-  ["Slash      ", "切割", "Physical ", null, "流血"],
-  ["Cold       ", "冰冻", "Elemental", null, "缓速"],
-  ["Electricity", "电击", "Elemental", null, "链式攻击"],
-  ["Heat       ", "火焰", "Elemental", null, "火焰DoT 恐惧"],
-  ["Toxin      ", "毒素", "Elemental", null, "生命DoT"],
-  ["Blast      ", "爆炸", "Combined ", "Heat, Cold", "击倒"],
-  ["Corrosive  ", "腐蚀", "Combined ", "Electricity, Toxin", "降低护甲"],
-  ["Gas        ", "毒气", "Combined ", "Heat, Toxin", "毒素AoE"],
-  ["Magnetic   ", "磁力", "Combined ", "Cold, Electricity", "降低最大护盾值"],
-  ["Radiation  ", "辐射", "Combined ", "Heat, Electricity", "降低精度 向队友开火"],
-  ["Viral      ", "病毒", "Combined ", "Cold, Toxin", "降低最大生命值"]
+  { "id": "Broken War", "name": "破碎的战争之剑", "tags": ["近战", "Sword"], "dmg": [["Puncture", 9], ["Slash", 72], ["Impact", 9]], "criticalMultiplier": 1.5, "criticalChances": 0.15, "fireRate": 1, "slideDmg": 193, "status": 0.1 }
 ];
 
-/**
- * 伤害类型数据
- */
-export const DamageTypeDatabase: DamageType[] = _damageTypeDatabase.map(v => {
-  let o = {
-    id: v[0].trim(),
-    name: v[1].trim(),
-    type: v[2].trim(),
-    desc: v[4].trim()
-  } as any;
-  if (v[3]) o.combinedBy = v[3].trim().split(", ");
-  return o;
-});
 /**
  * 普通MOD信息
  */

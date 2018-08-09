@@ -133,9 +133,7 @@ export class GunModBuild extends ModBuild {
   /** 爆发伤害增幅倍率 */
   get burstDamageMul() { return this.totalDamageMul * this.fireRateMul; }
   /** 每个弹片触发几率 */
-  get originalProcChancePerBullet() { return 1 - (1 - this.weapon.status) ** (1 / this.weapon.bullets); }
-  /** 每个弹片触发几率 */
-  get procChancePerBullet() { return this.procChance === 1 ? 1 : this.originalProcChancePerBullet * this.procChanceMul > 1 ? 1 : this.originalProcChancePerBullet * this.procChanceMul; }
+  get procChancePerBullet() { return 1 - (1 - this.procChance) ** (1 / this.weapon.bullets); }
   /** 面板伤害增幅倍率 */
   get panelDamageMul() { return this.baseDamageMul * this.multishotMul * this.extraDmgMul; }
   /** 总伤增幅倍率 */
