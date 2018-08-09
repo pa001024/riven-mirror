@@ -65,6 +65,8 @@ export class GunModBuild extends ModBuild {
   isUseMomentum = false;
   /** 迅速赋能 */
   isUseVelocity = false;
+  /** chroma加成 */
+  chromaBaseDamage = 0;
 
   constructor(riven: RivenMod = null, selected: string = null, options: GunModBuildOptions = null) {
     super(riven);
@@ -87,6 +89,7 @@ export class GunModBuild extends ModBuild {
     this.allowElementTypes = options.allowElementTypes;
     this.isUseMomentum = options.isUseMomentum;
     this.isUseVelocity = options.isUseVelocity;
+    this.chromaBaseDamage = options.chromaBaseDamage;
   }
   get options(): any {
     return {
@@ -98,6 +101,7 @@ export class GunModBuild extends ModBuild {
       allowElementTypes: this.allowElementTypes,
       isUseMomentum: this.isUseMomentum,
       isUseVelocity: this.isUseVelocity,
+      chromaBaseDamage: this.chromaBaseDamage,
     } as GunModBuildOptions;
   }
 
@@ -198,6 +202,7 @@ export class GunModBuild extends ModBuild {
   /** 重置所有属性增幅器 */
   reset() {
     super.reset();
+    this._baseDamageMul = 1 + this.chromaBaseDamage;
     this._multishotMul = 1;
     this._fireRateMul = 1;
     this._magazineMul = 1;

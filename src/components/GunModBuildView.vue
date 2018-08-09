@@ -38,6 +38,13 @@
           <el-slider v-model="handShotChance" :format-tooltip="v=>v+'%'" style="width:200px;margin-left: 8px;"></el-slider>
         </el-tooltip>
       </el-form-item>
+      <el-form-item label="怨怒护甲">
+        <el-tooltip effect="dark" content="Chroma的怨怒护甲可对武器基伤产生大量加成" placement="bottom">
+          <el-input size="small" class="chroma-dmg" v-model="chromaBaseDamage" style="width:120px">
+            <template slot="append">%</template>
+          </el-input>
+        </el-tooltip>
+      </el-form-item>
       <el-form-item label="使用MOD">
         <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="recalc">重口径</el-checkbox>
         <el-tooltip v-if="riven.mod === 'Rifle'" effect="dark" content="增伤很强大，但切割伤害不是立刻死亡，请自行选择" placement="bottom">
@@ -115,6 +122,8 @@ export default class GunModBuildView extends ModBuildView {
   notMustUseHunterMunitions = false;
   /** 爆头几率 */
   handShotChance = 0;
+  /** chroma加成 */
+  chromaBaseDamage = 0;
   /** 动量赋能 */
   isUseMomentum = false;
   /** 迅速赋能 */
@@ -138,6 +147,7 @@ export default class GunModBuildView extends ModBuildView {
     this.debouncedRecalc();
   }
 
+  @Watch("chromaBaseDamage")
   @Watch("handShotChance")
   @Watch("slots")
   debouncedRecalc() {
@@ -168,6 +178,7 @@ export default class GunModBuildView extends ModBuildView {
       useHeavyCaliber: this.useHeavyCaliber,
       useHunterMunitions: this.useHunterMunitions ? this.notMustUseHunterMunitions ? 1 : 2 : 0,
       handShotChance: this.handShotChance / 100,
+      chromaBaseDamage: this.chromaBaseDamage / 100,
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
       isUseMomentum: this.riven.is('sniper') && this.isUseMomentum,
       isUseVelocity: this.riven.is('pistol') && this.isUseVelocity,
@@ -178,10 +189,13 @@ export default class GunModBuildView extends ModBuildView {
 </script>
 
 <style>
+.chroma-dmg .el-input-group__append {
+  padding: 0 10px;
+}
 .build-form-inline .el-form-item {
   margin-bottom: 8px;
 }
-.build-container {
+.build-list .build-container {
   overflow: visible;
   padding: 0;
 }
