@@ -137,7 +137,7 @@ export abstract class ModBuild {
     // 只允许选择的元素
     if (this.allowElementTypes)
       if (mod.props.some(v => ["4", "5", "6", "7", "8", "9", "A"].includes(v[0])))
-        if (!mod.props.every(v => this.allowElementTypes.includes(v[0])))
+        if (!mod.props.some(v => this.allowElementTypes.includes(v[0])))
           return false;
     return true;
   };

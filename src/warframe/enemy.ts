@@ -120,24 +120,34 @@ export class Enemy {
   // === 计算属性 ===
   /**
    * 当前生命
-   * 当前生命 = 基础生命 × ( 1 + ( 当前等级 − 基础等级 )^2 × 0.015 )
+   * = 基础生命 × ( 1 + ( 当前等级 − 基础等级 )^2 × 0.015 )
    */
   get health() { return this.baseHealth * (1 + (this.level - this.baseLevel) ** 2 * 0.015); }
   /**
    * 当前护盾
-   * 当前护盾 = 基础护盾 × ( 1 + ( 当前等级 − 基础等级 )^2 × 0.0075 )
+   * = 基础护盾 × ( 1 + ( 当前等级 − 基础等级 )^2 × 0.0075 )
    */
   get sheild() { return this.baseSheild * (1 + (this.level - this.baseLevel) ** 2 * 0.0075); }
   /**
    * 当前护甲
-   * 当前护甲 = 基础护甲 × ( 1 + ( 当前等级 − 基础等级 )^1.75 × 0.005 )
+   * = 基础护甲 × ( 1 + ( 当前等级 − 基础等级 )^1.75 × 0.005 )
    */
   get armor() { return this.baseArmor * (1 + (this.level - this.baseLevel) ** 1.75 * 0.005); }
   constructor({ baseLevel, baseHealth, baseSheild, baseArmor }) {
     [this.baseLevel, this.baseHealth, this.baseSheild, this.baseArmor] = [baseLevel, baseHealth, baseSheild, baseArmor];
   }
+
+  dmgMapper(dmgs: [string, number][]) {
+    return dmgs.map(([id, dmg]) => {
+      // let
+      Damage2_0.getDamageType(id as DamageType);
+    });
+  }
 }
 
+/**
+ * 伤害2.0计算
+ */
 export class Damage2_0 {
   protected static instance = new Damage2_0();
   static getDamageType(id: DamageType) {
