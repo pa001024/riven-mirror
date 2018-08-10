@@ -6,16 +6,16 @@ export class IngameTime {
   /** 现在到夜晚的秒数 */
   get secords() {
     if (this.type == "cetus")
-      return ~~(9e3 - (Date.now() / 1e3 - 5040) % 9e3);
+      return ~~(9e3 - (Date.now() / 1e3 - 4860) % 9e3);
     else
-      return ~~(14400 - (Date.now() / 1e3) % 14400);
+      return ~~(28800 - (Date.now() / 1e3 - 14400) % 28800);
   }
   /** 现在是否是夜晚 */
   get isNight() {
     if (this.type == "cetus")
       return this.secords > 6e3;
     else
-      return this.secords > 7200;
+      return this.secords > 14400;
   }
   /** 现在是否是白天 */
   get isDay() {
@@ -26,7 +26,7 @@ export class IngameTime {
     if (this.type == "cetus")
       return 270 - this.secords * 360 / 9e4;
     else
-      return 180 - this.secords * 360 / 14400;
+      return 180 - this.secords * 360 / 28800;
   }
   get text() {
     let sec = this.secords;
@@ -34,7 +34,7 @@ export class IngameTime {
       if (this.type == "cetus")
         sec -= 6e3;
       else
-        sec -= 7200;
+        sec -= 14400;
     }
     let min = ~~(sec / 60);
     let hou = ~~(min / 60);

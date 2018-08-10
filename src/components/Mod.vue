@@ -20,8 +20,7 @@
             </el-popover>
             <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="http://api.0-0.at/ocr">
               <i class="el-icon-upload"></i>
-              <div class="el-upload__text">将文件拖到此处，或
-                <em>点击上传</em>截图，也可以直接粘贴
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em>截图，也可以直接粘贴(Ctrl+V)
               </div>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>

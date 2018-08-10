@@ -38,8 +38,8 @@
           <el-slider v-model="handShotChance" :format-tooltip="v=>v+'%'" style="width:200px;margin-left: 8px;"></el-slider>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="怨怒护甲">
-        <el-tooltip effect="dark" content="Chroma的怨怒护甲可对武器基伤产生大量加成" placement="bottom">
+      <el-form-item label="基伤加成">
+        <el-tooltip effect="dark" content="Chroma的怨怒护甲和Mirage的黯然失色可对武器基伤产生大量加成" placement="bottom">
           <el-input size="small" class="chroma-dmg" v-model="chromaBaseDamage" style="width:120px">
             <template slot="append">%</template>
           </el-input>
@@ -54,7 +54,7 @@
           <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">追随者MOD</el-checkbox>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="赋能">
+      <el-form-item label="赋能" v-if="riven.is('sniper') || riven.is('pistol')">
         <el-checkbox v-model="isUseMomentum" v-if="riven.is('sniper')" @change="recalc">动量</el-checkbox>
         <el-checkbox v-model="isUseVelocity" v-if="riven.is('pistol')" @change="recalc">迅速</el-checkbox>
       </el-form-item>

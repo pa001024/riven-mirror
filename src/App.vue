@@ -7,12 +7,12 @@
           <span class="beta">ALPHA</span>
         </h1>
       </router-link>
-      <wf-watch class="hidden-sm-and-down header-watch">
+      <wf-watch class="hidden-xs-only header-watch">
       </wf-watch>
-      <div class="app-nav-pad hidden-md-and-up">
+      <div class="app-nav-pad hidden-sm-and-up">
       </div>
-      <button class="app-nav-button hidden-md-and-up" @click="menuOpen = !menuOpen">
-        <i class="el-icon-more hidden-md-and-up"></i>
+      <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
+        <i class="el-icon-more"></i>
       </button>
     </el-header>
     <transition name="el-zoom-in-top">
@@ -24,7 +24,7 @@
       </ul>
     </transition>
     <el-container class="body-container">
-      <el-aside width="60px" class="hidden-sm-and-down">
+      <el-aside width="60px" class="hidden-xs-only">
         <ul class="aside-nav-menu">
           <el-tooltip v-for="link in links" :key="link.title" :content="link.title" placement="right" :enterable="false">
             <router-link tag="li" :to="link.path" class="menu-item" :exact="link.exact">
@@ -96,8 +96,6 @@ export default class App extends Vue {
   font-size: 24px;
 }
 .app-nav-button {
-  margin: 10px;
-  float: right;
   background: #3d5afe;
   color: white;
   border-color: #3d5afe;
