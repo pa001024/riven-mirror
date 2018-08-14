@@ -7,9 +7,11 @@ import './theme/display.css';
 import App from './App.vue'
 import router from '@/router'
 import store from '@/store'
+import draggable from 'vuedraggable';
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.component("draggable", draggable);
 
 /* eslint-disable no-new */
 new Vue({

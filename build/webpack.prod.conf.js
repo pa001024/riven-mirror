@@ -10,11 +10,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const safe = require('postcss-safe-parser');
+
+const PUBLIC_PATH = 'https://rm.0-0.at/';
 
 const env =
-  process.env.NODE_ENV === 'testing'
-    ? require('../config/test.env')
-    : config.build.env
+  process.env.NODE_ENV === 'testing' ?
+  require('../config/test.env') :
+  config.build.env
 
 const webpackConfig = merge(baseWebpackConfig, {
   mode: 'production',
@@ -28,7 +32,8 @@ const webpackConfig = merge(baseWebpackConfig, {
   output: {
     path: config.build.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js'),
+    // publicPath: PUBLIC_PATH,
   },
   optimization: {
     // chunk for the webpack runtime code and chunk manifest
@@ -75,20 +80,19 @@ const webpackConfig = merge(baseWebpackConfig, {
     // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin({
       cssProcessorOptions: {
-        safe: true
+        parser: safe
       }
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename:
-        process.env.NODE_ENV === 'testing' ? 'index.html' : config.build.index,
+      filename: process.env.NODE_ENV === 'testing' ? 'index.html' : config.build.index,
       template: 'index.html',
       favicon: './favicon.ico',
       inject: true,
       minify: {
-        removeComments: true,
+        // removeComments: true,
         // collapseWhitespace: true,
         // removeAttributeQuotes: true
         // more options:
@@ -96,6 +100,14 @@ const webpackConfig = merge(baseWebpackConfig, {
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
+    }),
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'riven-mirror',
+      dontCacheBustUrlsMatching: /\.\w{8}\./,
+      filename: 'service-worker.js',
+      minify: true,
+      navigateFallback: PUBLIC_PATH + 'index.html',
+      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
     }),
     // keep module.id stable when vender modules does not change
     new webpack.HashedModuleIdsPlugin(),
@@ -120,13 +132,11 @@ const webpackConfig = merge(baseWebpackConfig, {
     //   chunks: ['vendor']
     // }),
     // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: config.build.assetsSubDirectory,
-        ignore: ['.*']
-      }
-    ])
+    new CopyWebpackPlugin([{
+      from: path.resolve(__dirname, '../static'),
+      to: config.build.assetsSubDirectory,
+      ignore: ['.*']
+    }])
   ]
 })
 

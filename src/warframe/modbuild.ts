@@ -1,7 +1,8 @@
-import { NormalMod, Weapon, RivenPropertyDataBase, RivenDataBase } from "@/warframe/data";
-import { RivenMod, ValuedRivenProperty } from "@/warframe/rivenmod";
+import { NormalMod, Weapon, RivenPropertyDataBase, RivenDataBase, RivenMod, ValuedRivenProperty } from "@/warframe";
 import _ from "lodash";
-import { choose } from "@/warframe/util";
+import { choose, hAccSum, hAccMul, hAccDiv, hAccAvg } from "@/warframe/util";
+import { CombElementMap, Damage2_0, DamageType } from "@/warframe/enemy";
+import { version } from "element-ui";
 
 // 基础类
 export abstract class ModBuild {
@@ -25,11 +26,140 @@ export abstract class ModBuild {
   protected _enemyDmgMul = 1; /** 种族伤害增幅倍率 */  get enemyDmgMul() { return this._enemyDmgMul; }
   protected _fireRateMul = 1; /** 攻速增幅倍率 */  get fireRateMul() { return this._fireRateMul; }
   protected _originalDamage: number;
-  abstract get compareDamage(): any;
+  abstract get compareDamage(): number;
+  abstract get compareMode(): number;
+  abstract set compareMode(value: number);
   abstract set options(val: any);
   abstract get options(): any;
+  /** 面板基础伤害增幅倍率 */
+  abstract get panelBaseDamageMul(): number;
+  /** 面板基础伤害 */
+  abstract get panelBaseDamage(): number;
+  /** 面板伤害增幅倍率 */
+  abstract get panelDamageMul(): number;
+  /** 面板伤害 */
+  abstract get panelDamage(): number;
+  /** 平均暴击区增幅倍率 */
+  abstract get critDamageMul(): number;
+  /** 元素顺序 */
+  elementsOrder: string[] = [];
+  protected _heatMul = 0;
+  /** 火焰伤害增幅倍率 */
+  public get heatMul() { return this._heatMul; }
+  public set heatMul(value) {
+    this._heatMul = value;
+    this.elementsOrder.includes("Heat") || this.elementsOrder.push("Heat");
+    this.recalcElements();
+  }
+  protected _coldMul = 0;
+  /** 冰冻伤害增幅倍率 */
+  public get coldMul() { return this._coldMul; }
+  public set coldMul(value) {
+    this._coldMul = value;
+    this.elementsOrder.includes("Cold") || this.elementsOrder.push("Cold");
+    this.recalcElements();
+  }
+  protected _toxinMul = 0;
+  /** 毒素伤害增幅倍率 */
+  public get toxinMul() { return this._toxinMul; }
+  public set toxinMul(value) {
+    this._toxinMul = value;
+    this.elementsOrder.includes("Toxin") || this.elementsOrder.push("Toxin");
+    this.recalcElements();
+  }
+  protected _electricityMul = 0;
+  /** 电击伤害增幅倍率 */
+  public get electricityMul() { return this._electricityMul; }
+  public set electricityMul(value) {
+    this._electricityMul = value;
+    this.elementsOrder.includes("Electricity") || this.elementsOrder.push("Electricity");
+    this.recalcElements();
+  }
+  private _impactMul = 0;
+  /** 穿刺伤害增幅倍率 */
+  public get impactMul() { return this._impactMul; }
+  public set impactMul(value) {
+    this._impactMul = value;
+    this.recalcElements();
+  }
+  private _punctureMul = 0;
+  /** 冲击伤害增幅倍率 */
+  public get punctureMul() { return this._punctureMul; }
+  public set punctureMul(value) {
+    this._punctureMul = value;
+    this.recalcElements();
+  }
+  private _slashMul = 0;
+  /** 切割伤害增幅倍率 */
+  public get slashMul() { return this._slashMul; }
+  public set slashMul(value) {
+    this._slashMul = value;
+    this.recalcElements();
+  }
+  /** 所有元素增幅倍率 */
+  public get elementsMul() { return { Heat: this.heatMul, Cold: this.coldMul, Toxin: this.toxinMul, Electricity: this.electricityMul }; }
 
-  // 额外参数
+  /** 复合元素顺序 */
+  private _combElementsOrder: [string, number][] = [];
+  public get combElementsOrder(): [string, number][] { return this._combElementsOrder; }
+
+  /** 重新计算元素顺序 */
+  recalcElements() {
+    this._extraDmgMul = 1 + hAccSum(this.heatMul, this.coldMul, this.toxinMul, this.electricityMul);
+    let combs = _.chunk(this.elementsOrder, 2);
+    this._combElementsOrder = combs.map(comb => {
+      if (comb.length > 1) {
+        let combElement = CombElementMap[comb.sort().join("+")];
+        let etype = Damage2_0.getDamageType(combElement);
+        return [etype.id, hAccSum(this.elementsMul[etype.combinedBy[0]], this.elementsMul[etype.combinedBy[1]])] as [string, number];
+      } else {
+        return [comb[0], this.elementsMul[comb[0]]] as [string, number];
+      }
+    });
+    // 计算物理
+    if (this.weapon.dmg.some(v => ["Impact", "Puncture", "Slash"].includes(v[0]))) {
+      ["Impact", "Puncture", "Slash"].forEach(dname => {
+        let pD = this.weapon.dmg.find(v => v[0] === dname);
+        if (pD && this["_" + dname.toLowerCase() + "Mul"] > -1) {
+          let dvalue = this["_" + dname.toLowerCase() + "Mul"] * pD[1] / this.originalDamage;
+          this._extraDmgMul = hAccSum(this._extraDmgMul, dvalue);
+          this._combElementsOrder.push([dname, dvalue]);
+        }
+      });
+    }
+  }
+
+  /**
+   * 所有伤害类型
+   */
+  get dmg() {
+    let extra = this.combElementsOrder;
+    let ori = this.originalDamage;
+    let rst = {};
+
+    this.weapon.dmg.forEach(([dname, dvalue]) => {
+      let dtype = Damage2_0.getDamageType(dname as DamageType);
+      let ltype = extra.length > 0 && Damage2_0.getDamageType(_.last(extra)[0] as DamageType);
+      let targetElement = dname;
+      // 将自带元素与MOD元素进行合成
+      if (dname !== ltype.id && dtype.type === "Elemental" && ltype && ltype.type === "Elemental") {
+        let [lname, lvalue] = extra.pop();
+        targetElement = CombElementMap[[dname, lname].sort().join("+")];
+        if (rst[targetElement]) rst[targetElement] = hAccSum(rst[targetElement], lvalue);
+        else rst[targetElement] = lvalue;
+      }
+      if (rst[targetElement]) rst[targetElement] = hAccSum(rst[targetElement], dvalue / ori);
+      else rst[targetElement] = dvalue / ori;
+    });
+    extra.forEach(([dname, dpart]) => {
+      let targetElement = dname;
+      if (rst[targetElement]) rst[targetElement] = hAccSum(rst[targetElement], dpart);
+      else rst[targetElement] = dpart;
+    });
+    return _.map(rst, (v, i) => [i, v * this.panelBaseDamage]).filter(v => v[1] > 0) as [string, number][];
+  }
+
+  // ### 额外参数 ###
   allowElementTypes: string[] = null;
   useStatus = false;
 
@@ -49,13 +179,52 @@ export abstract class ModBuild {
     let s = this.weapon.status * this.procChanceMul;
     return s > 1 ? 1 : s < 0 ? 0 : s;
   }
+  abstract get realProcChance(): number;
 
   /** 触发权重 */
-  get elementsWeights() {
-
-    return [];
+  get procWeights() {
+    let pD = this.panelDamage;
+    return this.dmg.map(([vn, vv]) => ["Impact", "Puncture", "Slash"].includes(vn) ? [vn, hAccDiv(hAccMul(vv, 4), pD)] : [vn, hAccDiv(vv, pD)]) as [string, number][];;
   }
 
+  /** 触发几率(各属性) */
+  get procChanceMap() {
+    let pC = this.realProcChance;
+    let pW = this.procWeights;
+    return pW.map(([vn, vv]) => [vn, hAccMul(vv, pC)]) as [string, number][];
+  }
+
+  /** 触发伤害(各属性) */
+  get dotDamage() {
+    let procs = this.procChanceMap;
+    return procs.map(([vn, vv]) => {
+      switch (vn) {
+        // 切割伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E5%88%87%E5%89%B2%E4%BC%A4%E5%AE%B3
+        case "Slash":
+          return this.baseDamage * 0.35 * ~~(6 * this.procDurationMul + 1);
+        // 毒素伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E7%B4%A0%E4%BC%A4%E5%AE%B3
+        case "Toxin":
+        case "Gas":
+          return this.toxinBaseDamage * 0.5 * ~~(8 * this.procDurationMul + 1);
+        // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
+        case "Heat":
+          return this.heatBaseDamage * 0.5 * ~~(6 * this.procDurationMul + 1);
+      }
+      return null;
+    }).filter(Boolean);
+  }
+  /** 基伤 */
+  get baseDamage() {
+    return hAccMul(this.originalDamage, this.baseDamageMul, this.critDamageMul);
+  }
+  /** 毒和毒气DoT的基伤 */
+  get toxinBaseDamage() {
+    return hAccMul(this.baseDamage, (1 + this.toxinMul));
+  }
+  /** 火DoT的基伤 */
+  get heatBaseDamage() {
+    return hAccMul(this.baseDamage, (1 + this.heatMul));
+  }
   /** 攻速 */
   get fireRate() {
     let fr = this.weapon.fireRate * this.fireRateMul;
@@ -66,7 +235,7 @@ export abstract class ModBuild {
   /** 武器原本伤害 */
   get originalDamage(): number {
     if (!this._originalDamage)
-      this._originalDamage = this.weapon.dmg.reduce((a, b) => a + b[1], 0);
+      this._originalDamage = this.weapon.dmg.reduce((a, b) => hAccSum(a, b[1]), 0);
     return this._originalDamage;
   }
 
@@ -106,6 +275,7 @@ export abstract class ModBuild {
     this.calcMods();
     return this;
   }
+
   /** 将Mod属性写入到增幅上 */
   calcMods() {
     this.reset();
@@ -113,6 +283,7 @@ export abstract class ModBuild {
       mod.props.forEach(prop => this.applyProp(mod, prop[0], prop[1]));
     });
   }
+
   /** 重置所有属性增幅器 */
   reset() {
     this._baseDamageMul = 1;
@@ -123,12 +294,23 @@ export abstract class ModBuild {
     this._procDurationMul = 1;
     this._enemyDmgMul = 1;
     this._fireRateMul = 1;
-  };
+    this._heatMul = 0;
+    this._coldMul = 0;
+    this._toxinMul = 0;
+    this._electricityMul = 0;
+    this._impactMul = 0;
+    this._punctureMul = 0;
+    this._slashMul = 0;
+    this.elementsOrder = [];
+    this._combElementsOrder = [];
+  }
+
   /** 清除所有MOD并重置属性增幅器 */
   clear() {
     this._mods = [];
     this.reset();
   }
+
   /** 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
     // 如果相应的P卡已经存在则不使用
@@ -140,8 +322,32 @@ export abstract class ModBuild {
         if (!mod.props.some(v => this.allowElementTypes.includes(v[0])))
           return false;
     return true;
-  };
-  /** 返回MOD增幅数值 */
+  }
+
+  /**
+   * 返回MOD价值收益
+   * @param index 也可以是mod.id
+   * @return MOD价值收益
+   */
+  modValue(index: number | string) {
+    if (typeof index === "string")
+      index = this._mods.findIndex(v => v.id === index);
+    if (!this._mods[index]) return 0;
+    let nb = new (this.constructor as any)(this.weapon, this.riven, this.options);
+    nb._mods = this.mods;
+    nb.calcMods();
+    let oldVal = nb.compareDamage;
+    nb._mods.splice(index, 1);
+    nb.calcMods();
+    let newVal = nb.compareDamage;
+    return oldVal / newVal - 1;
+  }
+
+  /**
+   * 返回MOD增幅数值
+   * @param mod NormalMod
+   * @return MOD增幅数值
+   */
   testMod(mod: NormalMod) {
     // MOD查重
     if (!this.isValidMod(mod)) return -1;
@@ -151,8 +357,8 @@ export abstract class ModBuild {
       switch (mod.props[0][0]) {
         case 'D': // 伤害 baseDmg
           return mod.props[0][1] / this._baseDamageMul;
-        case '4': // 火焰伤害 fireDmg
-        case '5': // 冰冻伤害 iceDmg
+        case '4': // 火焰伤害 heatDmg
+        case '5': // 冰冻伤害 coldDmg
         case '6': // 毒素伤害 toxiDmg
         case '7': // 电击伤害 elecDmg
           return mod.props[0][1] / this._extraDmgMul;
@@ -191,6 +397,9 @@ export abstract class ModBuild {
   fill(slots = 8, useRiven = 1) {
     // 初始化
     this.clear();
+    this.fillEmpty(slots, useRiven);
+  }
+  fillEmpty(slots = 8, useRiven = 1) {
     // 根据武器自动选择所有可安装的MOD
     let mods = this.avaliableMods.slice();// 通过.slice()返回一个COPY
     if (useRiven > 0) {
@@ -220,7 +429,7 @@ export abstract class ModBuild {
    * 自动按武器属性生成最佳紫卡
    */
   findBestRiven(slots = 8): RivenMod {
-    let newBuild: ModBuild = new (this.constructor as any)(this.riven, this.weapon.name, this.options);
+    let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
     // 生成所有紫卡
 
     // 1. 列出所有属性
@@ -242,7 +451,7 @@ export abstract class ModBuild {
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.name === "变焦" || v.name === "处决伤害");
-    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -0.75, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), 1);
+    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -0.83, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), 1);
 
     let newRivens = propsOfMods.map(v => {
       let newRiven = new RivenMod(this.riven);
@@ -272,37 +481,37 @@ export abstract class ModBuild {
     let oriDmg: [string, number];
     switch (pName) {
       case '0': // 暴击率 critChance
-        this._critChanceMul += pValue;
+        this._critChanceMul = hAccSum(this._critChanceMul, pValue);
         break;
       case '1': // 暴击伤害 critMul
-        this._critMulMul += pValue;
+        this._critMulMul = hAccSum(this._critMulMul, pValue);
         break;
       case '2': // 触发几率 procChance
-        this._procChanceMul += pValue;
+        this._procChanceMul = hAccSum(this._procChanceMul, pValue);
         break;
       case '3': // 触发时间 procDuration
-        this._procDurationMul += pValue;
+        this._procDurationMul = hAccSum(this._procDurationMul, pValue);
         break;
-      case '4': // 火焰伤害 fireDmg
-      case '5': // 冰冻伤害 iceDmg
-      case '6': // 毒素伤害 toxiDmg
-      case '7': // 电击伤害 elecDmg
-        this._extraDmgMul += pValue;
+      case '4': // 火焰伤害 heatDmg
+        this.heatMul = hAccSum(this.heatMul, pValue);
+        break;
+      case '5': // 冰冻伤害 coldDmg
+        this.coldMul = hAccSum(this.coldMul, pValue);
+        break;
+      case '6': // 毒素伤害 toxinDmg
+        this.toxinMul = hAccSum(this.toxinMul, pValue);
+        break;
+      case '7': // 电击伤害 electricityDmg
+        this.electricityMul = hAccSum(this.electricityMul, pValue);
         break;
       case '8': // 冲击伤害 impaDmg
-        oriDmg = this.weapon.dmg.find(v => v[0] == "Impact");
-        if (oriDmg)
-          this._extraDmgMul += (pValue < -1 ? -1 : pValue) * oriDmg[1] / this.originalDamage;
+        this.impactMul = hAccSum(this.impactMul, pValue);
         break;
       case '9': // 穿刺伤害 puncDmg
-        oriDmg = this.weapon.dmg.find(v => v[0] == "Puncture");
-        if (oriDmg)
-          this._extraDmgMul += (pValue < -1 ? -1 : pValue) * oriDmg[1] / this.originalDamage;
+        this.punctureMul = hAccSum(this.punctureMul, pValue);
         break;
       case 'A': // 切割伤害 slasDmg
-        oriDmg = this.weapon.dmg.find(v => v[0] === "Slash");
-        if (oriDmg)
-          this._extraDmgMul += (pValue < -1 ? -1 : pValue) * oriDmg[1] / this.originalDamage;
+        this.slashMul = hAccSum(this.slashMul, pValue);
         break;
       case 'G': // 对Grineer伤害 grinDmg
         if (this._enemyDmgType === "G")

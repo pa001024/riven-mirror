@@ -1,4 +1,4 @@
-import { GunWeaponDataBase, MeleeWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase, RivenWeaponDataBase } from "@/warframe/data";
+import { GunWeaponDataBase, MeleeWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase, RivenWeaponDataBase } from "@/warframe";
 import { Base64, strSimilarity, randomNormalDistribution } from "@/warframe/util";
 import _ from "lodash";
 

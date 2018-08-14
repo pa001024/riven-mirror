@@ -1,7 +1,7 @@
 <template>
   <el-tabs class="weapon-tabs" v-model="modType">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
-      <span slot="label" class="weapon-tablable">{{tab.name}}</span>
+      <span slot="label" class="weapon-tablabel">{{tab.name}}</span>
       <ul class="weapon-select">
         <div class="weapon-item-container" v-for="riven in tab.rivens" :key="riven.id">
           <el-dropdown v-if="riven.weapons.length > 1" trigger="click" @command="handleCommand">
@@ -61,7 +61,7 @@ export default class WeaponSelector extends Vue {
 .weapon-item-container {
   display: inline-block;
 }
-.weapon-tablable {
+.weapon-tablabel {
   font-size: 16px;
   padding: 0 8px;
 }

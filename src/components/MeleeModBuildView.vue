@@ -111,11 +111,6 @@ export default class MeleeModBuildView extends ModBuildView {
     this._debouncedRecalc();
   }
 
-  selectDamageTypeChange() {
-    super.selectDamageTypeChange();
-    this.recalc();
-  }
-
   // === 生命周期钩子 ===
   beforeMount() {
     this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 10);

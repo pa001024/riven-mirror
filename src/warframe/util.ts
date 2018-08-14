@@ -54,7 +54,7 @@ export class StringTree<T> {
 }
 
 /** 高精度模板 */
-function hAccOperator(reducer: (a: number, b: number) => number) {
+function hAccOperator(reducer: (a: number, b: number) => number, fixer: (maxShift: number, level: number) => number) {
   return (...args: number[]) => {
     let maxShift = 0;
     return args.map(v => {
@@ -65,16 +65,18 @@ function hAccOperator(reducer: (a: number, b: number) => number) {
           maxShift = shift;
       }
       return v;
-    }).map(v => v * (10 ** maxShift)).reduce(reducer) / (10 ** maxShift);
+    }).map(v => v * (10 ** maxShift)).reduce(reducer) / fixer(maxShift, args.length);
   };
 }
 
 /** 尽量不丢失精度的加法 */
-export const hAccSum: (...args: number[]) => number = hAccOperator((a, b) => a + b);
+export const hAccSum = hAccOperator((a, b) => a + b, m => 10 ** m);
 /** 尽量不丢失精度的乘法 */
-export const hAccMul: (...args: number[]) => number = hAccOperator((a, b) => a * b);
+export const hAccMul = hAccOperator((a, b) => a * b, (m, l) => 10 ** (m * l));
 /** 尽量不丢失精度的除法 */
-export const hAccDiv: (...args: number[]) => number = hAccOperator((a, b) => a / b);
+export const hAccDiv = hAccOperator((a, b) => a / b, (m, l) => 0.1 ** (m * (l - 2)));
+/** 尽量不丢失精度的平均值 */
+export const hAccAvg = hAccOperator((a, b) => a + b, (m, l) => 10 ** m * l);
 
 /**
  * 获取正态分布化的Math.random()

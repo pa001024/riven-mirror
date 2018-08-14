@@ -39,7 +39,7 @@
         </el-tooltip>
       </el-form-item>
       <el-form-item label="基伤加成">
-        <el-tooltip effect="dark" content="Chroma的怨怒护甲和Mirage的黯然失色可对武器基伤产生大量加成" placement="bottom">
+        <el-tooltip effect="dark" content="Chroma的怨怒护甲和Mirage的黯然失色可对武器基伤产生大量加成，步枪增幅、死亡之眼等光环MOD也属于这个加成" placement="bottom">
           <el-input size="small" class="chroma-dmg" v-model="chromaBaseDamage" style="width:120px">
             <template slot="append">%</template>
           </el-input>
@@ -88,7 +88,7 @@
               <el-tag style="margin-left: 8px;">暴击率: {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
               <el-tag style="margin-left: 8px;">暴击伤害: {{(build[1].critMul).toFixed(1)}}x </el-tag>
               <el-tag style="margin-left: 8px;">射速: {{(build[1].fireRate).toFixed(1)}} </el-tag>
-              <el-tag style="margin-left: 8px;">触发率(每个弹片): {{(build[1].procChancePerBullet*100).toFixed(1)}}% </el-tag>
+              <el-tag style="margin-left: 8px;">触发率(每个弹片): {{(build[1].realProcChance*100).toFixed(1)}}% </el-tag>
               <el-tag v-if="build[1].slashDotDamage > 0" style="margin-left: 8px;">猎人战备切割伤害: {{(build[1].slashDotDamage).toFixed(1)}} </el-tag>
             </el-row>
           </el-collapse-item>
@@ -156,10 +156,6 @@ export default class GunModBuildView extends ModBuildView {
   useAcolyteModsChange() {
     this.debouncedRecalc();
     localStorage.setItem("useAcolyteMods", JSON.stringify(this.useAcolyteMods));
-  }
-  selectDamageTypeChange() {
-    super.selectDamageTypeChange();
-    this.recalc();
   }
 
   // === 生命周期钩子 ===

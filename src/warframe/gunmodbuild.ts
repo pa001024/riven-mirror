@@ -1,6 +1,5 @@
 import { AcolyteModsList, GunWeapon, NormalCardDependTable, NormalMod, NormalModDatabase, ModBuild, RivenMod } from "@/warframe";
-import { hAccSum } from "@/warframe/util";
-
+import { hAccSum, hAccMul } from "@/warframe/util";
 
 /*
  * MOD自动配置模块
@@ -54,9 +53,16 @@ export class GunModBuild extends ModBuild {
     this._handShotChance = value;
   }
 
-  compareMode: GunCompareMode = GunCompareMode.TotalDamage;
+  private _compareMode: GunCompareMode = GunCompareMode.TotalDamage;
+  public get compareMode(): GunCompareMode {
+    return this._compareMode;
+  }
+  public set compareMode(value: GunCompareMode) {
+    this._compareMode = value;
+    this.calcMods();
+  }
   /** 使用追随者MOD */
-  useAcolyteMods = false;
+  useAcolyteMods = true;
   /** 使用重口径 */
   useHeavyCaliber = true;
   /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
@@ -68,11 +74,9 @@ export class GunModBuild extends ModBuild {
   /** chroma加成 */
   chromaBaseDamage = 0;
 
-  constructor(riven: RivenMod = null, selected: string = null, options: GunModBuildOptions = null) {
+  constructor(weapon: GunWeapon = null, riven: RivenMod = null, options: GunModBuildOptions = null) {
     super(riven);
-    if (riven) {
-      let weapons = riven.weapons as GunWeapon[];
-      this.weapon = weapons.find(v => selected === v.name) || weapons[0];
+    if (this.weapon = weapon) {
       this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.includes(v.type));
     }
     if (options) {
@@ -106,11 +110,14 @@ export class GunModBuild extends ModBuild {
   }
 
   // ### 计算属性 ###
-
+  get accuracy() { return this.weapon.accuracy; }
+  get bullets() { return this.weapon.bullets * this.multishotMul; }
   /** 换弹时间 */
-  get reloadTIme() { return this.weapon.reload / hAccSum(this.reloadSpeedMul, (this.isUseMomentum ? 1 : 0)); }
+  get reloadTime() { return this.weapon.reload / hAccSum(this.reloadSpeedMul, (this.isUseMomentum ? 1 : 0)); }
   /** 弹夹容量 */
   get magazineSize() { return Math.round(this.weapon.magazine * this.magazineMul); }
+  /** 最大弹药 */
+  get maxAmmo() { return Math.round(this.weapon.ammo * this.maxAmmoMul); }
   /** 爆头倍率 */
   get handShotMul() { return 2 * this.handShotMulMul; }
   /** 暴击率 */
@@ -129,19 +136,22 @@ export class GunModBuild extends ModBuild {
   }
   /** 平均暴击区增幅倍率 */
   get critDamageMul() {
-    // 私法系列的暴击强化可以直接加在这里
-    return this.calcCritDamage(this.critChance + this.critLevelUpChance, this.critMul, this.handShotChance, this.handShotMul);
+    // 私法系列的暴击强化可以直接加在这里 因为白字无加成 去掉不暴击的概率
+    let upLvlChance = this.critChance >= 1 ? this.critLevelUpChance : this.critChance * this.critLevelUpChance;
+    return this.calcCritDamage(this.critChance + upLvlChance, this.critMul, this.handShotChance, this.handShotMul);
   }
   /** 平均爆头增伤倍率 */
   get handShotDmgMul() { return this.handShotChance * (this.handShotMul - 1) + 1; }
   /** 爆发伤害增幅倍率 */
-  get burstDamageMul() { return this.totalDamageMul * this.fireRateMul; }
+  get burstDamageMul() { return hAccMul(this.totalDamageMul, this.fireRateMul); }
   /** 每个弹片触发几率 */
-  get procChancePerBullet() { return 1 - (1 - this.procChance) ** (1 / this.weapon.bullets); }
+  get realProcChance() { return 1 - (1 - this.procChance) ** (1 / this.weapon.bullets); }
+  /** 面板基础伤害增幅倍率 */
+  get panelBaseDamageMul() { return hAccMul(this.baseDamageMul, this.multishotMul); }
   /** 面板伤害增幅倍率 */
-  get panelDamageMul() { return this.baseDamageMul * this.multishotMul * this.extraDmgMul; }
+  get panelDamageMul() { return hAccMul(this.panelBaseDamageMul, this.extraDmgMul); }
   /** 总伤增幅倍率 */
-  get totalDamageMul() { return this.panelDamageMul * this.critDamageMul * this.handShotDmgMul; }
+  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.handShotDmgMul); }
   /** 平均射速增幅倍率  */
   get sustainedFireRateMul() {
     return (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate;
@@ -152,25 +162,37 @@ export class GunModBuild extends ModBuild {
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }
+  /** 原平均射速=1/(1/射速+装填/弹匣) */
+  get oriSustainedFireRate() {
+    return 1 / (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine);
+  }
   /** 平均射速=1/(1/射速+装填/弹匣) */
   get sustainedFireRate() {
-    return 1 / (1 / this.fireRate + this.reloadTIme / this.magazineSize);
+    return 1 / (1 / this.fireRate + this.reloadTime / this.magazineSize);
   }
   /** 持续伤害增幅倍率  */
-  get sustainedDamageMul() { return this.totalDamageMul * this.sustainedFireRateMul; }
+  get sustainedDamageMul() { return hAccMul(this.totalDamageMul, this.sustainedFireRateMul); }
+  /** 面板基础伤害 */
+  get panelBaseDamage() { return hAccMul(this.originalDamage, this.panelBaseDamageMul); }
   /** 面板伤害 */
-  get panelDamage() { return this.originalDamage * this.panelDamageMul; }
+  get panelDamage() { return hAccMul(this.originalDamage, this.panelDamageMul); }
   /** [猎人战备]切割DoT伤害 */
   get slashDotDamage() {
     return this.originalDamage * this.baseDamageMul * this.multishotMul * this.critDamageMul *
       (this.critChance > 1 ? 1 : this.critChance) * this.slashWhenCrit * 0.35 * ~~(6 * this.procDurationMul + 1);
   }
+  /** 原总伤害 */
+  get oriTotalDamage() { return hAccMul(this.originalDamage, this.critDamageMul, this.handShotDmgMul); }
   /** 总伤害 */
-  get totalDamage() { return this.originalDamage * this.totalDamageMul + this.slashDotDamage; }
+  get totalDamage() { return hAccSum(this.slashDotDamage, hAccMul(this.originalDamage, this.totalDamageMul)); }
+  /** 原爆发伤害 */
+  get oriBurstDamage() { return hAccMul(this.oriTotalDamage, this.weapon.fireRate); }
   /** 爆发伤害 */
-  get burstDamage() { return this.totalDamage * this.fireRate; }
+  get burstDamage() { return hAccMul(this.totalDamage, this.fireRate); }
+  /** 原持续伤害 */
+  get oriSustainedDamage() { return hAccMul(this.oriTotalDamage, this.oriSustainedFireRate); }
   /** 持续伤害 */
-  get sustainedDamage() { return this.totalDamage * this.sustainedFireRate; }
+  get sustainedDamage() { return hAccMul(this.totalDamage, this.sustainedFireRate); }
   /** 用于比较的伤害 */
   get compareDamage() {
     return this.compareMode == GunCompareMode.TotalDamage ? this.totalDamage : this.compareMode == GunCompareMode.BurstDamage ? this.burstDamage : this.sustainedDamage;

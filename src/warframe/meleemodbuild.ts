@@ -1,6 +1,4 @@
-import { ModBuild } from "@/warframe/modbuild";
-import { NormalMod, MeleeWeapon, NormalModDatabase } from "@/warframe/data";
-import { RivenMod } from "@/warframe/rivenmod";
+import { RivenMod, ModBuild, NormalMod, MeleeWeapon, NormalModDatabase } from "@/warframe";
 
 export interface MeleeModBuildOptions {
   isCalcSlide: boolean
@@ -26,7 +24,7 @@ export class MeleeModBuild extends ModBuild {
   private _statusDamageMul = 0; /** 异常状态增加近战伤害 */  get statusDamageMul() { return this._statusDamageMul; }
 
   // 额外参数
-
+  compareMode = 0;
   /** 连击层数 */
   comboLevel = 0;
   /** 异况触发量 */
@@ -43,14 +41,10 @@ export class MeleeModBuild extends ModBuild {
     this.comboLevel = value > 4 ? ~~(Math.log(value / 5) / Math.log(3)) + 1 : 0;
   }
 
-  constructor(riven: RivenMod = null, selected: string = null, options: MeleeModBuildOptions = null) {
+  constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null) {
     super(riven);
-    if (riven) {
-      let weapons = riven.weapons as MeleeWeapon[];
-      // console.log()
-      this.weapon = weapons.find(v => selected === v.name) || weapons[0];
+    if (this.weapon = weapon)
       this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.includes(v.type));
-    }
     if (options) {
       this.options = options;
     }
@@ -95,16 +89,22 @@ export class MeleeModBuild extends ModBuild {
   get critMul() {
     return this.weapon.criticalMultiplier * this.critMulMul;
   }
+  /** 真实触发几率 */
+  get realProcChance() { return this.procChance; }
   /** 平均暴击区增幅倍率 */
   get critDamageMul() { return this.calcCritDamage(this.critChance, this.critMul); }
   /** 滑行平均暴击区增幅倍率 */
   get slideCritDamageMul() { return this.calcCritDamage(this.slideCritDamage, this.critMul); }
+  /** 面板基础伤害增幅倍率 */
+  get panelBaseDamageMul() { return this.baseDamageMul; }
   /** 面板伤害增幅倍率 */
   get panelDamageMul() { return this.baseDamageMul * this.extraDmgMul; }
   /** 总伤增幅倍率 */
   get totalDamageMul() { return this.panelDamageMul * this.critDamageMul * this.comboMul; }
   /** 滑行攻击伤增幅倍率 */
   get slideDamageMul() { return this.panelDamageMul * this.slideCritDamageMul * this.comboMul; }
+  /** 面板基础伤害 */
+  get panelBaseDamage() { return this.originalDamage * this.panelBaseDamageMul; }
   /** 面板伤害 */
   get panelDamage() { return this.originalDamage * this.panelDamageMul; }
   /** 总伤害 */

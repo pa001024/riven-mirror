@@ -13,8 +13,8 @@
             <el-popover class="block" v-if="useText" placement="bottom" width="400" v-model="editorVisible">
               <RivenEditor v-model="editorRivenCode"></RivenEditor>
               <div style="text-align: right; margin: 0">
-                <el-button size="small" type="text" @click="editorVisible = false">取消</el-button>
-                <el-button type="primary" size="small" @click="newRiven">确定</el-button>
+                <el-button size="medium" @click="editorVisible = false">取消</el-button>
+                <el-button type="primary" size="medium" @click="newRiven">确定</el-button>
               </div>
               <el-button slot="reference" class="block" size="medium" v-model="modText" icon="el-icon-plus">添加MOD</el-button>
             </el-popover>

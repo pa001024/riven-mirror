@@ -1,6 +1,6 @@
 import { Vue, Watch, Prop } from "vue-property-decorator";
 import { RivenMod } from "@/warframe";
-import { GunCompareMode } from "@/warframe/gunmodbuild";
+import { GunCompareMode, GunModBuild } from "@/warframe/gunmodbuild";
 import { ModBuild } from "@/warframe/modbuild";
 import { ValuedRivenProperty } from "@/warframe/rivenmod";
 import { RivenDataBase, Weapon } from "@/warframe/data";
@@ -48,12 +48,13 @@ export abstract class ModBuildView extends Vue {
     this.selectWeapon = weapons[weapons.length - 1].name;
     this.debouncedRecalc();
   }
-  recalc(cls: any, options: any) {
+  recalc(cls: any = GunModBuild, options = {}) {
     if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
-    let stand = new cls(this.riven, this.selectWeapon, options);
-    let riven = new cls(this.riven, this.selectWeapon, options);
+    let weapon = RivenDataBase.getNormalWeaponsByName(this.selectWeapon);
+    let stand = new cls(weapon, this.riven, options);
+    let riven = new cls(weapon, this.riven, options);
     let best = stand.findBestRiven();
-    let bestRiven = new cls(best, this.selectWeapon, options);
+    let bestRiven = new cls(weapon, best, options);
     stand.fill(this.slots, 0);
     riven.fill(this.slots, 2);
     bestRiven.fill(this.slots, 2);
@@ -69,6 +70,7 @@ export abstract class ModBuildView extends Vue {
       localStorage.setItem(this.constructor.name + ".selectDamageType", this.selectDamageType);
     else
       localStorage.removeItem(this.constructor.name + ".selectDamageType");
+    this.recalc();
   }
 
   get scoreLevelText() {

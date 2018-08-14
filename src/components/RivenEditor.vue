@@ -74,6 +74,7 @@ export default class RivenEditor extends Vue {
     this.updateRiven();
   }
   updateRiven() {
+    this.riven.subfix = "";
     this.riven.parseProps(this.props.filter(v => v.id).map(v => [v.id, v.value] as [string, number]));
     this.$emit("change", this.riven.qrCodeBase64);
   }

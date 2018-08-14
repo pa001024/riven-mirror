@@ -175,7 +175,7 @@ body {
 }
 .block {
   display: block;
-  width: inherit;
+  width: 100%;
 }
 .el-header {
   display: flex;
