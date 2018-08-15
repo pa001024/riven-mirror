@@ -227,7 +227,7 @@ export abstract class ModBuild {
   }
   /** 攻速 */
   get fireRate() {
-    let fr = this.weapon.fireRate * this.fireRateMul;
+    let fr = hAccMul(this.weapon.fireRate, this.fireRateMul);
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }
@@ -250,7 +250,7 @@ export abstract class ModBuild {
   }
   /** 设置歧视伤害类型 */
   set enemyDmgType(value) {
-    if (value !== "G" && value !== "C" && value !== "G" && value !== "O" && value !== "S") return;
+    if (value !== "G" && value !== "C" && value !== "O" && value !== "S") return;
     this._enemyDmgType = value;
   }
 
@@ -263,10 +263,10 @@ export abstract class ModBuild {
    */
   calcCritDamage(m: number, n: number, p = 0, v = 2) {
     if (v != 2)
-      return ((1 + (1 - v) * p) * (m * (n - 1) + 1) + m * n * p * v) / (p + 1);
+      return ((1 + (1 - v) * p) * (hAccMul(m, n - 1) + 1) + m * n * p * v) / (p + 1);
     if (p != 0)
-      return m * (n - 1) + 1 + 2 * m * n * p / (p + 1);
-    return m * (n - 1) + 1;
+      return hAccMul(m, n - 1) + 1 + 2 * m * n * p / (p + 1);
+    return hAccMul(m, n - 1) + 1;//m * (n - 1) + 1;
   }
 
   /** 应用MOD */
