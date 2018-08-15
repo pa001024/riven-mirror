@@ -18,7 +18,7 @@
               </div>
               <el-button slot="reference" class="block" size="medium" v-model="modText" icon="el-icon-plus">添加MOD</el-button>
             </el-popover>
-            <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="http://api.0-0.at/ocr">
+            <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="https://api.0-0.at/api/ocr">
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em>截图，也可以直接粘贴(Ctrl+V)
               </div>
@@ -156,7 +156,7 @@ export default class Mod extends Vue {
     let formData = new FormData();
     formData.append('file', file);
     this.ocrLoading = true;
-    axios.post("http://api.0-0.at/ocr", formData, { timeout: 3000, headers: { 'Content-Type': 'multipart/form-data' } })
+    axios.post("https://api.0-0.at/ocr", formData, { timeout: 3000, headers: { 'Content-Type': 'multipart/form-data' } })
       .then(response => {
         this.ocrLoading = false;
         let rst = response.data as OCRResult;
@@ -185,7 +185,7 @@ export default class Mod extends Vue {
         this.readQRCode(blob).then(msg => {
           if (msg) {
             console.log("readQRCode=>", msg);
-            this.newBase64Text(msg.replace("http://rm.0-0.at/riven/", ""));
+            this.newBase64Text(msg.replace("https://rm.0-0.at/riven/", ""));
           } else this.readOCR(blob);
         }).catch(err => {
           console.log("[handlePaste]", err);

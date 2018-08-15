@@ -177,7 +177,7 @@ body {
   display: block;
   width: 100%;
 }
-.el-header {
+#app .el-header {
   display: flex;
   align-items: center;
   background-color: #3d5afe;

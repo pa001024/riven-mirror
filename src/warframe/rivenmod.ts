@@ -360,10 +360,10 @@ export class RivenMod {
   }
   /** 网址形式的二维码 */
   get qrCodeURL() {
-    return "http://rm.0-0.at/riven/" + this.qrCodeBase64;
+    return "https://rm.0-0.at/riven/" + this.qrCodeBase64;
   }
   set qrCodeURL(value) {
-    this.qrCodeBase64 = value.replace("http://rm.0-0.at/riven/", "");
+    this.qrCodeBase64 = value.replace("https://rm.0-0.at/riven/", "");
   }
   /** 返回完整的modText */
   get modText() {
