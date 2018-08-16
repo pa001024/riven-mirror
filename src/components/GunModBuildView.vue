@@ -39,7 +39,11 @@
         </el-tooltip>
       </el-form-item>
       <el-form-item label="基伤加成">
-        <el-tooltip effect="dark" content="Chroma的怨怒护甲和Mirage的黯然失色可对武器基伤产生大量加成，步枪增幅、死亡之眼等光环MOD也属于这个加成" placement="bottom">
+        <el-tooltip effect="dark" placement="bottom">
+          <div slot="content">
+            <div>Chroma的"怨怒护甲"和Mirage的"黯然失色"等技能可对武器基伤进行大量加成，</div>
+            <div>步枪增幅、死亡之眼等光环MOD也属于这个加成</div>
+          </div>
           <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" style="width:120px">
             <template slot="append">%</template>
           </el-input>

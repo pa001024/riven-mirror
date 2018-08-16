@@ -17,44 +17,36 @@
                 <PropDiff v-if="weapon.bullets!=1||build.bullets!=1" name="弹片数" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
                 <PropDiff name="弹匣容量" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
                 <PropDiff name="装填" :ori="weapon.reload" :val="build.reloadTime" :preci="2"></PropDiff>
-                <tr v-for="[dname, oldvalue, newvalue] in mergedDmg" :key="dname"><td>{{mapDname(dname)}}</td>
-                  <td>{{oldvalue}}</td>
-                  <td v-if="newvalue!=oldvalue"><i class="el-icon-arrow-right"></i> {{Num(newvalue)}}</td>
-                </tr>
-                <tr><td>面板伤害</td>
-                  <td>{{Num(build.originalDamage)}}</td>
-                  <td v-if="build.originalDamage!=build.panelDamage"><i class="el-icon-arrow-right"></i> {{Num(build.panelDamage)}}</td>
-                </tr>
-                <tr><td class="select-cpmode" :class="{active: build.compareMode===0}" @click="changeMode(0)">单发伤害</td>
-                  <td>{{Num(build.oriTotalDamage)}}</td>
-                  <td v-if="build.oriTotalDamage!=build.totalDamage"><i class="el-icon-arrow-right"></i> {{Num(build.totalDamage)}}</td>
-                </tr>
-                <tr><td class="select-cpmode" :class="{active: build.compareMode===1}" @click="changeMode(1)">爆发伤害</td>
-                  <td>{{Num(build.oriBurstDamage)}}</td>
-                  <td v-if="build.oriBurstDamage!=build.burstDamage"><i class="el-icon-arrow-right"></i> {{Num(build.burstDamage)}}</td>
-                </tr>
-                <tr><td class="select-cpmode" :class="{active: build.compareMode===2}" @click="changeMode(2)">持续伤害</td>
-                  <td>{{Num(build.oriSustainedDamage)}}</td>
-                  <td v-if="build.oriSustainedDamage!=build.sustainedDamage"><i class="el-icon-arrow-right"></i> {{Num(build.sustainedDamage)}}</td>
-                </tr>
+                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="mapDname(dname)" :ori="ori" :val="val"></PropDiff>
+                <PropDiff name="面板伤害" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
+                <PropDiff name="单发伤害" :ori="build.oriTotalDamage" :val="build.totalDamage"
+                   class="select-cpmode" :class="{active: build.compareMode===0}" @click="changeMode(0)"></PropDiff>
+                <PropDiff name="爆发伤害" :ori="build.oriBurstDamage" :val="build.burstDamage"
+                   class="select-cpmode" :class="{active: build.compareMode===1}" @click="changeMode(1)"></PropDiff>
+                <PropDiff name="持续伤害" :ori="build.oriSustainedDamage" :val="build.sustainedDamage"
+                   class="select-cpmode" :class="{active: build.compareMode===2}" @click="changeMode(2)"></PropDiff>
               </tbody>
             </table>
           </el-card>
           <!-- 选项区域 -->
           <el-card class="build-tools">
             <el-button-group class="build-tools-action">
-              <el-button type="primary" @click="fill()">自动配置</el-button>
-              <el-button type="primary" @click="fillEmpty()">填充空白</el-button>
-              <el-button type="primary" @click="clear()">清空</el-button>
+              <el-button type="primary" size="small" @click="fill()">自动配置</el-button>
+              <el-button type="primary" size="small" @click="fillEmpty()">填充空白</el-button>
+              <el-button type="primary" size="small" @click="clear()">清空</el-button>
             </el-button-group>
             <el-form class="build-form-editor">
               <el-form-item label="爆头率">
                 <el-tooltip effect="dark" content="更高的爆头率会提高暴击的收益" placement="bottom">
-                  <el-slider v-model="handShotChance" :format-tooltip="v=>v+'%'" @change="reload" style="margin-left: 64px;"></el-slider>
+                  <el-slider v-model="handShotChance" size="small" :format-tooltip="v=>v+'%'" @change="reload" style="margin-left: 64px;"></el-slider>
                 </el-tooltip>
               </el-form-item>
               <el-form-item label="基伤加成">
-                <el-tooltip effect="dark" content="Chroma的怨怒护甲和Mirage的黯然失色可对武器基伤产生大量加成，步枪增幅、死亡之眼等光环MOD也属于这个加成" placement="bottom">
+                <el-tooltip effect="dark" placement="bottom">
+                  <div slot="content">
+                    <div>Chroma的"怨怒护甲"和Mirage的"黯然失色"等技能可对武器基伤进行大量加成，</div>
+                    <div>步枪增幅、死亡之眼等光环MOD也属于这个加成</div>
+                  </div>
                   <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" @change="reload" style="width:120px">
                     <template slot="append">%</template>
                   </el-input>
@@ -123,13 +115,17 @@ export default class GunBuildEditor extends BaseBuildEditor {
   isUseMomentum = false;
   isUseVelocity = false;
 
-  get options() {
-    return {};
-  }
   @Watch("weapon")
   reload() { super.reload(); }
   reloadSelector() { this.$refs.selector && (this.$refs.selector as ModSelector).reload(); }
-  newBuild(...parms) { return new GunModBuild(...parms); }
+  newBuild(weapon: GunWeapon) {
+    return new GunModBuild(weapon, null, {
+      handShotChance: this.handShotChance / 100,
+      extraBaseDamage: this.extraBaseDamage,
+      isUseMomentum: this.isUseMomentum,
+      isUseVelocity: this.isUseVelocity,
+    });
+  }
   // === 事件处理 ===
   // === 生命周期钩子 ===
   beforeMount() { this.reload(); }
@@ -139,6 +135,9 @@ export default class GunBuildEditor extends BaseBuildEditor {
 <style>
 .build-form-editor .el-form-item {
   margin-bottom: 8px;
+}
+.build-form-editor .el-form-item:last-child {
+  margin-bottom: 0;
 }
 .mod-stat .mod-prop {
   font-size: 9pt;
@@ -206,22 +205,27 @@ export default class GunBuildEditor extends BaseBuildEditor {
 .select-cpmode {
   cursor: pointer;
 }
+.select-cpmode:hover {
+  background: #ebf2ff;
+}
 .select-cpmode.active {
-  background: #6199ff;
+  background: #89b2fd;
   color: #fff;
-  /* box-shadow: 0px 0px 0px 4px #b3ceff; */
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
 }
 .select-cpmode.active > * {
-  border-top: 4px solid #b3ceff;
-  border-bottom: 4px solid #b3ceff;
+  border-top: 4px solid #d9e6ff;
+  border-bottom: 4px solid #d9e6ff;
   border-left: 0;
   border-right: 0;
 }
 .select-cpmode.active > *:first-child {
-  border-left: 4px solid #b3ceff;
+  border-left: 4px solid #d9e6ff;
+  border-radius: 4px 0 0 4px;
 }
 .select-cpmode.active > *:last-child {
-  border-right: 4px solid #b3ceff;
+  border-right: 4px solid #d9e6ff;
+  border-radius: 0 4px 4px 0;
 }
 .editor-main > .el-dialog__wrapper {
   display: flex;
@@ -243,6 +247,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
 .weapon-props {
   width: 100%;
   border-spacing: 0;
+  border-collapse: separate;
 }
 .mod-slot-containor {
   flex-wrap: wrap;

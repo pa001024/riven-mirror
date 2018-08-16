@@ -1,7 +1,7 @@
 <template>
   <tr class="prop-diff" @click="handleClick"><td>{{name}}</td>
     <td class="diff diff-ori" :class="{negative: ori > val, positive: ori < val}">{{percent ? Num(ori * 100, preci) + "%" : Num(ori, preci)}}{{subfix}}</td>
-    <template v-if="ori!=val">
+    <template v-if="Num(ori, preci) !== Num(val, preci)">
       <td class="diff diff-arrow" :class="{negative: ori > val, positive: ori < val}"><i class="el-icon-arrow-right"></i></td>
       <td class="diff diff-val" :class="{negative: ori > val, positive: ori < val}">
         {{percent ? Num(val * 100, preci)+"%":Num(val, preci)}}{{subfix}}
@@ -40,18 +40,28 @@ export default class extends Vue {
 .prop-diff {
   transition: 0.4s;
   padding: 4px;
+  border-radius: 4px;
 }
 .prop-diff:hover {
-  box-shadow: 0px 0px 0px 4px #b3ceff inset;
+  background: #fafafa;
 }
 .diff-val.positive {
   color: #67c23a;
+  text-shadow: 1px 1px 1px rgba(70, 255, 70, 0.1);
+}
+.active > .diff-val.positive {
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(70, 255, 70, 0.4);
 }
 .diff-val.negative {
   color: #f56c6c;
+  text-shadow: 1px 1px 1px rgba(255, 70, 70, 0.1);
+}
+.active > .diff-val.negative {
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(255, 70, 70, 0.4);
 }
 .diff-arrow {
-  color: #333;
   text-align: center;
 }
 .diff-ori,

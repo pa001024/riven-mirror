@@ -1,16 +1,17 @@
 import { RivenMod, ModBuild, NormalMod, MeleeWeapon, NormalModDatabase } from "@/warframe";
-import { hAccMul } from "@/warframe/util";
+import { hAccMul, hAccSum } from "@/warframe/util";
 
 export enum MeleeCompareMode {
   TotalDamage,// 平砍伤害
   SlashDamage,// 滑砍伤害
 }
 export interface MeleeModBuildOptions {
-  compareMode: MeleeCompareMode
-  comboLevel: number
-  allowElementTypes: string[]
-  isUseFury: boolean
-  isUseStrike: boolean
+  compareMode?: MeleeCompareMode
+  comboLevel?: number
+  allowElementTypes?: string[]
+  isUseFury?: boolean
+  isUseStrike?: boolean
+  extraBaseDamage?: number
 }
 
 export class MeleeModBuild extends ModBuild {
@@ -54,11 +55,12 @@ export class MeleeModBuild extends ModBuild {
   }
 
   set options(options: any) {
-    this.compareMode = options.compareMode;
-    this.comboLevel = options.comboLevel;
-    this.allowElementTypes = options.allowElementTypes;
-    this.isUseFury = options.isUseFury;
-    this.isUseStrike = options.isUseStrike;
+    this.compareMode = typeof options.compareMode !== "undefined" ? options.compareMode : this.compareMode;
+    this.comboLevel = typeof options.comboLevel !== "undefined" ? options.comboLevel : this.comboLevel;
+    this.allowElementTypes = typeof options.allowElementTypes !== "undefined" ? options.allowElementTypes : this.allowElementTypes;
+    this.isUseFury = typeof options.isUseFury !== "undefined" ? options.isUseFury : this.isUseFury;
+    this.isUseStrike = typeof options.isUseStrike !== "undefined" ? options.isUseStrike : this.isUseStrike;
+    this.extraBaseDamage = typeof options.extraBaseDamage !== "undefined" ? options.extraBaseDamage : this.extraBaseDamage;
   }
   get options(): any {
     return {
@@ -67,6 +69,7 @@ export class MeleeModBuild extends ModBuild {
       allowElementTypes: this.allowElementTypes,
       isUseFury: this.isUseFury,
       isUseStrike: this.isUseStrike,
+      extraBaseDamage: this.extraBaseDamage,
     } as MeleeModBuildOptions;
   }
 
@@ -123,8 +126,8 @@ export class MeleeModBuild extends ModBuild {
   /** 重置所有属性增幅器 */
   reset() {
     super.reset();
-    if (this.isUseFury) this._baseDamageMul = 2.2;
-    if (this.isUseStrike) this._fireRateMul = 1.8;
+    if (this.isUseFury) this._baseDamageMul = hAccSum(this._baseDamageMul, 1.2);
+    if (this.isUseStrike) this._fireRateMul = hAccSum(this._fireRateMul, 0.8);
     this._rangeMul = 1;
     this._chargeMulMul = 1;
     this._chargeEffMul = 1;

@@ -27,14 +27,25 @@
           <!-- 选项区域 -->
           <el-card class="build-tools">
             <el-button-group class="build-tools-action">
-              <el-button type="primary" @click="fill()">自动配置</el-button>
-              <el-button type="primary" @click="fillEmpty()">填充空白</el-button>
-              <el-button type="primary" @click="clear()">清空</el-button>
+              <el-button type="primary" size="small" @click="fill()">自动配置</el-button>
+              <el-button type="primary" size="small" @click="fillEmpty()">填充空白</el-button>
+              <el-button type="primary" size="small" @click="clear()">清空</el-button>
             </el-button-group>
             <el-form class="build-form-editor">
               <el-form-item label="连击倍率">
-                <el-tooltip effect="dark" content="将会按照此连击倍率来进行计算 (爪子P会自动相应增加)" placement="bottom">
+                <el-tooltip style="width: calc(100% - 68px);" effect="dark" content="将会按照此连击倍率来进行计算 (爪子P会自动相应增加)" placement="bottom">
                   <el-input-number size="small" v-model="comboMul" @change="reload" :min="1" :max="6" :step="0.5" label="使用MOD槽位"></el-input-number>
+                </el-tooltip>
+              </el-form-item>
+              <el-form-item label="基伤加成">
+                <el-tooltip style="width: calc(100% - 68px);" effect="dark" placement="bottom">
+                  <div slot="content">
+                    <div>Chroma的"怨怒护甲"和Mirage的"黯然失色"等技能可对武器基伤进行大量加成，</div>
+                    <div>步枪增幅、死亡之眼等光环MOD也属于这个加成</div>
+                  </div>
+                  <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" @change="reload" style="width:120px">
+                    <template slot="append">%</template>
+                  </el-input>
                 </el-tooltip>
               </el-form-item>
               <el-form-item label="赋能">
@@ -103,14 +114,22 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: MeleeWeapon;
   @Prop() rWeapon: RivenWeapon;
 
-  comboMul = 0;
+  comboMul = 1;
+  extraBaseDamage = 0;
   isUseFury = true;
   isUseStrike = true;
 
   @Watch("weapon")
   reload() { super.reload(); }
   reloadSelector() { this.$refs.selector && (this.$refs.selector as ModSelector).reload(); }
-  newBuild(...parms) { return new MeleeModBuild(...parms); }
+  newBuild(weapon: MeleeWeapon) {
+    return new MeleeModBuild(weapon, null, {
+      comboLevel: ~~((this.comboMul - 1) * 2),
+      extraBaseDamage: this.extraBaseDamage,
+      isUseFury: this.isUseFury,
+      isUseStrike: this.isUseStrike,
+    });
+  }
   // === 事件处理 ===
   // === 生命周期钩子 ===
   beforeMount() { this.reload(); }

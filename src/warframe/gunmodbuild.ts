@@ -18,14 +18,15 @@ export enum GunCompareMode {
   SustainedDamage // 持续伤害
 }
 export interface GunModBuildOptions {
-  compareMode: GunCompareMode
-  useAcolyteMods: boolean
-  useHeavyCaliber: boolean
-  useHunterMunitions: number
-  handShotChance: number
-  allowElementTypes: string[]
-  isUseMomentum: boolean
-  isUseVelocity: boolean
+  compareMode?: GunCompareMode
+  useAcolyteMods?: boolean
+  useHeavyCaliber?: boolean
+  useHunterMunitions?: number
+  handShotChance?: number
+  allowElementTypes?: string[]
+  isUseMomentum?: boolean
+  isUseVelocity?: boolean
+  extraBaseDamage?: number
 }
 /** 枪类 */
 export class GunModBuild extends ModBuild {
@@ -55,8 +56,6 @@ export class GunModBuild extends ModBuild {
   isUseMomentum = false;
   /** 迅速赋能 */
   isUseVelocity = false;
-  /** 基伤加成 */
-  extraBaseDamage = 0;
 
   constructor(weapon: GunWeapon = null, riven: RivenMod = null, options: GunModBuildOptions = null) {
     super(riven);
@@ -69,15 +68,15 @@ export class GunModBuild extends ModBuild {
   }
 
   set options(options: any) {
-    this.compareMode = options.compareMode;
-    this.useAcolyteMods = options.useAcolyteMods;
-    this.useHeavyCaliber = options.useHeavyCaliber;
-    this.useHunterMunitions = options.useHunterMunitions;
-    this.handShotChance = options.handShotChance;
-    this.allowElementTypes = options.allowElementTypes;
-    this.isUseMomentum = options.isUseMomentum;
-    this.isUseVelocity = options.isUseVelocity;
-    this.extraBaseDamage = options.extraBaseDamage;
+    this.compareMode = typeof options.compareMode !== "undefined" ? options.compareMode : this.compareMode;
+    this.useAcolyteMods = typeof options.useAcolyteMods !== "undefined" ? options.useAcolyteMods : this.useAcolyteMods;
+    this.useHeavyCaliber = typeof options.useHeavyCaliber !== "undefined" ? options.useHeavyCaliber : this.useHeavyCaliber;
+    this.useHunterMunitions = typeof options.useHunterMunitions !== "undefined" ? options.useHunterMunitions : this.useHunterMunitions;
+    this.handShotChance = typeof options.handShotChance !== "undefined" ? options.handShotChance : this.handShotChance;
+    this.allowElementTypes = typeof options.allowElementTypes !== "undefined" ? options.allowElementTypes : this.allowElementTypes;
+    this.isUseMomentum = typeof options.isUseMomentum !== "undefined" ? options.isUseMomentum : this.isUseMomentum;
+    this.isUseVelocity = typeof options.isUseVelocity !== "undefined" ? options.isUseVelocity : this.isUseVelocity;
+    this.extraBaseDamage = typeof options.extraBaseDamage !== "undefined" ? options.extraBaseDamage : this.extraBaseDamage;
   }
   get options(): any {
     return {
@@ -182,7 +181,6 @@ export class GunModBuild extends ModBuild {
   /** 重置所有属性增幅器 */
   reset() {
     super.reset();
-    this._baseDamageMul = 1 + this.extraBaseDamage;
     this._multishotMul = 1;
     this._fireRateMul = 1;
     this._magazineMul = 1;

@@ -31,6 +31,9 @@ export abstract class ModBuild {
 
   // 额外参数
 
+  /** 基伤加成 */
+  extraBaseDamage = 0;
+
   private _handShotChance = 0; /** 爆头概率 */  get handShotChance() { return this._handShotChance; }
   /** 设置爆头概率 */
   set handShotChance(value) {
@@ -320,7 +323,7 @@ export abstract class ModBuild {
 
   /** 重置所有属性增幅器 */
   reset() {
-    this._baseDamageMul = 1;
+    this._baseDamageMul = 1 + this.extraBaseDamage;
     this._extraDmgMul = 1;
     this._critChanceMul = 1;
     this._critMulMul = 1;

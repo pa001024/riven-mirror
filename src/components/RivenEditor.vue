@@ -7,7 +7,9 @@
         <div class="prop-picker" v-if="mod" v-for="(prop, index) in props" :key="index">
           <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
             <ul>
-              <li class="prop-button" v-for="vprop in allProps" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">{{vprop.sName}}</li>
+              <li class="prop-button" v-for="vprop in allProps" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
+                {{index > 0 ? vprop.subfix : vprop.prefix}} {{vprop.sName}}
+              </li>
             </ul>
             <el-button class="prop-select" size="medium" slot="reference">
               {{prop.id && prop.prop.sName || "请选择属性"}}
@@ -38,13 +40,13 @@ interface CascaderValue {
 }
 @Component
 export default class RivenEditor extends Vue {
-  @Model("change") value = "";
+  @Model("change") value;
   riven: RivenMod = null
   nameOptions: CascaderValue[] = [];
   selectWeapon = [];
   mod = ""
   props: { id: string, prop: RivenProperty, value: number, visable: boolean }[] = [];
-  get allProps() { return RivenPropertyDataBase[this.mod]; }
+  get allProps() { return RivenPropertyDataBase[this.mod].filter(v => !this.props.some(k => k.id === v.id)); }
   cnpyFilter(input: string) {
     let names = input.match(/^\w+$/) && CNPY_RivenWeapon.find(input) || [input];
     return this.nameOptions.filter(v => names.some(k => v.label.indexOf(k) >= 0));

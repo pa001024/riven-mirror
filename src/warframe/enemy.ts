@@ -100,6 +100,7 @@ export enum ArmorType {
   AlloyArmor,
 }
 
+/** 敌人派系 */
 export enum EnemyFaction {
   Tenno,
   Grineer,
@@ -255,14 +256,18 @@ export class Enemy {
     for (let i = 0; i < mapped.length; i++) {
       let [id, dmg] = mapped[i];
       // 毒素穿透护盾
-      if (this.currentSheild > 0 && id === DamageType.Toxin) {
-        let dtype = Damage2_0.getDamageType(id as DamageType);
-        let HM = dtype.dmgMul[this.fleshType];
-        let AM = dtype.dmgMul[11 + this.armorType];
-        let DM = (1 + HM) * (1 + AM) / (1 + this.currentArmor * (1 - AM) / 300);
-        this.currentHealth -= dmgs[i][1] * DM;
+      if (this.currentSheild > 0) {
+        if (id === DamageType.Toxin) {
+          let dtype = Damage2_0.getDamageType(id as DamageType);
+          let HM = dtype.dmgMul[this.fleshType];
+          let AM = dtype.dmgMul[11 + this.armorType];
+          let DM = (1 + HM) * (1 + AM) / (1 + this.currentArmor * (1 - AM) / 300);
+          this.currentHealth -= dmgs[i][1] * DM;
+        } else {
+          this.currentSheild -= dmg;
+        }
       } else {
-        this.currentSheild -= dmg;
+        this.currentHealth -= dmg;
       }
     }
     // 如果伤害穿透护盾之后还有剩 按剩余比例再计算一次
@@ -278,13 +283,14 @@ export class Enemy {
    * 计算单发射击后怪物血量剩余情况
    *
    * @param {[string, number][]} dmgs 伤害表
-   * @param {[string, number][]} procs 触发几率表(真实触发)
-   * @param {[string, number][]} procs 触发伤害表
+   * @param {[string, number][]} procChances 触发几率表(真实触发)
+   * @param {[string, number][]} procdmgs 触发伤害表(DoT)
    * @param {number} bullets 弹片数
    * @memberof Enemy
    */
-  applyHit(dmgs: [string, number][], procs: [string, number][], procdmgs: [string, number][], bullets: number) {
-
+  applyHit(dmgs: [string, number][], procChances: [string, number][], procdmgs: [string, number][], bullets: number) {
+    // 腐蚀触发次数
+    let corrosiveCount = procChances.find(([id]) => id === DamageType.Corrosive);
   }
 }
 
