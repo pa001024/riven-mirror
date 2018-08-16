@@ -1,7 +1,12 @@
 import { RivenMod, ModBuild, NormalMod, MeleeWeapon, NormalModDatabase } from "@/warframe";
+import { hAccMul } from "@/warframe/util";
 
+export enum MeleeCompareMode {
+  TotalDamage,// 平砍伤害
+  SlashDamage,// 滑砍伤害
+}
 export interface MeleeModBuildOptions {
-  isCalcSlide: boolean
+  compareMode: MeleeCompareMode
   comboLevel: number
   allowElementTypes: string[]
   isUseFury: boolean
@@ -29,8 +34,6 @@ export class MeleeModBuild extends ModBuild {
   comboLevel = 0;
   /** 异况触发量 */
   statusCount = 2;
-  /** 是否计算滑行伤害 */
-  isCalcSlide = true;
   /** 狂怒赋能 */
   isUseFury = false;
   /** 速攻赋能 */
@@ -51,7 +54,7 @@ export class MeleeModBuild extends ModBuild {
   }
 
   set options(options: any) {
-    this.isCalcSlide = options.isCalcSlide;
+    this.compareMode = options.compareMode;
     this.comboLevel = options.comboLevel;
     this.allowElementTypes = options.allowElementTypes;
     this.isUseFury = options.isUseFury;
@@ -59,7 +62,7 @@ export class MeleeModBuild extends ModBuild {
   }
   get options(): any {
     return {
-      isCalcSlide: this.isCalcSlide,
+      compareMode: this.compareMode,
       comboLevel: this.comboLevel,
       allowElementTypes: this.allowElementTypes,
       isUseFury: this.isUseFury,
@@ -72,12 +75,12 @@ export class MeleeModBuild extends ModBuild {
 
   /** 连击倍率 */
   get comboMul() {
-    if (this.weapon.name === "凯旋之爪 Prime")
+    if (this.weapon.id === "Venka Prime")
       return this.comboLevel * 0.75 + 1;
     else
       return this.comboLevel * 0.5 + 1;
   }
-  /** 暴击率 */
+  /** [overwrite] 暴击率 */
   get critChance() {
     return this.weapon.criticalChances * this.critChanceMul * (this.comboMul > 1 ? this.comboMul * this.comboCritChanceMul : 1);
   }
@@ -85,35 +88,27 @@ export class MeleeModBuild extends ModBuild {
   get slideCritDamage() {
     return (this.weapon.criticalChances * this.critChanceMul + this.slideCritChanceAdd) * (this.comboMul > 1 ? this.comboMul * this._comboCritChanceMul : 1)
   }
-  /** 暴击倍率 */
-  get critMul() {
-    return this.weapon.criticalMultiplier * this.critMulMul;
-  }
   /** 真实触发几率 */
   get realProcChance() { return this.procChance; }
-  /** 平均暴击区增幅倍率 */
-  get critDamageMul() { return this.calcCritDamage(this.critChance, this.critMul); }
   /** 滑行平均暴击区增幅倍率 */
   get slideCritDamageMul() { return this.calcCritDamage(this.slideCritDamage, this.critMul); }
-  /** 面板基础伤害增幅倍率 */
-  get panelBaseDamageMul() { return this.baseDamageMul; }
-  /** 面板伤害增幅倍率 */
-  get panelDamageMul() { return this.baseDamageMul * this.extraDmgMul; }
-  /** 总伤增幅倍率 */
-  get totalDamageMul() { return this.panelDamageMul * this.critDamageMul * this.comboMul; }
-  /** 滑行攻击伤增幅倍率 */
-  get slideDamageMul() { return this.panelDamageMul * this.slideCritDamageMul * this.comboMul; }
-  /** 面板基础伤害 */
-  get panelBaseDamage() { return this.originalDamage * this.panelBaseDamageMul; }
-  /** 面板伤害 */
-  get panelDamage() { return this.originalDamage * this.panelDamageMul; }
-  /** 总伤害 */
-  get totalDamage() { return this.originalDamage * this.totalDamageMul * this.fireRate; }
+  /** [overwrite] 总伤增幅倍率 */
+  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.comboMul); }
+  /** [overwrite] 总伤害 */
+  get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul, this.fireRate); }
+  /** [overwrite] 原总伤害 */
+  get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul, this.weapon.fireRate); }
+  /** 滑行攻击伤害增幅倍率 */
+  get slideDamageMul() { return hAccMul(this.panelDamageMul, this.slideCritDamageMul, this.comboMul); }
+  /** 原滑行攻击伤害 */
+  get oriSlideDamage() { return hAccMul(this.weapon.slideDmg, this.oriCritDamageMul, this.weapon.fireRate); }
   /** 滑行攻击伤害 */
-  get slideDamage() { return this.weapon.slideDmg * this.slideDamageMul * this.fireRate; }
-  /** 用于比较的伤害 */
+  get slideDamage() { return hAccMul(this.weapon.slideDmg, this.slideDamageMul, this.fireRate); }
+  /** 面板滑行伤害 */
+  get panelSlideDamage() { return hAccMul(this.weapon.slideDmg, this.panelDamageMul); }
+  /** [overwrite] 用于比较的伤害 */
   get compareDamage() {
-    return this.isCalcSlide ? this.slideDamage : this.totalDamage;
+    return this.compareMode === MeleeCompareMode.SlashDamage ? this.slideDamage : this.totalDamage;
   }
 
   // ### 基类方法 ###

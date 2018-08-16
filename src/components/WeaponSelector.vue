@@ -25,7 +25,7 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenDataBase, RivenWeapon, ModTypeTable, RivenWeaponDataBase } from "@/warframe/data";
+import { RivenDataBase, RivenWeapon, ModTypeTable, RivenWeaponDataBase } from "@/warframe";
 
 declare interface WeaponSelectorTab {
   id: string

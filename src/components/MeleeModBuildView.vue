@@ -43,7 +43,7 @@
           <el-collapse-item v-for="build in builds" :key="build[0]" :name="build[0]">
             <template slot="title">
               <div class="build-title" style="margin:0 16px;">
-                {{build[0]}} &nbsp; - &nbsp; {{(build[1].compareDamage/build[1].fireRate).toFixed(1)}} X {{build[1].fireRate.toFixed(1)}}{{selectCompMethodText}}
+                {{build[0]}} &nbsp; - &nbsp; {{(build[1].compareDamage/build[1].fireRate).toFixed(1)}} × {{build[1].fireRate.toFixed(1)}} {{selectCompMethodText}}
               </div>
             </template>
             <el-row type="flex" :gutter="12" class="build-item" style="margin:8px;">
@@ -83,8 +83,7 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, MeleeModBuild, ValuedRivenProperty } from "@/warframe";
-import { RivenDataBase } from "@/warframe/data";
+import { RivenMod, MeleeModBuild, ValuedRivenProperty, RivenDataBase } from "@/warframe";
 import { ModBuildView } from "@/components/ModBuildView";
 
 @Component
@@ -120,7 +119,7 @@ export default class MeleeModBuildView extends ModBuildView {
   recalc() {
     if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
     let options = {
-      isCalcSlide: this.isSlide,
+      compareMode: this.isSlide ? 1 : 0,
       comboLevel: ~~((this.comboMul - 1) * 2),
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
       isUseFury: this.isUseFury,

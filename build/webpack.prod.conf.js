@@ -61,7 +61,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new UglifyJsPlugin({
       parallel: true,
       cache: true,
-      sourceMap: true,
+      sourceMap: false,
       uglifyOptions: {
         compress: {
           warnings: true,
@@ -92,8 +92,8 @@ const webpackConfig = merge(baseWebpackConfig, {
       favicon: './favicon.ico',
       inject: true,
       minify: {
-        // removeComments: true,
-        // collapseWhitespace: true,
+        removeComments: true,
+        collapseWhitespace: true,
         // removeAttributeQuotes: true
         // more options:
         // https://github.com/kangax/html-minifier#options-quick-reference

@@ -25,6 +25,7 @@ export default class BuildEditor extends Vue {
 
   @Watch("id")
   reload() {
+    if (!this.id || this._lastid === this.id) return;
     this._lastid = this.id;
     this._weapon = RivenDataBase.getNormalWeaponsByName(this.id.replace(/_/g, " "));
     this._rWeapon = RivenDataBase.getRivenWeaponByName(this.weapon.rivenName || this.weapon.id);

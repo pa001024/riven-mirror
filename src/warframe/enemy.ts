@@ -184,7 +184,10 @@ export class Enemy {
 
   /**
    * 根据克制修正系数计算伤害模型
-   * @param dmgs
+   *
+   * @param {[string, number][]} dmgs
+   * @returns 映射后的伤害数值
+   * @memberof Enemy
    */
   mapDamage(dmgs: [string, number][]) {
     if (this.currentSheild > 0) return this.mapDamageSheild(dmgs);
@@ -193,43 +196,95 @@ export class Enemy {
   }
   /**
    * 根据克制修正系数计算血肉伤害模型
-   * @param dmgs
+   *
+   * @param {[string, number][]} dmgs
+   * @returns 映射后的伤害数值
+   * @memberof Enemy
    */
   mapDamageHealth(dmgs: [string, number][]) {
     return dmgs.map(([id, dmg]) => {
       let dtype = Damage2_0.getDamageType(id as DamageType);
       let HM = dtype.dmgMul[this.fleshType];
       let DM = 1 + HM;
-      return [id, dmg * DM];
+      return [id, dmg * DM] as [string, number];
     });
   }
   /**
    * 根据克制修正系数计算护甲伤害模型
-   * @param dmgs
+   *
+   * @param {[string, number][]} dmgs
+   * @returns 映射后的伤害数值
+   * @memberof Enemy
    */
   mapDamageArmor(dmgs: [string, number][]) {
     return dmgs.map(([id, dmg]) => {
       let dtype = Damage2_0.getDamageType(id as DamageType);
       let HM = dtype.dmgMul[this.fleshType];
       let AM = dtype.dmgMul[11 + this.armorType];
-      let DM = (1 + HM) * (1 + AM) / (1 + this.armor * (1 - AM) / 300);
-      return [id, dmg * DM];
+      let DM = (1 + HM) * (1 + AM) / (1 + this.currentArmor * (1 - AM) / 300);
+      return [id, dmg * DM] as [string, number];
     });
   }
   /**
    * 根据克制修正系数计算护盾伤害模型
-   * @param dmgs
+   *
+   * @param {[string, number][]} dmgs
+   * @returns 映射后的伤害数值
+   * @memberof Enemy
    */
   mapDamageSheild(dmgs: [string, number][]) {
     return dmgs.map(([id, dmg]) => {
       let dtype = Damage2_0.getDamageType(id as DamageType);
-      let HM = dtype.dmgMul[this.fleshType];
       let SM = dtype.dmgMul[9 + this.sheildType];
-      let AM = dtype.dmgMul[11 + this.armorType];
-      // 毒素伤害直接穿透护盾对血量进行打击, 可能同时存在护甲
-      let DM = isNaN(SM) ? (1 + HM) * (1 + AM) / (1 + this.armor * (1 - AM) / 300) : 1 + SM;
-      return [id, dmg * DM];
+      // 毒素伤害直接穿透护盾对血量进行打击, 不计算对护盾的伤害
+      let DM = isNaN(SM) ? 0 : 1 + SM;
+      return [id, dmg * DM] as [string, number];
     });
+  }
+  /**
+   * 应用伤害
+   *
+   * @param {[string, number][]} dmgs
+   * @returns
+   * @memberof Enemy
+   */
+  applyDmg(dmgs: [string, number][]) {
+    let mapped = this.mapDamage(dmgs);
+    let totalDmg = mapped.reduce((a, b) => a + b[1], 0)
+
+    for (let i = 0; i < mapped.length; i++) {
+      let [id, dmg] = mapped[i];
+      // 毒素穿透护盾
+      if (this.currentSheild > 0 && id === DamageType.Toxin) {
+        let dtype = Damage2_0.getDamageType(id as DamageType);
+        let HM = dtype.dmgMul[this.fleshType];
+        let AM = dtype.dmgMul[11 + this.armorType];
+        let DM = (1 + HM) * (1 + AM) / (1 + this.currentArmor * (1 - AM) / 300);
+        this.currentHealth -= dmgs[i][1] * DM;
+      } else {
+        this.currentSheild -= dmg;
+      }
+    }
+    // 如果伤害穿透护盾之后还有剩 按剩余比例再计算一次
+    if (this.currentSheild < 0) {
+      let remaingDmgRate = 1 - this.currentSheild / totalDmg;
+      this.currentSheild = 0;
+      this.applyDmg(dmgs.map(([id, dmg]) => [id, dmg * remaingDmgRate] as [string, number]));
+    }
+    return this;
+  }
+
+  /**
+   * 计算单发射击后怪物血量剩余情况
+   *
+   * @param {[string, number][]} dmgs 伤害表
+   * @param {[string, number][]} procs 触发几率表(真实触发)
+   * @param {[string, number][]} procs 触发伤害表
+   * @param {number} bullets 弹片数
+   * @memberof Enemy
+   */
+  applyHit(dmgs: [string, number][], procs: [string, number][], procdmgs: [string, number][], bullets: number) {
+
   }
 }
 

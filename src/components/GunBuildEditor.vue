@@ -10,38 +10,13 @@
             </div>
             <table class="weapon-props">
               <tbody>
-                <tr><td>暴击率</td>
-                  <td>{{weapon.criticalChances*100}}%</td>
-                  <td v-if="weapon.criticalChances!=build.critChance"><i class="el-icon-arrow-right"></i> {{Num(build.critChance*100)}}%</td>
-                </tr>
-                <tr><td>暴击伤害</td>
-                  <td>{{weapon.criticalMultiplier}}x</td>
-                  <td v-if="weapon.criticalMultiplier!=build.critMul"><i class="el-icon-arrow-right"></i> {{Num(build.critMul)}}</td>
-                </tr>
-                <tr><td>攻速</td>
-                  <td>{{weapon.fireRate}}</td>
-                  <td v-if="weapon.fireRate!=build.fireRate"><i class="el-icon-arrow-right"></i> {{Num(build.fireRate)}}</td>
-                </tr>
-                <tr><td>触发几率</td>
-                  <td>{{weapon.status*100}}%</td>
-                  <td v-if="weapon.status!=build.procChance"><i class="el-icon-arrow-right"></i> {{Num(build.procChance*100)}}%</td>
-                </tr>
-                <tr><td>精确度</td>
-                  <td>{{weapon.accuracy}}</td>
-                  <td v-if="weapon.accuracy!=build.accuracy"><i class="el-icon-arrow-right"></i> {{Num(build.accuracy)}}</td>
-                </tr>
-                <tr v-if="weapon.bullets!=1||build.bullets!=1"><td>弹片数</td>
-                  <td>{{weapon.bullets}}</td>
-                  <td v-if="weapon.bullets!=build.bullets"><i class="el-icon-arrow-right"></i> {{Num(build.bullets)}}</td>
-                </tr>
-                <tr><td>弹匣容量</td>
-                  <td>{{weapon.magazine}}</td>
-                  <td v-if="weapon.magazine!=build.magazineSize"><i class="el-icon-arrow-right"></i> {{Num(build.magazineSize)}}</td>
-                </tr>
-                <tr><td>装填</td>
-                  <td>{{weapon.reload}}</td>
-                  <td v-if="weapon.reload!=build.reloadTime">{{Num(build.reloadTime,2)}}</td>
-                </tr>
+                <PropDiff name="暴击率" :ori="weapon.criticalChances" :val="build.critChance" percent></PropDiff>
+                <PropDiff name="暴击伤害" :ori="weapon.criticalMultiplier" :val="build.critMul" subfix="x"></PropDiff>
+                <PropDiff name="攻速" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
+                <PropDiff name="触发几率" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
+                <PropDiff v-if="weapon.bullets!=1||build.bullets!=1" name="弹片数" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
+                <PropDiff name="弹匣容量" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
+                <PropDiff name="装填" :ori="weapon.reload" :val="build.reloadTime" :preci="2"></PropDiff>
                 <tr v-for="[dname, oldvalue, newvalue] in mergedDmg" :key="dname"><td>{{mapDname(dname)}}</td>
                   <td>{{oldvalue}}</td>
                   <td v-if="newvalue!=oldvalue"><i class="el-icon-arrow-right"></i> {{Num(newvalue)}}</td>
@@ -64,11 +39,32 @@
                 </tr>
               </tbody>
             </table>
-            <div class="build-tools">
-              <el-button plain @click="fill">自动配置</el-button>
-              <el-button plain @click="fillEmpty">填充空白</el-button>
-              <el-button plain @click="clear">清空</el-button>
-            </div>
+          </el-card>
+          <!-- 选项区域 -->
+          <el-card class="build-tools">
+            <el-button-group class="build-tools-action">
+              <el-button type="primary" @click="fill()">自动配置</el-button>
+              <el-button type="primary" @click="fillEmpty()">填充空白</el-button>
+              <el-button type="primary" @click="clear()">清空</el-button>
+            </el-button-group>
+            <el-form class="build-form-editor">
+              <el-form-item label="爆头率">
+                <el-tooltip effect="dark" content="更高的爆头率会提高暴击的收益" placement="bottom">
+                  <el-slider v-model="handShotChance" :format-tooltip="v=>v+'%'" @change="reload" style="margin-left: 64px;"></el-slider>
+                </el-tooltip>
+              </el-form-item>
+              <el-form-item label="基伤加成">
+                <el-tooltip effect="dark" content="Chroma的怨怒护甲和Mirage的黯然失色可对武器基伤产生大量加成，步枪增幅、死亡之眼等光环MOD也属于这个加成" placement="bottom">
+                  <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" @change="reload" style="width:120px">
+                    <template slot="append">%</template>
+                  </el-input>
+                </el-tooltip>
+              </el-form-item>
+              <el-form-item label="赋能" v-if="is('sniper') || is('pistol')">
+                <el-checkbox v-model="isUseMomentum" v-if="is('sniper')" @change="reload">动量</el-checkbox>
+                <el-checkbox v-model="isUseVelocity" v-if="is('pistol')" @change="reload">迅速</el-checkbox>
+              </el-form-item>
+            </el-form>
           </el-card>
         </div>
       </el-col>
@@ -104,7 +100,7 @@
       </el-col>
     </el-row>
     <el-dialog title="选择MOD" :visible.sync="dialogVisible" width="600">
-      <ModSelector ref="selector" :build="build" @command="modSelect"></ModSelector>
+      <ModSelector ref="selector" :build="build" @command="modSelect($event)"></ModSelector>
     </el-dialog>
   </div>
 </template>
@@ -113,145 +109,37 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty } from "@/warframe";
 import ModSelector from "@/components/ModSelector.vue";
-
-declare interface BuildSelectorTab {
-  title: string
-  name: string
-  build: ModBuild
-  mods: NormalMod[]
-}
+import PropDiff from "@/components/PropDiff.vue";
+import { BaseBuildEditor } from "@/components/BaseBuildEditor";
 
 @Component({
-  components: { ModSelector }
+  components: { ModSelector, PropDiff }
 })
-export default class GunBuildEditor extends Vue {
+export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;
   @Prop() rWeapon: RivenWeapon;
+  handShotChance = 0;
+  extraBaseDamage = 0;
+  isUseMomentum = false;
+  isUseVelocity = false;
 
-  tabs: BuildSelectorTab[] = [];
-  tabValue = "common";
-  selectModIndex = 0;
-  dialogVisible = false;
-  get currentTab() { return this.tabs.find(v => v.name === this.tabValue); }
-  get build() { return this.currentTab.build; }
-  get mergedDmg() {
-    let lD = this.weapon.dmg;
-    let nD = this.build.dmg;
-    let rst: { [v: string]: [number, number] } = {};
-    lD.forEach(([vn, vv]) => {
-      rst[vn] = [vv, 0];
-    })
-    nD.forEach(([vn, vv]) => {
-      if (rst[vn]) rst[vn][1] = vv;
-      else rst[vn] = [0, vv];
-    })
-    return _.map(rst, (v, i) => [i, ...v]) as [string, number, number][];
-  }
-  fill() {
-    this.build.fill(8, 0);
-    this.currentTab.mods = this.build.mods;
-  }
-  fillEmpty() {
-    this.build.fillEmpty(8, 0);
-    this.currentTab.mods = this.build.mods;
-  }
-  clear() {
-    this.currentTab.mods = Array(8);
-    this.refleshMods();
-  }
-  changeMode(mode: number) {
-    this.build.compareMode = mode;
-    this.$refs.selector && (this.$refs.selector as ModSelector).reload();
+  get options() {
+    return {};
   }
   @Watch("weapon")
-  reload() {
-    this.tabs = [{
-      title: "通用配置",
-      name: "common",
-      build: new GunModBuild(this.weapon),
-      mods: Array(8)
-    }];
-    this.tabValue = 'common';
-  }
-
-  convertToPropName(prop: [string, number]) {
-    let rp = RivenDataBase.getPropByName(prop[0]);
-    if (rp) {
-      let vp = new ValuedRivenProperty(rp, prop[1] * 100);
-      return vp.displayValue + " " + vp.name;
-    }
-    return prop[0] + " " + (prop[1] * 100).toFixed() + "%";
-  }
-  /** 返回固定精确度数值 */
-  Num(num: number, preci = 1) {
-    return +num.toFixed(preci);
-  }
-  /** 返回固定精确度数值并带正负号 */
-  PNNum(num: number, preci = 1) {
-    let n = +num.toFixed(preci);
-    return n < 0 ? n.toString() : "+" + n;
-  }
-  refleshMods() {
-    this.build.clear();
-    let mods = _.compact(this.currentTab.mods);
-    console.log(mods.map(v => v.name));
-    mods.forEach(mod => this.build.applyMod(mod));
-  }
-  mapDname(id: string) {
-    let dtype = Damage2_0.getDamageType(id as DamageType);
-    return dtype && dtype.name || "";
-  }
+  reload() { super.reload(); }
+  reloadSelector() { this.$refs.selector && (this.$refs.selector as ModSelector).reload(); }
+  newBuild(...parms) { return new GunModBuild(...parms); }
   // === 事件处理 ===
-  modSelect(mod: NormalMod) {
-    this.currentTab.mods[this.selectModIndex] = mod;
-    this.refleshMods();
-    this.dialogVisible = false;
-  }
-  slotClick(modIndex: number) {
-    this.selectModIndex = modIndex;
-    this.dialogVisible = true;
-  }
-  slotRemove(modIndex: number) {
-    this.currentTab.mods[modIndex] = null;
-    this.refleshMods();
-  }
-  handleTabsEdit(targetName, action: "add" | "remove") {
-    if (action === 'add') {
-      let newTabName = "SET " + (1 + (+this.tabs[this.tabs.length - 1].name.split(" ")[1] || 0));
-      this.tabs.push({
-        title: newTabName.replace("SET", "配置"),
-        name: newTabName,
-        build: new GunModBuild(this.weapon),
-        mods: Array(8)
-      });
-      this.tabValue = newTabName;
-    }
-    if (action === 'remove') {
-      let tabs = this.tabs;
-      let activeName = this.tabValue;
-      if (activeName === targetName) {
-        tabs.forEach((tab, index) => {
-          if (tab.name === targetName) {
-            let nextTab = tabs[index + 1] || tabs[index - 1];
-            if (nextTab) {
-              activeName = nextTab.name;
-            }
-          }
-        });
-      }
-
-      this.tabValue = activeName;
-      this.tabs = tabs.filter(tab => tab.name !== targetName);
-    }
-  }
   // === 生命周期钩子 ===
-  beforeMount() {
-    this.reload();
-  }
+  beforeMount() { this.reload(); }
 }
 </script>
 
 <style>
+.build-form-editor .el-form-item {
+  margin-bottom: 8px;
+}
 .mod-stat .mod-prop {
   font-size: 9pt;
   color: #777;
@@ -303,20 +191,37 @@ export default class GunBuildEditor extends Vue {
   font-size: 36px;
 }
 .build-tools {
+  margin-top: 16px;
+}
+.build-tools-action {
   display: flex;
   align-content: center;
   justify-content: center;
-  margin-top: 12px;
   flex-wrap: wrap;
+  margin-bottom: 12px;
 }
-.build-tools > * {
+.build-tools-action > * {
   flex: 1;
 }
 .select-cpmode {
   cursor: pointer;
 }
 .select-cpmode.active {
-  color: #3d5afe;
+  background: #6199ff;
+  color: #fff;
+  /* box-shadow: 0px 0px 0px 4px #b3ceff; */
+}
+.select-cpmode.active > * {
+  border-top: 4px solid #b3ceff;
+  border-bottom: 4px solid #b3ceff;
+  border-left: 0;
+  border-right: 0;
+}
+.select-cpmode.active > *:first-child {
+  border-left: 4px solid #b3ceff;
+}
+.select-cpmode.active > *:last-child {
+  border-right: 4px solid #b3ceff;
 }
 .editor-main > .el-dialog__wrapper {
   display: flex;
@@ -337,6 +242,7 @@ export default class GunBuildEditor extends Vue {
 }
 .weapon-props {
   width: 100%;
+  border-spacing: 0;
 }
 .mod-slot-containor {
   flex-wrap: wrap;

@@ -10,45 +10,38 @@
             </div>
             <table class="weapon-props">
               <tbody>
-                <tr><td>暴击率</td>
-                  <td>{{weapon.criticalChances*100}}%</td>
-                  <td v-if="weapon.criticalChances!=build.critChance"><i class="el-icon-arrow-right"></i> {{Num(build.critChance*100)}}%</td>
-                </tr>
-                <tr><td>暴击伤害</td>
-                  <td>{{weapon.criticalMultiplier}}x</td>
-                  <td v-if="weapon.criticalMultiplier!=build.critMul"><i class="el-icon-arrow-right"></i> {{Num(build.critMul)}}</td>
-                </tr>
-                <tr><td>攻速</td>
-                  <td>{{weapon.fireRate}}</td>
-                  <td v-if="weapon.fireRate!=build.fireRate"><i class="el-icon-arrow-right"></i> {{Num(build.fireRate)}}</td>
-                </tr>
-                <tr><td>触发几率</td>
-                  <td>{{weapon.status*100}}%</td>
-                  <td v-if="weapon.status!=build.procChance"><i class="el-icon-arrow-right"></i> {{Num(build.procChance*100)}}%</td>
-                </tr>
-                <tr v-for="[dname, oldvalue, newvalue] in mergedDmg" :key="dname"><td>{{mapDname(dname)}}</td>
-                  <td>{{oldvalue}}</td>
-                  <td v-if="newvalue!=oldvalue"><i class="el-icon-arrow-right"></i> {{Num(newvalue)}}</td>
-                </tr>
-                <tr><td>面板伤害</td>
-                  <td>{{Num(build.originalDamage)}}</td>
-                  <td v-if="build.originalDamage!=build.panelDamage"><i class="el-icon-arrow-right"></i> {{Num(build.panelDamage)}}</td>
-                </tr>
-                <tr><td class="select-cpmode" :class="{active: build.compareMode===0}" @click="changeMode(0)">平砍伤害</td>
-                  <td>{{Num(build.oriTotalDamage)}}</td>
-                  <td v-if="build.oriTotalDamage!=build.totalDamage"><i class="el-icon-arrow-right"></i> {{Num(build.totalDamage)}}</td>
-                </tr>
-                <tr><td class="select-cpmode" :class="{active: build.compareMode===1}" @click="changeMode(1)">滑砍伤害</td>
-                  <td>{{Num(build.oriBurstDamage)}}</td>
-                  <td v-if="build.oriBurstDamage!=build.burstDamage"><i class="el-icon-arrow-right"></i> {{Num(build.burstDamage)}}</td>
-                </tr>
+                <PropDiff name="暴击率" :ori="weapon.criticalChances" :val="build.critChance" percent></PropDiff>
+                <PropDiff name="暴击伤害" :ori="weapon.criticalMultiplier" :val="build.critMul" subfix="x"></PropDiff>
+                <PropDiff name="攻速" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
+                <PropDiff name="触发几率" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
+                <PropDiff name="滑行攻击" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
+                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="mapDname(dname)" :ori="ori" :val="val"></PropDiff>
+                <PropDiff name="面板伤害" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
+                <PropDiff name="平砍伤害" :ori="build.oriTotalDamage" :val="build.totalDamage"
+                   class="select-cpmode" :class="{active: build.compareMode===0}" @click="changeMode(0)"></PropDiff>
+                <PropDiff name="滑砍伤害" :ori="build.oriSlideDamage" :val="build.slideDamage"
+                   class="select-cpmode" :class="{active: build.compareMode===1}" @click="changeMode(1)"></PropDiff>
               </tbody>
             </table>
-            <div class="build-tools">
-              <el-button plain @click="fill">自动配置</el-button>
-              <el-button plain @click="fillEmpty">填充空白</el-button>
-              <el-button plain @click="clear">清空</el-button>
-            </div>
+          </el-card>
+          <!-- 选项区域 -->
+          <el-card class="build-tools">
+            <el-button-group class="build-tools-action">
+              <el-button type="primary" @click="fill()">自动配置</el-button>
+              <el-button type="primary" @click="fillEmpty()">填充空白</el-button>
+              <el-button type="primary" @click="clear()">清空</el-button>
+            </el-button-group>
+            <el-form class="build-form-editor">
+              <el-form-item label="连击倍率">
+                <el-tooltip effect="dark" content="将会按照此连击倍率来进行计算 (爪子P会自动相应增加)" placement="bottom">
+                  <el-input-number size="small" v-model="comboMul" @change="reload" :min="1" :max="6" :step="0.5" label="使用MOD槽位"></el-input-number>
+                </el-tooltip>
+              </el-form-item>
+              <el-form-item label="赋能">
+                <el-checkbox v-model="isUseFury" @change="reload">狂怒</el-checkbox>
+                <el-checkbox v-model="isUseStrike" @change="reload">速攻</el-checkbox>
+              </el-form-item>
+            </el-form>
           </el-card>
         </div>
       </el-col>
@@ -84,7 +77,7 @@
       </el-col>
     </el-row>
     <el-dialog title="选择MOD" :visible.sync="dialogVisible" width="600">
-      <ModSelector ref="selector" :build="build" @command="modSelect"></ModSelector>
+      <ModSelector ref="selector" :build="build" @command="modSelect($event)"></ModSelector>
     </el-dialog>
   </div>
 </template>
@@ -92,7 +85,9 @@
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty, MeleeWeapon, MeleeModBuild } from "@/warframe";
+import PropDiff from "@/components/PropDiff.vue";
 import ModSelector from "@/components/ModSelector.vue";
+import { BaseBuildEditor } from "@/components/BaseBuildEditor";
 
 declare interface BuildSelectorTab {
   title: string
@@ -102,265 +97,22 @@ declare interface BuildSelectorTab {
 }
 
 @Component({
-  components: { ModSelector }
+  components: { ModSelector, PropDiff }
 })
-export default class GunBuildEditor extends Vue {
+export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: MeleeWeapon;
   @Prop() rWeapon: RivenWeapon;
 
-  tabs: BuildSelectorTab[] = [];
-  tabValue = "common";
-  selectModIndex = 0;
-  dialogVisible = false;
-  get currentTab() { return this.tabs.find(v => v.name === this.tabValue); }
-  get build() { return this.currentTab.build; }
-  get mergedDmg() {
-    let lD = this.weapon.dmg;
-    let nD = this.build.dmg;
-    let rst: { [v: string]: [number, number] } = {};
-    lD.forEach(([vn, vv]) => {
-      rst[vn] = [vv, 0];
-    })
-    nD.forEach(([vn, vv]) => {
-      if (rst[vn]) rst[vn][1] = vv;
-      else rst[vn] = [0, vv];
-    })
-    return _.map(rst, (v, i) => [i, ...v]) as [string, number, number][];
-  }
-  fill() {
-    this.build.fill(8, 0);
-    this.currentTab.mods = this.build.mods;
-  }
-  fillEmpty() {
-    this.build.fillEmpty(8, 0);
-    this.currentTab.mods = this.build.mods;
-  }
-  clear() {
-    this.currentTab.mods = Array(8);
-    this.refleshMods();
-  }
-  changeMode(mode: number) {
-    this.build.compareMode = mode;
-    this.$refs.selector && (this.$refs.selector as ModSelector).reload();
-  }
+  comboMul = 0;
+  isUseFury = true;
+  isUseStrike = true;
+
   @Watch("weapon")
-  reload() {
-    this.tabs = [{
-      title: "通用配置",
-      name: "common",
-      build: new MeleeModBuild(this.weapon),
-      mods: Array(8)
-    }];
-    this.tabValue = 'common';
-  }
-
-  convertToPropName(prop: [string, number]) {
-    let rp = RivenDataBase.getPropByName(prop[0]);
-    if (rp) {
-      let vp = new ValuedRivenProperty(rp, prop[1] * 100);
-      return vp.displayValue + " " + vp.name;
-    }
-    return prop[0] + " " + (prop[1] * 100).toFixed() + "%";
-  }
-  /** 返回固定精确度数值 */
-  Num(num: number, preci = 1) {
-    return +num.toFixed(preci);
-  }
-  /** 返回固定精确度数值并带正负号 */
-  PNNum(num: number, preci = 1) {
-    let n = +num.toFixed(preci);
-    return n < 0 ? n.toString() : "+" + n;
-  }
-  refleshMods() {
-    this.build.clear();
-    let mods = _.compact(this.currentTab.mods);
-    console.log(mods.map(v => v.name));
-    mods.forEach(mod => this.build.applyMod(mod));
-  }
-  mapDname(id: string) {
-    let dtype = Damage2_0.getDamageType(id as DamageType);
-    return dtype && dtype.name || "";
-  }
+  reload() { super.reload(); }
+  reloadSelector() { this.$refs.selector && (this.$refs.selector as ModSelector).reload(); }
+  newBuild(...parms) { return new MeleeModBuild(...parms); }
   // === 事件处理 ===
-  modSelect(mod: NormalMod) {
-    this.currentTab.mods[this.selectModIndex] = mod;
-    this.refleshMods();
-    this.dialogVisible = false;
-  }
-  slotClick(modIndex: number) {
-    this.selectModIndex = modIndex;
-    this.dialogVisible = true;
-  }
-  slotRemove(modIndex: number) {
-    this.currentTab.mods[modIndex] = null;
-    this.refleshMods();
-  }
-  handleTabsEdit(targetName, action: "add" | "remove") {
-    if (action === 'add') {
-      let newTabName = "SET " + (1 + (+this.tabs[this.tabs.length - 1].name.split(" ")[1] || 0));
-      this.tabs.push({
-        title: newTabName.replace("SET", "配置"),
-        name: newTabName,
-        build: new MeleeModBuild(this.weapon),
-        mods: Array(8)
-      });
-      this.tabValue = newTabName;
-    }
-    if (action === 'remove') {
-      let tabs = this.tabs;
-      let activeName = this.tabValue;
-      if (activeName === targetName) {
-        tabs.forEach((tab, index) => {
-          if (tab.name === targetName) {
-            let nextTab = tabs[index + 1] || tabs[index - 1];
-            if (nextTab) {
-              activeName = nextTab.name;
-            }
-          }
-        });
-      }
-
-      this.tabValue = activeName;
-      this.tabs = tabs.filter(tab => tab.name !== targetName);
-    }
-  }
   // === 生命周期钩子 ===
-  beforeMount() {
-    this.reload();
-  }
+  beforeMount() { this.reload(); }
 }
 </script>
-
-<style>
-.mod-stat .mod-prop {
-  font-size: 9pt;
-  color: #777;
-}
-.mod-sum {
-  font-size: 11pt;
-  color: #67c23a;
-}
-.mod-title,
-.mod-detail {
-  cursor: pointer;
-  align-self: stretch;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.3s;
-}
-.mod-detail:hover {
-  background: #ffd6d6;
-}
-.mod-stat {
-  display: initial;
-}
-.mod-detail:hover .mod-stat {
-  display: none;
-}
-.mod-action {
-  display: none;
-}
-.mod-detail:hover .mod-action {
-  display: initial;
-}
-.mod-title {
-  font-size: 20px;
-  border-radius: 4px 0 0 4px;
-}
-.mod-title:hover {
-  background: #e8f0ff;
-}
-.mod-title,
-.mod-detail {
-  flex: 1;
-}
-.mod-slot-remove {
-  background: 0 0;
-  border: none;
-  outline: 0;
-  cursor: pointer;
-  font-size: 36px;
-}
-.build-tools {
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-.build-tools > * {
-  flex: 1;
-}
-.select-cpmode {
-  cursor: pointer;
-}
-.select-cpmode.active {
-  color: #3d5afe;
-}
-.editor-main > .el-dialog__wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-@media only screen and (max-width: 1366px) {
-  .editor-main > .el-dialog__wrapper > .el-dialog {
-    width: 70%;
-    margin: 0 !important;
-  }
-}
-@media only screen and (max-width: 992px) {
-  .editor-main > .el-dialog__wrapper > .el-dialog {
-    width: 90%;
-    margin: 0 !important;
-  }
-}
-.weapon-props {
-  width: 100%;
-}
-.mod-slot-containor {
-  flex-wrap: wrap;
-}
-.mod-slot {
-  border-left: 4px solid transparent;
-  text-align: center;
-  margin: 8px 0;
-  border-radius: 4px;
-  background: #fff;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.mod-slot.n {
-  border-left-color: #865e37;
-}
-.mod-slot.c {
-  border-left-color: #a7a7a7;
-}
-.mod-slot.r {
-  border-left-color: #f5e583;
-}
-.mod-slot.l {
-  border-left-color: #eaeaea;
-}
-.mod-slot.x {
-  border-left-color: #a072ce;
-}
-.mod-slot.active {
-  cursor: pointer;
-}
-.mod-slot .el-icon-plus {
-  font-size: 40px;
-  padding: 20px;
-  color: #89b2fd;
-}
-.mod-slot:hover i {
-  color: #6199ff;
-}
-.mod-select {
-  max-height: 64vh;
-  overflow: auto;
-}
-</style>

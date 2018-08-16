@@ -97,13 +97,12 @@
 import _ from "lodash";
 import axios from 'axios';
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod } from "../warframe";
+import { RivenMod, RivenDataBase } from "../warframe";
 import GunModBuildView from "@/components/GunModBuildView.vue";
 import MeleeModBuildView from "@/components/MeleeModBuildView.vue";
 import qrcode from "@/components/QRCode";
 import { Getter, Action } from 'vuex-class'
 import jsQR from "jsqr";
-import { RivenDataBase } from "@/warframe/data";
 import RivenEditor from "@/components/RivenEditor.vue";
 
 interface OCRResult {

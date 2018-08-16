@@ -7,8 +7,8 @@ interface State {
 }
 
 let state = {
-  mod: new RivenMod(localStorage.getItem("modText") || "兰卡\nAcri-satiata\n+135.5%暴击伤害\n+97.9%多重射击\n+171.9%伤害\n-47.3%变焦\n段位160233"),
-  history: localStorage.getItem("modHistory") ? JSON.parse(localStorage.getItem("modHistory")).map(v => new RivenMod(v)) : []
+  history: localStorage.getItem("modHistory") ? JSON.parse(localStorage.getItem("modHistory")).map(v => new RivenMod(v)) : [],
+  mod: new RivenMod(localStorage.getItem("modText") || "兰卡\nAcri-satiata\n+135.5%暴击伤害\n+97.9%多重射击\n+171.9%伤害\n-47.3%变焦\n段位160233")
 }
 
 const MAX_HISTORY_COUNT = 10;
@@ -25,12 +25,14 @@ const mutations = {
 const actions = {
   newModTextInput(context: ActionContext<State, any>, newModText: string) {
     let rm = new RivenMod(newModText);
-    context.commit("newRiven", rm);
+    if (rm.id)
+      context.commit("newRiven", rm);
   },
   newBase64Text(context: ActionContext<State, any>, text: String) {
     let rm = new RivenMod();
     rm.qrCodeBase64 = text;
-    context.commit("newRiven", rm);
+    if (rm.id)
+      context.commit("newRiven", rm);
   }
 };
 

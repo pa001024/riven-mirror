@@ -1,8 +1,6 @@
-import { NormalMod, Weapon, RivenPropertyDataBase, RivenDataBase, RivenMod, ValuedRivenProperty } from "@/warframe";
+import { NormalMod, Weapon, RivenPropertyDataBase, RivenDataBase, RivenMod, ValuedRivenProperty, CombElementMap, Damage2_0, DamageType, ExtraDmgSet, NormalCardDependTable } from "@/warframe";
 import _ from "lodash";
-import { choose, hAccSum, hAccMul, hAccDiv, hAccAvg } from "@/warframe/util";
-import { CombElementMap, Damage2_0, DamageType } from "@/warframe/enemy";
-import { version } from "element-ui";
+import { choose, hAccSum, hAccMul, hAccDiv } from "@/warframe/util";
 
 // 基础类
 export abstract class ModBuild {
@@ -25,22 +23,41 @@ export abstract class ModBuild {
   protected _procDurationMul = 1; /** 触发时间增幅倍率 */  get procDurationMul() { return this._procDurationMul; }
   protected _enemyDmgMul = 1; /** 种族伤害增幅倍率 */  get enemyDmgMul() { return this._enemyDmgMul; }
   protected _fireRateMul = 1; /** 攻速增幅倍率 */  get fireRateMul() { return this._fireRateMul; }
+  protected _handShotMulMul = 1; /** 爆头倍率增幅倍率 */  get handShotMulMul() { return this._handShotMulMul; }
   protected _originalDamage: number;
   abstract get compareDamage(): number;
-  abstract get compareMode(): number;
-  abstract set compareMode(value: number);
   abstract set options(val: any);
   abstract get options(): any;
-  /** 面板基础伤害增幅倍率 */
-  abstract get panelBaseDamageMul(): number;
-  /** 面板基础伤害 */
-  abstract get panelBaseDamage(): number;
-  /** 面板伤害增幅倍率 */
-  abstract get panelDamageMul(): number;
-  /** 面板伤害 */
-  abstract get panelDamage(): number;
+
+  // 额外参数
+
+  private _handShotChance = 0; /** 爆头概率 */  get handShotChance() { return this._handShotChance; }
+  /** 设置爆头概率 */
+  set handShotChance(value) {
+    if (value > 1) value = 1;
+    if (value < 0) value = 0;
+    this._handShotChance = value;
+  }
+
+  private _compareMode: number = 0;
+  public get compareMode(): number {
+    return this._compareMode;
+  }
+  public set compareMode(value: number) {
+    this._compareMode = value;
+    this.calcMods();
+  }
+  /** 暴击率 */
+  get critChance() {
+    return this.weapon.criticalChances * this.critChanceMul;
+  }
+  /** 暴击倍率 */
+  get critMul() {
+    return this.weapon.criticalMultiplier * this.critMulMul;
+  }
   /** 平均暴击区增幅倍率 */
-  abstract get critDamageMul(): number;
+  get critDamageMul() { return this.calcCritDamage(this.critChance, this.critMul); }
+
   /** 元素顺序 */
   elementsOrder: string[] = [];
   protected _heatMul = 0;
@@ -164,6 +181,10 @@ export abstract class ModBuild {
   useStatus = false;
 
   // ### 计算属性 ###
+  /** 原爆头倍率 */
+  get oriHandShotMul() { return 2; }
+  /** 爆头倍率 */
+  get handShotMul() { return hAccMul(this.oriHandShotMul, this.handShotMulMul); }
 
   /** 触发率是否存在跃迁 */
   get isStatusJump() {
@@ -213,25 +234,38 @@ export abstract class ModBuild {
       return null;
     }).filter(Boolean);
   }
+  /** 面板基础伤害增幅倍率 */
+  get panelBaseDamageMul() { return this.baseDamageMul; }
+  /** 原平均爆头增伤倍率 */
+  get oriHandShotDmgMul() { return hAccMul(this.handShotChance, this.oriHandShotMul - 1) + 1; }
+  /** 平均爆头增伤倍率 */
+  get handShotDmgMul() { return hAccMul(this.handShotChance, this.handShotMul - 1) + 1; }
+  /** 面板伤害增幅倍率 */
+  get panelDamageMul() { return hAccMul(this.panelBaseDamageMul, this.extraDmgMul); }
+  /** 面板基础伤害 */
+  get panelBaseDamage() { return hAccMul(this.originalDamage, this.panelBaseDamageMul); }
+  /** 面板伤害 */
+  get panelDamage() { return hAccMul(this.originalDamage, this.panelDamageMul); }
+  /** 总伤增幅倍率 */
+  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.handShotDmgMul); }
+  /** 总伤害 */
+  get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul); }
+  /** 原总伤害 */
+  get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul, this.handShotDmgMul); }
   /** 基伤 */
-  get baseDamage() {
-    return hAccMul(this.originalDamage, this.baseDamageMul, this.critDamageMul);
-  }
+  get baseDamage() { return hAccMul(this.originalDamage, this.baseDamageMul, this.critDamageMul); }
   /** 毒和毒气DoT的基伤 */
-  get toxinBaseDamage() {
-    return hAccMul(this.baseDamage, (1 + this.toxinMul));
-  }
+  get toxinBaseDamage() { return hAccMul(this.baseDamage, (1 + this.toxinMul)); }
   /** 火DoT的基伤 */
-  get heatBaseDamage() {
-    return hAccMul(this.baseDamage, (1 + this.heatMul));
-  }
+  get heatBaseDamage() { return hAccMul(this.baseDamage, (1 + this.heatMul)); }
   /** 攻速 */
   get fireRate() {
     let fr = hAccMul(this.weapon.fireRate, this.fireRateMul);
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }
-
+  /** 原平均暴击区增幅倍率 */
+  get oriCritDamageMul() { return this.calcCritDamage(this.weapon.criticalChances, this.weapon.criticalMultiplier, this.handShotChance, this.oriHandShotMul); }
   /** 武器原本伤害 */
   get originalDamage(): number {
     if (!this._originalDamage)
@@ -293,6 +327,7 @@ export abstract class ModBuild {
     this._procChanceMul = 1;
     this._procDurationMul = 1;
     this._enemyDmgMul = 1;
+    this._handShotMulMul = 1;
     this._fireRateMul = 1;
     this._heatMul = 0;
     this._coldMul = 0;
@@ -318,9 +353,17 @@ export abstract class ModBuild {
       return false;
     // 只允许选择的元素
     if (this.allowElementTypes)
-      if (mod.props.some(v => ["4", "5", "6", "7", "8", "9", "A"].includes(v[0])))
+      if (mod.props.some(v => ExtraDmgSet.has(v[0])))
         if (!mod.props.some(v => this.allowElementTypes.includes(v[0])))
           return false;
+    // 过滤一些需要前置MOD的MOD
+    for (let i = 0; i < NormalCardDependTable.length; i++) {
+      const depend = NormalCardDependTable[i];
+      if (mod.name === depend[0]) {
+        if (!this._mods.some(v => v.name === depend[1]))
+          return false;
+      }
+    }
     return true;
   }
 
@@ -399,6 +442,12 @@ export abstract class ModBuild {
     this.clear();
     this.fillEmpty(slots, useRiven);
   }
+
+  /**
+   * 自动按武器属性填充MOD(不移除已有)
+   * @param slots 可用的插槽数
+   * @param useRiven 是否使用紫卡 0=不用 1=自动选择 2=必须用
+   */
   fillEmpty(slots = 8, useRiven = 1) {
     // 根据武器自动选择所有可安装的MOD
     let mods = this.avaliableMods.slice();// 通过.slice()返回一个COPY
@@ -529,6 +578,7 @@ export abstract class ModBuild {
         if (this._enemyDmgType === "O")
           this._enemyDmgMul += pValue;
         break;
+      case '爆头伤害': /* 爆头伤害 handShotMul */this._handShotMulMul += pValue; break;
       default:
     }
   }

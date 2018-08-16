@@ -40,27 +40,11 @@ export class GunModBuild extends ModBuild {
   private _projectileSpeedMul = 1; /** 抛射物飞行速度增幅倍率 */  get projectileSpeedMul() { return this._projectileSpeedMul; }
   private _recoilMul = 1; /** 后坐力增幅倍率 */  get recoilMul() { return this._recoilMul; }
   private _punchThrough = 0; /** 穿透增幅量 */  get punchThrough() { return this._punchThrough; }
-  private _handShotMulMul = 1; /** 爆头倍率增幅倍率 */  get handShotMulMul() { return this._handShotMulMul; }
   private _slashWhenCrit = 0; /** 暴击时触发切割伤害 */  get slashWhenCrit() { return this._slashWhenCrit; }
   private _critLevelUpChance = 0; /** 暴击强化 */  get critLevelUpChance() { return this._critLevelUpChance; }
 
   // 额外参数
-  private _handShotChance = 0; /** 爆头概率 */  get handShotChance() { return this._handShotChance; }
-  /** 设置爆头概率 */
-  set handShotChance(value) {
-    if (value > 1) value = 1;
-    if (value < 0) value = 0;
-    this._handShotChance = value;
-  }
 
-  private _compareMode: GunCompareMode = GunCompareMode.TotalDamage;
-  public get compareMode(): GunCompareMode {
-    return this._compareMode;
-  }
-  public set compareMode(value: GunCompareMode) {
-    this._compareMode = value;
-    this.calcMods();
-  }
   /** 使用追随者MOD */
   useAcolyteMods = true;
   /** 使用重口径 */
@@ -71,8 +55,8 @@ export class GunModBuild extends ModBuild {
   isUseMomentum = false;
   /** 迅速赋能 */
   isUseVelocity = false;
-  /** chroma加成 */
-  chromaBaseDamage = 0;
+  /** 基伤加成 */
+  extraBaseDamage = 0;
 
   constructor(weapon: GunWeapon = null, riven: RivenMod = null, options: GunModBuildOptions = null) {
     super(riven);
@@ -93,7 +77,7 @@ export class GunModBuild extends ModBuild {
     this.allowElementTypes = options.allowElementTypes;
     this.isUseMomentum = options.isUseMomentum;
     this.isUseVelocity = options.isUseVelocity;
-    this.chromaBaseDamage = options.chromaBaseDamage;
+    this.extraBaseDamage = options.extraBaseDamage;
   }
   get options(): any {
     return {
@@ -105,7 +89,7 @@ export class GunModBuild extends ModBuild {
       allowElementTypes: this.allowElementTypes,
       isUseMomentum: this.isUseMomentum,
       isUseVelocity: this.isUseVelocity,
-      chromaBaseDamage: this.chromaBaseDamage,
+      extraBaseDamage: this.extraBaseDamage,
     } as GunModBuildOptions;
   }
 
@@ -118,72 +102,54 @@ export class GunModBuild extends ModBuild {
   get magazineSize() { return Math.round(this.weapon.magazine * this.magazineMul); }
   /** 最大弹药 */
   get maxAmmo() { return Math.round(this.weapon.ammo * this.maxAmmoMul); }
-  /** 爆头倍率 */
-  get handShotMul() { return 2 * this.handShotMulMul; }
-  /** 暴击率 */
+
+  /** [overwrite] 暴击率 */
   get critChance() {
     // 兰卡开镜暴击
     if ((this.weapon.rivenName || this.weapon.id) === "Lanka")
       return this.weapon.criticalChances * this.critChanceMul + 0.5;
     return this.weapon.criticalChances * this.critChanceMul;
   }
-  /** 暴击倍率 */
+  /** [overwrite] 暴击倍率 */
   get critMul() {
     // 绝路开镜暴伤
     if ((this.weapon.rivenName || this.weapon.id) === "Rubico")
       return this.weapon.criticalMultiplier * this.critMulMul + 0.5;
     return this.weapon.criticalMultiplier * this.critMulMul;
   }
-  /** 平均暴击区增幅倍率 */
+
+  /** [overwrite] 面板基础伤害增幅倍率 */
+  get panelBaseDamageMul() { return hAccMul(this.baseDamageMul, this.multishotMul); }
+  /** 爆发伤害增幅倍率 */
+  get burstDamageMul() { return hAccMul(this.totalDamageMul, this.fireRateMul); }
+  /** [overwrite] 平均暴击区增幅倍率 */
   get critDamageMul() {
     // 私法系列的暴击强化可以直接加在这里 因为白字无加成 去掉不暴击的概率
     let upLvlChance = this.critChance >= 1 ? this.critLevelUpChance : this.critChance * this.critLevelUpChance;
     return this.calcCritDamage(this.critChance + upLvlChance, this.critMul, this.handShotChance, this.handShotMul);
   }
-  /** 平均爆头增伤倍率 */
-  get handShotDmgMul() { return this.handShotChance * (this.handShotMul - 1) + 1; }
-  /** 爆发伤害增幅倍率 */
-  get burstDamageMul() { return hAccMul(this.totalDamageMul, this.fireRateMul); }
   /** 每个弹片触发几率 */
   get realProcChance() { return 1 - (1 - this.procChance) ** (1 / this.weapon.bullets); }
-  /** 面板基础伤害增幅倍率 */
-  get panelBaseDamageMul() { return hAccMul(this.baseDamageMul, this.multishotMul); }
-  /** 面板伤害增幅倍率 */
-  get panelDamageMul() { return hAccMul(this.panelBaseDamageMul, this.extraDmgMul); }
-  /** 总伤增幅倍率 */
-  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.handShotDmgMul); }
   /** 平均射速增幅倍率  */
-  get sustainedFireRateMul() {
-    return (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate;
-  }
-  /** 射速 */
+  get sustainedFireRateMul() { return (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate; }
+  /** [overwrite] 射速 */
   get fireRate() {
     let fr = this.weapon.fireRate * hAccSum(this.fireRateMul, (this.isUseVelocity ? 0.8 : 0));
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }
   /** 原平均射速=1/(1/射速+装填/弹匣) */
-  get oriSustainedFireRate() {
-    return 1 / (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine);
-  }
+  get oriSustainedFireRate() { return 1 / (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine); }
   /** 平均射速=1/(1/射速+装填/弹匣) */
-  get sustainedFireRate() {
-    return 1 / (1 / this.fireRate + this.reloadTime / this.magazineSize);
-  }
+  get sustainedFireRate() { return 1 / (1 / this.fireRate + this.reloadTime / this.magazineSize); }
   /** 持续伤害增幅倍率  */
   get sustainedDamageMul() { return hAccMul(this.totalDamageMul, this.sustainedFireRateMul); }
-  /** 面板基础伤害 */
-  get panelBaseDamage() { return hAccMul(this.originalDamage, this.panelBaseDamageMul); }
-  /** 面板伤害 */
-  get panelDamage() { return hAccMul(this.originalDamage, this.panelDamageMul); }
   /** [猎人战备]切割DoT伤害 */
   get slashDotDamage() {
     return this.originalDamage * this.baseDamageMul * this.multishotMul * this.critDamageMul *
       (this.critChance > 1 ? 1 : this.critChance) * this.slashWhenCrit * 0.35 * ~~(6 * this.procDurationMul + 1);
   }
-  /** 原总伤害 */
-  get oriTotalDamage() { return hAccMul(this.originalDamage, this.critDamageMul, this.handShotDmgMul); }
-  /** 总伤害 */
+  /** [overwrite] 总伤害 */
   get totalDamage() { return hAccSum(this.slashDotDamage, hAccMul(this.originalDamage, this.totalDamageMul)); }
   /** 原爆发伤害 */
   get oriBurstDamage() { return hAccMul(this.oriTotalDamage, this.weapon.fireRate); }
@@ -193,7 +159,7 @@ export class GunModBuild extends ModBuild {
   get oriSustainedDamage() { return hAccMul(this.oriTotalDamage, this.oriSustainedFireRate); }
   /** 持续伤害 */
   get sustainedDamage() { return hAccMul(this.totalDamage, this.sustainedFireRate); }
-  /** 用于比较的伤害 */
+  /** [overwrite] 用于比较的伤害 */
   get compareDamage() {
     return this.compareMode == GunCompareMode.TotalDamage ? this.totalDamage : this.compareMode == GunCompareMode.BurstDamage ? this.burstDamage : this.sustainedDamage;
   }
@@ -204,14 +170,6 @@ export class GunModBuild extends ModBuild {
   isValidMod(mod: NormalMod) {
     if (!super.isValidMod(mod))
       return false;
-    // 过滤一些需要前置MOD的MOD
-    for (let i = 0; i < NormalCardDependTable.length; i++) {
-      const depend = NormalCardDependTable[i];
-      if (mod.name === depend[0]) {
-        if (!this._mods.some(v => v.name === depend[1]))
-          return false;
-      }
-    }
     if (!this.useAcolyteMods && AcolyteModsList.some(v => v === mod.name))
       return false;
     if (!this.useHeavyCaliber && "重口径" === mod.name)
@@ -224,7 +182,7 @@ export class GunModBuild extends ModBuild {
   /** 重置所有属性增幅器 */
   reset() {
     super.reset();
-    this._baseDamageMul = 1 + this.chromaBaseDamage;
+    this._baseDamageMul = 1 + this.extraBaseDamage;
     this._multishotMul = 1;
     this._fireRateMul = 1;
     this._magazineMul = 1;
@@ -234,7 +192,6 @@ export class GunModBuild extends ModBuild {
     this._zoomMul = 1;
     this._projectileSpeedMul = 1;
     this._recoilMul = 1;
-    this._handShotMulMul = 1;
     this._slashWhenCrit = 0;
     this._critLevelUpChance = 0;
   }
@@ -256,19 +213,18 @@ export class GunModBuild extends ModBuild {
   */
   applyProp(mod: NormalMod, pName: string, pValue: number) {
     switch (pName) {
-      case 'D': /* 伤害 baseDmg */ this._baseDamageMul += pValue; break;
-      case 'S': /* 多重射击 multiShot */ this._multishotMul += pValue; break;
-      case 'R': /* 射速（弓类武器效果加倍） fireRate */ this._fireRateMul += (this.weapon.tags.includes("弓") ? 2 * pValue : pValue); break;
-      case 'L': /* 弹匣容量 magazine */ this._magazineMul += pValue; break;
-      case 'F': /* 装填速度 reloadSpeed */ this._reloadSpeedMul += pValue; break;
-      case 'M': /* 弹药最大值 maxAmmo' */ this._maxAmmoMul += pValue; break;
-      case 'P': /* 穿透 punchThrough */ this._punchThrough += pValue; break;
-      case 'H': /* 变焦 zoom */ this._zoomMul += pValue; break;
-      case 'V': /* 抛射物飞行速度 projectileSpeed */ this._projectileSpeedMul += pValue; break;
-      case 'Z': /* 后坐力 recoil */ this._recoilMul += pValue; break;
-      case '爆头伤害': /* 爆头伤害 handShotMul */this._handShotMulMul += pValue; break;
-      case '暴击时触发切割伤害': /* 暴击时触发切割伤害 slashWhenCrit */this._slashWhenCrit += pValue; break;
-      case '暴击强化': /* 暴击强化 critLevelUpChance */this._critLevelUpChance += pValue; break;
+      case 'D': /* 伤害 baseDmg */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;
+      case 'S': /* 多重射击 multiShot */ this._multishotMul = hAccSum(this._multishotMul, pValue); break;
+      case 'R': /* 射速（弓类武器效果加倍） fireRate */ this._fireRateMul = hAccSum(this._fireRateMul, (this.weapon.tags.includes("弓") ? 2 * pValue : pValue)); break;
+      case 'L': /* 弹匣容量 magazine */ this._magazineMul = hAccSum(this._magazineMul, pValue); break;
+      case 'F': /* 装填速度 reloadSpeed */ this._reloadSpeedMul = hAccSum(this._reloadSpeedMul, pValue); break;
+      case 'M': /* 弹药最大值 maxAmmo' */ this._maxAmmoMul = hAccSum(this._maxAmmoMul, pValue); break;
+      case 'P': /* 穿透 punchThrough */ this._punchThrough = hAccSum(this._punchThrough, pValue); break;
+      case 'H': /* 变焦 zoom */ this._zoomMul = hAccSum(this._zoomMul, pValue); break;
+      case 'V': /* 抛射物飞行速度 projectileSpeed */ this._projectileSpeedMul = hAccSum(this._projectileSpeedMul, pValue); break;
+      case 'Z': /* 后坐力 recoil */ this._recoilMul = hAccSum(this._recoilMul, pValue); break;
+      case '暴击时触发切割伤害': /* 暴击时触发切割伤害 slashWhenCrit */this._slashWhenCrit = hAccSum(this._slashWhenCrit, pValue); break;
+      case '暴击强化': /* 暴击强化 critLevelUpChance */this._critLevelUpChance = hAccSum(this._critLevelUpChance, pValue); break;
       default:
         super.applyProp(mod, pName, pValue);
     }

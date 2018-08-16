@@ -40,7 +40,7 @@
       </el-form-item>
       <el-form-item label="基伤加成">
         <el-tooltip effect="dark" content="Chroma的怨怒护甲和Mirage的黯然失色可对武器基伤产生大量加成，步枪增幅、死亡之眼等光环MOD也属于这个加成" placement="bottom">
-          <el-input size="small" class="chroma-dmg" v-model="chromaBaseDamage" style="width:120px">
+          <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" style="width:120px">
             <template slot="append">%</template>
           </el-input>
         </el-tooltip>
@@ -106,8 +106,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, GunModBuild, ValuedRivenProperty } from "@/warframe";
-import { RivenDataBase } from "@/warframe/data";
+import { RivenMod, GunModBuild, ValuedRivenProperty, RivenDataBase } from "@/warframe";
 import { ModBuildView } from "@/components/ModBuildView";
 
 @Component
@@ -123,7 +122,7 @@ export default class GunModBuildView extends ModBuildView {
   /** 爆头几率 */
   handShotChance = 0;
   /** chroma加成 */
-  chromaBaseDamage = 0;
+  extraBaseDamage = 0;
   /** 动量赋能 */
   isUseMomentum = false;
   /** 迅速赋能 */
@@ -147,7 +146,7 @@ export default class GunModBuildView extends ModBuildView {
     this.debouncedRecalc();
   }
 
-  @Watch("chromaBaseDamage")
+  @Watch("extraBaseDamage")
   @Watch("handShotChance")
   @Watch("slots")
   debouncedRecalc() {
@@ -174,7 +173,7 @@ export default class GunModBuildView extends ModBuildView {
       useHeavyCaliber: this.useHeavyCaliber,
       useHunterMunitions: this.useHunterMunitions ? this.notMustUseHunterMunitions ? 1 : 2 : 0,
       handShotChance: this.handShotChance / 100,
-      chromaBaseDamage: this.chromaBaseDamage / 100,
+      extraBaseDamage: this.extraBaseDamage / 100,
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
       isUseMomentum: this.riven.is('sniper') && this.isUseMomentum,
       isUseVelocity: this.riven.is('pistol') && this.isUseVelocity,

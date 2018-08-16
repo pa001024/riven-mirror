@@ -143,7 +143,7 @@ export class RivenMod {
     this.hasNegativeProp = false;
     this.rank = this.recycleTimes = 0;
     let lines = modText.replace(/\n([A-z\u4e00-\u9fa5])/g, (m, r1) => m.indexOf("段") >= 0 || m.indexOf("rank") >= 0 ? m : r1)
-      .replace(/(（\S*?)\s(\S*?）)|(\(\S*?)\s(\S*?\))/g, "$1$2$3$4").replace("·", "-").split(/\n+/g);
+      .replace(/(（\S*?)\s(\S*?）)|(\(\S*?)\s(\S*?\))/g, "$1$2$3$4").replace("·", "-").replace(/lgni/g, "Igni").split(/\n+/g);
     let subfixIndex = lines.findIndex(v => v.match(RivenDataBase.PrefixAll) != null);
     if (subfixIndex < 0) return new Error("紫卡属性识别错误: 找不到后缀");
     else {
