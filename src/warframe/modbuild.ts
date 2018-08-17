@@ -211,32 +211,37 @@ export abstract class ModBuild {
     return this.dmg.map(([vn, vv]) => ["Impact", "Puncture", "Slash"].includes(vn) ? [vn, hAccDiv(hAccMul(vv, 4), pD)] : [vn, hAccDiv(vv, pD)]) as [string, number][];;
   }
 
-  /** 触发几率(各属性) */
+  /** 真实触发几率(各属性) */
   get procChanceMap() {
     let pC = this.realProcChance;
     let pW = this.procWeights;
+    // 将触发率乘权重
     return pW.map(([vn, vv]) => [vn, hAccMul(vv, pC)]) as [string, number][];
   }
 
   /** 触发伤害(各属性) */
-  get dotDamage() {
+  get dotDamageMap() {
     let procs = this.procChanceMap;
     return procs.map(([vn, vv]) => {
       switch (vn) {
         // 切割伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E5%88%87%E5%89%B2%E4%BC%A4%E5%AE%B3
         case "Slash":
-          return this.baseDamage * 0.35 * ~~(6 * this.procDurationMul + 1);
+          return vv * this.baseDamage * 0.35 * ~~(6 * this.procDurationMul + 1);
         // 毒素伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E7%B4%A0%E4%BC%A4%E5%AE%B3
         case "Toxin":
         case "Gas":
-          return this.toxinBaseDamage * 0.5 * ~~(8 * this.procDurationMul + 1);
+          return vv * this.toxinBaseDamage * 0.5 * ~~(8 * this.procDurationMul + 1);
         // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
+        // 火焰触发不会叠加所以只计算一跳
         case "Heat":
-          return this.heatBaseDamage * 0.5 * ~~(6 * this.procDurationMul + 1);
+          return vv * this.heatBaseDamage * 0.5;
       }
       return null;
     }).filter(Boolean);
   }
+
+  /** 总触发伤害 */
+  get dotDamage() { return this.dotDamageMap.reduce((a, b) => a + b[1], 0); }
   /** 面板基础伤害增幅倍率 */
   get panelBaseDamageMul() { return this.baseDamageMul; }
   /** 原平均爆头增伤倍率 */

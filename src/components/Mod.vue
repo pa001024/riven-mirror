@@ -9,8 +9,7 @@
             </el-switch>
           </el-col>
           <el-col :span="24">
-            <!-- <el-input v-if="useText" v-model="modText" @focus="handleFocus" placeholder="在此处粘贴紫卡截图或二维码识别" type="textarea" rows="1"></el-input> -->
-            <el-popover class="block" v-if="useText" placement="bottom" width="400" v-model="editorVisible">
+            <el-popover ref="addpop" v-if="useText" placement="bottom" :width="400" v-model="editorVisible">
               <RivenEditor v-model="editorRivenCode"></RivenEditor>
               <div style="text-align: right; margin: 0">
                 <el-button size="medium" @click="editorVisible = false">取消</el-button>
@@ -82,10 +81,7 @@
       <el-col :sm="24" :md="12" :lg="18">
         <el-row>
           <el-col :span="24">
-            <GunModBuildView :riven="mod" v-if="isGun">
-            </GunModBuildView>
-            <MeleeModBuildView :riven="mod" v-else>
-            </MeleeModBuildView>
+            <component :riven="mod" :is="isGun ? 'GunModBuildView' : 'MeleeModBuildView'"></component>
           </el-col>
         </el-row>
       </el-col>
@@ -235,11 +231,20 @@ export default class Mod extends Vue {
       this.newBase64Text(this.source);
     }
   }
-  mounted() { }
+  mounted() {
+    let popper = (this.$refs.addpop as Vue).$refs.popper as Element;
+    popper.className += " rivenedit-popper";
+    console.log(popper, popper.className);
+  }
 }
 </script>
 
 <style>
+@media only screen and (max-width: 484px) {
+  .rivenedit-popper {
+    width: calc(100vw - 84px) !important;
+  }
+}
 .mod-history-item {
   cursor: pointer;
   line-height: 1.5;

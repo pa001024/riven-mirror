@@ -34,8 +34,14 @@ export default class extends Vue {
 <style>
 .prop-diff > * {
   margin: 0;
-  padding: 4px 4px;
+  padding: 4px 0;
   border: 4px solid transparent;
+}
+.prop-diff > *:first-child {
+  padding-left: 4px;
+}
+.prop-diff > *:last-child {
+  padding-right: 4px;
 }
 .prop-diff {
   transition: 0.4s;

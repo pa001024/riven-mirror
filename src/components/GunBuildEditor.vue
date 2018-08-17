@@ -62,18 +62,19 @@
       </el-col>
       <!-- MOD编辑器区域 -->
       <el-col :sm="24" :md="12" :lg="18">
+        <!-- MOD区域 -->
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="item.name" v-for="item in tabs" :label="item.title" :name="item.name">
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods">
                 <el-col :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
-                  <div class="mod-slot" :class="[mod&&mod.rarity,{active:!mod}]" @click="!mod && slotClick(index)">
+                  <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="!mod && slotClick(index)">
                     <template v-if="mod">
                       <div class="mod-title" @click="slotClick(index)">{{mod.name}}</div>
                       <div class="mod-detail" @click="slotRemove(index)">
                         <div class="mod-stat">
                           <div class="mod-prop" v-for="prop in mod.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
-                          <div class="mod-sum">{{PNNum(100*item.build.modValue(mod.id))}}% 总收益</div>
+                          <div class="mod-sum">{{PNNum(100 * item.build.modValue(mod.id))}}% 总收益</div>
                         </div>
                         <div class="mod-action">
                           <button type="button" class="mod-slot-remove">
@@ -89,6 +90,34 @@
             </el-row>
           </el-tab-pane>
         </el-tabs>
+        <!-- 幻影装置区域 -->
+        <el-card class="enemy-sim">
+          <div slot="header" class="enemy-sim-header">幻影装置</div>
+          <el-row v-if="enemy">
+            <!-- 敌人信息区域 -->
+            <el-col :xs="24" :sm="12" :lg="6">
+              <el-form class="enemy-sim-body">
+                <el-form-item label="敌人" class="enemy-name">
+                  {{enemy.name}}
+                </el-form-item>
+                <el-form-item label="派系" class="enemy-faction">
+                  {{enemyFaction}}
+                </el-form-item>
+                <el-form-item label="等级" class="enemy-level">
+                  <el-input size="small" class="enemy-level-edit" v-model="enemyLevel" @change="enemyLevelChange" style="width:120px"></el-input>
+                </el-form-item>
+                <el-form-item label="操作" class="enemy-level">
+                  <el-button type="primary" size="small" @click="enemy = null">重新选择</el-button>
+                </el-form-item>
+              </el-form>
+            </el-col>
+            <!-- 伤害显示区域 -->
+            <el-col>
+
+            </el-col>
+          </el-row>
+          <EnemySelector v-else @select="selectEnemy"></EnemySelector>
+        </el-card>
       </el-col>
     </el-row>
     <el-dialog title="选择MOD" :visible.sync="dialogVisible" width="600">
@@ -99,13 +128,14 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty } from "@/warframe";
+import { EnemyFaction, RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty, EnemyData, Enemy } from "@/warframe";
 import ModSelector from "@/components/ModSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
+import EnemySelector from "@/components/EnemySelector.vue";
 import { BaseBuildEditor } from "@/components/BaseBuildEditor";
 
 @Component({
-  components: { ModSelector, PropDiff }
+  components: { ModSelector, PropDiff, EnemySelector }
 })
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;
@@ -114,6 +144,10 @@ export default class GunBuildEditor extends BaseBuildEditor {
   extraBaseDamage = 0;
   isUseMomentum = false;
   isUseVelocity = false;
+  enemyData: EnemyData = null;
+  enemy: Enemy = null;
+  enemyLevel = 100;
+  get enemyFaction() { return this.enemy && EnemyFaction[this.enemy.faction]; }
 
   @Watch("weapon")
   reload() { super.reload(); }
@@ -127,12 +161,25 @@ export default class GunBuildEditor extends BaseBuildEditor {
     });
   }
   // === 事件处理 ===
+  selectEnemy(enemyData: EnemyData) {
+    this.enemyData = enemyData;
+    this.enemy = new Enemy(enemyData, this.enemyLevel);
+  }
+  enemyLevelChange() {
+    if (this.enemy) this.enemy.level = this.enemyLevel;
+  }
   // === 生命周期钩子 ===
   beforeMount() { this.reload(); }
 }
 </script>
 
 <style>
+.enemy-sim-body > .el-form-item {
+  margin: 0;
+}
+.enemy-sim {
+  margin-top: 8px;
+}
 .build-form-editor .el-form-item {
   margin-bottom: 8px;
 }
