@@ -216,6 +216,11 @@ export class RivenWeapon {
     else
       return GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
   }
+  calcPrice(x: number) {
+    let normal = 800;
+    if (x > 30) normal = +0.0000016468253968327832 * x * x * x * x * x * x - 0.0006184523809555002 * x * x * x * x * x + 0.0937003968259277 * x * x * x * x - 7.283630952427242 * x * x * x + 306.6134920656638 * x * x - 6605.452381004125 * x + 57700.00000048811;
+    return ~~(normal * this.price / 1600);
+  }
   constructor(id: string, name: string, mod: string, ratio: number, price: number) {
     this.id = id;
     this.name = name;

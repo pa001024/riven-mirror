@@ -100,7 +100,9 @@ export class RivenMod {
   rank: number
   /** 类型 */
   mod: string
-  get ratio() { return RivenDataBase.getRivenWeaponByName(this.id).ratio; }
+  get weapon() { return RivenDataBase.getRivenWeaponByName(this.id); }
+  get ratio() { return this.weapon.ratio; }
+  calcPrice(x: number) { return this.weapon.calcPrice(x); }
 
   constructor(parm?: string | RivenMod) {
     if (typeof parm === "string") {
