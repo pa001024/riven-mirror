@@ -242,6 +242,7 @@ export default class Mod extends Vue {
 <style>
 .mod-history-item {
   cursor: pointer;
+  line-height: 1.5;
 }
 .mod-history-item:hover {
   text-decoration: underline;

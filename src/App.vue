@@ -202,7 +202,7 @@ ol {
 }
 
 .el-main {
-  background-color: #ececec80;
+  background-color: rgba(236, 236, 236, 0.5);
   color: #333;
 }
 .site-logo {

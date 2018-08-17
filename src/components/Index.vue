@@ -9,6 +9,18 @@
     </el-card>
   </el-row>
 </template>
+
+<script lang="ts">
+import _ from "lodash";
+import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+
+@Component
+export default class Index extends Vue {
+  // voidTrader
+
+}
+</script>
+
 <style>
 .index h3 {
   margin: 0;
