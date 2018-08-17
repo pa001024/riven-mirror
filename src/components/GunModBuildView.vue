@@ -102,11 +102,11 @@
         评级: [
         <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100) 可提升
         <span class="score-text">{{score}}%</span> 的{{selectCompMethodText}}
-        <!-- <span class="build-price">
+        <span class="build-price">
           估价:
           <span class="price-text">{{riven.calcPrice(scoreLevel)}}</span>
           <span class="price-tip">(*仅供参考)</span>
-        </span> -->
+        </span>
       </el-card>
     </div>
   </div>
@@ -195,10 +195,7 @@ export default class GunModBuildView extends ModBuildView {
 <style>
 .build-price {
   font-size: 16px;
-  color: #a7a7a7;
-}
-.price-text {
-  text-shadow: 0 0 2px #f5e583;
+  color: #fff;
 }
 .price-tip {
   font-size: 11px;
