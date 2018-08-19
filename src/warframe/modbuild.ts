@@ -1,6 +1,6 @@
-import { NormalMod, Weapon, RivenPropertyDataBase, RivenDataBase, RivenMod, ValuedRivenProperty, CombElementMap, Damage2_0, DamageType, ExtraDmgSet, NormalCardDependTable } from "@/warframe";
+import { CombElementMap, Damage2_0, DamageType, ExtraDmgSet, NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase, ValuedRivenProperty, Weapon } from "@/warframe";
+import { choose, hAccDiv, hAccMul, hAccSum } from "@/warframe/util";
 import _ from "lodash";
-import { choose, hAccSum, hAccMul, hAccDiv } from "@/warframe/util";
 
 // 基础类
 export abstract class ModBuild {
@@ -153,6 +153,14 @@ export abstract class ModBuild {
    * 所有伤害类型
    */
   get dmg() {
+    return this.baseDmg.map(([i, v]) => [i, v * this.panelBaseDamage]).filter(v => v[1] > 0) as [string, number][];
+  }
+  /**
+   * 所有伤害类型(基础)
+   *
+   * 只计算元素本身的加成 无视基伤多重等影响 可以正确计算出负伤害情况下的元素配比
+   */
+  get baseDmg() {
     let extra = this.combElementsOrder;
     let ori = this.originalDamage;
     let rst = {};
@@ -176,7 +184,7 @@ export abstract class ModBuild {
       if (rst[targetElement]) rst[targetElement] = hAccSum(rst[targetElement], dpart);
       else rst[targetElement] = dpart;
     });
-    return _.map(rst, (v, i) => [i, v * this.panelBaseDamage]).filter(v => v[1] > 0) as [string, number][];
+    return _.map(rst, (v, i) => [i, +v]) as [string, number][];
   }
 
   // ### 额外参数 ###
@@ -207,8 +215,8 @@ export abstract class ModBuild {
 
   /** 触发权重 */
   get procWeights() {
-    let pD = this.panelDamage;
-    return this.dmg.map(([vn, vv]) => ["Impact", "Puncture", "Slash"].includes(vn) ? [vn, hAccDiv(hAccMul(vv, 4), pD)] : [vn, hAccDiv(vv, pD)]) as [string, number][];;
+    let oE = this.extraDmgMul;
+    return this.baseDmg.map(([vn, vv]) => ["Impact", "Puncture", "Slash"].includes(vn) ? [vn, hAccDiv(vv * 4, oE)] : [vn, hAccDiv(vv, oE)]) as [string, number][];;
   }
 
   /** 真实触发几率(各属性) */
@@ -458,7 +466,7 @@ export abstract class ModBuild {
    */
   fillEmpty(slots = 8, useRiven = 1) {
     // 根据武器自动选择所有可安装的MOD
-    let mods = this.avaliableMods.slice();// 通过.slice()返回一个COPY
+    let mods = this.avaliableMods.slice().filter(v => !this._mods.some(k => v.id === k.id || v.id === k.primed));// 通过.slice()返回一个COPY
     if (useRiven > 0) {
       if (useRiven == 2)
         this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
@@ -466,7 +474,7 @@ export abstract class ModBuild {
         mods.push(this.riven.normalMod); // 1. 将紫卡作为一张普卡进行计算
     }
     let sortableMods = mods.map(v => [v, 0] as [NormalMod, number]);
-    while (this._mods.length < slots) {
+    while (this._mods.length < slots && sortableMods.length > (slots - this._mods.length)) {
       // 2. 计算收益
       sortableMods.forEach(v => {
         v[1] = this.testMod(v[0]);

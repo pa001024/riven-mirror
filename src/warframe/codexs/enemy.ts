@@ -1,5 +1,3 @@
-import { hAccDiv } from "@/warframe/util";
-
 /** 伤害类型 */
 export enum DamageType {
   /** 冲击 */ Impact = "Impact",
@@ -389,16 +387,13 @@ export class Enemy implements EnemyData {
  */
 export class Damage2_0 {
   private dtypeDict: Map<DamageType, DamageTypeData>;
-  private enemyDict: Map<string, EnemyData>;
   protected static instance = new Damage2_0();
   constructor() {
     this.dtypeDict = new Map(DamageTypeDatabase.map(v => [v.id, v] as [DamageType, DamageTypeData]));
-    this.enemyDict = new Map(EnemyList.map(v => [v.id, v] as [string, EnemyData]))
   }
 
   static getDamageType(id: DamageType) { return this.instance.dtypeDict.get(id); }
   static getFleshTypeName(id: number) { return _fleshTypeName[id]; }
   static getSheildTypeName(id: number) { return _sheildTypeName[id]; }
   static getArmorTypeName(id: number) { return _armorType[id]; }
-  static getEnemy(id: string) { return this.instance.enemyDict.get(id); }
 }

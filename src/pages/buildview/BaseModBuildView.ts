@@ -1,22 +1,22 @@
 import { Vue, Watch, Prop } from "vue-property-decorator";
 import { RivenMod, GunCompareMode, GunModBuild, ModBuild, ValuedRivenProperty, RivenDataBase, Weapon } from "@/warframe";
 
-export abstract class ModBuildView extends Vue {
-  @Prop() riven: RivenMod
-  selectWeapon = ""
+export abstract class BaseModBuildView extends Vue {
+  @Prop() riven: RivenMod;
+  selectWeapon = "";
   get weapon() {
     return (this.riven.weapons as Weapon[]).find(v => v.name === this.selectWeapon);
   }
-  selectCompMethod: GunCompareMode = GunCompareMode.TotalDamage
-  selectDamageType: string = "腐蚀"
-  builds: [string, ModBuild][] = []
+  selectCompMethod: GunCompareMode = GunCompareMode.TotalDamage;
+  selectDamageType: string = "腐蚀";
+  builds: [string, ModBuild][] = [];
 
   /** 插槽使用数 */
-  slots = 8
+  slots = 8;
   /** 紫卡分数 */
-  score = 0
+  score = 0;
   /** 紫卡评级 */
-  scoreLevel = 0
+  scoreLevel = 0;
 
   /** 元素类型 */
   elementTypes = {
@@ -28,7 +28,7 @@ export abstract class ModBuildView extends Vue {
     "爆炸": ["4", "5"],
     "磁力": ["5", "7"],
   }
-  activeNames: string[] = ["紫卡配置"]
+  activeNames: string[] = ["紫卡配置"];
 
   _debouncedRecalc: (() => void);
   abstract debouncedRecalc();

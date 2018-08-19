@@ -116,10 +116,10 @@
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenMod, GunModBuild, ValuedRivenProperty, RivenDataBase } from "@/warframe";
-import { ModBuildView } from "@/components/ModBuildView";
+import { BaseModBuildView } from "./BaseModBuildView";
 
 @Component
-export default class GunModBuildView extends ModBuildView {
+export default class GunModBuildView extends BaseModBuildView {
   builds: [string, GunModBuild][] = []
   /** 使用追随者MOD */
   useAcolyteMods = false
@@ -130,7 +130,7 @@ export default class GunModBuildView extends ModBuildView {
   notMustUseHunterMunitions = false;
   /** 爆头几率 */
   handShotChance = 0;
-  /** chroma加成 */
+  /** 基伤加成 */
   extraBaseDamage = 0;
   /** 动量赋能 */
   isUseMomentum = false;

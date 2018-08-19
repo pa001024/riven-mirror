@@ -17,7 +17,7 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { NormalMod, NormalModDatabase, WfCodex, ModBuild } from "@/warframe";
+import { NormalMod, NormalModDatabase, Codex, ModBuild } from "@/warframe";
 
 declare interface ModSelectorTab {
   id: string
@@ -48,7 +48,7 @@ export default class ModSelector extends Vue {
     this.reload();
   }
   handleClick(id: string) {
-    this.$emit("command", WfCodex.getNormalMod(id));
+    this.$emit("command", Codex.getNormalMod(id));
     this.reload();
   }
 }

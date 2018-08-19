@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Mod from '@/components/Mod.vue'
-import Huangli from '@/components/Huangli.vue'
-import About from '@/components/About.vue'
-import Index from '@/components/Index.vue'
-import BuildEditor from '@/components/BuildEditor.vue'
-import Simulator from '@/components/Simulator.vue'
+import Mod from '@/pages/Mod.vue'
+import Huangli from '@/pages/Huangli.vue'
+import About from '@/pages/About.vue'
+import Index from '@/pages/Index.vue'
+import BuildEditor from '@/pages/BuildEditor.vue'
+import Simulator from '@/pages/Simulator.vue'
 import WeaponSelector from '@/components/WeaponSelector.vue'
 
 Vue.use(Router)

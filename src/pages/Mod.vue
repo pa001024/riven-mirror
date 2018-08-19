@@ -94,8 +94,8 @@ import _ from "lodash";
 import axios from 'axios';
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenMod, RivenDataBase } from "../warframe";
-import GunModBuildView from "@/components/GunModBuildView.vue";
-import MeleeModBuildView from "@/components/MeleeModBuildView.vue";
+import GunModBuildView from "@/pages/buildview/GunModBuildView.vue";
+import MeleeModBuildView from "@/pages/buildview/MeleeModBuildView.vue";
 import qrcode from "@/components/QRCode";
 import { Getter, Action } from 'vuex-class'
 import jsQR from "jsqr";
@@ -234,7 +234,6 @@ export default class Mod extends Vue {
   mounted() {
     let popper = (this.$refs.addpop as Vue).$refs.popper as Element;
     popper.className += " rivenedit-popper";
-    console.log(popper, popper.className);
   }
 }
 </script>

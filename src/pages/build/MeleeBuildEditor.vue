@@ -10,11 +10,13 @@
             </div>
             <table class="weapon-props">
               <tbody>
-                <PropDiff name="暴击率" :ori="weapon.criticalChances" :val="build.critChance" percent></PropDiff>
-                <PropDiff name="暴击伤害" :ori="weapon.criticalMultiplier" :val="build.critMul" subfix="x"></PropDiff>
-                <PropDiff name="攻速" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
-                <PropDiff name="触发几率" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
+                <PropDiff name="攻击速度" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
+                <PropDiff name="暴击几率" :ori="weapon.criticalChances" :val="build.critChance" percent></PropDiff>
+                <PropDiff name="暴击倍率" :ori="weapon.criticalMultiplier" :val="build.critMul" subfix="x"></PropDiff>
                 <PropDiff name="滑行攻击" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
+                <PropDiff name="裂罅倾向性" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
+                <PropDiff name="触发几率" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
+                <br>
                 <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="mapDname(dname)" :ori="ori" :val="val"></PropDiff>
                 <PropDiff name="面板伤害" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
                 <PropDiff name="平砍伤害" :ori="build.oriTotalDamage" :val="build.totalDamage"
@@ -34,7 +36,7 @@
             <el-form class="build-form-editor">
               <el-form-item label="连击倍率">
                 <el-tooltip style="width: calc(100% - 68px);" effect="dark" content="将会按照此连击倍率来进行计算 (爪子P会自动相应增加)" placement="bottom">
-                  <el-input-number size="small" v-model="comboMul" @change="reload" :min="1" :max="6" :step="0.5" label="使用MOD槽位"></el-input-number>
+                  <el-input-number size="small" v-model="comboMul" @change="optionChange" :min="1" :max="6" :step="0.5" label="使用MOD槽位"></el-input-number>
                 </el-tooltip>
               </el-form-item>
               <el-form-item label="基伤加成">
@@ -43,14 +45,14 @@
                     <div>Chroma的"怨怒护甲"和Mirage的"黯然失色"等技能可对武器基伤进行大量加成，</div>
                     <div>步枪增幅、死亡之眼等光环MOD也属于这个加成</div>
                   </div>
-                  <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" @change="reload" style="width:120px">
+                  <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" @change="optionChange" style="width:120px">
                     <template slot="append">%</template>
                   </el-input>
                 </el-tooltip>
               </el-form-item>
               <el-form-item label="赋能">
-                <el-checkbox v-model="isUseFury" @change="reload">狂怒</el-checkbox>
-                <el-checkbox v-model="isUseStrike" @change="reload">速攻</el-checkbox>
+                <el-checkbox v-model="isUseFury" @change="optionChange">狂怒</el-checkbox>
+                <el-checkbox v-model="isUseStrike" @change="optionChange">速攻</el-checkbox>
               </el-form-item>
             </el-form>
           </el-card>
@@ -61,12 +63,12 @@
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="item.name" v-for="item in tabs" :label="item.title" :name="item.name">
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
-              <draggable class="block" v-model="item.mods" @end="refleshMods">
+              <draggable class="block" v-model="item.mods" @end="refleshMods()">
                 <el-col :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
-                  <div class="mod-slot" :class="[mod&&mod.rarity,{active:!mod}]" @click="!mod && slotClick(index)">
+                  <div class="mod-slot" :class="[mod&&mod.rarity,{active:!mod}]" @click="slotClick(index)">
                     <template v-if="mod">
-                      <div class="mod-title" @click="slotClick(index)">{{mod.name}}</div>
-                      <div class="mod-detail" @click="slotRemove(index)">
+                      <div class="mod-title" @click.stop="slotClick(index)">{{mod.name}}</div>
+                      <div class="mod-detail" @click.stop="slotRemove(index)">
                         <div class="mod-stat">
                           <div class="mod-prop" v-for="prop in mod.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
                           <div class="mod-sum">{{PNNum(100*item.build.modValue(mod.id))}}% 总收益</div>
@@ -98,7 +100,7 @@ import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty, MeleeWeapon, MeleeModBuild } from "@/warframe";
 import PropDiff from "@/components/PropDiff.vue";
 import ModSelector from "@/components/ModSelector.vue";
-import { BaseBuildEditor } from "@/components/BaseBuildEditor";
+import { BaseBuildEditor } from "./BaseBuildEditor";
 
 declare interface BuildSelectorTab {
   title: string
@@ -131,6 +133,16 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
     });
   }
   // === 事件处理 ===
+  optionChange() {
+    this.build.options = {
+      comboLevel: ~~((this.comboMul - 1) * 2),
+      extraBaseDamage: this.extraBaseDamage,
+      isUseFury: this.isUseFury,
+      isUseStrike: this.isUseStrike
+    };
+  }
+  // 子类不实现会报错
+  handleTabsEdit(targetName, action: "add" | "remove") { super.handleTabsEdit(targetName, action); }
   // === 生命周期钩子 ===
   beforeMount() { this.reload(); }
 }

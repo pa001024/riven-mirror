@@ -1,4 +1,4 @@
-import { AcolyteModsList, GunWeapon, NormalCardDependTable, NormalMod, NormalModDatabase, ModBuild, RivenMod } from "@/warframe";
+import { AcolyteModsList, GunWeapon, NormalMod, NormalModDatabase, ModBuild, RivenMod } from "@/warframe";
 import { hAccSum, hAccMul } from "@/warframe/util";
 
 /*
@@ -31,18 +31,41 @@ export interface GunModBuildOptions {
 /** 枪类 */
 export class GunModBuild extends ModBuild {
   weapon: GunWeapon
-  // 增幅器
-  private _multishotMul = 1; /** 多重增幅倍率 */  get multishotMul() { return this._multishotMul; }
-  private _magazineMul = 1; /** 弹夹容量增幅倍率 */  get magazineMul() { return this._magazineMul; }
-  private _reloadSpeedMul = 1; /** 换弹增幅倍率 */  get reloadSpeedMul() { return this._reloadSpeedMul; }
+  // 属性增幅器
+  private _multishotMul = 1;
+  private _magazineMul = 1;
+  private _reloadSpeedMul = 1;
+  private _maxAmmoMul = 1;
+  private _zoomMul = 1;
+  private _projectileSpeedMul = 1;
+  private _recoilMul = 1;
+  private _punchThrough = 0;
+  private _slashWhenCrit = 0;
+  private _critLevelUpChance = 0;
+  private _firstAmmoMul = 1;
 
-  private _maxAmmoMul = 1; /** 最大弹容增幅倍率 */  get maxAmmoMul() { return this._maxAmmoMul; }
-  private _zoomMul = 1; /** 变焦增幅倍率 */  get zoomMul() { return this._zoomMul; }
-  private _projectileSpeedMul = 1; /** 抛射物飞行速度增幅倍率 */  get projectileSpeedMul() { return this._projectileSpeedMul; }
-  private _recoilMul = 1; /** 后坐力增幅倍率 */  get recoilMul() { return this._recoilMul; }
-  private _punchThrough = 0; /** 穿透增幅量 */  get punchThrough() { return this._punchThrough; }
-  private _slashWhenCrit = 0; /** 暴击时触发切割伤害 */  get slashWhenCrit() { return this._slashWhenCrit; }
-  private _critLevelUpChance = 0; /** 暴击强化 */  get critLevelUpChance() { return this._critLevelUpChance; }
+  /** 多重增幅倍率 */
+  get multishotMul() { return this._multishotMul; }
+  /** 弹夹容量增幅倍率 */
+  get magazineMul() { return this._magazineMul; }
+  /** 换弹增幅倍率 */
+  get reloadSpeedMul() { return this._reloadSpeedMul; }
+  /** 最大弹容增幅倍率 */
+  get maxAmmoMul() { return this._maxAmmoMul; }
+  /** 变焦增幅倍率 */
+  get zoomMul() { return this._zoomMul; }
+  /** 抛射物飞行速度增幅倍率 */
+  get projectileSpeedMul() { return this._projectileSpeedMul; }
+  /** 后坐力增幅倍率 */
+  get recoilMul() { return this._recoilMul; }
+  /** 穿透增幅量 */
+  get punchThrough() { return this._punchThrough; }
+  /** 暴击时触发切割伤害 */
+  get slashWhenCrit() { return this._slashWhenCrit; }
+  /** 暴击强化 */
+  get critLevelUpChance() { return this._critLevelUpChance; }
+  /** 第一发子弹伤害加成 */
+  get firstAmmoMul() { return this._firstAmmoMul; }
 
   // 额外参数
 
@@ -192,6 +215,7 @@ export class GunModBuild extends ModBuild {
     this._recoilMul = 1;
     this._slashWhenCrit = 0;
     this._critLevelUpChance = 0;
+    this._firstAmmoMul = 1;
   }
   /**
    * 自动按武器属性填充MOD
@@ -223,6 +247,7 @@ export class GunModBuild extends ModBuild {
       case 'Z': /* 后坐力 recoil */ this._recoilMul = hAccSum(this._recoilMul, pValue); break;
       case '暴击时触发切割伤害': /* 暴击时触发切割伤害 slashWhenCrit */this._slashWhenCrit = hAccSum(this._slashWhenCrit, pValue); break;
       case '暴击强化': /* 暴击强化 critLevelUpChance */this._critLevelUpChance = hAccSum(this._critLevelUpChance, pValue); break;
+      case '第一发子弹伤害加成': /* 第一发子弹伤害加成 firstAmmoMul */this._firstAmmoMul = hAccSum(this._firstAmmoMul, pValue); break;
       default:
         super.applyProp(mod, pName, pValue);
     }

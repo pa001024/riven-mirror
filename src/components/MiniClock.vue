@@ -2,7 +2,7 @@
   <div class="time-container">
     <div class="time-block">
       <div class="time-header">
-        希图斯 {{cetusTime.day?"白天":"夜晚"}}
+        希图斯 {{cetusTime.phase}}
       </div>
       <div class="time-clock">
         {{cetusTime.text}}
@@ -10,7 +10,7 @@
     </div>
     <div class="time-block">
       <div class="time-header">
-        地球 {{earthTime.day?"白天":"夜晚"}}
+        地球 {{earthTime.phase}}
       </div>
       <div class="time-clock">
         {{earthTime.text}}
@@ -22,23 +22,19 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch } from "vue-property-decorator";
-import { IngameTime } from "../warframe";
+import { EarthTime, CetusTime } from "../warframe";
 
 interface WarframeTime {
-  day: boolean
+  phase: string
   text: string
 }
 @Component
-export default class WarframeWatch extends Vue {
-  cetusTime: WarframeTime = { day: true, text: "00:00" }
-  earthTime: WarframeTime = { day: true, text: "00:00" }
+export default class MiniClock extends Vue {
+  cetusTime: WarframeTime = { phase: "黎明", text: "00:00" }
+  earthTime: WarframeTime = { phase: "黎明", text: "00:00" }
   timerID: any;
-  cetus: IngameTime
-  earth: IngameTime
 
   mounted() {
-    this.cetus = new IngameTime("cetus");
-    this.earth = new IngameTime("earth");
     this.updateTime();
     this.timerID = setInterval(this.updateTime, 1000);
   }
@@ -46,8 +42,8 @@ export default class WarframeWatch extends Vue {
     clearInterval(this.timerID);
   }
   updateTime() {
-    this.cetusTime = { day: this.cetus.isDay, text: this.cetus.text };
-    this.earthTime = { day: this.earth.isDay, text: this.earth.text };
+    this.cetusTime = { phase: CetusTime.phaseText, text: CetusTime.text };
+    this.earthTime = { phase: EarthTime.phaseText, text: EarthTime.text };
   }
 }
 </script>

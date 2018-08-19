@@ -662,6 +662,10 @@ const _transData = [
   { "id": "Larva Burst", "name": "幼体爆发", "type": "Mod" },
   { "id": "Lasting Covenant", "name": "持久誓约", "type": "Mod" },
   { "id": "Razorwing Blitz", "name": "刀翼闪击", "type": "Mod" },
+  { "id": "Shotgun Riven Mod", "name": "霰弹枪裂罅MOD", "type": "Mod" },
+  { "id": "Melee Riven Mod", "name": "近战裂罅MOD", "type": "Mod" },
+  { "id": "Rifle Riven Mod", "name": "步枪裂罅MOD", "type": "Mod" },
+  { "id": "Pistol Riven Mod", "name": "手枪裂罅MOD", "type": "Mod" },
   { "id": "Shotgun Riven Mod (Veiled)", "name": "霰弹枪 未开紫卡", "type": "Mod" },
   { "id": "Melee Riven Mod (Veiled)", "name": "近战 未开紫卡", "type": "Mod" },
   { "id": "Rifle Riven Mod (Veiled)", "name": "步枪 未开紫卡", "type": "Mod" },
@@ -1950,31 +1954,31 @@ export class Translator {
    * 翻译文本
    *
    * @export
-   * @param {string} rawText 原文本
+   * @param {string} text 原文本
    * @returns {string} 翻译后的文本
    */
   static getLocText(rawText: string): string {
     if (this.Locale !== "zh") return rawText;
     // 忽略大小写
-    rawText = rawText.toLowerCase();
+    let text = rawText.toLowerCase();
     // 处理如 "Weapon Restriction: Sniper Only" => "武器限定：狙击枪"
-    if (rawText.includes(": "))
-      return (([a, b]) => this.getLocText(a) + "：" + this.getLocText(b.replace(/ only$/, "")))(rawText.split(": "));
-    let lastWord = _.last(rawText.split(" "));
+    if (text.includes(": "))
+      return (([a, b]) => this.getLocText(a) + "：" + this.getLocText(b.replace(/ only$/, "")))(text.split(": "));
+    let lastWord = _.last(text.split(" "));
     // 辅助表查询
     let subfix = this.instance.subLinkDict.has(lastWord)
-      && this.instance.subLinkDict.get(lastWord).find(v => rawText.endsWith(v[1]))
+      && this.instance.subLinkDict.get(lastWord).find(v => text.endsWith(v[1]))
       || lastWord;
     // 主表查询
     let localeSubfix = this.instance.subDict.get(subfix);
     if (localeSubfix) {
-      let len = rawText.length - subfix.length - 1;
+      let len = text.length - subfix.length - 1;
       if (len < 0)
         return localeSubfix;
       // 递归解析后缀
-      return this.getLocText(rawText.substr(0, len)) + " " + localeSubfix;
+      return this.getLocText(text.substr(0, len)) + " " + localeSubfix;
     }
-    return this.instance.mainDict.get(rawText) || rawText;
+    return this.instance.mainDict.get(text) || rawText;
   }
 }
 /**

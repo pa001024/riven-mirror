@@ -16,20 +16,38 @@ export interface MeleeModBuildOptions {
 
 export class MeleeModBuild extends ModBuild {
   weapon: MeleeWeapon
-  // 增幅器
+  // 属性增幅器
   private _rangeMul = 1;
+  private _chargeMulMul = 1;
+  private _chargeEffMul = 1;
+  private _comboDurationAdd = 0;
+  private _slideCritChanceAdd = 0;
+  private _execDmgMul = 1;
+  private _comboCritChanceMul = 1;
+  private _comboStatusMul = 1;
+  private _statusDamageMul = 0;
+
   /** 范围增幅倍率 */
   get rangeMul() { return this._rangeMul; }
-  private _chargeMulMul = 1; /** 充能倍率增幅倍率 */  get chargeMulMul() { return this._chargeMulMul; }
-  private _chargeEffMul = 1; /** 充能效率增幅倍率 */  get chargeEffMul() { return this._chargeEffMul; }
-  private _comboDurationAdd = 0; /** 连击时间增值 */  get comboDurationAdd() { return this._comboDurationAdd; }
-  private _slideCritChanceAdd = 0; /** 滑行暴击增值 */  get slideCritChanceAdd() { return this._slideCritChanceAdd; }
-  private _execDmgMul = 1; /** 处决伤害增幅倍率 */  get execDmgMul() { return this._execDmgMul; }
-  private _comboCritChanceMul = 0; /** 连击数增加暴击率 */  get comboCritChanceMul() { return this._comboCritChanceMul; }
-  private _comboStatusMul = 0; /** 连击数增加触发率 */  get comboStatusMul() { return this._comboStatusMul; }
-  private _statusDamageMul = 0; /** 异常状态增加近战伤害 */  get statusDamageMul() { return this._statusDamageMul; }
+  /** 充能倍率增幅倍率 */
+  get chargeMulMul() { return this._chargeMulMul; }
+  /** 充能效率增幅倍率 */
+  get chargeEffMul() { return this._chargeEffMul; }
+  /** 连击时间增值 */
+  get comboDurationAdd() { return this._comboDurationAdd; }
+  /** 滑行暴击增值 */
+  get slideCritChanceAdd() { return this._slideCritChanceAdd; }
+  /** 处决伤害增幅倍率 */
+  get execDmgMul() { return this._execDmgMul; }
+  /** 连击数增加暴击率 */
+  get comboCritChanceMul() { return this._comboCritChanceMul; }
+  /** 连击数增加触发率 */
+  get comboStatusMul() { return this._comboStatusMul; }
+  /** 异常状态增加近战伤害 */
+  get statusDamageMul() { return this._statusDamageMul; }
 
   // 额外参数
+  /** 比较方法 */
   compareMode = 0;
   /** 连击层数 */
   comboLevel = 0;
@@ -134,8 +152,8 @@ export class MeleeModBuild extends ModBuild {
     this._comboDurationAdd = 0;
     this._slideCritChanceAdd = 0;
     this._execDmgMul = 1;
-    this._comboCritChanceMul = 0;
-    this._comboStatusMul = 0;
+    this._comboCritChanceMul = 1;
+    this._comboStatusMul = 1;
     this._statusDamageMul = 0;
   }
 

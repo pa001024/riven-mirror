@@ -10,13 +10,15 @@
             </div>
             <table class="weapon-props">
               <tbody>
-                <PropDiff name="暴击率" :ori="weapon.criticalChances" :val="build.critChance" percent></PropDiff>
-                <PropDiff name="暴击伤害" :ori="weapon.criticalMultiplier" :val="build.critMul" subfix="x"></PropDiff>
-                <PropDiff name="攻速" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
-                <PropDiff name="触发几率" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
+                <PropDiff name="弹匣" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
+                <PropDiff name="攻击速度" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
+                <PropDiff name="暴击倍率" :ori="weapon.criticalMultiplier" :val="build.critMul" subfix="x"></PropDiff>
+                <PropDiff name="暴击几率" :ori="weapon.criticalChances" :val="build.critChance" percent></PropDiff>
                 <PropDiff v-if="weapon.bullets!=1||build.bullets!=1" name="弹片数" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
-                <PropDiff name="弹匣容量" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
+                <PropDiff name="裂罅倾向性" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
                 <PropDiff name="装填" :ori="weapon.reload" :val="build.reloadTime" :preci="2"></PropDiff>
+                <PropDiff name="触发几率" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
+                <br>
                 <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="mapDname(dname)" :ori="ori" :val="val"></PropDiff>
                 <PropDiff name="面板伤害" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
                 <PropDiff name="单发伤害" :ori="build.oriTotalDamage" :val="build.totalDamage"
@@ -38,7 +40,7 @@
             <el-form class="build-form-editor">
               <el-form-item label="爆头率">
                 <el-tooltip effect="dark" content="更高的爆头率会提高暴击的收益" placement="bottom">
-                  <el-slider v-model="handShotChance" size="small" :format-tooltip="v=>v+'%'" @change="reload" style="margin-left: 64px;"></el-slider>
+                  <el-slider v-model="handShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange" style="margin-left: 64px;"></el-slider>
                 </el-tooltip>
               </el-form-item>
               <el-form-item label="基伤加成">
@@ -47,14 +49,14 @@
                     <div>Chroma的"怨怒护甲"和Mirage的"黯然失色"等技能可对武器基伤进行大量加成，</div>
                     <div>步枪增幅、死亡之眼等光环MOD也属于这个加成</div>
                   </div>
-                  <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" @change="reload" style="width:120px">
+                  <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" @change="optionChange" style="width:120px">
                     <template slot="append">%</template>
                   </el-input>
                 </el-tooltip>
               </el-form-item>
               <el-form-item label="赋能" v-if="is('sniper') || is('pistol')">
-                <el-checkbox v-model="isUseMomentum" v-if="is('sniper')" @change="reload">动量</el-checkbox>
-                <el-checkbox v-model="isUseVelocity" v-if="is('pistol')" @change="reload">迅速</el-checkbox>
+                <el-checkbox v-model="isUseMomentum" v-if="is('sniper')" @change="optionChange">动量</el-checkbox>
+                <el-checkbox v-model="isUseVelocity" v-if="is('pistol')" @change="optionChange">迅速</el-checkbox>
               </el-form-item>
             </el-form>
           </el-card>
@@ -66,26 +68,28 @@
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="item.name" v-for="item in tabs" :label="item.title" :name="item.name">
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
-              <draggable class="block" v-model="item.mods" @end="refleshMods">
-                <el-col :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
-                  <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="!mod && slotClick(index)">
-                    <template v-if="mod">
-                      <div class="mod-title" @click="slotClick(index)">{{mod.name}}</div>
-                      <div class="mod-detail" @click="slotRemove(index)">
-                        <div class="mod-stat">
-                          <div class="mod-prop" v-for="prop in mod.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
-                          <div class="mod-sum">{{PNNum(100 * item.build.modValue(mod.id))}}% 总收益</div>
+              <draggable class="block" v-model="item.mods" @end="refleshMods()">
+                <transition-group name="list-complete">
+                  <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
+                    <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="slotClick(index)">
+                      <template v-if="mod">
+                        <div class="mod-title" @click.stop="slotClick(index)">{{mod.name}}</div>
+                        <div class="mod-detail" @click.stop="slotRemove(index)">
+                          <div class="mod-stat">
+                            <div class="mod-prop" v-for="prop in mod.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
+                            <div class="mod-sum">{{PNNum(100 * item.build.modValue(mod.id))}}% 总收益</div>
+                          </div>
+                          <div class="mod-action">
+                            <button type="button" class="mod-slot-remove">
+                              <i class="el-icon-close"></i>
+                            </button>
+                          </div>
                         </div>
-                        <div class="mod-action">
-                          <button type="button" class="mod-slot-remove">
-                            <i class="el-icon-close"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </template>
-                    <i v-else class="el-icon-plus"></i>
-                  </div>
-                </el-col>
+                      </template>
+                      <i v-else class="el-icon-plus"></i>
+                    </div>
+                  </el-col>
+                </transition-group>
               </draggable>
             </el-row>
           </el-tab-pane>
@@ -112,7 +116,7 @@
               </el-form>
             </el-col>
             <!-- 伤害显示区域 -->
-            <el-col>
+            <el-col :xs="24" :sm="12" :lg="18">
 
             </el-col>
           </el-row>
@@ -132,7 +136,7 @@ import { EnemyFaction, RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBu
 import ModSelector from "@/components/ModSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import EnemySelector from "@/components/EnemySelector.vue";
-import { BaseBuildEditor } from "@/components/BaseBuildEditor";
+import { BaseBuildEditor } from "./BaseBuildEditor";
 
 @Component({
   components: { ModSelector, PropDiff, EnemySelector }
@@ -161,6 +165,14 @@ export default class GunBuildEditor extends BaseBuildEditor {
     });
   }
   // === 事件处理 ===
+  optionChange() {
+    this.build.options = {
+      handShotChance: this.handShotChance / 100,
+      extraBaseDamage: this.extraBaseDamage,
+      isUseMomentum: this.isUseMomentum,
+      isUseVelocity: this.isUseVelocity,
+    };
+  }
   selectEnemy(enemyData: EnemyData) {
     this.enemyData = enemyData;
     this.enemy = new Enemy(enemyData, this.enemyLevel);
@@ -168,12 +180,21 @@ export default class GunBuildEditor extends BaseBuildEditor {
   enemyLevelChange() {
     if (this.enemy) this.enemy.level = this.enemyLevel;
   }
+  // 子类不实现会报错
+  handleTabsEdit(targetName, action: "add" | "remove") { super.handleTabsEdit(targetName, action); }
   // === 生命周期钩子 ===
   beforeMount() { this.reload(); }
 }
 </script>
 
 <style>
+.list-complete-item {
+  transition: all 0.5s;
+}
+.list-complete-enter,
+.list-complete-leave-active {
+  opacity: 0;
+}
 .enemy-sim-body > .el-form-item {
   margin: 0;
 }

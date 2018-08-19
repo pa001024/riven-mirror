@@ -17,7 +17,7 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { EnemyFaction, EnemyList, EnemyData, Damage2_0 } from "@/warframe";
+import { EnemyFaction, EnemyList, EnemyData, Codex } from "@/warframe";
 
 declare interface EnemySelectorTab {
   id: EnemyFaction
@@ -34,7 +34,7 @@ export default class EnemySelector extends Vue {
       .filter(v => v.enemys.length > 0);
   }
   handleClick(id: string) {
-    let enemy = Damage2_0.getEnemy(id);
+    let enemy = Codex.getEnemy(id);
     this.$emit("select", enemy);
   }
 }

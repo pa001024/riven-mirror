@@ -105,7 +105,9 @@ const _normalModSource = [
   ["Twitch", "迅速抽换", [["切换速度", 2]], "提升拔枪速度", "步枪", "-", "c", 7],
   ["Wildfire", "野火", [["L", 0.2], ["4", 0.6]], "提升弹夹容量，增加 火焰伤害", "步枪", "r", "r", 9],
   ["Eagle Eye", "鹰眼", [["H", 0.4]], "提升变焦", "步枪", "-", "c", 7],
-  ["Charged Chamber", "蓄力装填", [["第一发子弹加成", 0.4]], "提升更换弹匣后第一次射击的基础伤害", "狙击枪", "r", "c", 9],
+  ["Charged Chamber", "蓄力装填", [["第一发子弹伤害加成", 0.4]], "提升更换弹匣后第一次射击的基础伤害", "狙击枪", "r", "c", 9],
+  // ["Primed Charged Chamber", "蓄力装填 Prime", [["第一发子弹伤害加成", 1.1]], "提升更换弹匣后第一次射击的基础伤害", "狙击枪", "r", "l", 16],
+  ["Primed Chamber", "膛室 Prime", [["第一发子弹伤害加成", 1]], "提升更换弹匣后第一次射击的基础伤害", "狙击枪", "r", "r", 7],
   ["Target Acquired", "锁定目标", [["爆头倍率", 0.6]], "增加狙击步枪的爆头伤害倍率", "狙击枪", "r", "r", 9],
   ["Entropy Burst", "熵数爆发", [["加基础状态触发率", 20]], "提升异常触发几率并附加熵数效果", "苏普拉", "r", "r", 7],
   ["Lasting Purity", "永恒纯净", [["正中红心", 0.6]], "附加正中红心和纯净效果", "金工火神", "-", "r", 7],
@@ -340,17 +342,3 @@ export const AcolyteModsList: string[] = [
   "狭窄枪膛", "破片射击", "纳米涂覆", "转轮弹匣", "雷射瞄具",
   "内置触媒", "增压弹匣", "定位辅助", "尖锐子弹", "液压准心",
 ];
-
-/**
- * 原版数据库
- */
-export class WfCodex {
-  protected static instance = new WfCodex();
-  static getNormalMod(id: string) {
-    return this.instance.dict.get(id);
-  }
-  private dict: Map<string, NormalMod>;
-  constructor() {
-    this.dict = new Map(NormalModDatabase.map(v => [v.id, v] as [string, NormalMod]));
-  }
-}

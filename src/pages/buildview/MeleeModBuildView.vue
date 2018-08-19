@@ -84,10 +84,10 @@
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenMod, MeleeModBuild, ValuedRivenProperty, RivenDataBase } from "@/warframe";
-import { ModBuildView } from "@/components/ModBuildView";
+import { BaseModBuildView } from "./BaseModBuildView";
 
 @Component
-export default class MeleeModBuildView extends ModBuildView {
+export default class MeleeModBuildView extends BaseModBuildView {
   isSlide = true
   builds: [string, MeleeModBuild][] = []
   /** 连击倍率 */

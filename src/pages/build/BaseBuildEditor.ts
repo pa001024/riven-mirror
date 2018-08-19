@@ -1,6 +1,6 @@
+import { Damage2_0, DamageType, ModBuild, NormalMod, RivenDataBase, RivenWeapon, ValuedRivenProperty, Weapon } from "@/warframe";
 import _ from "lodash";
-import { Vue, Component } from "vue-property-decorator";
-import { ModBuild, NormalMod, RivenWeapon, Weapon, RivenDataBase, ValuedRivenProperty, Damage2_0, DamageType } from "@/warframe";
+import { Vue } from "vue-property-decorator";
 
 declare interface BuildSelectorTab {
   title: string

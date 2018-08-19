@@ -7,8 +7,8 @@
           <span class="beta">ALPHA</span>
         </h1>
       </router-link>
-      <wf-watch class="hidden-xs-only header-watch">
-      </wf-watch>
+      <MiniClock class="hidden-xs-only header-watch">
+      </MiniClock>
       <div class="app-nav-pad hidden-sm-and-up">
       </div>
       <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
@@ -44,10 +44,10 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
-import WarframeWatch from "./components/WarframeWatch.vue";
+import MiniClock from "./components/MiniClock.vue";
 
 @Component({
-  components: { "wf-watch": WarframeWatch }
+  components: { MiniClock }
 })
 export default class App extends Vue {
   menuOpen = false;
@@ -170,6 +170,12 @@ body {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
+h1,
+h2,
+h3 {
+  margin: 0;
+  padding: 0;
+}
 .beta {
   font-size: 0.4em;
 }
@@ -184,11 +190,11 @@ body {
   color: #fff;
   padding: 0 10px;
   box-shadow: 0 0 6px 0 #000;
+  text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
 }
 .el-header h1 {
   margin: 0 0 0 16px;
   font-weight: normal;
-  cursor: pointer;
   font-family: FuturaPT, "Helvetica Neue", Helvetica, "PingFang SC",
     "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   font-size: 24px;
@@ -208,12 +214,13 @@ ol {
 .site-logo {
   display: flex;
   align-items: inherit;
+  cursor: pointer;
 }
 .header-watch {
   margin-left: 60px;
 }
 .i-mirror-logo {
-  background-image: url("assets/LOGO@2x.png");
+  background-image: url("assets/LOGO@4x.png");
   background-size: 100%;
   width: 60px;
   height: 60px;

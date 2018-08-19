@@ -1,6 +1,6 @@
-import { strSimilarity, StringTree } from "@/warframe/util"
+import { GunWeaponDataBase, MeleeWeaponDataBase, Weapon } from "@/warframe/codexs";
+import { StringTree, strSimilarity } from "@/warframe/util";
 import _ from "lodash";
-import { MeleeWeaponDataBase, GunWeaponDataBase, Weapon } from "@/warframe/weapon";
 
 /**MOD上的裂罅属性 */
 export interface RivenPropertyValue {

@@ -1,13 +1,12 @@
 <template>
-  <GunBuildEditor v-if="rWeapon.mod !== 'Melee'" ref="editor" :weapon="weapon" :rWeapon="rWeapon"></GunBuildEditor>
-  <MeleeBuildEditor v-else ref="editor" :weapon="weapon" :rWeapon="rWeapon"></MeleeBuildEditor>
+  <component :is="rWeapon.mod !== 'Melee' ? 'GunBuildEditor' : 'MeleeBuildEditor'" :weapon="weapon" :rWeapon="rWeapon"></component>
 </template>
 
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import GunBuildEditor from "@/components/GunBuildEditor.vue";
-import MeleeBuildEditor from "@/components/MeleeBuildEditor.vue";
+import GunBuildEditor from "@/pages/build/GunBuildEditor.vue";
+import MeleeBuildEditor from "@/pages/build/MeleeBuildEditor.vue";
 import { RivenDataBase, Weapon, RivenWeapon } from "@/warframe";
 
 @Component({
