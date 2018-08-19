@@ -3,12 +3,14 @@
     <!-- 时间 -->
     <el-col :xs="24" :sm="12" :lg="8">
       <el-card class="index-clock" :body-style="{ padding: '0px' }">
+        <img width="100%" src="/static/images/eidolon-day.jpg" alt="">
+        <!-- <img src="/static/images/eidolon-night.jpg" alt=""> -->
         <div v-if="showTimeType === 'cetus'" class="clock-body cetus">
-          <div class="title">
-            希图斯 {{cetusTime.phase}}
-          </div>
           <div class="time">
             {{cetusTime.text}}
+          </div>
+          <div class="title">
+            希图斯 {{cetusTime.phase}}
           </div>
         </div>
         <div v-else class="clock-body earth">
@@ -118,16 +120,16 @@ export default class Index extends Vue {
   font-size: 18px;
   text-align: center;
   padding: 16px;
+  color: #ffffff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 .clock-body .time {
   font-family: SAOUI;
   font-size: 40px;
   text-align: center;
   color: #ffffff;
-  background: #89b2fd;
-  border-radius: 4px;
-  margin: 8px 0;
   padding: 12px;
+  margin-top: -133px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
 }
 .clock-body {
