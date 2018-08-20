@@ -1963,7 +1963,7 @@ export class Translator {
     let text = rawText.toLowerCase();
     // 处理如 "Weapon Restriction: Sniper Only" => "武器限定：狙击枪"
     if (text.includes(": "))
-      return (([a, b]) => this.getLocText(a) + "：" + this.getLocText(b.replace(/ only$/, "")))(text.split(": "));
+      return (([a, b]) => this.getLocText(a) + "：" + this.getLocText(b.replace(/ only$/i, "")))(rawText.split(": "));
     let lastWord = _.last(text.split(" "));
     // 辅助表查询
     let subfix = this.instance.subLinkDict.has(lastWord)

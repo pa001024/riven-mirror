@@ -1,4 +1,4 @@
-import { Damage2_0, DamageType, EnemyData, EnemyList, NormalMod, NormalModDatabase } from "@/warframe/codexs";
+import { Damage2_0, DamageType, EnemyData, EnemyList, NormalMod, NormalModDatabase } from "./codexs";
 
 /**
  * 原版数据库
@@ -22,4 +22,4 @@ export class Codex {
   static getEnemy(id: string) { return this.instance.enemyDict.get(id); }
 }
 
-export * from '@/warframe/codexs';
+export * from './codexs';

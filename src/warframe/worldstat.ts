@@ -317,7 +317,7 @@ export class WorldStat {
   /**
    * 突击信息
    */
-  get Sortie(): Sortie {
+  get Sortie() {
     if (!this.data) return {
       id: "",
       activation: "",
@@ -335,7 +335,7 @@ export class WorldStat {
   /**
    * 警报信息
    */
-  get Alerts(): Alert[] {
+  get Alerts() {
     if (!this.data) return [];
     return this.deepTranslate(this.data.alerts)
       .filter(v => v.mission.reward.items.length > 0);
@@ -344,9 +344,21 @@ export class WorldStat {
   /**
    * 裂缝信息
    */
-  get Fissures(): Fissure[] {
+  get Fissures() {
     if (!this.data) return [];
     return this.deepTranslate(this.data.fissures);
+  }
+
+  /**
+   * 新闻信息
+   */
+  get News() {
+    if (!this.data) return [];
+    return _.reverse(this.deepTranslate(this.data.news).map(v => {
+      if (v.translations[Translator.Locale])
+        v.message = v.translations[Translator.Locale];
+      return v;
+    }));
   }
 
 }

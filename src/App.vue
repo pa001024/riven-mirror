@@ -161,6 +161,52 @@ export default class App extends Vue {
   font-family: SAOUI;
   src: url("/static/fonts/SAOUI-Regular.otf");
 }
+@font-face {
+  font-family: WF;
+  src: url("/static/fonts/WF.ttf");
+}
+
+[class*=" wf-icon-"],
+[class^="wf-icon-"] {
+  font-family: WF !important;
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: baseline;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wf-icon-sortie::before {
+  content: "";
+}
+.wf-icon-alert::before {
+  content: "";
+}
+.wf-icon-fissure::before {
+  content: "";
+}
+.wf-icon-earth::before {
+  content: "";
+}
+.wf-icon-grineer::before {
+  content: "";
+}
+.wf-icon-corpus::before {
+  content: "";
+}
+.wf-icon-infestation::before,
+.wf-icon-infested::before {
+  content: "";
+}
+.wf-icon-orokin::before,
+.wf-icon-corrupted::before {
+  content: "";
+}
+
 html,
 body {
   margin: 0;
