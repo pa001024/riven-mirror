@@ -84,6 +84,18 @@
             </ul>
           </el-card>
         </el-col>
+        <!-- 网站信息 -->
+        <el-col :xs="24" :sm="12" :lg="8">
+          <el-card class="index-card info">
+            <h3 slot="header">公告</h3>
+            <ul>
+              <li>内测群号: 165371868</li>
+              <li>←功能菜单(手机的话是在右上角)</li>
+              <li style="color:grey">注: 紫卡截图请不要让鼠标挡住字 最好是只截文字部分</li>
+              <li>更多功能正在开发中~ 敬请期待</li>
+            </ul>
+          </el-card>
+        </el-col>
         <!-- 裂缝 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="fissures.length > 0">
           <el-card class="index-card fissure">
@@ -101,18 +113,6 @@
                   <div class="time">{{i18n.remaining}}: {{renderTime(v.expiry)}}</div>
                 </div>
               </li>
-            </ul>
-          </el-card>
-        </el-col>
-        <!-- 网站信息 -->
-        <el-col :xs="24" :sm="12" :lg="8">
-          <el-card class="index-card info">
-            <h3 slot="header">公告</h3>
-            <ul>
-              <li>内测群号: 165371868</li>
-              <li>←功能菜单(手机的话是在右上角)</li>
-              <li style="color:grey">注: 紫卡截图请不要让鼠标挡住字 最好是只截文字部分</li>
-              <li>更多功能正在开发中~ 敬请期待</li>
             </ul>
           </el-card>
         </el-col>
@@ -221,7 +221,7 @@ export default class Index extends Vue {
       this.news = this.stat.news;
       this.fissures = this.stat.fissures;
       this.$nextTick(() => this.resize());
-    });
+    }).catch(() => setTimeout(() => this.updateStat(), 5e3));
   }
   updateTime() {
     this.seconds = ~~(Date.now() / 1e3);
@@ -271,6 +271,9 @@ export default class Index extends Vue {
 }
 .index-card .info {
   flex: 1;
+}
+.index-card .misc {
+  text-align: right;
 }
 .index-card .tier {
   font-size: 1.5rem;

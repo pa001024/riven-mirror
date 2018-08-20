@@ -41,11 +41,12 @@ export class CetusTime {
     sec = sec % 60;
     return `${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`
   }
-  /** 返回 白昼/黄昏/夜晚/黎明 */
+  /** 返回 白昼/黄昏/夜晚/黎明/早晨 */
   static get phaseText() {
     let sec = this.secords;
     if (sec > 6600) return "夜晚"; // 02:30 ~ 01:50
     if (sec > 6000) return "黎明"; // 01:50 ~ 01:40
+    if (sec > 4800) return "早晨"; // 01:40 ~ 01:20
     if (sec > 600) return "白昼"; // 01:40 ~ 00:10
     return "黄昏"; // 00:10 ~ 00:00
   }

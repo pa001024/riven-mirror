@@ -63,7 +63,7 @@
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="item.name" v-for="item in tabs" :label="item.title" :name="item.name">
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
-              <draggable class="block" v-model="item.mods" @end="refleshMods()">
+              <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
                   <div class="mod-slot" :class="[mod&&mod.rarity,{active:!mod}]" @click="slotClick(index)">
                     <template v-if="mod">

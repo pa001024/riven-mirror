@@ -68,28 +68,26 @@
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="item.name" v-for="item in tabs" :label="item.title" :name="item.name">
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
-              <draggable class="block" v-model="item.mods" @end="refleshMods()">
-                <transition-group name="list-complete">
-                  <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
-                    <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="slotClick(index)">
-                      <template v-if="mod">
-                        <div class="mod-title" @click.stop="slotClick(index)">{{mod.name}}</div>
-                        <div class="mod-detail" @click.stop="slotRemove(index)">
-                          <div class="mod-stat">
-                            <div class="mod-prop" v-for="prop in mod.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
-                            <div class="mod-sum">{{PNNum(100 * item.build.modValue(mod.id))}}% 总收益</div>
-                          </div>
-                          <div class="mod-action">
-                            <button type="button" class="mod-slot-remove">
-                              <i class="el-icon-close"></i>
-                            </button>
-                          </div>
+              <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
+                <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
+                  <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="slotClick(index)">
+                    <template v-if="mod">
+                      <div class="mod-title" @click.stop="slotClick(index)">{{mod.name}}</div>
+                      <div class="mod-detail" @click.stop="slotRemove(index)">
+                        <div class="mod-stat">
+                          <div class="mod-prop" v-for="prop in mod.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
+                          <div class="mod-sum">{{PNNum(100 * item.build.modValue(mod.id))}}% 总收益</div>
                         </div>
-                      </template>
-                      <i v-else class="el-icon-plus"></i>
-                    </div>
-                  </el-col>
-                </transition-group>
+                        <div class="mod-action">
+                          <button type="button" class="mod-slot-remove">
+                            <i class="el-icon-close"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </template>
+                    <i v-else class="el-icon-plus"></i>
+                  </div>
+                </el-col>
               </draggable>
             </el-row>
           </el-tab-pane>
@@ -217,12 +215,17 @@ export default class GunBuildEditor extends BaseBuildEditor {
 }
 .mod-title,
 .mod-detail {
-  cursor: pointer;
   align-self: stretch;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: 0.3s;
+}
+.mod-title {
+  cursor: move;
+}
+.mod-detail {
+  cursor: pointer;
 }
 .mod-detail:hover {
   background: #ffd6d6;

@@ -12,7 +12,8 @@
       <div class="app-nav-pad hidden-sm-and-up">
       </div>
       <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
-        <i class="el-icon-more"></i>
+        <!-- <i class="el-icon-more"></i> -->
+        ☰
       </button>
     </el-header>
     <transition name="el-zoom-in-top">
