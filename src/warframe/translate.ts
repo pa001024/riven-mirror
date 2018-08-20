@@ -1877,7 +1877,12 @@ const _transData = [
   { "id": "Lotus的礼物 - 失窃!", "name": "Gifts Of The Lotus - Stolen!", "type": "Word" },
   { "id": "Plague Star", "name": "瘟疫之星", "type": "Word" },
   { "id": "Balor Fomorian", "name": "巨人战舰", "type": "Word" },
-  { "id": "Tac Alert Proxy Rebellion", "name": "机械叛乱", "type": "Word" }
+  { "id": "Tac Alert Proxy Rebellion", "name": "机械叛乱", "type": "Word" },
+  { "id": "Sortie", "name": "突击", "type": "Word" },
+  { "id": "Alerts", "name": "警报", "type": "Word" },
+  { "id": "News", "name": "新闻", "type": "Word" },
+  { "id": "Fissures", "name": "裂缝", "type": "Word" },
+  { "id": "Remaining", "name": "剩余", "type": "Word" },
 ];
 
 const _partSubfixs = [

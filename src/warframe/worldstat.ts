@@ -288,8 +288,13 @@ export class WorldStat {
    * 获取最新数据
    */
   fetch() {
-    axios.get(this.APIBase, { timeout: 3000 })
-      .then(data => this.data = JSON.parse(data.data));
+    return new Promise((resolve, reject) => {
+      axios.get(this.APIBase, { timeout: 3000 })
+        .then(data => {
+          this.data = data.data;
+          resolve();
+        }).catch(reject);
+    })
   }
 
   /**
@@ -317,7 +322,7 @@ export class WorldStat {
   /**
    * 突击信息
    */
-  get Sortie() {
+  get sortie() {
     if (!this.data) return {
       id: "",
       activation: "",
@@ -335,24 +340,25 @@ export class WorldStat {
   /**
    * 警报信息
    */
-  get Alerts() {
+  get alerts() {
     if (!this.data) return [];
     return this.deepTranslate(this.data.alerts)
-      .filter(v => v.mission.reward.items.length > 0);
+      .filter(v => v.mission.reward.items.length > 0 && !v.mission.nightmare);
   }
 
   /**
    * 裂缝信息
    */
-  get Fissures() {
+  get fissures() {
     if (!this.data) return [];
-    return this.deepTranslate(this.data.fissures);
+    return this.deepTranslate(this.data.fissures
+      .filter(v => v.missionType !== "Mobile Defense" && v.missionType !== "Interception"));
   }
 
   /**
    * 新闻信息
    */
-  get News() {
+  get news() {
     if (!this.data) return [];
     return _.reverse(this.deepTranslate(this.data.news).map(v => {
       if (v.translations[Translator.Locale])
