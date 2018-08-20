@@ -155,7 +155,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
 
   @Watch("weapon")
   reload() { super.reload(); }
-  reloadSelector() { this.$refs.selector && (this.$refs.selector as ModSelector).reload(); }
+  reloadSelector() { this.$refs.selector && (this.$refs.selector as any).reload(); }
   newBuild(weapon: GunWeapon) {
     return new GunModBuild(weapon, null, {
       handShotChance: this.handShotChance / 100,

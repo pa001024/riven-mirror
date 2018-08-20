@@ -123,7 +123,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
 
   @Watch("weapon")
   reload() { super.reload(); }
-  reloadSelector() { this.$refs.selector && (this.$refs.selector as ModSelector).reload(); }
+  reloadSelector() { this.$refs.selector && (this.$refs.selector as any).reload(); }
   newBuild(weapon: MeleeWeapon) {
     return new MeleeModBuild(weapon, null, {
       comboLevel: ~~((this.comboMul - 1) * 2),
