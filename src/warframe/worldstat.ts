@@ -337,13 +337,14 @@ export class WorldStat {
     return this.deepTranslate(this.data.sortie);
   }
 
+  filterType = ["nightmare", "endo"];
   /**
    * 警报信息
    */
   get alerts() {
     if (!this.data) return [];
-    return this.deepTranslate(this.data.alerts)
-      .filter(v => v.mission.reward.items.length > 0 && !v.mission.nightmare);
+    return this.deepTranslate(this.data.alerts
+      .filter(v => v.mission.reward.items.length > 0 && !this.filterType.includes(v.rewardTypes[0])));
   }
 
   /**

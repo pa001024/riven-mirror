@@ -2,7 +2,7 @@
   <div class="rivenedit">
     <el-row :gutter="20">
       <el-col :span="24">
-        <el-cascader filterable class="weapon-picker" expand-trigger="hover" size="medium" placeholder="请选择武器" :options="nameOptions" :show-all-levels="false" v-model="selectWeapon" @change="handleChange">
+        <el-cascader v-if="!weapon" filterable class="weapon-picker" expand-trigger="hover" size="medium" placeholder="请选择武器" :options="nameOptions" :show-all-levels="false" v-model="selectWeapon" @change="handleChange">
         </el-cascader>
         <div class="prop-picker" v-if="mod" v-for="(prop, index) in props" :key="index">
           <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
@@ -31,7 +31,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
-import { RivenMod, ModTypeTable, RivenWeaponDataBase, RivenDataBase, RivenProperty, RivenPropertyDataBase, CNPY_RivenWeapon } from "@/warframe";
+import { RivenMod, ModTypeTable, RivenWeaponDataBase, RivenDataBase, RivenProperty, RivenPropertyDataBase, CNPY_RivenWeapon, Weapon, RivenWeapon } from "@/warframe";
 
 interface CascaderValue {
   value: string
@@ -41,6 +41,7 @@ interface CascaderValue {
 @Component
 export default class RivenEditor extends Vue {
   @Model("change") value;
+  @Prop() weapon: RivenWeapon;
   riven: RivenMod = null
   nameOptions: CascaderValue[] = [];
   selectWeapon = [];
@@ -52,8 +53,9 @@ export default class RivenEditor extends Vue {
     return this.nameOptions.filter(v => names.some(k => v.label.indexOf(k) >= 0));
   }
   // === 事件处理 ===
+  @Watch("weapon")
   handleChange() {
-    let rWeapon = RivenDataBase.getRivenWeaponByName(_.last(this.selectWeapon));
+    let rWeapon = RivenDataBase.getRivenWeaponByName(this.weapon ? this.weapon.id : _.last(this.selectWeapon));
     this.riven = new RivenMod();
     [this.riven.id, this.riven.name, this.riven.mod] = [rWeapon.id, rWeapon.name, rWeapon.mod];
     this.mod = rWeapon.mod;
@@ -86,6 +88,7 @@ export default class RivenEditor extends Vue {
       let rWeapons = RivenWeaponDataBase.filter(v => v.mod === id && v.weapons.length > 0).map(v => ({ value: v.id, label: v.name }));
       this.nameOptions.push({ value: id, label: name, children: rWeapons });
     });
+    if (this.weapon) this.handleChange();
   }
 }
 </script>

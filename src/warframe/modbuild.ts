@@ -8,6 +8,7 @@ export abstract class ModBuild {
 
   public abstract weapon: Weapon
   public riven: RivenMod
+  public get rivenWeapon() { return RivenDataBase.getRivenWeaponByName(this.weapon.rivenName || this.weapon.id) }
 
   /** 所有适用的MOD */
   protected avaliableMods: NormalMod[] = []

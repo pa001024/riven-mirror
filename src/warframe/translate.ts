@@ -1965,7 +1965,10 @@ export class Translator {
   static getLocText(rawText: string): string {
     if (this.Locale !== "zh") return rawText;
     // 忽略大小写
-    let text = rawText.toLowerCase();
+    let text = rawText.toLowerCase(), m;
+    // 处理如 "100 Endo" => "100 内融核心"
+    if (m = text.match(/^(\d+) (.+)/))
+      return `${m[1]} ${this.getLocText(m[2])}`;
     // 处理如 "Weapon Restriction: Sniper Only" => "武器限定：狙击枪"
     if (text.includes(": "))
       return (([a, b]) => this.getLocText(a) + "：" + this.getLocText(b.replace(/ only$/i, "")))(rawText.split(": "));

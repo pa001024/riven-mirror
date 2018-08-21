@@ -103,7 +103,7 @@
             <ul>
               <li v-for="(v, i) in fissures" :key="i">
                 <div class="info">
-                  <div class="tier">T{{v.tierNum}}</div>
+                  <div class="tier">{{v.tier}}</div>
                   <div class="mission">{{v.missionType}}</div>
                 </div>
                 <div class="misc">
@@ -236,6 +236,9 @@ export default class Index extends Vue {
   color: #3d5afe;
   transition: 0.4s ease-out;
 }
+.index-card.news li + li {
+  padding-top: 8px;
+}
 .index-card.news li:hover {
   color: #7385ec;
 }
@@ -278,7 +281,6 @@ export default class Index extends Vue {
 .index-card .tier {
   font-size: 1.5rem;
   font-weight: 300;
-  font-family: serif;
 }
 .index-card .mission {
   font-size: 1.5rem;
@@ -336,22 +338,13 @@ export default class Index extends Vue {
 .disable .index {
   align-content: center;
 }
-@media only screen and (min-width: 767px) {
-  .wrapper {
-    overflow: hidden;
-  }
-  .index {
-    height: 100%;
-    width: calc(100vw - 80px);
-  }
-}
 .clock > .el-carousel__container {
   height: initial;
 }
 .clock > .el-carousel__container::before {
   content: "";
   display: block;
-  padding-top: 38.67%;
+  padding-top: 38.66666667%;
 }
 .clock .cetus,
 .clock .earth {
@@ -393,12 +386,29 @@ export default class Index extends Vue {
   width: 100%;
   font-family: SAOUI;
   font-size: 3rem;
-  padding: 20px 0;
+  padding: 10px 0;
   text-align: center;
   color: #ffffff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
 }
 .index .el-card {
   margin-bottom: 16px;
+  border: 0;
+}
+@media only screen and (min-width: 767px) {
+  .wrapper {
+    overflow: hidden;
+  }
+  .index {
+    height: 100%;
+    width: calc(100vw - 80px);
+  }
+  .index-card ul {
+    max-height: calc(100vh - 178px);
+    overflow-y: auto;
+  }
+  .clock-body .time {
+    padding: 20px 0;
+  }
 }
 </style>

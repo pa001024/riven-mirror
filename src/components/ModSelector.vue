@@ -10,6 +10,21 @@
         </div>
       </ul>
     </el-tab-pane>
+    <el-tab-pane name="riven">
+      <span slot="label" class="mod-tablabel">裂罅MOD</span>
+      <ul class="mod-select">
+        <div class="mod-item-container" v-for="(hiRiven, index) in modHistoty" :key="index">
+          <li class="mod-item el-dropdown" @click="newRiven(hiRiven.qrCodeBase64)">
+            {{hiRiven.fullName}}
+          </li>
+        </div>
+      </ul>
+      <div style="margin: 8px;">手动输入:</div>
+      <RivenEditor style="margin: 8px;" v-model="editorRivenCode" :weapon="build.rivenWeapon"></RivenEditor>
+      <div style="text-align: right; margin: 0">
+        <el-button type="primary" size="medium" @click="newRiven">确定</el-button>
+      </div>
+    </el-tab-pane>
   </el-tabs>
 </template>
 
@@ -17,7 +32,9 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { NormalMod, NormalModDatabase, Codex, ModBuild } from "@/warframe";
+import { NormalMod, NormalModDatabase, Codex, ModBuild, RivenMod } from "@/warframe";
+import RivenEditor from "@/components/RivenEditor.vue";
+import { Getter } from "vuex-class";
 
 declare interface ModSelectorTab {
   id: string
@@ -25,11 +42,19 @@ declare interface ModSelectorTab {
   mods: NormalMod[]
 }
 
-@Component
+@Component({ components: { RivenEditor } })
 export default class ModSelector extends Vue {
+  @Getter("modHistoty") modHistoty: RivenMod[];
+
   @Prop() build: ModBuild;
-  tabs: ModSelectorTab[] = []
-  selectTab = "Benefit"
+  tabs: ModSelectorTab[] = [];
+  selectTab = "Benefit";
+  editorRivenCode = "";
+  newRiven(code?: string) {
+    let riven = new RivenMod();
+    riven.qrCodeBase64 = code || this.editorRivenCode;
+    this.$emit("command", riven.normalMod);
+  }
   @Watch("build")
   reload() {
     let selected = this.build.mods;

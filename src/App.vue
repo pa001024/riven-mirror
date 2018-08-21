@@ -207,6 +207,9 @@ export default class App extends Vue {
 .wf-icon-corrupted::before {
   content: "";
 }
+.wf-icon-crossfire::before {
+  content: "";
+}
 
 html,
 body {
@@ -236,8 +239,9 @@ h3 {
   background-color: #3d5afe;
   color: #fff;
   padding: 0 10px;
-  box-shadow: 0 0 6px 0 #000;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.25);
   text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 .el-header h1 {
   margin: 0 0 0 16px;
@@ -255,7 +259,7 @@ ol {
 }
 
 .el-main {
-  background-color: rgba(236, 236, 236, 0.5);
+  background-color: #ecf0f1;
   color: #333;
 }
 .site-logo {

@@ -148,9 +148,9 @@ export interface EnemyData {
 }
 
 const _enemyList = [
-  ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 2500, 200, 7, 0, 1],
-  ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 2500, 200, 7, 0, 1],
-  ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 2500, 200, 7, 0, 1],
+  ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 2500, 200, 7, 0, 1],  // 生成等级: 50 外加75%减伤 关节是总血量1/6
+  ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 2500, 200, 7, 0, 1], // 生成等级: 55 外加75%减伤 关节是总血量1/6
+  ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 2500, 200, 7, 0, 1], // 生成等级: 60 外加75%减伤 关节是总血量1/6
   ["MOA", "恐鸟", 2, 1, 60, 150, 0, 7, 0, 0],
   ["Fusion MOA", "熔岩恐鸟", 2, 10, 250, 250, 0, 7, 0, 0],
   ["Anti MOA", "逆进恐鸟", 2, 5, 50, 500, 0, 7, 0, 0],
@@ -166,7 +166,7 @@ const _enemyList = [
   ["Heavy Gunner", "重型机枪手", 1, 8, 300, 0, 500, 1, 0, 0],
   ["Ballista", "弩炮", 1, 1, 100, 0, 100, 1, 0, 0],
   ["Drahk Master", "爪喀驯兽师", 1, 12, 500, 0, 200, 1, 0, 0],
-  // ["Hyekka Master", "鬣猫驯兽师", 1, 12, 650, 0, 200, 1, 0, 0],
+  ["Hyekka Master", "鬣猫驯兽师", 1, 12, 650, 0, 200, 1, 0, 0],
   ["Commander", "指挥官", 1, 3, 300, 0, 500, 1, 0, 1],
   ["Corrupted Bombard", "堕落轰击者", 4, 4, 300, 0, 500, 1, 0, 1],
   ["Corrupted Heavy Gunner", "堕落重型机枪手", 4, 8, 700, 0, 500, 1, 0, 0],
@@ -345,9 +345,18 @@ export class Enemy implements EnemyData {
     }
     return this;
   }
+  /**
+   * 应用DoT伤害
+   *
+   * @param {[string, number][]} dmgs
+   * @memberof Enemy
+   */
+  applyDoTDmg(dmgs: [string, number][]) {
+
+  }
 
   /**
-   * 计算单发射击后怪物血量剩余情况
+   * 计算单发射击后怪物血量剩余情况(连续)
    *
    * @param {[string, number][]} dmgs 伤害表
    * @param {[string, number][]} procChanceMap 触发几率表(真实触发)
@@ -362,21 +371,21 @@ export class Enemy implements EnemyData {
     do {
       // [1.直接伤害] 将伤害平分给每个弹片 不满整个的按比例计算
       this.applyDmg(dmgs.map(([vn, vv]) => [vn, vv * (bls >= 1 ? 1 : bls) / bullets] as [string, number]));
-      // [2.腐蚀扒皮] 离散计算腐蚀触发
+      // [2.腐蚀扒皮] 连续计算腐蚀触发
       if (procChance[DamageType.Corrosive] && procChance[DamageType.Corrosive][1] > 0) {
         this.currentArmor *= (0.75 ** procChance[DamageType.Corrosive][1]);
       }
       // [3.病毒少血/磁力少盾]
-      if (procChance[DamageType.Magnetic] && procChance[DamageType.Magnetic][1] > 0 && this.currentProcs[DamageType.Viral] < 0) {
-
+      if (procChance[DamageType.Magnetic] && procChance[DamageType.Magnetic][1] > 0) {
+        this.currentSheild *= (0.25 ** procChance[DamageType.Magnetic][1]);
       }
       if (procChance[DamageType.Viral] && procChance[DamageType.Viral][1] > 0 && this.currentProcs[DamageType.Viral] < 0) {
-        // 将病毒触发离散化计算增伤
+        // 将病毒触发连续化计算增伤
         let newViral = (this.currentProcs[DamageType.Viral] || 0) + procChance[DamageType.Viral][1];
         this.currentProcs[DamageType.Viral] = newViral > 1 ? 1 : newViral;
       }
       // [4.DoT伤害]
-      this.applyDmg(dotDamageMap);
+      this.applyDoTDmg(dotDamageMap);
     } while (--bls > 0)
   }
 }
