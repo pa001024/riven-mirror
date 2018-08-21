@@ -231,22 +231,24 @@ export abstract class ModBuild {
   /** 触发伤害(各属性) */
   get dotDamageMap() {
     let procs = this.procChanceMap;
+    let toxinDmg = 0;
     return procs.map(([vn, vv]) => {
       switch (vn) {
         // 切割伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E5%88%87%E5%89%B2%E4%BC%A4%E5%AE%B3
         case "Slash":
-          return vv * this.baseDamage * 0.35 * ~~(6 * this.procDurationMul + 1);
+          return [DamageType.True, vv * this.baseDamage * 0.35 * ~~(6 * this.procDurationMul + 1)];
         // 毒素伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E7%B4%A0%E4%BC%A4%E5%AE%B3
         case "Toxin":
         case "Gas":
-          return vv * this.toxinBaseDamage * 0.5 * ~~(8 * this.procDurationMul + 1);
+          toxinDmg += vv * this.toxinBaseDamage * 0.5 * ~~(8 * this.procDurationMul + 1);
+          return [DamageType.Toxin, toxinDmg];
         // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
         // 火焰触发不会叠加所以只计算一跳
         case "Heat":
-          return vv * this.heatBaseDamage * 0.5;
+          return [DamageType.Heat, vv * this.heatBaseDamage * 0.5];
       }
       return null;
-    }).filter(Boolean);
+    }).filter(Boolean) as [DamageType, number][];
   }
 
   /** 总触发伤害 */
@@ -271,7 +273,7 @@ export abstract class ModBuild {
   get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul, this.handShotDmgMul); }
   /** 基伤 */
   get baseDamage() { return hAccMul(this.originalDamage, this.baseDamageMul, this.critDamageMul); }
-  /** 毒和毒气DoT的基伤 */
+  /** 毒DoT的基伤 */
   get toxinBaseDamage() { return hAccMul(this.baseDamage, (1 + this.toxinMul)); }
   /** 火DoT的基伤 */
   get heatBaseDamage() { return hAccMul(this.baseDamage, (1 + this.heatMul)); }

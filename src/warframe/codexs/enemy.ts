@@ -13,6 +13,7 @@ export enum DamageType {
   /** 磁力 */ Magnetic = "Magnetic",
   /** 辐射 */ Radiation = "Radiation",
   /** 病毒 */ Viral = "Viral",
+  /** 真实 */ True = "True",
 }
 
 export interface DamageTypeData {
@@ -371,14 +372,15 @@ export class Enemy implements EnemyData {
     do {
       // [1.直接伤害] 将伤害平分给每个弹片 不满整个的按比例计算
       this.applyDmg(dmgs.map(([vn, vv]) => [vn, vv * (bls >= 1 ? 1 : bls) / bullets] as [string, number]));
-      // [2.腐蚀扒皮] 连续计算腐蚀触发
+      // [2.腐蚀扒皮] 计算腐蚀触发(连续)
       if (procChance[DamageType.Corrosive] && procChance[DamageType.Corrosive][1] > 0) {
         this.currentArmor *= (0.75 ** procChance[DamageType.Corrosive][1]);
       }
-      // [3.病毒少血/磁力少盾]
+      // [3.1.磁力少盾]
       if (procChance[DamageType.Magnetic] && procChance[DamageType.Magnetic][1] > 0) {
         this.currentSheild *= (0.25 ** procChance[DamageType.Magnetic][1]);
       }
+      // [3.2.病毒少血]
       if (procChance[DamageType.Viral] && procChance[DamageType.Viral][1] > 0 && this.currentProcs[DamageType.Viral] < 0) {
         // 将病毒触发连续化计算增伤
         let newViral = (this.currentProcs[DamageType.Viral] || 0) + procChance[DamageType.Viral][1];
@@ -387,6 +389,19 @@ export class Enemy implements EnemyData {
       // [4.DoT伤害]
       this.applyDoTDmg(dotDamageMap);
     } while (--bls > 0)
+  }
+
+  /**
+   * 计算单发射击后怪物血量剩余情况(离散)
+   *
+   * @param {[string, number][]} dmgs 伤害表
+   * @param {[string, number][]} procChanceMap 触发几率表(真实触发)
+   * @param {[string, number][]} dotDamageMap 触发伤害表(DoT)
+   * @param {number} bullets 弹片数
+   * @memberof Enemy
+   */
+  applyHitDis(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets: number = 1) {
+
   }
 }
 

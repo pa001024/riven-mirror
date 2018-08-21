@@ -154,6 +154,50 @@ export default class App extends Vue {
   float: left;
 }
 
+.beta {
+  font-size: 0.4em;
+}
+#app .el-header {
+  display: flex;
+  align-items: center;
+  background-color: #3d5afe;
+  color: #fff;
+  padding: 0 10px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.25);
+  text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.el-header h1 {
+  margin: 0 0 0 16px;
+  font-weight: normal;
+  font-family: FuturaPT, "Helvetica Neue", Helvetica, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-size: 24px;
+  user-select: none;
+}
+.el-main {
+  background-color: #ecf0f1;
+  color: #333;
+}
+.site-logo {
+  display: flex;
+  align-items: inherit;
+  cursor: pointer;
+}
+.header-watch {
+  margin-left: 60px;
+}
+.i-mirror-logo {
+  background-image: url("assets/LOGO@4x.png");
+  background-size: 100%;
+  width: 60px;
+  height: 60px;
+  background-repeat: no-repeat;
+  background-position: center;
+  float: left;
+}
+/* 字体 */
+
 @font-face {
   font-family: FuturaPT;
   src: url("/static/fonts/Futura Heavy Italic BT.ttf");
@@ -211,6 +255,8 @@ export default class App extends Vue {
   content: "";
 }
 
+/* 全局样式 */
+
 html,
 body {
   margin: 0;
@@ -226,57 +272,14 @@ h3 {
   margin: 0;
   padding: 0;
 }
-.beta {
-  font-size: 0.4em;
-}
 .block {
   display: block;
   width: 100%;
-}
-#app .el-header {
-  display: flex;
-  align-items: center;
-  background-color: #3d5afe;
-  color: #fff;
-  padding: 0 10px;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.25);
-  text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-.el-header h1 {
-  margin: 0 0 0 16px;
-  font-weight: normal;
-  font-family: FuturaPT, "Helvetica Neue", Helvetica, "PingFang SC",
-    "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-  font-size: 24px;
-  user-select: none;
 }
 ul,
 ol {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-
-.el-main {
-  background-color: #ecf0f1;
-  color: #333;
-}
-.site-logo {
-  display: flex;
-  align-items: inherit;
-  cursor: pointer;
-}
-.header-watch {
-  margin-left: 60px;
-}
-.i-mirror-logo {
-  background-image: url("assets/LOGO@4x.png");
-  background-size: 100%;
-  width: 60px;
-  height: 60px;
-  background-repeat: no-repeat;
-  background-position: center;
-  float: left;
 }
 </style>

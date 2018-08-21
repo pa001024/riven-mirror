@@ -22,7 +22,7 @@
       <div style="margin: 8px;">手动输入:</div>
       <RivenEditor style="margin: 8px;" v-model="editorRivenCode" :weapon="build.rivenWeapon"></RivenEditor>
       <div style="text-align: right; margin: 0">
-        <el-button type="primary" size="medium" @click="newRiven">确定</el-button>
+        <el-button type="primary" size="medium" @click="newRiven()">确定</el-button>
       </div>
     </el-tab-pane>
   </el-tabs>
