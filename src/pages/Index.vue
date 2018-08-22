@@ -271,6 +271,7 @@ export default class Index extends Vue {
   padding: 14px 28px;
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 .index-card .info {
   flex: 1;
@@ -296,7 +297,7 @@ export default class Index extends Vue {
   color: #3d5afe;
   text-align: right;
   float: right;
-  margin: 22px 24px 0px 20px;
+  margin: 22px 24px 0 0;
 }
 .index-card .time {
   color: #999;
@@ -310,7 +311,7 @@ export default class Index extends Vue {
   display: inline-block;
   padding: 8px 16px;
   border-radius: 4px;
-  margin: 16px 24px 0;
+  margin: 16px 0 0 24px;
 }
 .index-card .el-card__header {
   background: #3d5afe;
@@ -327,9 +328,6 @@ export default class Index extends Vue {
 .content {
   height: 100%;
   width: 1920px;
-}
-.index-clock {
-  border: 0;
 }
 .index {
   flex-flow: column wrap;
@@ -377,16 +375,15 @@ export default class Index extends Vue {
   flex-wrap: wrap;
 }
 .clock-body .title {
-  font-size: 1.1rem;
+  font-size: calc(4vw - 2px);
   text-align: center;
   color: #ffffff;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 .clock-body .time {
-  width: 100%;
   font-family: SAOUI;
-  font-size: 3rem;
-  padding: 10px 0;
+  font-size: calc(11vw - 5px);
+  padding: 3vw 0;
   text-align: center;
   color: #ffffff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
@@ -396,6 +393,13 @@ export default class Index extends Vue {
   border: 0;
 }
 @media only screen and (min-width: 767px) {
+  .clock-body .title {
+    font-size: calc(2vw - 2px);
+  }
+  .clock-body .time {
+    padding: calc(1.4vw - 1px) 0;
+    font-size: calc(5.2vw - 5px);
+  }
   .wrapper {
     overflow: hidden;
   }
@@ -407,8 +411,14 @@ export default class Index extends Vue {
     max-height: calc(100vh - 178px);
     overflow-y: auto;
   }
+}
+@media only screen and (min-width: 1200px) {
+  .clock-body .title {
+    font-size: calc(1.3vw - 1px);
+  }
   .clock-body .time {
-    padding: 20px 0;
+    padding: calc(1vw - 1px) 0;
+    font-size: calc(3.5vw - 2.8px);
   }
 }
 </style>

@@ -1874,7 +1874,7 @@ const _transData = [
   { "id": "Baro Wallpaper", "name": "KI'TEER 室内壁纸", "type": "Other" },
   { "id": "Corpus Razorback Project", "name": "利刃豺狼舰队", "type": "Word" },
   { "id": "Ghoul Purge", "name": "尸鬼入侵", "type": "Word" },
-  { "id": "Lotus的礼物 - 失窃!", "name": "Gifts Of The Lotus - Stolen!", "type": "Word" },
+  { "id": "Gifts Of The Lotus - Stolen!", "name": "Lotus的礼物 - 失窃!", "type": "Word" },
   { "id": "Plague Star", "name": "瘟疫之星", "type": "Word" },
   { "id": "Balor Fomorian", "name": "巨人战舰", "type": "Word" },
   { "id": "Tac Alert Proxy Rebellion", "name": "机械叛乱", "type": "Word" },
@@ -1883,6 +1883,7 @@ const _transData = [
   { "id": "News", "name": "新闻", "type": "Word" },
   { "id": "Fissures", "name": "裂缝", "type": "Word" },
   { "id": "Remaining", "name": "剩余", "type": "Word" },
+  { "id": "Plains of Eidolon", "name": "夜灵平野", "type": "Node" },
 ];
 
 const _partSubfixs = [

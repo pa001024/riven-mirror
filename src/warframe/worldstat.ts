@@ -317,7 +317,7 @@ export class WorldStat {
    * @param node 节点
    */
   nodeTranslate(node: string) {
-    return node.replace(/\((.+)\)/, (_, a) => `| ${Translator.getLocText(a)}`);
+    return node.replace(/(.+) \((.+)\)/, (_, a, b) => `${Translator.getLocText(a)} | ${Translator.getLocText(b)}`);
   }
   /**
    * 突击信息
@@ -347,13 +347,15 @@ export class WorldStat {
       .filter(v => v.mission.reward.items.length > 0 && !this.filterType.includes(v.rewardTypes[0])));
   }
 
+  filterMission = ["Mobile Defense", "Interception"];
   /**
    * 裂缝信息
    */
   get fissures() {
     if (!this.data) return [];
     return this.deepTranslate(this.data.fissures
-      .filter(v => v.missionType !== "Mobile Defense" && v.missionType !== "Interception"));
+      .filter(v => !this.filterMission.includes(v.missionType))
+      .sort((a, b) => a.tierNum - b.tierNum));
   }
 
   /**
