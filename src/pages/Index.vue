@@ -221,7 +221,7 @@ export default class Index extends Vue {
       this.news = this.stat.news;
       this.fissures = this.stat.fissures;
       this.$nextTick(() => this.resize());
-    }).catch(() => setTimeout(() => this.updateStat(), 5e3));
+    }).catch(() => setTimeout(() => this.updateStat(), 1e3));
   }
   updateTime() {
     this.seconds = ~~(Date.now() / 1e3);
@@ -247,13 +247,16 @@ export default class Index extends Vue {
   text-decoration: none;
   color: #222;
   transition: 0.4s;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .index-card.news li a:hover {
   text-decoration: underline;
   color: #3d5afe;
 }
 .index-card.fissure .mission {
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: normal;
 }
 
@@ -273,6 +276,9 @@ export default class Index extends Vue {
   align-items: center;
   white-space: nowrap;
 }
+.index-card.info ul li {
+  white-space: normal;
+}
 .index-card .info {
   flex: 1;
 }
@@ -280,11 +286,11 @@ export default class Index extends Vue {
   text-align: right;
 }
 .index-card .tier {
-  font-size: 1.5rem;
+  font-size: 1.5em;
   font-weight: 300;
 }
 .index-card .mission {
-  font-size: 1.5rem;
+  font-size: 1.5em;
   font-weight: 300;
 }
 .index-card .modifier,
@@ -419,6 +425,11 @@ export default class Index extends Vue {
   .clock-body .time {
     padding: calc(1vw - 1px) 0;
     font-size: calc(3.5vw - 2.8px);
+  }
+}
+@media only screen and (max-width: 444px) {
+  body {
+    font-size: 13px;
   }
 }
 </style>

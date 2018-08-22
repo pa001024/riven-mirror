@@ -1653,7 +1653,7 @@ const _transData = [
   { "id": "Right Prisma Daedalus Shoulderguard", "name": "棱晶 代达罗斯 右护肩", "type": "Other" },
   { "id": "Zephyr Immortal Skin", "name": "ZEPHYR 不朽外观", "type": "Other" },
   { "id": "Noggle Statue - Baro Ki'teer", "name": "BARO KI'TEER 摇头娃娃", "type": "Other" },
-  { "id": "双子葛拉卡达 夏至外观", "name": "Twin Grakata Towsun Skin", "type": "Other" },
+  { "id": "Twin Grakata Towsun Skin", "name": "双子葛拉卡达 夏至外观", "type": "Other" },
   { "id": "Ki'teer Leg Plates", "name": "KI'TEER 腿部护甲", "type": "Other" },
   { "id": "Ki'teer Shoulder Plates", "name": "KI'TEER 肩部护甲", "type": "Other" },
   { "id": "Ki'teer Chest Plate", "name": "KI'TEER 胸部护甲", "type": "Other" },
