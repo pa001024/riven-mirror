@@ -195,6 +195,71 @@ export const EnemyList = _enemyList.map(v => ({
   ignoreProc: v[11],
 })) as EnemyData[];
 
+export class Procs {
+  // [伤害, 剩余时间]
+  Slash: [number, number][] = [];
+  Heat: [number, number] = null;
+  Toxin: [number, number][] = [];
+  Viral: number = 0;
+
+  /**
+   * 加入触发伤害
+   *
+   * @param {DamageType} dtype 伤害类型
+   * @param {number} dmg 伤害值
+   * @param {number} durationMul 持续时间倍率
+   * @memberof Procs
+   */
+  push(dtype: DamageType, dmg: number, durationMul: number) {
+    switch (dtype) {
+      // 切割伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E5%88%87%E5%89%B2%E4%BC%A4%E5%AE%B3
+      case "Slash":
+        this.Slash.push([dmg, ~~(6 * durationMul)]);
+        break;
+      // 毒素伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E7%B4%A0%E4%BC%A4%E5%AE%B3
+      case "Toxin":
+      case "Gas":
+        this.Toxin.push([dmg, ~~(8 * durationMul)]);
+        break;
+      // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
+      // 注:火焰触发不会叠加
+      case "Heat":
+        if (!this.Heat)
+          this.Heat = ([dmg, ~~(8 * durationMul)]);
+        break;
+    }
+  }
+
+  /**
+   *
+   *
+   * @returns {[DamageType, number][]}
+   * @memberof Procs
+   */
+  pop(): [DamageType, number][] {
+    // 求和 然后去掉持续时间到0的
+    let totalSlash = this.Slash.reduce((a, b) => a + b[0], 0);
+    this.Slash = this.Slash.filter(v => --v[1] > 0) as [number, number][];
+    let totalToxin = this.Toxin.reduce((a, b) => a + b[0], 0);
+    this.Toxin = this.Toxin.filter(v => --v[1] > 0) as [number, number][];
+    let totalHeat = this.Heat ? this.Heat[0] : 0;
+    if (this.Heat && this.Heat[1] <= 1)
+      this.Heat = null;
+    let dmgs = [];
+    if (totalSlash > 0) dmgs.push([DamageType.True, totalSlash]);
+    if (totalToxin > 0) dmgs.push([DamageType.Toxin, totalToxin]);
+    if (totalHeat > 0) dmgs.push([DamageType.Heat, totalHeat]);
+    return dmgs;
+  }
+}
+
+export interface EnemySecondState {
+  health: number;
+  sheild: number;
+  armor: number;
+}
+
+
 export class Enemy implements EnemyData {
   // === 静态属性 ===
   id: string;
@@ -221,10 +286,13 @@ export class Enemy implements EnemyData {
     this._level = value;
     this.reset();
   }
-  currentHealth: number;
-  currentSheild: number;
-  currentArmor: number;
-  currentProcs: { [key: string]: number }
+  currentHealth: number = 0;
+  currentSheild: number = 0;
+  currentArmor: number = 0;
+  currentProcs: Procs;
+
+  stateHistory: EnemySecondState[] = [];
+
   // === 计算属性 ===
   /**
    * 当前等级基础生命
@@ -250,7 +318,8 @@ export class Enemy implements EnemyData {
     this.currentHealth = this.health;
     this.currentSheild = this.sheild;
     this.currentArmor = this.armor;
-    this.currentProcs = {};
+    this.currentProcs = new Procs();
+    this.stateHistory = [];
   }
 
   /**
@@ -262,8 +331,8 @@ export class Enemy implements EnemyData {
     [this.id, this.name, this.faction] = [id, name, faction];
     [this.baseLevel, this.baseHealth, this.baseSheild, this.baseArmor] = [baseLevel, baseHealth, baseSheild, baseArmor];
     [this.fleshType, this.sheildType, this.armorType] = [fleshType, sheildType, armorType];
-    this.level = level;
     this.resistence = resistence;
+    this.level = level;
   }
 
   /**
@@ -334,27 +403,29 @@ export class Enemy implements EnemyData {
    */
   applyDmg(dmgs: [string, number][]) {
     let mapped = this.mapDamage(dmgs);
-    let totalDmg = mapped.reduce((a, b) => a + b[1], 0)
+    let totalDmg = mapped.reduce((a, b) => a + b[1], 0);
 
     for (let i = 0; i < mapped.length; i++) {
       let [id, dmg] = mapped[i];
       // 真实伤害
       if (id === DamageType.True) {
-        // TODO
-      }
-      // 毒素穿透护盾
-      if (this.currentSheild > 0) {
-        if (id === DamageType.Toxin) {
-          let dtype = Damage2_0.getDamageType(id as DamageType);
-          let HM = dtype.dmgMul[this.fleshType];
-          let AM = dtype.dmgMul[11 + this.armorType];
-          let DM = (1 + HM) * (1 + AM) / (1 + this.currentArmor * (1 - AM) / 300);
-          this.currentHealth -= dmgs[i][1] * DM;
-        } else {
-          this.currentSheild -= dmg;
-        }
-      } else {
         this.currentHealth -= dmg;
+        // TODO
+      } else {
+        // 毒素穿透护盾
+        if (this.currentSheild > 0) {
+          if (id === DamageType.Toxin) {
+            let dtype = Damage2_0.getDamageType(id as DamageType);
+            let HM = dtype.dmgMul[this.fleshType];
+            let AM = dtype.dmgMul[11 + this.armorType];
+            let DM = (1 + HM) * (1 + AM) / (1 + this.currentArmor * (1 - AM) / 300);
+            this.currentHealth -= dmgs[i][1] * DM;
+          } else {
+            this.currentSheild -= dmg;
+          }
+        } else {
+          this.currentHealth -= dmg;
+        }
       }
     }
     // 如果伤害穿透护盾之后还有剩 按剩余比例再计算一次
@@ -377,20 +448,22 @@ export class Enemy implements EnemyData {
       switch (vn) {
         // 切割伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E5%88%87%E5%89%B2%E4%BC%A4%E5%AE%B3
         case "Slash":
-          this.currentProcs[DamageType.Slash];
+          this.currentProcs.push(DamageType.Slash, vv, durationMul);
           return [DamageType.True, vv];
         // 毒素伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E7%B4%A0%E4%BC%A4%E5%AE%B3
         case "Toxin":
         case "Gas":
+          this.currentProcs.push(DamageType.Toxin, vv, durationMul);
           return [DamageType.Toxin, vv];
         // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
         // 注:火焰触发不会叠加
         case "Heat":
-          return [DamageType.Toxin, vv];
+          this.currentProcs.push(DamageType.Heat, vv, durationMul);
+          return [DamageType.Heat, vv];
       }
-    });
+    }) as [DamageType, number][];
+    this.applyDmg(immediateDamages);
   }
-
   /**
    * 计算单发射击后怪物血量剩余情况(连续)
    *
@@ -406,7 +479,7 @@ export class Enemy implements EnemyData {
     let bls = bullets;
     while (bls > 0) {
       // [1.按当前病毒触发比例减少血上限]
-      let currentViral = this.currentProcs[DamageType.Viral] || 0;
+      let currentViral = this.currentProcs.Viral;
       this.currentHealth *= (1 - 0.5 * currentViral);
       // [2.直接伤害] 将伤害平分给每个弹片 不满整个的按比例计算
       this.applyDmg(dmgs.map(([vn, vv]) => [vn, vv * (bls >= 1 ? 1 : bls) / bullets] as [string, number]));
@@ -419,10 +492,10 @@ export class Enemy implements EnemyData {
         this.currentSheild *= (0.25 ** procChance[DamageType.Magnetic][1]);
       }
       // [4.2.病毒少血]
-      if (procChance[DamageType.Viral] && procChance[DamageType.Viral][1] > 0 && this.currentProcs[DamageType.Viral] < 0) {
+      if (procChance[DamageType.Viral] && procChance[DamageType.Viral][1] > 0 && this.currentProcs.Viral < 1) {
         // 将病毒触发连续化计算增伤
         let newViral = currentViral + procChance[DamageType.Viral][1];
-        this.currentProcs[DamageType.Viral] = newViral > 1 ? 1 : newViral;
+        this.currentProcs.Viral = newViral > 1 ? 1 : newViral;
       }
       // [5.DoT伤害]
       this.applyDoTDmg(dotDamageMap, durationMul);
@@ -431,13 +504,34 @@ export class Enemy implements EnemyData {
       bls = hAccSum(bls, -1);
     }
   }
+
+  /**
+   * 将计时器进入下一秒
+   */
+  nextSecond() {
+    let dotDmgs = this.currentProcs.pop();
+    this.applyDmg(dotDmgs);
+    this.stateHistory.push({
+      health: this.currentHealth,
+      sheild: this.currentSheild,
+      armor: this.currentArmor,
+    })
+  }
+
   /**
    * 生成伤害时间线
    *
    * @memberof Enemy
    */
   generateDamageTimeline() {
-
+    this.reset();
+    let seconds = 0;
+    while (seconds < 30) {
+      this.nextSecond();
+      ++seconds;
+    }
+    // TODO
+    this.reset();
   }
 }
 

@@ -60,7 +60,7 @@
               <li v-for="(v, i) in alerts" :key="i">
                 <div class="info">
                   <div class="mission">{{v.mission.type}}</div>
-                  <div class="reward">{{v.mission.reward.items.join(" + ")}}</div>
+                  <div class="reward">{{v.mission.reward.itemString}}</div>
                 </div>
                 <div class="misc">
                   <div class="node">

@@ -12,19 +12,29 @@ export abstract class BaseBuildEditor extends Vue {
   abstract get weapon(): Weapon;
   abstract get rWeapon(): RivenWeapon;
   tabs: BuildSelectorTab[] = [];
-  tabValue = "common";
+  tabValue = "SET A";
   selectModIndex = 0;
   dialogVisible = false;
   abstract newBuild(...parms): ModBuild;
 
   reload() {
     this.tabs = [{
-      title: "通用配置",
-      name: "common",
+      title: "配置A",
+      name: "SET A",
+      build: this.newBuild(this.weapon),
+      mods: Array(8)
+    }, {
+      title: "配置B",
+      name: "SET B",
+      build: this.newBuild(this.weapon),
+      mods: Array(8)
+    }, {
+      title: "配置C",
+      name: "SET C",
       build: this.newBuild(this.weapon),
       mods: Array(8)
     }];
-    this.tabValue = 'common';
+    this.tabValue = "SET A";
   }
 
   is(tag: string) {

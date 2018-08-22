@@ -249,12 +249,14 @@ export default class GunBuildEditor extends BaseBuildEditor {
 .enemy-info td.control .el-input__inner {
   padding: 0 12px;
 }
-/* .enemy-info td.control input{} */
+.enemy-info td {
+  width: 100%;
+}
 .enemy-info th {
   white-space: nowrap;
   overflow: hidden;
   text-align: left;
-  background: #6199ff;
+  background: #89b2fd;
   border-radius: 4px;
   color: #fff;
   font-weight: 500;

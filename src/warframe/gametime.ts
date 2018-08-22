@@ -44,8 +44,8 @@ export class CetusTime {
   /** 返回 白昼/黄昏/日落/夜晚/黎明/日出/早晨 */
   static get phaseText() {
     let sec = this.secords;
-    if (sec > 6600) return "夜晚"; // 02:30 ~ 01:50
-    if (sec > 5580) return "黎明"; // 01:50 ~ 01:33
+    if (sec > 6000) return "夜晚"; // 02:30 ~ 01:40
+    if (sec > 5580) return "黎明"; // 01:40 ~ 01:33
     if (sec > 5220) return "日出"; // 01:33 ~ 01:27
     if (sec > 4080) return "早晨"; // 01:27 ~ 01:08
     if (sec > 600) return "白昼"; // 01:08 ~ 00:10

@@ -5,7 +5,7 @@ import { Translator } from "@/warframe/translate";
 export interface WarframeStat {
   timestamp: string;
   news: News[];
-  events: any[];
+  events: Event[];
   alerts: Alert[];
   sortie: Sortie;
   syndicateMissions: SyndicateMission[];
@@ -182,6 +182,20 @@ export interface SyndicateMission {
   eta: string;
 }
 
+export interface Event {
+  id: string;
+  expiry: string;
+  description: string;
+  tooltip: string;
+  concurrentNodes: any[];
+  victimNode: string;
+  rewards: any[];
+  expired: boolean;
+  health: string;
+  affiliatedWith: string;
+  jobs: Job[];
+  asString: string;
+}
 export interface Job {
   id: string;
   type: string;
@@ -337,14 +351,14 @@ export class WorldStat {
     return this.deepTranslate(this.data.sortie);
   }
 
-  filterType = ["nightmare", "endo"];
+  filterType = ["nightmare", "endo", "traces", "credits"];
   /**
    * 警报信息
    */
   get alerts() {
     if (!this.data) return [];
     return this.deepTranslate(this.data.alerts
-      .filter(v => v.mission.reward.items.length > 0 && !this.filterType.includes(v.rewardTypes[0])));
+      .filter(v => !this.filterType.includes(v.rewardTypes[0])));
   }
 
   filterMission = ["Mobile Defense", "Interception"];
