@@ -1,3 +1,5 @@
+import { hAccSum, hAccMul } from "@/warframe/util";
+
 /** 伤害类型 */
 export enum DamageType {
   /** 冲击 */ Impact = "Impact",
@@ -119,7 +121,7 @@ export enum ArmorType {
   AlloyArmor,
 }
 
-const _armorType = [
+const _armorTypeName = [
   "铁制装甲",
   "合金装甲",
 ];
@@ -146,33 +148,36 @@ export interface EnemyData {
   fleshType: FleshType;
   sheildType: SheildType;
   armorType: ArmorType;
+  resistence: number;
+  ignoreProc: boolean;
 }
 
 const _enemyList = [
-  ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 2500, 200, 7, 0, 1],  // 生成等级: 50 外加75%减伤 关节是总血量1/6
-  ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 2500, 200, 7, 0, 1], // 生成等级: 55 外加75%减伤 关节是总血量1/6
-  ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 2500, 200, 7, 0, 1], // 生成等级: 60 外加75%减伤 关节是总血量1/6
-  ["MOA", "恐鸟", 2, 1, 60, 150, 0, 7, 0, 0],
-  ["Fusion MOA", "熔岩恐鸟", 2, 10, 250, 250, 0, 7, 0, 0],
-  ["Anti MOA", "逆进恐鸟", 2, 5, 50, 500, 0, 7, 0, 0],
-  ["Shockwave MOA", "震荡恐鸟", 2, 15, 60, 150, 0, 7, 0, 0],
-  ["Crewman", "船员", 2, 1, 60, 150, 0, 0, 0, 0],
-  ["Comba", "驱逐员", 2, 15, 1100, 400, 0, 0, 0, 0],
-  ["Corpus Tech", "Corpus技师", 2, 15, 700, 250, 0, 0, 1, 0],
-  ["Toxic Ancient", "远古剧毒者", 3, 1, 400, 0, 0, 2, 0, 0],
-  ["Ancient Disrupter", "远古干扰者", 3, 1, 400, 0, 0, 2, 0, 0],
-  ["Bombard", "轰击者", 1, 1, 500, 0, 95, 1, 0, 0],
-  ["Napalm", "火焰轰击者", 1, 6, 600, 0, 500, 1, 0, 1],
-  ["Elite Lancer", "精英枪兵", 1, 15, 150, 0, 200, 1, 0, 1],
-  ["Heavy Gunner", "重型机枪手", 1, 8, 300, 0, 500, 1, 0, 0],
-  ["Ballista", "弩炮", 1, 1, 100, 0, 100, 1, 0, 0],
-  ["Drahk Master", "爪喀驯兽师", 1, 12, 500, 0, 200, 1, 0, 0],
-  ["Hyekka Master", "鬣猫驯兽师", 1, 12, 650, 0, 200, 1, 0, 0],
-  ["Commander", "指挥官", 1, 3, 300, 0, 500, 1, 0, 1],
-  ["Corrupted Bombard", "堕落轰击者", 4, 4, 300, 0, 500, 1, 0, 1],
-  ["Corrupted Heavy Gunner", "堕落重型机枪手", 4, 8, 700, 0, 500, 1, 0, 0],
-  ["Corrupted Ancient", "远古堕落者", 4, 1, 400, 0, 0, 2, 0, 0],
-] as [string, string, number, number, number, number, number, number, number, number][];
+  ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 2500, 200, 7, 0, 1, 0.75, true],
+  ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 2500, 200, 7, 0, 1, 0.75, true],
+  ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 2500, 200, 7, 0, 1, 0.75, true],
+  ["Teralyst Synovia", "兆力使骨液", 5, 1, 3000, 2500, 200, 7, 0, 1, 0.75, true],
+  ["MOA", "恐鸟", 2, 1, 60, 150, 0, 7, 0, 0, 0, false],
+  ["Fusion MOA", "熔岩恐鸟", 2, 10, 250, 250, 0, 7, 0, 0, 0, false],
+  ["Anti MOA", "逆进恐鸟", 2, 5, 50, 500, 0, 7, 0, 0, 0, false],
+  ["Shockwave MOA", "震荡恐鸟", 2, 15, 60, 150, 0, 7, 0, 0, 0, false],
+  ["Crewman", "船员", 2, 1, 60, 150, 0, 0, 0, 0, 0, false],
+  ["Comba", "驱逐员", 2, 15, 1100, 400, 0, 0, 0, 0, 0, false],
+  ["Corpus Tech", "Corpus技师", 2, 15, 700, 250, 0, 0, 1, 0, 0, false],
+  ["Toxic Ancient", "远古剧毒者", 3, 1, 400, 0, 0, 2, 0, 0, 0, false],
+  ["Ancient Disrupter", "远古干扰者", 3, 1, 400, 0, 0, 2, 0, 0, 0, false],
+  ["Bombard", "轰击者", 1, 1, 500, 0, 95, 1, 0, 1, 0, false],
+  ["Napalm", "火焰轰击者", 1, 6, 600, 0, 500, 1, 0, 1, 0, false],
+  ["Elite Lancer", "精英枪兵", 1, 15, 150, 0, 200, 1, 0, 1, 0, false],
+  ["Heavy Gunner", "重型机枪手", 1, 8, 300, 0, 500, 1, 0, 0, 0, false],
+  ["Ballista", "弩炮", 1, 1, 100, 0, 100, 1, 0, 0, 0, false],
+  ["Drahk Master", "爪喀驯兽师", 1, 12, 500, 0, 200, 1, 0, 0, 0, false],
+  ["Hyekka Master", "鬣猫驯兽师", 1, 12, 650, 0, 200, 1, 0, 0, 0, false],
+  ["Commander", "指挥官", 1, 3, 300, 0, 500, 1, 0, 1, 0, false],
+  ["Corrupted Bombard", "堕落轰击者", 4, 4, 300, 0, 500, 1, 0, 1, 0, false],
+  ["Corrupted Heavy Gunner", "堕落重型机枪手", 4, 8, 700, 0, 500, 1, 0, 0, 0, false],
+  ["Corrupted Ancient", "远古堕落者", 4, 1, 400, 0, 0, 2, 0, 0, 0, false],
+] as [string, string, number, number, number, number, number, number, number, number, number, boolean][];
 
 /** 敌人列表 */
 export const EnemyList = _enemyList.map(v => ({
@@ -186,13 +191,16 @@ export const EnemyList = _enemyList.map(v => ({
   fleshType: v[7],
   sheildType: v[8],
   armorType: v[9],
-}));
+  resistence: v[10],
+  ignoreProc: v[11],
+})) as EnemyData[];
 
 export class Enemy implements EnemyData {
   // === 静态属性 ===
   id: string;
   name: string;
   faction: EnemyFaction;
+  get factionName() { return EnemyFaction[this.faction]; }
   baseLevel: number;
   baseHealth: number;
   baseSheild: number;
@@ -200,6 +208,12 @@ export class Enemy implements EnemyData {
   fleshType: FleshType;
   sheildType: SheildType;
   armorType: ArmorType;
+  get fleshTypeName() { return _fleshTypeName[this.fleshType]; }
+  get sheildTypeName() { return _sheildTypeName[this.sheildType]; }
+  get armorTypeName() { return _armorTypeName[this.armorType]; }
+  resistence: number;
+  get resistenceText() { return this.resistence && (this.resistence * 100).toFixed() + "%"; }
+  ignoreProc: boolean;
   // === 动态属性 ===
   private _level: number;
   public get level(): number { return this._level; }
@@ -244,11 +258,12 @@ export class Enemy implements EnemyData {
    * @param {EnemyData} obj 参数对象
    * @param level 等级
    */
-  constructor({ id, name, faction, baseLevel, baseHealth, baseSheild, baseArmor, fleshType, sheildType, armorType }: EnemyData, level: number) {
+  constructor({ id, name, faction, baseLevel, baseHealth, baseSheild, baseArmor, fleshType, sheildType, armorType, resistence }: EnemyData, level: number) {
     [this.id, this.name, this.faction] = [id, name, faction];
     [this.baseLevel, this.baseHealth, this.baseSheild, this.baseArmor] = [baseLevel, baseHealth, baseSheild, baseArmor];
     [this.fleshType, this.sheildType, this.armorType] = [fleshType, sheildType, armorType];
     this.level = level;
+    this.resistence = resistence;
   }
 
   /**
@@ -323,6 +338,10 @@ export class Enemy implements EnemyData {
 
     for (let i = 0; i < mapped.length; i++) {
       let [id, dmg] = mapped[i];
+      // 真实伤害
+      if (id === DamageType.True) {
+        // TODO
+      }
       // 毒素穿透护盾
       if (this.currentSheild > 0) {
         if (id === DamageType.Toxin) {
@@ -349,11 +368,27 @@ export class Enemy implements EnemyData {
   /**
    * 应用DoT伤害
    *
-   * @param {[string, number][]} dmgs
+   * @param {[string, number][]} dmgs DoT单跳伤害列表
+   * @param {number} durationMul DoT伤害
    * @memberof Enemy
    */
-  applyDoTDmg(dmgs: [string, number][]) {
-
+  applyDoTDmg(dmgs: [string, number][], durationMul: number = 1) {
+    let immediateDamages = dmgs.map(([vn, vv]) => {
+      switch (vn) {
+        // 切割伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E5%88%87%E5%89%B2%E4%BC%A4%E5%AE%B3
+        case "Slash":
+          this.currentProcs[DamageType.Slash];
+          return [DamageType.True, vv];
+        // 毒素伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E7%B4%A0%E4%BC%A4%E5%AE%B3
+        case "Toxin":
+        case "Gas":
+          return [DamageType.Toxin, vv];
+        // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
+        // 注:火焰触发不会叠加
+        case "Heat":
+          return [DamageType.Toxin, vv];
+      }
+    });
   }
 
   /**
@@ -365,42 +400,43 @@ export class Enemy implements EnemyData {
    * @param {number} bullets 弹片数
    * @memberof Enemy
    */
-  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets: number = 1) {
+  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets: number = 1, durationMul: number = 1) {
     let procChance = procChanceMap.reduce((a, [id, val]) => a[id] = val, {});
     // [0.每个弹片单独计算]
     let bls = bullets;
-    do {
-      // [1.直接伤害] 将伤害平分给每个弹片 不满整个的按比例计算
+    while (bls > 0) {
+      // [1.按当前病毒触发比例减少血上限]
+      let currentViral = this.currentProcs[DamageType.Viral] || 0;
+      this.currentHealth *= (1 - 0.5 * currentViral);
+      // [2.直接伤害] 将伤害平分给每个弹片 不满整个的按比例计算
       this.applyDmg(dmgs.map(([vn, vv]) => [vn, vv * (bls >= 1 ? 1 : bls) / bullets] as [string, number]));
-      // [2.腐蚀扒皮] 计算腐蚀触发(连续)
+      // [3.腐蚀扒皮] 计算腐蚀触发(连续)
       if (procChance[DamageType.Corrosive] && procChance[DamageType.Corrosive][1] > 0) {
         this.currentArmor *= (0.75 ** procChance[DamageType.Corrosive][1]);
       }
-      // [3.1.磁力少盾]
+      // [4.1.磁力少盾]
       if (procChance[DamageType.Magnetic] && procChance[DamageType.Magnetic][1] > 0) {
         this.currentSheild *= (0.25 ** procChance[DamageType.Magnetic][1]);
       }
-      // [3.2.病毒少血]
+      // [4.2.病毒少血]
       if (procChance[DamageType.Viral] && procChance[DamageType.Viral][1] > 0 && this.currentProcs[DamageType.Viral] < 0) {
         // 将病毒触发连续化计算增伤
-        let newViral = (this.currentProcs[DamageType.Viral] || 0) + procChance[DamageType.Viral][1];
+        let newViral = currentViral + procChance[DamageType.Viral][1];
         this.currentProcs[DamageType.Viral] = newViral > 1 ? 1 : newViral;
       }
-      // [4.DoT伤害]
-      this.applyDoTDmg(dotDamageMap);
-    } while (--bls > 0)
+      // [5.DoT伤害]
+      this.applyDoTDmg(dotDamageMap, durationMul);
+      // [6.将病毒下降的血量恢复]
+      this.currentHealth /= (1 - 0.5 * currentViral);
+      bls = hAccSum(bls, -1);
+    }
   }
-
   /**
-   * 计算单发射击后怪物血量剩余情况(离散)
+   * 生成伤害时间线
    *
-   * @param {[string, number][]} dmgs 伤害表
-   * @param {[string, number][]} procChanceMap 触发几率表(真实触发)
-   * @param {[string, number][]} dotDamageMap 触发伤害表(DoT)
-   * @param {number} bullets 弹片数
    * @memberof Enemy
    */
-  applyHitDis(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets: number = 1) {
+  generateDamageTimeline() {
 
   }
 }
@@ -417,7 +453,4 @@ export class Damage2_0 {
   }
 
   static getDamageType(id: DamageType) { return this.instance.dtypeDict.get(id); }
-  static getFleshTypeName(id: number) { return _fleshTypeName[id]; }
-  static getSheildTypeName(id: number) { return _sheildTypeName[id]; }
-  static getArmorTypeName(id: number) { return _armorType[id]; }
 }

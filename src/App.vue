@@ -254,6 +254,24 @@ export default class App extends Vue {
 .wf-icon-crossfire::before {
   content: "";
 }
+.wf-icon-madurai::before {
+  content: "";
+}
+.wf-icon-naramon::before {
+  content: "";
+}
+.wf-icon-vazarin::before {
+  content: "";
+}
+/* .wf-icon-zenurik::before {
+  content: "";
+}
+.wf-icon-umbra::before {
+  content: "";
+}
+.wf-icon-unairu::before {
+  content: "";
+} */
 
 /* 全局样式 */
 

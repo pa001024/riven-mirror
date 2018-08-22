@@ -16,9 +16,6 @@ export class Codex {
     return this.instance.modDict.get(id);
   }
   static getDamageType(id: DamageType) { return Damage2_0.getDamageType(id); }
-  static getFleshTypeName(id: number) { return Damage2_0.getFleshTypeName(id) }
-  static getSheildTypeName(id: number) { return Damage2_0.getSheildTypeName(id); }
-  static getArmorTypeName(id: number) { return Damage2_0.getArmorTypeName(id); }
   static getEnemy(id: string) { return this.instance.enemyDict.get(id); }
 }
 

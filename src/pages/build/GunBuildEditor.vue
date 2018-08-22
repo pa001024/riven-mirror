@@ -6,7 +6,7 @@
         <div class="weapon-display">
           <el-card class="weapon-box">
             <div slot="header" class="weapon-name">
-              <span>{{weapon.name}}</span>
+              <span>{{weapon.name}} - {{weapon.id}}</span>
             </div>
             <table class="weapon-props">
               <tbody>
@@ -95,30 +95,53 @@
         <!-- 幻影装置区域 -->
         <el-card class="enemy-sim">
           <div slot="header" class="enemy-sim-header">幻影装置</div>
-          <el-row v-if="enemy">
-            <!-- 敌人信息区域 -->
-            <el-col :xs="24" :sm="12" :lg="6">
-              <el-form class="enemy-sim-body">
-                <el-form-item label="敌人" class="enemy-name">
-                  {{enemy.name}}
-                </el-form-item>
-                <el-form-item label="派系" class="enemy-faction">
-                  {{enemyFaction}}
-                </el-form-item>
-                <el-form-item label="等级" class="enemy-level">
-                  <el-input size="small" class="enemy-level-edit" v-model="enemyLevel" @change="enemyLevelChange" style="width:120px"></el-input>
-                </el-form-item>
-                <el-form-item label="操作" class="enemy-level">
-                  <el-button type="primary" size="small" @click="enemy = null">重新选择</el-button>
-                </el-form-item>
-              </el-form>
-            </el-col>
-            <!-- 伤害显示区域 -->
-            <el-col :xs="24" :sm="12" :lg="18">
+          <keep-alive>
+            <el-row v-if="enemy">
+              <!-- 敌人信息区域 -->
+              <el-col :xs="24" :sm="12" :lg="6">
+                <table class="enemy-info">
+                  <tr class="enemy-name">
+                    <th>敌人</th>
+                    <td>{{enemy.name}}</td>
+                  </tr>
+                  <tr class="enemy-faction">
+                    <th>派系</th>
+                    <td>{{enemy.factionName}}</td>
+                  </tr>
+                  <tr label="等级" class="enemy-level">
+                    <th>等级</th>
+                    <td class="control"><el-input size="small" class="enemy-level-edit" v-model="enemyLevel" style="width: 80px"></el-input></td>
+                  </tr>
+                  <tr class="enemy-health">
+                    <th>{{enemy.fleshTypeName}}</th>
+                    <td>{{enemy.health.toFixed()}}</td>
+                  </tr>
+                  <tr v-if="enemy.sheild > 0" class="enemy-shield">
+                    <th>{{enemy.sheildTypeName}}</th>
+                    <td>{{enemy.sheild.toFixed()}}</td>
+                  </tr>
+                  <tr v-if="enemy.armor > 0" class="enemy-armor">
+                    <th>{{enemy.armorTypeName}}</th>
+                    <td>{{enemy.armor.toFixed()}}</td>
+                  </tr>
+                  <tr v-if="enemy.resistence > 0" class="enemy-level">
+                    <th>伤害抗性</th>
+                    <td>{{enemy.resistenceText}}</td>
+                  </tr>
+                  <tr label="操作" class="enemy-level">
+                    <th>操作</th>
+                    <td class="control"><el-button size="small" @click="enemy = null">重新选择</el-button></td>
+                    <!-- <el-button type="primary" size="small" @click="simStart()">开始模拟</el-button> -->
+                  </tr>
+                </table>
+              </el-col>
+              <!-- 伤害显示区域 -->
+              <el-col :xs="24" :sm="12" :lg="18">
 
-            </el-col>
-          </el-row>
-          <EnemySelector v-else @select="selectEnemy"></EnemySelector>
+              </el-col>
+            </el-row>
+            <EnemySelector v-else @select="selectEnemy"></EnemySelector>
+          </keep-alive>
         </el-card>
       </el-col>
     </el-row>
@@ -148,11 +171,11 @@ export default class GunBuildEditor extends BaseBuildEditor {
   isUseVelocity = false;
   enemyData: EnemyData = null;
   enemy: Enemy = null;
-  enemyLevel = 100;
-  get enemyFaction() { return this.enemy && EnemyFaction[this.enemy.faction]; }
+  enemyLevel = 155;
 
   @Watch("weapon")
   reload() { super.reload(); }
+  // [overwrite]
   reloadSelector() { this.$refs.selector && (this.$refs.selector as any).reload(); }
   newBuild(weapon: GunWeapon) {
     return new GunModBuild(weapon, null, {
@@ -163,6 +186,9 @@ export default class GunBuildEditor extends BaseBuildEditor {
     });
   }
   // === 事件处理 ===
+  simStart() {
+
+  }
   optionChange() {
     this.build.options = {
       handShotChance: this.handShotChance / 100,
@@ -171,10 +197,18 @@ export default class GunBuildEditor extends BaseBuildEditor {
       isUseVelocity: this.isUseVelocity,
     };
   }
+  spawnLevels = {
+    "Eidolon Teralyst": 50,
+    "Eidolon Gantulyst": 55,
+    "Eidolon Hydrolyst": 60,
+    "Teralyst Synovia": 60,
+  };
   selectEnemy(enemyData: EnemyData) {
     this.enemyData = enemyData;
+    if (this.spawnLevels[enemyData.id]) this.enemyLevel = this.spawnLevels[enemyData.id];
     this.enemy = new Enemy(enemyData, this.enemyLevel);
   }
+  @Watch("enemyLevel")
   enemyLevelChange() {
     if (this.enemy) this.enemy.level = this.enemyLevel;
   }
@@ -186,6 +220,47 @@ export default class GunBuildEditor extends BaseBuildEditor {
 </script>
 
 <style>
+.enemy-info {
+  position: relative;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  font-size: 14px;
+  color: #606266;
+  /* border-spacing: 0; */
+}
+.enemy-info td,
+.enemy-info th {
+  padding: 8px 16px;
+  min-width: 0;
+  box-sizing: border-box;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  position: relative;
+}
+.enemy-info td.control {
+  padding: 0 8px;
+}
+.enemy-info td.control .el-input__inner {
+  padding: 0 12px;
+}
+/* .enemy-info td.control input{} */
+.enemy-info th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: left;
+  background: #6199ff;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
 .list-complete-item {
   transition: all 0.5s;
 }

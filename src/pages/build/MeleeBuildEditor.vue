@@ -116,7 +116,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: MeleeWeapon;
   @Prop() rWeapon: RivenWeapon;
 
-  comboMul = 1;
+  comboMul = 1.5;
   extraBaseDamage = 0;
   isUseFury = true;
   isUseStrike = true;
