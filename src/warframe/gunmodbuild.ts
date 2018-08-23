@@ -83,7 +83,7 @@ export class GunModBuild extends ModBuild {
   constructor(weapon: GunWeapon = null, riven: RivenMod = null, options: GunModBuildOptions = null) {
     super(riven);
     if (this.weapon = weapon) {
-      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.includes(v.type));
+      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.name]).includes(v.type));
     }
     if (options) {
       this.options = options;
@@ -113,6 +113,13 @@ export class GunModBuild extends ModBuild {
       isUseVelocity: this.isUseVelocity,
       extraBaseDamage: this.extraBaseDamage,
     } as GunModBuildOptions;
+  }
+
+  /** [overwrite] 目标打击时间线 */
+  getTimeline(limit = 10) {
+    if (this.target)
+      return super.getTimeline(limit, this.bullets, this.magazineSize, this.reloadTime);
+    else return null;
   }
 
   // ### 计算属性 ###
@@ -166,13 +173,6 @@ export class GunModBuild extends ModBuild {
   get sustainedFireRate() { return 1 / (1 / this.fireRate + this.reloadTime / this.magazineSize); }
   /** 持续伤害增幅倍率  */
   get sustainedDamageMul() { return hAccMul(this.totalDamageMul, this.sustainedFireRateMul); }
-  /** [猎人战备]切割DoT伤害 */
-  get slashDotDamage() {
-    return this.originalDamage * this.baseDamageMul * this.multishotMul * this.critDamageMul *
-      (this.critChance > 1 ? 1 : this.critChance) * this.slashWhenCrit * 0.35 * ~~(6 * this.procDurationMul + 1);
-  }
-  /** [overwrite] 总伤害 */
-  get totalDamage() { return hAccSum(this.slashDotDamage, hAccMul(this.originalDamage, this.totalDamageMul)); }
   /** 原爆发伤害 */
   get oriBurstDamage() { return hAccMul(this.oriTotalDamage, this.weapon.fireRate); }
   /** 爆发伤害 */

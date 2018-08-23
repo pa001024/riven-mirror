@@ -1,6 +1,7 @@
 import { CombElementMap, Damage2_0, DamageType, ExtraDmgSet, NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase, ValuedRivenProperty, Weapon } from "@/warframe";
-import { choose, hAccDiv, hAccMul, hAccSum } from "@/warframe/util";
+import { choose, hAccDiv, hAccMul, hAccSum } from "./util";
 import _ from "lodash";
+import { Enemy } from "@/warframe/codex";
 
 // 基础类
 export abstract class ModBuild {
@@ -12,20 +13,42 @@ export abstract class ModBuild {
 
   /** 所有适用的MOD */
   protected avaliableMods: NormalMod[] = []
-  protected _mods: NormalMod[] = []; /** MOD列表 */  get mods() { return _.cloneDeep(this._mods); }
+  protected _mods: NormalMod[] = [];
+  /** MOD列表 */
+  get mods() { return _.cloneDeep(this._mods); }
 
   // ### 属性 ###
+  protected _baseDamageMul = 1;
+  protected _extraDmgMul = 1;
+  protected _critChanceMul = 1;
+  protected _critMulMul = 1;
+  protected _procChanceMul = 1;
+  protected _procDurationMul = 1;
+  protected _enemyDmgMul = [1, 1, 1, 1, 1];
+  protected _fireRateMul = 1;
+  protected _handShotMulMul = 1;
+  protected _overallMul = 1;
 
-  protected _baseDamageMul = 1; /** 基伤增幅倍率 */ get baseDamageMul() { return this._baseDamageMul; }
-  protected _extraDmgMul = 1; /** 额伤增幅倍率 */  get extraDmgMul() { return this._extraDmgMul; }
-  protected _critChanceMul = 1; /** 暴击率增幅倍率 */  get critChanceMul() { return this._critChanceMul; }
-  protected _critMulMul = 1; /** 暴击伤害增幅倍率 */  get critMulMul() { return this._critMulMul; }
-  protected _procChanceMul = 1; /** 触发几率增幅倍率 */  get procChanceMul() { return this._procChanceMul; }
-  protected _procDurationMul = 1; /** 触发时间增幅倍率 */  get procDurationMul() { return this._procDurationMul; }
-  protected _enemyDmgMul = 1; /** 种族伤害增幅倍率 */  get enemyDmgMul() { return this._enemyDmgMul; }
-  protected _fireRateMul = 1; /** 攻速增幅倍率 */  get fireRateMul() { return this._fireRateMul; }
-  protected _handShotMulMul = 1; /** 爆头倍率增幅倍率 */  get handShotMulMul() { return this._handShotMulMul; }
-  protected _originalDamage: number;
+  /** 基伤增幅倍率 */
+  get baseDamageMul() { return this._baseDamageMul; }
+  /** 额伤增幅倍率 */
+  get extraDmgMul() { return this._extraDmgMul; }
+  /** 暴击率增幅倍率 */
+  get critChanceMul() { return this._critChanceMul; }
+  /** 暴击伤害增幅倍率 */
+  get critMulMul() { return this._critMulMul; }
+  /** 触发几率增幅倍率 */
+  get procChanceMul() { return this._procChanceMul; }
+  /** 触发时间增幅倍率 */
+  get procDurationMul() { return this._procDurationMul; }
+  /** 种族伤害增幅倍率 */
+  get enemyDmgMul() { return this._enemyDmgMul[this.enemyDmgTypeIndex] <= 0 ? 0 : this._enemyDmgMul[this.enemyDmgTypeIndex] || 1; }
+  /** 攻速增幅倍率 */
+  get fireRateMul() { return this._fireRateMul; }
+  /** 爆头倍率增幅倍率 */
+  get handShotMulMul() { return this._handShotMulMul; }
+  /** 全局伤害增幅倍率 */
+  get overallMul() { return this._overallMul; }
   abstract get compareDamage(): number;
   abstract set options(val: any);
   abstract get options(): any;
@@ -35,8 +58,9 @@ export abstract class ModBuild {
   /** 基伤加成 */
   extraBaseDamage = 0;
 
-  private _handShotChance = 0; /** 爆头概率 */  get handShotChance() { return this._handShotChance; }
-  /** 设置爆头概率 */
+  private _handShotChance = 0;
+  /** 爆头概率 */
+  get handShotChance() { return this._handShotChance; }
   set handShotChance(value) {
     if (value > 1) value = 1;
     if (value < 0) value = 0;
@@ -44,6 +68,7 @@ export abstract class ModBuild {
   }
 
   private _compareMode: number = 0;
+  /** 对比模式 */
   public get compareMode(): number {
     return this._compareMode;
   }
@@ -51,14 +76,29 @@ export abstract class ModBuild {
     this._compareMode = value;
     this.calcMods();
   }
+
+  protected _target: Enemy;
+  /** 打击目标 */
+  get target() {
+    return this._target;
+  }
+  set target(value) {
+    this.enemyDmgType = "TGCIOSW"[value.faction];
+    this._target = value;
+  }
+
+  /** 目标打击时间线 */
+  getTimeline(limit = 10, bullets = 1, magazine = 1, reloadTime = 0) {
+    if (this.target)
+      return this.target.generateTimeline(this.dmg, this.procChanceMap, this.dotDamageMap, this.fireRate, this.procDurationMul, limit, bullets, magazine, reloadTime);
+    else return null;
+  }
+
+  // === 计算属性 ===
   /** 暴击率 */
-  get critChance() {
-    return this.weapon.criticalChances * this.critChanceMul;
-  }
+  get critChance() { return this.weapon.criticalChances * this.critChanceMul; }
   /** 暴击倍率 */
-  get critMul() {
-    return this.weapon.criticalMultiplier * this.critMulMul;
-  }
+  get critMul() { return this.weapon.criticalMultiplier * this.critMulMul; }
   /** 平均暴击区增幅倍率 */
   get critDamageMul() { return this.calcCritDamage(this.critChance, this.critMul); }
 
@@ -248,8 +288,6 @@ export abstract class ModBuild {
     }).filter(Boolean) as [DamageType, number][];
   }
 
-  /** 总触发伤害 */
-  get dotDamage() { return this.dotDamageMap.reduce((a, b) => a + b[1], 0); }
   /** 面板基础伤害增幅倍率 */
   get panelBaseDamageMul() { return this.baseDamageMul; }
   /** 原平均爆头增伤倍率 */
@@ -263,13 +301,13 @@ export abstract class ModBuild {
   /** 面板伤害 */
   get panelDamage() { return hAccMul(this.originalDamage, this.panelDamageMul); }
   /** 总伤增幅倍率 */
-  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.handShotDmgMul); }
+  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.handShotDmgMul, this.overallMul); }
   /** 总伤害 */
   get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul); }
   /** 原总伤害 */
   get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul, this.handShotDmgMul); }
   /** 基伤 */
-  get baseDamage() { return hAccMul(this.originalDamage, this.baseDamageMul, this.critDamageMul); }
+  get baseDamage() { return hAccMul(this.originalDamage, this.baseDamageMul, this.critDamageMul, this.handShotDmgMul, this.overallMul); }
   /** 毒DoT的基伤 */
   get toxinBaseDamage() { return hAccMul(this.baseDamage, (1 + this.toxinMul)); }
   /** 火DoT的基伤 */
@@ -282,6 +320,8 @@ export abstract class ModBuild {
   }
   /** 原平均暴击区增幅倍率 */
   get oriCritDamageMul() { return this.calcCritDamage(this.weapon.criticalChances, this.weapon.criticalMultiplier, this.handShotChance, this.oriHandShotMul); }
+
+  protected _originalDamage: number;
   /** 武器原本伤害 */
   get originalDamage(): number {
     if (!this._originalDamage)
@@ -298,10 +338,14 @@ export abstract class ModBuild {
   get enemyDmgType() {
     return this._enemyDmgType;
   }
+  get enemyDmgTypeIndex() {
+    return "GCIOS".indexOf(this._enemyDmgType);
+  }
   /** 设置歧视伤害类型 */
   set enemyDmgType(value) {
-    if (value !== "G" && value !== "C" && value !== "O" && value !== "S") return;
-    this._enemyDmgType = value;
+    if (this._enemyDmgType !== value && "GCIOS".includes(value)) {
+      this._enemyDmgType = value;
+    }
   }
 
   /**
@@ -342,7 +386,7 @@ export abstract class ModBuild {
     this._critMulMul = 1;
     this._procChanceMul = 1;
     this._procDurationMul = 1;
-    this._enemyDmgMul = 1;
+    this._enemyDmgMul = [1, 1, 1, 1];
     this._handShotMulMul = 1;
     this._fireRateMul = 1;
     this._heatMul = 0;
@@ -579,22 +623,27 @@ export abstract class ModBuild {
         this.slashMul = hAccSum(this.slashMul, pValue);
         break;
       case 'G': // 对Grineer伤害 grinDmg
-        if (this._enemyDmgType === "G")
-          this._enemyDmgMul += pValue;
-        break;
-      case 'I': // 对Infested伤害 infeDmg
-        if (this._enemyDmgType === "I")
-          this._enemyDmgMul += pValue;
+        this._enemyDmgMul[0] += pValue;
         break;
       case 'C': // 对Corpus伤害 corpDmg
-        if (this._enemyDmgType === "C")
-          this._enemyDmgMul += pValue;
+        this._enemyDmgMul[1] += pValue;
+        break;
+      case 'I': // 对Infested伤害 infeDmg
+        this._enemyDmgMul[2] += pValue;
         break;
       case 'O': // 对堕落者伤害
-        if (this._enemyDmgType === "O")
-          this._enemyDmgMul += pValue;
+        this._enemyDmgMul[3] += pValue;
         break;
-      case '爆头伤害': /* 爆头伤害 handShotMul */this._handShotMulMul += pValue; break;
+      case 'SS': // 对S佬伤害
+        this._enemyDmgMul[4] += pValue;
+        break;
+      case '爆头伤害': // 爆头伤害 handShotMul
+        this._handShotMulMul += pValue;
+        break;
+      case '正中红心': // 正中红心
+      case 'AL': // 全局伤害 overallMul
+        this._overallMul += pValue;
+        break;
       default:
     }
   }

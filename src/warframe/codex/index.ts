@@ -1,4 +1,4 @@
-import { Damage2_0, DamageType, EnemyData, EnemyList, NormalMod, NormalModDatabase } from "./codexs";
+import { Damage2_0, DamageType, EnemyData, EnemyList, NormalMod, NormalModDatabase } from "./";
 
 /**
  * 原版数据库
@@ -19,4 +19,9 @@ export class Codex {
   static getEnemy(id: string) { return this.instance.enemyDict.get(id); }
 }
 
-export * from './codexs';
+export * from './enemy'
+export * from './arcane'
+export * from './weapon'
+export * from './zaw'
+export * from './riven'
+export * from './mod'

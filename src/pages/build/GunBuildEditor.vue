@@ -16,7 +16,7 @@
                 <PropDiff name="暴击几率" :ori="weapon.criticalChances" :val="build.critChance" percent></PropDiff>
                 <PropDiff v-if="weapon.bullets!=1||build.bullets!=1" name="弹片数" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
                 <PropDiff name="裂罅倾向性" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
-                <PropDiff name="装填" :ori="weapon.reload" :val="build.reloadTime" :preci="2"></PropDiff>
+                <PropDiff name="装填" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
                 <PropDiff name="触发几率" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
                 <br>
                 <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="mapDname(dname)" :ori="ori" :val="val"></PropDiff>
@@ -49,7 +49,7 @@
                     <div>Chroma的"怨怒护甲"和Mirage的"黯然失色"等技能可对武器基伤进行大量加成，</div>
                     <div>步枪增幅、死亡之眼等光环MOD也属于这个加成</div>
                   </div>
-                  <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" @change="optionChange" style="width:120px">
+                  <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" style="width:120px">
                     <template slot="append">%</template>
                   </el-input>
                 </el-tooltip>
@@ -96,50 +96,46 @@
         <el-card class="enemy-sim">
           <div slot="header" class="enemy-sim-header">幻影装置</div>
           <keep-alive>
-            <el-row v-if="enemy">
+            <div v-if="enemy" class="enemy-main">
               <!-- 敌人信息区域 -->
-              <el-col :xs="24" :sm="12" :lg="6">
-                <table class="enemy-info">
-                  <tr class="enemy-name">
-                    <th>敌人</th>
-                    <td>{{enemy.name}}</td>
-                  </tr>
-                  <tr class="enemy-faction">
-                    <th>派系</th>
-                    <td>{{enemy.factionName}}</td>
-                  </tr>
-                  <tr label="等级" class="enemy-level">
-                    <th>等级</th>
-                    <td class="control"><el-input size="small" class="enemy-level-edit" v-model="enemyLevel" style="width: 80px"></el-input></td>
-                  </tr>
-                  <tr class="enemy-health">
-                    <th>{{enemy.fleshTypeName}}</th>
-                    <td>{{enemy.health.toFixed()}}</td>
-                  </tr>
-                  <tr v-if="enemy.sheild > 0" class="enemy-shield">
-                    <th>{{enemy.sheildTypeName}}</th>
-                    <td>{{enemy.sheild.toFixed()}}</td>
-                  </tr>
-                  <tr v-if="enemy.armor > 0" class="enemy-armor">
-                    <th>{{enemy.armorTypeName}}</th>
-                    <td>{{enemy.armor.toFixed()}}</td>
-                  </tr>
-                  <tr v-if="enemy.resistence > 0" class="enemy-level">
-                    <th>伤害抗性</th>
-                    <td>{{enemy.resistenceText}}</td>
-                  </tr>
-                  <tr label="操作" class="enemy-level">
-                    <th>操作</th>
-                    <td class="control"><el-button size="small" @click="enemy = null">重新选择</el-button></td>
-                    <!-- <el-button type="primary" size="small" @click="simStart()">开始模拟</el-button> -->
-                  </tr>
-                </table>
-              </el-col>
+              <table class="enemy-info">
+                <tr class="enemy-name">
+                  <th>敌人</th>
+                  <td>{{enemy.name}}</td>
+                </tr>
+                <tr class="enemy-faction">
+                  <th>派系</th>
+                  <td>{{enemy.factionName}}</td>
+                </tr>
+                <tr label="等级" class="enemy-level">
+                  <th>等级</th>
+                  <td class="control"><el-input size="small" class="enemy-level-edit" v-model="enemyLevel" style="width: 80px"></el-input></td>
+                </tr>
+                <tr class="enemy-health">
+                  <th>{{enemy.fleshTypeName}}</th>
+                  <td>{{enemy.health.toFixed()}}</td>
+                </tr>
+                <tr v-if="enemy.sheild > 0" class="enemy-shield">
+                  <th>{{enemy.sheildTypeName}}</th>
+                  <td>{{enemy.sheild.toFixed()}}</td>
+                </tr>
+                <tr v-if="enemy.armor > 0" class="enemy-armor">
+                  <th>{{enemy.armorTypeName}}</th>
+                  <td>{{enemy.armor.toFixed()}}</td>
+                </tr>
+                <tr v-if="enemy.resistence > 0" class="enemy-level">
+                  <th>伤害抗性</th>
+                  <td>{{enemy.resistenceText}}</td>
+                </tr>
+                <tr label="操作" class="enemy-level">
+                  <th>操作</th>
+                  <td class="control"><el-button size="small" @click="enemy = null">重新选择</el-button></td>
+                  <!-- <el-button type="primary" size="small" @click="simStart()">开始模拟</el-button> -->
+                </tr>
+              </table>
               <!-- 伤害显示区域 -->
-              <el-col :xs="24" :sm="12" :lg="18">
-
-              </el-col>
-            </el-row>
+              <EnemyTimeline></EnemyTimeline>
+            </div>
             <EnemySelector v-else @select="selectEnemy"></EnemySelector>
           </keep-alive>
         </el-card>
@@ -157,10 +153,11 @@ import { EnemyFaction, RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBu
 import ModSelector from "@/components/ModSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import EnemySelector from "@/components/EnemySelector.vue";
+import EnemyTimeline from "@/components/EnemyTimeline.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 
 @Component({
-  components: { ModSelector, PropDiff, EnemySelector }
+  components: { ModSelector, PropDiff, EnemySelector, EnemyTimeline }
 })
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;
@@ -180,7 +177,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   newBuild(weapon: GunWeapon) {
     return new GunModBuild(weapon, null, {
       handShotChance: this.handShotChance / 100,
-      extraBaseDamage: this.extraBaseDamage,
+      extraBaseDamage: this.extraBaseDamage / 100,
       isUseMomentum: this.isUseMomentum,
       isUseVelocity: this.isUseVelocity,
     });
@@ -189,13 +186,15 @@ export default class GunBuildEditor extends BaseBuildEditor {
   simStart() {
 
   }
+  @Watch("extraBaseDamage")
   optionChange() {
     this.build.options = {
       handShotChance: this.handShotChance / 100,
-      extraBaseDamage: this.extraBaseDamage,
+      extraBaseDamage: this.extraBaseDamage / 100,
       isUseMomentum: this.isUseMomentum,
       isUseVelocity: this.isUseVelocity,
     };
+    this.build.calcMods();
   }
   spawnLevels = {
     "Eidolon Teralyst": 50,
@@ -220,19 +219,22 @@ export default class GunBuildEditor extends BaseBuildEditor {
 </script>
 
 <style>
+.enemy-main {
+  display: flex;
+}
+.enemy-main .timeline-tabs {
+  flex: 1;
+}
 .enemy-info {
   position: relative;
   overflow: hidden;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  width: 100%;
+  width: 200px;
   max-width: 100%;
   font-size: 14px;
   color: #606266;
-  /* border-spacing: 0; */
+}
+@media only screen and (min-width: 1200px) {
 }
 .enemy-info td,
 .enemy-info th {
@@ -248,9 +250,6 @@ export default class GunBuildEditor extends BaseBuildEditor {
 }
 .enemy-info td.control .el-input__inner {
   padding: 0 12px;
-}
-.enemy-info td {
-  width: 100%;
 }
 .enemy-info th {
   white-space: nowrap;
@@ -350,6 +349,17 @@ export default class GunBuildEditor extends BaseBuildEditor {
 .build-tools-action > * {
   flex: 1;
 }
+.weapon-props {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: separate;
+  font-size: 14px;
+}
+.weapon-props th {
+  color: #606266;
+  font-weight: inherit;
+  text-align: left;
+}
 .select-cpmode {
   cursor: pointer;
 }
@@ -360,6 +370,9 @@ export default class GunBuildEditor extends BaseBuildEditor {
   background: #89b2fd;
   color: #fff;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+}
+.select-cpmode.active th {
+  color: #fff;
 }
 .select-cpmode.active > * {
   border-top: 4px solid #d9e6ff;
@@ -392,11 +405,6 @@ export default class GunBuildEditor extends BaseBuildEditor {
     margin: 0 !important;
   }
 }
-.weapon-props {
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: separate;
-}
 .mod-slot-containor {
   flex-wrap: wrap;
 }
@@ -411,6 +419,11 @@ export default class GunBuildEditor extends BaseBuildEditor {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media only screen and (max-width: 1200px) {
+  .mod-slot {
+    margin: 4px 0;
+  }
 }
 .mod-slot.n {
   border-left-color: #865e37;

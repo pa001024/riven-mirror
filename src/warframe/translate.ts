@@ -1479,7 +1479,7 @@ const _transData = [
   { "id": "Harrow Suffragan Helmet", "name": "HARROW 副主教头盔", "type": "Other" },
   { "id": "Fragor Brokk Skin", "name": "重击巨锤 布洛克外观", "type": "Other" },
   { "id": "Dagger Axe Zoren Skin", "name": "佐轮双斧 戈刃外观", "type": "Other" },
-  { "id": "Scindo Manticore Skin", "name": "分裂战斧 蝎尾狮外观", "type": "Other" },
+  { "id": "Scindo Manticore Axe Skin", "name": "分裂斩斧 蝎尾狮外观", "type": "Other" },
   { "id": "Dagger Axe Scindo Skin", "name": "分裂斩斧 戈刃外观", "type": "Other" },
   { "id": "Axi A1", "name": "后纪 A1", "type": "Relic" },
   { "id": "Axi A2", "name": "后纪 A2", "type": "Relic" },
@@ -1985,7 +1985,7 @@ export class Translator {
       if (len < 0)
         return localeSubfix;
       // 递归解析后缀
-      return this.getLocText(text.substr(0, len)) + " " + localeSubfix;
+      return this.getLocText(rawText.substr(0, len)) + " " + localeSubfix;
     }
     return this.instance.mainDict.get(text) || rawText;
   }

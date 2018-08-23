@@ -1,5 +1,5 @@
-import { GunWeaponDataBase, MeleeWeaponDataBase, Weapon } from "@/warframe/codexs";
-import { StringTree, strSimilarity } from "@/warframe/util";
+import { GunWeaponDataBase, MeleeWeaponDataBase, Weapon } from ".";
+import { StringTree, strSimilarity } from "../util";
 import _ from "lodash";
 
 /**MOD上的裂罅属性 */

@@ -67,14 +67,17 @@ export abstract class BaseBuildEditor extends Vue {
   fill() {
     this.build.fill(8, 0);
     this.currentTab.mods = this.build.mods;
+    this.reloadSelector();
   }
   fillEmpty() {
     this.build.fillEmpty(8, 0);
     this.currentTab.mods = this.build.mods;
+    this.reloadSelector();
   }
   clear() {
     this.currentTab.mods = Array(8);
     this.refleshMods();
+    this.reloadSelector();
   }
   changeMode(mode: number) {
     this.build.compareMode = mode;

@@ -127,7 +127,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   newBuild(weapon: MeleeWeapon) {
     return new MeleeModBuild(weapon, null, {
       comboLevel: ~~((this.comboMul - 1) * 2),
-      extraBaseDamage: this.extraBaseDamage,
+      extraBaseDamage: this.extraBaseDamage / 100,
       isUseFury: this.isUseFury,
       isUseStrike: this.isUseStrike,
     });
@@ -136,10 +136,11 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   optionChange() {
     this.build.options = {
       comboLevel: ~~((this.comboMul - 1) * 2),
-      extraBaseDamage: this.extraBaseDamage,
+      extraBaseDamage: this.extraBaseDamage / 100,
       isUseFury: this.isUseFury,
       isUseStrike: this.isUseStrike
     };
+    this.build.calcMods();
   }
   // 子类不实现会报错
   handleTabsEdit(targetName, action: "add" | "remove") { super.handleTabsEdit(targetName, action); }

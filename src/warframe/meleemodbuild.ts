@@ -114,13 +114,13 @@ export class MeleeModBuild extends ModBuild {
   /** 滑行平均暴击区增幅倍率 */
   get slideCritDamageMul() { return this.calcCritDamage(this.slideCritDamage, this.critMul); }
   /** [overwrite] 总伤增幅倍率 */
-  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.comboMul); }
+  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.handShotDmgMul, this.overallMul, this.comboMul); }
   /** [overwrite] 总伤害 */
   get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul, this.fireRate); }
   /** [overwrite] 原总伤害 */
   get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul, this.weapon.fireRate); }
   /** 滑行攻击伤害增幅倍率 */
-  get slideDamageMul() { return hAccMul(this.panelDamageMul, this.slideCritDamageMul, this.comboMul); }
+  get slideDamageMul() { return hAccMul(this.panelDamageMul, this.slideCritDamageMul, this.handShotDmgMul, this.overallMul, this.comboMul); }
   /** 原滑行攻击伤害 */
   get oriSlideDamage() { return hAccMul(this.weapon.slideDmg, this.oriCritDamageMul, this.weapon.fireRate); }
   /** 滑行攻击伤害 */

@@ -1,4 +1,4 @@
-import { hAccSum, hAccMul } from "@/warframe/util";
+import { hAccSum } from "../util";
 
 /** 伤害类型 */
 export enum DamageType {
@@ -253,10 +253,12 @@ export class Procs {
   }
 }
 
-export interface EnemySecondState {
+export interface EnemyTimelineState {
+  ms: number;
   health: number;
   sheild: number;
   armor: number;
+  isDoT: boolean;
 }
 
 
@@ -291,8 +293,6 @@ export class Enemy implements EnemyData {
   currentArmor: number = 0;
   currentProcs: Procs;
 
-  stateHistory: EnemySecondState[] = [];
-
   // === 计算属性 ===
   /**
    * 当前等级基础生命
@@ -320,6 +320,7 @@ export class Enemy implements EnemyData {
     this.currentArmor = this.armor;
     this.currentProcs = new Procs();
     this.stateHistory = [];
+    this.tickCount = 0;
   }
 
   /**
@@ -473,7 +474,7 @@ export class Enemy implements EnemyData {
    * @param {number} bullets 弹片数
    * @memberof Enemy
    */
-  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets: number = 1, durationMul: number = 1) {
+  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets = 1, durationMul = 1) {
     let procChance = procChanceMap.reduce((a, [id, val]) => a[id] = val, {});
     // [0.每个弹片单独计算]
     let bls = bullets;
@@ -503,35 +504,81 @@ export class Enemy implements EnemyData {
       this.currentHealth /= (1 - 0.5 * currentViral);
       bls = hAccSum(bls, -1);
     }
+    this.pushState(false);
   }
 
+  // === 时间线系统 ===
+
+  TICKCYCLE = 1200;
+  tickCount = 0;
+  stateHistory: EnemyTimelineState[] = [];
   /**
-   * 将计时器进入下一秒
+   * 将DoT计时器进入下一秒
    */
   nextSecond() {
     let dotDmgs = this.currentProcs.pop();
     this.applyDmg(dotDmgs);
+    this.pushState(true);
+  }
+  /**
+   * 记录历史信息
+   *
+   * @memberof Enemy
+   */
+  pushState(isDoT: boolean) {
     this.stateHistory.push({
+      ms: ~~(this.tickCount * 1e3 / this.TICKCYCLE),
       health: this.currentHealth,
       sheild: this.currentSheild,
       armor: this.currentArmor,
+      isDoT
     })
   }
 
   /**
    * 生成伤害时间线
    *
+   * @param {[string, number][]} dmgs 伤害表
+   * @param {[string, number][]} procChanceMap 触发几率表(真实触发)
+   * @param {[string, number][]} dotDamageMap 触发伤害表(DoT)
+   * @param {number} fireRate 射速
+   * @param {number} [durationMul=1] 持续时间
+   * @param {number} [timeLimit=0] 时间限制
+   * @param {number} [bullets=1] 弹片数
+   * @param {number} [magazine=1] 弹匣
+   * @param {number} [reloadTime=0] 装填时间
+   * @returns
    * @memberof Enemy
    */
-  generateDamageTimeline() {
+  generateTimeline(
+    dmgs: [string, number][],
+    procChanceMap: [string, number][],
+    dotDamageMap: [string, number][],
+    fireRate: number,
+    durationMul = 1,
+    timeLimit = 30,
+    bullets = 1, magazine = 1, reloadTime = 0
+  ) {
     this.reset();
-    let seconds = 0;
-    while (seconds < 30) {
+    let ticks = Math.round(this.TICKCYCLE / fireRate); // 1200tick/s 整合射速和秒DoT
+    let reloadTicks = Math.round(this.TICKCYCLE * reloadTime); // 装填需要的tick数
+    let remaingMag = magazine; // 剩余子弹数
+    let nextDoTTick = this.TICKCYCLE;
+    let nextDmgTick = 0;
+    // 敌人死亡或者到时间停止
+    for (let seconds = 0; this.currentHealth > 0 && seconds < timeLimit; ++seconds) {
+      // 伤害
+      while (nextDmgTick <= nextDoTTick) {
+        this.tickCount = nextDmgTick;
+        this.applyHit(dmgs, procChanceMap, dotDamageMap, bullets, durationMul);
+        nextDmgTick += --remaingMag > 0 ? ticks : (remaingMag = magazine, reloadTicks);
+      }
+      // DoT
+      this.tickCount = nextDoTTick;
+      nextDoTTick += this.TICKCYCLE;
       this.nextSecond();
-      ++seconds;
     }
-    // TODO
-    this.reset();
+    return this.stateHistory;
   }
 }
 

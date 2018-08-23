@@ -351,7 +351,26 @@ export class WorldStat {
     return this.deepTranslate(this.data.sortie);
   }
 
-  filterType = ["nightmare", "endo", "traces", "credits"];
+  filterType = ["nightmare", "endo", "traces", "credits",
+    "ferrite",
+    "nano spores",
+    "alloy plate",
+    "salvage",
+    "polymer bundle",
+    "cryotic",
+    "circuits",
+    "plastids",
+    "rubedo",
+    "argon crystal",
+    "control module",
+    "gallium",
+    "morphics",
+    "neural sensors",
+    "neurodes",
+    "orokin cell",
+    "oxium",
+    "tellurium",
+  ];
   /**
    * 警报信息
    */
