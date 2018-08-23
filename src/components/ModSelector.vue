@@ -58,7 +58,7 @@ export default class ModSelector extends Vue {
   @Watch("build")
   reload() {
     let selected = this.build.mods;
-    let mods = NormalModDatabase.filter(v => this.build.weapon.tags.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id));
+    let mods = NormalModDatabase.filter(v => this.build.weapon.tags.concat([this.build.rivenWeapon.name]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id));
     let benefits = mods.filter(v => v.props.some(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) >= 0))
       .map(v => [v, this.build.testMod(v)] as [NormalMod, number]).sort((a, b) => b[1] - a[1]).map(([v]) => v);
     this.tabs = [

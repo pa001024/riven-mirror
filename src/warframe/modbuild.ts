@@ -48,7 +48,7 @@ export abstract class ModBuild {
   /** 爆头倍率增幅倍率 */
   get handShotMulMul() { return this._handShotMulMul; }
   /** 全局伤害增幅倍率 */
-  get overallMul() { return this._overallMul; }
+  get overallMul() { return hAccMul(this.enemyDmgMul, this._overallMul); }
   abstract get compareDamage(): number;
   abstract set options(val: any);
   abstract get options(): any;
@@ -83,7 +83,8 @@ export abstract class ModBuild {
     return this._target;
   }
   set target(value) {
-    this.enemyDmgType = "TGCIOSW"[value.faction];
+    if (value)
+      this.enemyDmgType = "TGCIOSW"[value.faction];
     this._target = value;
   }
 
@@ -398,6 +399,7 @@ export abstract class ModBuild {
     this._slashMul = 0;
     this.elementsOrder = [];
     this._combElementsOrder = [];
+    this._overallMul = 1;
   }
 
   /** 清除所有MOD并重置属性增幅器 */
@@ -459,6 +461,7 @@ export abstract class ModBuild {
       let oriDmg: [string, number];
       switch (mod.props[0][0]) {
         case 'D': // 伤害 baseDmg
+        case 'K': // 近战伤害 baseDmg
           return mod.props[0][1] / this._baseDamageMul;
         case '4': // 火焰伤害 heatDmg
         case '5': // 冰冻伤害 coldDmg
@@ -480,6 +483,14 @@ export abstract class ModBuild {
           if (oriDmg)
             return mod.props[0][1] * oriDmg[1] / this.originalDamage / this._extraDmgMul;
           break;
+        case 'G': // 对Grineer伤害 grinDmg
+          return this.enemyDmgType === "G" ? mod.props[0][1] / this._enemyDmgMul[0] : 0;
+        case 'C': // 对Corpus伤害 corpDmg
+          return this.enemyDmgType === "C" ? mod.props[0][1] / this._enemyDmgMul[1] : 0;
+        case 'I': // 对Infested伤害 infeDmg
+          return this.enemyDmgType === "I" ? mod.props[0][1] / this._enemyDmgMul[2] : 0;
+        case '对堕落者伤害': // 对堕落者伤害
+          return this.enemyDmgType === "O" ? mod.props[0][1] / this._enemyDmgMul[3] : 0;
       }
     }
     // 通用方法
@@ -631,18 +642,18 @@ export abstract class ModBuild {
       case 'I': // 对Infested伤害 infeDmg
         this._enemyDmgMul[2] += pValue;
         break;
-      case 'O': // 对堕落者伤害
+      case '对堕落者伤害': // 对堕落者伤害
         this._enemyDmgMul[3] += pValue;
         break;
-      case 'SS': // 对S佬伤害
+      case '对Sentient伤害': // 对Sentient伤害
         this._enemyDmgMul[4] += pValue;
         break;
       case '爆头伤害': // 爆头伤害 handShotMul
         this._handShotMulMul += pValue;
         break;
-      case '正中红心': // 正中红心
-      case 'AL': // 全局伤害 overallMul
-        this._overallMul += pValue;
+      case '正中红心': // 正中红心 overallMul
+      case '最终伤害': // 全局伤害 overallMul
+        this._overallMul = hAccMul(this._overallMul, 1 + pValue);
         break;
       default:
     }

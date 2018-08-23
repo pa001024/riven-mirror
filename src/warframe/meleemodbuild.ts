@@ -1,5 +1,6 @@
 import { RivenMod, ModBuild, NormalMod, MeleeWeapon, NormalModDatabase } from "@/warframe";
 import { hAccMul, hAccSum } from "@/warframe/util";
+import { Enemy } from "@/warframe/codex";
 
 export enum MeleeCompareMode {
   TotalDamage,// 平砍伤害
@@ -12,6 +13,7 @@ export interface MeleeModBuildOptions {
   isUseFury?: boolean
   isUseStrike?: boolean
   extraBaseDamage?: number
+  target?: Enemy
 }
 
 export class MeleeModBuild extends ModBuild {
@@ -66,21 +68,23 @@ export class MeleeModBuild extends ModBuild {
   constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null) {
     super(riven);
     if (this.weapon = weapon)
-      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.includes(v.type));
+      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.name]).includes(v.type));
     if (options) {
       this.options = options;
     }
   }
 
-  set options(options: any) {
+  set options(options: MeleeModBuildOptions) {
     this.compareMode = typeof options.compareMode !== "undefined" ? options.compareMode : this.compareMode;
     this.comboLevel = typeof options.comboLevel !== "undefined" ? options.comboLevel : this.comboLevel;
     this.allowElementTypes = typeof options.allowElementTypes !== "undefined" ? options.allowElementTypes : this.allowElementTypes;
     this.isUseFury = typeof options.isUseFury !== "undefined" ? options.isUseFury : this.isUseFury;
     this.isUseStrike = typeof options.isUseStrike !== "undefined" ? options.isUseStrike : this.isUseStrike;
     this.extraBaseDamage = typeof options.extraBaseDamage !== "undefined" ? options.extraBaseDamage : this.extraBaseDamage;
+    this.target = typeof options.target !== "undefined" ? options.target : this.target;
   }
-  get options(): any {
+
+  get options(): MeleeModBuildOptions {
     return {
       compareMode: this.compareMode,
       comboLevel: this.comboLevel,
@@ -88,7 +92,8 @@ export class MeleeModBuild extends ModBuild {
       isUseFury: this.isUseFury,
       isUseStrike: this.isUseStrike,
       extraBaseDamage: this.extraBaseDamage,
-    } as MeleeModBuildOptions;
+      target: this.target,
+    };
   }
 
 

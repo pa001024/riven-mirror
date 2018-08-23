@@ -321,6 +321,7 @@ export class Enemy implements EnemyData {
     this.currentProcs = new Procs();
     this.stateHistory = [];
     this.tickCount = 0;
+    this.pushState(false);
   }
 
   /**
@@ -525,7 +526,7 @@ export class Enemy implements EnemyData {
    *
    * @memberof Enemy
    */
-  pushState(isDoT: boolean) {
+  pushState(isDoT = false) {
     this.stateHistory.push({
       ms: ~~(this.tickCount * 1e3 / this.TICKCYCLE),
       health: this.currentHealth,

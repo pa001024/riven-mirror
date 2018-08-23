@@ -129,12 +129,12 @@
                 </tr>
                 <tr label="操作" class="enemy-level">
                   <th>操作</th>
-                  <td class="control"><el-button size="small" @click="enemy = null">重新选择</el-button></td>
+                  <td class="control"><el-button size="small" @click="selectEnemy(null)">重新选择</el-button></td>
                   <!-- <el-button type="primary" size="small" @click="simStart()">开始模拟</el-button> -->
                 </tr>
               </table>
               <!-- 伤害显示区域 -->
-              <EnemyTimeline></EnemyTimeline>
+              <EnemyTimeline :timeline="build.getTimeline()"></EnemyTimeline>
             </div>
             <EnemySelector v-else @select="selectEnemy"></EnemySelector>
           </keep-alive>
@@ -183,9 +183,6 @@ export default class GunBuildEditor extends BaseBuildEditor {
     });
   }
   // === 事件处理 ===
-  simStart() {
-
-  }
   @Watch("extraBaseDamage")
   optionChange() {
     this.build.options = {
@@ -204,8 +201,12 @@ export default class GunBuildEditor extends BaseBuildEditor {
   };
   selectEnemy(enemyData: EnemyData) {
     this.enemyData = enemyData;
+    if (!enemyData) {
+      this.build.target = this.enemy = null;
+      return;
+    }
     if (this.spawnLevels[enemyData.id]) this.enemyLevel = this.spawnLevels[enemyData.id];
-    this.enemy = new Enemy(enemyData, this.enemyLevel);
+    this.build.target = this.enemy = new Enemy(enemyData, this.enemyLevel);
   }
   @Watch("enemyLevel")
   enemyLevelChange() {

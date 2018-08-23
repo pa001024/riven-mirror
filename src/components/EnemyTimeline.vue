@@ -16,11 +16,27 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { EnemyTimelineState, Enemy } from "@/warframe";
 
 
 @Component
 export default class EnemyTimeline extends Vue {
+  @Prop() timeline: EnemyTimelineState[];
 
+  get timelineText() {
+    let rst = [];
+    let lastHitHead = this.timeline[0];
+    this.timeline.forEach((v, i) => {
+      if (v.isDoT) {
+        let hit = this.timeline;
+        rst.push({
+          hit: [],
+          dot: [],
+        });
+      }
+    });
+    return;
+  }
 }
 
 </script>

@@ -1,5 +1,6 @@
 import { AcolyteModsList, GunWeapon, NormalMod, NormalModDatabase, ModBuild, RivenMod } from "@/warframe";
 import { hAccSum, hAccMul } from "@/warframe/util";
+import { Enemy } from "@/warframe/codex";
 
 /*
  * MOD自动配置模块
@@ -27,6 +28,7 @@ export interface GunModBuildOptions {
   isUseMomentum?: boolean
   isUseVelocity?: boolean
   extraBaseDamage?: number
+  target?: Enemy
 }
 /** 枪类 */
 export class GunModBuild extends ModBuild {
@@ -90,7 +92,7 @@ export class GunModBuild extends ModBuild {
     }
   }
 
-  set options(options: any) {
+  set options(options: GunModBuildOptions) {
     this.compareMode = typeof options.compareMode !== "undefined" ? options.compareMode : this.compareMode;
     this.useAcolyteMods = typeof options.useAcolyteMods !== "undefined" ? options.useAcolyteMods : this.useAcolyteMods;
     this.useHeavyCaliber = typeof options.useHeavyCaliber !== "undefined" ? options.useHeavyCaliber : this.useHeavyCaliber;
@@ -100,8 +102,9 @@ export class GunModBuild extends ModBuild {
     this.isUseMomentum = typeof options.isUseMomentum !== "undefined" ? options.isUseMomentum : this.isUseMomentum;
     this.isUseVelocity = typeof options.isUseVelocity !== "undefined" ? options.isUseVelocity : this.isUseVelocity;
     this.extraBaseDamage = typeof options.extraBaseDamage !== "undefined" ? options.extraBaseDamage : this.extraBaseDamage;
+    this.target = typeof options.target !== "undefined" ? options.target : this.target;
   }
-  get options(): any {
+  get options(): GunModBuildOptions {
     return {
       compareMode: this.compareMode,
       useAcolyteMods: this.useAcolyteMods,
@@ -112,7 +115,8 @@ export class GunModBuild extends ModBuild {
       isUseMomentum: this.isUseMomentum,
       isUseVelocity: this.isUseVelocity,
       extraBaseDamage: this.extraBaseDamage,
-    } as GunModBuildOptions;
+      target: this.target,
+    }
   }
 
   /** [overwrite] 目标打击时间线 */
