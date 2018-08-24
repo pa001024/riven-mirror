@@ -396,7 +396,7 @@ export class WorldStat {
    */
   get news() {
     if (!this.data) return [];
-    return _.reverse(this.deepTranslate(this.data.news).map(v => {
+    return _.reverse(this.deepTranslate(this.data.news.filter(v => v.translations.en)).map(v => {
       if (v.translations[Translator.Locale])
         v.message = v.translations[Translator.Locale];
       return v;

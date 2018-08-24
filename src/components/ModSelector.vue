@@ -3,7 +3,7 @@
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
       <span slot="label" class="mod-tablabel">{{tab.name}}</span>
       <ul class="mod-select">
-        <div class="mod-item-container" v-for="mod in tab.mods" :key="mod.id">
+        <div class="mod-item-container" v-for="(mod, index) in tab.mods" :key="index">
           <li class="mod-item el-dropdown" @click="handleClick(mod.id)">
             {{mod.name}}
           </li>

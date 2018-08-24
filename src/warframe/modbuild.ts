@@ -91,7 +91,7 @@ export abstract class ModBuild {
   /** 目标打击时间线 */
   getTimeline(limit = 10, bullets = 1, magazine = 1, reloadTime = 0) {
     if (this.target)
-      return this.target.generateTimeline(this.dmg, this.procChanceMap, this.dotDamageMap, this.fireRate, this.procDurationMul, limit, bullets, magazine, reloadTime);
+      return this.target.generateTimeline(this.totalDmg, this.procChanceMap, this.dotDamageMap, this.fireRate, this.procDurationMul, limit, bullets, magazine, reloadTime);
     else return null;
   }
 
@@ -190,9 +190,14 @@ export abstract class ModBuild {
       });
     }
   }
-
   /**
-   * 所有伤害类型
+     * 所有伤害
+     */
+  get totalDmg() {
+    return this.baseDmg.map(([i, v]) => [i, v * this.totalDamage / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
+  }
+  /**
+   * 所有伤害类型面板
    */
   get dmg() {
     return this.baseDmg.map(([i, v]) => [i, v * this.panelBaseDamage]).filter(v => v[1] > 0) as [string, number][];

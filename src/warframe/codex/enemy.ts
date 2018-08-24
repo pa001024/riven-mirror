@@ -440,7 +440,7 @@ export class Enemy implements EnemyData {
       if (!dtype) return [id, dmg];
       let HM = dtype.dmgMul[this.fleshType];
       let DM = 1 + HM;
-      return [id, dmg * DM];
+      return [id, dmg * DM * (1 - this.resistence)];
     }) as [string, number][];
   }
   /**
@@ -457,7 +457,7 @@ export class Enemy implements EnemyData {
       let HM = dtype.dmgMul[this.fleshType];
       let AM = dtype.dmgMul[11 + this.armorType];
       let DM = (1 + HM) * (1 + AM) / (1 + this.currentArmor * (1 - AM) / 300);
-      return [id, dmg * DM];
+      return [id, dmg * DM * (1 - this.resistence)];
     }) as [string, number][];
   }
   /**
@@ -474,7 +474,7 @@ export class Enemy implements EnemyData {
       let SM = dtype.dmgMul[9 + this.sheildType];
       // 毒素伤害直接穿透护盾对血量进行打击, 不计算对护盾的伤害
       let DM = isNaN(SM) ? 0 : 1 + SM;
-      return [id, dmg * DM];
+      return [id, dmg * DM * (1 - this.resistence)];
     }) as [string, number][];
   }
   /**
