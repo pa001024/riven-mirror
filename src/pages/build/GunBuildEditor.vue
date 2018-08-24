@@ -44,7 +44,7 @@
                 </el-tooltip>
               </el-form-item>
               <el-form-item label="基伤加成">
-                <el-tooltip effect="dark" placement="bottom">
+                <el-tooltip style="width: calc(100% - 68px);" effect="dark" placement="bottom">
                   <div slot="content">
                     <div>Chroma的"怨怒护甲"和Mirage的"黯然失色"等技能可对武器基伤进行大量加成，</div>
                     <div>步枪增幅、死亡之眼等光环MOD也属于这个加成</div>
@@ -66,7 +66,7 @@
       <el-col :sm="24" :md="12" :lg="18">
         <!-- MOD区域 -->
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
-          <el-tab-pane :key="item.name" v-for="item in tabs" :label="item.title" :name="item.name">
+          <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
@@ -171,7 +171,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   enemyLevel = 155;
 
   @Watch("weapon")
-  reload() { super.reload(); }
+  reload() { super.reload(); this.enemyData = this.enemy = null; }
   // [overwrite]
   reloadSelector() { this.$refs.selector && (this.$refs.selector as any).reload(); }
   newBuild(weapon: GunWeapon) {
@@ -192,12 +192,13 @@ export default class GunBuildEditor extends BaseBuildEditor {
       isUseVelocity: this.isUseVelocity,
     };
     this.build.calcMods();
+    this.reloadSelector();
   }
   spawnLevels = {
     "Eidolon Teralyst": 50,
     "Eidolon Gantulyst": 55,
     "Eidolon Hydrolyst": 60,
-    "Teralyst Synovia": 60,
+    "Teralyst Synovia": 50,
   };
   selectEnemy(enemyData: EnemyData) {
     this.enemyData = enemyData;

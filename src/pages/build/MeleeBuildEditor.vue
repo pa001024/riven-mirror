@@ -61,7 +61,7 @@
       <!-- MOD编辑器区域 -->
       <el-col :sm="24" :md="12" :lg="18">
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
-          <el-tab-pane :key="item.name" v-for="item in tabs" :label="item.title" :name="item.name">
+          <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
@@ -118,8 +118,8 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
 
   comboMul = 1.5;
   extraBaseDamage = 0;
-  isUseFury = true;
-  isUseStrike = true;
+  isUseFury = false;
+  isUseStrike = false;
 
   @Watch("weapon")
   reload() { super.reload(); }
@@ -141,6 +141,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
       isUseStrike: this.isUseStrike
     };
     this.build.calcMods();
+    this.reloadSelector();
   }
   // 子类不实现会报错
   handleTabsEdit(targetName, action: "add" | "remove") { super.handleTabsEdit(targetName, action); }

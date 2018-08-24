@@ -112,8 +112,18 @@ export abstract class BaseBuildEditor extends Vue {
     return dtype && dtype.name || "";
   }
   // === 事件处理 ===
-  modSelect(mod: NormalMod) {
-    this.currentTab.mods[this.selectModIndex] = mod;
+  modSelect(mod: NormalMod | NormalMod[]) {
+    if (_.isArray(mod)) {
+      if (mod.length > 0 && mod[0]) {
+        this.currentTab.mods[this.selectModIndex] = null;
+        mod.forEach(v => {
+          let index = this.currentTab.mods.findIndex(v => !v);
+          this.currentTab.mods[index] = v;
+        });
+      }
+    } else {
+      this.currentTab.mods[this.selectModIndex] = mod;
+    }
     this.refleshMods();
     this.dialogVisible = false;
   }

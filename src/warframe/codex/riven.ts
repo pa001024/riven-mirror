@@ -306,6 +306,7 @@ const _rivenWeaponDataBase = [
   ["Astilla", "碎裂者", "Shotgun", 1.2, 320],
   ["Sweeper", "扫除者", "Shotgun", 1, 120],
   ["Corinth", "科林斯", "Shotgun", 1, 460],
+  ["Phantasma", "幻离子", "Shotgun", 1, 450],
   ["Arca Plasmor", "弧电离子枪", "Shotgun", 0.9, 860],
   ["Hek", "海克", "Shotgun", 0.55, 195],
   ["Tigris", "猛虎", "Shotgun", 0.5, 315],

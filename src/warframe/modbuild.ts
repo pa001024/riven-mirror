@@ -233,6 +233,13 @@ export abstract class ModBuild {
   allowElementTypes: string[] = null;
   useStatus = false;
 
+  /** 连击层数 */
+  comboLevel = 0;
+  /** 设置连击数 */
+  set comboCount(value) {
+    this.comboLevel = value > 4 ? ~~(Math.log(value / 5) / Math.log(3)) + 1 : 0;
+  }
+
   // ### 计算属性 ###
   /** 原爆头倍率 */
   get oriHandShotMul() { return 2; }

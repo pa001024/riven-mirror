@@ -252,7 +252,8 @@ export const GunWeaponDataBase: GunWeapon[] = [
   { "id": "Zakti", "name": "毒芽", "tags": ["枪", "手枪"], "dmg": [["Puncture", 18], ["Impact", 12]], "accuracy": 26.7, "bullets": 1, "fireRate": 5, "criticalChances": 0.02, "criticalMultiplier": 1.5, "status": 0.2, "magazine": 3, "reload": 0.8, "ammo": 210 },
   { "id": "Zarr", "name": "沙皇", "tags": ["枪", "主要武器", "步枪", "突击步枪", "发射器"], "dmg": [["Blast", 175], ["Impact", 25]], "accuracy": 100, "bullets": 1, "fireRate": 1.67, "criticalChances": 0.17, "criticalMultiplier": 2.5, "status": 0.29, "magazine": 3, "reload": 2.3, "ammo": 84 },
   { "id": "Zenith", "name": "天穹之顶", "tags": ["枪", "主要武器", "步枪", "突击步枪"], "dmg": [["Slash", 19.5], ["Puncture", 6], ["Impact", 4.5]], "accuracy": 33.3, "bullets": 1, "fireRate": 10.83, "criticalChances": 0.1, "criticalMultiplier": 2, "status": 0.34, "magazine": 90, "reload": 1.6, "ammo": 540 },
-  { "id": "Zhuge", "name": "诸葛连弩", "tags": ["枪", "主要武器", "步枪", "弓"], "dmg": [["Slash", 20], ["Puncture", 75], ["Impact", 5]], "accuracy": 40, "bullets": 1, "fireRate": 4.17, "criticalChances": 0.2, "criticalMultiplier": 2, "status": 0.35, "magazine": 20, "reload": 2.5, "ammo": 540 }
+  { "id": "Zhuge", "name": "诸葛连弩", "tags": ["枪", "主要武器", "步枪", "弓"], "dmg": [["Slash", 20], ["Puncture", 75], ["Impact", 5]], "accuracy": 40, "bullets": 1, "fireRate": 4.17, "criticalChances": 0.2, "criticalMultiplier": 2, "status": 0.35, "magazine": 20, "reload": 2.5, "ammo": 540 },
+  { "id": "Phantasma", "name": "幻离子", "tags": ["枪", "主要武器", "霰弹枪", "射线"], "dmg": [["Impact", 35],["Radiation", 20]], "accuracy": 100, "bullets": 1, "fireRate": 12, "criticalChances": 0.13, "criticalMultiplier": 2, "status": 0.39, "magazine": 23, "reload": 1.2, "ammo": 120 },
 ];
 
 export const MeleeWeaponDataBase: MeleeWeapon[] = [

@@ -1,6 +1,5 @@
-import { AcolyteModsList, GunWeapon, NormalMod, NormalModDatabase, ModBuild, RivenMod } from "@/warframe";
+import { AcolyteModsList, GunWeapon, NormalMod, NormalModDatabase, ModBuild, RivenMod, Enemy } from "@/warframe";
 import { hAccSum, hAccMul } from "@/warframe/util";
-import { Enemy } from "@/warframe/codex";
 
 /*
  * MOD自动配置模块

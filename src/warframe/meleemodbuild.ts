@@ -25,9 +25,9 @@ export class MeleeModBuild extends ModBuild {
   private _comboDurationAdd = 0;
   private _slideCritChanceAdd = 0;
   private _execDmgMul = 1;
-  private _comboCritChanceMul = 1;
+  private _comboCritChanceMul = 0;
   private _comboStatusMul = 1;
-  private _statusDamageMul = 0;
+  private _statusDamageMul = 1;
 
   /** 范围增幅倍率 */
   get rangeMul() { return this._rangeMul; }
@@ -51,19 +51,12 @@ export class MeleeModBuild extends ModBuild {
   // 额外参数
   /** 比较方法 */
   compareMode = 0;
-  /** 连击层数 */
-  comboLevel = 0;
   /** 异况触发量 */
   statusCount = 2;
   /** 狂怒赋能 */
   isUseFury = false;
   /** 速攻赋能 */
   isUseStrike = false;
-
-  /** 设置连击数 */
-  set comboCount(value) {
-    this.comboLevel = value > 4 ? ~~(Math.log(value / 5) / Math.log(3)) + 1 : 0;
-  }
 
   constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null) {
     super(riven);
@@ -108,7 +101,7 @@ export class MeleeModBuild extends ModBuild {
   }
   /** [overwrite] 暴击率 */
   get critChance() {
-    return this.weapon.criticalChances * this.critChanceMul * (this.comboMul > 1 ? this.comboMul * this.comboCritChanceMul : 1);
+    return this.weapon.criticalChances * this.critChanceMul * (this.comboMul > 1 ? 1 + this.comboMul * this.comboCritChanceMul : 1);
   }
   /** 滑行暴击率 */
   get slideCritDamage() {
@@ -119,13 +112,13 @@ export class MeleeModBuild extends ModBuild {
   /** 滑行平均暴击区增幅倍率 */
   get slideCritDamageMul() { return this.calcCritDamage(this.slideCritDamage, this.critMul); }
   /** [overwrite] 总伤增幅倍率 */
-  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.handShotDmgMul, this.overallMul, this.comboMul); }
+  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.overallMul, this.comboMul); }
   /** [overwrite] 总伤害 */
   get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul, this.fireRate); }
   /** [overwrite] 原总伤害 */
   get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul, this.weapon.fireRate); }
   /** 滑行攻击伤害增幅倍率 */
-  get slideDamageMul() { return hAccMul(this.panelDamageMul, this.slideCritDamageMul, this.handShotDmgMul, this.overallMul, this.comboMul); }
+  get slideDamageMul() { return hAccMul(this.panelDamageMul, this.slideCritDamageMul, this.overallMul, this.comboMul); }
   /** 原滑行攻击伤害 */
   get oriSlideDamage() { return hAccMul(this.weapon.slideDmg, this.oriCritDamageMul, this.weapon.fireRate); }
   /** 滑行攻击伤害 */
@@ -157,9 +150,9 @@ export class MeleeModBuild extends ModBuild {
     this._comboDurationAdd = 0;
     this._slideCritChanceAdd = 0;
     this._execDmgMul = 1;
-    this._comboCritChanceMul = 1;
+    this._comboCritChanceMul = 0;
     this._comboStatusMul = 1;
-    this._statusDamageMul = 0;
+    this._statusDamageMul = 1;
   }
 
   /**
