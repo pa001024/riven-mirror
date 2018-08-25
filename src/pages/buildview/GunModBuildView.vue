@@ -1,8 +1,8 @@
 <template>
   <div class="build-container">
     <el-form :inline="true" class="build-form-inline">
-      <el-form-item label="武器" v-if="riven.weapons.length > 1" @change="debouncedRecalc">
-        <el-select size="small" v-model="selectWeapon" placeholder="请选择">
+      <el-form-item label="武器" v-if="riven.weapons.length > 1">
+        <el-select size="small" v-model="selectWeapon" @change="recalc" placeholder="请选择">
           <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.name" :value="weapon.name">
           </el-option>
         </el-select>
@@ -27,7 +27,7 @@
       </el-form-item>
       <el-form-item label="限制元素类型">
         <el-tooltip effect="dark" content="计算时只会使用可构成该元素的MOD" placement="bottom">
-          <el-select size="small" v-model="selectDamageType" @change="selectDamageTypeChange" placeholder="不限制" clearable style="width: 120px;">
+          <el-select size="small" v-model="selectDamageType" @change="selectDamageTypeChange()" placeholder="不限制" clearable style="width: 120px;">
             <el-option v-for="(value, name) in elementTypes" :key="name" :label="name" :value="name">
             </el-option>
           </el-select>
