@@ -121,7 +121,7 @@ export class GunModBuild extends ModBuild {
   /** [overwrite] 目标打击时间线 */
   getTimeline(limit = 10) {
     if (this.target)
-      return super.getTimeline(limit, this.bullets, this.magazineSize, this.reloadTime);
+      return super.getTimeline(limit, this.bullets, (this.weapon.rivenName || this.weapon.id) === "Knell" ? 9999 : this.magazineSize, this.reloadTime);
     else return null;
   }
 
@@ -139,15 +139,18 @@ export class GunModBuild extends ModBuild {
   get critChance() {
     // 兰卡开镜暴击
     if ((this.weapon.rivenName || this.weapon.id) === "Lanka")
-      return this.weapon.criticalChances * this.critChanceMul + 0.5;
-    return this.weapon.criticalChances * this.critChanceMul;
+      return hAccMul(this.weapon.criticalChances, this.critChanceMul) + 0.5;
+    return hAccMul(this.weapon.criticalChances, this.critChanceMul);
   }
   /** [overwrite] 暴击倍率 */
   get critMul() {
     // 绝路开镜暴伤
     if ((this.weapon.rivenName || this.weapon.id) === "Rubico")
-      return this.weapon.criticalMultiplier * this.critMulMul + 0.5;
-    return this.weapon.criticalMultiplier * this.critMulMul;
+      return hAccMul(this.weapon.criticalMultiplier, this.critMulMul) + 0.5;
+    // 丧钟开镜暴伤
+    if ((this.weapon.rivenName || this.weapon.id) === "Knell")
+      return hAccMul(this.weapon.criticalMultiplier, this.critMulMul) + 2.5;
+    return hAccMul(this.weapon.criticalMultiplier, this.critMulMul);
   }
 
   /** [overwrite] 面板基础伤害增幅倍率 */

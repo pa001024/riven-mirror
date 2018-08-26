@@ -10,6 +10,9 @@
           <div class="hit">
             伤害
           </div>
+          <div class="ammo">
+            使用弹药
+          </div>
           <div class="dot" v-if="hasDoT">
             DoT伤害
           </div>
@@ -26,6 +29,9 @@
           </div>
           <div class="hit">
             {{text.hit}}
+          </div>
+          <div class="ammo">
+            {{text.ammo}}
           </div>
           <div class="dot" v-if="hasDoT">
             {{text.dot}}
@@ -61,26 +67,30 @@ export default class EnemyTimeline extends Vue {
 
   get timelineText() {
     let rst = [];
-    let lastHitHead = this.timeline[0];
+    let lastHitHead = 0, ammo = 0;
     this.hasDoT = false;
     this.timeline.forEach((v, i) => {
+      ammo += v.ammo;
       if (v.isDoT) {
         let hit = this.timeline[i - 1];
-        let dot = ~~(hit.health - v.health)
+        let dot = ~~(hit.health - v.health);
         rst.push({
           time: v.ms,
-          hit: ~~(lastHitHead.health - hit.health),
+          hit: ~~(this.timeline[lastHitHead].health - hit.health),
+          ammo,
           dot,
           hp: ~~v.health,
           ar: ~~v.armor,
         });
         if (v.armor != this.timeline[0].armor) this.hasArmorChange = true;
         if (dot > 0) this.hasDoT = true;
-        lastHitHead = v;
+        lastHitHead = i;
+        ammo = 0;
       } else if (i === this.timeline.length - 1) {
         rst.push({
           time: v.ms,
-          hit: ~~(lastHitHead.health - v.health),
+          hit: ~~(this.timeline[lastHitHead].health - v.health),
+          ammo,
           dot: 0,
           hp: 0,
           ar: 0,

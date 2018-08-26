@@ -316,6 +316,7 @@ export class Procs {
 
 export interface EnemyTimelineState {
   ms: number;
+  ammo: number;
   health: number;
   sheild: number;
   armor: number;
@@ -553,8 +554,8 @@ export class Enemy implements EnemyData {
    * @param {[string, number][]} dmgs 伤害表
    * @param {[string, number][]} procChanceMap 触发几率表(真实触发)
    * @param {[string, number][]} dotDamageMap 触发伤害表(DoT)
-   * @param {number} bullets 弹片数
-   * @param {number} [durationMul=1] 持续时间
+   * @param {number} [bullets=1] 弹片数
+   * @param {number} [durationMul=1]
    * @memberof Enemy
    */
   applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets = 1, durationMul = 1) {
@@ -591,7 +592,7 @@ export class Enemy implements EnemyData {
       }
       bls = hAccSum(bls, -1);
     }
-    this.pushState(false);
+    this.pushState(false, 1);
   }
 
   // === 时间线系统 ===
@@ -612,9 +613,10 @@ export class Enemy implements EnemyData {
    *
    * @memberof Enemy
    */
-  pushState(isDoT = false) {
+  pushState(isDoT = false, ammo = 0) {
     this.stateHistory.push({
       ms: ~~(this.tickCount * 1e3 / this.TICKCYCLE),
+      ammo,
       health: this.currentHealth,
       sheild: this.currentSheild,
       armor: this.currentArmor,
@@ -656,7 +658,7 @@ export class Enemy implements EnemyData {
     // 敌人死亡或者到时间停止
     for (let seconds = 0; enemy.currentHealth > 0 && seconds < timeLimit; ++seconds) {
       // 伤害
-      while (nextDmgTick <= nextDoTTick) {
+      while (nextDmgTick <= nextDoTTick && enemy.currentHealth > 0) {
         enemy.tickCount = nextDmgTick;
         enemy.applyHit(dmgs, procChanceMap, dotDamageMap, bullets, durationMul);
         nextDmgTick += --remaingMag > 0 ? ticks : (remaingMag = magazine, reloadTicks);

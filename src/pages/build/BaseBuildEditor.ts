@@ -104,7 +104,6 @@ export abstract class BaseBuildEditor extends Vue {
   refleshMods() {
     this.build.clear();
     let mods = _.compact(this.currentTab.mods);
-    console.log(mods.map(v => v.name));
     mods.forEach(mod => this.build.applyMod(mod));
   }
   mapDname(id: string) {

@@ -228,6 +228,10 @@ export default class Index extends Vue {
     this.cetusTime = { isDay: CetusTime.isDay, phase: CetusTime.phaseText, text: CetusTime.text };
     this.earthTime = { isDay: EarthTime.isDay, phase: EarthTime.phaseText, text: EarthTime.text };
   }
+  beforeRouteUpdate(to, from, next) {
+    this.resize();
+    next();
+  }
 }
 </script>
 
