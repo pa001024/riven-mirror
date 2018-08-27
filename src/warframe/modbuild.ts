@@ -186,8 +186,9 @@ export abstract class ModBuild {
     if (this.weapon.dmg.some(v => ["Impact", "Puncture", "Slash"].includes(v[0]))) {
       ["Impact", "Puncture", "Slash"].forEach(dname => {
         let pD = this.weapon.dmg.find(v => v[0] === dname);
-        if (pD && this["_" + dname.toLowerCase() + "Mul"] > -1) {
-          let dvalue = this["_" + dname.toLowerCase() + "Mul"] * pD[1] / this.originalDamage;
+        if (pD) {
+          let vvalue = this["_" + dname.toLowerCase() + "Mul"];
+          let dvalue = (vvalue > -1 ? vvalue : -1) * pD[1] / this.originalDamage;
           this._extraDmgMul = hAccSum(this._extraDmgMul, dvalue);
           this._combElementsOrder.push([dname, dvalue]);
         }
@@ -218,7 +219,7 @@ export abstract class ModBuild {
 
     this.weapon.dmg.forEach(([dname, dvalue]) => {
       let dtype = Damage2_0.getDamageType(dname as DamageType);
-      let ltype = extra.length > 0 && Damage2_0.getDamageType(_.last(extra)[0] as DamageType);
+      let ltype = extra.length > 0 && Damage2_0.getDamageType(_.last(extra)[0] as DamageType);// 末尾元素
       let targetElement = dname;
       // 将自带元素与MOD元素进行合成
       if (dname !== ltype.id && dtype.type === "Elemental" && ltype && ltype.type === "Elemental") {
