@@ -111,13 +111,17 @@ export default class EnemyTimeline extends Vue {
 .timeline-text .item {
   flex: 1;
 }
+.timeline-text .item:hover {
+  background: #ebf1fc;
+  transition: all 0.4s;
+}
 .timeline-text .item:first-child > * {
   background: #d9e6ff;
 }
 .timeline-text .item > * {
   height: 1.5em;
   padding: 4px;
-  margin: 4px;
+  margin: 4px 0;
   font-size: 1em;
   display: flex;
   align-items: center;
@@ -125,5 +129,8 @@ export default class EnemyTimeline extends Vue {
   border-radius: 2px;
   overflow: hidden;
   white-space: nowrap;
+}
+.timeline-text .item + .item {
+  margin-left: 8px;
 }
 </style>

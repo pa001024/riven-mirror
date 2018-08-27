@@ -1,4 +1,4 @@
-import { AcolyteModsList, GunWeapon, NormalMod, NormalModDatabase, ModBuild, RivenMod, Enemy } from "@/warframe";
+import { AcolyteModsList, GunWeapon, NormalMod, NormalModDatabase, ModBuild, RivenMod, Enemy, Arcane } from "@/warframe";
 import { hAccSum, hAccMul } from "@/warframe/util";
 
 /*
@@ -139,18 +139,18 @@ export class GunModBuild extends ModBuild {
   get critChance() {
     // 兰卡开镜暴击
     if ((this.weapon.rivenName || this.weapon.id) === "Lanka")
-      return hAccMul(this.weapon.criticalChances, this.critChanceMul) + 0.5;
-    return hAccMul(this.weapon.criticalChances, this.critChanceMul);
+      return hAccMul(this.weapon.critChances, this.critChanceMul) + 0.5;
+    return hAccMul(this.weapon.critChances, this.critChanceMul);
   }
   /** [overwrite] 暴击倍率 */
   get critMul() {
     // 绝路开镜暴伤
     if ((this.weapon.rivenName || this.weapon.id) === "Rubico")
-      return hAccMul(this.weapon.criticalMultiplier, this.critMulMul) + 0.5;
+      return hAccMul(this.weapon.critMul, this.critMulMul) + 0.5;
     // 丧钟开镜暴伤
     if ((this.weapon.rivenName || this.weapon.id) === "Knell")
-      return hAccMul(this.weapon.criticalMultiplier, this.critMulMul) + 2.5;
-    return hAccMul(this.weapon.criticalMultiplier, this.critMulMul);
+      return hAccMul(this.weapon.critMul, this.critMulMul) + 2.5;
+    return hAccMul(this.weapon.critMul, this.critMulMul);
   }
 
   /** [overwrite] 面板基础伤害增幅倍率 */
@@ -239,7 +239,7 @@ export class GunModBuild extends ModBuild {
   * @param pName 属性id或名称
   * @param pValue 属性值
   */
-  applyProp(mod: NormalMod, pName: string, pValue: number) {
+  applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
     switch (pName) {
       case 'D': /* 伤害 baseDmg */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;
       case 'S': /* 多重射击 multiShot */ this._multishotMul = hAccSum(this._multishotMul, pValue); break;

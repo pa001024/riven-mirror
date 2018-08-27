@@ -302,6 +302,7 @@ export class RivenMod {
   /** 返回一个标准MOD对象 */
   get normalMod(): NormalMod {
     return {
+      key: "01",
       id: this.fullId,
       name: this.fullName,
       type: this.name,

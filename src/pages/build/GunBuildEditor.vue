@@ -12,9 +12,9 @@
               <tbody>
                 <PropDiff name="弹匣" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
                 <PropDiff name="攻击速度" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
-                <PropDiff name="暴击倍率" :ori="weapon.criticalMultiplier" :val="build.critMul" subfix="x"></PropDiff>
-                <PropDiff name="暴击几率" :ori="weapon.criticalChances" :val="build.critChance" percent></PropDiff>
-                <PropDiff v-if="weapon.bullets!=1||build.bullets!=1" name="弹片数" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
+                <PropDiff name="暴击倍率" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
+                <PropDiff name="暴击几率" :ori="weapon.critChances" :val="build.critChance" percent></PropDiff>
+                <PropDiff v-if="weapon.bullets != 1 || build.bullets != 1" name="弹片数" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
                 <PropDiff name="裂罅倾向性" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
                 <PropDiff name="装填" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
                 <PropDiff name="触发几率" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
@@ -22,11 +22,11 @@
                 <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="mapDname(dname)" :ori="ori" :val="val"></PropDiff>
                 <PropDiff name="面板伤害" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
                 <PropDiff name="单发伤害" :ori="build.oriTotalDamage" :val="build.totalDamage"
-                   class="select-cpmode" :class="{active: build.compareMode===0}" @click="changeMode(0)"></PropDiff>
+                   class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
                 <PropDiff name="爆发伤害" :ori="build.oriBurstDamage" :val="build.burstDamage"
-                   class="select-cpmode" :class="{active: build.compareMode===1}" @click="changeMode(1)"></PropDiff>
+                   class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
                 <PropDiff name="持续伤害" :ori="build.oriSustainedDamage" :val="build.sustainedDamage"
-                   class="select-cpmode" :class="{active: build.compareMode===2}" @click="changeMode(2)"></PropDiff>
+                   class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
               </tbody>
             </table>
           </el-card>

@@ -11,8 +11,8 @@
             <table class="weapon-props">
               <tbody>
                 <PropDiff name="攻击速度" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
-                <PropDiff name="暴击几率" :ori="weapon.criticalChances" :val="build.critChance" percent></PropDiff>
-                <PropDiff name="暴击倍率" :ori="weapon.criticalMultiplier" :val="build.critMul" subfix="x"></PropDiff>
+                <PropDiff name="暴击几率" :ori="weapon.critMul" :val="build.critChance" percent></PropDiff>
+                <PropDiff name="暴击倍率" :ori="weapon.critChances" :val="build.critMul" subfix="x"></PropDiff>
                 <PropDiff name="滑行攻击" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
                 <PropDiff name="裂罅倾向性" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
                 <PropDiff name="触发几率" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
@@ -20,9 +20,9 @@
                 <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="mapDname(dname)" :ori="ori" :val="val"></PropDiff>
                 <PropDiff name="面板伤害" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
                 <PropDiff name="平砍伤害" :ori="build.oriTotalDamage" :val="build.totalDamage"
-                   class="select-cpmode" :class="{active: build.compareMode===0}" @click="changeMode(0)"></PropDiff>
+                   class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
                 <PropDiff name="滑砍伤害" :ori="build.oriSlideDamage" :val="build.slideDamage"
-                   class="select-cpmode" :class="{active: build.compareMode===1}" @click="changeMode(1)"></PropDiff>
+                   class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
               </tbody>
             </table>
           </el-card>

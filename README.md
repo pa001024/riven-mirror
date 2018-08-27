@@ -6,7 +6,7 @@
 
 ## 项目介绍
 
-详见WIKI: [【WRM】裂罅之镜 - RivenMirror Alpha测试开启 - 紫卡评分，洗卡模拟](https://gitee.com/pa001024/riven-mirror/wikis/%E3%80%90WRM%E3%80%91%E8%A3%82%E7%BD%85%E4%B9%8B%E9%95%9C%20-%20RivenMirror%20Alpha%E6%B5%8B%E8%AF%95%E5%BC%80%E5%90%AF%20-%20%E7%B4%AB%E5%8D%A1%E8%AF%84%E5%88%86%EF%BC%8C%E6%B4%97%E5%8D%A1%E6%A8%A1%E6%8B%9F)
+详见WIKI: [A测公式贴](https://gitee.com/pa001024/riven-mirror/wikis/A测公式贴)
 
 ## 近期 TODO-LIST
 

@@ -1,4 +1,4 @@
-import _, { Dictionary } from "lodash";
+import _ from "lodash";
 import axios from 'axios';
 import { Translator } from "@/warframe/translate";
 
@@ -351,7 +351,7 @@ export class WorldStat {
     return this.deepTranslate(this.data.sortie);
   }
 
-  filterType = ["nightmare", "endo", "traces", "credits",
+  filterType = ["nightmare", "endo", "traces", "credits", "resource",
     "ferrite",
     "nanoSpores",
     "alloyPlate",

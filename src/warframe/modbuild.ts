@@ -1,7 +1,6 @@
-import { CombElementMap, Damage2_0, DamageType, ExtraDmgSet, NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase, ValuedRivenProperty, Weapon } from "@/warframe";
-import { choose, hAccDiv, hAccMul, hAccSum } from "./util";
+import { Arcane, CombElementMap, Damage2_0, DamageType, Enemy, ExtraDmgSet, NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase, ValuedRivenProperty, Weapon } from "@/warframe";
 import _ from "lodash";
-import { Enemy } from "@/warframe/codex";
+import { choose, hAccDiv, hAccMul, hAccSum } from "./util";
 
 // 基础类
 export abstract class ModBuild {
@@ -14,13 +13,18 @@ export abstract class ModBuild {
   /** 所有适用的MOD */
   protected avaliableMods: NormalMod[] = []
   protected _mods: NormalMod[] = [];
+  protected _arcanes: Arcane[] = [];
   /** MOD列表 */
   get mods() { return _.cloneDeep(this._mods); }
+  /** 赋能列表 */
+  get arcanes() { return _.cloneDeep(this._arcanes); }
+  set arcanes(value) { this._arcanes = value; this.calcMods(); }
 
   // ### 属性 ###
   protected _baseDamageMul = 1;
   protected _extraDmgMul = 1;
   protected _critChanceMul = 1;
+  protected _critChanceAdd = 0;
   protected _critMulMul = 1;
   protected _procChanceMul = 1;
   protected _procDurationMul = 1;
@@ -35,6 +39,8 @@ export abstract class ModBuild {
   get extraDmgMul() { return this._extraDmgMul; }
   /** 暴击率增幅倍率 */
   get critChanceMul() { return this._critChanceMul; }
+  /** 加法暴击率增幅倍率 */
+  get critChanceAdd() { return this._critChanceAdd; }
   /** 暴击伤害增幅倍率 */
   get critMulMul() { return this._critMulMul; }
   /** 触发几率增幅倍率 */
@@ -79,9 +85,7 @@ export abstract class ModBuild {
 
   protected _target: Enemy;
   /** 打击目标 */
-  get target() {
-    return this._target;
-  }
+  get target() { return this._target; }
   set target(value) {
     if (value)
       this.enemyDmgType = "TGCIOSW"[value.faction];
@@ -97,9 +101,9 @@ export abstract class ModBuild {
 
   // === 计算属性 ===
   /** 暴击率 */
-  get critChance() { return this.weapon.criticalChances * this.critChanceMul; }
+  get critChance() { return hAccSum(hAccMul(this.weapon.critChances, this.critChanceMul), this.critChanceAdd); }
   /** 暴击倍率 */
-  get critMul() { return this.weapon.criticalMultiplier * this.critMulMul; }
+  get critMul() { return hAccMul(this.weapon.critMul, this.critMulMul); }
   /** 平均暴击区增幅倍率 */
   get critDamageMul() { return this.calcCritDamage(this.critChance, this.critMul); }
 
@@ -332,7 +336,7 @@ export abstract class ModBuild {
     return fr < 0.05 ? 0.05 : fr;
   }
   /** 原平均暴击区增幅倍率 */
-  get oriCritDamageMul() { return this.calcCritDamage(this.weapon.criticalChances, this.weapon.criticalMultiplier, this.handShotChance, this.oriHandShotMul); }
+  get oriCritDamageMul() { return this.calcCritDamage(this.weapon.critChances, this.weapon.critMul, this.handShotChance, this.oriHandShotMul); }
 
   protected _originalDamage: number;
   /** 武器原本伤害 */
@@ -383,9 +387,19 @@ export abstract class ModBuild {
     return this;
   }
 
+  /** 应用赋能 */
+  applyArcane(arc: Arcane) {
+    this._arcanes.push(arc);
+    this.calcMods();
+    return this;
+  }
+
   /** 将Mod属性写入到增幅上 */
   calcMods() {
     this.reset();
+    this._arcanes.forEach(arc => {
+      this.applyProp(arc, arc.prop[0], arc.prop[1]);
+    });
     this._mods.forEach(mod => {
       mod.props.forEach(prop => this.applyProp(mod, prop[0], prop[1]));
     });
@@ -417,6 +431,7 @@ export abstract class ModBuild {
   /** 清除所有MOD并重置属性增幅器 */
   clear() {
     this._mods = [];
+    this._arcanes = [];
     this.reset();
   }
 
@@ -609,64 +624,29 @@ export abstract class ModBuild {
    * @param pName 属性id或名称
    * @param pValue 属性值
    */
-  applyProp(mod: NormalMod, pName: string, pValue: number) {
+  applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
     let oriDmg: [string, number];
     switch (pName) {
-      case '0': // 暴击率 critChance
-        this._critChanceMul = hAccSum(this._critChanceMul, pValue);
-        break;
-      case '1': // 暴击伤害 critMul
-        this._critMulMul = hAccSum(this._critMulMul, pValue);
-        break;
-      case '2': // 触发几率 procChance
-        this._procChanceMul = hAccSum(this._procChanceMul, pValue);
-        break;
-      case '3': // 触发时间 procDuration
-        this._procDurationMul = hAccSum(this._procDurationMul, pValue);
-        break;
-      case '4': // 火焰伤害 heatDmg
-        this.heatMul = hAccSum(this.heatMul, pValue);
-        break;
-      case '5': // 冰冻伤害 coldDmg
-        this.coldMul = hAccSum(this.coldMul, pValue);
-        break;
-      case '6': // 毒素伤害 toxinDmg
-        this.toxinMul = hAccSum(this.toxinMul, pValue);
-        break;
-      case '7': // 电击伤害 electricityDmg
-        this.electricityMul = hAccSum(this.electricityMul, pValue);
-        break;
-      case '8': // 冲击伤害 impaDmg
-        this.impactMul = hAccSum(this.impactMul, pValue);
-        break;
-      case '9': // 穿刺伤害 puncDmg
-        this.punctureMul = hAccSum(this.punctureMul, pValue);
-        break;
-      case 'A': // 切割伤害 slasDmg
-        this.slashMul = hAccSum(this.slashMul, pValue);
-        break;
-      case 'G': // 对Grineer伤害 grinDmg
-        this._enemyDmgMul[0] += pValue;
-        break;
-      case 'C': // 对Corpus伤害 corpDmg
-        this._enemyDmgMul[1] += pValue;
-        break;
-      case 'I': // 对Infested伤害 infeDmg
-        this._enemyDmgMul[2] += pValue;
-        break;
-      case '对堕落者伤害': // 对堕落者伤害
-        this._enemyDmgMul[3] += pValue;
-        break;
-      case '对Sentient伤害': // 对Sentient伤害
-        this._enemyDmgMul[4] += pValue;
-        break;
-      case '爆头伤害': // 爆头伤害 handShotMul
-        this._handShotMulMul += pValue;
-        break;
-      case '正中红心': // 正中红心 overallMul
-      case '最终伤害': // 全局伤害 overallMul
-        this._overallMul = hAccMul(this._overallMul, 1 + pValue);
-        break;
+      case '0': /* 暴击率 critChance */ this._critChanceMul = hAccSum(this._critChanceMul, pValue); break;
+      case '1': /* 暴击伤害 critMul */ this._critMulMul = hAccSum(this._critMulMul, pValue); break;
+      case '2': /* 触发几率 procChance */ this._procChanceMul = hAccSum(this._procChanceMul, pValue); break;
+      case '3': /* 触发时间 procDuration */ this._procDurationMul = hAccSum(this._procDurationMul, pValue); break;
+      case '4': /* 火焰伤害 heatDmg */ this.heatMul = hAccSum(this.heatMul, pValue); break;
+      case '5': /* 冰冻伤害 coldDmg */ this.coldMul = hAccSum(this.coldMul, pValue); break;
+      case '6': /* 毒素伤害 toxinDmg */ this.toxinMul = hAccSum(this.toxinMul, pValue); break;
+      case '7': /* 电击伤害 electricityDmg */ this.electricityMul = hAccSum(this.electricityMul, pValue); break;
+      case '8': /* 冲击伤害 impaDmg */ this.impactMul = hAccSum(this.impactMul, pValue); break;
+      case '9': /* 穿刺伤害 puncDmg */ this.punctureMul = hAccSum(this.punctureMul, pValue); break;
+      case 'A': /* 切割伤害 slasDmg */ this.slashMul = hAccSum(this.slashMul, pValue); break;
+      case 'G': /* 对Grineer伤害 grinDmg */ this._enemyDmgMul[0] = hAccSum(this._enemyDmgMul[0], pValue); break;
+      case 'C': /* 对Corpus伤害 corpDmg */ this._enemyDmgMul[1] = hAccSum(this._enemyDmgMul[1], pValue); break;
+      case 'I': /* 对Infested伤害 infeDmg */ this._enemyDmgMul[2] = hAccSum(this._enemyDmgMul[2], pValue); break;
+      case '对堕落者伤害': /* 对堕落者伤害 */ this._enemyDmgMul[3] = hAccSum(this._enemyDmgMul[3], pValue); break;
+      case '对Sentient伤害': /* 对Sentient伤害 */ this._enemyDmgMul[4] = hAccSum(this._enemyDmgMul[4], pValue); break;
+      case '爆头伤害': /* 爆头伤害 handShotMul */ this._handShotMulMul = hAccSum(this._handShotMulMul, pValue); break;
+      case '正中红心': /* 正中红心 overallMul */
+      case '最终伤害': /* 全局伤害 overallMul */ this._overallMul = hAccMul(this._overallMul, 1 + pValue); break;
+      case '加法暴击': /* 加法暴击 critChanceAdd */ this._critChanceAdd = hAccMul(this._critChanceAdd, pValue); break;
       default:
     }
   }

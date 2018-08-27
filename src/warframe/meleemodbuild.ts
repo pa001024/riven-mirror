@@ -1,6 +1,5 @@
-import { RivenMod, ModBuild, NormalMod, MeleeWeapon, NormalModDatabase } from "@/warframe";
+import { RivenMod, ModBuild, NormalMod, MeleeWeapon, NormalModDatabase, Enemy, Arcane } from "@/warframe";
 import { hAccMul, hAccSum } from "@/warframe/util";
-import { Enemy } from "@/warframe/codex";
 
 export enum MeleeCompareMode {
   TotalDamage,// 平砍伤害
@@ -100,12 +99,10 @@ export class MeleeModBuild extends ModBuild {
       return this.comboLevel * 0.5 + 1;
   }
   /** [overwrite] 暴击率 */
-  get critChance() {
-    return this.weapon.criticalChances * this.critChanceMul * (this.comboMul > 1 ? 1 + this.comboMul * this.comboCritChanceMul : 1);
-  }
+  get critChance() { return hAccMul(this.weapon.critChances, this.critChanceMul, this.comboMul > 1 ? 1 + this.comboMul * this.comboCritChanceMul : 1); }
   /** 滑行暴击率 */
   get slideCritDamage() {
-    return (this.weapon.criticalChances * this.critChanceMul + this.slideCritChanceAdd) * (this.comboMul > 1 ? this.comboMul * this._comboCritChanceMul : 1)
+    return hAccSum(hAccMul(this.weapon.critChances, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd) * (this.comboMul > 1 ? this.comboMul * this._comboCritChanceMul : 1)
   }
   /** 真实触发几率 */
   get realProcChance() { return this.procChance; }
@@ -161,7 +158,7 @@ export class MeleeModBuild extends ModBuild {
    * @param pName 属性id或名称
    * @param pValue 属性值
    */
-  applyProp(mod: NormalMod, pName: string, pValue: number) {
+  applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
     switch (pName) {
       case 'K': /* 近战伤害 baseDmg */ this._baseDamageMul += pValue; break;
       case 'T': /* 攻击范围 range */ this._rangeMul += pValue; break;

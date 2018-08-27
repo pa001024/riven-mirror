@@ -151,7 +151,7 @@ export default class Mod extends Vue {
     let formData = new FormData();
     formData.append('file', file);
     this.ocrLoading = true;
-    axios.post("https://api.0-0.at/ocr", formData, { timeout: 3000, headers: { 'Content-Type': 'multipart/form-data' } })
+    axios.post("https://api.0-0.at/ocr", formData, { timeout: 6e3, headers: { 'Content-Type': 'multipart/form-data' } })
       .then(response => {
         this.ocrLoading = false;
         let rst = response.data as OCRResult;
