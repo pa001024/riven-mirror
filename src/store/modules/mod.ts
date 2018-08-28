@@ -22,6 +22,7 @@ const mutations = {
   },
   removeHistory(state: State, qrCode: string) {
     state.history = state.history.filter((v, i) => v.qrCode !== qrCode);
+    localStorage.setItem("modHistory", JSON.stringify(state.history.map(v => v.qrCode)));
   }
 }
 

@@ -49,4 +49,9 @@ export const i18n = new VueI18n({
   },
 });
 
+export function changeLocale(locale: string) {
+  i18n.locale = locale;
+  document.title = i18n.t("title.main").toString();
+}
+
 document.title = i18n.t("title.main").toString();

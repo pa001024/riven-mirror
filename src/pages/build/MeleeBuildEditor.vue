@@ -11,8 +11,8 @@
             <table class="weapon-props">
               <tbody>
                 <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
-                <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critChance" percent></PropDiff>
-                <PropDiff :name="$t('build.critChances')" :ori="weapon.critChances" :val="build.critMul" subfix="x"></PropDiff>
+                <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
+                <PropDiff :name="$t('build.critChances')" :ori="weapon.critChances" :val="build.critChance" percent></PropDiff>
                 <PropDiff :name="$t('build.slideDmg')" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
                 <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
                 <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
