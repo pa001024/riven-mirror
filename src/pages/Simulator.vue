@@ -4,18 +4,18 @@
       <el-row type="flex" justify="center">
         <el-col :sm="24" :md="12" :lg="8" style="padding:0 11px;">
           <el-dropdown class="simulator-new" :class="{ 'is-disabled': openCountdown > 0 }"  size="medium" split-button type="primary" @click="simulatorNew" @command="newTypeSelect" trigger="click">
-            <i class="el-icon-plus"></i> {{openCountdown > 0 ? `请等待${openCountdown}秒` : '开卡：' + newTypeString}}
+            <i class="el-icon-plus"></i> {{openCountdown > 0 ? $t("simulator.pleaseWait",[openCountdown]) :  $t("simulator.open",[$t(`simulator.${newType.toLowerCase() || "random"}`)])}}
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="">随机</el-dropdown-item>
-              <el-dropdown-item command="Rifle">步枪</el-dropdown-item>
-              <el-dropdown-item command="Shotgun">霰弹</el-dropdown-item>
-              <el-dropdown-item command="Pistol">手枪</el-dropdown-item>
-              <el-dropdown-item command="Melee">近战</el-dropdown-item>
+              <el-dropdown-item command="">{{$t("simulator.random")}}</el-dropdown-item>
+              <el-dropdown-item command="Rifle">{{$t("simulator.rifle")}}</el-dropdown-item>
+              <el-dropdown-item command="Shotgun">{{$t("simulator.shotgun")}}</el-dropdown-item>
+              <el-dropdown-item command="Pistol">{{$t("simulator.pistol")}}</el-dropdown-item>
+              <el-dropdown-item command="Melee">{{$t("simulator.melee")}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
         <el-col :sm="24" :md="12" :lg="8" style="padding:0 11px;">
-          <el-button class="simulator-roll" type="primary" size="medium" :disabled="refreshCountdown > 0 || !hasChoosen" icon="el-icon-refresh" @click="simulatorRoll">{{refreshCountdown > 0 ? `请等待${refreshCountdown}秒` : '循环'}}</el-button>
+          <el-button class="simulator-roll" type="primary" size="medium" :disabled="refreshCountdown > 0 || !hasChoosen" icon="el-icon-refresh" @click="simulatorRoll">{{refreshCountdown > 0 ? $t("simulator.pleaseWait",[refreshCountdown]) : $t("simulator.recycle")}}</el-button>
         </el-col>
       </el-row>
       <el-row type="flex" :gutter="20" justify="center">
@@ -25,14 +25,14 @@
             <div v-show="mod.name" class="mod-display">
               <el-card class="mod-props-box">
                 <div slot="header" class="mod-name">
-                  <span>{{mod.name}} {{mod.subfix}}</span>
+                  <span>{{$t("zh") ? mod.name : mod.id}} {{mod.subfix}}</span>
                 </div>
                 <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
-                  {{prop.displayValue}} {{prop.name}}
+                  {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
                 </div>
                 <div class="mod-extra">
-                  <el-tag size="medium" class="mod-rank">段位: {{mod.rank}}</el-tag>
-                  <el-tag size="medium" class="mod-recycleTimes">循环: {{mod.recycleTimes}}</el-tag>
+                  <el-tag size="medium" class="mod-rank">{{$t("riven.rank")}}{{mod.rank}}</el-tag>
+                  <el-tag size="medium" class="mod-recycleTimes">{{$t("riven.recycle")}}{{mod.recycleTimes}}</el-tag>
                 </div>
                 <div class="mod-qrcode">
                   <el-popover placement="bottom" trigger="hover">
@@ -40,11 +40,11 @@
                       <qrcode :value="mod.qrCodeURL" :options="{ size: 150, foreground: '#333' }"></qrcode>
                     </div>
                     <div style="text-align:center;">
-                      手机扫描或直接粘贴
+                      {{$t("riven.sharetip")}}
                     </div>
-                    <el-button slot="reference" icon="el-icon-search" @click="toRiven(mod)">分析</el-button>
+                    <el-button slot="reference" icon="el-icon-search" @click="toRiven(mod)">{{$t("simulator.analyze")}}</el-button>
                   </el-popover>
-                  <el-button class="simulator-choose" type="primary" icon="el-icon-check" v-if="newMod" @click="choose(false)">确认选择</el-button>
+                  <el-button class="simulator-choose" type="primary" icon="el-icon-check" v-if="newMod" @click="choose(false)">{{$t("simulator.choose")}}</el-button>
                 </div>
               </el-card>
             </div>
@@ -56,14 +56,14 @@
             <div class="mod-display">
               <el-card class="mod-props-box">
                 <div slot="header" class="mod-name">
-                  <span>{{newMod.name}} {{newMod.subfix}}</span>
+                  <span>{{$t("zh") ? newMod.name : newMod.id}} {{newMod.subfix}}</span>
                 </div>
                 <div v-for="prop in newMod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
-                  {{prop.displayValue}} {{prop.name}}
+                  {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
                 </div>
                 <div class="mod-extra">
-                  <el-tag size="medium" class="mod-rank">段位: {{newMod.rank}}</el-tag>
-                  <el-tag size="medium" class="mod-recycleTimes">循环: {{newMod.recycleTimes}}</el-tag>
+                  <el-tag size="medium" class="mod-rank">{{$t("riven.rank")}}{{newMod.rank}}</el-tag>
+                  <el-tag size="medium" class="mod-recycleTimes">{{$t("riven.recycle")}}{{newMod.recycleTimes}}</el-tag>
                 </div>
                 <div class="mod-qrcode">
                   <el-popover placement="bottom" trigger="hover">
@@ -71,11 +71,11 @@
                       <qrcode :value="newMod.qrCodeURL" :options="{ size: 150, foreground: '#333' }"></qrcode>
                     </div>
                     <div style="text-align:center;">
-                      手机扫描或直接粘贴
+                      {{$t("riven.sharetip")}}
                     </div>
-                    <el-button slot="reference" icon="el-icon-search" @click="toRiven(newMod)">分析</el-button>
+                    <el-button slot="reference" icon="el-icon-search" @click="toRiven(newMod)">{{$t("simulator.analyze")}}</el-button>
                   </el-popover>
-                  <el-button class="simulator-choose" type="primary" icon="el-icon-check" v-if="newMod" @click="choose(true)">确认选择</el-button>
+                  <el-button class="simulator-choose" type="primary" icon="el-icon-check" v-if="newMod" @click="choose(true)">{{$t("simulator.choose")}}</el-button>
                 </div>
               </el-card>
             </div>
@@ -117,8 +117,6 @@ export default class Simulator extends Vue {
   refreshCountdown = 0;
   hasChoosen = true;
   newType = "";
-  types = { "Rifle": "步枪", "Shotgun": "霰弹枪", "Pistol": "手枪", "Melee": "近战" };
-  get newTypeString() { return this.types[this.newType] || "随机" }
   // === 事件处理 ===
   newTypeSelect(cmd: string) {
     this.newType = cmd;

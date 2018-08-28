@@ -278,6 +278,18 @@ let po = {
     planet: "Planet: ",
     lucky: "Lucky Index: ",
     tip: "*for reference only",
+  },
+  simulator: {
+    random: "Random",
+    rifle: "rifle",
+    shotgun: "Shotgun",
+    pistol: "Pistol",
+    melee: "Melee",
+    pleaseWait: "Please wait {0} seconds",
+    open: "Open: {0}",
+    recycle: "Recycle",
+    analyze: "Analyze",
+    choose: "Confirm",
   }
 };
 

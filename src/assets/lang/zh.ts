@@ -278,6 +278,18 @@ let po = {
     planet: "星球：",
     lucky: "幸运指数：",
     tip: "*仅供参考",
+  },
+  simulator: {
+    random: "随机",
+    rifle: "步枪",
+    shotgun: "霰弹",
+    pistol: "手枪",
+    melee: "近战",
+    pleaseWait: "请等待{0}秒",
+    open: "开卡：{0}",
+    recycle: "循环",
+    analyze: "分析",
+    choose: "确认选择",
   }
 };
 
