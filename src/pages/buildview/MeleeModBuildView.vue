@@ -3,47 +3,76 @@
   </el-alert>
   <div class="build-container" v-else>
     <el-form :inline="true" class="build-form-inline">
-      <el-form-item label="武器" v-if="riven.weapons.length > 1">
-        <el-select size="small" v-model="selectWeapon" @change="recalc" placeholder="请选择">
-          <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.name" :value="weapon.name">
+      <!-- 选择武器 -->
+      <el-form-item :label="$t('buildview.weapon')" v-if="riven.weapons.length > 1">
+        <el-select size="small" v-model="selectWeapon" @change="recalc" :placeholder="$t('buildview.selectWeapon')">
+          <el-option v-for="weapon in riven.weapons" :key="weapon.id" :label="$t('zh') ? weapon.name : weapon.id" :value="weapon.id">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="攻击方式">
-        <el-switch v-model="isSlide" active-text="滑砍" @change="recalc" inactive-text="平砍">
+      <!-- 攻击方式 -->
+      <el-form-item>
+        <el-switch v-model="isSlide" @change="recalc" :active-text="$t('buildview.slide')" :inactive-text="$t('buildview.attack')">
         </el-switch>
         <!-- <el-checkbox size="small" v-model="isSlide" @change="recalc" border>滑砍</el-checkbox> -->
       </el-form-item>
-      <el-form-item label="限制MOD槽位">
-        <el-tooltip effect="dark" content="给剑风等MOD预留位置" placement="bottom">
-          <el-input-number size="small" v-model="slots" :min="4" :max="8" label="使用MOD槽位"></el-input-number>
+      <!-- 限制MOD槽位 -->
+      <el-form-item :label="$t('buildview.limitSlots')">
+        <el-tooltip effect="dark" :content="$t('buildview.limitSlotsTip')" placement="bottom">
+          <el-input-number size="small" v-model="slots" :min="4" :max="8"></el-input-number>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="连击倍率">
-        <el-tooltip effect="dark" content="将会按照此连击倍率来进行计算 (爪子P会自动相应增加)" placement="bottom">
-          <el-input-number size="small" v-model="comboMul" @change="debouncedRecalc" :min="1" :max="6" :step="0.5" label="使用MOD槽位"></el-input-number>
+      <!-- 连击倍率 -->
+      <el-form-item :label="$t('buildview.comboMul')">
+        <el-tooltip effect="dark" :content="$t('buildview.comboMulTip')" placement="bottom">
+          <el-input-number size="small" v-model="comboMul" @change="debouncedRecalc" :min="1" :max="6" :step="0.5"></el-input-number>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="限制元素类型">
-        <el-tooltip effect="dark" content="计算时只会使用可构成该元素的MOD" placement="bottom">
-          <el-select size="small" v-model="selectDamageType" @change="selectDamageTypeChange()" placeholder="不限制" clearable style="width: 120px;">
-            <el-option v-for="(value, name) in elementTypes" :key="name" :label="name" :value="name">
+      <!-- 限制元素类型 -->
+      <el-form-item :label="$t('buildview.limitElementsType')">
+        <el-tooltip effect="dark" :content="$t('buildview.limitElementsTypeTip')" placement="bottom">
+          <el-select size="small" v-model="selectDamageType" @change="selectDamageTypeChange()" :placeholder="$t('buildview.unlimited')" clearable style="width: 120px;">
+            <el-option v-for="(value, name) in elementTypes" :key="name" :label="$t(`elements.${name}`)" :value="name">
             </el-option>
           </el-select>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="赋能">
-        <el-checkbox v-model="isUseFury" @change="recalc">狂怒</el-checkbox>
-        <el-checkbox v-model="isUseStrike" @change="recalc">速攻</el-checkbox>
+      <!-- 基伤加成 -->
+      <el-form-item :label="$t('buildview.extraBaseDamage')">
+        <el-tooltip effect="dark" placement="bottom">
+          <div slot="content">
+            <div v-html="$t('buildview.extraBaseDamageTip')"></div>
+          </div>
+          <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" style="width:120px">
+            <template slot="append">%</template>
+          </el-input>
+        </el-tooltip>
+      </el-form-item>
+      <!-- 总伤加成 -->
+      <el-form-item :label="$t('buildview.extraOverall')">
+        <el-tooltip effect="dark" placement="bottom">
+          <div slot="content">
+            <div v-html="$t('buildview.extraOverallTip')"></div>
+          </div>
+          <el-input size="small" class="chroma-dmg" v-model="extraOverall" style="width:120px">
+            <template slot="append">%</template>
+          </el-input>
+        </el-tooltip>
+      </el-form-item>
+      <!-- 赋能 -->
+      <el-form-item :label="$t('buildview.arcanes')">
+        <el-checkbox-group v-model="arcanes">
+          <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="recalc">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
     </el-form>
     <div class="build-list">
-      <el-card style="padding:0;overflow:visible;">
+      <el-card class="build-container">
         <el-collapse v-model="activeNames">
           <el-collapse-item v-for="build in builds" :key="build[0]" :name="build[0]">
             <template slot="title">
               <div class="build-title" style="margin:0 16px;">
-                {{build[0]}} &nbsp; - &nbsp; {{(build[1].compareDamage/build[1].fireRate).toFixed(1)}} × {{build[1].fireRate.toFixed(1)}} {{selectCompMethodText}}
+                {{build[0]}} &nbsp; - &nbsp; {{build[1].compareDamage.toFixed(1)}} {{selectCompMethodText}}
               </div>
             </template>
             <el-row type="flex" :gutter="12" class="build-item" style="margin:8px;">
@@ -51,7 +80,7 @@
                 <div class="build-card-box" :class="[mod.rarity]">
                   <div class="shine"></div>
                   <div slot="header" class="build-card-header">
-                    <div class="build-card-name">{{mod.name}}</div>
+                    <div class="build-card-name">{{$t("zh") ? mod.name: mod.id}}</div>
                   </div>
                   <div class="build-card-body">
                     <div class="build-card-prop" v-for="prop in mod.props" :key="prop[0]">
@@ -62,18 +91,23 @@
               </el-col>
             </el-row>
             <el-row type="flex" :gutter="12" class="build-item" style="margin:0 8px;">
-              <el-tag style="margin-left: 8px;">面板伤害: {{build[1].panelDamage.toFixed(1)}} </el-tag>
-              <el-tag style="margin-left: 8px;">暴击率: {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
-              <el-tag style="margin-left: 8px;">暴击伤害: {{(build[1].critMul).toFixed(1)}}x </el-tag>
-              <el-tag style="margin-left: 8px;">攻速: {{(build[1].fireRate).toFixed(1)}} </el-tag>
+              <el-tag style="margin-left: 8px;">{{$t("buildview.panelDamage")}} {{build[1].panelDamage.toFixed(1)}} </el-tag>
+              <el-tag style="margin-left: 8px;">{{$t("buildview.critChance")}} {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
+              <el-tag style="margin-left: 8px;">{{$t("buildview.critMul")}} {{(build[1].critMul).toFixed(1)}}x </el-tag>
+              <el-tag style="margin-left: 8px;">{{$t("buildview.fireRate")}} {{(build[1].fireRate).toFixed(1)}} </el-tag>
             </el-row>
           </el-collapse-item>
         </el-collapse>
       </el-card>
-      <el-card class="build-result">
-        评级: [
-        <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100) 可提升
-        <span class="score-text">{{score}}%</span> 的{{selectCompMethodText}}
+      <el-card class="build-result" v-if="builds.length">
+        {{$t("buildview.rank")}} [
+        <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100)
+        <span v-html="$t('buildview.scoreResult', [score])"></span> {{selectCompMethodText}}
+        <!-- <span class="build-price">
+          估价:
+          <span class="price-text">{{riven.calcPrice(scoreLevel)}}</span>
+          <span class="price-tip">(*仅供参考)</span>
+        </span> -->
       </el-card>
     </div>
   </div>
@@ -83,7 +117,7 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, MeleeModBuild, ValuedRivenProperty, RivenDataBase } from "@/warframe";
+import { RivenMod, MeleeModBuild, ValuedRivenProperty, RivenDataBase, Codex } from "@/warframe";
 import { BaseModBuildView } from "./BaseModBuildView";
 
 @Component
@@ -94,14 +128,19 @@ export default class MeleeModBuildView extends BaseModBuildView {
   comboMul = 2
   /** 插槽使用数 */
   slots = 7
-  /** 狂怒赋能 */
-  isUseFury = false;
-  /** 速攻赋能 */
-  isUseStrike = false;
+  /** 基伤加成 */
+  extraBaseDamage = 0;
+  /** 总伤加成 */
+  extraOverall = 0;
+  /** 赋能 */
+  arcanes = [];
+  get availableArcanes() {
+    return Codex.getAvailableArcanes(this.weapon);
+  }
 
   // === 计算属性 ===
   get selectCompMethodText() {
-    return this.isSlide ? "滑砍伤害" : "平砍伤害";
+    return this.isSlide ? this.$t("buildview.slideDamage").toString() : this.$t("buildview.attackDamage").toString();
   }
 
   // === 事件处理器 ===
@@ -113,7 +152,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
   // === 生命周期钩子 ===
   beforeMount() {
     this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 10);
-    this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "腐蚀";
+    this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "Corrosive";
     this.rivenChange();
   }
   recalc() {
@@ -122,8 +161,9 @@ export default class MeleeModBuildView extends BaseModBuildView {
       compareMode: this.isSlide ? 1 : 0,
       comboLevel: ~~((this.comboMul - 1) * 2),
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
-      isUseFury: this.isUseFury,
-      isUseStrike: this.isUseStrike,
+      extraBaseDamage: this.extraBaseDamage / 100,
+      extraOverall: this.extraOverall / 100,
+      arcanes: this.arcanes
     };
     super.recalc(MeleeModBuild, options);
   }

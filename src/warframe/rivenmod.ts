@@ -18,15 +18,16 @@ export class ValuedRivenProperty {
     this.baseValue = baseValue;
     this.upLevel = upLevel;
   }
+  /**  获取属性id */
+  get id() { return this.prop.id }
   /**  获取属性名称 */
   get name() { return this.prop.name }
   /** 获取属性显示数据 */
   get displayValue() {
     let val = this.prop.nopercent ? this.value.toFixed(1) : this.value.toFixed(1) + "%";
-    let pre = this.prop.displayPre ? this.prop.displayPre + " " : "";
     if (val[0] != "-")
-      return pre + "+" + val;
-    else return pre + val;
+      return "+" + val;
+    else return val;
   }
   /** 获取本条属性是否是负面属性 */
   get isNegative() {

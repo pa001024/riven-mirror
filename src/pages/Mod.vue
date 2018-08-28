@@ -5,23 +5,22 @@
         <!-- 识别区域 -->
         <el-row>
           <el-col :span="24">
-            <el-switch class="mode-select" v-model="useText" active-text="手动输入" inactive-text="截图上传">
+            <el-switch class="mode-select" v-model="useText" :active-text="$t('riven.manualinput')" :inactive-text="$t('riven.picupload')">
             </el-switch>
           </el-col>
           <el-col :span="24">
             <el-popover ref="addpop" v-if="useText" placement="bottom" :width="400" v-model="editorVisible">
               <RivenEditor v-model="editorRivenCode"></RivenEditor>
               <div style="text-align: right; margin: 0">
-                <el-button size="medium" @click="editorVisible = false">取消</el-button>
-                <el-button type="primary" size="medium" @click="newRiven">确定</el-button>
+                <el-button size="medium" @click="editorVisible = false">{{$t("riven.cancel")}}</el-button>
+                <el-button type="primary" size="medium" @click="newRiven">{{$t("riven.confirm")}}</el-button>
               </div>
-              <el-button slot="reference" class="block" size="medium" v-model="modText" icon="el-icon-plus">添加MOD</el-button>
+              <el-button slot="reference" class="block" size="medium" v-model="modText" icon="el-icon-plus">{{$t("riven.addriven")}}</el-button>
             </el-popover>
             <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="https://api.0-0.at/api/ocr">
               <i class="el-icon-upload"></i>
-              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em>截图，也可以直接粘贴(Ctrl+V)
-              </div>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div class="el-upload__text" v-html="$t('riven.uploadtip')"></div>
+              <div slot="tip" class="el-upload__tip">{{$t("riven.uploadlimit")}}</div>
             </el-upload>
           </el-col>
         </el-row>
@@ -31,18 +30,18 @@
             <div v-show="mod.name" class="mod-display">
               <el-card class="mod-props-box">
                 <div slot="header" class="mod-name">
-                  <span>{{mod.name}} {{mod.subfix}}</span>
+                  <span>{{$t("zh") ? mod.name : mod.id}} {{mod.subfix}}</span>
                 </div>
                 <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
-                  {{prop.displayValue}} {{prop.name}}
-                  <el-tag v-if="prop.displayDeviation" size="small" class="mod-dis" :type="prop.deviation > 1 ^ prop.isNegative ? 'success' : 'danger'"> {{ prop.deviation > 1 ? '高于平均' : '低于平均'}} {{prop.displayDeviation}}</el-tag>
-                  <el-tag v-else size="small" class="mod-dis" type="success">平均值</el-tag>
+                  {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
+                  <el-tag v-if="prop.displayDeviation" size="small" class="mod-dis" :type="prop.deviation > 1 ^ prop.isNegative ? 'success' : 'danger'"> {{ prop.deviation > 1 ? $t("riven.higher") : $t("riven.lower")}} {{prop.displayDeviation}}</el-tag>
+                  <el-tag v-else size="small" class="mod-dis" type="success">{{$t("riven.average")}}</el-tag>
                 </div>
                 <div class="mod-extra">
-                  <el-tag size="medium" class="mod-rank">段位: {{mod.rank}}</el-tag>
-                  <el-tag size="medium" class="mod-recycleTimes">循环: {{mod.recycleTimes}}</el-tag>
-                  <el-tag size="medium" class="mod-level">等级: {{mod.level}}</el-tag>
-                  <el-tag size="medium" class="mod-ratio">倾向性: {{mod.ratio}}</el-tag>
+                  <el-tag size="medium" class="mod-rank">{{$t("riven.rank")}}{{mod.rank}}</el-tag>
+                  <el-tag size="medium" class="mod-recycleTimes">{{$t("riven.recycle")}}{{mod.recycleTimes}}</el-tag>
+                  <el-tag size="medium" class="mod-level">{{$t("riven.level")}}{{mod.level}}</el-tag>
+                  <el-tag size="medium" class="mod-ratio">{{$t("riven.ratio")}}{{mod.ratio}}</el-tag>
                 </div>
                 <div class="mod-qrcode">
                   <el-popover placement="bottom" trigger="hover">
@@ -50,9 +49,9 @@
                       <qrcode :value="mod.qrCodeURL" :options="{ size: 150, foreground: '#333' }"></qrcode>
                     </div>
                     <div style="text-align:center;">
-                      手机扫描或直接粘贴
+                      {{$t("riven.sharetip")}}
                     </div>
-                    <el-button slot="reference" icon="el-icon-share">分享</el-button>
+                    <el-button slot="reference" icon="el-icon-share">{{$t("riven.share")}}</el-button>
                   </el-popover>
                 </div>
               </el-card>
@@ -65,11 +64,11 @@
             <div class="mod-history">
               <el-card class="mod-history-box">
                 <div slot="header" class="mod-history-title">
-                  历史记录
+                  {{$t("riven.history")}}
                 </div>
                 <ul class="mod-history-list">
                   <li v-for="(hiRiven, index) in modHistoty" :key="index" @click="newBase64Text(hiRiven.qrCodeBase64)" class="mod-history-item">
-                    {{hiRiven.fullName}}
+                    {{$t("zh") ? hiRiven.fullName : hiRiven.fullId}}
                   </li>
                 </ul>
               </el-card>

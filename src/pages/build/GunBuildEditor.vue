@@ -54,9 +54,20 @@
                   </el-input>
                 </el-tooltip>
               </el-form-item>
-              <el-form-item label="赋能" v-if="is('sniper') || is('pistol')">
-                <el-checkbox v-model="isUseMomentum" v-if="is('sniper')" @change="optionChange">动量</el-checkbox>
-                <el-checkbox v-model="isUseVelocity" v-if="is('pistol')" @change="optionChange">迅速</el-checkbox>
+              <el-form-item label="总伤加成">
+                <el-tooltip style="width: calc(100% - 68px);" effect="dark" placement="bottom">
+                  <div slot="content">
+                    <div>如Rhino的战吼等属于这个加成</div>
+                  </div>
+                  <el-input size="small" class="chroma-dmg" v-model="extraOverall" style="width:120px">
+                    <template slot="append">%</template>
+                  </el-input>
+                </el-tooltip>
+              </el-form-item>
+              <el-form-item label="赋能">
+                <el-checkbox-group v-model="arcanes">
+                  <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane.id" @change="optionChange">动量</el-checkbox>
+                </el-checkbox-group>
               </el-form-item>
             </el-form>
           </el-card>
@@ -149,7 +160,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { EnemyFaction, RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty, EnemyData, Enemy } from "@/warframe";
+import { EnemyFaction, RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty, EnemyData, Enemy, Codex } from "@/warframe";
 import ModSelector from "@/components/ModSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import EnemySelector from "@/components/EnemySelector.vue";
@@ -164,8 +175,12 @@ export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() rWeapon: RivenWeapon;
   handShotChance = 0;
   extraBaseDamage = 0;
-  isUseMomentum = false;
-  isUseVelocity = false;
+  extraOverall = 0;
+  /** 赋能 */
+  arcanes = [];
+  get availableArcanes() {
+    return Codex.getAvailableArcanes(this.weapon);
+  }
   enemyData: EnemyData = null;
   enemy: Enemy = null;
   enemyLevel = 155;
@@ -174,23 +189,22 @@ export default class GunBuildEditor extends BaseBuildEditor {
   reload() { super.reload(); this.enemyData = this.enemy = null; }
   // [overwrite]
   reloadSelector() { this.$refs.selector && (this.$refs.selector as any).reload(); }
-  newBuild(weapon: GunWeapon) {
-    return new GunModBuild(weapon, null, {
+
+  get options() {
+    return {
       handShotChance: this.handShotChance / 100,
       extraBaseDamage: this.extraBaseDamage / 100,
-      isUseMomentum: this.isUseMomentum,
-      isUseVelocity: this.isUseVelocity,
-    });
+      extraOverall: this.extraOverall / 100,
+      arcanes: this.arcanes,
+    };
+  }
+  newBuild(weapon: GunWeapon) {
+    return new GunModBuild(weapon, null, this.options);
   }
   // === 事件处理 ===
   @Watch("extraBaseDamage")
   optionChange() {
-    this.build.options = {
-      handShotChance: this.handShotChance / 100,
-      extraBaseDamage: this.extraBaseDamage / 100,
-      isUseMomentum: this.isUseMomentum,
-      isUseVelocity: this.isUseVelocity,
-    };
+    this.build.options = this.options;
     this.build.calcMods();
     this.reloadSelector();
   }

@@ -1,68 +1,88 @@
 <template>
   <div class="build-container">
     <el-form :inline="true" class="build-form-inline">
-      <el-form-item label="武器" v-if="riven.weapons.length > 1">
-        <el-select size="small" v-model="selectWeapon" @change="recalc" placeholder="请选择">
-          <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.name" :value="weapon.name">
+      <!-- 选择武器 -->
+      <el-form-item :label="$t('buildview.weapon')" v-if="riven.weapons.length > 1">
+        <el-select size="small" v-model="selectWeapon" @change="recalc" :placeholder="$t('buildview.selectWeapon')">
+          <el-option v-for="weapon in riven.weapons" :key="weapon.id" :label="$t('zh') ? weapon.name : weapon.id" :value="weapon.id">
           </el-option>
         </el-select>
       </el-form-item>
+      <!-- 选择比较类型 -->
       <el-form-item>
         <el-radio-group size="small" v-model="selectCompMethod" @change="recalc">
-          <el-tooltip effect="dark" content="不考虑射速算出的伤害DPH" placement="bottom">
-            <el-radio-button label="0">单发伤害</el-radio-button>
+          <el-tooltip effect="dark" :content="$t('buildview.totalDamageTip')" placement="bottom">
+            <el-radio-button label="0">{{$t("buildview.totalDamage")}}</el-radio-button>
           </el-tooltip>
-          <el-tooltip effect="dark" content="只考虑射速算出的DPS" placement="bottom">
-            <el-radio-button label="1">爆发伤害</el-radio-button>
+          <el-tooltip effect="dark" :content="$t('buildview.burstDamageTip')" placement="bottom">
+            <el-radio-button label="1">{{$t("buildview.burstDamage")}}</el-radio-button>
           </el-tooltip>
-          <el-tooltip effect="dark" content="考虑射速、弹匣容量以及装填算出的DPS" placement="bottom">
-            <el-radio-button label="2">持续伤害</el-radio-button>
+          <el-tooltip effect="dark" :content="$t('buildview.sustainedDamageTip')" placement="bottom">
+            <el-radio-button label="2">{{$t("buildview.sustainedDamage")}}</el-radio-button>
           </el-tooltip>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="限制MOD槽位">
-        <el-tooltip effect="dark" content="给武器专属或后坐力等MOD预留位置" placement="bottom">
-          <el-input-number size="small" v-model="slots" :min="4" :max="8" label="使用MOD槽位"></el-input-number>
+      <!-- 限制MOD槽位 -->
+      <el-form-item :label="$t('buildview.limitSlots')">
+        <el-tooltip effect="dark" :content="$t('buildview.limitSlotsTip')" placement="bottom">
+          <el-input-number size="small" v-model="slots" :min="4" :max="8"></el-input-number>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="限制元素类型">
-        <el-tooltip effect="dark" content="计算时只会使用可构成该元素的MOD" placement="bottom">
-          <el-select size="small" v-model="selectDamageType" @change="selectDamageTypeChange()" placeholder="不限制" clearable style="width: 120px;">
-            <el-option v-for="(value, name) in elementTypes" :key="name" :label="name" :value="name">
+      <!-- 限制元素类型 -->
+      <el-form-item :label="$t('buildview.limitElementsType')">
+        <el-tooltip effect="dark" :content="$t('buildview.limitElementsTypeTip')" placement="bottom">
+          <el-select size="small" v-model="selectDamageType" @change="selectDamageTypeChange()" :placeholder="$t('buildview.unlimited')" clearable style="width: 120px;">
+            <el-option v-for="(value, name) in elementTypes" :key="name" :label="$t(`elements.${name}`)" :value="name">
             </el-option>
           </el-select>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="爆头率">
-        <el-tooltip effect="dark" content="更高的爆头率会提高暴击的收益" placement="bottom">
+      <!-- 爆头几率 -->
+      <el-form-item :label="$t('buildview.handshotChance')">
+        <el-tooltip effect="dark" :content="$t('buildview.handshotChanceTip')" placement="bottom">
           <el-slider v-model="handShotChance" :format-tooltip="v=>v+'%'" style="width:200px;margin-left: 8px;"></el-slider>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="基伤加成">
+      <!-- 基伤加成 -->
+      <el-form-item :label="$t('buildview.extraBaseDamage')">
         <el-tooltip effect="dark" placement="bottom">
           <div slot="content">
-            <div>Chroma的"怨怒护甲"和Mirage的"黯然失色"等技能可对武器基伤进行大量加成，</div>
-            <div>步枪增幅、死亡之眼等光环MOD也属于这个加成</div>
+            <div v-html="$t('buildview.extraBaseDamageTip')"></div>
           </div>
           <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" style="width:120px">
             <template slot="append">%</template>
           </el-input>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="使用MOD">
-        <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="recalc">重口径</el-checkbox>
-        <el-tooltip v-if="riven.mod === 'Rifle'" effect="dark" content="增伤很强大，但切割伤害不是立刻死亡，请自行选择" placement="bottom">
-          <el-checkbox v-model="useHunterMunitions" :indeterminate="notMustUseHunterMunitions" @change="useHunterMunitionsChange">猎人战备</el-checkbox>
-        </el-tooltip>
-        <el-tooltip effect="dark" content="如尖刃弹头等需要瞄准的MOD" placement="bottom">
-          <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">追随者MOD</el-checkbox>
+      <!-- 总伤加成 -->
+      <el-form-item :label="$t('buildview.extraOverall')">
+        <el-tooltip effect="dark" placement="bottom">
+          <div slot="content">
+            <div v-html="$t('buildview.extraOverallTip')"></div>
+          </div>
+          <el-input size="small" class="chroma-dmg" v-model="extraOverall" style="width:120px">
+            <template slot="append">%</template>
+          </el-input>
         </el-tooltip>
       </el-form-item>
-      <el-form-item label="赋能" v-if="riven.is('sniper') || riven.is('pistol')">
-        <el-checkbox v-model="isUseMomentum" v-if="riven.is('sniper')" @change="recalc">动量</el-checkbox>
-        <el-checkbox v-model="isUseVelocity" v-if="riven.is('pistol')" @change="recalc">迅速</el-checkbox>
+      <!-- 使用MOD -->
+      <el-form-item :label="$t('buildview.usemods')">
+        <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="recalc">{{$t("buildview.heavyCaliber")}}</el-checkbox>
+        <!-- <el-tooltip v-if="riven.mod === 'Rifle'" effect="dark" content="增伤很强大，但切割伤害不是立刻死亡，请自行选择" placement="bottom">
+          <el-checkbox v-model="useHunterMunitions" :indeterminate="notMustUseHunterMunitions" @change="useHunterMunitionsChange">猎人战备</el-checkbox>
+        </el-tooltip> -->
+        <el-tooltip effect="dark" :content="$t('buildview.acolyteModsTip')" placement="bottom">
+          <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">{{$t("buildview.acolyteMods")}}</el-checkbox>
+        </el-tooltip>
+      </el-form-item>
+      <!-- 赋能 -->
+      <el-form-item :label="$t('buildview.arcanes')">
+        <el-checkbox-group v-model="arcanes">
+          <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="recalc">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
     </el-form>
+    <!-- 配置列表 -->
     <div class="build-list">
       <el-card class="build-container">
         <el-collapse v-model="activeNames">
@@ -77,7 +97,7 @@
                 <div class="build-card-box" :class="[mod.rarity]">
                   <div class="shine"></div>
                   <div slot="header" class="build-card-header">
-                    <div class="build-card-name">{{mod.name}}</div>
+                    <div class="build-card-name">{{$t("zh") ? mod.name: mod.id}}</div>
                   </div>
                   <div class="build-card-body">
                     <div class="build-card-prop" v-for="prop in mod.props" :key="prop[0]">
@@ -88,25 +108,24 @@
               </el-col>
             </el-row>
             <el-row type="flex" :gutter="12" class="build-item" style="margin:0 8px;">
-              <el-tag style="margin-left: 8px;">面板伤害: {{build[1].panelDamage.toFixed(1)}} </el-tag>
-              <el-tag style="margin-left: 8px;">暴击率: {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
-              <el-tag style="margin-left: 8px;">暴击伤害: {{(build[1].critMul).toFixed(1)}}x </el-tag>
-              <el-tag style="margin-left: 8px;">射速: {{(build[1].fireRate).toFixed(1)}} </el-tag>
-              <el-tag style="margin-left: 8px;">触发率(每个弹片): {{(build[1].realProcChance*100).toFixed(1)}}% </el-tag>
-              <el-tag v-if="build[1].slashDotDamage > 0" style="margin-left: 8px;">猎人战备切割伤害: {{(build[1].slashDotDamage).toFixed(1)}} </el-tag>
+              <el-tag style="margin-left: 8px;">{{$t("buildview.panelDamage")}} {{build[1].panelDamage.toFixed(1)}} </el-tag>
+              <el-tag style="margin-left: 8px;">{{$t("buildview.critChance")}} {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
+              <el-tag style="margin-left: 8px;">{{$t("buildview.critMul")}} {{(build[1].critMul).toFixed(1)}}x </el-tag>
+              <el-tag style="margin-left: 8px;">{{$t("buildview.fireRate")}} {{(build[1].fireRate).toFixed(1)}} </el-tag>
+              <el-tag style="margin-left: 8px;">{{$t("buildview.status")}} {{(build[1].realProcChance*100).toFixed(1)}}% </el-tag>
             </el-row>
           </el-collapse-item>
         </el-collapse>
       </el-card>
       <el-card class="build-result" v-if="builds.length">
-        评级: [
-        <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100) 可提升
-        <span class="score-text">{{score}}%</span> 的{{selectCompMethodText}}
-        <span class="build-price">
+        {{$t("buildview.rank")}} [
+        <span class="score-text">{{scoreLevelText}}</span> ] ({{scoreLevel.toFixed()}}/100)
+        <span v-html="$t('buildview.scoreResult', [score])"></span> {{selectCompMethodText}}
+        <!-- <span class="build-price">
           估价:
           <span class="price-text">{{riven.calcPrice(scoreLevel)}}</span>
           <span class="price-tip">(*仅供参考)</span>
-        </span>
+        </span> -->
       </el-card>
     </div>
   </div>
@@ -115,7 +134,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, GunModBuild, ValuedRivenProperty, RivenDataBase } from "@/warframe";
+import { RivenMod, GunModBuild, ValuedRivenProperty, RivenDataBase, Codex } from "@/warframe";
 import { BaseModBuildView } from "./BaseModBuildView";
 
 @Component
@@ -132,14 +151,17 @@ export default class GunModBuildView extends BaseModBuildView {
   handShotChance = 0;
   /** 基伤加成 */
   extraBaseDamage = 0;
-  /** 动量赋能 */
-  isUseMomentum = false;
-  /** 迅速赋能 */
-  isUseVelocity = false;
+  /** 总伤加成 */
+  extraOverall = 0;
+  /** 赋能 */
+  arcanes = [];
+  get availableArcanes() {
+    return Codex.getAvailableArcanes(this.weapon);
+  }
 
   // === 计算属性 ===
   get selectCompMethodText() {
-    return ["单发伤害", "爆发伤害", "持续伤害"][this.selectCompMethod];
+    return [this.$t("buildview.totalDamage"), this.$t("buildview.burstDamage"), this.$t("buildview.sustainedDamage")][this.selectCompMethod];
   }
 
   // === 事件处理器 ===
@@ -169,7 +191,7 @@ export default class GunModBuildView extends BaseModBuildView {
   // === 生命周期钩子 ===
   beforeMount() {
     this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 10);
-    this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "辐射";
+    this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "Radiation";
     this.useAcolyteMods = JSON.parse(localStorage.getItem("useAcolyteMods"));
     this.rivenChange();
   }
@@ -182,10 +204,10 @@ export default class GunModBuildView extends BaseModBuildView {
       useHeavyCaliber: this.useHeavyCaliber,
       useHunterMunitions: this.useHunterMunitions ? this.notMustUseHunterMunitions ? 1 : 2 : 0,
       handShotChance: this.handShotChance / 100,
-      extraBaseDamage: this.extraBaseDamage / 100,
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
-      isUseMomentum: this.riven.is('sniper') && this.isUseMomentum,
-      isUseVelocity: this.riven.is('pistol') && this.isUseVelocity,
+      extraBaseDamage: this.extraBaseDamage / 100,
+      extraOverall: this.extraOverall / 100,
+      arcanes: this.arcanes
     };
     super.recalc(GunModBuild, options);
   }

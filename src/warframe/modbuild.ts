@@ -63,6 +63,8 @@ export abstract class ModBuild {
 
   /** 基伤加成 */
   extraBaseDamage = 0;
+  /** 总伤加成 */
+  extraOverall = 0;
 
   private _handShotChance = 0;
   /** 爆头概率 */
@@ -426,13 +428,12 @@ export abstract class ModBuild {
     this._slashMul = 0;
     this.elementsOrder = [];
     this._combElementsOrder = [];
-    this._overallMul = 1;
+    this._overallMul = 1 + this.extraOverall;
   }
 
   /** 清除所有MOD并重置属性增幅器 */
   clear() {
     this._mods = [];
-    this._arcanes = [];
     this.reset();
   }
 

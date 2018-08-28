@@ -2,23 +2,23 @@
   <div class="rivenedit">
     <el-row :gutter="20">
       <el-col :span="24">
-        <el-cascader v-if="!weapon" filterable class="weapon-picker" expand-trigger="hover" size="medium" placeholder="请选择武器" :options="nameOptions" :show-all-levels="false" v-model="selectWeapon" @change="handleChange">
+        <el-cascader v-if="!weapon" filterable class="weapon-picker" expand-trigger="hover" size="medium" :placeholder="$t('rivenedit.selectWeapon')" :options="nameOptions" :show-all-levels="false" v-model="selectWeapon" @change="handleChange">
         </el-cascader>
         <div class="prop-picker" v-if="mod" v-for="(prop, index) in props" :key="index">
           <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
             <ul>
               <li class="prop-button" v-for="vprop in allProps" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
-                {{index > 0 ? vprop.subfix : vprop.prefix}} {{vprop.sName}}
+                {{$t("prop.shortName." + vprop.id)}} ({{index > 0 ? vprop.subfix : vprop.prefix}})
               </li>
             </ul>
             <el-button class="prop-select" size="medium" slot="reference">
-              {{prop.id && prop.prop.sName || "请选择属性"}}
+              {{prop.id && $t("prop.shortName." + prop.id) || $t("rivenedit.selectProp")}}
               <span class="prop-arrow">
                 <i class="el-icon-arrow-up" :class="{'is-reverse': prop.visable}"></i>
               </span>
             </el-button>
           </el-popover>
-          <el-input-number class="prop-number" @input="updateRiven" :disabled="!prop.id" controls-position="right" placeholder="请输入数值" :precision="1" :step="0.1" :min="-600" :max="600" size="medium" v-model="prop.value">
+          <el-input-number class="prop-number" @input="updateRiven" :disabled="!prop.id" controls-position="right" :placeholder="$t('rivenedit.inputValue')" :precision="1" :step="0.1" :min="-600" :max="600" size="medium" v-model="prop.value">
           </el-input-number>
           <button class="prop-remove" @click="removeProp(index)">
             <i class="el-icon-remove"></i>
@@ -84,9 +84,10 @@ export default class RivenEditor extends Vue {
   }
   // === 生命周期钩子 ===
   beforeMount() {
+    let isZH = this.$i18n.locale.substr(0, 2) === "zh";
     _.forEach(ModTypeTable, (name, id) => {
-      let rWeapons = RivenWeaponDataBase.filter(v => v.mod === id && v.weapons.length > 0).map(v => ({ value: v.id, label: v.name }));
-      this.nameOptions.push({ value: id, label: name, children: rWeapons });
+      let rWeapons = RivenWeaponDataBase.filter(v => v.mod === id && v.weapons.length > 0).map(v => ({ value: v.id, label: isZH ? v.name : v.id }));
+      this.nameOptions.push({ value: id, label: isZH ? name : id, children: rWeapons });
     });
     if (this.weapon) this.handleChange();
   }

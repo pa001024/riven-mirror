@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { i18n } from "@/i18n";
 
 // data from: https://github.com/Richasy/WFA_Lexicon
 const _transData = [
@@ -1935,7 +1936,7 @@ const _partSubfixs = [
  * @class Translator
  */
 export class Translator {
-  public static Locale: "zh" | "en" = "zh";
+  public static get Locale() { return i18n.locale && i18n.locale.substr(0, 2) || "en" };
   protected static instance = new Translator();
   private mainDict: Map<string, string>;
   private subDict: Map<string, string>;

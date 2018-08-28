@@ -13,7 +13,7 @@
                       {{cetusTime.text}}
                     </div>
                     <div class="title">
-                      希图斯 {{cetusTime.phase}}
+                      {{$t("time.cetus")}} - {{cetusTime.phase}}
                     </div>
                   </div>
                 </div>
@@ -25,7 +25,7 @@
                       {{earthTime.text}}
                     </div>
                     <div class="title">
-                      地球 {{earthTime.phase}}
+                      {{$t("time.earth")}} - {{earthTime.phase}}
                     </div>
                   </div>
                 </div>
@@ -36,12 +36,12 @@
         <!-- 突击 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="sortie.id">
           <el-card class="index-card sortie">
-            <h3 slot="header"><i class="wf-icon-sortie"></i> {{i18n.sortie}}</h3>
+            <h3 slot="header"><i class="wf-icon-sortie"></i> {{$t("alerting.sortie")}}</h3>
             <ul>
               <div class="sortie-info">
                 <i :class="['wf-icon-' + sortie.faction.toLowerCase()]"></i> {{sortie.boss}}
               </div>
-              <div class="time">{{i18n.remaining}}: {{renderTime(sortie.expiry)}}</div>
+              <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sortie.expiry)}}</div>
               <li v-for="(v, i) in sortie.variants" :key="i">
                 <div class="info">
                   <div class="mission">{{v.missionType}}</div>
@@ -55,7 +55,7 @@
         <!-- 警报 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="alerts.length > 0">
           <el-card class="index-card alert">
-            <h3 slot="header"><i class="wf-icon-alert"></i> {{i18n.alerts}}</h3>
+            <h3 slot="header"><i class="wf-icon-alert"></i> {{$t("alerting.alerts")}}</h3>
             <ul>
               <li v-for="(v, i) in alerts" :key="i">
                 <div class="info">
@@ -66,7 +66,7 @@
                   <div class="node">
                     <i :class="['wf-icon-' + v.mission.faction.toLowerCase()]"></i> {{v.mission.node}}
                   </div>
-                  <div class="time">{{i18n.remaining}}: {{renderTime(v.expiry)}}</div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
                 </div>
               </li>
             </ul>
@@ -75,7 +75,7 @@
         <!-- 新闻 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="news.length > 0">
           <el-card class="index-card news">
-            <h3 slot="header"><i class="wf-icon-earth"></i> {{i18n.news}}</h3>
+            <h3 slot="header"><i class="wf-icon-earth"></i> {{$t("alerting.news")}}</h3>
             <ul>
               <li v-for="(v, i) in news" :key="i">
                 <i class="el-icon-caret-right"></i>
@@ -84,22 +84,10 @@
             </ul>
           </el-card>
         </el-col>
-        <!-- 网站信息 -->
-        <el-col :xs="24" :sm="12" :lg="8">
-          <el-card class="index-card info">
-            <h3 slot="header">公告</h3>
-            <ul>
-              <li>内测群号: 165371868</li>
-              <li>←功能菜单(手机的话是在右上角)</li>
-              <li style="color:grey">注: 紫卡截图请不要让鼠标挡住字 最好是只截文字部分</li>
-              <li>更多功能正在开发中~ 敬请期待</li>
-            </ul>
-          </el-card>
-        </el-col>
         <!-- 裂缝 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="fissures.length > 0">
           <el-card class="index-card fissure">
-            <h3 slot="header"><i class="wf-icon-fissure"></i> {{i18n.fissures}}</h3>
+            <h3 slot="header"><i class="wf-icon-fissure"></i> {{$t("alerting.fissures")}}</h3>
             <ul>
               <li v-for="(v, i) in fissures" :key="i">
                 <div class="info">
@@ -110,7 +98,7 @@
                   <div class="node">
                     <i :class="['wf-icon-' + v.enemy.toLowerCase()]"></i> {{v.node}}
                   </div>
-                  <div class="time">{{i18n.remaining}}: {{renderTime(v.expiry)}}</div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
                 </div>
               </li>
             </ul>
@@ -143,13 +131,6 @@ export default class Index extends Vue {
   seconds = ~~(Date.now() / 1e3);
   scrollWidth = 1920;
   scrollEnable = false;
-  i18n = {
-    sortie: Translator.getLocText("Sortie"),
-    alerts: Translator.getLocText("Alerts"),
-    news: Translator.getLocText("News"),
-    fissures: Translator.getLocText("Fissures"),
-    remaining: Translator.getLocText("Remaining"),
-  };
   sortie: Sortie = this.stat.sortie;
   alerts: Alert[] = [];
   news: News[] = [];

@@ -46,6 +46,7 @@
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import MiniClock from "./components/MiniClock.vue";
+import { i18n } from "@/i18n";
 
 @Component({
   components: { MiniClock }
@@ -53,12 +54,12 @@ import MiniClock from "./components/MiniClock.vue";
 export default class App extends Vue {
   menuOpen = false;
   links = [
-    { title: "主页", path: "/", icon: "el-icon-news", exact: true },
-    { title: "紫卡分析", path: "/riven", icon: "el-icon-view" },
-    { title: "武器配装", path: "/weapon", icon: "el-icon-edit-outline" },
-    { title: "洗卡模拟", path: "/sim", icon: "el-icon-refresh" },
-    { title: "WF黄历", path: "/huangli", icon: "el-icon-date" },
-    { title: "关于", path: "/about", icon: "el-icon-info" },
+    { title: i18n.t("navigate.index"), path: "/", icon: "el-icon-news", exact: true },
+    { title: i18n.t("navigate.riven"), path: "/riven", icon: "el-icon-view" },
+    { title: i18n.t("navigate.weapon"), path: "/weapon", icon: "el-icon-edit-outline" },
+    { title: i18n.t("navigate.simulator"), path: "/sim", icon: "el-icon-refresh" },
+    { title: i18n.t("navigate.huangli"), path: "/huangli", icon: "el-icon-date" },
+    { title: i18n.t("navigate.about"), path: "/about", icon: "el-icon-info" },
   ];
 }
 </script>

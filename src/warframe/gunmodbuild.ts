@@ -24,9 +24,9 @@ export interface GunModBuildOptions {
   useHunterMunitions?: number
   handShotChance?: number
   allowElementTypes?: string[]
-  isUseMomentum?: boolean
-  isUseVelocity?: boolean
   extraBaseDamage?: number
+  extraOverall?: number
+  arcanes?: Arcane[]
   target?: Enemy
 }
 /** 枪类 */
@@ -76,10 +76,6 @@ export class GunModBuild extends ModBuild {
   useHeavyCaliber = true;
   /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
   useHunterMunitions = 0;
-  /** 动量赋能 */
-  isUseMomentum = false;
-  /** 迅速赋能 */
-  isUseVelocity = false;
 
   constructor(weapon: GunWeapon = null, riven: RivenMod = null, options: GunModBuildOptions = null) {
     super(riven);
@@ -98,9 +94,9 @@ export class GunModBuild extends ModBuild {
     this.useHunterMunitions = typeof options.useHunterMunitions !== "undefined" ? options.useHunterMunitions : this.useHunterMunitions;
     this.handShotChance = typeof options.handShotChance !== "undefined" ? options.handShotChance : this.handShotChance;
     this.allowElementTypes = typeof options.allowElementTypes !== "undefined" ? options.allowElementTypes : this.allowElementTypes;
-    this.isUseMomentum = typeof options.isUseMomentum !== "undefined" ? options.isUseMomentum : this.isUseMomentum;
-    this.isUseVelocity = typeof options.isUseVelocity !== "undefined" ? options.isUseVelocity : this.isUseVelocity;
     this.extraBaseDamage = typeof options.extraBaseDamage !== "undefined" ? options.extraBaseDamage : this.extraBaseDamage;
+    this.extraOverall = typeof options.extraOverall !== "undefined" ? options.extraOverall : this.extraOverall;
+    this.arcanes = typeof options.arcanes !== "undefined" ? options.arcanes : this.arcanes;
     this.target = typeof options.target !== "undefined" ? options.target : this.target;
   }
   get options(): GunModBuildOptions {
@@ -111,9 +107,9 @@ export class GunModBuild extends ModBuild {
       useHunterMunitions: this.useHunterMunitions,
       handShotChance: this.handShotChance,
       allowElementTypes: this.allowElementTypes,
-      isUseMomentum: this.isUseMomentum,
-      isUseVelocity: this.isUseVelocity,
       extraBaseDamage: this.extraBaseDamage,
+      extraOverall: this.extraOverall,
+      arcanes: this.arcanes,
       target: this.target,
     }
   }
@@ -129,7 +125,7 @@ export class GunModBuild extends ModBuild {
   get accuracy() { return this.weapon.accuracy; }
   get bullets() { return this.weapon.bullets * this.multishotMul; }
   /** 换弹时间 */
-  get reloadTime() { return this.weapon.reload / hAccSum(this.reloadSpeedMul, (this.isUseMomentum ? 1 : 0)); }
+  get reloadTime() { return this.weapon.reload / this.reloadSpeedMul; }
   /** 弹夹容量 */
   get magazineSize() { return Math.round(this.weapon.magazine * this.magazineMul); }
   /** 最大弹药 */
@@ -169,7 +165,7 @@ export class GunModBuild extends ModBuild {
   get sustainedFireRateMul() { return (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate; }
   /** [overwrite] 射速 */
   get fireRate() {
-    let fr = this.weapon.fireRate * hAccSum(this.fireRateMul, (this.isUseVelocity ? 0.8 : 0));
+    let fr = hAccMul(this.weapon.fireRate, this.fireRateMul);
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }

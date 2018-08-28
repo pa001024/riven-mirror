@@ -1,14 +1,15 @@
 import { Vue, Watch, Prop } from "vue-property-decorator";
 import { RivenMod, GunCompareMode, GunModBuild, ModBuild, ValuedRivenProperty, RivenDataBase, Weapon } from "@/warframe";
+import { i18n } from "@/i18n";
 
 export abstract class BaseModBuildView extends Vue {
   @Prop() riven: RivenMod;
   selectWeapon = "";
   get weapon() {
-    return (this.riven.weapons as Weapon[]).find(v => v.name === this.selectWeapon);
+    return (this.riven.weapons as Weapon[]).find(v => v.id === this.selectWeapon);
   }
   selectCompMethod: GunCompareMode = GunCompareMode.TotalDamage;
-  selectDamageType: string = "腐蚀";
+  selectDamageType: string = "Corrosive";
   builds: [string, ModBuild][] = [];
 
   /** 插槽使用数 */
@@ -20,15 +21,15 @@ export abstract class BaseModBuildView extends Vue {
 
   /** 元素类型 */
   elementTypes = {
-    "物理": ["8", "9", "A"],
-    "辐射": ["4", "7"],
-    "腐蚀": ["7", "6"],
-    "毒气": ["4", "6"],
-    "病毒": ["5", "6"],
-    "爆炸": ["4", "5"],
-    "磁力": ["5", "7"],
+    "Physical": ["8", "9", "A"],
+    "Radiation": ["4", "7"],
+    "Corrosive": ["7", "6"],
+    "Gas": ["4", "6"],
+    "Viral": ["5", "6"],
+    "Blast": ["4", "5"],
+    "Magnetic": ["5", "7"],
   }
-  activeNames: string[] = ["紫卡配置"];
+  activeNames: string[] = [i18n.t("buildview.yourriven").toString()];
 
   _debouncedRecalc: (() => void);
   abstract debouncedRecalc();
@@ -40,7 +41,7 @@ export abstract class BaseModBuildView extends Vue {
       console.log("warn: weapons.length === 0");
       return;
     }
-    this.selectWeapon = weapons[weapons.length - 1].name;
+    this.selectWeapon = weapons[weapons.length - 1].id;
     this.debouncedRecalc();
   }
   recalc(cls: any = GunModBuild, options = {}) {
@@ -54,9 +55,9 @@ export abstract class BaseModBuildView extends Vue {
     riven.fill(this.slots, 2);
     bestRiven.fill(this.slots, 2);
     this.builds = [];
-    this.builds.push(["标准配置", stand]);
-    this.builds.push(["紫卡配置", riven]);
-    this.builds.push(["最佳紫卡配置", bestRiven]);
+    this.builds.push([i18n.t("buildview.normal").toString(), stand]);
+    this.builds.push([i18n.t("buildview.yourriven").toString(), riven]);
+    this.builds.push([i18n.t("buildview.bestriven").toString(), bestRiven]);
     this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);
     this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
   }
@@ -91,7 +92,7 @@ export abstract class BaseModBuildView extends Vue {
     let rp = RivenDataBase.getPropByName(prop[0]);
     if (rp) {
       let vp = new ValuedRivenProperty(rp, prop[1] * 100);
-      return vp.displayValue + " " + vp.name;
+      return this.$t("prop.fullName." + vp.id, [vp.displayValue]);
     }
     return prop[0] + " " + (prop[1] * 100).toFixed() + "%";
   }

@@ -2,7 +2,7 @@
   <div class="time-container">
     <div class="time-block">
       <div class="time-header">
-        希图斯 {{cetusTime.phase}}
+        {{$t("time.cetus")}} {{cetusTime.phase}}
       </div>
       <div class="time-clock">
         {{cetusTime.text}}
@@ -10,7 +10,7 @@
     </div>
     <div class="time-block">
       <div class="time-header">
-        地球 {{earthTime.phase}}
+        {{$t("time.earth")}} {{earthTime.phase}}
       </div>
       <div class="time-clock">
         {{earthTime.text}}

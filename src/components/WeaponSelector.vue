@@ -1,19 +1,19 @@
 <template>
   <el-tabs class="weapon-tabs" v-model="modType">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
-      <span slot="label" class="weapon-tablabel">{{tab.name}}</span>
+      <span slot="label" class="weapon-tablabel">{{$t("zh") ? tab.name : tab.id}}</span>
       <ul class="weapon-select">
         <div class="weapon-item-container" v-for="riven in tab.rivens" :key="riven.id">
           <el-dropdown v-if="riven.weapons.length > 1" trigger="click" @command="handleCommand">
             <li class="weapon-item">
-              {{riven.name}}
+              {{$t("zh") ? riven.name : riven.id}}
             </li>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{weapon.name}}</el-dropdown-item>
+              <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{$t("zh") ? weapon.name : weapon.id}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <li v-else class="weapon-item el-dropdown" @click="handleClick(riven.id)">
-            {{riven.name}}
+            {{$t("zh") ? riven.name : riven.id}}
           </li>
         </div>
       </ul>
@@ -49,7 +49,7 @@ export default class WeaponSelector extends Vue {
     let weapon = RivenDataBase.getRivenWeaponByName(id);
     let weapons = weapon.weapons;
     if (weapons.length === 0) {
-      this.$message.error("暂无该武器资料");
+      this.$message.error(this.$t("weaponselector.notfound") as string);
     } else if (weapons.length === 1) {
       this.handleCommand(id);
     }

@@ -2,15 +2,15 @@
   <el-row type="flex" :gutter="20" justify="center">
     <div class="huangli">
       <div class="title">
-        仓鼠老黄历
+        {{$t("huangli.title")}}
         <sup>beta</sup>
       </div>
       <div class="date">
-        {{todayString}}
+        {{$t("huangli.todayis")}}{{$d(new Date(),"weekday")}}
       </div>
       <div class="evs">
         <div class="ev good">
-          <div class="ev-title">宜</div>
+          <div class="ev-title">{{$t("huangli.goodfor")}}</div>
           <ul class="ev-list">
             <li v-for="good in goods" :key="good.name">
               <div class="ev-name">{{good.name}}</div>
@@ -19,7 +19,7 @@
           </ul>
         </div>
         <div class="ev bad">
-          <div class="ev-title">不宜</div>
+          <div class="ev-title">{{$t("huangli.badfor")}}</div>
           <ul class="ev-list">
             <li v-for="bad in bads" :key="bad.name">
               <div class="ev-name">{{bad.name}}</div>
@@ -29,17 +29,17 @@
         </div>
       </div>
       <div class="line-tip">
-        <strong>朝向：</strong>面向<span class="direction_value">{{directionString}}</span>破关节，伤害最高
+        <strong>{{$t("huangli.faceto")}}</strong>面向<span class="direction_value">{{directionString}}</span>破关节，伤害最高
       </div>
       <div class="line-tip">
-        <strong>星球：</strong>去<span class="direction_value">{{starsString}}</span>刷裂缝，出金最多
+        <strong>{{$t("huangli.planet")}}</strong>去<span class="direction_value">{{starsString}}</span>刷裂缝，出金最多
       </div>
       <div class="line-tip">
-        <strong>大佬指数：</strong><span class="dalao_value">{{dalaoValue}}</span>
+        <strong>{{$t("huangli.lucky")}}</strong><span class="dalao_value">{{dalaoValue}}</span>
       </div>
       <div class="comment">
         <ul>
-          <li>*仅供参考</li>
+          <li>{{$t("huangli.tip")}}</li>
         </ul>
       </div>
     </div>

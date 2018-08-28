@@ -50,9 +50,20 @@
                   </el-input>
                 </el-tooltip>
               </el-form-item>
+              <el-form-item label="总伤加成">
+                <el-tooltip style="width: calc(100% - 68px);" effect="dark" placement="bottom">
+                  <div slot="content">
+                    <div>如Rhino的战吼等属于这个加成</div>
+                  </div>
+                  <el-input size="small" class="chroma-dmg" v-model="extraOverall" style="width:120px">
+                    <template slot="append">%</template>
+                  </el-input>
+                </el-tooltip>
+              </el-form-item>
               <el-form-item label="赋能">
-                <el-checkbox v-model="isUseFury" @change="optionChange">狂怒</el-checkbox>
-                <el-checkbox v-model="isUseStrike" @change="optionChange">速攻</el-checkbox>
+                <el-checkbox-group v-model="arcanes">
+                  <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="optionChange">{{arcane.name}}</el-checkbox>
+                </el-checkbox-group>
               </el-form-item>
             </el-form>
           </el-card>
@@ -97,7 +108,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty, MeleeWeapon, MeleeModBuild } from "@/warframe";
+import { RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty, MeleeWeapon, MeleeModBuild, Codex } from "@/warframe";
 import PropDiff from "@/components/PropDiff.vue";
 import ModSelector from "@/components/ModSelector.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
@@ -118,8 +129,12 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
 
   comboMul = 1.5;
   extraBaseDamage = 0;
-  isUseFury = false;
-  isUseStrike = false;
+  extraOverall = 0;
+  /** 赋能 */
+  arcanes = [];
+  get availableArcanes() {
+    return Codex.getAvailableArcanes(this.weapon);
+  }
 
   @Watch("weapon")
   reload() { super.reload(); }
@@ -128,8 +143,8 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
     return new MeleeModBuild(weapon, null, {
       comboLevel: ~~((this.comboMul - 1) * 2),
       extraBaseDamage: this.extraBaseDamage / 100,
-      isUseFury: this.isUseFury,
-      isUseStrike: this.isUseStrike,
+      extraOverall: this.extraOverall / 100,
+      arcanes: this.arcanes,
     });
   }
   // === 事件处理 ===
@@ -137,8 +152,8 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
     this.build.options = {
       comboLevel: ~~((this.comboMul - 1) * 2),
       extraBaseDamage: this.extraBaseDamage / 100,
-      isUseFury: this.isUseFury,
-      isUseStrike: this.isUseStrike
+      extraOverall: this.extraOverall / 100,
+      arcanes: this.arcanes,
     };
     this.build.calcMods();
     this.reloadSelector();

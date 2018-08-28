@@ -1,4 +1,4 @@
-import { Damage2_0, DamageType, EnemyData, EnemyList, NormalMod, NormalModDatabase } from "./";
+import { Damage2_0, DamageType, EnemyData, EnemyList, NormalMod, NormalModDatabase, Weapon, ArcaneList } from "./";
 
 /**
  * 原版数据库
@@ -17,6 +17,9 @@ export class Codex {
   }
   static getDamageType(id: DamageType) { return Damage2_0.getDamageType(id); }
   static getEnemy(id: string) { return this.instance.enemyDict.get(id); }
+  static getAvailableArcanes(weapon: Weapon) {
+    return ArcaneList.filter(v => v.type === "武器" || weapon.tags.includes(v.type));
+  }
 }
 
 export * from './enemy'

@@ -12,6 +12,8 @@ export interface MeleeModBuildOptions {
   isUseFury?: boolean
   isUseStrike?: boolean
   extraBaseDamage?: number
+  extraOverall?: number
+  arcanes?: Arcane[]
   target?: Enemy
 }
 
@@ -52,10 +54,6 @@ export class MeleeModBuild extends ModBuild {
   compareMode = 0;
   /** 异况触发量 */
   statusCount = 2;
-  /** 狂怒赋能 */
-  isUseFury = false;
-  /** 速攻赋能 */
-  isUseStrike = false;
 
   constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null) {
     super(riven);
@@ -70,9 +68,9 @@ export class MeleeModBuild extends ModBuild {
     this.compareMode = typeof options.compareMode !== "undefined" ? options.compareMode : this.compareMode;
     this.comboLevel = typeof options.comboLevel !== "undefined" ? options.comboLevel : this.comboLevel;
     this.allowElementTypes = typeof options.allowElementTypes !== "undefined" ? options.allowElementTypes : this.allowElementTypes;
-    this.isUseFury = typeof options.isUseFury !== "undefined" ? options.isUseFury : this.isUseFury;
-    this.isUseStrike = typeof options.isUseStrike !== "undefined" ? options.isUseStrike : this.isUseStrike;
     this.extraBaseDamage = typeof options.extraBaseDamage !== "undefined" ? options.extraBaseDamage : this.extraBaseDamage;
+    this.extraOverall = typeof options.extraOverall !== "undefined" ? options.extraOverall : this.extraOverall;
+    this.arcanes = typeof options.arcanes !== "undefined" ? options.arcanes : this.arcanes;
     this.target = typeof options.target !== "undefined" ? options.target : this.target;
   }
 
@@ -81,9 +79,9 @@ export class MeleeModBuild extends ModBuild {
       compareMode: this.compareMode,
       comboLevel: this.comboLevel,
       allowElementTypes: this.allowElementTypes,
-      isUseFury: this.isUseFury,
-      isUseStrike: this.isUseStrike,
       extraBaseDamage: this.extraBaseDamage,
+      extraOverall: this.extraOverall,
+      arcanes: this.arcanes,
       target: this.target,
     };
   }
@@ -139,8 +137,6 @@ export class MeleeModBuild extends ModBuild {
   /** 重置所有属性增幅器 */
   reset() {
     super.reset();
-    if (this.isUseFury) this._baseDamageMul = hAccSum(this._baseDamageMul, 1.2);
-    if (this.isUseStrike) this._fireRateMul = hAccSum(this._fireRateMul, 0.8);
     this._rangeMul = 1;
     this._chargeMulMul = 1;
     this._chargeEffMul = 1;
