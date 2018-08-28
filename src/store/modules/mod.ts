@@ -19,6 +19,9 @@ const mutations = {
     if (state.history.length === 0 || riven.qrCode !== state.history[0].qrCode)
       state.history = [riven].concat(state.history.filter((v, i) => v.qrCode !== riven.qrCode && i < MAX_HISTORY_COUNT));
     localStorage.setItem("modHistory", JSON.stringify(state.history.map(v => v.qrCode)));
+  },
+  removeHistory(state: State, qrCode: string) {
+    state.history = state.history.filter((v, i) => v.qrCode !== qrCode);
   }
 }
 
@@ -28,11 +31,14 @@ const actions = {
     if (rm.id)
       context.commit("newRiven", rm);
   },
-  newBase64Text(context: ActionContext<State, any>, text: String) {
+  newBase64Text(context: ActionContext<State, any>, text: string) {
     let rm = new RivenMod();
     rm.qrCodeBase64 = text;
     if (rm.id)
       context.commit("newRiven", rm);
+  },
+  removeHistory(context: ActionContext<State, any>, qrcode: string) {
+    context.commit("removeHistory", qrcode);
   }
 };
 

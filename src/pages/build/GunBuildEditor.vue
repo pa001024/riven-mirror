@@ -6,26 +6,27 @@
         <div class="weapon-display">
           <el-card class="weapon-box">
             <div slot="header" class="weapon-name">
-              <span>{{weapon.name}} - {{weapon.id}}</span>
+              <span>{{$t("zh") ? weapon.name : weapon.id.toUpperCase()}}</span>
             </div>
             <table class="weapon-props">
               <tbody>
-                <PropDiff name="弹匣" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
-                <PropDiff name="攻击速度" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
-                <PropDiff name="暴击倍率" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
-                <PropDiff name="暴击几率" :ori="weapon.critChances" :val="build.critChance" percent></PropDiff>
-                <PropDiff v-if="weapon.bullets != 1 || build.bullets != 1" name="弹片数" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
-                <PropDiff name="裂罅倾向性" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
-                <PropDiff name="装填" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
-                <PropDiff name="触发几率" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
+                <PropDiff :name="$t('build.magazine')" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
+                <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
+                <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
+                <PropDiff :name="$t('build.critChances')" :ori="weapon.critChances" :val="build.critChance" percent></PropDiff>
+                <PropDiff :name="$t('build.bullets')" v-if="weapon.bullets != 1 || build.bullets != 1" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
+                <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
+                <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
+                <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
                 <br>
                 <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="mapDname(dname)" :ori="ori" :val="val"></PropDiff>
-                <PropDiff name="面板伤害" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
-                <PropDiff name="单发伤害" :ori="build.oriTotalDamage" :val="build.totalDamage"
+                <br>
+                <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
+                <PropDiff :name="$t('build.totalDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
                    class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
-                <PropDiff name="爆发伤害" :ori="build.oriBurstDamage" :val="build.burstDamage"
+                <PropDiff :name="$t('build.burstDamage')" :ori="build.oriBurstDamage" :val="build.burstDamage"
                    class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
-                <PropDiff name="持续伤害" :ori="build.oriSustainedDamage" :val="build.sustainedDamage"
+                <PropDiff :name="$t('build.sustainedDamage')" :ori="build.oriSustainedDamage" :val="build.sustainedDamage"
                    class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
               </tbody>
             </table>
@@ -33,40 +34,43 @@
           <!-- 选项区域 -->
           <el-card class="build-tools">
             <el-button-group class="build-tools-action">
-              <el-button type="primary" size="small" @click="fill()">自动配置</el-button>
-              <el-button type="primary" size="small" @click="fillEmpty()">填充空白</el-button>
-              <el-button type="primary" size="small" @click="clear()">清空</el-button>
+              <el-button type="primary" size="small" @click="fill()">{{$t("build.fill")}}</el-button>
+              <el-button type="primary" size="small" @click="fillEmpty()">{{$t("build.fillEmpty")}}</el-button>
+              <el-button type="primary" size="small" @click="clear()">{{$t("build.clear")}}</el-button>
             </el-button-group>
             <el-form class="build-form-editor">
-              <el-form-item label="爆头率">
-                <el-tooltip effect="dark" content="更高的爆头率会提高暴击的收益" placement="bottom">
-                  <el-slider v-model="handShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange" style="margin-left: 64px;"></el-slider>
+              <!-- 爆头几率 -->
+              <el-form-item :label="$t('buildview.handshotChance')">
+                <el-tooltip effect="dark" :content="$t('buildview.handshotChanceTip')" placement="bottom">
+                  <el-slider class="right-side" v-model="handShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
                 </el-tooltip>
               </el-form-item>
-              <el-form-item label="基伤加成">
-                <el-tooltip style="width: calc(100% - 68px);" effect="dark" placement="bottom">
+              <!-- 基伤加成 -->
+              <el-form-item :label="$t('buildview.extraBaseDamage')">
+                <el-tooltip effect="dark" placement="bottom">
                   <div slot="content">
-                    <div>Chroma的"怨怒护甲"和Mirage的"黯然失色"等技能可对武器基伤进行大量加成，</div>
-                    <div>步枪增幅、死亡之眼等光环MOD也属于这个加成</div>
+                    <div v-html="$t('buildview.extraBaseDamageTip')"></div>
                   </div>
-                  <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" style="width:120px">
+                  <el-input size="small" class="right-side chroma-dmg" v-model="extraBaseDamage">
                     <template slot="append">%</template>
                   </el-input>
                 </el-tooltip>
               </el-form-item>
-              <el-form-item label="总伤加成">
-                <el-tooltip style="width: calc(100% - 68px);" effect="dark" placement="bottom">
+              <!-- 总伤加成 -->
+              <el-form-item :label="$t('buildview.extraOverall')">
+                <el-tooltip effect="dark" placement="bottom">
                   <div slot="content">
-                    <div>如Rhino的战吼等属于这个加成</div>
+                    <div v-html="$t('buildview.extraOverallTip')"></div>
                   </div>
-                  <el-input size="small" class="chroma-dmg" v-model="extraOverall" style="width:120px">
+                  <el-input size="small" class="right-side chroma-dmg" v-model="extraOverall">
                     <template slot="append">%</template>
                   </el-input>
                 </el-tooltip>
               </el-form-item>
-              <el-form-item label="赋能">
+              <!-- 赋能 -->
+              <el-form-item :label="$t('buildview.arcanes')">
                 <el-checkbox-group v-model="arcanes">
-                  <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane.id" @change="optionChange">动量</el-checkbox>
+                  <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="optionChange">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
             </el-form>
@@ -83,11 +87,11 @@
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
                   <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="slotClick(index)">
                     <template v-if="mod">
-                      <div class="mod-title" @click.stop="slotClick(index)">{{mod.name}}</div>
+                      <div class="mod-title" @click.stop="slotClick(index)">{{$t("zh") ? mod.name : mod.id}}</div>
                       <div class="mod-detail" @click.stop="slotRemove(index)">
                         <div class="mod-stat">
                           <div class="mod-prop" v-for="prop in mod.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
-                          <div class="mod-sum">{{PNNum(100 * item.build.modValue(mod.id))}}% 总收益</div>
+                          <div class="mod-sum">{{PNNum(100 * item.build.modValue(mod.id))}}% {{$t("build.total")}}</div>
                         </div>
                         <div class="mod-action">
                           <button type="button" class="mod-slot-remove">
@@ -105,43 +109,42 @@
         </el-tabs>
         <!-- 幻影装置区域 -->
         <el-card class="enemy-sim">
-          <div slot="header" class="enemy-sim-header">幻影装置</div>
+          <div slot="header" class="enemy-sim-header">{{$t("build.simulacrum")}}</div>
           <keep-alive>
             <div v-if="enemy" class="enemy-main">
               <!-- 敌人信息区域 -->
               <table class="enemy-info">
                 <tr class="enemy-name">
-                  <th>敌人</th>
-                  <td>{{enemy.name}}</td>
+                  <th>{{$t("enemy.name")}}</th>
+                  <td>{{$t("zh") ? enemy.name : enemy.id}}</td>
                 </tr>
                 <tr class="enemy-faction">
-                  <th>派系</th>
+                  <th>{{$t("enemy.faction")}}</th>
                   <td>{{enemy.factionName}}</td>
                 </tr>
-                <tr label="等级" class="enemy-level">
-                  <th>等级</th>
+                <tr class="enemy-level">
+                  <th>{{$t("enemy.level")}}</th>
                   <td class="control"><el-input size="small" class="enemy-level-edit" v-model="enemyLevel" style="width: 80px"></el-input></td>
                 </tr>
                 <tr class="enemy-health">
-                  <th>{{enemy.fleshTypeName}}</th>
+                  <th>{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</th>
                   <td>{{enemy.health.toFixed()}}</td>
                 </tr>
                 <tr v-if="enemy.sheild > 0" class="enemy-shield">
-                  <th>{{enemy.sheildTypeName}}</th>
+                  <th>{{$t(`enemy.sheildType.${enemy.sheildType}`)}}</th>
                   <td>{{enemy.sheild.toFixed()}}</td>
                 </tr>
                 <tr v-if="enemy.armor > 0" class="enemy-armor">
-                  <th>{{enemy.armorTypeName}}</th>
+                  <th>{{$t(`enemy.armorType.${enemy.armorType}`)}}</th>
                   <td>{{enemy.armor.toFixed()}}</td>
                 </tr>
                 <tr v-if="enemy.resistence > 0" class="enemy-level">
-                  <th>伤害抗性</th>
+                  <th>{{$t("enemy.resistence")}}</th>
                   <td>{{enemy.resistenceText}}</td>
                 </tr>
-                <tr label="操作" class="enemy-level">
-                  <th>操作</th>
-                  <td class="control"><el-button size="small" @click="selectEnemy(null)">重新选择</el-button></td>
-                  <!-- <el-button type="primary" size="small" @click="simStart()">开始模拟</el-button> -->
+                <tr class="enemy-level">
+                  <th>{{$t("enemy.action")}}</th>
+                  <td class="control"><el-button size="small" @click="selectEnemy(null)">{{$t("enemy.reselect")}}</el-button></td>
                 </tr>
               </table>
               <!-- 伤害显示区域 -->
@@ -152,7 +155,7 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-dialog title="选择MOD" :visible.sync="dialogVisible" width="600">
+    <el-dialog :title="$t('build.selectMod')" :visible.sync="dialogVisible" width="600">
       <ModSelector ref="selector" :build="build" @command="modSelect($event)"></ModSelector>
     </el-dialog>
   </div>
@@ -235,6 +238,10 @@ export default class GunBuildEditor extends BaseBuildEditor {
 </script>
 
 <style>
+.right-side {
+  width: 50%;
+  float: right;
+}
 .enemy-main {
   display: flex;
 }
@@ -245,7 +252,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-  width: 200px;
+  width: 220px;
   max-width: 100%;
   font-size: 14px;
   color: #606266;

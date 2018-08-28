@@ -18,22 +18,12 @@ export abstract class BaseBuildEditor extends Vue {
   abstract newBuild(...parms): ModBuild;
 
   reload() {
-    this.tabs = [{
-      title: "配置A",
-      name: "SET A",
+    this.tabs = "ABC".split("").map(v => ({
+      title: this.$t("zh") ? `配置${v}` : `SET ${v}`,
+      name: `SET ${v}`,
       build: this.newBuild(this.weapon),
       mods: Array(8)
-    }, {
-      title: "配置B",
-      name: "SET B",
-      build: this.newBuild(this.weapon),
-      mods: Array(8)
-    }, {
-      title: "配置C",
-      name: "SET C",
-      build: this.newBuild(this.weapon),
-      mods: Array(8)
-    }];
+    }));
     this.tabValue = "SET A";
   }
 
@@ -88,7 +78,7 @@ export abstract class BaseBuildEditor extends Vue {
     let rp = RivenDataBase.getPropByName(prop[0]);
     if (rp) {
       let vp = new ValuedRivenProperty(rp, prop[1] * 100);
-      return vp.displayValue + " " + vp.name;
+      return this.$t("prop.fullName." + vp.id, [vp.displayValue]);
     }
     return prop[0] + " " + (prop[1] * 100).toFixed() + "%";
   }
@@ -108,7 +98,7 @@ export abstract class BaseBuildEditor extends Vue {
   }
   mapDname(id: string) {
     let dtype = Damage2_0.getDamageType(id as DamageType);
-    return dtype && dtype.name || "";
+    return dtype && (this.$t("zh") ? dtype.name : dtype.id.toUpperCase()) || "";
   }
   // === 事件处理 ===
   modSelect(mod: NormalMod | NormalMod[]) {

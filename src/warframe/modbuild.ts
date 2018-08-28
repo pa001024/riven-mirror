@@ -38,7 +38,7 @@ export abstract class ModBuild {
   /** 额伤增幅倍率 */
   get extraDmgMul() { return this._extraDmgMul; }
   /** 暴击率增幅倍率 */
-  get critChanceMul() { return this._critChanceMul; }
+  get critChanceMul() { return this._critChanceMul < 0 ? 0 : this._critChanceMul; }
   /** 加法暴击率增幅倍率 */
   get critChanceAdd() { return this._critChanceAdd; }
   /** 暴击伤害增幅倍率 */

@@ -337,6 +337,9 @@ export class Enemy implements EnemyData {
   fleshType: FleshType;
   sheildType: SheildType;
   armorType: ArmorType;
+  get fleshTypeId() { return FleshType[this.fleshType]; }
+  get sheildTypeId() { return SheildType[this.sheildType]; }
+  get armorTypeId() { return ArmorType[this.armorType]; }
   get fleshTypeName() { return _fleshTypeName[this.fleshType]; }
   get sheildTypeName() { return _sheildTypeName[this.sheildType]; }
   get armorTypeName() { return _armorTypeName[this.armorType]; }

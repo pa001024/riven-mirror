@@ -71,7 +71,7 @@ const meleeProperty: RivenProperty[] = [
 
 export const RivenPropertyDataBase: { [key: string]: RivenProperty[] } = {
   Rifle: baseProperty.concat(gunProperty.map(v => v.id === "R" ? { id: 'R', sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v)),
-  Shotgun: baseProperty.concat(gunProperty),
+  Shotgun: baseProperty.concat(gunProperty.map(v => v.id === "R" ? { id: 'R', sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v)),
   Pistol: baseProperty.concat(gunProperty),
   Melee: baseProperty.concat(meleeProperty),
   all: baseProperty.concat(gunProperty, meleeProperty),

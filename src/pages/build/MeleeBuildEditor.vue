@@ -6,22 +6,22 @@
         <div class="weapon-display">
           <el-card class="weapon-box">
             <div slot="header" class="weapon-name">
-              <span>{{weapon.name}}</span>
+              <span>{{$t("zh") ? weapon.name : weapon.id.toUpperCase()}}</span>
             </div>
             <table class="weapon-props">
               <tbody>
-                <PropDiff name="攻击速度" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
-                <PropDiff name="暴击几率" :ori="weapon.critMul" :val="build.critChance" percent></PropDiff>
-                <PropDiff name="暴击倍率" :ori="weapon.critChances" :val="build.critMul" subfix="x"></PropDiff>
-                <PropDiff name="滑行攻击" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
-                <PropDiff name="裂罅倾向性" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
-                <PropDiff name="触发几率" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
+                <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
+                <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critChance" percent></PropDiff>
+                <PropDiff :name="$t('build.critChances')" :ori="weapon.critChances" :val="build.critMul" subfix="x"></PropDiff>
+                <PropDiff :name="$t('build.slideDmg')" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
+                <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
+                <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
                 <br>
                 <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="mapDname(dname)" :ori="ori" :val="val"></PropDiff>
-                <PropDiff name="面板伤害" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
-                <PropDiff name="平砍伤害" :ori="build.oriTotalDamage" :val="build.totalDamage"
+                <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
+                <PropDiff :name="$t('build.attackDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
                    class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
-                <PropDiff name="滑砍伤害" :ori="build.oriSlideDamage" :val="build.slideDamage"
+                <PropDiff :name="$t('build.slideDamage')" :ori="build.oriSlideDamage" :val="build.slideDamage"
                    class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
               </tbody>
             </table>
@@ -29,40 +29,41 @@
           <!-- 选项区域 -->
           <el-card class="build-tools">
             <el-button-group class="build-tools-action">
-              <el-button type="primary" size="small" @click="fill()">自动配置</el-button>
-              <el-button type="primary" size="small" @click="fillEmpty()">填充空白</el-button>
-              <el-button type="primary" size="small" @click="clear()">清空</el-button>
+              <el-button type="primary" size="small" @click="fill()">{{$t("build.fill")}}</el-button>
+              <el-button type="primary" size="small" @click="fillEmpty()">{{$t("build.fillEmpty")}}</el-button>
+              <el-button type="primary" size="small" @click="clear()">{{$t("build.clear")}}</el-button>
             </el-button-group>
             <el-form class="build-form-editor">
-              <el-form-item label="连击倍率">
-                <el-tooltip style="width: calc(100% - 68px);" effect="dark" content="将会按照此连击倍率来进行计算 (爪子P会自动相应增加)" placement="bottom">
-                  <el-input-number size="small" v-model="comboMul" @change="optionChange" :min="1" :max="6" :step="0.5" label="使用MOD槽位"></el-input-number>
+              <el-form-item :label="$t('buildview.comboMul')">
+                <el-tooltip effect="dark" :content="$t('buildview.comboMulTip')" placement="bottom">
+                  <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="1" :max="6" :step="0.5" label="使用MOD槽位"></el-input-number>
                 </el-tooltip>
               </el-form-item>
-              <el-form-item label="基伤加成">
-                <el-tooltip style="width: calc(100% - 68px);" effect="dark" placement="bottom">
+              <!-- 基伤加成 -->
+              <el-form-item :label="$t('buildview.extraBaseDamage')">
+                <el-tooltip effect="dark" placement="bottom">
                   <div slot="content">
-                    <div>Chroma的"怨怒护甲"和Mirage的"黯然失色"等技能可对武器基伤进行大量加成，</div>
-                    <div>步枪增幅、死亡之眼等光环MOD也属于这个加成</div>
+                    <div v-html="$t('buildview.extraBaseDamageTip')"></div>
                   </div>
-                  <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" @change="optionChange" style="width:120px">
+                  <el-input size="small" class="right-side chroma-dmg" v-model="extraBaseDamage">
                     <template slot="append">%</template>
                   </el-input>
                 </el-tooltip>
               </el-form-item>
-              <el-form-item label="总伤加成">
-                <el-tooltip style="width: calc(100% - 68px);" effect="dark" placement="bottom">
+              <!-- 总伤加成 -->
+              <el-form-item :label="$t('buildview.extraOverall')">
+                <el-tooltip effect="dark" placement="bottom">
                   <div slot="content">
-                    <div>如Rhino的战吼等属于这个加成</div>
+                    <div v-html="$t('buildview.extraOverallTip')"></div>
                   </div>
-                  <el-input size="small" class="chroma-dmg" v-model="extraOverall" style="width:120px">
+                  <el-input size="small" class="right-side chroma-dmg" v-model="extraOverall">
                     <template slot="append">%</template>
                   </el-input>
                 </el-tooltip>
               </el-form-item>
               <el-form-item label="赋能">
                 <el-checkbox-group v-model="arcanes">
-                  <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="optionChange">{{arcane.name}}</el-checkbox>
+                  <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="optionChange">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
             </el-form>

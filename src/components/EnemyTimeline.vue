@@ -1,52 +1,28 @@
 <template>
   <el-tabs class="timeline-tabs" v-model="visType">
-    <el-tab-pane name="表格">
-      <span slot="label" class="enemy-tablabel">表格</span>
+    <el-tab-pane name="table">
+      <span slot="label" class="enemy-tablabel">{{$t("timeline.table")}}</span>
       <div class="timeline-text">
         <div class="item">
-          <div class="time">
-            时间
-          </div>
-          <div class="hit">
-            伤害
-          </div>
-          <div class="ammo">
-            使用弹药
-          </div>
-          <div class="dot" v-if="hasDoT">
-            DoT伤害
-          </div>
-          <div class="hp">
-            剩余生命
-          </div>
-          <div class="ar" v-if="hasArmorChange">
-            剩余护甲
-          </div>
+          <div class="time">{{$t("timeline.time")}}</div>
+          <div class="hit">{{$t("timeline.hit")}}</div>
+          <div class="ammo">{{$t("timeline.ammo")}}</div>
+          <div class="dot" v-if="hasDoT">{{$t("timeline.dot")}}</div>
+          <div class="hp">{{$t("timeline.hp")}}</div>
+          <div class="ar" v-if="hasArmorChange">{{$t("timeline.ar")}}</div>
         </div>
         <div class="item" v-for="(text, sec) in timelineText" :key="sec">
-          <div class="time">
-            {{text.time / 1e3}}
-          </div>
-          <div class="hit">
-            {{text.hit}}
-          </div>
-          <div class="ammo">
-            {{text.ammo}}
-          </div>
-          <div class="dot" v-if="hasDoT">
-            {{text.dot}}
-          </div>
-          <div class="hp">
-            {{text.hp}}
-          </div>
-          <div class="ar" v-if="hasArmorChange">
-            {{text.ar}}
-          </div>
+          <div class="time">{{text.time / 1e3}}s</div>
+          <div class="hit">{{text.hit}}</div>
+          <div class="ammo">{{text.ammo}}</div>
+          <div class="dot" v-if="hasDoT">{{text.dot}}</div>
+          <div class="hp">{{text.hp}}</div>
+          <div class="ar" v-if="hasArmorChange">{{text.ar}}</div>
         </div>
       </div>
     </el-tab-pane>
-    <el-tab-pane name="图表">
-      <span slot="label" class="enemy-tablabel">图表</span>
+    <el-tab-pane name="chart">
+      <span slot="label" class="enemy-tablabel">{{$t("timeline.chart")}}</span>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -61,7 +37,7 @@ import { EnemyTimelineState, Enemy } from "@/warframe";
 @Component
 export default class EnemyTimeline extends Vue {
   @Prop() timeline: EnemyTimelineState[];
-  visType = "表格";
+  visType = "table";
   hasDoT = false;
   hasArmorChange = false;
 

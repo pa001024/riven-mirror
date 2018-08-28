@@ -135,8 +135,8 @@ export class GunModBuild extends ModBuild {
   get critChance() {
     // 兰卡开镜暴击
     if ((this.weapon.rivenName || this.weapon.id) === "Lanka")
-      return hAccMul(this.weapon.critChances, this.critChanceMul) + 0.5;
-    return hAccMul(this.weapon.critChances, this.critChanceMul);
+      return hAccSum(hAccMul(this.weapon.critChances, this.critChanceMul), this.critChanceAdd, 0.5);
+    return hAccSum(hAccMul(this.weapon.critChances, this.critChanceMul), this.critChanceAdd);
   }
   /** [overwrite] 暴击倍率 */
   get critMul() {

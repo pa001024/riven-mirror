@@ -5,7 +5,7 @@
       <ul class="enemy-select">
         <div class="enemy-item-container" v-for="enemy in tab.enemys" :key="enemy.id">
           <li class="enemy-item el-dropdown" @click="handleClick(enemy.id)">
-            {{enemy.name}}
+            {{$t("zh") ? enemy.name : enemy.id}}
           </li>
         </div>
       </ul>

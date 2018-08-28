@@ -85,7 +85,7 @@
     <!-- 配置列表 -->
     <div class="build-list">
       <el-card class="build-container">
-        <el-collapse v-model="activeNames">
+        <el-collapse v-model="activeNames" v-if="builds.length">
           <el-collapse-item v-for="build in builds" :key="build[0]" :name="build[0]">
             <template slot="title">
               <div class="build-title" style="margin:0 16px;">
@@ -116,6 +116,9 @@
             </el-row>
           </el-collapse-item>
         </el-collapse>
+        <div class="loading" v-else>
+          <i class="el-icon-loading"></i> {{$t("buildview.loading")}}
+        </div>
       </el-card>
       <el-card class="build-result" v-if="builds.length">
         {{$t("buildview.rank")}} [

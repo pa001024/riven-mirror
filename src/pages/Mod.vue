@@ -69,6 +69,7 @@
                 <ul class="mod-history-list">
                   <li v-for="(hiRiven, index) in modHistoty" :key="index" @click="newBase64Text(hiRiven.qrCodeBase64)" class="mod-history-item">
                     {{$t("zh") ? hiRiven.fullName : hiRiven.fullId}}
+                    <span class="history-delete" @click.stop="removeHistory(hiRiven.qrCode)"><i class="el-icon-close"></i></span>
                   </li>
                 </ul>
               </el-card>
@@ -122,6 +123,7 @@ export default class Mod extends Vue {
   @Getter("modHistoty") modHistoty: RivenMod[];
   @Action("newBase64Text") newBase64Text: (text: string) => void
   @Action("newModTextInput") newModTextInput: (text: string) => void
+  @Action("removeHistory") removeHistory: (qrcode: string) => void
   get isGun() {
     let vp = RivenDataBase.getRivenWeaponByName(this.mod.name);
     return vp && vp.mod != "Melee";
@@ -238,6 +240,12 @@ export default class Mod extends Vue {
 </script>
 
 <style>
+.history-delete {
+  float: right;
+}
+.history-delete:hover {
+  color: #f56c6c;
+}
 @media only screen and (max-width: 484px) {
   .rivenedit-popper {
     width: calc(100vw - 84px) !important;

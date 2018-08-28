@@ -96,11 +96,13 @@ export class MeleeModBuild extends ModBuild {
     else
       return this.comboLevel * 0.5 + 1;
   }
+  /** 连击数增加暴击率 */
+  get comboCritChance() { return this.comboMul > 1 ? 1 + this.comboMul * this.comboCritChanceMul : 1; }
   /** [overwrite] 暴击率 */
-  get critChance() { return hAccMul(this.weapon.critChances, this.critChanceMul, this.comboMul > 1 ? 1 + this.comboMul * this.comboCritChanceMul : 1); }
+  get critChance() { return hAccMul(hAccSum(hAccMul(this.weapon.critChances, this.critChanceMul), this.critChanceAdd), this.comboCritChance); }
   /** 滑行暴击率 */
   get slideCritDamage() {
-    return hAccSum(hAccMul(this.weapon.critChances, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd) * (this.comboMul > 1 ? this.comboMul * this._comboCritChanceMul : 1)
+    return hAccSum(hAccMul(this.weapon.critChances, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd) * this.comboCritChance
   }
   /** 真实触发几率 */
   get realProcChance() { return this.procChance; }
