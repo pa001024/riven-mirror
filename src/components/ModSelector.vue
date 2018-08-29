@@ -103,7 +103,7 @@ export default class ModSelector extends Vue {
       sliverCorrosive: ["热病打击 Prime", "电击触点"],
       silverRadiation: ["熔岩冲击", "电击触点"],
       silverViral: ["热病打击 Prime", "北风"],
-      goldCorrosive: ["电流震击", "剧毒灾害"],
+      goldCorrosive: ["伏打电能", "剧毒灾害"],
       gas: ["热病打击 Prime", "爆裂刀刃", "剧毒灾害"],
     }
   };
