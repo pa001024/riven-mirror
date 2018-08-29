@@ -8,17 +8,17 @@ import App from './App.vue'
 import router from '@/router'
 import store from '@/store'
 import draggable from 'vuedraggable';
+import { i18n } from '@/i18n';
 
 console.log("using lang", navigator.language);
 Vue.config.productionTip = false;
 
-import { i18n } from '@/i18n';
+// 全局组件
+Vue.component("draggable", draggable);
 
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 });
-Vue.component("draggable", draggable);
-
 
 /* eslint-disable no-new */
 new Vue({

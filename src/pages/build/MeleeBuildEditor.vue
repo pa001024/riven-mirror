@@ -140,22 +140,23 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   @Watch("weapon")
   reload() { super.reload(); }
   reloadSelector() { this.$refs.selector && (this.$refs.selector as any).reload(); }
-  newBuild(weapon: MeleeWeapon) {
-    return new MeleeModBuild(weapon, null, {
-      comboLevel: ~~((this.comboMul - 1) * 2),
-      extraBaseDamage: this.extraBaseDamage / 100,
-      extraOverall: this.extraOverall / 100,
-      arcanes: this.arcanes,
-    });
-  }
-  // === 事件处理 ===
-  optionChange() {
-    this.build.options = {
+
+  get options() {
+    return {
       comboLevel: ~~((this.comboMul - 1) * 2),
       extraBaseDamage: this.extraBaseDamage / 100,
       extraOverall: this.extraOverall / 100,
       arcanes: this.arcanes,
     };
+  }
+  newBuild(weapon: MeleeWeapon) {
+    return new MeleeModBuild(weapon, null, this.options);
+  }
+  // === 事件处理 ===
+  @Watch("extraBaseDamage")
+  @Watch("extraOverall")
+  optionChange() {
+    this.build.options = this.options;
     this.build.calcMods();
     this.reloadSelector();
   }

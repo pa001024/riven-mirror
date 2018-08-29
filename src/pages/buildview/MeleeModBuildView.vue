@@ -147,6 +147,8 @@ export default class MeleeModBuildView extends BaseModBuildView {
   }
 
   // === 事件处理器 ===
+  @Watch("extraBaseDamage")
+  @Watch("extraOverall")
   @Watch("slots")
   debouncedRecalc() {
     this._debouncedRecalc();

@@ -206,6 +206,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   }
   // === 事件处理 ===
   @Watch("extraBaseDamage")
+  @Watch("extraOverall")
   optionChange() {
     this.build.options = this.options;
     this.build.calcMods();

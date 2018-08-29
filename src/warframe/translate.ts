@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { i18n } from "@/i18n";
+import { zh2Hant } from "@/warframe/lib/zhconv";
 
 // data from: https://github.com/Richasy/WFA_Lexicon
 const _transData = [
@@ -1879,11 +1880,6 @@ const _transData = [
   { "id": "Plague Star", "name": "瘟疫之星", "type": "Word" },
   { "id": "Balor Fomorian", "name": "巨人战舰", "type": "Word" },
   { "id": "Tac Alert Proxy Rebellion", "name": "机械叛乱", "type": "Word" },
-  { "id": "Sortie", "name": "突击", "type": "Word" },
-  { "id": "Alerts", "name": "警报", "type": "Word" },
-  { "id": "News", "name": "新闻", "type": "Word" },
-  { "id": "Fissures", "name": "裂缝", "type": "Word" },
-  { "id": "Remaining", "name": "剩余", "type": "Word" },
   { "id": "Plains of Eidolon", "name": "夜灵平野", "type": "Node" },
 ];
 
@@ -1936,7 +1932,7 @@ const _partSubfixs = [
  * @class Translator
  */
 export class Translator {
-  public static get Locale() { return i18n.locale && i18n.locale.substr(0, 2) || "en" };
+  public static get Locale() { return i18n.locale || "en" };
   protected static instance = new Translator();
   private mainDict: Map<string, string>;
   private subDict: Map<string, string>;
@@ -1960,12 +1956,17 @@ export class Translator {
   /**
    * 翻译文本
    *
-   * @export
-   * @param {string} text 原文本
+   * @static
+   * @param {string} rawText 原文本
    * @returns {string} 翻译后的文本
+   * @memberof Translator
    */
   static getLocText(rawText: string): string {
-    if (this.Locale !== "zh") return rawText;
+    if (this.Locale === "zh-TW") return zh2Hant(this.getLocTextCN(rawText));
+    else this.getLocTextCN(rawText);
+  }
+  static getLocTextCN(rawText: string): string {
+    if (this.Locale === "en") return rawText;
     // 忽略大小写
     let text = rawText.toLowerCase(), m;
     // 处理如 "100 Endo" => "100 内融核心"
@@ -1991,11 +1992,3 @@ export class Translator {
     return this.instance.mainDict.get(text) || rawText;
   }
 }
-/**
- * 翻译文本(缩写形式)
- *
- * @export
- * @param {string} rawText 原文本
- * @returns {string} 翻译后的文本
- */
-export function $T(rawText: string) { return Translator.getLocText(rawText); }

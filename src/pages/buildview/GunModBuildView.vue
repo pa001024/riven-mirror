@@ -181,6 +181,7 @@ export default class GunModBuildView extends BaseModBuildView {
   }
 
   @Watch("extraBaseDamage")
+  @Watch("extraOverall")
   @Watch("handShotChance")
   @Watch("slots")
   debouncedRecalc() {

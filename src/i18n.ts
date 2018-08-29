@@ -40,7 +40,7 @@ const dateTimeFormats = {
 
 export const i18n = new VueI18n({
   dateTimeFormats,
-  locale: navigator && navigator.language || 'en',
+  locale: localStorage.getItem("lang") || navigator && navigator.language || 'en',
   fallbackLocale: 'en',
   messages: {
     'en': Object.assign(elLang_en, lang_en),
@@ -51,6 +51,7 @@ export const i18n = new VueI18n({
 
 export function changeLocale(locale: string) {
   i18n.locale = locale;
+  localStorage.setItem("lang", locale);
   document.title = i18n.t("title.main").toString();
 }
 
