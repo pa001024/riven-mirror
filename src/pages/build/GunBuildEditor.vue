@@ -217,6 +217,8 @@ export default class GunBuildEditor extends BaseBuildEditor {
     "Eidolon Gantulyst": 55,
     "Eidolon Hydrolyst": 60,
     "Teralyst Synovia": 50,
+    "Tusk Firbolg": 55,
+    "Tusk Bolkor": 55,
   };
   selectEnemy(enemyData: EnemyData) {
     this.enemyData = enemyData;

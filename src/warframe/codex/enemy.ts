@@ -157,6 +157,8 @@ const _enemyList = [
   ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 2500, 200, 7, 0, 1, 0.75, true],
   ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 2500, 200, 7, 0, 1, 0.75, true],
   ["Teralyst Synovia", "兆力使骨液", 5, 1, 3000, 0, 200, 7, 0, 1, 0.75, true],
+  ["Tusk Firbolg", "巨牙博格", 1, 1, 8000, 0, 600, 7, 0, 1, 0, false],
+  ["Tusk Bolkor", "巨牙博寇", 1, 1, 10000, 0, 600, 7, 0, 1, 0, false],
   ["Bailiff", "执法员", 1, 1, 600, 0, 500, 1, 0, 0, 0, false],
   ["Butcher", "屠夫", 1, 1, 50, 0, 5, 1, 0, 0, 0, false],
   ["Flameblade", "烈焰刀客", 1, 1, 50, 0, 5, 1, 0, 0, 0, false],
