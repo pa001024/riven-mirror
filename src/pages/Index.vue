@@ -104,6 +104,30 @@
             </ul>
           </el-card>
         </el-col>
+        <!-- 入侵 -->
+        <el-col :xs="24" :sm="12" :lg="8" v-if="fissures.length > 0">
+          <el-card class="index-card invasion">
+            <h3 slot="header"><i class="wf-icon-invasion"></i> {{$t("alerting.invasion")}}</h3>
+            <ul>
+              <li v-for="(v, i) in invasions" :key="i">
+                <div class="info">
+                  <div class="reward">
+                    <i :class="['wf-icon-' + v.attackingFaction.toLowerCase()]"></i>
+                    {{v.attackerReward.itemString || '-'}}
+                  </div>
+                  <div class="reward">
+                    <i :class="['wf-icon-' + v.defendingFaction.toLowerCase()]"></i>
+                    {{v.defenderReward.itemString || '-'}}
+                  </div>
+                </div>
+                <div class="misc">
+                  <div class="node">{{v.node}}</div>
+                  <div class="progress">{{$t("alerting.progress")}} {{v.completion.toFixed()}}%</div>
+                </div>
+              </li>
+            </ul>
+          </el-card>
+        </el-col>
       </el-row>
     </div>
   </div>
@@ -112,7 +136,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { CetusTime, EarthTime, WorldStat, Translator, Sortie, Alert, News, Fissure } from "@/warframe";
+import { CetusTime, EarthTime, WorldStat, Translator, Sortie, Alert, News, Fissure, Invasion } from "@/warframe";
 import BScroll from 'better-scroll';
 interface WarframeTime {
   isDay: boolean
@@ -135,6 +159,7 @@ export default class Index extends Vue {
   alerts: Alert[] = [];
   news: News[] = [];
   fissures: Fissure[] = [];
+  invasions: Invasion[] = [];
 
   renderTime(time: string) {
     let sec = ~~(Date.parse(time) / 1e3) - this.seconds;
@@ -201,6 +226,7 @@ export default class Index extends Vue {
       this.alerts = this.stat.alerts;
       this.news = this.stat.news;
       this.fissures = this.stat.fissures;
+      this.invasions = this.stat.invasions;
       this.$nextTick(() => this.resize());
     }).catch(() => setTimeout(() => this.updateStat(), 1e3));
   }
@@ -290,6 +316,7 @@ export default class Index extends Vue {
   float: right;
   margin: 22px 24px 0 0;
 }
+.index-card .progress,
 .index-card .time {
   color: #999;
   text-align: right;

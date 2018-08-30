@@ -403,4 +403,24 @@ export class WorldStat {
     }));
   }
 
+  filterInvasion = ["fieldron", "detonite", "mutagen"];
+  /**
+   * 入侵信息
+   */
+  get invasions() {
+    if (!this.data) return [];
+    return this.deepTranslate(this.data.invasions
+      .filter(v => !v.completed && !v.rewardTypes.every(k => this.filterInvasion.includes(k))))
+  }
+
+  /**
+   * 平原赏金信息
+   */
+  get ostrons() {
+    if (!this.data) return [];
+    let data = this.data.syndicateMissions.find(v => v.syndicate === "Ostrons")
+    if (!data) return [];
+    return this.deepTranslate(data.jobs
+      .map(v => (v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")), v)));
+  }
 }

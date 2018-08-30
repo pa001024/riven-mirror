@@ -362,6 +362,7 @@ const _rivenWeaponDataBase = [
   ["Cycron", "循环离子枪", "Pistol", 1, 85],
   ["Detron", "德特昂", "Pistol", 1, 190],
   ["Aklex", "雷克斯双枪", "Pistol", 1, 315],
+  ["Zylok", "Zylok", "Pistol", 1, 315],
   ["Atomos", "原子矿融炮", "Pistol", 0.87, 190],
   ["Akbolto", "螺钉双枪", "Pistol", 0.85, 195],
   ["Ballistica", "布里斯提卡", "Pistol", 0.85, 90],

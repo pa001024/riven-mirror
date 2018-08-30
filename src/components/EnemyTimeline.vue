@@ -54,7 +54,7 @@ export default class EnemyTimeline extends Vue {
   get timelineText() {
     let rst = [];
     let lastHitHead = 0, ammo = 0;
-    this.hasDoT = false;
+    this.hasDoT = this.hasArmorChange = false;
     this.timeline.forEach((v, i) => {
       ammo += v.ammo;
       if (v.isDoT) {
@@ -91,7 +91,7 @@ export default class EnemyTimeline extends Vue {
   get timelineData() {
     let tm = [], hp = [], dd = [], pd = [], ar = [];
     let lastHitHead = 0, ammo = 0;
-    this.hasDoT = false;
+    this.hasDoT = this.hasArmorChange = false;
     this.timeline.forEach((v, i) => {
       ammo += v.ammo;
       if (v.isDoT) {
@@ -115,73 +115,62 @@ export default class EnemyTimeline extends Vue {
       }
     });
 
+    let series = [
+      {
+        name: this.$t("timeline.hp"),
+        type: 'bar',
+        stack: 'total',
+        itemStyle: {
+          normal: {
+            barBorderColor: 'rgba(0,0,0,0)',
+            color: 'rgba(0,0,0,0)'
+          },
+          emphasis: {
+            barBorderColor: 'rgba(0,0,0,0)',
+            color: 'rgba(0,0,0,0)'
+          }
+        },
+        data: hp
+      },
+      {
+        name: this.$t("timeline.dot"),
+        type: 'bar',
+        stack: 'total',
+        label: {
+          normal: {
+            show: true,
+            position: 'bottom'
+          }
+        },
+        data: pd
+      },
+      {
+        name: this.$t("timeline.hit"),
+        type: 'bar',
+        stack: 'total',
+        label: {
+          normal: {
+            show: true,
+            position: 'top'
+          }
+        },
+        data: dd
+      }, {
+        name: this.$t("timeline.ar"),
+        type: 'line',
+        data: this.hasArmorChange && ar
+      }
+    ] as any[];
+
     let option = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: { type: 'shadow' },
-      },
-      grid: {
-        top: '4%',
-        left: '0%',
-        right: '2%',
-        bottom: '0%',
-        containLabel: true
-      },
       xAxis: {
         type: 'category',
         splitLine: { show: false },
         data: tm
       },
       yAxis: { type: 'value' },
-      series: [
-        {
-          name: this.$t("timeline.hp"),
-          type: 'bar',
-          stack: 'total',
-          itemStyle: {
-            normal: {
-              barBorderColor: 'rgba(0,0,0,0)',
-              color: 'rgba(0,0,0,0)'
-            },
-            emphasis: {
-              barBorderColor: 'rgba(0,0,0,0)',
-              color: 'rgba(0,0,0,0)'
-            }
-          },
-          data: hp
-        },
-        {
-          name: this.$t("timeline.dot"),
-          type: 'bar',
-          stack: 'total',
-          label: {
-            normal: {
-              show: true,
-              position: 'bottom'
-            }
-          },
-          data: pd
-        },
-        {
-          name: this.$t("timeline.hit"),
-          type: 'bar',
-          stack: 'total',
-          label: {
-            normal: {
-              show: true,
-              position: 'top'
-            }
-          },
-          data: dd
-        },
-        {
-          name: this.$t("timeline.ar"),
-          type: 'line',
-          data: ar
-        }
-      ]
+      series
     };
-    console.log(ar);
     return option;
   }
 
@@ -194,6 +183,19 @@ export default class EnemyTimeline extends Vue {
   mounted() {
     this.$nextTick(() => {
       this.myChart = echarts.init(this.chart, "rivenmirror");
+      this.myChart.setOption({
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'shadow' },
+        },
+        grid: {
+          top: '4%',
+          left: '0%',
+          right: '2%',
+          bottom: '0%',
+          containLabel: true
+        },
+      });
       this.myChart.setOption(this.timelineData);
     });
   }

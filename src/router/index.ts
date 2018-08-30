@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Mod from '@/pages/Mod.vue'
 import Huangli from '@/pages/Huangli.vue'
 import About from '@/pages/About.vue'
+import Setting from '@/pages/Setting.vue'
 import Index from '@/pages/Index.vue'
 import BuildEditor from '@/pages/BuildEditor.vue'
 import Simulator from '@/pages/Simulator.vue'
@@ -16,6 +17,7 @@ export default new Router({
     { path: '/', name: 'Index', component: Index },
     // { path: '/news', name: 'IndexNews', component: Index },
     { path: '/about', name: 'About', component: About },
+    { path: '/setting', name: 'Setting', component: Setting },
     { path: '/sim', name: 'Simulator', component: Simulator },
     { path: '/weapon', name: 'WeaponSelector', component: WeaponSelector },
     { path: '/weapon/:id', name: 'BuildEditor', component: BuildEditor },

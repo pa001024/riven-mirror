@@ -8,6 +8,9 @@ let po = {
     alerts: "Alerts",
     news: "News",
     fissures: "Fissures",
+    invasion: "Invasions",
+    ostrons: "Bounty Mission",
+    progress: "Progress: ",
     remaining: "Remaining",
   },
   prop: {
@@ -252,11 +255,12 @@ let po = {
   },
   navigate: {
     index: "Alerting",
-    riven: "Riven Analysis",
+    riven: "Riven Analyzer",
     weapon: "Weapon Builder",
     simulator: "Simulator",
     huangli: "WF Huangli",
-    about: "About"
+    about: "About",
+    setting: "Setting",
   },
   time: {
     earth: "Earth",
@@ -290,6 +294,10 @@ let po = {
     recycle: "Recycle",
     analyze: "Analyze",
     choose: "Confirm",
+  },
+  setting: {
+    lang: "Language Setting",
+    default: "Default",
   }
 };
 

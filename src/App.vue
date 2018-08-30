@@ -60,6 +60,7 @@ export default class App extends Vue {
     { title: i18n.t("navigate.simulator"), path: "/sim", icon: "el-icon-refresh" },
     { title: i18n.t("navigate.huangli"), path: "/huangli", icon: "el-icon-date" },
     { title: i18n.t("navigate.about"), path: "/about", icon: "el-icon-info" },
+    { title: i18n.t("navigate.setting"), path: "/setting", icon: "el-icon-setting" },
   ];
 }
 </script>
@@ -101,7 +102,7 @@ export default class App extends Vue {
   background: #3d5afe;
   color: white;
   border-color: #3d5afe;
-  font-size: 25px;
+  font-size: 22px;
   line-height: 1;
   padding: 6px 12px;
   border: 1px solid #768aff;
@@ -171,8 +172,7 @@ export default class App extends Vue {
 .el-header h1 {
   margin: 0 0 0 16px;
   font-weight: normal;
-  font-family: FuturaPT, "Helvetica Neue", Helvetica, "PingFang SC",
-    "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-family: FuturaPT;
   font-size: 24px;
   user-select: none;
 }
@@ -196,6 +196,18 @@ export default class App extends Vue {
   background-repeat: no-repeat;
   background-position: center;
   float: left;
+}
+@media only screen and (max-width: 767px) {
+  #app .el-header {
+    height: 50px !important;
+  }
+  .el-header h1 {
+    font-size: 22px;
+  }
+  .i-mirror-logo {
+    width: 50px;
+    height: 50px;
+  }
 }
 /* 字体 */
 
@@ -234,6 +246,9 @@ export default class App extends Vue {
 }
 .wf-icon-fissure::before {
   content: "";
+}
+.wf-icon-invasion::before {
+  content: "";
 }
 .wf-icon-earth::before {
   content: "";

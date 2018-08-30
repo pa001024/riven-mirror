@@ -6,12 +6,7 @@
       <p>如果对本项目有兴趣，</p>
       <p>欢迎发电: <a href="https://afdian.net/@rivenmirror" target="_blank">https://afdian.net/@rivenmirror</a></p>
       <p>欢迎入群: <a href="https://jq.qq.com/?_wv=1027&k=5G2T30X" target="_blank">165371868</a></p>
-      <p>欢迎邮件: <a href="mailto:pa001024@qq.com">pa001024@qq.com</a></p>
-      <div class="swtich-lang">
-        <span class="lang" @click="setlang('en')">English</span>
-        <span class="lang" @click="setlang('zh-CN')">简体中文</span>
-        <span class="lang" @click="setlang('zh-TW')">台灣正體</span>
-      </div>
+      <p>联系邮箱: <a href="mailto:pa001024@qq.com">pa001024@qq.com</a></p>
       <div class="cssskin3d">
         <div class="cssskin3d-profile">
           <div class="m">
@@ -40,27 +35,7 @@
     </el-card>
   </el-row>
 </template>
-<script lang="ts">
-import _ from "lodash";
-import { changeLocale } from "@/i18n";
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-
-@Component
-export default class extends Vue {
-  setlang(lang: string) {
-    changeLocale(lang);
-  }
-}
-</script>
 <style lang="less">
-.lang {
-  margin: 5px;
-  color: cornflowerblue;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-}
 .about h3 {
   margin: 0;
 }

@@ -8,6 +8,9 @@ let po = {
     alerts: "警报",
     news: "新闻",
     fissures: "裂缝",
+    invasion: "入侵",
+    ostrons: "赏金",
+    progress: "进度: ",
     remaining: "剩余",
   },
   prop: {
@@ -256,7 +259,8 @@ let po = {
     weapon: "武器配装",
     simulator: "洗卡模拟",
     huangli: "WF黄历",
-    about: "关于"
+    about: "关于",
+    setting: "设置",
   },
   time: {
     earth: "地球",
@@ -290,6 +294,10 @@ let po = {
     recycle: "循环",
     analyze: "分析",
     choose: "确认选择",
+  },
+  setting: {
+    lang: "语言设置",
+    default: "默认",
   }
 };
 
