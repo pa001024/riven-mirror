@@ -492,7 +492,16 @@ const _rivenWeaponDataBase = [
   ["Lecta", "勒克塔", "Melee", 0.5, 110],
   ["Venka", "凯旋之爪", "Melee", 0.5, 95],
   ["Nikana", "侍刃", "Melee", 0.5, 130],
-  ["Orthos", "欧特鲁斯", "Melee", 0.5, 150]
+  ["Orthos", "欧特鲁斯", "Melee", 0.5, 150],
+
+  // 技能武器
+  ["Regulators", "监察者双枪", "Pistol", 0, 0],
+  ["Iron Staff", "定海神针", "Melee", 0, 0],
+  ["Valkyr Talons", "Valkyr之爪", "Melee", 0, 0],
+  ["Exalted Blade", "显赫刀剑", "Melee", 0, 0],
+  ["Diwata", "仙女", "Melee", 0, 0],
+  ["Artemis Bow", "月神狩弓", "Rifle", 0, 0],
+  ["Dex Pixia", "Dex 妖精", "Pistol", 0, 0],
 ] as [string, string, string, number, number][];
 export const ModTypeTable = {
   "Rifle": "步枪",

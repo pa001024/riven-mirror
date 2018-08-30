@@ -499,7 +499,6 @@ export class Enemy implements EnemyData {
       // 真实伤害
       if (id === DamageType.True) {
         this.currentHealth -= dmg;
-        // TODO
       } else {
         // 毒素穿透护盾
         if (this.currentSheild > 0) {
@@ -568,30 +567,32 @@ export class Enemy implements EnemyData {
     // [0.每个弹片单独计算]
     let bls = bullets;
     while (bls > 0) {
+      // [0.将伤害平分给每个弹片 不满整个的按比例计算]
+      let bh = bls >= 1 ? 1 : bls;
       if (this.ignoreProc) {
-        this.applyDmg(dmgs.map(([vn, vv]) => [vn, vv * (bls >= 1 ? 1 : bls) / bullets] as [string, number]));
+        this.applyDmg(dmgs.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]));
       } else {
         // [1.按当前病毒触发比例减少血上限]
         let currentViral = this.currentProcs.Viral;
         this.currentHealth *= (1 - 0.5 * currentViral);
-        // [2.直接伤害] 将伤害平分给每个弹片 不满整个的按比例计算
-        this.applyDmg(dmgs.map(([vn, vv]) => [vn, vv * (bls >= 1 ? 1 : bls) / bullets] as [string, number]));
+        // [2.直接伤害]
+        this.applyDmg(dmgs.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]));
         // [3.腐蚀扒皮] 计算腐蚀触发(连续)
         if (procChance[DamageType.Corrosive] > 0) {
-          this.currentArmor *= (0.75 ** procChance[DamageType.Corrosive]);
+          this.currentArmor *= (0.75 ** (procChance[DamageType.Corrosive] * bh));
         }
         // [4.1.磁力少盾]
         if (procChance[DamageType.Magnetic] > 0) {
-          this.currentSheild *= (0.25 ** procChance[DamageType.Magnetic]);
+          this.currentSheild *= (0.25 ** (procChance[DamageType.Magnetic] * bh));
         }
         // [4.2.病毒少血]
         if (procChance[DamageType.Viral] > 0 && this.currentProcs.Viral < 1) {
           // 将病毒触发连续化计算增伤
-          let newViral = currentViral + procChance[DamageType.Viral];
+          let newViral = currentViral + (procChance[DamageType.Viral] * bh);
           this.currentProcs.Viral = newViral > 1 ? 1 : newViral;
         }
         // [5.DoT伤害]
-        this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, vv * (bls >= 1 ? 1 : bls) / bullets] as [string, number]), durationMul);
+        this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]), durationMul);
         // [6.将病毒下降的血量恢复]
         this.currentHealth /= (1 - 0.5 * currentViral);
       }
@@ -627,55 +628,6 @@ export class Enemy implements EnemyData {
       armor: this.currentArmor,
       isDoT
     })
-  }
-
-  /**
-   * 生成伤害时间线
-   *
-   * @param {[string, number][]} dmgs 伤害表
-   * @param {[string, number][]} procChanceMap 触发几率表(真实触发)
-   * @param {[string, number][]} dotDamageMap 触发伤害表(DoT)
-   * @param {number} fireRate 射速
-   * @param {number} [durationMul=1] 持续时间
-   * @param {number} [timeLimit=0] 时间限制
-   * @param {number} [bullets=1] 弹片数
-   * @param {number} [magazine=1] 弹匣
-   * @param {number} [reloadTime=0] 装填时间
-   * @returns
-   * @memberof Enemy
-   */
-  generateTimeline(
-    dmgs: [string, number][],
-    procChanceMap: [string, number][],
-    dotDamageMap: [string, number][],
-    fireRate: number,
-    durationMul = 1,
-    timeLimit = 30,
-    bullets = 1, magazine = 1, reloadTime = 0
-  ) {
-    let enemy = new Enemy(this.data, this.level);
-    enemy.reset();
-    let ticks = Math.round(enemy.TICKCYCLE / fireRate); // 1200tick/s 整合射速和秒DoT
-    let reloadTicks = Math.round(enemy.TICKCYCLE * reloadTime); // 装填需要的tick数
-    let remaingMag = magazine; // 剩余子弹数
-    let nextDoTTick = enemy.TICKCYCLE;
-    let nextDmgTick = 0;
-    // 敌人死亡或者到时间停止
-    for (let seconds = 0; enemy.currentHealth > 0 && seconds < timeLimit; ++seconds) {
-      // 伤害
-      while (nextDmgTick <= nextDoTTick && enemy.currentHealth > 0) {
-        enemy.tickCount = nextDmgTick;
-        enemy.applyHit(dmgs, procChanceMap, dotDamageMap, bullets, durationMul);
-        nextDmgTick += --remaingMag > 0 ? ticks : (remaingMag = magazine, reloadTicks);
-      }
-      // DoT
-      if (enemy.currentHealth > 0) {
-        enemy.tickCount = nextDoTTick;
-        nextDoTTick += enemy.TICKCYCLE;
-        enemy.nextSecond();
-      }
-    }
-    return enemy.stateHistory;
   }
 }
 

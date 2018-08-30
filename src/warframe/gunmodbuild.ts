@@ -114,11 +114,37 @@ export class GunModBuild extends ModBuild {
     }
   }
 
-  /** [overwrite] 目标打击时间线 */
-  getTimeline(limit = 10) {
-    if (this.target)
-      return super.getTimeline(limit, this.bullets, (this.weapon.rivenName || this.weapon.id) === "Knell" ? 9999 : this.magazineSize, this.reloadTime);
-    else return null;
+  /**
+   * 生成伤害时间线
+   *
+   * @param {number} [timeLimit=10]
+   * @returns {EnemyTimelineState[]} 敌人时间线
+   * @memberof GunModBuild
+   */
+  getTimeline(timeLimit = 10) {
+    let enemy = new Enemy(this.target.data, this.target.level);
+    enemy.reset();
+    let ticks = Math.round(enemy.TICKCYCLE / this.fireRate); // 1200tick/s 整合射速和秒DoT
+    let reloadTicks = Math.round(enemy.TICKCYCLE * this.reloadTime); // 装填需要的tick数
+    let remaingMag = this.magazineSize; // 剩余子弹数
+    let nextDoTTick = enemy.TICKCYCLE;
+    let nextDmgTick = 0;
+    // 敌人死亡或者到时间停止
+    for (let seconds = 0; enemy.currentHealth > 0 && seconds < timeLimit; ++seconds) {
+      // 伤害
+      while (nextDmgTick <= nextDoTTick && enemy.currentHealth > 0) {
+        enemy.tickCount = nextDmgTick;
+        enemy.applyHit(this.totalDmg, this.procChanceMap, this.dotDamageMap, this.bullets, this.procDurationMul);
+        nextDmgTick += --remaingMag > 0 ? ticks : (remaingMag = this.magazineSize, reloadTicks);
+      }
+      // DoT
+      if (enemy.currentHealth > 0) {
+        enemy.tickCount = nextDoTTick;
+        nextDoTTick += enemy.TICKCYCLE;
+        enemy.nextSecond();
+      }
+    }
+    return enemy.stateHistory;
   }
 
   // ### 计算属性 ###
@@ -135,8 +161,8 @@ export class GunModBuild extends ModBuild {
   get critChance() {
     // 兰卡开镜暴击
     if ((this.weapon.rivenName || this.weapon.id) === "Lanka")
-      return hAccSum(hAccMul(this.weapon.critChances, this.critChanceMul), this.critChanceAdd, 0.5);
-    return hAccSum(hAccMul(this.weapon.critChances, this.critChanceMul), this.critChanceAdd);
+      return hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, 0.5);
+    return hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd);
   }
   /** [overwrite] 暴击倍率 */
   get critMul() {

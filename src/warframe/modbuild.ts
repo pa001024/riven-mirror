@@ -1,4 +1,4 @@
-import { Arcane, CombElementMap, Damage2_0, DamageType, Enemy, ExtraDmgSet, NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase, ValuedRivenProperty, Weapon } from "@/warframe";
+import { Arcane, CombElementMap, Damage2_0, DamageType, Enemy, ExtraDmgSet, NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase, ValuedRivenProperty, Weapon, EnemyTimelineState } from "@/warframe";
 import _ from "lodash";
 import { choose, hAccDiv, hAccMul, hAccSum } from "./util";
 
@@ -94,16 +94,11 @@ export abstract class ModBuild {
     this._target = value;
   }
 
-  /** 目标打击时间线 */
-  getTimeline(limit = 10, bullets = 1, magazine = 1, reloadTime = 0) {
-    if (this.target)
-      return this.target.generateTimeline(this.totalDmg, this.procChanceMap, this.dotDamageMap, this.fireRate, this.procDurationMul, limit, bullets, magazine, reloadTime);
-    else return null;
-  }
+  abstract getTimeline(limit: number): EnemyTimelineState[];
 
   // === 计算属性 ===
   /** 暴击率 */
-  get critChance() { return hAccSum(hAccMul(this.weapon.critChances, this.critChanceMul), this.critChanceAdd); }
+  get critChance() { return hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd); }
   /** 暴击倍率 */
   get critMul() { return hAccMul(this.weapon.critMul, this.critMulMul); }
   /** 平均暴击区增幅倍率 */
@@ -339,7 +334,7 @@ export abstract class ModBuild {
     return fr < 0.05 ? 0.05 : fr;
   }
   /** 原平均暴击区增幅倍率 */
-  get oriCritDamageMul() { return this.calcCritDamage(this.weapon.critChances, this.weapon.critMul, this.handShotChance, this.oriHandShotMul); }
+  get oriCritDamageMul() { return this.calcCritDamage(this.weapon.critChance, this.weapon.critMul, this.handShotChance, this.oriHandShotMul); }
 
   protected _originalDamage: number;
   /** 武器原本伤害 */

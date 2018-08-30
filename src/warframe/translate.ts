@@ -1962,11 +1962,11 @@ export class Translator {
    * @memberof Translator
    */
   static getLocText(rawText: string): string {
+    if (this.Locale === "en") return rawText;
     if (this.Locale === "zh-TW") return zh2Hant(this.getLocTextCN(rawText));
-    else this.getLocTextCN(rawText);
+    return this.getLocTextCN(rawText);
   }
   static getLocTextCN(rawText: string): string {
-    if (this.Locale === "en") return rawText;
     // 忽略大小写
     let text = rawText.toLowerCase(), m;
     // 处理如 "100 Endo" => "100 内融核心"

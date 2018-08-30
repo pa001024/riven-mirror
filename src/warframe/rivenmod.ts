@@ -261,7 +261,8 @@ export class RivenMod {
    * 随机化所有
    */
   random(stype: string = "") {
-    let data = stype ? RivenWeaponDataBase.filter(v => v.mod === stype) : RivenWeaponDataBase;
+    let db = RivenWeaponDataBase.filter(v => v.ratio > 0 && v.id !== "Artax");
+    let data = stype ? db.filter(v => v.mod === stype) : db;
     let { id, name, mod } = data[~~(Math.random() * data.length)];
     let rank = ~~(Math.random() * 8) + 9;
     [this.id, this.name, this.mod, this.rank, this.recycleTimes] = [id, name, mod, rank, 0];

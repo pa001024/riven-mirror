@@ -397,8 +397,8 @@ export class WorldStat {
   get news() {
     if (!this.data) return [];
     return _.reverse(this.deepTranslate(this.data.news.filter(v => v.translations.en)).map(v => {
-      if (v.translations[Translator.Locale])
-        v.message = v.translations[Translator.Locale];
+      if (v.translations[Translator.Locale.substr(0, 2)])
+        v.message = v.translations[Translator.Locale.substr(0, 2)];
       return v;
     }));
   }
