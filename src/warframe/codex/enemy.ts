@@ -149,98 +149,98 @@ export interface EnemyData {
   sheildType: SheildType;
   armorType: ArmorType;
   resistence: number;
-  ignoreProc: boolean;
+  ignoreProc: number;
 }
 
 const _enemyList = [
-  ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 2500, 200, 7, 0, 1, 0.75, true],
-  ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 2500, 200, 7, 0, 1, 0.75, true],
-  ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 2500, 200, 7, 0, 1, 0.75, true],
-  ["Teralyst Synovia", "兆力使骨液", 5, 1, 3000, 0, 200, 7, 0, 1, 0.75, true],
-  ["Tusk Firbolg", "巨牙博格", 1, 1, 8000, 0, 600, 7, 0, 1, 0, false],
-  ["Tusk Bolkor", "巨牙博寇", 1, 1, 10000, 0, 600, 7, 0, 1, 0, false],
-  ["Bailiff", "执法员", 1, 1, 600, 0, 500, 1, 0, 0, 0, false],
-  ["Butcher", "屠夫", 1, 1, 50, 0, 5, 1, 0, 0, 0, false],
-  ["Flameblade", "烈焰刀客", 1, 1, 50, 0, 5, 1, 0, 0, 0, false],
-  ["Fire Prosecutor", "禁卫军", 1, 1, 1500, 0, 5, 1, 0, 0, 0, false],
-  ["Powerfist", "重击手", 1, 1, 100, 0, 5, 1, 0, 0, 0, false],
-  ["Scorpion", "天蝎", 1, 1, 150, 0, 150, 1, 0, 0, 0, false],
-  ["Shield Lancer", "盾枪兵", 1, 1, 100, 0, 5, 1, 0, 0, 0, false],
-  ["Ballista", "弩炮", 1, 1, 100, 0, 100, 1, 0, 0, 0, false],
-  ["Eviscerator", "开膛者", 1, 1, 150, 0, 200, 1, 0, 0, 0, false],
-  ["Hellion", "恶徒", 1, 1, 100, 0, 100, 1, 0, 0, 0, false],
-  ["Lancer", "枪兵", 1, 1, 100, 0, 100, 1, 0, 0, 0, false],
-  ["Elite Lancer", "精英枪兵", 1, 15, 150, 0, 200, 1, 0, 1, 0, false],
-  ["Scorch", "怒焚者", 1, 1, 120, 0, 100, 1, 0, 0, 0, false],
-  ["Seeker", "追踪者", 1, 1, 100, 0, 200, 1, 0, 0, 0, false],
-  ["Trooper", "骑兵", 1, 1, 120, 0, 150, 1, 0, 0, 0, false],
-  ["Bombard", "轰击者", 1, 1, 300, 0, 500, 1, 0, 1, 0, false],
-  ["Commander", "指挥官", 1, 3, 500, 0, 95, 1, 0, 1, 0, false],
-  ["Drahk Master", "爪喀驯兽师", 1, 12, 500, 0, 200, 1, 0, 0, 0, false],
-  ["Heavy Gunner", "重型机枪手", 1, 8, 300, 0, 500, 1, 0, 0, 0, false],
-  ["Hyekka Master", "鬣猫驯兽师", 1, 12, 650, 0, 200, 1, 0, 0, 0, false],
-  ["Manic", "狂躁Grineer", 1, 1, 350, 0, 25, 1, 0, 0, 0, false],
-  ["Napalm", "火焰轰击者", 1, 6, 600, 0, 500, 1, 0, 1, 0, false],
-  ["Nox", "毒化者", 1, 1, 250, 0, 350, 1, 0, 1, 0.75, false],
-  ["Ghoul Auger", "钻孔尸鬼", 1, 1, 400, 0, 200, 1, 0, 0, 0, false],
-  ["Ghoul Devourer", "吞噬尸鬼", 1, 1, 600, 0, 250, 1, 0, 0, 0, false],
-  ["Ghoul Expired", "除役尸鬼", 1, 1, 300, 0, 150, 1, 0, 0, 0, false],
-  ["Ghoul Rictus", "裂嘴尸鬼", 1, 1, 400, 0, 200, 1, 0, 0, 0, false],
-  ["Grineer Warden", "Grineer典狱长", 1, 1, 600, 0, 500, 1, 0, 0, 0, false],
-  ["Sensor Regulator", "感应调整者", 1, 1, 100, 0, 300, 6, 0, 0, 0, false],
-  ["Crewman", "船员", 2, 1, 60, 150, 0, 0, 0, 0, 0, false],
-  ["Detron Crewman", "德特昂船员", 2, 1, 60, 150, 0, 0, 0, 0, 0, false],
-  ["Elite Crewman", "精英船员", 2, 15, 100, 200, 0, 0, 0, 0, 0, false],
-  ["Nullifier Crewman", "虚能船员", 2, 1, 60, 150, 0, 0, 1, 0, 0, false],
-  ["Prod Crewman", "监工船员", 2, 1, 100, 50, 0, 0, 0, 0, 0, false],
-  ["Sniper Crewman", "狙击手船员", 2, 15, 60, 150, 0, 0, 1, 0, 0, false],
-  ["Corpus Tech", "Corpus技师", 2, 15, 700, 250, 0, 0, 1, 0, 0, false],
-  ["Comba", "驱逐员", 2, 15, 1100, 400, 0, 0, 0, 0, 0, false],
-  ["Scrambus", "扰敌员", 2, 15, 1100, 400, 0, 0, 0, 0, 0, false],
-  ["Anti MOA", "逆进恐鸟", 2, 5, 50, 500, 0, 7, 0, 0, 0, false],
-  ["Denial Bursa", "守护金流恐鸟", 2, 1, 1200, 700, 400, 7, 0, 0, 0, false],
-  ["Drover Bursa", "驱引金流恐鸟", 2, 1, 1200, 700, 400, 7, 0, 0, 0, false],
-  ["Fusion MOA", "熔岩恐鸟", 2, 10, 250, 250, 0, 7, 0, 0, 0, false],
-  ["Isolator Bursa", "隔离金流恐鸟", 2, 1, 1200, 700, 400, 7, 0, 0, 0, false],
-  ["MOA", "恐鸟", 2, 1, 60, 150, 0, 7, 0, 0, 0, false],
-  ["Railgun MOA", "磁轨炮恐鸟", 2, 1, 60, 150, 0, 7, 0, 0, 0, false],
-  ["Shockwave MOA", "震荡恐鸟", 2, 15, 60, 150, 0, 7, 0, 0, 0, false],
-  ["Drone", "无人机", 2, 1, 250, 75, 0, 7, 0, 0, 0, false],
-  ["Leech Osprey", "吸血鱼鹰", 2, 1, 100, 50, 0, 7, 0, 0, 0, false],
-  ["Lynx Osprey", "山猫鱼鹰", 2, 1, 35, 50, 0, 7, 0, 0, 0, false],
-  ["Mine Osprey", "地雷鱼鹰", 2, 10, 100, 50, 0, 7, 0, 0, 0, false],
-  ["Oxium Osprey", "奥席金属鱼鹰", 2, "-", 750, 150, 40, 7, 0, 0, 0, false],
-  ["Scavanger Osprey", "清道夫无人机", 2, 1, 100, 50, 0, 7, 0, 0, 0, false],
-  ["Sapping Osprey", "基蚀鱼鹰", 2, 1, 200, 50, 0, 7, 0, 0, 0, false],
-  ["Shield Osprey", "护盾鱼鹰", 2, 1, 35, 50, 0, 7, 0, 0, 0, false],
-  ["Charger", "疾冲者", 3, 1, 80, 0, 0, 3, 0, 0, 0, false],
-  ["Leaper", "奔跳者", 3, 1, 100, 0, 0, 3, 0, 0, 0, false],
-  ["Runner", "狂奔者", 3, 1, 100, 0, 0, 3, 0, 0, 0, false],
-  ["Volatile Runner", "爆炸奔跑者", 3, 1, 80, 0, 0, 3, 0, 0, 0, false],
-  ["Crawler", "爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, false],
-  ["Electric Crawler", "电击爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, false],
-  ["Lobber Crawler", "喷吐爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, false],
-  ["Nauseous Crawler", "呕心爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, false],
-  ["Toxic Crawler", "剧毒爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, false],
-  ["Mutalist Osprey", "剧毒无人机", 3, 1, 200, 0, 0, 4, 0, 0, 0, false],
-  ["Swarm Mutalist MOA", "异融胞群恐鸟", 3, 12, 350, 0, 0, 2, 0, 0, 0, false],
-  ["Tar-Mutalist MOA", "异融焦油恐鸟", 3, 12, 350, 0, 0, 2, 0, 0, 0, false],
-  ["Ancient Disrupter", "远古干扰者", 3, 1, 400, 0, 0, 2, 0, 0, 0, false],
-  ["Ancient Healer", "远古治愈者", 3, 1, 400, 0, 0, 2, 0, 0, 0, false],
-  ["Boiler", "痈裂者", 3, 12, 1200, 0, 0, 2, 0, 0, 0, false],
-  ["Brood Mother", "病变虫母", 3, 12, 700, 0, 0, 2, 0, 0, 0, false],
-  ["Toxic Ancient", "远古剧毒者", 3, 1, 400, 0, 0, 2, 0, 0, 0, false],
-  ["Hemocyte", "免疫血胞体", 3, 1, 2200, 0, 175, 2, 0, 0, 0, false],
-  ["Corrupted Ancient", "远古堕落者", 4, 1, 400, 0, 0, 2, 0, 0, 0, false],
-  ["Corrupted Butcher", "堕落屠夫", 4, 1, 100, 0, 5, 1, 0, 0, 0, false],
-  ["Corrupted Bombard", "堕落轰击者", 4, 4, 300, 0, 500, 1, 0, 1, 0, false],
-  ["Corrupted Heavy Gunner", "堕落重型机枪手", 4, 8, 700, 0, 500, 1, 0, 0, 0, false],
-  ["Corrupted Lancer", "堕落枪兵", 4, 1, 60, 0, 200, 1, 0, 1, 0, false],
-  ["Orokin Drone", "Orokin无人机", 4, 1, 35, 50, 0, 7, 0, 0, 0, false],
-  ["Corrupted Crewman", "堕落船员", 4, 1, 60, 150, 0, 0, 0, 0, 0, false],
-  ["Corrupted MOA", "堕落恐鸟", 4, 1, 250, 250, 0, 7, 0, 0, 0, false],
-  ["Corrupted Nullifier", "堕落虚能者", 4, 15, 60, 150, 0, 0, 1, 0, 0, false]
-] as [string, string, number, number, number, number, number, number, number, number, number, boolean][];
+  ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 2500, 200, 7, 0, 1, 0.75, 2],
+  ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 2500, 200, 7, 0, 1, 0.75, 2],
+  ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 2500, 200, 7, 0, 1, 0.75, 2],
+  ["Teralyst Synovia", "兆力使骨液", 5, 1, 3000, 0, 200, 7, 0, 1, 0.75, 2],
+  ["Tusk Firbolg", "巨牙博格", 1, 1, 8000, 0, 600, 7, 0, 1, 0, 1],
+  ["Tusk Bolkor", "巨牙博寇", 1, 1, 10000, 0, 600, 7, 0, 1, 0, 1],
+  ["Bailiff", "执法员", 1, 1, 600, 0, 500, 1, 0, 0, 0, 0],
+  ["Butcher", "屠夫", 1, 1, 50, 0, 5, 1, 0, 0, 0, 0],
+  ["Flameblade", "烈焰刀客", 1, 1, 50, 0, 5, 1, 0, 0, 0, 0],
+  ["Fire Prosecutor", "禁卫军", 1, 1, 1500, 0, 5, 1, 0, 0, 0, 0],
+  ["Powerfist", "重击手", 1, 1, 100, 0, 5, 1, 0, 0, 0, 0],
+  ["Scorpion", "天蝎", 1, 1, 150, 0, 150, 1, 0, 0, 0, 0],
+  ["Shield Lancer", "盾枪兵", 1, 1, 100, 0, 5, 1, 0, 0, 0, 0],
+  ["Ballista", "弩炮", 1, 1, 100, 0, 100, 1, 0, 0, 0, 0],
+  ["Eviscerator", "开膛者", 1, 1, 150, 0, 200, 1, 0, 0, 0, 0],
+  ["Hellion", "恶徒", 1, 1, 100, 0, 100, 1, 0, 0, 0, 0],
+  ["Lancer", "枪兵", 1, 1, 100, 0, 100, 1, 0, 0, 0, 0],
+  ["Elite Lancer", "精英枪兵", 1, 15, 150, 0, 200, 1, 0, 1, 0, 0],
+  ["Scorch", "怒焚者", 1, 1, 120, 0, 100, 1, 0, 0, 0, 0],
+  ["Seeker", "追踪者", 1, 1, 100, 0, 200, 1, 0, 0, 0, 0],
+  ["Trooper", "骑兵", 1, 1, 120, 0, 150, 1, 0, 0, 0, 0],
+  ["Bombard", "轰击者", 1, 1, 300, 0, 500, 1, 0, 1, 0, 0],
+  ["Commander", "指挥官", 1, 3, 500, 0, 95, 1, 0, 1, 0, 0],
+  ["Drahk Master", "爪喀驯兽师", 1, 12, 500, 0, 200, 1, 0, 0, 0, 0],
+  ["Heavy Gunner", "重型机枪手", 1, 8, 300, 0, 500, 1, 0, 0, 0, 0],
+  ["Hyekka Master", "鬣猫驯兽师", 1, 12, 650, 0, 200, 1, 0, 0, 0, 0],
+  ["Manic", "狂躁Grineer", 1, 1, 350, 0, 25, 1, 0, 0, 0, 0],
+  ["Napalm", "火焰轰击者", 1, 6, 600, 0, 500, 1, 0, 1, 0, 0],
+  ["Nox", "毒化者", 1, 1, 250, 0, 350, 1, 0, 1, 0.75, 0],
+  ["Ghoul Auger", "钻孔尸鬼", 1, 1, 400, 0, 200, 1, 0, 0, 0, 0],
+  ["Ghoul Devourer", "吞噬尸鬼", 1, 1, 600, 0, 250, 1, 0, 0, 0, 0],
+  ["Ghoul Expired", "除役尸鬼", 1, 1, 300, 0, 150, 1, 0, 0, 0, 0],
+  ["Ghoul Rictus", "裂嘴尸鬼", 1, 1, 400, 0, 200, 1, 0, 0, 0, 0],
+  ["Grineer Warden", "Grineer典狱长", 1, 1, 600, 0, 500, 1, 0, 0, 0, 0],
+  ["Sensor Regulator", "感应调整者", 1, 1, 100, 0, 300, 6, 0, 0, 0, 0],
+  ["Crewman", "船员", 2, 1, 60, 150, 0, 0, 0, 0, 0, 0],
+  ["Detron Crewman", "德特昂船员", 2, 1, 60, 150, 0, 0, 0, 0, 0, 0],
+  ["Elite Crewman", "精英船员", 2, 15, 100, 200, 0, 0, 0, 0, 0, 0],
+  ["Nullifier Crewman", "虚能船员", 2, 1, 60, 150, 0, 0, 1, 0, 0, 0],
+  ["Prod Crewman", "监工船员", 2, 1, 100, 50, 0, 0, 0, 0, 0, 0],
+  ["Sniper Crewman", "狙击手船员", 2, 15, 60, 150, 0, 0, 1, 0, 0, 0],
+  ["Corpus Tech", "Corpus技师", 2, 15, 700, 250, 0, 0, 1, 0, 0, 0],
+  ["Comba", "驱逐员", 2, 15, 1100, 400, 0, 0, 0, 0, 0, 0],
+  ["Scrambus", "扰敌员", 2, 15, 1100, 400, 0, 0, 0, 0, 0, 0],
+  ["Anti MOA", "逆进恐鸟", 2, 5, 50, 500, 0, 7, 0, 0, 0, 0],
+  ["Denial Bursa", "守护金流恐鸟", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
+  ["Drover Bursa", "驱引金流恐鸟", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
+  ["Fusion MOA", "熔岩恐鸟", 2, 10, 250, 250, 0, 7, 0, 0, 0, 0],
+  ["Isolator Bursa", "隔离金流恐鸟", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
+  ["MOA", "恐鸟", 2, 1, 60, 150, 0, 7, 0, 0, 0, 0],
+  ["Railgun MOA", "磁轨炮恐鸟", 2, 1, 60, 150, 0, 7, 0, 0, 0, 0],
+  ["Shockwave MOA", "震荡恐鸟", 2, 15, 60, 150, 0, 7, 0, 0, 0, 0],
+  ["Drone", "无人机", 2, 1, 250, 75, 0, 7, 0, 0, 0, 0],
+  ["Leech Osprey", "吸血鱼鹰", 2, 1, 100, 50, 0, 7, 0, 0, 0, 0],
+  ["Lynx Osprey", "山猫鱼鹰", 2, 1, 35, 50, 0, 7, 0, 0, 0, 0],
+  ["Mine Osprey", "地雷鱼鹰", 2, 10, 100, 50, 0, 7, 0, 0, 0, 0],
+  ["Oxium Osprey", "奥席金属鱼鹰", 2, "-", 750, 150, 40, 7, 0, 0, 0, 0],
+  ["Scavanger Osprey", "清道夫无人机", 2, 1, 100, 50, 0, 7, 0, 0, 0, 0],
+  ["Sapping Osprey", "基蚀鱼鹰", 2, 1, 200, 50, 0, 7, 0, 0, 0, 0],
+  ["Shield Osprey", "护盾鱼鹰", 2, 1, 35, 50, 0, 7, 0, 0, 0, 0],
+  ["Charger", "疾冲者", 3, 1, 80, 0, 0, 3, 0, 0, 0, 0],
+  ["Leaper", "奔跳者", 3, 1, 100, 0, 0, 3, 0, 0, 0, 0],
+  ["Runner", "狂奔者", 3, 1, 100, 0, 0, 3, 0, 0, 0, 0],
+  ["Volatile Runner", "爆炸奔跑者", 3, 1, 80, 0, 0, 3, 0, 0, 0, 0],
+  ["Crawler", "爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
+  ["Electric Crawler", "电击爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
+  ["Lobber Crawler", "喷吐爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
+  ["Nauseous Crawler", "呕心爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
+  ["Toxic Crawler", "剧毒爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
+  ["Mutalist Osprey", "剧毒无人机", 3, 1, 200, 0, 0, 4, 0, 0, 0, 0],
+  ["Swarm Mutalist MOA", "异融胞群恐鸟", 3, 12, 350, 0, 0, 2, 0, 0, 0, 0],
+  ["Tar-Mutalist MOA", "异融焦油恐鸟", 3, 12, 350, 0, 0, 2, 0, 0, 0, 0],
+  ["Ancient Disrupter", "远古干扰者", 3, 1, 400, 0, 0, 2, 0, 0, 0, 0],
+  ["Ancient Healer", "远古治愈者", 3, 1, 400, 0, 0, 2, 0, 0, 0, 0],
+  ["Boiler", "痈裂者", 3, 12, 1200, 0, 0, 2, 0, 0, 0, 0],
+  ["Brood Mother", "病变虫母", 3, 12, 700, 0, 0, 2, 0, 0, 0, 0],
+  ["Toxic Ancient", "远古剧毒者", 3, 1, 400, 0, 0, 2, 0, 0, 0, 0],
+  ["Hemocyte", "免疫血胞体", 3, 1, 2200, 0, 175, 2, 0, 0, 0, 0],
+  ["Corrupted Ancient", "远古堕落者", 4, 1, 400, 0, 0, 2, 0, 0, 0, 0],
+  ["Corrupted Butcher", "堕落屠夫", 4, 1, 100, 0, 5, 1, 0, 0, 0, 0],
+  ["Corrupted Bombard", "堕落轰击者", 4, 4, 300, 0, 500, 1, 0, 1, 0, 0],
+  ["Corrupted Heavy Gunner", "堕落重型机枪手", 4, 8, 700, 0, 500, 1, 0, 0, 0, 0],
+  ["Corrupted Lancer", "堕落枪兵", 4, 1, 60, 0, 200, 1, 0, 1, 0, 0],
+  ["Orokin Drone", "Orokin无人机", 4, 1, 35, 50, 0, 7, 0, 0, 0, 0],
+  ["Corrupted Crewman", "堕落船员", 4, 1, 60, 150, 0, 0, 0, 0, 0, 0],
+  ["Corrupted MOA", "堕落恐鸟", 4, 1, 250, 250, 0, 7, 0, 0, 0, 0],
+  ["Corrupted Nullifier", "堕落虚能者", 4, 15, 60, 150, 0, 0, 1, 0, 0, 0]
+] as [string, string, number, number, number, number, number, number, number, number, number, number][];
 
 /** 敌人列表 */
 export const EnemyList = _enemyList.map(v => ({
@@ -325,7 +325,6 @@ export interface EnemyTimelineState {
   isDoT: boolean;
 }
 
-
 export class Enemy implements EnemyData {
   // === 静态属性 ===
   id: string;
@@ -347,7 +346,7 @@ export class Enemy implements EnemyData {
   get armorTypeName() { return _armorTypeName[this.armorType]; }
   resistence: number;
   get resistenceText() { return this.resistence && (this.resistence * 100).toFixed() + "%"; }
-  ignoreProc: boolean;
+  ignoreProc: number;
   // === 动态属性 ===
   private _level: number;
   public get level(): number { return this._level; }
@@ -569,7 +568,7 @@ export class Enemy implements EnemyData {
     while (bls > 0) {
       // [0.将伤害平分给每个弹片 不满整个的按比例计算]
       let bh = bls >= 1 ? 1 : bls;
-      if (this.ignoreProc) {
+      if (this.ignoreProc === 2) {
         this.applyDmg(dmgs.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]));
       } else {
         // [1.按当前病毒触发比例减少血上限]
@@ -592,7 +591,8 @@ export class Enemy implements EnemyData {
           this.currentProcs.Viral = newViral > 1 ? 1 : newViral;
         }
         // [5.DoT伤害]
-        this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]), durationMul);
+        if (this.ignoreProc === 0)
+          this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]), durationMul);
         // [6.将病毒下降的血量恢复]
         this.currentHealth /= (1 - 0.5 * currentViral);
       }

@@ -10,6 +10,9 @@ import store from '@/store'
 import draggable from 'vuedraggable';
 import { i18n } from '@/i18n';
 
+// 设置echarts主题
+import "@/echart.theme";
+
 console.log("using lang", navigator.language);
 Vue.config.productionTip = false;
 

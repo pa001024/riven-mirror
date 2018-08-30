@@ -113,40 +113,40 @@
           <keep-alive>
             <div v-if="enemy" class="enemy-main">
               <!-- 敌人信息区域 -->
-              <table class="enemy-info">
-                <tr class="enemy-name">
-                  <th>{{$t("enemy.name")}}</th>
-                  <td>{{$t("zh") ? enemy.name : enemy.id}}</td>
-                </tr>
-                <tr class="enemy-faction">
-                  <th>{{$t("enemy.faction")}}</th>
-                  <td>{{enemy.factionName}}</td>
-                </tr>
-                <tr class="enemy-level">
-                  <th>{{$t("enemy.level")}}</th>
-                  <td class="control"><el-input size="small" class="enemy-level-edit" v-model="enemyLevel" style="width: 80px"></el-input></td>
-                </tr>
-                <tr class="enemy-health">
-                  <th>{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</th>
-                  <td>{{enemy.health.toFixed()}}</td>
-                </tr>
-                <tr v-if="enemy.sheild > 0" class="enemy-shield">
-                  <th>{{$t(`enemy.sheildType.${enemy.sheildType}`)}}</th>
-                  <td>{{enemy.sheild.toFixed()}}</td>
-                </tr>
-                <tr v-if="enemy.armor > 0" class="enemy-armor">
-                  <th>{{$t(`enemy.armorType.${enemy.armorType}`)}}</th>
-                  <td>{{enemy.armor.toFixed()}}</td>
-                </tr>
-                <tr v-if="enemy.resistence > 0" class="enemy-level">
-                  <th>{{$t("enemy.resistence")}}</th>
-                  <td>{{enemy.resistenceText}}</td>
-                </tr>
-                <tr class="enemy-level">
-                  <th>{{$t("enemy.action")}}</th>
-                  <td class="control"><el-button size="small" @click="selectEnemy(null)">{{$t("enemy.reselect")}}</el-button></td>
-                </tr>
-              </table>
+              <ul class="enemy-info">
+                <li class="enemy-name">
+                  <div class="key">{{$t("enemy.name")}}</div>
+                  <div class="value">{{$t("zh") ? enemy.name : enemy.id}}</div>
+                </li>
+                <li class="enemy-faction">
+                  <div class="key">{{$t("enemy.faction")}}</div>
+                  <div class="value">{{enemy.factionName}}</div>
+                </li>
+                <li class="enemy-level">
+                  <div class="key">{{$t("enemy.level")}}</div>
+                  <div class="value control"><el-input size="small" class="enemy-level-edit" v-model="enemyLevel" style="widdiv: 80px"></el-input></div>
+                </li>
+                <li class="enemy-health">
+                  <div class="key">{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</div>
+                  <div class="value">{{enemy.health.toFixed()}}</div>
+                </li>
+                <li v-if="enemy.sheild > 0" class="enemy-shield">
+                  <div class="key">{{$t(`enemy.sheildType.${enemy.sheildType}`)}}</div>
+                  <div class="value">{{enemy.sheild.toFixed()}}</div>
+                </li>
+                <li v-if="enemy.armor > 0" class="enemy-armor">
+                  <div class="key">{{$t(`enemy.armorType.${enemy.armorType}`)}}</div>
+                  <div class="value">{{enemy.armor.toFixed()}}</div>
+                </li>
+                <li v-if="enemy.resistence > 0" class="enemy-level">
+                  <div class="key">{{$t("enemy.resistence")}}</div>
+                  <div class="value">{{enemy.resistenceText}}</div>
+                </li>
+                <li class="enemy-level">
+                  <div class="key">{{$t("enemy.action")}}</div>
+                  <div class="value control"><el-button size="small" @click="selectEnemy(null)">{{$t("enemy.reselect")}}</el-button></div>
+                </li>
+              </ul>
               <!-- 伤害显示区域 -->
               <EnemyTimeline :timeline="build.getTimeline()"></EnemyTimeline>
             </div>
@@ -245,47 +245,44 @@ export default class GunBuildEditor extends BaseBuildEditor {
   width: 50%;
   float: right;
 }
-.enemy-main {
-  display: flex;
-}
-.enemy-main .timeline-tabs {
-  flex: 1;
-}
 .enemy-info {
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-  width: 220px;
   max-width: 100%;
   font-size: 14px;
   color: #606266;
 }
 @media only screen and (min-width: 1200px) {
 }
-.enemy-info td,
-.enemy-info th {
-  padding: 8px 16px;
+.enemy-info li {
+  display: inline-block;
+}
+.enemy-info li div {
+  display: inline-block;
+  padding: 4px 8px;
+  margin-right: 8px;
   min-width: 0;
   box-sizing: border-box;
   text-overflow: ellipsis;
   vertical-align: middle;
   position: relative;
 }
-.enemy-info td.control {
+.enemy-info .control {
   padding: 0 8px;
+  width: 120px;
 }
-.enemy-info td.control .el-input__inner {
+.enemy-info .control .el-input__inner {
   padding: 0 12px;
 }
-.enemy-info th {
+.enemy-info .key {
   white-space: nowrap;
   overflow: hidden;
   text-align: left;
-  background: #89b2fd;
-  border-radius: 4px;
-  color: #fff;
+  color: #6199ff;
   font-weight: 500;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  border-left: 3px solid;
+  padding-left: 8px;
 }
 
 .list-complete-item {
