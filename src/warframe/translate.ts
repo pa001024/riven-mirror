@@ -1785,6 +1785,7 @@ const _transData = [
   { "id": "Councilor Vay Hek", "name": "Vay Hek议员", "type": "Word" },
   { "id": "General Sargus Ruk", "name": "RUK将军", "type": "Word" },
   { "id": "Lech Kril", "name": "LECH KRIL中尉", "type": "Word" },
+  { "id": "Corrupted Vor", "name": "堕落的 VOR", "type": "Word" },
   { "id": "Jackal", "name": "豺狼", "type": "Word" },
   { "id": "Hyena Pack", "name": "鬣狗群", "type": "Word" },
   { "id": "Raptor", "name": "猛禽", "type": "Word" },
