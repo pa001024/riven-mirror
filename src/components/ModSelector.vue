@@ -112,7 +112,12 @@ export default class ModSelector extends Vue {
   newRiven(code?: string) {
     let riven = new RivenMod();
     riven.qrCodeBase64 = code || this.editorRivenCode;
-    this.$emit("command", riven.normalMod);
+    if (riven.id !== this.build.rivenWeapon.id)
+      this.$confirm(this.$t("modselector.weaponWarnTip") as string, this.$t("modselector.weaponWarn") as string, { type: 'warning' }).then(() => {
+        this.$emit("command", riven.normalMod);
+      });
+    else
+      this.$emit("command", riven.normalMod);
   }
   @Watch("build")
   reload() {

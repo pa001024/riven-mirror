@@ -79,7 +79,7 @@ export default class App extends Vue {
   overflow: hidden;
   z-index: 999;
   width: 100%;
-  top: 60px;
+  top: 50px;
 }
 .app-nav-menu .menu-item {
   display: flex;

@@ -233,15 +233,17 @@ let po = {
     ok: "OK",
     fast: {
       baseDmg: "DAMAGE & MULTISHOT",
-      crit: "DOUBLE CRIT",
-      aimCrit: "AIMING DOUBLE CRIT",
+      crit: "2-CRIT",
+      aimCrit: "AIMING 2-CRIT",
       sliverCorrosive: "SLIVER CORROSIVE",
       silverRadiation: "SILVER RADIATION",
       silverViral: "SILVER VIRAL",
       goldCorrosive: "GOLD CORROSIVE",
       gas: "GAS",
-      slideCrit: "SLIDE DOUBLE CRIT",
-    }
+      slideCrit: "SLIDE 2-CRIT",
+    },
+    weaponWarn: "WARNING",
+    weaponWarnTip: "Chosen riven is not available for this weapon (you may choose wrong weapon), confirm operation?",
   },
   timeline: {
     table: "TABLE",

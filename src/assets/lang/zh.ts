@@ -241,7 +241,9 @@ let po = {
       goldCorrosive: "金腐蚀",
       gas: "毒气",
       slideCrit: "滑砍双暴",
-    }
+    },
+    weaponWarn: "提示",
+    weaponWarnTip: "你选择的紫卡并不适用于该武器(你可能选择了错误的武器)，是否继续操作？",
   },
   timeline: {
     table: "表格",
@@ -298,7 +300,27 @@ let po = {
   setting: {
     lang: "语言设置",
     default: "默认",
-  }
+  },
+  zaw: {
+    lastStep: "上一步",
+    nextStep: "下一步",
+    finish: "完成",
+    damage: "伤害",
+    slide: "滑行攻击",
+    fireRate: "攻速",
+    critChance: "暴击",
+    status: "触发",
+    Daggers: "匕首",
+    Scythes: "镰刀",
+    Machetes: "大砍刀",
+    Swords: "剑",
+    Nikanas: "侍刃",
+    Rapiers: "细剑",
+    Staves: "杖",
+    Polearms: "长柄武器",
+    HeavyBlade: "巨刃",
+    Hammers: "锤",
+  },
 };
 
 export default po;

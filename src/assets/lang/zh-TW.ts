@@ -241,7 +241,9 @@ let po = {
       goldCorrosive: "金腐蝕",
       gas: "毒氣",
       slideCrit: "滑砍雙暴",
-    }
+    },
+    weaponWarn: "提示",
+    weaponWarnTip: "你選擇的紫卡並不適用於該武器(你可能選擇了錯誤的武器)，是否繼續操作？",
   },
   timeline: {
     table: "表格",
