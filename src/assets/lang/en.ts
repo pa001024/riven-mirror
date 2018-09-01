@@ -300,7 +300,33 @@ let po = {
   setting: {
     lang: "Language Setting",
     default: "Default",
-  }
+  },
+  zaw: {
+    lastStep: "Last Step",
+    nextStep: "Next Step",
+    finish: "Finish",
+    damage: "Damage",
+    slide: "Slide",
+    fireRate: "Attack Speed",
+    critChance: "Crit Chance",
+    status: "Status",
+    selectStrike: "Select Strike",
+    selectGrip: "Select Grip",
+    selectLinks: "Select Links",
+    strike: "Strike",
+    grip: "Grip",
+    links: "Links",
+    Daggers: "Daggers",
+    Scythes: "Scythes",
+    Machetes: "Machetes",
+    Swords: "Swords",
+    Nikanas: "Nikanas",
+    Rapiers: "Rapiers",
+    Staves: "Staves",
+    Polearms: "Polearms",
+    HeavyBlade: "Heavy Blade",
+    Hammers: "Hammers",
+  },
 };
 
 export default po;

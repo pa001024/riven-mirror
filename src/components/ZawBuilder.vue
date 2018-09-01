@@ -4,9 +4,9 @@
     <div class="title grip"></div>
     <div class="title links"></div>
     <el-steps :active="part" finish-status="success">
-      <el-step title="选择击打部"></el-step>
-      <el-step title="选择握柄部"></el-step>
-      <el-step title="选择环接部"></el-step>
+      <el-step :title="$t('zaw.selectStrike')"></el-step>
+      <el-step :title="$t('zaw.selectGrip')"></el-step>
+      <el-step :title="$t('zaw.selectLinks')"></el-step>
     </el-steps>
     <!-- 击打部 -->
     <ul class="partlist" v-if="part === 0">
@@ -63,12 +63,18 @@
         </el-radio>
       </li>
     </ul>
+    <!-- 部件 -->
+    <div class="parts">
+      <div class="part" v-if="strike">{{$t("zaw.strike")}}: {{$t('zh') ? strike.name : strike.id}}</div><!--
+   --><div class="part" v-if="grip">{{$t("zaw.grip")}}: {{$t('zh') ? grip.name : grip.id}}</div><!--
+   --><div class="part" v-if="links">{{$t("zaw.links")}}: {{$t('zh') ? links.name : links.id}}</div>
+    </div>
     <!-- 预览 -->
     <div class="preview" v-if="strike">
-      <div class="prop">{{$t("zaw.damage")}}: {{zaw.panelDamage.toFixed()}}</div><!--
-   --><div class="prop">{{$t("zaw.slide")}}: {{zaw.slideDmg.toFixed()}}</div><!--
-   --><div class="prop" v-for="dmg in zaw.dmgs" :key="dmg[0]">{{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
-   --><div class="prop">{{$t("zaw.fireRate")}}: {{zaw.speed}}</div><!--
+      <div class="prop">{{$t("zaw.damage")}}: {{+zaw.panelDamage.toFixed(1)}}</div><!--
+   --><div class="prop">{{$t("zaw.slide")}}: {{+zaw.slideDmg.toFixed(1)}}</div><!--
+   --><div class="prop" v-for="dmg in zaw.dmg" :key="dmg[0]">{{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
+   --><div class="prop">{{$t("zaw.fireRate")}}: {{zaw.fireRate}}</div><!--
    --><div class="prop">{{$t("zaw.critChance")}}: {{(zaw.critChance*100).toFixed()}}%</div><!--
    --><div class="prop">{{$t("zaw.status")}}: {{(zaw.status*100).toFixed()}}%</div>
     </div>
@@ -94,7 +100,7 @@ export default class extends Vue {
   get zaw() { return new Zaw(this.strike, this.grip, this.links); }
 
   finish() {
-    alert();
+    this.$emit("finish", this.zaw);
   }
 
 }
@@ -102,16 +108,15 @@ export default class extends Vue {
 </script>
 
 <style lang="less">
-.preview {
-  .prop {
-    display: inline-block;
-    margin: 8px 4px;
-    padding: 4px 8px;
-    border: 1px solid #6199ff;
-    border-radius: 4px;
-    color: #6199ff;
-    font-size: 0.6em;
-  }
+.preview .prop,
+.parts .part {
+  display: inline-block;
+  margin: 8px 4px 4px;
+  padding: 4px 8px;
+  border: 1px solid #6199ff;
+  border-radius: 4px;
+  color: #6199ff;
+  font-size: 0.9em;
 }
 .zawbuilder {
   .el-steps.el-steps--horizontal {
@@ -124,7 +129,7 @@ export default class extends Vue {
     text-align: center;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    // justify-content: space-between;
     li {
       margin: 4px 2px;
     }

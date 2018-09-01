@@ -18,6 +18,7 @@
                 <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
                 <br>
                 <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="mapDname(dname)" :ori="ori" :val="val"></PropDiff>
+                <br>
                 <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
                 <PropDiff :name="$t('build.attackDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
                    class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>

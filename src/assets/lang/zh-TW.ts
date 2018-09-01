@@ -300,7 +300,33 @@ let po = {
   setting: {
     lang: "語言設定",
     default: "默認",
-  }
+  },
+  zaw: {
+    lastStep: "上一步",
+    nextStep: "下一步",
+    finish: "完成",
+    damage: "傷害",
+    slide: "滑行攻擊",
+    fireRate: "攻速",
+    critChance: "暴擊",
+    status: "觸發",
+    selectStrike: "選擇擊打部",
+    selectGrip: "選擇握柄部",
+    selectLinks: "選擇環接部",
+    strike: "擊打部",
+    grip: "握柄部",
+    links: "環接部",
+    Daggers: "匕首",
+    Scythes: "鐮刀",
+    Machetes: "大砍刀",
+    Swords: "劍",
+    Nikanas: "侍刃",
+    Rapiers: "細劍",
+    Staves: "杖",
+    Polearms: "長柄武器",
+    HeavyBlade: "巨刃",
+    Hammers: "錘",
+  },
 };
 
 export default po;

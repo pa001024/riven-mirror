@@ -18,6 +18,11 @@
         </div>
       </ul>
     </el-tab-pane>
+    <el-tab-pane name="ZAW">
+      <span slot="label" class="weapon-tablabel">ZAW</span>
+      <ZawBuilder @finish="newZAW">
+      </ZawBuilder>
+    </el-tab-pane>
   </el-tabs>
 </template>
 
@@ -25,7 +30,8 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenDataBase, RivenWeapon, ModTypeTable, RivenWeaponDataBase } from "@/warframe";
+import { RivenDataBase, RivenWeapon, ModTypeTable, RivenWeaponDataBase, Zaw } from "@/warframe";
+import ZawBuilder from '@/components/ZawBuilder.vue'
 
 declare interface WeaponSelectorTab {
   id: string
@@ -34,10 +40,10 @@ declare interface WeaponSelectorTab {
   weapons: string[][]
 }
 
-@Component
+@Component({ components: { ZawBuilder } })
 export default class WeaponSelector extends Vue {
-  modType = "Rifle"
-  tabs: WeaponSelectorTab[] = []
+  modType = "Rifle";
+  tabs: WeaponSelectorTab[] = [];
   beforeMount() {
     this.tabs = _.map(ModTypeTable, (name, id) => ({ id, name, rivens: RivenWeaponDataBase.filter(v => v.mod === id && v.weapons.length > 0), weapons: [] }));
   }
@@ -53,6 +59,10 @@ export default class WeaponSelector extends Vue {
     } else if (weapons.length === 1) {
       this.handleCommand(id);
     }
+  }
+  newZAW(zaw: Zaw) {
+    console.log("newZAW->", zaw.url);
+    this.$router.push({ name: 'BuildEditor', params: { id: zaw.url } });
   }
 }
 </script>

@@ -27,18 +27,6 @@ export abstract class BaseBuildEditor extends Vue {
     this.tabValue = "SET A";
   }
 
-  is(tag: string) {
-    tag = tag.toLowerCase();
-    switch (tag) {
-      case "gun": return this.rWeapon.mod !== "Melee";
-      case "melee": return this.rWeapon.mod === "Melee";
-      case "pistol": return this.rWeapon.mod === "Pistol";
-      case "rifle": return this.rWeapon.mod === "Rifle";
-      case "sniper": return this.rWeapon.mod === "Rifle" && this.rWeapon.weapons[0].tags.includes("狙击枪");
-    }
-    return false;
-  }
-
   get currentTab() { return this.tabs.find(v => v.name === this.tabValue); }
   get build() { return this.currentTab.build; }
   get mergedDmg() {

@@ -8,7 +8,6 @@ import Index from '@/pages/Index.vue'
 import BuildEditor from '@/pages/BuildEditor.vue'
 import Simulator from '@/pages/Simulator.vue'
 import WeaponSelector from '@/components/WeaponSelector.vue'
-import ZawBuilder from '@/components/ZawBuilder.vue'
 
 Vue.use(Router)
 
@@ -25,6 +24,5 @@ export default new Router({
     { path: '/huangli', name: 'Huangli', component: Huangli },
     { path: '/riven', name: 'Mod', component: Mod },
     { path: '/riven/:source', name: 'ModWithSource', component: Mod, props: true },
-    { path: '/zaw', name: 'ZawBuilder', component: ZawBuilder},
   ]
 })
