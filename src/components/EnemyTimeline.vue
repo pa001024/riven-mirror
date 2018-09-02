@@ -176,7 +176,7 @@ export default class EnemyTimeline extends Vue {
 
   @Watch("timelineData")
   dataChange() {
-    if (this.visType !== "chart") return;
+    if (this.visType !== "chart" || !this.myChart) return;
     this.myChart.setOption(this.timelineData);
   }
   myChart: any;

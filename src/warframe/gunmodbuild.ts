@@ -44,6 +44,7 @@ export class GunModBuild extends ModBuild {
   private _punchThrough = 0;
   private _critLevelUpChance = 0;
   private _firstAmmoMul = 1;
+  private _slashWhenCrit = 0;
 
   /** 多重增幅倍率 */
   get multishotMul() { return this._multishotMul; }
@@ -65,6 +66,8 @@ export class GunModBuild extends ModBuild {
   get critLevelUpChance() { return this._critLevelUpChance; }
   /** 第一发子弹伤害加成 */
   get firstAmmoMul() { return this._firstAmmoMul; }
+  /** 猎人 战备 */
+  get slashWhenCrit() { return this._slashWhenCrit; }
 
   // 额外参数
 
@@ -226,6 +229,13 @@ export class GunModBuild extends ModBuild {
           this.sustainedDamage;
   }
 
+  /** [overwrite] 额外触发几率 */
+  get extraProcChance() {
+    if (this.slashWhenCrit)
+      return this._extraProcChance.concat([["Slash", (this.critChance > 1 ? 1 : this.critChance) * this.slashWhenCrit]]);
+    return this._extraProcChance;
+  }
+
   // ### 基类方法 ###
 
   /** 检测当前MOD是否可用 */
@@ -255,6 +265,7 @@ export class GunModBuild extends ModBuild {
     this._recoilMul = 1;
     this._critLevelUpChance = 0;
     this._firstAmmoMul = 1;
+    this._slashWhenCrit = 0;
   }
   /**
    * 自动按武器属性填充MOD
@@ -284,7 +295,7 @@ export class GunModBuild extends ModBuild {
       case 'H': /* 变焦 zoom */ this._zoomMul = hAccSum(this._zoomMul, pValue); break;
       case 'V': /* 抛射物飞行速度 projectileSpeed */ this._projectileSpeedMul = hAccSum(this._projectileSpeedMul, pValue); break;
       case 'Z': /* 后坐力 recoil */ this._recoilMul = hAccSum(this._recoilMul, pValue); break;
-      case '暴击时触发切割伤害': /* 暴击时触发切割伤害 slashWhenCrit */ this._extraProcChance.push(["Slash", pValue]); break;
+      case '暴击时触发切割伤害': /* 暴击时触发切割伤害 slashWhenCrit */ this._slashWhenCrit = hAccSum(this._slashWhenCrit, pValue); break;
       case '暴击强化': /* 暴击强化 critLevelUpChance */ this._critLevelUpChance = hAccSum(this._critLevelUpChance, pValue); break;
       case '第一发子弹伤害加成': /* 第一发子弹伤害加成 firstAmmoMul */ this._firstAmmoMul = hAccSum(this._firstAmmoMul, pValue); break;
       default:

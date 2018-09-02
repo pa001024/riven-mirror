@@ -178,6 +178,7 @@ export abstract class ModBuild {
       let eMul = vn in eleMul ? eleMul[vn] + 1 : 1; // 1是复合属性
       let totalMul = hAccMul((eMul > 0 ? eMul : 0), vv) / this.originalDamage;
       this._extraDmgMul = hAccSum(this._extraDmgMul, totalMul);
+      // 单元素组合
       if (["Heat", "Cold", "Toxin", "Electricity"].includes(vn)) {
         eleMul[vn] = hAccSum(eleMul[vn], totalMul);
         eleOrder.includes(vn) || eleOrder.push(vn);
@@ -255,6 +256,7 @@ export abstract class ModBuild {
     let s = this.weapon.status * this.procChanceMul;
     return s > 1 ? 1 : s < 0 ? 0 : s;
   }
+  /** 真实触发几率 */
   abstract get realProcChance(): number;
 
   /** 触发权重 */
@@ -271,13 +273,16 @@ export abstract class ModBuild {
     let opM = pW.map(([vn, vv]) => [vn, hAccMul(vv, pC)]) as [string, number][];
     // 加上额外触发率 (为了支持猎人切)
     if (this.extraProcChance.length > 0) {
-      let npM = opM.map(([vn, vv]) =>
-        [vn, vv + this.extraProcChance.reduce((a, b) => a + (vn === b[0] && b[1] || 0), 0)]) as [string, number][];
+      this.extraProcChance.forEach(([vn, vv]) => {
+        let cp = opM.find(v => v[0] === vn);
+        if (cp) cp[1] = cp[1] + vv;
+        else opM.push([vn, vv]);
+      });
       // 防止触发率溢出
-      let totalChance = npM.reduce((a, b) => a + b[1], 0);
+      let totalChance = opM.reduce((a, b) => a + b[1], 0);
       if (totalChance > 1)
-        return npM.map(([vn, vv]) => [vn, vv / totalChance]) as [string, number][];
-      return npM;
+        return opM.map(([vn, vv]) => [vn, vv / totalChance]) as [string, number][];
+      return opM;
     }
     return opM;
   }
@@ -398,7 +403,8 @@ export abstract class ModBuild {
       this.applyProp(arc, arc.prop[0], arc.prop[1]);
     });
     this._mods.forEach(mod => {
-      mod.props.forEach(prop => this.applyProp(mod, prop[0], prop[1]));
+      // 后者优先 主要用于紫卡有多个元素词条时
+      _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]))
     });
   }
 

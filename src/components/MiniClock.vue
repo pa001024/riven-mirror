@@ -17,7 +17,7 @@
         <input style="width:50px;text-align:center;" class="text-input" @change="saveReminder" autocomplete="off" type="text" v-model="timeReminder.minutesInAdvance">
         {{$t("reminder.settingSubfix")}}
       </div>
-      <div slot="reference" class="time-block">
+      <div slot="reference" class="time-block cetus">
         <div class="time-header">
           {{$t("time.cetus")}} {{cetusTime.phase}}
         </div>
@@ -26,7 +26,7 @@
         </div>
       </div>
     </el-popover>
-    <div class="time-block">
+    <div class="time-block earth">
       <div class="time-header">
         {{$t("time.earth")}} {{earthTime.phase}}
       </div>
@@ -202,6 +202,8 @@ input.text-input[type="text"]:active {
   font-size: 10pt;
   display: inline-block;
   text-align: center;
+}
+.time-block.cetus{
   cursor: pointer;
 }
 .time-clock {
