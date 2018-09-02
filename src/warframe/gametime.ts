@@ -27,7 +27,7 @@ export class EarthTime {
 }
 export class CetusTime {
   /** 现在到夜晚的秒数 */
-  static get secords() { return ~~(9e3 - (Date.now() / 1e3 * 1.00009 - 7940) % 9e3); }
+  static get secords() { return ~~(9e3 - (Date.now() / 1e3 * 1.00009 - 7945) % 9e3); }
   /** 现在是否是夜晚 */
   static get isNight() { return this.secords > 6e3; }
   /** 现在是否是白天 */
@@ -54,5 +54,9 @@ export class CetusTime {
     if (sec > 600) return i18n.t("time.day").toString(); // 01:08 ~ 00:10
     if (sec > 180) return i18n.t("time.dusk").toString(); // 00:10 ~ 00:03
     return i18n.t("time.sunset").toString(); // 00:03 ~ 00:00
+  }
+  static futures(count: number = 5) {
+    let lay = this.secords;
+    return Array(count).fill(0).map((_, i) => (~~(Date.now() / 1e3) + lay + 9e3 * i) * 1e3);
   }
 }

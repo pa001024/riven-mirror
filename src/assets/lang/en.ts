@@ -200,7 +200,7 @@ let po = {
     extraBaseDamage: "Extra base damage",
     extraOverall: "Extra overall damage",
     extraBaseDamageTip: "e.g. Chroma's \"Vex Armor\" and Mirage's \"Eclipse\"",
-    extraOverallTip: "e.g. Rhino's \"Roar\"",
+    extraOverallTip: "e.g. Rhino's \"Roar\" and Sniper's Shot Combo",
     usemods: "Use mods",
     normal: "Normal Set",
     yourriven: "Your Riven Set",
@@ -326,6 +326,14 @@ let po = {
     Polearms: "Polearms",
     HeavyBlade: "Heavy Blade",
     Hammers: "Hammers",
+  },
+  reminder: {
+    title: "PLAIN TIME REMINDER",
+    notificationTitle: "Plain Time Reminder",
+    notificationBody: "There is {0} minutes to the night, get ready",
+    settingPrefix: "Remind me",
+    settingSubfix: "minutes early",
+    permissionDenied: "Notification permission is denied, cannot be displayed properly",
   },
 };
 

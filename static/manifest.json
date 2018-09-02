@@ -43,5 +43,8 @@
       "type": "image/png",
       "density": "4.0"
     }
-  ]
+  ],
+  "permissions": {
+    "desktop-notification": {}
+  }
 }

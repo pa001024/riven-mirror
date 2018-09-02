@@ -105,7 +105,7 @@ export default class App extends Vue {
   font-size: 22px;
   line-height: 1;
   padding: 6px 12px;
-  border: 1px solid #768aff;
+  border: 0;
   border-radius: 4px;
   box-sizing: border-box;
   outline: 0;
@@ -290,13 +290,13 @@ export default class App extends Vue {
 } */
 
 /* 全局样式 */
-
 html,
 body {
   margin: 0;
   height: 100%;
   width: 100%;
   display: flex;
+  font-size: 14px;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
@@ -315,5 +315,12 @@ ol {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+/* 移动端缩小字体 */
+@media only screen and (max-width: 444px) {
+  html,
+  body {
+    font-size: 13px;
+  }
 }
 </style>

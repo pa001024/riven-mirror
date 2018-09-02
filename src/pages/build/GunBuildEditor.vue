@@ -362,6 +362,12 @@ export default class GunBuildEditor extends BaseBuildEditor {
 .build-tools {
   margin-top: 16px;
 }
+.build-tools .el-form-item__label,
+.build-tools .el-form-item__content,
+.build-tools .el-checkbox__label {
+  font-size: 1rem;
+  line-height: 2.8rem;
+}
 .build-tools-action {
   display: flex;
   align-content: center;
@@ -372,11 +378,14 @@ export default class GunBuildEditor extends BaseBuildEditor {
 .build-tools-action > * {
   flex: 1;
 }
+.weapon-name {
+  font-size: 1.1rem;
+}
 .weapon-props {
   width: 100%;
   border-spacing: 0;
   border-collapse: separate;
-  font-size: 14px;
+  font-size: 1em;
 }
 .weapon-props th {
   color: #606266;

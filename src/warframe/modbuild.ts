@@ -32,6 +32,7 @@ export abstract class ModBuild {
   protected _fireRateMul = 1;
   protected _handShotMulMul = 1;
   protected _overallMul = 1;
+  protected _extraProcChance: [string, number][] = [];
 
   /** 基伤增幅倍率 */
   get baseDamageMul() { return this._baseDamageMul; }
@@ -55,6 +56,8 @@ export abstract class ModBuild {
   get handShotMulMul() { return this._handShotMulMul; }
   /** 全局伤害增幅倍率 */
   get overallMul() { return hAccMul(this.enemyDmgMul, this._overallMul); }
+  /** 额外触发几率 */
+  get extraProcChance() { return this._extraProcChance; }
   abstract get compareDamage(): number;
   abstract set options(val: any);
   abstract get options(): any;
@@ -276,11 +279,16 @@ export abstract class ModBuild {
   }
 
   /** 真实触发几率(各属性) */
-  get procChanceMap() {
+  get procChanceMap(): [string, number][] {
     let pC = this.realProcChance;
     let pW = this.procWeights;
     // 将触发率乘权重
-    return pW.map(([vn, vv]) => [vn, hAccMul(vv, pC)]) as [string, number][];
+    let opM = pW.map(([vn, vv]) => [vn, hAccMul(vv, pC)]) as [string, number][];
+    // 加上额外触发率 (为了支持猎人切)
+    if (this.extraProcChance.length > 0)
+      return opM.map(([vn, vv]) =>
+        [vn, vv + this.extraProcChance.reduce((a, b) => a + (vn === b[0] && b[1] || 0), 0)]) as [string, number][];
+    return opM;
   }
 
   /** 触发伤害(各属性) */
@@ -423,6 +431,7 @@ export abstract class ModBuild {
     this._slashMul = 0;
     this.elementsOrder = [];
     this._combElementsOrder = [];
+    this._extraProcChance = []
     this._overallMul = 1 + this.extraOverall;
   }
 

@@ -200,7 +200,7 @@ let po = {
     extraBaseDamage: "基傷加成",
     extraOverall: "總傷加成",
     extraBaseDamageTip: "Chroma的\"怨怒護甲\"和Mirage的\"黯然失色\"等技能可對武器基傷進行大量加成，<br>步槍增幅、死亡之眼等光環MOD也屬於這個加成",
-    extraOverallTip: "如Rhino的戰吼等屬於這個加成",
+    extraOverallTip: "如Rhino的戰吼和狙擊槍的連擊等屬於這個加成",
     usemods: "使用MOD",
     normal: "標準配置",
     yourriven: "紫卡配置",
@@ -326,6 +326,14 @@ let po = {
     Polearms: "長柄武器",
     HeavyBlade: "巨刃",
     Hammers: "錘",
+  },
+  reminder: {
+    title: "平原時間提醒",
+    notificationTitle: "平原時間提醒",
+    notificationBody: "還有{0}分鐘就到夜晚了 趕緊準備吧",
+    settingPrefix: "提前",
+    settingSubfix: "分鐘通知",
+    permissionDenied: "通知權限被拒絕, 無法正常顯示",
   },
 };
 

@@ -231,7 +231,7 @@ export class RivenWeapon {
 }
 
 const _rivenWeaponDataBase = [
-  // 步枪
+  // 步枪 Rifle
   ["Miter", "米特尔", "Rifle", 1.6, 105],
   ["Panthera", "猎豹", "Rifle", 1.55, 125],
   ["Flux Rifle", "通量射线步枪", "Rifle", 1.55, 85],
@@ -296,7 +296,7 @@ const _rivenWeaponDataBase = [
   ["Tonkor", "征服榴炮", "Rifle", 0.55, 90],
   ["Simulor", "重力奇点拟成枪", "Rifle", 0.5, 65],
   ["Soma", "月神", "Rifle", 0.5, 225],
-  // 霰弹枪
+  // 霰弹枪 Shotgun
   ["Drakgoon", "龙骑兵", "Shotgun", 1.48, 185],
   ["Convectrix", "导热聚焦枪", "Shotgun", 1.46, 105],
   ["Strun", "斯特朗", "Shotgun", 1.4, 285],
@@ -310,7 +310,7 @@ const _rivenWeaponDataBase = [
   ["Arca Plasmor", "弧电离子枪", "Shotgun", 0.9, 860],
   ["Hek", "海克", "Shotgun", 0.55, 195],
   ["Tigris", "猛虎", "Shotgun", 0.5, 315],
-  // 手枪
+  // 手枪 Pistol
   ["Vasto", "瓦斯托", "Pistol", 1.53, 240],
   ["Kraken", "北海巨妖", "Pistol", 1.53, 30],
   ["Magnus", "麦格努斯", "Pistol", 1.53, 85],
@@ -378,7 +378,7 @@ const _rivenWeaponDataBase = [
   ["Akstiletto", "史提托双枪", "Pistol", 0.5, 165],
   ["Lex", "雷克斯", "Pistol", 0.5, 125],
   ["Sonicor", "超音波冲击枪", "Pistol", 0.5, 75],
-  // 近战
+  // 近战 Melee
   ["Amphis", "双头蛇", "Melee", 1.5, 65],
   ["Ether Daggers", "苍穹匕首", "Melee", 1.49, 35],
   ["Dark Sword", "暗黑长剑", "Melee", 1.48, 65],
@@ -495,7 +495,7 @@ const _rivenWeaponDataBase = [
   ["Nikana", "侍刃", "Melee", 0.5, 130],
   ["Orthos", "欧特鲁斯", "Melee", 0.5, 150],
 
-  // 技能武器
+  // 技能武器 Exalted Weapon
   ["Regulators", "监察者双枪", "Pistol", 0, 0],
   ["Iron Staff", "定海神针", "Melee", 0, 0],
   ["Valkyr Talons", "Valkyr之爪", "Melee", 0, 0],

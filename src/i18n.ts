@@ -22,6 +22,9 @@ const dateTimeFormats = {
     long: {
       year: 'numeric', month: 'short', day: 'numeric',
       weekday: 'short', hour: 'numeric', minute: 'numeric'
+    },
+    time: {
+      hour: 'numeric', minute: 'numeric', hour12: false
     }
   },
   'zh-CN': {
@@ -34,6 +37,24 @@ const dateTimeFormats = {
     long: {
       year: 'numeric', month: 'short', day: 'numeric',
       weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: true
+    },
+    time: {
+      hour: 'numeric', minute: 'numeric', hour12: false
+    }
+  },
+  'zh-TW': {
+    short: {
+      year: 'numeric', month: 'short', day: 'numeric'
+    },
+    weekday: {
+      year: 'numeric', month: 'short', day: 'numeric', weekday: "long"
+    },
+    long: {
+      year: 'numeric', month: 'short', day: 'numeric',
+      weekday: 'short', hour: 'numeric', minute: 'numeric', hour12: true
+    },
+    time: {
+      hour: 'numeric', minute: 'numeric', hour12: false
     }
   }
 };

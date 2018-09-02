@@ -41,7 +41,6 @@ export class GunModBuild extends ModBuild {
   private _projectileSpeedMul = 1;
   private _recoilMul = 1;
   private _punchThrough = 0;
-  private _slashWhenCrit = 0;
   private _critLevelUpChance = 0;
   private _firstAmmoMul = 1;
 
@@ -61,8 +60,6 @@ export class GunModBuild extends ModBuild {
   get recoilMul() { return this._recoilMul; }
   /** 穿透增幅量 */
   get punchThrough() { return this._punchThrough; }
-  /** 暴击时触发切割伤害 */
-  get slashWhenCrit() { return this._slashWhenCrit; }
   /** 暴击强化 */
   get critLevelUpChance() { return this._critLevelUpChance; }
   /** 第一发子弹伤害加成 */
@@ -241,7 +238,6 @@ export class GunModBuild extends ModBuild {
     this._zoomMul = 1;
     this._projectileSpeedMul = 1;
     this._recoilMul = 1;
-    this._slashWhenCrit = 0;
     this._critLevelUpChance = 0;
     this._firstAmmoMul = 1;
   }
@@ -265,7 +261,7 @@ export class GunModBuild extends ModBuild {
     switch (pName) {
       case 'D': /* 伤害 baseDmg */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;
       case 'S': /* 多重射击 multiShot */ this._multishotMul = hAccSum(this._multishotMul, pValue); break;
-      case 'R': /* 射速（弓类武器效果加倍） fireRate */ this._fireRateMul = hAccSum(this._fireRateMul, (this.weapon.tags.includes("弓") ? 2 * pValue : pValue)); break;
+      case 'R': /* 射速 fireRate */ this._fireRateMul = hAccSum(this._fireRateMul, (this.weapon.tags.includes("弓") ? 2 * pValue : pValue)); break;
       case 'L': /* 弹匣容量 magazine */ this._magazineMul = hAccSum(this._magazineMul, pValue); break;
       case 'F': /* 装填速度 reloadSpeed */ this._reloadSpeedMul = hAccSum(this._reloadSpeedMul, pValue); break;
       case 'M': /* 弹药最大值 maxAmmo' */ this._maxAmmoMul = hAccSum(this._maxAmmoMul, pValue); break;
@@ -273,9 +269,9 @@ export class GunModBuild extends ModBuild {
       case 'H': /* 变焦 zoom */ this._zoomMul = hAccSum(this._zoomMul, pValue); break;
       case 'V': /* 抛射物飞行速度 projectileSpeed */ this._projectileSpeedMul = hAccSum(this._projectileSpeedMul, pValue); break;
       case 'Z': /* 后坐力 recoil */ this._recoilMul = hAccSum(this._recoilMul, pValue); break;
-      case '暴击时触发切割伤害': /* 暴击时触发切割伤害 slashWhenCrit */this._slashWhenCrit = hAccSum(this._slashWhenCrit, pValue); break;
-      case '暴击强化': /* 暴击强化 critLevelUpChance */this._critLevelUpChance = hAccSum(this._critLevelUpChance, pValue); break;
-      case '第一发子弹伤害加成': /* 第一发子弹伤害加成 firstAmmoMul */this._firstAmmoMul = hAccSum(this._firstAmmoMul, pValue); break;
+      case '暴击时触发切割伤害': /* 暴击时触发切割伤害 slashWhenCrit */ this._extraProcChance.push(["Slash", pValue]); break;
+      case '暴击强化': /* 暴击强化 critLevelUpChance */ this._critLevelUpChance = hAccSum(this._critLevelUpChance, pValue); break;
+      case '第一发子弹伤害加成': /* 第一发子弹伤害加成 firstAmmoMul */ this._firstAmmoMul = hAccSum(this._firstAmmoMul, pValue); break;
       default:
         super.applyProp(mod, pName, pValue);
     }

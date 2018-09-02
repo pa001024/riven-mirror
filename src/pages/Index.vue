@@ -9,24 +9,16 @@
               <el-carousel-item class="cetus" :class="[cetusTime.isDay ? 'day' : 'night']">
                 <div class="clock-body">
                   <div class="block">
-                    <div class="time">
-                      {{cetusTime.text}}
-                    </div>
-                    <div class="title">
-                      {{$t("time.cetus")}} - {{cetusTime.phase}}
-                    </div>
+                    <div class="time">{{cetusTime.text}}</div>
+                    <div class="title">{{$t("time.cetus")}} - {{cetusTime.phase}}</div>
                   </div>
                 </div>
               </el-carousel-item>
               <el-carousel-item class="earth" :class="[earthTime.isDay ? 'day' : 'night']">
                 <div class="clock-body">
                   <div class="block">
-                    <div class="time">
-                      {{earthTime.text}}
-                    </div>
-                    <div class="title">
-                      {{$t("time.earth")}} - {{earthTime.phase}}
-                    </div>
+                    <div class="time">{{earthTime.text}}</div>
+                    <div class="title">{{$t("time.earth")}} - {{earthTime.phase}}</div>
                   </div>
                 </div>
               </el-carousel-item>
@@ -38,9 +30,9 @@
           <el-card class="index-card sortie">
             <h3 slot="header"><i class="wf-icon-sortie"></i> {{$t("alerting.sortie")}}</h3>
             <ul>
-              <div class="sortie-info">
-                <i :class="['wf-icon-' + sortie.faction.toLowerCase()]"></i> {{sortie.boss}}
-              </div>
+              <div class="sortie-info"><!--
+             --><i :class="['wf-icon-' + sortie.faction.toLowerCase()]"></i> {{sortie.boss}}<!--
+           --></div>
               <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sortie.expiry)}}</div>
               <li v-for="(v, i) in sortie.variants" :key="i">
                 <div class="info">
@@ -174,6 +166,7 @@ export default class Index extends Vue {
   }
 
   // === 事件处理 ===
+  @Watch("$route")
   resize() {
     if (document.documentElement.clientWidth < 767) {
       this.scrollWidth = 0;
@@ -207,6 +200,7 @@ export default class Index extends Vue {
     });
   }
   updated() {
+    this.resize();
     this.scroll.refresh();
   }
   beforeMount() {
@@ -234,10 +228,6 @@ export default class Index extends Vue {
     this.seconds = ~~(Date.now() / 1e3);
     this.cetusTime = { isDay: CetusTime.isDay, phase: CetusTime.phaseText, text: CetusTime.text };
     this.earthTime = { isDay: EarthTime.isDay, phase: EarthTime.phaseText, text: EarthTime.text };
-  }
-  beforeRouteUpdate(to, from, next) {
-    this.resize();
-    next();
   }
 }
 </script>
@@ -286,6 +276,7 @@ export default class Index extends Vue {
   display: flex;
   align-items: center;
   white-space: nowrap;
+  width: calc(100% - 56px);
 }
 .index-card.info ul li {
   white-space: normal;
@@ -350,6 +341,7 @@ export default class Index extends Vue {
 .index {
   flex-flow: column wrap;
   align-items: center;
+  font-size: 1.1rem;
 }
 .disable .index {
   align-content: center;
@@ -437,11 +429,6 @@ export default class Index extends Vue {
   .clock-body .time {
     padding: calc(1vw - 1px) 0;
     font-size: calc(3.5vw - 2.8px);
-  }
-}
-@media only screen and (max-width: 444px) {
-  body {
-    font-size: 13px;
   }
 }
 </style>
