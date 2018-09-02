@@ -143,6 +143,7 @@ let po = {
     totalDamage: "单发伤害",
     burstDamage: "爆发伤害",
     sustainedDamage: "持续伤害",
+    firstAmmoDamage: "首发伤害",
     simulacrum: "幻影装置",
     selectMod: "选择MOD",
     total: "总收益",

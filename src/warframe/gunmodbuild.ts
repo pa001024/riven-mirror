@@ -15,7 +15,8 @@ import { hAccSum, hAccMul } from "@/warframe/util";
 export enum GunCompareMode {
   TotalDamage,// 单发伤害
   BurstDamage,// 爆发伤害
-  SustainedDamage // 持续伤害
+  SustainedDamage, // 持续伤害
+  FirstDamage,// 首发伤害
 }
 export interface GunModBuildOptions {
   compareMode?: GunCompareMode
@@ -131,7 +132,7 @@ export class GunModBuild extends ModBuild {
       // 伤害
       while (nextDmgTick <= nextDoTTick && enemy.currentHealth > 0) {
         enemy.tickCount = nextDmgTick;
-        enemy.applyHit(this.totalDmg, this.procChanceMap, this.dotDamageMap, this.bullets, this.procDurationMul);
+        enemy.applyHit(remaingMag === this.magazineSize ? this.totalDmgFirst : this.totalDmg, this.procChanceMap, this.dotDamageMap, this.bullets, this.procDurationMul);
         nextDmgTick += --remaingMag > 0 ? ticks : (remaingMag = this.magazineSize, reloadTicks);
       }
       // DoT
@@ -200,6 +201,19 @@ export class GunModBuild extends ModBuild {
   get sustainedDamageMul() { return hAccMul(this.totalDamageMul, this.sustainedFireRateMul); }
   /** 原爆发伤害 */
   get oriBurstDamage() { return hAccMul(this.oriTotalDamage, this.weapon.fireRate); }
+
+  // 首发相关
+  /** 第一发子弹伤害 */
+  get firstAmmoDamage() { return hAccMul(this.originalDamage, this.totalDamageMul, this.firstAmmoMul); }
+  /** 持续输出首发增幅 */
+  get sustainedfirstAmmoMul() { return 1 + (this.firstAmmoMul - 1) / this.magazineSize; }
+  /** 所有伤害(首发) */
+  get totalDmgFirst() {
+    return this.baseDmg.map(([i, v]) => [i, v * this.firstAmmoDamage / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
+  }
+  /** [overwrite] 总伤害 */
+  get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul, this.sustainedfirstAmmoMul); }
+
   /** 爆发伤害 */
   get burstDamage() { return hAccMul(this.totalDamage, this.fireRate); }
   /** 原持续伤害 */
@@ -208,7 +222,10 @@ export class GunModBuild extends ModBuild {
   get sustainedDamage() { return hAccMul(this.totalDamage, this.sustainedFireRate); }
   /** [overwrite] 用于比较的伤害 */
   get compareDamage() {
-    return this.compareMode == GunCompareMode.TotalDamage ? this.totalDamage : this.compareMode == GunCompareMode.BurstDamage ? this.burstDamage : this.sustainedDamage;
+    return this.compareMode == GunCompareMode.TotalDamage ? this.totalDamage :
+      this.compareMode == GunCompareMode.FirstDamage ? this.firstAmmoDamage :
+        this.compareMode == GunCompareMode.BurstDamage ? this.burstDamage :
+          this.sustainedDamage;
   }
 
   // ### 基类方法 ###

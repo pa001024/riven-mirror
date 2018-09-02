@@ -143,6 +143,7 @@ let po = {
     totalDamage: "TOTAL DAMAGE",
     burstDamage: "BURST DAMAGE",
     sustainedDamage: "SUSTAINED DAMAGE",
+    firstAmmoDamage: "FIRST AMMO DAMAGE",
     simulacrum: "SIMULACRUM",
     selectMod: "SELECT MOD",
     total: "Total",

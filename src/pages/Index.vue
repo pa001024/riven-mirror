@@ -172,16 +172,19 @@ export default class Index extends Vue {
       this.scrollWidth = 0;
     }
     else {
+      // 计算宽度
       let ls = document.querySelectorAll(".index > .el-col"), lastRect: DOMRect, width = -20;
       [].forEach.call(document.querySelectorAll(".index > .el-col"), (el: HTMLElement) => {
         let rect = el.getBoundingClientRect() as DOMRect;
         if (!lastRect || lastRect.x != rect.x) {
           width += rect.width;
           lastRect = rect;
-          // console.log(width, rect, lastRect)
         }
       });
-      this.scrollWidth = width;
+      if (this.scrollWidth !== width) {
+        this.scroll.refresh();
+        this.scrollWidth = width;
+      }
     }
     this.scrollEnable = (this.$refs.wrapper as HTMLElement).getBoundingClientRect().width < this.scrollWidth;
   }
@@ -201,7 +204,6 @@ export default class Index extends Vue {
   }
   updated() {
     this.resize();
-    this.scroll.refresh();
   }
   beforeMount() {
     this.updateTime();

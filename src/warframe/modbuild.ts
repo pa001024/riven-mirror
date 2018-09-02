@@ -285,9 +285,15 @@ export abstract class ModBuild {
     // 将触发率乘权重
     let opM = pW.map(([vn, vv]) => [vn, hAccMul(vv, pC)]) as [string, number][];
     // 加上额外触发率 (为了支持猎人切)
-    if (this.extraProcChance.length > 0)
-      return opM.map(([vn, vv]) =>
+    if (this.extraProcChance.length > 0) {
+      let npM = opM.map(([vn, vv]) =>
         [vn, vv + this.extraProcChance.reduce((a, b) => a + (vn === b[0] && b[1] || 0), 0)]) as [string, number][];
+      // 防止触发率溢出
+      let totalChance = npM.reduce((a, b) => a + b[1], 0);
+      if (totalChance > 1)
+        return npM.map(([vn, vv]) => [vn, vv / totalChance]) as [string, number][];
+      return npM;
+    }
     return opM;
   }
 
