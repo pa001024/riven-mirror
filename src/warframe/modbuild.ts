@@ -171,15 +171,15 @@ export abstract class ModBuild {
 
   /** 重新计算元素顺序 */
   recalcElements() {
-    this._extraDmgMul = 1 + hAccSum(this.heatMul, this.coldMul, this.toxinMul, this.electricityMul);
+    this._extraDmgMul = hAccSum(this.heatMul, this.coldMul, this.toxinMul, this.electricityMul);
     let eleOrder = this.elementsOrder, otherOrder = [], eleMul = this.elementsMul;
     // 计算武器原本属性
     this.weapon.dmg.forEach(([vn, vv]) => {
-      let eMul = eleMul[vn] + 1;
-      let totalMul = (eMul > 0 ? eMul : 0) * vv / this.originalDamage;
+      let eMul = vn in eleMul ? eleMul[vn] + 1 : 1; // 1是复合属性
+      let totalMul = hAccMul((eMul > 0 ? eMul : 0), vv) / this.originalDamage;
       this._extraDmgMul = hAccSum(this._extraDmgMul, totalMul);
       if (["Heat", "Cold", "Toxin", "Electricity"].includes(vn)) {
-        eleMul[vn] += 1;
+        eleMul[vn] = hAccSum(eleMul[vn], totalMul);
         eleOrder.includes(vn) || eleOrder.push(vn);
       } else {
         otherOrder.push([vn, totalMul]);
@@ -596,7 +596,7 @@ export abstract class ModBuild {
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.name === "变焦" || v.name === "处决伤害");
-    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -0.83, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), 1);
+    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -0.833, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), 1);
 
     let newRivens = propsOfMods.map(v => {
       let newRiven = new RivenMod(this.riven);

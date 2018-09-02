@@ -4,7 +4,7 @@
       <div class="reminder-title">{{$t("reminder.title")}}</div>
       <!-- 平原时间提醒模块 -->
       <ul class="reminder-list">
-        <li v-for="time in cetusFutureTimes" :key="time" @click="addNoti(time)" :class="{active: timeReminder.hasSchedule(time)}">
+        <li v-for="time in cetusFutureTimes" :key="time" @click="addReminder(time)" :class="{active: timeReminder.hasSchedule(time)}">
           <span class="add">
             <i :class="[timeReminder.hasSchedule(time) ? 'el-icon-check' : 'el-icon-plus']"></i>
           </span>
@@ -14,7 +14,7 @@
       </ul>
       <div class="reminder-setting">
         {{$t("reminder.settingPrefix")}}
-        <input style="width:50px;text-align:center;" class="text-input" autocomplete="off" type="text" v-model="timeReminder.minutesInAdvance">
+        <input style="width:50px;text-align:center;" class="text-input" @change="saveReminder" autocomplete="off" type="text" v-model="timeReminder.minutesInAdvance">
         {{$t("reminder.settingSubfix")}}
       </div>
       <div slot="reference" class="time-block">
@@ -54,6 +54,9 @@ class TimeReminder {
   minutesInAdvance = 5;
   schedules: number[] = [];
   notification: Notification;
+  constructor() {
+    this.load();
+  }
   testSchedule() {
     let now = Date.now();
     let needClose = true;
@@ -84,13 +87,24 @@ class TimeReminder {
     return this.schedules.some(v => Math.abs(v - time) < 2e3);
   }
   addSchedule(time: number) {
-    if (!this.hasSchedule(time))
+    if (!this.hasSchedule(time)) {
       this.schedules.push(time);
+      this.save();
+    }
     else
-      this.removeSchedule(time)
+      this.removeSchedule(time);
   }
   removeSchedule(time: number) {
     this.schedules = this.schedules.filter(v => Math.abs(v - time) >= 2e3);
+    this.save();
+  }
+  save() {
+    localStorage.setItem("reminder.schedules", JSON.stringify(this.schedules));
+    localStorage.setItem("reminder.mins", JSON.stringify(this.minutesInAdvance));
+  }
+  load() {
+    this.schedules = JSON.parse(localStorage.getItem("reminder.schedules")) || [];
+    this.minutesInAdvance = JSON.parse(localStorage.getItem("reminder.mins")) || 5;
   }
 }
 @Component
@@ -102,7 +116,7 @@ export default class MiniClock extends Vue {
   now: number;
   cetusFutureTimes = CetusTime.futures(5);
 
-  addNoti(time: number) {
+  addReminder(time: number) {
     Notification.requestPermission((perm) => {
       if (perm === "denied")
         this.$message.error(this.$t("reminder.permissionDenied") as string);
@@ -110,6 +124,9 @@ export default class MiniClock extends Vue {
         this.timeReminder.addSchedule(time);
       }
     })
+  }
+  saveReminder() {
+    this.timeReminder.save();
   }
   mounted() {
     this.updateTime();
