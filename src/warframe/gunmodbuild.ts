@@ -169,7 +169,7 @@ export class GunModBuild extends ModBuild {
   get critMul() {
     // 绝路开镜暴伤
     if ((this.weapon.rivenName || this.weapon.id) === "Rubico")
-      return hAccMul(this.weapon.critMul, this.critMulMul) + 0.5;
+      return hAccMul(this.weapon.critMul, this.critMulMul) + 1.5;
     // 丧钟开镜暴伤
     if ((this.weapon.rivenName || this.weapon.id) === "Knell")
       return hAccMul(this.weapon.critMul, this.critMulMul) + 2.5;
