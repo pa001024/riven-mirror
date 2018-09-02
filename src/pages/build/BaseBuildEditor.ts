@@ -37,10 +37,13 @@ export abstract class BaseBuildEditor extends Vue {
       rst[vn] = [vv, 0];
     });
     nD.forEach(([vn, vv]) => {
+      console.log("vn", vn, nD);
       if (rst[vn]) rst[vn][1] = vv;
       else rst[vn] = [0, vv];
     });
-    return _.map(rst, (v, i) => [i, ...v]) as [string, number, number][];
+    let emp = _.map(rst, (v, i) => [i, ...v]) as [string, number, number][];
+    console.log("mergedDmg", this.build.combElementsOrder, emp);
+    return emp;
   }
   fill() {
     this.build.fill(8, 0);

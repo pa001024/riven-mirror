@@ -163,7 +163,7 @@ export abstract class ModBuild {
     this.recalcElements();
   }
   /** 所有元素增幅倍率 */
-  public get elementsMul() { return { Heat: this.heatMul, Cold: this.coldMul, Toxin: this.toxinMul, Electricity: this.electricityMul }; }
+  public get elementsMul() { return { Heat: this.heatMul, Cold: this.coldMul, Toxin: this.toxinMul, Electricity: this.electricityMul, Impact: this.impactMul, Puncture: this.punctureMul, Slash: this.slashMul }; }
 
   /** 复合元素顺序 */
   private _combElementsOrder: [string, number][] = [];
@@ -172,28 +172,29 @@ export abstract class ModBuild {
   /** 重新计算元素顺序 */
   recalcElements() {
     this._extraDmgMul = 1 + hAccSum(this.heatMul, this.coldMul, this.toxinMul, this.electricityMul);
-    let combs = _.chunk(this.elementsOrder, 2);
+    let eleOrder = this.elementsOrder, otherOrder = [], eleMul = this.elementsMul;
+    // 计算武器原本属性
+    this.weapon.dmg.forEach(([vn, vv]) => {
+      let eMul = eleMul[vn] + 1;
+      let totalMul = (eMul > 0 ? eMul : 0) * vv / this.originalDamage;
+      this._extraDmgMul = hAccSum(this._extraDmgMul, totalMul);
+      if (["Heat", "Cold", "Toxin", "Electricity"].includes(vn)) {
+        eleMul[vn] += 1;
+        eleOrder.includes(vn) || eleOrder.push(vn);
+      } else {
+        otherOrder.push([vn, totalMul]);
+      }
+    });
+    let combs = _.chunk(eleOrder, 2);
     this._combElementsOrder = combs.map(comb => {
       if (comb.length > 1) {
         let combElement = CombElementMap[comb.sort().join("+")];
         let etype = Damage2_0.getDamageType(combElement);
-        return [etype.id, hAccSum(this.elementsMul[etype.combinedBy[0]], this.elementsMul[etype.combinedBy[1]])] as [string, number];
+        return [etype.id, hAccSum(eleMul[etype.combinedBy[0]], eleMul[etype.combinedBy[1]])] as [string, number];
       } else {
-        return [comb[0], this.elementsMul[comb[0]]] as [string, number];
+        return [comb[0], eleMul[comb[0]]] as [string, number];
       }
-    });
-    // 计算物理
-    if (this.weapon.dmg.some(v => ["Impact", "Puncture", "Slash"].includes(v[0]))) {
-      ["Impact", "Puncture", "Slash"].forEach(dname => {
-        let pD = this.weapon.dmg.find(v => v[0] === dname);
-        if (pD) {
-          let vvalue = this["_" + dname.toLowerCase() + "Mul"];
-          let dvalue = (vvalue > -1 ? vvalue : -1) * pD[1] / this.originalDamage;
-          this._extraDmgMul = hAccSum(this._extraDmgMul, dvalue);
-          this._combElementsOrder.push([dname, dvalue]);
-        }
-      });
-    }
+    }).concat(otherOrder);
   }
   /**
      * 所有伤害
@@ -214,23 +215,7 @@ export abstract class ModBuild {
    */
   get baseDmg() {
     let extra = this.combElementsOrder;
-    let ori = this.originalDamage;
     let rst = {};
-
-    this.weapon.dmg.forEach(([dname, dvalue]) => {
-      let dtype = Damage2_0.getDamageType(dname as DamageType);
-      let ltype = extra.length > 0 && Damage2_0.getDamageType(_.last(extra)[0] as DamageType);// 末尾元素
-      let targetElement = dname;
-      // 将自带元素与MOD元素进行合成
-      if (dname !== ltype.id && dtype.type === "Elemental" && ltype && ltype.type === "Elemental") {
-        let [lname, lvalue] = extra.pop();
-        targetElement = CombElementMap[[dname, lname].sort().join("+")];
-        if (rst[targetElement]) rst[targetElement] = hAccSum(rst[targetElement], lvalue);
-        else rst[targetElement] = lvalue;
-      }
-      if (rst[targetElement]) rst[targetElement] = hAccSum(rst[targetElement], dvalue / ori);
-      else rst[targetElement] = dvalue / ori;
-    });
     extra.forEach(([dname, dpart]) => {
       let targetElement = dname;
       if (rst[targetElement]) rst[targetElement] = hAccSum(rst[targetElement], dpart);
@@ -439,6 +424,7 @@ export abstract class ModBuild {
     this._combElementsOrder = [];
     this._extraProcChance = []
     this._overallMul = 1 + this.extraOverall;
+    this.recalcElements();
   }
 
   /** 清除所有MOD并重置属性增幅器 */

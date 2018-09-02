@@ -205,14 +205,12 @@ export class GunModBuild extends ModBuild {
   // 首发相关
   /** 第一发子弹伤害 */
   get firstAmmoDamage() { return hAccMul(this.originalDamage, this.totalDamageMul, this.firstAmmoMul); }
-  /** 持续输出首发增幅 */
+  /** 持续输出首发增幅 = 1 + 首发 / 弹匣 */
   get sustainedfirstAmmoMul() { return 1 + (this.firstAmmoMul - 1) / this.magazineSize; }
   /** 所有伤害(首发) */
-  get totalDmgFirst() {
-    return this.baseDmg.map(([i, v]) => [i, v * this.firstAmmoDamage / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
-  }
-  /** [overwrite] 总伤害 */
-  get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul, this.sustainedfirstAmmoMul); }
+  get totalDmgFirst() { return this.baseDmg.map(([i, v]) => [i, v * this.firstAmmoDamage / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][]; }
+  /** 计算首发的总伤害 */
+  get totalDamageAvg() { return hAccMul(this.originalDamage, this.totalDamageMul, this.sustainedfirstAmmoMul); }
 
   /** 爆发伤害 */
   get burstDamage() { return hAccMul(this.totalDamage, this.fireRate); }
@@ -222,7 +220,7 @@ export class GunModBuild extends ModBuild {
   get sustainedDamage() { return hAccMul(this.totalDamage, this.sustainedFireRate); }
   /** [overwrite] 用于比较的伤害 */
   get compareDamage() {
-    return this.compareMode == GunCompareMode.TotalDamage ? this.totalDamage :
+    return this.compareMode == GunCompareMode.TotalDamage ? this.totalDamageAvg :
       this.compareMode == GunCompareMode.FirstDamage ? this.firstAmmoDamage :
         this.compareMode == GunCompareMode.BurstDamage ? this.burstDamage :
           this.sustainedDamage;
