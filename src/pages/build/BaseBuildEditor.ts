@@ -18,13 +18,15 @@ export abstract class BaseBuildEditor extends Vue {
   abstract newBuild(...parms): ModBuild;
 
   reload() {
-    this.tabs = "ABC".split("").map(v => ({
-      title: this.$t("zh") ? `配置${v}` : `SET ${v}`,
-      name: `SET ${v}`,
-      build: this.newBuild(this.weapon),
-      mods: Array(8)
-    }));
-    this.tabValue = "SET A";
+    if (this.weapon) {
+      this.tabs = "ABC".split("").map(v => ({
+        title: this.$t("zh") ? `配置${v}` : `SET ${v}`,
+        name: `SET ${v}`,
+        build: this.newBuild(this.weapon),
+        mods: Array(8)
+      }));
+      this.tabValue = "SET A";
+    }
   }
 
   get currentTab() { return this.tabs.find(v => v.name === this.tabValue); }
@@ -42,7 +44,6 @@ export abstract class BaseBuildEditor extends Vue {
       else rst[vn] = [0, vv];
     });
     let emp = _.map(rst, (v, i) => [i, ...v]) as [string, number, number][];
-    console.log("mergedDmg", this.build.combElementsOrder, emp);
     return emp;
   }
   fill() {

@@ -178,6 +178,7 @@ import { BaseBuildEditor } from "./BaseBuildEditor";
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;
   @Prop() rWeapon: RivenWeapon;
+
   handShotChance = 0;
   extraBaseDamage = 0;
   extraOverall = 0;
@@ -210,6 +211,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   @Watch("extraBaseDamage")
   @Watch("extraOverall")
   optionChange() {
+    if (!this.weapon) return;
     this.build.options = this.options;
     this.build.calcMods();
     this.reloadSelector();

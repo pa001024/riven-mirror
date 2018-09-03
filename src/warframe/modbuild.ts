@@ -80,13 +80,8 @@ export abstract class ModBuild {
 
   private _compareMode: number = 0;
   /** 对比模式 */
-  public get compareMode(): number {
-    return this._compareMode;
-  }
-  public set compareMode(value: number) {
-    this._compareMode = value;
-    this.calcMods();
-  }
+  public get compareMode(): number { return this._compareMode; }
+  public set compareMode(value: number) { this._compareMode = value; }
 
   protected _target: Enemy;
   /** 打击目标 */

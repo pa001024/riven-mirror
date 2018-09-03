@@ -1,5 +1,5 @@
 import { AcolyteModsList, GunWeapon, NormalMod, NormalModDatabase, ModBuild, RivenMod, Enemy, Arcane } from "@/warframe";
-import { hAccSum, hAccMul } from "@/warframe/util";
+import { hAccSum, hAccMul, hAccDiv } from "@/warframe/util";
 
 /*
  * MOD自动配置模块
@@ -13,10 +13,10 @@ import { hAccSum, hAccMul } from "@/warframe/util";
  */
 
 export enum GunCompareMode {
-  TotalDamage,// 单发伤害
-  BurstDamage,// 爆发伤害
+  TotalDamage, // 单发伤害
+  BurstDamage, // 爆发伤害
   SustainedDamage, // 持续伤害
-  FirstDamage,// 首发伤害
+  FirstDamage, // 首发伤害
 }
 export interface GunModBuildOptions {
   compareMode?: GunCompareMode
@@ -150,9 +150,9 @@ export class GunModBuild extends ModBuild {
 
   // ### 计算属性 ###
   get accuracy() { return this.weapon.accuracy; }
-  get bullets() { return this.weapon.bullets * this.multishotMul; }
+  get bullets() { return hAccMul(this.weapon.bullets, this.multishotMul); }
   /** 换弹时间 */
-  get reloadTime() { return this.weapon.reload / this.reloadSpeedMul; }
+  get reloadTime() { return hAccDiv(this.weapon.reload, this.reloadSpeedMul); }
   /** 弹夹容量 */
   get magazineSize() { return Math.round(this.weapon.magazine * this.magazineMul); }
   /** 最大弹药 */

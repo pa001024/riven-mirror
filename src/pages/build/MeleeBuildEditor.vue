@@ -62,7 +62,8 @@
                   </el-input>
                 </el-tooltip>
               </el-form-item>
-              <el-form-item label="赋能">
+              <!-- 赋能 -->
+              <el-form-item :label="$t('buildview.arcanes')">
                 <el-checkbox-group v-model="arcanes">
                   <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="optionChange">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
                 </el-checkbox-group>
@@ -73,18 +74,19 @@
       </el-col>
       <!-- MOD编辑器区域 -->
       <el-col :sm="24" :md="12" :lg="18">
+        <!-- MOD区域 -->
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
-                <el-col :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
-                  <div class="mod-slot" :class="[mod&&mod.rarity,{active:!mod}]" @click="slotClick(index)">
+                <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
+                  <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="slotClick(index)">
                     <template v-if="mod">
-                      <div class="mod-title" @click.stop="slotClick(index)">{{mod.name}}</div>
+                      <div class="mod-title" @click.stop="slotClick(index)">{{$t("zh") ? mod.name : mod.id}}</div>
                       <div class="mod-detail" @click.stop="slotRemove(index)">
                         <div class="mod-stat">
                           <div class="mod-prop" v-for="prop in mod.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
-                          <div class="mod-sum">{{PNNum(100*item.build.modValue(mod.id))}}% 总收益</div>
+                          <div class="mod-sum">{{PNNum(100 * item.build.modValue(mod.id))}}% {{$t("build.total")}}</div>
                         </div>
                         <div class="mod-action">
                           <button type="button" class="mod-slot-remove">
@@ -102,7 +104,7 @@
         </el-tabs>
       </el-col>
     </el-row>
-    <el-dialog title="选择MOD" :visible.sync="dialogVisible" width="600">
+    <el-dialog :title="$t('build.selectMod')" :visible.sync="dialogVisible" width="600">
       <ModSelector ref="selector" :build="build" @command="modSelect($event)"></ModSelector>
     </el-dialog>
   </div>
@@ -157,6 +159,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   @Watch("extraBaseDamage")
   @Watch("extraOverall")
   optionChange() {
+    if (!this.weapon) return;
     this.build.options = this.options;
     this.build.calcMods();
     this.reloadSelector();

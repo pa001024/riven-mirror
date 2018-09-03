@@ -50,15 +50,14 @@ export class MeleeModBuild extends ModBuild {
   get statusDamageMul() { return this._statusDamageMul; }
 
   // 额外参数
-  /** 比较方法 */
-  compareMode = 0;
   /** 异况触发量 */
   statusCount = 2;
 
   constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null) {
     super(riven);
-    if (this.weapon = weapon)
+    if (this.weapon = weapon) {
       this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.name]).includes(v.type));
+    }
     if (options) {
       this.options = options;
     }
@@ -86,6 +85,13 @@ export class MeleeModBuild extends ModBuild {
     };
   }
 
+  /**
+   * 生成伤害时间线
+   *
+   * @param {number} [timeLimit=10]
+   * @returns {EnemyTimelineState[]} 敌人时间线
+   * @memberof GunModBuild
+   */
   getTimeline(timeLimit = 10) {
     // TODO
     return [];
