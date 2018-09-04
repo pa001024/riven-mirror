@@ -11,16 +11,14 @@
       <div class="timeline-text">
         <div class="item">
           <div class="time">{{$t("timeline.time")}}</div>
-          <div class="hit">{{$t("timeline.hit")}}</div>
-          <div class="ammo">{{$t("timeline.ammo")}}</div>
+          <div class="hit">{{$t("timeline.hit")}} x {{$t("timeline.ammo")}}</div>
           <div class="dot" v-if="hasDoT">{{$t("timeline.dot")}}</div>
           <div class="hp">{{$t("timeline.hp")}}</div>
           <div class="ar" v-if="hasArmorChange">{{$t("timeline.ar")}}</div>
         </div>
         <div class="item" v-for="(text, sec) in timelineText" :key="sec">
           <div class="time">{{text.time / 1e3}}s</div>
-          <div class="hit">{{text.hit}}</div>
-          <div class="ammo">{{text.ammo}}</div>
+          <div class="hit">{{text.ammo ? `${(text.hit/text.ammo).toFixed()} x ${text.ammo}` : $t("timeline.reload")}}</div>
           <div class="dot" v-if="hasDoT">{{text.dot}}</div>
           <div class="hp">{{text.hp}}</div>
           <div class="ar" v-if="hasArmorChange">{{text.ar}}</div>

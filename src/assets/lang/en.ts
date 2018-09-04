@@ -2098,6 +2098,7 @@ let po = {
     time: "TIME",
     hit: "DMG",
     ammo: "AMMO",
+    reload: "RELOAD",
     dot: "DoT DMG",
     hp: "HP",
     ar: "ARMOR",
