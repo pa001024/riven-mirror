@@ -39,7 +39,6 @@ export abstract class BaseBuildEditor extends Vue {
       rst[vn] = [vv, 0];
     });
     nD.forEach(([vn, vv]) => {
-      console.log("vn", vn, nD);
       if (rst[vn]) rst[vn][1] = vv;
       else rst[vn] = [0, vv];
     });
@@ -57,7 +56,10 @@ export abstract class BaseBuildEditor extends Vue {
     this.reloadSelector();
   }
   clear() {
+    let rivenIdx = this.currentTab.mods.findIndex(v => v.rarity === "x"), riven = this.currentTab.mods[rivenIdx];
     this.currentTab.mods = Array(8);
+    // 不清除紫卡
+    if (riven) this.currentTab.mods[rivenIdx] = riven;
     this.refleshMods();
     this.reloadSelector();
   }

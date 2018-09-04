@@ -87,7 +87,7 @@ export default class ModSelector extends Vue {
       gas: ["毒素弹幕", "炼狱轰击", "传染蔓延"],
     },
     "Pistol": {
-      baseDmg: ["黄蜂蛰刺", "弹头扩散"],
+      baseDmg: ["黄蜂蛰刺", "弹头扩散", "致命洪流"],
       crit: ["手枪精通 Prime", "弱点专精 Prime"],
       aimCrit: ["液压准心", "尖锐子弹"],
       sliverCorrosive: ["痉挛", "病原弹头"],
@@ -97,7 +97,7 @@ export default class ModSelector extends Vue {
       gas: ["瘟疫手枪", "灼痕焦点", "病原弹头"],
     },
     "Melee": {
-      baseDmg: ["压迫点 Prime"],
+      baseDmg: ["压迫点 Prime", "剑风 Prime"],
       crit: ["急进猛突", "肢解", "牺牲 斩铁"],
       slideCrit: ["致残突击", "急进猛突", "肢解"],
       sliverCorrosive: ["热病打击 Prime", "电击触点"],

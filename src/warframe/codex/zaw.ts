@@ -203,7 +203,6 @@ export class Zaw implements MeleeWeapon {
     this.stance = modify.type;
     this.dmg = this.strike.dmgs.map(([vn, vv]) => [vn, +(vv * modify.dmg * (totalDmg + this.grip.dmg + this.links.dmg) / totalDmg).toFixed(1)] as [string, number]);
     this.fireRate = hAccSum(this.strike.speed, this.grip.speed, this.links.speed);
-    console.log(this.strike.crit, this.links.crit, hAccSum(this.strike.crit, this.links.crit))
     this.critChance = hAccSum(this.strike.crit, this.links.crit);
     this.status = hAccSum(this.strike.status, this.links.status);
   }

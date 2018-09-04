@@ -174,17 +174,13 @@ export abstract class ModBuild {
       let totalMul = hAccMul(eMul > 0 ? eMul : 0, vv) / this.originalDamage;
       // 物理
       switch (vn) {
-        case "Impact": case "Puncture": case "Slash":
-          console.log(vn, vv, totalMul);
-          this._extraDmgMul = hAccSum(this._extraDmgMul, totalMul);
-          otherOrder.push([vn, totalMul]);
-          break;
         // 单元素组合
         case "Heat": case "Cold": case "Toxin": case "Electricity":
           eleMul[vn] = hAccSum(eleMul[vn], totalMul);
           eleOrder.includes(vn) || eleOrder.push(vn);
           break;
         default:
+          this._extraDmgMul = hAccSum(this._extraDmgMul, totalMul);
           otherOrder.push([vn, totalMul]);
           break;
       }
@@ -407,7 +403,7 @@ export abstract class ModBuild {
     });
     this._mods.forEach(mod => {
       // 后者优先 主要用于紫卡有多个元素词条时
-      _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]))
+      _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
     });
   }
 

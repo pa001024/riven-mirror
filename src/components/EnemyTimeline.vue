@@ -225,12 +225,11 @@ export default class EnemyTimeline extends Vue {
 .timeline-text .item > * {
   height: 1.5em;
   padding: 4px;
-  margin: 4px 0;
+  margin: 2px 0;
   font-size: 1em;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #89b2fd;
-  border-radius: 2px;
   overflow: hidden;
   white-space: nowrap;
 }
