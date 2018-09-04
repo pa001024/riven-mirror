@@ -97,7 +97,7 @@
           </el-card>
         </el-col>
         <!-- 入侵 -->
-        <el-col :xs="24" :sm="12" :lg="8" v-if="fissures.length > 0">
+        <el-col :xs="24" :sm="12" :lg="8" v-if="invasions.length > 0">
           <el-card class="index-card invasion">
             <h3 slot="header"><i class="wf-icon-invasion"></i> {{$t("alerting.invasion")}}</h3>
             <ul>

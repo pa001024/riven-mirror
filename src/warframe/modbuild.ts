@@ -171,14 +171,22 @@ export abstract class ModBuild {
     // 计算武器原本属性
     this.weapon.dmg.forEach(([vn, vv]) => {
       let eMul = vn in eleMul ? eleMul[vn] + 1 : 1; // 1是复合属性
-      let totalMul = hAccMul((eMul > 0 ? eMul : 0), vv) / this.originalDamage;
-      this._extraDmgMul = hAccSum(this._extraDmgMul, totalMul);
-      // 单元素组合
-      if (["Heat", "Cold", "Toxin", "Electricity"].includes(vn)) {
-        eleMul[vn] = hAccSum(eleMul[vn], totalMul);
-        eleOrder.includes(vn) || eleOrder.push(vn);
-      } else {
-        otherOrder.push([vn, totalMul]);
+      let totalMul = hAccMul(eMul > 0 ? eMul : 0, vv) / this.originalDamage;
+      // 物理
+      switch (vn) {
+        case "Impact": case "Puncture": case "Slash":
+          console.log(vn, vv, totalMul);
+          this._extraDmgMul = hAccSum(this._extraDmgMul, totalMul);
+          otherOrder.push([vn, totalMul]);
+          break;
+        // 单元素组合
+        case "Heat": case "Cold": case "Toxin": case "Electricity":
+          eleMul[vn] = hAccSum(eleMul[vn], totalMul);
+          eleOrder.includes(vn) || eleOrder.push(vn);
+          break;
+        default:
+          otherOrder.push([vn, totalMul]);
+          break;
       }
     });
     let combs = _.chunk(eleOrder, 2);
