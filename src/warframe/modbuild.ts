@@ -171,14 +171,17 @@ export abstract class ModBuild {
     // 计算武器原本属性
     this.weapon.dmg.forEach(([vn, vv]) => {
       let eMul = vn in eleMul ? eleMul[vn] + 1 : 1; // 1是复合属性
-      let totalMul = hAccMul(eMul > 0 ? eMul : 0, vv) / this.originalDamage;
-      // 物理
+      let totalMul = vv / this.originalDamage;
       switch (vn) {
         // 单元素组合
         case "Heat": case "Cold": case "Toxin": case "Electricity":
+          this._extraDmgMul = hAccSum(this._extraDmgMul, totalMul);
           eleMul[vn] = hAccSum(eleMul[vn], totalMul);
           eleOrder.includes(vn) || eleOrder.push(vn);
           break;
+        // 物理
+        case "Impact": case "Puncture": case "Slash":
+          totalMul = hAccMul(eMul > 0 ? eMul : 0, totalMul);
         default:
           this._extraDmgMul = hAccSum(this._extraDmgMul, totalMul);
           otherOrder.push([vn, totalMul]);
