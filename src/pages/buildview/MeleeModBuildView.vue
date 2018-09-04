@@ -5,16 +5,16 @@
     <el-form :inline="true" class="build-form-inline">
       <!-- 选择武器 -->
       <el-form-item :label="$t('buildview.weapon')" v-if="riven.weapons.length > 1">
-        <el-select size="small" v-model="selectWeapon" @change="recalc" :placeholder="$t('buildview.selectWeapon')">
+        <el-select size="small" v-model="selectWeapon" @change="debouncedRecalc" :placeholder="$t('buildview.selectWeapon')">
           <el-option v-for="weapon in riven.weapons" :key="weapon.id" :label="$t('zh') ? weapon.name : weapon.id" :value="weapon.id">
           </el-option>
         </el-select>
       </el-form-item>
       <!-- 攻击方式 -->
       <el-form-item>
-        <el-switch v-model="isSlide" @change="recalc" :active-text="$t('buildview.slide')" :inactive-text="$t('buildview.attack')">
+        <el-switch v-model="isSlide" @change="debouncedRecalc" :active-text="$t('buildview.slide')" :inactive-text="$t('buildview.attack')">
         </el-switch>
-        <!-- <el-checkbox size="small" v-model="isSlide" @change="recalc" border>滑砍</el-checkbox> -->
+        <!-- <el-checkbox size="small" v-model="isSlide" @change="debouncedRecalc" border>滑砍</el-checkbox> -->
       </el-form-item>
       <!-- 限制MOD槽位 -->
       <el-form-item :label="$t('buildview.limitSlots')">
@@ -62,7 +62,7 @@
       <!-- 赋能 -->
       <el-form-item :label="$t('buildview.arcanes')">
         <el-checkbox-group v-model="arcanes">
-          <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="recalc">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
+          <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="debouncedRecalc">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
     </el-form>
@@ -151,12 +151,13 @@ export default class MeleeModBuildView extends BaseModBuildView {
   @Watch("extraOverall")
   @Watch("slots")
   debouncedRecalc() {
+    this.builds = [];
     this._debouncedRecalc();
   }
 
   // === 生命周期钩子 ===
   beforeMount() {
-    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 10);
+    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 33);
     this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "Corrosive";
     this.rivenChange();
   }

@@ -3,14 +3,14 @@
     <el-form :inline="true" class="build-form-inline">
       <!-- 选择武器 -->
       <el-form-item :label="$t('buildview.weapon')" v-if="riven.weapons.length > 1">
-        <el-select size="small" v-model="selectWeapon" @change="recalc" :placeholder="$t('buildview.selectWeapon')">
+        <el-select size="small" v-model="selectWeapon" @change="debouncedRecalc" :placeholder="$t('buildview.selectWeapon')">
           <el-option v-for="weapon in riven.weapons" :key="weapon.id" :label="$t('zh') ? weapon.name : weapon.id" :value="weapon.id">
           </el-option>
         </el-select>
       </el-form-item>
       <!-- 选择比较类型 -->
       <el-form-item>
-        <el-radio-group size="small" v-model="selectCompMethod" @change="recalc">
+        <el-radio-group size="small" v-model="selectCompMethod" @change="debouncedRecalc">
           <el-tooltip effect="dark" :content="$t('buildview.totalDamageTip')" placement="bottom">
             <el-radio-button label="0">{{$t("buildview.totalDamage")}}</el-radio-button>
           </el-tooltip>
@@ -67,7 +67,7 @@
       </el-form-item>
       <!-- 使用MOD -->
       <el-form-item :label="$t('buildview.usemods')">
-        <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="recalc">{{$t("buildview.heavyCaliber")}}</el-checkbox>
+        <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="debouncedRecalc">{{$t("buildview.heavyCaliber")}}</el-checkbox>
         <!-- <el-tooltip v-if="riven.mod === 'Rifle'" effect="dark" content="增伤很强大，但切割伤害不是立刻死亡，请自行选择" placement="bottom">
           <el-checkbox v-model="useHunterMunitions" :indeterminate="notMustUseHunterMunitions" @change="useHunterMunitionsChange">猎人战备</el-checkbox>
         </el-tooltip> -->
@@ -78,7 +78,7 @@
       <!-- 赋能 -->
       <el-form-item :label="$t('buildview.arcanes')">
         <el-checkbox-group v-model="arcanes">
-          <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="recalc">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
+          <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="debouncedRecalc">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
     </el-form>
@@ -185,6 +185,7 @@ export default class GunModBuildView extends BaseModBuildView {
   @Watch("handShotChance")
   @Watch("slots")
   debouncedRecalc() {
+    this.builds = [];
     this._debouncedRecalc();
   }
   useAcolyteModsChange() {
@@ -194,7 +195,7 @@ export default class GunModBuildView extends BaseModBuildView {
 
   // === 生命周期钩子 ===
   beforeMount() {
-    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 10);
+    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 33);
     this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "Radiation";
     this.useAcolyteMods = JSON.parse(localStorage.getItem("useAcolyteMods"));
     this.rivenChange();

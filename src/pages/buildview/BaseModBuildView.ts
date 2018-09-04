@@ -45,25 +45,23 @@ export abstract class BaseModBuildView extends Vue {
     this.debouncedRecalc();
   }
   recalc(cls: any = GunModBuild, options = {}) {
+    let startTime = Date.now();
+    if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
+    let weapon = RivenDataBase.getNormalWeaponsByName(this.selectWeapon);
+    let stand = new cls(weapon, this.riven, options);
+    let riven = new cls(weapon, this.riven, options);
+    let best = stand.findBestRiven();
+    let bestRiven = new cls(weapon, best, options);
+    stand.fill(this.slots, 0);
+    riven.fill(this.slots, 2);
+    bestRiven.fill(this.slots, 2);
     this.builds = [];
-    setTimeout(() => {
-      let startTime = Date.now();
-      if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
-      let weapon = RivenDataBase.getNormalWeaponsByName(this.selectWeapon);
-      let stand = new cls(weapon, this.riven, options);
-      let riven = new cls(weapon, this.riven, options);
-      let best = stand.findBestRiven();
-      let bestRiven = new cls(weapon, best, options);
-      stand.fill(this.slots, 0);
-      riven.fill(this.slots, 2);
-      bestRiven.fill(this.slots, 2);
-      this.builds.push([i18n.t("buildview.normal").toString(), stand]);
-      this.builds.push([i18n.t("buildview.yourriven").toString(), riven]);
-      this.builds.push([i18n.t("buildview.bestriven").toString(), bestRiven]);
-      this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);
-      this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
-      console.log(`recalc: ${Date.now() - startTime}ms`);
-    }, 31);
+    this.builds.push([i18n.t("buildview.normal").toString(), stand]);
+    this.builds.push([i18n.t("buildview.yourriven").toString(), riven]);
+    this.builds.push([i18n.t("buildview.bestriven").toString(), bestRiven]);
+    this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);
+    this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
+    console.log(`recalc: ${Date.now() - startTime}ms`);
   }
   selectDamageTypeChange() {
     if (this.selectDamageType)
