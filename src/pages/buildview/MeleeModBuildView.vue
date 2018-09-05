@@ -143,7 +143,8 @@ export default class MeleeModBuildView extends BaseModBuildView {
 
   // === 计算属性 ===
   get selectCompMethodText() {
-    return this.isSlide ? this.$t("buildview.slideDamage").toString() : this.$t("buildview.attackDamage").toString();
+    return this.isSlide ? this.$t("buildview.slideDamage").toString() :
+      this.$t("buildview.attackDamage").toString();
   }
 
   // === 事件处理器 ===
@@ -157,7 +158,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
 
   // === 生命周期钩子 ===
   beforeMount() {
-    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 33);
+    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 66);
     this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "Corrosive";
     this.rivenChange();
   }

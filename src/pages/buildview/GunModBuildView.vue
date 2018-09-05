@@ -195,7 +195,7 @@ export default class GunModBuildView extends BaseModBuildView {
 
   // === 生命周期钩子 ===
   beforeMount() {
-    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 33);
+    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 66);
     this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "Radiation";
     this.useAcolyteMods = JSON.parse(localStorage.getItem("useAcolyteMods"));
     this.rivenChange();
