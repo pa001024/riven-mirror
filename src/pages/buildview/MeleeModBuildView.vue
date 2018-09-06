@@ -120,7 +120,7 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, MeleeModBuild, ValuedRivenProperty, RivenDataBase, Codex } from "@/warframe";
+import { RivenMod, MeleeModBuild, ValuedRivenProperty, RivenDataBase, Codex, MeleeWeapon, MeleeCompareMode } from "@/warframe";
 import { BaseModBuildView } from "./BaseModBuildView";
 
 @Component
@@ -145,6 +145,19 @@ export default class MeleeModBuildView extends BaseModBuildView {
   get selectCompMethodText() {
     return this.isSlide ? this.$t("buildview.slideDamage").toString() :
       this.$t("buildview.attackDamage").toString();
+  }
+
+  /**
+   * 计算默认模式
+   * if 弹匣 / 射速 < 2s 持续伤害
+   * if 射速 > 2 爆发伤害
+   * else 单发伤害
+   */
+  get defalutMode() {
+    let melee = this.weapon as MeleeWeapon;
+    let slideList = ["Whip", "Polearm", "Staff"];
+    if (melee.tags.some(v => slideList.includes(v))) return MeleeCompareMode.SlideDamage;
+    return MeleeCompareMode.TotalDamage;
   }
 
   // === 事件处理器 ===

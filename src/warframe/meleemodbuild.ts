@@ -3,7 +3,7 @@ import { hAccMul, hAccSum } from "@/warframe/util";
 
 export enum MeleeCompareMode {
   TotalDamage,// 平砍伤害
-  SlashDamage,// 滑砍伤害
+  SlideDamage,// 滑砍伤害
 }
 export interface MeleeModBuildOptions {
   compareMode?: MeleeCompareMode
@@ -134,7 +134,7 @@ export class MeleeModBuild extends ModBuild {
   get panelSlideDamage() { return hAccMul(this.weapon.slideDmg, this.panelDamageMul); }
   /** [overwrite] 用于比较的伤害 */
   get compareDamage() {
-    return this.compareMode === MeleeCompareMode.SlashDamage ? this.slideDamage : this.totalDamage;
+    return this.compareMode === MeleeCompareMode.SlideDamage ? this.slideDamage : this.totalDamage;
   }
 
   // ### 基类方法 ###

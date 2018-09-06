@@ -1,5 +1,5 @@
 import { Vue, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, GunCompareMode, GunModBuild, ModBuild, ValuedRivenProperty, RivenDataBase, Weapon } from "@/warframe";
+import { RivenMod, GunModBuild, ModBuild, ValuedRivenProperty, RivenDataBase, Weapon } from "@/warframe";
 import { i18n } from "@/i18n";
 
 export abstract class BaseModBuildView extends Vue {
@@ -8,7 +8,7 @@ export abstract class BaseModBuildView extends Vue {
   get weapon() {
     return (this.riven.weapons as Weapon[]).find(v => v.id === this.selectWeapon);
   }
-  selectCompMethod: GunCompareMode = GunCompareMode.TotalDamage;
+  selectCompMethod: number = 0;
   selectDamageType: string = "Corrosive";
   builds: [string, ModBuild][] = [];
 
@@ -33,6 +33,7 @@ export abstract class BaseModBuildView extends Vue {
 
   _debouncedRecalc: (() => void);
   abstract debouncedRecalc();
+  abstract get defalutMode(): number;
 
   @Watch("riven")
   rivenChange() {
@@ -42,6 +43,7 @@ export abstract class BaseModBuildView extends Vue {
       return;
     }
     this.selectWeapon = weapons[weapons.length - 1].id;
+    this.selectCompMethod = this.defalutMode;
     this.debouncedRecalc();
   }
   recalc(cls: any = GunModBuild, options = {}) {
@@ -68,7 +70,7 @@ export abstract class BaseModBuildView extends Vue {
       localStorage.setItem(this.constructor.name + ".selectDamageType", this.selectDamageType);
     else
       localStorage.removeItem(this.constructor.name + ".selectDamageType");
-    this.recalc();
+    this.debouncedRecalc();
   }
 
   get scoreLevelText() {

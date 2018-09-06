@@ -14,6 +14,9 @@
           <el-tooltip effect="dark" :content="$t('buildview.totalDamageTip')" placement="bottom">
             <el-radio-button label="0">{{$t("buildview.totalDamage")}}</el-radio-button>
           </el-tooltip>
+          <el-tooltip v-if="weapon.tags.includes('狙击枪')" effect="dark" :content="$t('buildview.firstDamageTip')" placement="bottom">
+            <el-radio-button label="3">{{$t("buildview.firstDamage")}}</el-radio-button>
+          </el-tooltip>
           <el-tooltip effect="dark" :content="$t('buildview.burstDamageTip')" placement="bottom">
             <el-radio-button label="1">{{$t("buildview.burstDamage")}}</el-radio-button>
           </el-tooltip>
@@ -112,6 +115,7 @@
               <el-tag style="margin-left: 8px;">{{$t("buildview.critChance")}} {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
               <el-tag style="margin-left: 8px;">{{$t("buildview.critMul")}} {{(build[1].critMul).toFixed(1)}}x </el-tag>
               <el-tag style="margin-left: 8px;">{{$t("buildview.fireRate")}} {{(build[1].fireRate).toFixed(1)}} </el-tag>
+              <el-tag style="margin-left: 8px;">{{$t("buildview.reload")}} {{(build[1].reloadTime).toFixed(1)}} </el-tag>
               <el-tag style="margin-left: 8px;">{{$t("buildview.status")}} {{(build[1].realProcChance*100).toFixed(1)}}% </el-tag>
             </el-row>
           </el-collapse-item>
@@ -137,7 +141,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, GunModBuild, ValuedRivenProperty, RivenDataBase, Codex } from "@/warframe";
+import { RivenMod, GunModBuild, ValuedRivenProperty, RivenDataBase, Codex, GunWeapon, GunCompareMode } from "@/warframe";
 import { BaseModBuildView } from "./BaseModBuildView";
 
 @Component
@@ -165,6 +169,20 @@ export default class GunModBuildView extends BaseModBuildView {
   // === 计算属性 ===
   get selectCompMethodText() {
     return [this.$t("buildview.totalDamage"), this.$t("buildview.burstDamage"), this.$t("buildview.sustainedDamage")][this.selectCompMethod];
+  }
+
+  /**
+   * 计算默认模式
+   * if 弹匣 / 射速 < 1.5 * 换弹时间 默认为持续伤害
+   * if 射速 > 2 默认为爆发伤害
+   * else 默认为单发伤害
+   */
+  get defalutMode() {
+    let gun = this.weapon as GunWeapon;
+    if (gun.tags.includes("狙击枪") && gun.magazine <= 2) return GunCompareMode.FirstDamage;
+    if (gun.magazine / gun.fireRate < gun.reload * 1.5) return GunCompareMode.SustainedDamage;
+    if (gun.fireRate > 2) return GunCompareMode.BurstDamage;
+    return GunCompareMode.TotalDamage;
   }
 
   // === 事件处理器 ===
