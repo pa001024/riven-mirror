@@ -307,7 +307,7 @@ export default class Mod extends Vue {
   color: #508aff;
   font-size: 0.9em;
 }
-.btn-addriven {
+.mod-container .btn-addriven {
   background-color: #3d5afe;
   background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
   color: #fff;
@@ -315,9 +315,9 @@ export default class Mod extends Vue {
   border: 0;
   box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
 }
-.btn-addriven:focus,
-.btn-addriven:active,
-.btn-addriven:hover {
+.mod-container .btn-addriven:focus,
+.mod-container .btn-addriven:active,
+.mod-container .btn-addriven:hover {
   color: #fff;
 }
 

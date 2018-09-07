@@ -2,7 +2,7 @@
   <el-row type="flex" :gutter="20" justify="center">
     <el-card class="about">
       <span slot="header">{{$t("setting.lang")}}</span>
-      <div class="swtich-lang">
+      <div class="switch-lang">
         <span class="lang" @click="setlang('')">{{$t("setting.default")}}</span>
         <span class="lang" @click="setlang('en')">English</span>
         <span class="lang" @click="setlang('zh-CN')">简体中文</span>
