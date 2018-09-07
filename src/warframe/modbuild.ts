@@ -548,13 +548,13 @@ export abstract class ModBuild {
   }
 
   /**
-   * 自动按武器属性填充MOD(不移除已有)
+   * 自动按武器属性填充MOD(不移除已有,使用特定卡库)
    * @param slots 可用的插槽数
    * @param useRiven 是否使用紫卡 0=不用 1=自动选择 2=必须用
    */
-  fillEmpty(slots = 8, useRiven = 1) {
+  fillEmpty(slots = 8, useRiven = 1, lib = this.avaliableMods) {
     // 根据武器自动选择所有可安装的MOD
-    let mods = this.avaliableMods.slice().filter(v => !this._mods.some(k => v.id === k.id || v.id === k.primed));// 通过.slice()返回一个COPY
+    let mods = lib.filter(v => !this._mods.some(k => v.id === k.id || v.id === k.primed));
     if (useRiven > 0) {
       if (useRiven == 2)
         this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
@@ -580,11 +580,74 @@ export abstract class ModBuild {
   }
   /**
    * 自动按武器属性生成最佳紫卡
+   * 算法3.0 介绍:  (复杂度: O(n))
+   * 1. 首先计算原本配置
+   * 2. 过滤紫卡属性
+   * 3. 将紫卡属性按收益从高到低加入
+   * 4. 将最终普通卡收益最低的剔除
+   * 5. 返回最终结算结果的紫卡
+   * @param slots 可用的插槽数
    */
   findBestRiven(slots = 8): RivenMod {
     let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
     // 生成所有紫卡
+    // 1. 计算目标配置
+    newBuild.fill(slots, 0);
+    // 2. 列出所有属性
+    let avaliableProps = RivenPropertyDataBase[this.riven.mod].filter(v => {
+      if (v.noDmg) return false;
+      if (!this.enemyDmgType && ["G", "I", "C", "O"].includes(v.id)) return false;
+      if (this.allowElementTypes) {
+        if (["4", "5", "6", "7", "8", "9", "A"].includes(v.id))
+          if (!this.allowElementTypes.includes(v[0]))
+            return false;
+      } else if (["4", "5", "6"].includes(v.id)) {
+        return false;
+      }
+      return true;
+    }).map(v => {
+      let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id);
+      return new ValuedRivenProperty(v, base, base, 1);
+    });
+    // 负面属性
+    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
+    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -0.833, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), 1);
 
+    let fakeMods = avaliableProps.map(v => ({
+      key: "01",
+      id: "RIVENFAKE",
+      name: "RIVENFAKE",
+      type: "",
+      desc: "裂罅MOD",
+      polarity: "r",
+      cost: 18,
+      rarity: "x",
+      props: [[v.prop.id, v.value]] as [string, number][],
+    } as NormalMod));
+    newBuild.fillEmpty(slots + 3, 0, fakeMods);
+    let resultProps = newBuild.mods.slice(-3).map(v => new ValuedRivenProperty(RivenDataBase.getPropByName(v.props[0][0]), v.props[0][1], v.props[0][1], 1));
+    let newRiven = new RivenMod(this.riven);
+    newRiven.properties = resultProps;
+    newRiven.properties.push(valuedNegativeProp);
+    newRiven.upLevel = 1;
+    newRiven.rank = 16;
+    newRiven.subfix = "";
+    newRiven.recycleTimes = 999;
+    newRiven.hasNegativeProp = true;
+    return newRiven;
+  }
+  /**
+   * [已废弃]自动按武器属性生成最佳紫卡
+   * 算法2.0 介绍 精度最高但效率太低 :  (复杂度: O(n!))
+   * 1. 过滤紫卡属性
+   * 2. 生成所有紫卡
+   * 3. 计算所有紫卡的配置
+   * 4. 返回收益最高的配置的紫卡
+   * @param slots 可用的插槽数
+   */
+  findBestRiven2(slots = 8): RivenMod {
+    let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
+    // 生成所有紫卡
     // 1. 列出所有属性
     let avaliableProps = RivenPropertyDataBase[this.riven.mod].filter(v => {
       if (v.noDmg) return false;
@@ -603,7 +666,7 @@ export abstract class ModBuild {
     });
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
     // 负面属性
-    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.name === "变焦" || v.name === "处决伤害");
+    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
     let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -0.833, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), 1);
 
     let newRivens = propsOfMods.map(v => {
