@@ -2062,7 +2062,7 @@ let po = {
     reload: "装填:",
     status: "触发率(每个弹片):",
     rank: "评级:",
-    scoreResult: "可提升 <span class='score-text'>{0}%</span> 的",
+    scoreResult: "可提升 <span class='score-text'>{0}%</span> {1}",
     heavyCaliber: "重口径",
     acolyteMods: "追随者MOD",
     acolyteModsTip: "如尖刃弹头等需要瞄准的MOD",

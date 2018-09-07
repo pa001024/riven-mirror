@@ -310,6 +310,9 @@ h3 {
   display: block;
   width: 100%;
 }
+.right {
+  float: right;
+}
 ul,
 ol {
   list-style: none;

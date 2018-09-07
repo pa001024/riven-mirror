@@ -15,7 +15,7 @@
                 <el-button size="medium" @click="editorVisible = false">{{$t("riven.cancel")}}</el-button>
                 <el-button type="primary" size="medium" @click="newRiven">{{$t("riven.confirm")}}</el-button>
               </div>
-              <el-button slot="reference" class="block" size="medium" v-model="modText" icon="el-icon-plus">{{$t("riven.addriven")}}</el-button>
+              <el-button slot="reference" class="block btn-addriven" size="medium" v-model="modText" icon="el-icon-plus">{{$t("riven.addriven")}}</el-button>
             </el-popover>
             <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="https://api.0-0.at/api/ocr">
               <i class="el-icon-upload"></i>
@@ -28,22 +28,9 @@
         <el-row>
           <el-col :span="24">
             <div v-show="mod.name" class="mod-display">
-              <el-card class="mod-props-box">
-                <div slot="header" class="mod-name">
+              <div class="mod-props-box">
+                <div class="mod-name">
                   <span>{{$t("zh") ? mod.name : mod.id}} {{mod.subfix}}</span>
-                </div>
-                <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
-                  {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
-                  <el-tag v-if="prop.displayDeviation" size="small" class="mod-dis" :type="prop.deviation > 1 ^ prop.isNegative ? 'success' : 'danger'"> {{ prop.deviation > 1 ? $t("riven.higher") : $t("riven.lower")}} {{prop.displayDeviation}}</el-tag>
-                  <el-tag v-else size="small" class="mod-dis" type="success">{{$t("riven.average")}}</el-tag>
-                </div>
-                <div class="mod-extra">
-                  <el-tag size="medium" class="mod-rank">{{$t("riven.rank")}}{{mod.rank}}</el-tag>
-                  <el-tag size="medium" class="mod-recycleTimes">{{$t("riven.recycle")}}{{mod.recycleTimes}}</el-tag>
-                  <el-tag size="medium" class="mod-level">{{$t("riven.level")}}{{mod.level}}</el-tag>
-                  <el-tag size="medium" class="mod-ratio">{{$t("riven.ratio")}}{{mod.ratio}}</el-tag>
-                </div>
-                <div class="mod-qrcode">
                   <el-popover placement="bottom" trigger="hover">
                     <div style="text-align:center;">
                       <qrcode :value="mod.qrCodeURL" :options="{ size: 150, foreground: '#333' }"></qrcode>
@@ -51,10 +38,23 @@
                     <div style="text-align:center;">
                       {{$t("riven.sharetip")}}
                     </div>
-                    <el-button slot="reference" icon="el-icon-share">{{$t("riven.share")}}</el-button>
+                    <i slot="reference" class="el-icon-share share-icon"></i>
                   </el-popover>
                 </div>
-              </el-card>
+                <div class="mod-props">
+                  <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
+                    {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
+                    <el-tag v-if="prop.displayDeviation" size="small" class="mod-dis" :type="prop.deviation > 1 ^ prop.isNegative ? 'success' : 'danger'"> {{ prop.deviation > 1 ? $t("riven.higher") : $t("riven.lower")}} {{prop.displayDeviation}}</el-tag>
+                    <el-tag v-else size="small" class="mod-dis" type="success">{{$t("riven.average")}}</el-tag>
+                  </div>
+                  <div class="mod-extra">
+                    <div class="extra-tag mod-rank">{{$t("riven.rank")}}{{mod.rank}}</div>
+                    <div class="extra-tag mod-recycleTimes">{{$t("riven.recycle")}}{{mod.recycleTimes}}</div>
+                    <div class="extra-tag mod-level">{{$t("riven.level")}}{{mod.level}}</div>
+                    <div class="extra-tag mod-ratio">{{$t("riven.ratio")}}{{mod.ratio}}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </el-col>
         </el-row>
@@ -62,17 +62,15 @@
         <el-row>
           <el-col :span="24">
             <div class="mod-history">
-              <el-card class="mod-history-box">
-                <div slot="header" class="mod-history-title">
-                  {{$t("riven.history")}}
-                </div>
-                <ul class="mod-history-list">
-                  <li v-for="(hiRiven, index) in modHistoty" :key="index" @click="newBase64Text(hiRiven.qrCodeBase64)" class="mod-history-item">
-                    {{$t("zh") ? hiRiven.fullName : hiRiven.fullId}}
-                    <span class="history-delete" @click.stop="removeHistory(hiRiven.qrCode)"><i class="el-icon-close"></i></span>
-                  </li>
-                </ul>
-              </el-card>
+              <div class="mod-history-title">
+                {{$t("riven.history")}}
+              </div>
+              <ul class="mod-history-list">
+                <li v-for="(hiRiven, index) in modHistoty" :key="index" @click="newBase64Text(hiRiven.qrCodeBase64)" class="mod-history-item">
+                  {{$t("zh") ? hiRiven.fullName : hiRiven.fullId}}
+                  <span class="history-delete" @click.stop="removeHistory(hiRiven.qrCode)"><i class="el-icon-close"></i></span>
+                </li>
+              </ul>
             </div>
           </el-col>
         </el-row>
@@ -240,6 +238,91 @@ export default class Mod extends Vue {
 </script>
 
 <style>
+.share-icon {
+  float: right;
+  line-height: 23px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.share-icon:hover {
+  opacity: 0.7;
+}
+.mod-history {
+  background-color: #3d5afe;
+  background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
+  color: #fff;
+  margin: 12px 0;
+  border-radius: 20px;
+  padding: 16px;
+}
+.mod-history-title {
+  padding: 8px 20px;
+  background-color: #fff;
+  color: #3d5afe;
+  border-radius: 20px;
+}
+.mod-history-list {
+  list-style-type: decimal;
+  margin: 8px 24px 0 36px;
+}
+.mod-display .mod-name {
+  background-color: #3d5afe;
+  background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
+  color: #fff;
+  border-radius: 100px;
+  padding: 8px 20px;
+  margin: 12px 0 0;
+  border: 0;
+  box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
+}
+.mod-props {
+  background: #fff;
+  margin: 0 26px;
+  border-left: 4px solid #3e5dfe;
+  border-right: 4px solid #508aff;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
+}
+.mod-prop:first-child {
+  padding-top: 12px;
+}
+.mod-prop {
+  padding: 4px 18px;
+}
+.mod-prop .mod-dis {
+  float: right;
+  border: 0;
+}
+.mod-extra {
+  background: #fff;
+  padding: 0px 12px 8px;
+  margin: 0px 26px;
+}
+.extra-tag {
+  display: inline-block;
+  margin: 8px 4px 4px;
+  padding: 4px 8px;
+  border: 2px solid #508aff;
+  border-radius: 20px;
+  color: #508aff;
+  font-size: 0.9em;
+}
+.btn-addriven {
+  background-color: #3d5afe;
+  background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
+  color: #fff;
+  border-radius: 100px;
+  border: 0;
+  box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
+}
+.btn-addriven:focus,
+.btn-addriven:active,
+.btn-addriven:hover {
+  color: #fff;
+}
+
+/* 以上是新样式 */
+
 .history-delete {
   float: right;
 }
@@ -270,7 +353,7 @@ export default class Mod extends Vue {
   margin: 8px;
 }
 .mod-name {
-  font-size: 18pt;
+  font-size: 1.2em;
   font-weight: bold;
 }
 .mod-extra {
@@ -288,5 +371,6 @@ export default class Mod extends Vue {
 }
 .upload-pic .el-upload-dragger {
   width: initial;
+  height: 150px;
 }
 </style>

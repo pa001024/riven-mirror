@@ -2062,7 +2062,7 @@ let po = {
     reload: "Reload:",
     status: "Status Chance(per bullet):",
     rank: "Rank:",
-    scoreResult: "Improve <span class='score-text'>{0}%</span> ",
+    scoreResult: "Improve <span class='score-text'>{0}%</span> {1}",
     heavyCaliber: "Heavy Caliber",
     acolyteMods: "Acolyte Mods",
     acolyteModsTip: "e.g. Argon Scope",
