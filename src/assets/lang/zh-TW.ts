@@ -1999,6 +1999,7 @@ let po = {
     faction: "派系",
     level: "等級",
     resistence: "傷害抗性",
+    amrorReduce: "護甲削減%",
     action: "操作",
     reselect: "重新選擇",
     fleshType: {

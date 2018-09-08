@@ -31,7 +31,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
-import { RivenMod, ModTypeTable, RivenWeaponDataBase, RivenDataBase, RivenProperty, RivenPropertyDataBase, Weapon, RivenWeapon } from "@/warframe";
+import { RivenMod, ModTypeTable, RivenWeaponDataBase, RivenDataBase, RivenProperty, RivenPropertyDataBase, Weapon, RivenWeapon, toUpLevel, toNegaUpLevel } from "@/warframe";
 
 interface CascaderValue {
   value: string
@@ -93,7 +93,7 @@ export default class RivenEditor extends Vue {
     if (props.length > 1) {
       let lastProp = _.last(props), hasNegative = !lastProp.prop.negative !== lastProp.value >= 0;
       // 正面属性增幅, 负面属性增幅
-      let pUpLevel = [1.33, 1, 0.8][props.length - (hasNegative ? 3 : 1)], nUpLevel = props.length > 3 ? 0.833 : .5;
+      let pUpLevel = toUpLevel(props.length, hasNegative), nUpLevel = toNegaUpLevel(props.length, hasNegative);
       props.forEach((v, i) => {
         let base = RivenDataBase.getPropBaseValue(this.riven.id, v.id);
         this.props[i].value = base * (hasNegative && i === props.length - 1 ? -nUpLevel : pUpLevel);

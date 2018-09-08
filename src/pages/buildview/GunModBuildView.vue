@@ -213,7 +213,7 @@ export default class GunModBuildView extends BaseModBuildView {
 
   // === 生命周期钩子 ===
   beforeMount() {
-    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 66);
+    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 150);
     this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "Radiation";
     this.useAcolyteMods = JSON.parse(localStorage.getItem("useAcolyteMods"));
     this.rivenChange();
@@ -251,9 +251,7 @@ export default class GunModBuildView extends BaseModBuildView {
   border-radius: 30px;
   padding: 8px;
   color: #fff;
-  margin-top: -20px;
-  margin-left: -48px;
-  margin-right: 10px;
+  margin: -20px 10px -20px -48px;
 }
 .build-container .setting {
   background: #fff;
@@ -334,11 +332,14 @@ export default class GunModBuildView extends BaseModBuildView {
   padding: 0 10px;
 }
 .build-form-inline .el-form-item {
-  margin-bottom: 4px;
+  margin: 4px 0;
 }
 .build-list .build-container {
   overflow: visible;
   padding: 0;
+}
+.build-list .el-collapse-item__content {
+  padding-bottom: 14px;
 }
 .build-container .el-collapse {
   border: 0;

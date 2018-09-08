@@ -29,6 +29,7 @@ export interface GunModBuildOptions {
   extraOverall?: number
   arcanes?: Arcane[]
   target?: Enemy
+  amrorReduce?: number
 }
 /** 枪类 */
 export class GunModBuild extends ModBuild {
@@ -99,6 +100,7 @@ export class GunModBuild extends ModBuild {
     this.extraOverall = typeof options.extraOverall !== "undefined" ? options.extraOverall : this.extraOverall;
     this.arcanes = typeof options.arcanes !== "undefined" ? options.arcanes : this.arcanes;
     this.target = typeof options.target !== "undefined" ? options.target : this.target;
+    this.amrorReduce = typeof options.amrorReduce !== "undefined" ? options.amrorReduce : this.amrorReduce;
   }
   get options(): GunModBuildOptions {
     return {
@@ -112,6 +114,7 @@ export class GunModBuild extends ModBuild {
       extraOverall: this.extraOverall,
       arcanes: this.arcanes,
       target: this.target,
+      amrorReduce: this.amrorReduce,
     }
   }
 
@@ -124,10 +127,12 @@ export class GunModBuild extends ModBuild {
    */
   getTimeline(timeLimit = 10) {
     let enemy = new Enemy(this.target.data, this.target.level);
+    enemy.amrorReduce = this.amrorReduce;
     enemy.reset();
     let ticks = Math.round(enemy.TICKCYCLE / this.fireRate); // 1200tick/s 整合射速和秒DoT
     let reloadTicks = Math.round(enemy.TICKCYCLE * this.reloadTime); // 装填需要的tick数
     let remaingMag = this.magazineSize; // 剩余子弹数
+    let shotAmmoCost = this.weapon.tags.includes("射线") ? 0.5 : 1; // 射击消耗子弹数
     let nextDoTTick = enemy.TICKCYCLE;
     let nextDmgTick = 0;
     // 敌人死亡或者到时间停止
@@ -136,7 +141,7 @@ export class GunModBuild extends ModBuild {
       while (nextDmgTick <= nextDoTTick && enemy.currentHealth > 0) {
         enemy.tickCount = nextDmgTick;
         enemy.applyHit(remaingMag === this.magazineSize ? this.totalDmgFirst : this.totalDmg, this.procChanceMap, this.dotDamageMap, this.bullets, this.procDurationMul);
-        nextDmgTick += --remaingMag > 0 ? ticks : (remaingMag = this.magazineSize, reloadTicks);
+        nextDmgTick += (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : (remaingMag = this.magazineSize, reloadTicks);
       }
       // DoT
       if (enemy.currentHealth > 0) {

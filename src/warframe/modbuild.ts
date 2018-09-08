@@ -68,6 +68,8 @@ export abstract class ModBuild {
   extraBaseDamage = 0;
   /** 总伤加成 */
   extraOverall = 0;
+  /** 护甲削减 */
+  amrorReduce = 0;
 
   private _handShotChance = 0;
   /** 爆头概率 */

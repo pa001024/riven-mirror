@@ -238,13 +238,13 @@ export default class Mod extends Vue {
 </script>
 
 <style>
-.share-icon {
+.mod-display .share-icon {
   float: right;
   line-height: 23px;
   cursor: pointer;
   transition: 0.5s;
 }
-.share-icon:hover {
+.mod-display .share-icon:hover {
   opacity: 0.7;
 }
 .mod-history {
@@ -283,20 +283,19 @@ export default class Mod extends Vue {
   border-radius: 0 0 20px 20px;
   box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
 }
-.mod-prop:first-child {
+.mod-props .mod-prop:first-child {
   padding-top: 12px;
 }
-.mod-prop {
+.mod-props .mod-prop {
   padding: 4px 18px;
 }
-.mod-prop .mod-dis {
+.mod-props .mod-prop .mod-dis {
   float: right;
   border: 0;
 }
 .mod-extra {
-  background: #fff;
-  padding: 0px 12px 8px;
-  margin: 0px 26px;
+  margin: 0 8px;
+  padding: 0 0 8px;
 }
 .extra-tag {
   display: inline-block;

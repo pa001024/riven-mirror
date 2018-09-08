@@ -1999,6 +1999,7 @@ let po = {
     faction: "Faction",
     level: "Level",
     resistence: "Resistence",
+    amrorReduce: "Armor Reduce%",
     action: "Action",
     reselect: "Reselect",
     fleshType: {

@@ -171,7 +171,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
 
   // === 生命周期钩子 ===
   beforeMount() {
-    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 66);
+    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 150);
     this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "Corrosive";
     this.rivenChange();
   }

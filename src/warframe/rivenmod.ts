@@ -34,7 +34,7 @@ export class ValuedRivenProperty {
     return this.prop.negative ? this.value > 0 : this.value < 0;
   }
   get negativeUpLevel() {
-    return this.upLevel == 1 ? 0.833 : .5
+    return this.upLevel == 1.33 ? 0.5 : 0.833;
   }
   /** 根据属性基础值计算属性偏差值 */
   get deviation() {
@@ -42,11 +42,11 @@ export class ValuedRivenProperty {
   }
   /** 获取偏差值显示数据 */
   get displayDeviation() {
-    let val = (this.deviation * 100 - 100).toFixed(1) + "%";
-    if (val === "0.0%" || val === "-0.0%") return "";
-    if (val[0] != "-")
-      return "+" + val;
-    return val;
+    let val = (this.deviation * 100 - 100), tex = val.toFixed(1) + "%";
+    if (Math.abs(val) < 0.2) return "";
+    if (tex[0] != "-")
+      return "+" + tex;
+    return tex;
   }
   /** 根据属性基础值标准化属性值 */
   normalize() {
@@ -226,7 +226,7 @@ export class RivenMod {
     // 3+ = [3-1]>>2
     // 2+ = [2-1]>>1
     // 2+1- = [3-3]>>0
-    this.upLevel = [1.33, 1, 0.8][properties.length - (this.hasNegativeProp ? 3 : 1)];
+    this.upLevel = toUpLevel(properties.length, this.hasNegativeProp);
     // 写入属性
     this.parseProps(properties.map(v => [v[0].id, v[1]] as [string, number]));
     return;
@@ -275,8 +275,8 @@ export class RivenMod {
     this.subfix = "";
     let count = ~~(Math.random() * 2) + 2;
     this.hasNegativeProp = ~~(Math.random() * 2) > 0;
-    this.upLevel = [1.33, 1, 0.8][count - (this.hasNegativeProp ? 2 : 1)];
-    let negaUplvl = this.upLevel == 1 ? 0.833 : .5;
+    this.upLevel = toUpLevel(count, this.hasNegativeProp);
+    let negaUplvl = toNegaUpLevel(count, this.hasNegativeProp);
     // 偏差值 正态分布 标准差=5
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
     let props = _.sampleSize(RivenPropertyDataBase[this.mod], count)
@@ -352,7 +352,7 @@ export class RivenMod {
     }) as [RivenProperty, number][];
     let lastProp = props[props.length - 1];
     this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == (lastProp[1] < 0);
-    this.upLevel = [1.33, 1, 0.8][props.length - (this.hasNegativeProp ? 3 : 1)];
+    this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
     this.properties = props.map(v =>
       new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel).normalize());
   }
@@ -377,4 +377,11 @@ export class RivenMod {
   set modText(value) {
     this.parseString(value);
   }
+}
+
+export function toUpLevel(len: number, nega: boolean) {
+  return [1.33, 0.942, 1, 0.8][len - (nega ? 3 : 0)];
+}
+export function toNegaUpLevel(len: number, nega: boolean) {
+  return [0.5, 0.833, 0, 0][len - (nega ? 3 : 0)];
 }

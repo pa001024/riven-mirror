@@ -358,6 +358,7 @@ export class Enemy implements EnemyData {
   currentSheild: number = 0;
   currentArmor: number = 0;
   currentProcs: Procs;
+  amrorReduce: number = 0;
 
   // === 计算属性 ===
   /**
@@ -383,7 +384,7 @@ export class Enemy implements EnemyData {
   reset() {
     this.currentHealth = this.health;
     this.currentSheild = this.sheild;
-    this.currentArmor = this.armor;
+    this.currentArmor = this.armor * (this.amrorReduce > 1 ? 0 : 1 - this.amrorReduce);
     this.currentProcs = new Procs();
     this.stateHistory = [];
     this.tickCount = 0;

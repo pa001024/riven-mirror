@@ -126,7 +126,7 @@
                 </li>
                 <li class="enemy-level">
                   <div class="key">{{$t("enemy.level")}}</div>
-                  <div class="value control"><el-input size="small" class="enemy-level-edit" v-model="enemyLevel" style="widdiv: 80px"></el-input></div>
+                  <div class="value control"><el-input size="small" class="enemy-level-edit" v-model="enemyLevel"></el-input></div>
                 </li>
                 <li class="enemy-health">
                   <div class="key">{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</div>
@@ -140,11 +140,15 @@
                   <div class="key">{{$t(`enemy.armorType.${enemy.armorType}`)}}</div>
                   <div class="value">{{enemy.armor.toFixed()}}</div>
                 </li>
-                <li v-if="enemy.resistence > 0" class="enemy-level">
+                <li v-if="enemy.resistence > 0" class="enemy-resistence">
                   <div class="key">{{$t("enemy.resistence")}}</div>
                   <div class="value">{{enemy.resistenceText}}</div>
                 </li>
-                <li class="enemy-level">
+                <li class="enemy-amrorreduce">
+                  <div class="key">{{$t("enemy.amrorReduce")}}</div>
+                  <div class="value control"><el-input size="small" class="enemy-amrorreduce-edit" v-model="amrorReduce"></el-input></div>
+                </li>
+                <li class="enemy-action">
                   <div class="key">{{$t("enemy.action")}}</div>
                   <div class="value control"><el-button size="small" @click="selectEnemy(null)">{{$t("enemy.reselect")}}</el-button></div>
                 </li>
@@ -182,6 +186,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   handShotChance = 0;
   extraBaseDamage = 0;
   extraOverall = 0;
+  amrorReduce = 0;
   /** 赋能 */
   arcanes = [];
   get availableArcanes() {
@@ -202,6 +207,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
       extraBaseDamage: this.extraBaseDamage / 100,
       extraOverall: this.extraOverall / 100,
       arcanes: this.arcanes,
+      amrorReduce: this.amrorReduce / 100,
     };
   }
   newBuild(weapon: GunWeapon) {
@@ -210,6 +216,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   // === 事件处理 ===
   @Watch("extraBaseDamage")
   @Watch("extraOverall")
+  @Watch("amrorReduce")
   optionChange() {
     if (!this.weapon) return;
     this.build.options = this.options;
@@ -274,7 +281,8 @@ export default class GunBuildEditor extends BaseBuildEditor {
 }
 .enemy-info .control {
   padding: 0 8px;
-  width: 120px;
+  width: 100px;
+  margin: 0;
 }
 .enemy-info .control .el-input__inner {
   padding: 0 12px;
