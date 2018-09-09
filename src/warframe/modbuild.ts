@@ -418,6 +418,7 @@ export abstract class ModBuild {
     this._extraDmgMul = 1;
     this._critChanceMul = 1;
     this._critMulMul = 1;
+    this._critChanceAdd = 0;
     this._procChanceMul = 1;
     this._procDurationMul = 1;
     this._enemyDmgMul = [1, 1, 1, 1];
@@ -612,7 +613,7 @@ export abstract class ModBuild {
       return new ValuedRivenProperty(v, base, base, 1);
     });
     // 负面属性
-    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
+    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.weapon.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
     let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -0.833, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), 1);
 
     let fakeMods = avaliableProps.map(v => ({
@@ -717,7 +718,7 @@ export abstract class ModBuild {
       case '爆头伤害': /* 爆头伤害 handShotMul */ this._handShotMulMul = hAccSum(this._handShotMulMul, pValue); break;
       case '正中红心': /* 正中红心 overallMul */
       case '最终伤害': /* 全局伤害 overallMul */ this._overallMul = hAccMul(this._overallMul, 1 + pValue); break;
-      case '加法暴击': /* 加法暴击 critChanceAdd */ this._critChanceAdd = hAccMul(this._critChanceAdd, pValue); break;
+      case '加法暴击': /* 加法暴击 critChanceAdd */ this._critChanceAdd = hAccSum(this._critChanceAdd, pValue); break;
       default:
     }
   }
