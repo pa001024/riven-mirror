@@ -125,6 +125,15 @@ export default class extends Vue {
 .palette-list {
   flex-wrap: wrap;
 }
+.color-picker {
+  .vc-chrome {
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s;
+    &:hover {
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
 .color-box {
   display: flex;
   margin: 16px 0 0;
