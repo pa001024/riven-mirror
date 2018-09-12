@@ -1,48 +1,50 @@
 <template>
-  <el-row :gutter="20" class="palette-container">
-    <!-- RGB输入 -->
-    <el-col :md="12" :lg="8">
-      <el-card>
-        <div slot="header" class="title">选择颜色</div>
-        <el-upload class="upload-refimage" drag :show-file-list="false" :style="{'background-image': `url(${refImageURL})`}" action="never" :before-upload="refImageUpload">
-          <div class="upload-inner">
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text" v-html="$t('palette.uploadtip')"></div>
-            <div class="bgmask"></div>
-          </div>
-        </el-upload>
-        <div class="color-box">
-          <!-- 色板 -->
-          <div class="color-palette">
-            <div class="theme-color" :title="color.hex" :style="{'background-color': color.hex}">
+  <div class="palette-container" @paste="handlePaste">
+    <el-row :gutter="20">
+      <!-- RGB输入 -->
+      <el-col :md="12" :lg="8">
+        <el-card>
+          <div slot="header" class="title">选择颜色</div>
+          <el-upload class="upload-refimage" drag :show-file-list="false" :style="{'background-image': `url(${refImageURL})`}" action="never" :before-upload="refImageUpload">
+            <div class="upload-inner">
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text" v-html="$t('palette.uploadtip')"></div>
+              <div class="bgmask"></div>
             </div>
-            <ul class="palette-color-list">
-              <li class="palette-color" v-for="(color, idx) in paletteColors" :style="{'background-color': color.toString()}" :key="idx" @click="setColor(color.toString())" :title="color.toString()"></li>
-            </ul>
+          </el-upload>
+          <div class="color-box">
+            <!-- 色板 -->
+            <div class="color-palette">
+              <div class="theme-color" :title="color.hex" :style="{'background-color': color.hex}">
+              </div>
+              <ul class="palette-color-list">
+                <li class="palette-color" v-for="(color, idx) in paletteColors" :style="{'background-color': color.toString()}" :key="idx" @click="setColor(color.toString())" :title="color.toString()"></li>
+              </ul>
+            </div>
+            <!-- 拾色器 -->
+            <div class="color-picker">
+              <ColorPicker v-model="color"></ColorPicker>
+            </div>
           </div>
-          <!-- 拾色器 -->
-          <div class="color-picker">
-            <ColorPicker v-model="color"></ColorPicker>
-          </div>
-        </div>
-      </el-card>
-    </el-col>
-    <!-- 色板信息输出 -->
-    <el-col :md="12" :lg="16">
-      <el-row :gutter="20">
-        <el-col :md="12" :lg="6" :xl="4" v-for="palette in matchedPalettes" :key="palette.id">
-          <el-card class="palette-box" :class="{dark: color.hsl.l < 0.5}">
-            <div slot="header" class="palette-name">{{$t(`palette.name.${palette.id}`)}}</div>
-            <ul class="palette-show">
-              <li class="palette-cell" v-for="(color, idx) in palette.colors" :key="idx" @click="setColor(color.toString())" :title="color.toString()" :style="{'background-color': color.toString()}">
-                <i v-if="palette.match.includes(idx)" class="el-icon-check"></i>
-              </li>
-            </ul>
-          </el-card>
-        </el-col>
-      </el-row>
-    </el-col>
-  </el-row>
+        </el-card>
+      </el-col>
+      <!-- 色板信息输出 -->
+      <el-col :md="12" :lg="16">
+        <el-row class="palette-list" type="flex" :gutter="20">
+          <el-col :md="12" :lg="6" :xl="4" v-for="palette in matchedPalettes" :key="palette.id">
+            <el-card class="palette-box" :class="{dark: color.hsl.l < 0.5}">
+              <div slot="header" class="palette-name">{{$t(`palette.name.${palette.id}`)}}</div>
+              <ul class="palette-show">
+                <li class="palette-cell" v-for="(color, idx) in palette.colors" :key="idx" @click="setColor(color.toString())" :title="color.toString()" :style="{'background-color': color.toString()}">
+                  <i v-if="palette.match.includes(idx)" class="el-icon-check"></i>
+                </li>
+              </ul>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 <script lang="ts">
 import _ from "lodash";
@@ -84,15 +86,45 @@ export default class extends Vue {
     img.onload = () => {
       let colorThief = new ColorThief();
       let color = new Color(colorThief.getColor(img));
-      let palette = colorThief.getPalette(img, 8).map(v => new Color(v));
+      let palette = [color].concat(colorThief.getPalette(img, 8).map(v => new Color(v)));
       this.paletteColors = palette;
       this.setColor(color.toString());
     };
     return false;
   }
+
+  handlePaste(ev: ClipboardEvent) {
+    let items = ev.clipboardData.items;
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.type.startsWith("image")) {
+        ev.preventDefault();
+        let blob = item.getAsFile();
+        this.refImageUpload(blob);
+        console.log(blob, item)
+        return;
+      }
+    }
+  }
+
+  // === 生命周期钩子 ===
+  beforeMount() {
+    let img = new Image();
+    img.src = this.refImageURL = "/static/images/eidolon-day.jpg";
+    img.onload = () => {
+      let colorThief = new ColorThief();
+      let color = new Color(colorThief.getColor(img));
+      let palette = [color].concat(colorThief.getPalette(img, 8).map(v => new Color(v)));
+      this.paletteColors = palette;
+      this.setColor(color.toString());
+    };
+  }
 }
 </script>
 <style lang="less">
+.palette-list {
+  flex-wrap: wrap;
+}
 .color-box {
   display: flex;
   margin: 16px 0 0;
@@ -105,16 +137,19 @@ export default class extends Vue {
   }
   .palette-color {
     display: inline-block;
-    width: calc(14.2857142857% - 4px);
+    width: calc(25% - 4px);
     min-width: 24px;
     height: 24px;
   }
+  .palette-color-list {
+    margin-top: 12px;
+  }
   .palette-color,
   .theme-color {
-    margin: 2px;
     cursor: pointer;
+    margin: 2px 4px 2px 0;
     border-radius: 2px;
-       box-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 }
 .upload-refimage {
@@ -144,6 +179,11 @@ export default class extends Vue {
     overflow: hidden;
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  &:hover .upload-inner {
+    opacity: 1;
   }
 }
 .palette-box {
@@ -165,7 +205,7 @@ export default class extends Vue {
   color: #000;
   cursor: pointer;
   &:hover {
-    box-shadow: 0 0 0 1px;
+    box-shadow: 0 0 0 1px #333;
     z-index: 0;
   }
 }
