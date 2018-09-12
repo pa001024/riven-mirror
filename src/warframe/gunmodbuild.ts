@@ -22,6 +22,7 @@ export interface GunModBuildOptions {
   compareMode?: GunCompareMode
   useAcolyteMods?: boolean
   useHeavyCaliber?: boolean
+  usePrimedChamber?: boolean
   useHunterMunitions?: number
   handShotChance?: number
   allowElementTypes?: string[]
@@ -76,6 +77,8 @@ export class GunModBuild extends ModBuild {
   useAcolyteMods = true;
   /** 使用重口径 */
   useHeavyCaliber = true;
+  /** 使用金首发 */
+  usePrimedChamber = false;
   /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
   useHunterMunitions = 0;
 
@@ -93,6 +96,7 @@ export class GunModBuild extends ModBuild {
     this.compareMode = typeof options.compareMode !== "undefined" ? options.compareMode : this.compareMode;
     this.useAcolyteMods = typeof options.useAcolyteMods !== "undefined" ? options.useAcolyteMods : this.useAcolyteMods;
     this.useHeavyCaliber = typeof options.useHeavyCaliber !== "undefined" ? options.useHeavyCaliber : this.useHeavyCaliber;
+    this.usePrimedChamber = typeof options.usePrimedChamber !== "undefined" ? options.usePrimedChamber : this.usePrimedChamber;
     this.useHunterMunitions = typeof options.useHunterMunitions !== "undefined" ? options.useHunterMunitions : this.useHunterMunitions;
     this.handShotChance = typeof options.handShotChance !== "undefined" ? options.handShotChance : this.handShotChance;
     this.allowElementTypes = typeof options.allowElementTypes !== "undefined" ? options.allowElementTypes : this.allowElementTypes;
@@ -107,6 +111,7 @@ export class GunModBuild extends ModBuild {
       compareMode: this.compareMode,
       useAcolyteMods: this.useAcolyteMods,
       useHeavyCaliber: this.useHeavyCaliber,
+      usePrimedChamber: this.usePrimedChamber,
       useHunterMunitions: this.useHunterMunitions,
       handShotChance: this.handShotChance,
       allowElementTypes: this.allowElementTypes,
@@ -221,11 +226,11 @@ export class GunModBuild extends ModBuild {
   get totalDamageAvg() { return hAccMul(this.originalDamage, this.totalDamageMul, this.sustainedfirstAmmoMul); }
 
   /** 爆发伤害 */
-  get burstDamage() { return hAccMul(this.totalDamage, this.fireRate); }
+  get burstDamage() { return hAccMul(this.totalDamageAvg, this.fireRate); }
   /** 原持续伤害 */
   get oriSustainedDamage() { return hAccMul(this.oriTotalDamage, this.oriSustainedFireRate); }
   /** 持续伤害 */
-  get sustainedDamage() { return hAccMul(this.totalDamage, this.sustainedFireRate); }
+  get sustainedDamage() { return hAccMul(this.totalDamageAvg, this.sustainedFireRate); }
   /** [overwrite] 用于比较的伤害 */
   get compareDamage() {
     return this.compareMode == GunCompareMode.TotalDamage ? this.totalDamageAvg :
@@ -249,9 +254,11 @@ export class GunModBuild extends ModBuild {
       return false;
     if (!this.useAcolyteMods && AcolyteModsList.some(v => v === mod.name))
       return false;
-    if (!this.useHeavyCaliber && "重口径" === mod.name)
+    if (!this.useHeavyCaliber && "Heavy Caliber" === mod.id)
       return false;
-    if (!this.useHunterMunitions && "猎人 战备" === mod.name)
+    if (!this.usePrimedChamber && "Primed Chamber" === mod.id)
+      return false;
+    if (!this.useHunterMunitions && "Hunter Munitions" === mod.id)
       return false;
     return true;
   }

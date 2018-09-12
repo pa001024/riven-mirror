@@ -123,9 +123,7 @@
         <!-- 使用MOD -->
         <el-form-item :label="$t('buildview.usemods')">
           <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="debouncedRecalc">{{$t("buildview.heavyCaliber")}}</el-checkbox>
-          <!-- <el-tooltip v-if="riven.mod === 'Rifle'" effect="dark" content="增伤很强大，但切割伤害不是立刻死亡，请自行选择" placement="bottom">
-            <el-checkbox v-model="useHunterMunitions" :indeterminate="notMustUseHunterMunitions" @change="useHunterMunitionsChange">猎人战备</el-checkbox>
-          </el-tooltip> -->
+          <el-checkbox v-if="weapon.tags.includes('狙击枪')" v-model="usePrimedChamber" @change="debouncedRecalc">{{$t("buildview.primedChamber")}}</el-checkbox>
           <el-tooltip effect="dark" :content="$t('buildview.acolyteModsTip')" placement="bottom">
             <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">{{$t("buildview.acolyteMods")}}</el-checkbox>
           </el-tooltip>
@@ -154,6 +152,8 @@ export default class GunModBuildView extends BaseModBuildView {
   useAcolyteMods = false
   /** 使用重口径 */
   useHeavyCaliber = true
+  /** 使用金首发 */
+  usePrimedChamber = false
   /** 使用猎人战备 */
   useHunterMunitions = false;
   notMustUseHunterMunitions = false;
@@ -228,6 +228,7 @@ export default class GunModBuildView extends BaseModBuildView {
       compareMode: this.selectCompMethod,
       useAcolyteMods: this.useAcolyteMods,
       useHeavyCaliber: this.useHeavyCaliber,
+      usePrimedChamber: this.usePrimedChamber,
       useHunterMunitions: this.useHunterMunitions ? this.notMustUseHunterMunitions ? 1 : 2 : 0,
       handShotChance: this.handShotChance / 100,
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,

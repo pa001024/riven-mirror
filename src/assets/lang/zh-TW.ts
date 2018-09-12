@@ -2065,6 +2065,7 @@ let po = {
     rank: "評級:",
     scoreResult: "可提升 <span class='score-text'>{0}%</span> {1}",
     heavyCaliber: "重口徑",
+    primedChamber: "金首發",
     acolyteMods: "追隨者MOD",
     acolyteModsTip: "如尖刃彈頭等需要瞄準的MOD",
     loading: "努力加載中...",
