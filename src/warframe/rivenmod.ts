@@ -277,8 +277,9 @@ export class RivenMod {
     this.subfix = "";
     let count = ~~(Math.random() * 2) + 2;
     this.hasNegativeProp = ~~(Math.random() * 2) > 0;
-    this.upLevel = toUpLevel(count, this.hasNegativeProp);
-    let negaUplvl = toNegaUpLevel(count, this.hasNegativeProp);
+    let totalCount = count + (this.hasNegativeProp ? 1 : 0);
+    this.upLevel = toUpLevel(totalCount, this.hasNegativeProp);
+    let negaUplvl = toNegaUpLevel(totalCount, this.hasNegativeProp);
     // 偏差值 正态分布 标准差=5
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
     let props = _.sampleSize(RivenPropertyDataBase[this.mod], count)
