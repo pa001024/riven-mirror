@@ -4,7 +4,9 @@
     <div class="build-list">
       <!-- 评级 -->
       <div class="build-result" v-if="builds.length">
-        <span class="rank-final">{{scoreLevelText}}</span> ({{scoreLevel.toFixed()}}/100)
+        <span class="rank-final">{{scoreLevelText}}</span>
+        <span class="rank-progress-text">{{scoreLevel.toFixed()}}%</span>
+        <el-progress class="rank-progress" :percentage="+scoreLevel.toFixed()"></el-progress>
         <span v-html="$t('buildview.scoreResult', [score, selectCompMethodText])"></span>
         <!-- <span class="build-price">
           估价:
@@ -291,6 +293,7 @@ export default class GunModBuildView extends BaseModBuildView {
 .build-list .el-collapse-item__arrow {
   line-height: 40px;
   margin-right: 16px;
+  color: #fff;
 }
 .build-title {
   font-size: 1rem;
@@ -318,6 +321,21 @@ export default class GunModBuildView extends BaseModBuildView {
   font-size: 1em;
   margin: 0 10px;
   padding: 10px;
+}
+.build-result .rank-progress {
+  width: 180px;
+  display: inline-block;
+}
+.build-result .rank-progress-text {
+  display: none;
+}
+@media only screen and (max-width: 482px) {
+  .build-result .rank-progress {
+    display: none;
+  }
+  .build-result .rank-progress-text {
+    display: inline-block;
+  }
 }
 /* 以上是新样式 */
 

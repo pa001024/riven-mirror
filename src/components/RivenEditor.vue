@@ -71,7 +71,7 @@ export default class RivenEditor extends Vue {
     this.props[index].id = id;
     this.props[index].prop = RivenDataBase.getPropByName(id);
     this.props[index].visable = false;
-    this.props[index].value = (index < 3 ? 1 : -0.833) * RivenDataBase.getPropBaseValue(this.riven.id, id);
+    this.props[index].value = (index < 3 ? 1 : -0.755) * RivenDataBase.getPropBaseValue(this.riven.id, id);
     if (this.props.length < 4 && !this.props.filter(v => !v.id).length) this.props.push({ id: "", prop: null, value: 0, visable: false });
     this.refill();
     this.updateRiven();

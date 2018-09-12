@@ -59,7 +59,8 @@ export default class App extends Vue {
     { title: i18n.t("navigate.weapon"), path: "/weapon", icon: "el-icon-edit-outline" },
     { title: i18n.t("navigate.simulator"), path: "/sim", icon: "el-icon-refresh" },
     { title: i18n.t("navigate.huangli"), path: "/huangli", icon: "el-icon-date" },
-    { title: i18n.t("navigate.about"), path: "/about", icon: "el-icon-info" },
+    // { title: i18n.t("navigate.about"), path: "/about", icon: "el-icon-info" },
+    { title: i18n.t("navigate.palette"), path: "/palette", icon: "el-icon-menu" },
     { title: i18n.t("navigate.setting"), path: "/setting", icon: "el-icon-setting" },
   ];
 }

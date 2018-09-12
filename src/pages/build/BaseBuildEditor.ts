@@ -1,4 +1,4 @@
-import { Damage2_0, DamageType, ModBuild, NormalMod, RivenDataBase, RivenWeapon, ValuedRivenProperty, Weapon } from "@/warframe";
+import { Damage2_0, DamageType, ModBuild, NormalMod, RivenDataBase, RivenWeapon, ValuedRivenProperty, Weapon, RivenMod } from "@/warframe";
 import _ from "lodash";
 import { Vue } from "vue-property-decorator";
 
@@ -9,6 +9,8 @@ declare interface BuildSelectorTab {
   mods: NormalMod[]
 }
 export abstract class BaseBuildEditor extends Vue {
+  get code() { return this.$route.params.code; }
+
   abstract get weapon(): Weapon;
   abstract get rWeapon(): RivenWeapon;
   tabs: BuildSelectorTab[] = [];
@@ -26,6 +28,12 @@ export abstract class BaseBuildEditor extends Vue {
         mods: Array(8)
       }));
       this.tabValue = "SET A";
+      if (this.code) {
+        this.build.miniCode = this.code;
+        let mods = this.build.mods;
+        while (mods.length < 8) mods.push(null);
+        this.currentTab.mods = mods;
+      }
     }
   }
 
@@ -89,6 +97,7 @@ export abstract class BaseBuildEditor extends Vue {
     this.build.clear();
     let mods = _.compact(this.currentTab.mods);
     mods.forEach(mod => this.build.applyMod(mod));
+    this.$router.push({ name: 'BuildEditorWithCode', params: { code: this.build.miniCode } });
   }
   mapDname(id: string) {
     let dtype = Damage2_0.getDamageType(id as DamageType);
@@ -105,6 +114,13 @@ export abstract class BaseBuildEditor extends Vue {
         });
       }
     } else {
+      if (mod.key === "01") {
+        if (this.currentTab.mods.some(v => v && v.key === "01")) {
+          this.$alert(this.$t("modselector.rivenexists") as string);
+          return;
+        }
+        this.build.riven = new RivenMod(mod.riven);
+      }
       this.currentTab.mods[this.selectModIndex] = mod;
     }
     this.refleshMods();

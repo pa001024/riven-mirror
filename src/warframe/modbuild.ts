@@ -1,4 +1,8 @@
-import { Arcane, CombElementMap, Damage2_0, DamageType, Enemy, ExtraDmgSet, NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase, ValuedRivenProperty, Weapon, EnemyTimelineState } from "@/warframe";
+import {
+  Arcane, Codex, CombElementMap, Damage2_0, DamageType, Enemy, EnemyTimelineState, ExtraDmgSet,
+  NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase,
+  toNegaUpLevel, toUpLevel, ValuedRivenProperty, Weapon
+} from "@/warframe";
 import _ from "lodash";
 import { choose, hAccDiv, hAccMul, hAccSum } from "./util";
 
@@ -49,7 +53,13 @@ export abstract class ModBuild {
   /** 触发时间增幅倍率 */
   get procDurationMul() { return this._procDurationMul; }
   /** 种族伤害增幅倍率 */
-  get enemyDmgMul() { return this._enemyDmgMul[this.enemyDmgTypeIndex] <= 0 ? 0 : this._enemyDmgMul[this.enemyDmgTypeIndex] || 1; }
+  get enemyDmgMul() {
+    if (this.enemyDmgTypeIndex >= 0)
+      return this._enemyDmgMul[this.enemyDmgTypeIndex] <= 0 ? 0
+        : this._enemyDmgMul[this.enemyDmgTypeIndex];
+    else
+      return 1;
+  }
   /** 攻速增幅倍率 */
   get fireRateMul() { return this._fireRateMul; }
   /** 爆头倍率增幅倍率 */
@@ -97,6 +107,27 @@ export abstract class ModBuild {
   abstract getTimeline(limit: number): EnemyTimelineState[];
 
   // === 计算属性 ===
+
+  /**
+   * 序列化支持
+   */
+  get miniCode() {
+    let mods = this.mods;
+    while (mods.length < 8) mods.push(null);
+    let normal = mods.map(v => v && v.key || "00").join("");
+    if (this.riven && this.riven.properties.length > 1) return normal + this.riven.qrCodeBase64;
+    return normal;
+  }
+
+  set miniCode(code: string) {
+    let normal = code.substr(0, 16);
+    let riven = code.substr(16);
+    this.riven = new RivenMod(riven, true);
+    let mods = _.compact(_.words(normal, /../g).map(v => v === "01" ? this.riven.normalMod : Codex.getNormalMod(v)));
+    this._mods = mods;
+    this.calcMods();
+  }
+
   /** 暴击率 */
   get critChance() { return hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd); }
   /** 暴击倍率 */
@@ -112,7 +143,6 @@ export abstract class ModBuild {
   public set heatMul(value) {
     this._heatMul = value;
     this.elementsOrder.includes("Heat") || this.elementsOrder.push("Heat");
-    this.recalcElements();
   }
   protected _coldMul = 0;
   /** 冰冻伤害增幅倍率 */
@@ -120,7 +150,6 @@ export abstract class ModBuild {
   public set coldMul(value) {
     this._coldMul = value;
     this.elementsOrder.includes("Cold") || this.elementsOrder.push("Cold");
-    this.recalcElements();
   }
   protected _toxinMul = 0;
   /** 毒素伤害增幅倍率 */
@@ -128,7 +157,6 @@ export abstract class ModBuild {
   public set toxinMul(value) {
     this._toxinMul = value;
     this.elementsOrder.includes("Toxin") || this.elementsOrder.push("Toxin");
-    this.recalcElements();
   }
   protected _electricityMul = 0;
   /** 电击伤害增幅倍率 */
@@ -136,28 +164,24 @@ export abstract class ModBuild {
   public set electricityMul(value) {
     this._electricityMul = value;
     this.elementsOrder.includes("Electricity") || this.elementsOrder.push("Electricity");
-    this.recalcElements();
   }
   private _impactMul = 0;
   /** 穿刺伤害增幅倍率 */
   public get impactMul() { return this._impactMul; }
   public set impactMul(value) {
     this._impactMul = value;
-    this.recalcElements();
   }
   private _punctureMul = 0;
   /** 冲击伤害增幅倍率 */
   public get punctureMul() { return this._punctureMul; }
   public set punctureMul(value) {
     this._punctureMul = value;
-    this.recalcElements();
   }
   private _slashMul = 0;
   /** 切割伤害增幅倍率 */
   public get slashMul() { return this._slashMul; }
   public set slashMul(value) {
     this._slashMul = value;
-    this.recalcElements();
   }
   /** 所有元素增幅倍率 */
   public get elementsMul() { return { Heat: this.heatMul, Cold: this.coldMul, Toxin: this.toxinMul, Electricity: this.electricityMul, Impact: this.impactMul, Puncture: this.punctureMul, Slash: this.slashMul }; }
@@ -356,7 +380,7 @@ export abstract class ModBuild {
     this.riven = riven;
   }
   // 额外参数
-  protected _enemyDmgType = "";
+  protected _enemyDmgType = " ";
   /** 歧视伤害类型 */
   get enemyDmgType() {
     return this._enemyDmgType;
@@ -597,6 +621,7 @@ export abstract class ModBuild {
     // 1. 计算目标配置
     newBuild.fill(slots, 0);
     // 2. 列出所有属性
+    let upLevel = toUpLevel(4, true), negaUpLevel = toNegaUpLevel(3, true);
     let avaliableProps = RivenPropertyDataBase[this.riven.mod].filter(v => {
       if (v.noDmg) return false;
       if (!this.enemyDmgType && ["G", "I", "C", "O"].includes(v.id)) return false;
@@ -609,12 +634,12 @@ export abstract class ModBuild {
       }
       return true;
     }).map(v => {
-      let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id);
-      return new ValuedRivenProperty(v, base, base, 1);
+      let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id) * upLevel;
+      return new ValuedRivenProperty(v, base, base, upLevel);
     });
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.weapon.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
-    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -0.833, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), 1);
+    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), upLevel);
 
     let fakeMods = avaliableProps.map(v => ({
       key: "01",
@@ -632,7 +657,7 @@ export abstract class ModBuild {
     let newRiven = new RivenMod(this.riven);
     newRiven.properties = resultProps;
     newRiven.properties.push(valuedNegativeProp);
-    newRiven.upLevel = 1;
+    newRiven.upLevel = upLevel;
     newRiven.rank = 16;
     newRiven.subfix = "";
     newRiven.recycleTimes = 999;
@@ -652,6 +677,7 @@ export abstract class ModBuild {
     let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
     // 生成所有紫卡
     // 1. 列出所有属性
+    let upLevel = toUpLevel(4, true), negaUpLevel = toNegaUpLevel(3, true);
     let avaliableProps = RivenPropertyDataBase[this.riven.mod].filter(v => {
       if (v.noDmg) return false;
       if (!this.enemyDmgType && ["G", "I", "C", "O"].includes(v.id)) return false;
@@ -664,13 +690,13 @@ export abstract class ModBuild {
       }
       return true;
     }).map(v => {
-      let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id);
-      return new ValuedRivenProperty(v, base, base, 1);
+      let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id) * upLevel;
+      return new ValuedRivenProperty(v, base, base, upLevel);
     });
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
-    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -0.833, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), 1);
+    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), upLevel);
 
     let newRivens = propsOfMods.map(v => {
       let newRiven = new RivenMod(this.riven);

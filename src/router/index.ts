@@ -7,6 +7,7 @@ import Setting from '@/pages/Setting.vue'
 import Index from '@/pages/Index.vue'
 import BuildEditor from '@/pages/BuildEditor.vue'
 import Simulator from '@/pages/Simulator.vue'
+import Palette from '@/pages/Palette.vue'
 import WeaponSelector from '@/components/WeaponSelector.vue'
 
 Vue.use(Router)
@@ -21,8 +22,10 @@ export default new Router({
     { path: '/sim', name: 'Simulator', component: Simulator },
     { path: '/weapon', name: 'WeaponSelector', component: WeaponSelector },
     { path: '/weapon/:id', name: 'BuildEditor', component: BuildEditor },
+    { path: '/weapon/:id/:code', name: 'BuildEditorWithCode', component: BuildEditor },
     { path: '/huangli', name: 'Huangli', component: Huangli },
     { path: '/riven', name: 'Mod', component: Mod },
     { path: '/riven/:source', name: 'ModWithSource', component: Mod, props: true },
+    { path: '/palette', name: 'Palette', component: Palette },
   ]
 })

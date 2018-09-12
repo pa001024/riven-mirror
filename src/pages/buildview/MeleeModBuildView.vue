@@ -5,7 +5,9 @@
     <div class="build-list">
       <!-- 评级 -->
       <div class="build-result" v-if="builds.length">
-        <span class="rank-final">{{scoreLevelText}}</span> ({{scoreLevel.toFixed()}}/100)
+        <span class="rank-final">{{scoreLevelText}}</span>
+        <span class="rank-progress-text">{{scoreLevel.toFixed()}}%</span>
+        <el-progress class="rank-progress" :percentage="+scoreLevel.toFixed()"></el-progress>
         <span v-html="$t('buildview.scoreResult', [score, selectCompMethodText])"></span>
         <!-- <span class="build-price">
           估价:

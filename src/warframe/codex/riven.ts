@@ -207,15 +207,15 @@ export class RivenWeapon {
   /** 武器MOD类型 */
   price: number;
   /** 武器MOD类型中文 */
-  get modcn() {
-    return ModTypeTable[this.mod];
-  }
+  get modcn() { return ModTypeTable[this.mod]; }
   get weapons() {
     if (this.mod === "Melee")
       return MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
     else
       return GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
   }
+  /** 武器倾向星数 */
+  get star() { return [0, 0.7, 0.875, 1.125, 1.3, Infinity].findIndex(v => this.ratio < v); }
   calcPrice(x: number) {
     let normal = 800;
     if (x > 30) normal = +0.0000016468253968327832 * x * x * x * x * x * x - 0.0006184523809555002 * x * x * x * x * x + 0.0937003968259277 * x * x * x * x - 7.283630952427242 * x * x * x + 306.6134920656638 * x * x - 6605.452381004125 * x + 57700.00000048811;
@@ -241,19 +241,19 @@ const _rivenWeaponDataBase = [
   ["Tetra", "特拉", "Rifle", 1.5, 70],
   ["Phage", "噬菌者", "Shotgun", 1.46, 195],
   ["Deth Machine Rifle", "死亡机枪", "Rifle", 1.46, 35],
+  ["Vulkar", "金工火神", "Rifle", 1.45, 310],
   ["Hind", "雌鹿", "Rifle", 1.42, 50],
   ["Attica", "阿提卡", "Rifle", 1.42, 140],
   ["Tiberon", "狂鲨", "Rifle", 1.4, 875],
-  ["Vulkar", "金工火神", "Rifle", 1.38, 310],
   ["Glaxion", "冷冻光束步枪", "Rifle", 1.35, 95],
   ["Stinger", "毒刺", "Rifle", 1.31, 45],
+  ["Synapse", "突触生化枪", "Rifle", 1.31, 250],
   ["Paracyst", "附肢寄生者", "Rifle", 1.31, 70],
   ["Karak", "卡拉克", "Rifle", 1.28, 140],
   ["Grinlok", "葛恩火枪", "Rifle", 1.25, 135],
   ["Dera", "德拉", "Rifle", 1.25, 85],
   ["Ogris", "食人女魔", "Rifle", 1.25, 105],
   ["Stradavar", "斯特拉迪瓦", "Rifle", 1.25, 110],
-  ["Synapse", "突触生化枪", "Rifle", 1.31, 250],
   ["Vulklok", "金工火枪", "Rifle", 1.25, 65],
   ["Laser Rifle", "激光步枪", "Rifle", 1.21, 55],
   ["Opticor", "奥堤克光子枪", "Rifle", 1.21, 670],
@@ -286,10 +286,10 @@ const _rivenWeaponDataBase = [
   ["Zarr", "沙皇", "Rifle", 1, 325],
   ["Braton", "布莱顿", "Rifle", 0.96, 90],
   ["Paris", "帕里斯", "Rifle", 0.96, 125],
-  ["Quanta", "量子切割器", "Rifle", 0.9, 160],
   ["Lenz", "楞次弓", "Rifle", 0.9, 425],
-  ["Cernos", "西诺斯", "Rifle", 0.86, 175],
+  ["Quanta", "量子切割器", "Rifle", 0.9, 160],
   ["Sybaris", "席芭莉丝", "Rifle", 0.9, 270],
+  ["Cernos", "西诺斯", "Rifle", 0.86, 175],
   ["Dread", "恐惧", "Rifle", 0.82, 250],
   ["Boltor", "螺钉步枪", "Rifle", 0.79, 195],
   ["Ignis", "伊格尼斯", "Rifle", 0.79, 320],
@@ -299,7 +299,7 @@ const _rivenWeaponDataBase = [
   // 霰弹枪 Shotgun
   ["Drakgoon", "龙骑兵", "Shotgun", 1.48, 185],
   ["Convectrix", "导热聚焦枪", "Shotgun", 1.46, 105],
-  ["Strun", "斯特朗", "Shotgun", 1.4, 285],
+  ["Strun", "斯特朗", "Shotgun", 1.42, 285],
   ["Kohm", "寇恩热能枪", "Shotgun", 1.4, 725],
   ["Boar", "野猪", "Shotgun", 1.34, 230],
   ["Sobek", "鳄神", "Shotgun", 1.33, 250],
@@ -311,9 +311,9 @@ const _rivenWeaponDataBase = [
   ["Hek", "海克", "Shotgun", 0.55, 195],
   ["Tigris", "猛虎", "Shotgun", 0.5, 315],
   // 手枪 Pistol
-  ["Vasto", "瓦斯托", "Pistol", 1.53, 240],
   ["Kraken", "北海巨妖", "Pistol", 1.53, 30],
   ["Magnus", "麦格努斯", "Pistol", 1.53, 85],
+  ["Vasto", "瓦斯托", "Pistol", 1.53, 240],
   ["Viper", "蝰蛇", "Pistol", 1.53, 80],
   ["Aklato", "拉托双枪", "Pistol", 1.52, 125],
   ["Akzani", "荒谬双枪", "Pistol", 1.52, 45],
@@ -336,9 +336,9 @@ const _rivenWeaponDataBase = [
   ["Angstrum", "安格斯壮", "Pistol", 1.4, 80],
   ["Sicarus", "暗杀者", "Pistol", 1.4, 550],
   ["Afuris", "盗贼双枪", "Pistol", 1.39, 95],
-  ["Furis", "盗贼", "Pistol", 1.35, 65],
-  ["Dual Cestra", "锡斯特双枪", "Pistol", 1.35, 90],
   ["Azima", "方位角", "Pistol", 1.35, 175],
+  ["Dual Cestra", "锡斯特双枪", "Pistol", 1.35, 90],
+  ["Furis", "盗贼", "Pistol", 1.35, 65],
   ["Acrid", "阿克里德", "Pistol", 1.33, 85],
   ["Akmagnus", "麦格努斯双枪", "Pistol", 1.28, 90],
   ["Aksomati", "轻灵月神双枪", "Pistol", 1.26, 165],
@@ -346,11 +346,11 @@ const _rivenWeaponDataBase = [
   ["Despair", "绝望", "Pistol", 1.24, 85],
   ["Fusilai", "齐射玻刃", "Pistol", 1.2, 95],
   ["Kohmak", "寇恩霰机枪", "Pistol", 1.2, 50],
-  ["Bronco", "野马", "Pistol", 1.2, 35],
+  ["Pyrana", "食人鱼", "Pistol", 1.2, 910],
   ["Akbronco", "野马双枪", "Pistol", 1.2, 100],
+  ["Bronco", "野马", "Pistol", 1.2, 35],
   ["Dual Toxocyst", "毒囊双枪", "Pistol", 1.19, 130],
   ["Akvasto", "瓦斯托双枪", "Pistol", 1.15, 115],
-  ["Pyrana", "食人鱼", "Pistol", 1.1, 910],
   ["Kulstar", "杀星", "Pistol", 1.1, 105],
   ["Twin Kohmak", "双子寇恩霰机枪", "Pistol", 1.1, 90],
   ["Twin Rogga", "双子罗格", "Pistol", 1, 175],
@@ -369,14 +369,14 @@ const _rivenWeaponDataBase = [
   ["Pox", "脓痘", "Pistol", 0.82, 140],
   ["Twin Grakatas", "双子葛拉卡达", "Pistol", 0.76, 125],
   ["Brakk", "布拉克", "Pistol", 0.75, 135],
+  ["Euphona Prime", "悦音 Prime", "Pistol", 0.75, 375],
   ["Hikou", "飞扬", "Pistol", 0.69, 70],
-  ["Euphona Prime", "悦音 Prime", "Pistol", 0.69, 375],
   ["Spira", "旋刃飞刀", "Pistol", 0.66, 70],
   ["Gammacor", "咖玛腕甲枪", "Pistol", 0.53, 95],
   ["Staticor", "静电能量导引枪", "Pistol", 0.53, 125],
-  ["Marelok", "玛瑞火枪", "Pistol", 0.5, 125],
   ["Akstiletto", "史提托双枪", "Pistol", 0.5, 165],
   ["Lex", "雷克斯", "Pistol", 0.5, 125],
+  ["Marelok", "玛瑞火枪", "Pistol", 0.5, 125],
   ["Sonicor", "超音波冲击枪", "Pistol", 0.5, 75],
   // 近战 Melee
   ["Amphis", "双头蛇", "Melee", 1.5, 65],

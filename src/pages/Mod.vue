@@ -265,7 +265,7 @@ export default class Mod extends Vue {
   list-style-type: decimal;
   margin: 8px 24px 0 36px;
 }
-.mod-display .mod-name {
+.mod-container .mod-display .mod-name {
   background-color: #3d5afe;
   background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
   color: #fff;
@@ -351,7 +351,7 @@ export default class Mod extends Vue {
 .mode-select {
   margin: 8px;
 }
-.mod-name {
+.mod-container .mod-name {
   font-size: 1.2em;
   font-weight: bold;
 }

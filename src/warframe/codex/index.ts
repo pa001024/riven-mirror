@@ -8,12 +8,12 @@ export class Codex {
   private modDict: Map<string, NormalMod>;
   private enemyDict: Map<string, EnemyData>;
   constructor() {
-    this.modDict = new Map(NormalModDatabase.map(v => [v.id, v] as [string, NormalMod]));
+    this.modDict = new Map(NormalModDatabase.map(v => [v.id, v] as [string, NormalMod]).concat(NormalModDatabase.map(v => [v.key, v] as [string, NormalMod])));
     this.enemyDict = new Map(EnemyList.map(v => [v.id, v] as [string, EnemyData]))
   }
 
   static getNormalMod(id: string) {
-    return this.instance.modDict.get(id);
+    return this.instance.modDict.get(id) || null;
   }
   static getDamageType(id: DamageType) { return Damage2_0.getDamageType(id); }
   static getEnemy(id: string) { return this.instance.enemyDict.get(id); }
@@ -28,3 +28,4 @@ export * from './weapon'
 export * from './zaw'
 export * from './riven'
 export * from './mod'
+export * from './palette'

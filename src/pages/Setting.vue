@@ -1,12 +1,12 @@
 <template>
   <el-row type="flex" :gutter="20" justify="center">
-    <el-card class="about">
+    <el-card class="setting">
       <span slot="header">{{$t("setting.lang")}}</span>
       <div class="switch-lang">
         <span class="lang" @click="setlang('')">{{$t("setting.default")}}</span>
         <span class="lang" @click="setlang('en')">English</span>
         <span class="lang" @click="setlang('zh-CN')">简体中文</span>
-        <span class="lang" @click="setlang('zh-TW')">台灣正體</span>
+        <span class="lang" @click="setlang('zh-TW')">繁體中文</span>
       </div>
     </el-card>
   </el-row>

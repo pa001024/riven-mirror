@@ -22,6 +22,7 @@ export interface NormalMod {
   props: [string, number][]
   canReplaceBy?: string[] // 等价的MOD 如元素卡
   primed?: string // P卡或其他种类高级卡对应的普通卡的名称
+  riven?: string // 紫卡元数据
 }
 
 const _normalModSource = [

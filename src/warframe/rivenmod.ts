@@ -34,7 +34,7 @@ export class ValuedRivenProperty {
     return this.prop.negative ? this.value > 0 : this.value < 0;
   }
   get negativeUpLevel() {
-    return this.upLevel == 1.33 ? 0.5 : 0.833;
+    return this.upLevel == 1.243 ? 0.5 : 0.755;
   }
   /** 根据属性基础值计算属性偏差值 */
   get deviation() {
@@ -105,10 +105,12 @@ export class RivenMod {
   get ratio() { return this.weapon.ratio; }
   calcPrice(x: number) { return this.weapon.calcPrice(x); }
 
-  constructor(parm?: string | RivenMod) {
+  constructor(parm?: string | RivenMod, base64 = false) {
     if (typeof parm === "string") {
       if (parm.indexOf("|") >= 0)
         this.qrCode = parm;
+      else if (base64)
+        this.qrCodeBase64 = parm;
       else
         this.parseString(parm);
     } else if (parm) {
@@ -312,7 +314,8 @@ export class RivenMod {
       polarity: this.polarity,
       cost: 18,
       rarity: "x",
-      props: this.properties.map(v => [v.prop.id, v.value / 100] as [string, number])
+      props: this.properties.map(v => [v.prop.id, v.value / 100] as [string, number]),
+      riven: this.qrCode
     };
   }
   /** 是否是Zaw */
@@ -380,8 +383,8 @@ export class RivenMod {
 }
 
 export function toUpLevel(len: number, nega: boolean) {
-  return [1.33, 0.942, 1, 0.8][len - (nega ? 3 : 0)];
+  return [1.243, 0.942, 1, 0.755][len - (nega ? 3 : 0)];
 }
 export function toNegaUpLevel(len: number, nega: boolean) {
-  return [0.5, 0.833, 0, 0][len - (nega ? 3 : 0)];
+  return [0.5, 0.755, 0, 0][len - (nega ? 3 : 0)];
 }
