@@ -36,6 +36,7 @@
             </el-col>
           </el-row>
           <el-row type="flex" :gutter="12" class="build-item" style="margin:0 8px;">
+            <el-button size="small" type="primary" round style="margin-left: 8px;" @click="toBuild(build[1])">{{$t("buildview.tobuild")}}</el-button>
             <el-tag style="margin-left: 8px;">{{$t("buildview.panelDamage")}} {{build[1].panelDamage.toFixed(1)}} </el-tag>
             <el-tag style="margin-left: 8px;">{{$t("buildview.critChance")}} {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
             <el-tag style="margin-left: 8px;">{{$t("buildview.critMul")}} {{(build[1].critMul).toFixed(1)}}x </el-tag>

@@ -2068,6 +2068,7 @@ let po = {
     acolyteMods: "Acolyte Mods",
     acolyteModsTip: "e.g. Argon Scope",
     loading: "Loading...",
+    tobuild: "Show Detail",
   },
   weaponselector: {
     notfound: "Can not find special weapon",

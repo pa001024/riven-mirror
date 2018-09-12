@@ -452,7 +452,7 @@ export abstract class ModBuild {
     this._critChanceAdd = 0;
     this._procChanceMul = 1;
     this._procDurationMul = 1;
-    this._enemyDmgMul = [1, 1, 1, 1];
+    this._enemyDmgMul = [1, 1, 1, 1, 1];
     this._handShotMulMul = 1;
     this._fireRateMul = 1;
     this._heatMul = 0;

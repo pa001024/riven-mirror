@@ -2068,6 +2068,7 @@ let po = {
     acolyteMods: "追随者MOD",
     acolyteModsTip: "如尖刃弹头等需要瞄准的MOD",
     loading: "努力加载中...",
+    tobuild: "查看详细",
   },
   weaponselector: {
     notfound: "暂无该武器资料",

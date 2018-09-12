@@ -100,4 +100,8 @@ export abstract class BaseModBuildView extends Vue {
     }
     return prop[0] + " " + (prop[1] * 100).toFixed() + "%";
   }
+
+  toBuild(build: ModBuild) {
+    this.$router.push({ name: 'BuildEditorWithCode', params: { id: this.selectWeapon, code: build.miniCode } });
+  }
 }
