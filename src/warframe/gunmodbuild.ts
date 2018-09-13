@@ -226,7 +226,7 @@ export class GunModBuild extends ModBuild {
   get totalDamageAvg() { return hAccMul(this.originalDamage, this.totalDamageMul, this.sustainedfirstAmmoMul); }
 
   /** 爆发伤害 */
-  get burstDamage() { return hAccMul(this.totalDamageAvg, this.fireRate); }
+  get burstDamage() { return hAccMul(this.totalDamage, this.fireRate); }
   /** 原持续伤害 */
   get oriSustainedDamage() { return hAccMul(this.oriTotalDamage, this.oriSustainedFireRate); }
   /** 持续伤害 */

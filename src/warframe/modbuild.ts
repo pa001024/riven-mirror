@@ -122,7 +122,7 @@ export abstract class ModBuild {
   set miniCode(code: string) {
     let normal = code.substr(0, 16);
     let riven = code.substr(16);
-    this.riven = new RivenMod(riven, true);
+    this.riven = riven && new RivenMod(riven, true);
     let mods = _.compact(_.words(normal, /../g).map(v => v === "01" ? this.riven.normalMod : Codex.getNormalMod(v)));
     this._mods = mods;
     this.calcMods();
@@ -143,7 +143,6 @@ export abstract class ModBuild {
   public set heatMul(value) {
     this._heatMul = value;
     this.elementsOrder.includes("Heat") || this.elementsOrder.push("Heat");
-    this.recalcElements();
   }
   protected _coldMul = 0;
   /** 冰冻伤害增幅倍率 */
@@ -151,7 +150,6 @@ export abstract class ModBuild {
   public set coldMul(value) {
     this._coldMul = value;
     this.elementsOrder.includes("Cold") || this.elementsOrder.push("Cold");
-    this.recalcElements();
   }
   protected _toxinMul = 0;
   /** 毒素伤害增幅倍率 */
@@ -159,7 +157,6 @@ export abstract class ModBuild {
   public set toxinMul(value) {
     this._toxinMul = value;
     this.elementsOrder.includes("Toxin") || this.elementsOrder.push("Toxin");
-    this.recalcElements();
   }
   protected _electricityMul = 0;
   /** 电击伤害增幅倍率 */
@@ -167,28 +164,24 @@ export abstract class ModBuild {
   public set electricityMul(value) {
     this._electricityMul = value;
     this.elementsOrder.includes("Electricity") || this.elementsOrder.push("Electricity");
-    this.recalcElements();
   }
   private _impactMul = 0;
   /** 穿刺伤害增幅倍率 */
   public get impactMul() { return this._impactMul; }
   public set impactMul(value) {
     this._impactMul = value;
-    this.recalcElements();
   }
   private _punctureMul = 0;
   /** 冲击伤害增幅倍率 */
   public get punctureMul() { return this._punctureMul; }
   public set punctureMul(value) {
     this._punctureMul = value;
-    this.recalcElements();
   }
   private _slashMul = 0;
   /** 切割伤害增幅倍率 */
   public get slashMul() { return this._slashMul; }
   public set slashMul(value) {
     this._slashMul = value;
-    this.recalcElements();
   }
   /** 所有元素增幅倍率 */
   public get elementsMul() { return { Heat: this.heatMul, Cold: this.coldMul, Toxin: this.toxinMul, Electricity: this.electricityMul, Impact: this.impactMul, Puncture: this.punctureMul, Slash: this.slashMul }; }
@@ -200,7 +193,7 @@ export abstract class ModBuild {
   /** 重新计算元素顺序 */
   recalcElements() {
     this._extraDmgMul = hAccSum(this.heatMul, this.coldMul, this.toxinMul, this.electricityMul);
-    let eleOrder = this.elementsOrder, otherOrder = [], eleMul = this.elementsMul;
+    let eleOrder = _.clone(this.elementsOrder), otherOrder = [], eleMul = this.elementsMul;
     // 计算武器原本属性
     this.weapon.dmg.forEach(([vn, vv]) => {
       let eMul = vn in eleMul ? eleMul[vn] + 1 : 1; // 1是复合属性
@@ -441,6 +434,7 @@ export abstract class ModBuild {
       // 后者优先 主要用于紫卡有多个元素词条时
       _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
     });
+    this.recalcElements();
   }
 
   /** 重置所有属性增幅器 */
