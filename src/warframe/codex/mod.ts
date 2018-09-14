@@ -260,7 +260,7 @@ const _normalModSource = [
   ["CA", "Berserker", "狂战士", [["J", 0.75]], "在暴击后一段时间内增加攻击速度", "近战", "r", "r", 9],
   ["CB", "Fury", "狂暴", [["J", 0.3]], "增加攻击速度", "近战", "r", "c", 9],
   ["CC", "True Steel", "斩铁", [["0", 0.6]], "增加暴击机率", "近战", "r", "n", 9],
-  ["CD", "Sacrificial Steel", "牺牲 斩铁", [["0", 1.1], ["K", -0.275]], "增加暴击机率", "近战", "w", "l", 14],
+  ["CD", "Sacrificial Steel", "牺牲 斩铁", [["0", 0.88]], "增加暴击机率", "近战", "w", "l", 14],
   ["CE", "Organ Shatter", "肢解", [["1", 0.9]], "增加暴击伤害", "近战", "r", "n", 9],
   ["CF", "Heavy Trauma", "重创", [["8", 0.9]], "增加冲击伤害", "近战", "-", "r", 9],
   ["CG", "Collision Force", "冲击巨力", [["8", 1.2]], "增加冲击伤害", "近战", "-", "r", 11],
@@ -322,12 +322,15 @@ const _normalModSource = [
   ["DA", "Avenging Truth", "复仇真相", [["格挡增加蓄力伤害", 1]], "格挡时吸收一定比例的伤害，作为下一次蓄力攻击的额外伤害。附加真相效果", "席瓦 & 神盾", "r", "r", 7],
   ["DB", "Electromagnetic Shielding", "电磁屏障", [["守护", 0.5]], "格挡时将一定百分比的伤害和所有的异常状态从友军转移至自身", "认知 & 冲击", "r", "r", 7],
   ["DC", "Rift Strike", "裂缝打击", [["瞬移攻击", 25]], "蓄力动作结束前将玩家传送至目标前", "双子巴萨克", "r", "r", 7],
+  ["DD", "Sacrificial Pressure", "牺牲 压迫点", [["K", 1.375], ["0", 0.25]], "增加基础近战伤害", "近战", "w", "l", 16],
 ] as [string, string, string, [string, number][], string, string, "r" | "-" | "d" | "=", "n" | "c" | "r" | "l" | "x", number][];
 /**
  * 普通MOD信息
  */
 export const NormalModDatabase = _normalModSource.map(v => {
-  let pr = _normalModSource.find(k => k[1] === "Primed " + v[1]);
+  let pr = v[1] === "Sacrificial Pressure" ? ["C1", "Primed Pressure Point"] :
+    v[1] === "True Steel" ? ["CD", "Sacrificial Steel"] :
+      _normalModSource.find(k => k[1] === "Primed " + v[1]);
   return {
     key: v[0],
     id: v[1],

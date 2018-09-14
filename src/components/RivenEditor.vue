@@ -8,7 +8,7 @@
           <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
             <ul>
               <li class="prop-button" v-for="vprop in allProps" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
-                {{$t("prop.shortName." + vprop.id)}} ({{index > 0 ? vprop.subfix : vprop.prefix}})
+                {{$t("prop.shortName." + vprop.id)}} ({{index === 0 ? vprop.prefix : (index === 1 ? vprop.prefix + " / " + vprop.subfix : vprop.subfix)}})
               </li>
             </ul>
             <el-button class="prop-select" size="medium" slot="reference">
@@ -71,9 +71,13 @@ export default class RivenEditor extends Vue {
     this.props[index].id = id;
     this.props[index].prop = RivenDataBase.getPropByName(id);
     this.props[index].visable = false;
-    this.props[index].value = (index < 3 ? 1 : -0.755) * RivenDataBase.getPropBaseValue(this.riven.id, id);
+
+    let props = this.props.filter(v => v.prop);
+    let lastProp = _.last(props), hasNegative = !lastProp.prop.negative !== lastProp.value >= 0;
+    let pUpLevel = toUpLevel(props.length, hasNegative), nUpLevel = toNegaUpLevel(props.length, hasNegative);
+    this.props[index].value = (hasNegative && index === props.length - 1 ? -nUpLevel : pUpLevel) * RivenDataBase.getPropBaseValue(this.riven.id, id);
     if (this.props.length < 4 && !this.props.filter(v => !v.id).length) this.props.push({ id: "", prop: null, value: 0, visable: false });
-    this.refill();
+    if (index >= props.length - 1) this.refill();
     this.updateRiven();
   }
   /** 删除属性 */

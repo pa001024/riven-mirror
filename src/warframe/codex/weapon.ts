@@ -164,7 +164,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
   { id: "Opticor", name: "奥堤克光子枪", tags: ["枪", "主要武器", "步枪", "突击步枪", "蓄力"], dmg: [["Slash", 50], ["Puncture", 850], ["Impact", 100]], accuracy: 100, bullets: 1, fireRate: 0.5, critChance: 0.2, critMul: 2.5, status: 0.2, magazine: 5, reload: 2, ammo: 540 },
   { id: "Pandero", name: "手鼓", tags: ["枪", "手枪"], dmg: [["Slash", 36], ["Puncture", 18], ["Impact", 18]], accuracy: 16, bullets: 1, fireRate: 3, critChance: 0.3, critMul: 2.8, status: 0.1, magazine: 8, reload: 1, ammo: 210 },
   { id: "Pandero (burst)", name: "手鼓 (爆发射击)", tags: ["枪", "手枪"], "rivenName": "Pandero", dmg: [["Slash", 36], ["Puncture", 18], ["Impact", 18]], accuracy: 16, bullets: 1, fireRate: 7.69, critChance: 0.3, critMul: 2.8, status: 0.1, magazine: 8, reload: 1, ammo: 210 },
-  { id: "Panthera (secondary)", name: "猎豹 (次要)", tags: ["枪", "主要武器", "步枪", "突击步枪"],"rivenName": "Panthera", dmg: [["Slash", 80], ["Puncture", 10], ["Impact", 10]], accuracy: 100, bullets: 1, fireRate: 2, critChance: 0.25, critMul: 2, status: 0.35, magazine: 60, reload: 2, ammo: 540 },
+  { id: "Panthera (secondary)", name: "猎豹 (次要)", tags: ["枪", "主要武器", "步枪", "突击步枪"], "rivenName": "Panthera", dmg: [["Slash", 80], ["Puncture", 10], ["Impact", 10]], accuracy: 100, bullets: 1, fireRate: 2, critChance: 0.25, critMul: 2, status: 0.35, magazine: 60, reload: 2, ammo: 540 },
   { id: "Panthera", name: "猎豹", tags: ["枪", "主要武器", "步枪", "突击步枪"], dmg: [["Slash", 70], ["Puncture", 10], ["Impact", 20]], accuracy: 100, bullets: 1, fireRate: 3, critChance: 0.12, critMul: 2, status: 0.24, magazine: 60, reload: 2, ammo: 540 },
   { id: "Paracyst", name: "附肢寄生者", tags: ["枪", "主要武器", "步枪", "突击步枪"], dmg: [["Toxin", 33]], accuracy: 25, bullets: 1, fireRate: 6.04, critChance: 0.1, critMul: 2, status: 0.3, magazine: 60, reload: 2, ammo: 540 },
   { id: "Paris", name: "帕里斯", tags: ["枪", "主要武器", "步枪", "弓"], dmg: [["Slash", 18], ["Puncture", 96], ["Impact", 6]], accuracy: 16.7, bullets: 1, fireRate: 1.54, critChance: 0.15, critMul: 1.5, status: 0.1, magazine: 1, reload: 0.65, ammo: 72 },
@@ -190,8 +190,9 @@ export const GunWeaponDataBase: GunWeapon[] = [
   { id: "Ballistica Prime (charged)", name: "布里斯提卡 Prime (蓄力)", tags: ["枪", "手枪", "蓄力"], "rivenName": "Ballistica", dmg: [["Slash", 121.6], ["Puncture", 167.2], ["Impact", 15.2]], accuracy: 4, bullets: 4, fireRate: 1.25, critChance: 0.2, critMul: 2, status: 0.2, magazine: 32, reload: 1.2, ammo: 210 },
   { id: "Rakta Cernos", name: "绯红 西诺斯", tags: ["枪", "主要武器", "步枪", "弓"], "rivenName": "Cernos", dmg: [["Slash", 6.25], ["Puncture", 6.25], ["Impact", 112.5]], accuracy: 16.7, bullets: 1, fireRate: 1.67, critChance: 0.35, critMul: 2, status: 0.15, magazine: 1, reload: 0.6, ammo: 72 },
   { id: "Rakta Cernos (charged)", name: "绯红 西诺斯 (蓄力)", tags: ["枪", "主要武器", "步枪", "弓", "蓄力"], "rivenName": "Cernos", dmg: [["Slash", 12.5], ["Puncture", 12.5], ["Impact", 225]], accuracy: 16.7, bullets: 1, fireRate: 4, critChance: 0.35, critMul: 2, status: 0.15, magazine: 1, reload: 0.6, ammo: 72 },
-  { id: "Regulators", name: "监察者双枪", tags: ["枪", "技能武器", "手枪"], dmg: [["Slash", 12.5], ["Puncture", 12.5], ["Impact", 25]], accuracy: 0, bullets: 1, fireRate: 14.8, critChance: 0.25, critMul: 3, status: 0.1, magazine: 100, reload: 0, ammo: 99999999 },
+  { id: "Regulators", name: "监察者双枪", tags: ["枪", "技能武器", "手枪"], dmg: [["Slash", 12.5], ["Puncture", 12.5], ["Impact", 25]], accuracy: 13.3, bullets: 1, fireRate: 14.8, critChance: 0.25, critMul: 3, status: 0.1, magazine: 100, reload: 0, ammo: 99999999 },
   { id: "Rubico", name: "绝路", tags: ["枪", "主要武器", "步枪", "狙击枪"], dmg: [["Slash", 9], ["Puncture", 27], ["Impact", 144]], accuracy: 0, bullets: 1, fireRate: 2.67, critChance: 0.3, critMul: 3, status: 0.12, magazine: 5, reload: 2.4, ammo: 72 },
+  { id: "Rubico Prime", name: "绝路 Prime", tags: ["枪", "主要武器", "步枪", "狙击枪"], "rivenName": "Rubico", dmg: [["Slash", 9.3], ["Puncture", 28.1], ["Impact", 149.6]], accuracy: 13.3, bullets: 1, fireRate: 3.67, critChance: 0.38, critMul: 3, status: 0.16, magazine: 5, reload: 2, ammo: 72 },
   { id: "Sancti Castanas", name: "圣洁 雷爆信标", tags: ["枪", "手枪"], "rivenName": "Castanas", dmg: [["Electricity", 300]], accuracy: 100, bullets: 1, fireRate: 5, critChance: 0.23, critMul: 2, status: 0.34, magazine: 2, reload: 1, ammo: 18 },
   { id: "Sancti Tigris", name: "圣洁 猛虎", tags: ["枪", "主要武器", "霰弹枪"], "rivenName": "Tigris", dmg: [["Slash", 1008], ["Puncture", 126], ["Impact", 126]], accuracy: 6.5, bullets: 6, fireRate: 2, critChance: 0.15, critMul: 1.5, status: 0.28, magazine: 2, reload: 1.5, ammo: 120 },
   { id: "Scourge", name: "祸根", tags: ["枪", "主要武器", "步枪", "突击步枪"], dmg: [["Corrosive", 100]], accuracy: 100, bullets: 1, fireRate: 2.67, critChance: 0.02, critMul: 1.5, status: 0.3, magazine: 20, reload: 2.5, ammo: 540 },
@@ -310,6 +311,7 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = [
   { id: "Fang Prime", name: "狼牙 Prime", "rivenName": "Fang", tags: ["近战", "Dual Daggers"], dmg: [["Puncture", 32.4], ["Impact", 3.6]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 180, status: 0.05 },
   { id: "Lesion", name: "病变", tags: ["近战", "Polearm"], dmg: [["Puncture", 5], ["Slash", 75], ["Impact", 20]], critMul: 2, critChance: 0.05, fireRate: 1, slideDmg: 222, status: 0.3 },
   { id: "Gram", name: "格拉姆", tags: ["近战", "Heavy Blade"], dmg: [["Puncture", 15], ["Slash", 70], ["Impact", 15]], critMul: 2, critChance: 0.15, fireRate: 0.95, slideDmg: 200, status: 0.15 },
+  { id: "Gram Prime", name: "格拉姆", tags: ["近战", "Heavy Blade"], rivenName: "Gram", dmg: [["Puncture", 9], ["Slash", 135], ["Impact", 36]], critMul: 2.6, critChance: 0.32, fireRate: 0.8, slideDmg: 360, status: 0.32 },
   { id: "Jaw Sword", name: "蛇颚刀", tags: ["近战", "Sword"], dmg: [["Puncture", 8.8], ["Slash", 33], ["Impact", 2.2]], critMul: 1.5, critChance: 0.05, fireRate: 0.917, slideDmg: 94, status: 0.1 },
   { id: "Bo", name: "玻之武杖", tags: ["近战", "Staff"], dmg: [["Puncture", 5], ["Impact", 45]], critMul: 2, critChance: 0.125, fireRate: 1, slideDmg: 107, status: 0.2 },
   { id: "MK1-Bo", name: "MK1-玻之武杖", "rivenName": "Bo", tags: ["近战", "Staff"], dmg: [["Puncture", 4.5], ["Impact", 40.5]], critMul: 2, critChance: 0.125, fireRate: 1, slideDmg: 96, status: 0.2 },
@@ -409,5 +411,9 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = [
   { id: "Hate", name: "憎恨", tags: ["近战", "Scythe"], dmg: [["Puncture", 10.5], ["Slash", 49], ["Impact", 10.5]], critMul: 2.5, critChance: 0.2, fireRate: 0.917, slideDmg: 140, status: 0.15 },
   { id: "Ninkondi", name: "降灵追猎者", tags: ["近战", "Nunchaku"], dmg: [["Electricity", 45]], critMul: 2, critChance: 0.1, fireRate: 1, slideDmg: 96, status: 0.35 },
   { id: "Guandao", name: "关刀", tags: ["近战", "Polearm"], dmg: [["Puncture", 4.5], ["Slash", 63], ["Impact", 22.5]], critMul: 2.2, critChance: 0.24, fireRate: 0.833, slideDmg: 200, status: 0.04 },
-  { id: "Broken War", name: "破碎的战争之剑", tags: ["近战", "Sword"], dmg: [["Puncture", 9], ["Slash", 72], ["Impact", 9]], critMul: 1.5, critChance: 0.15, fireRate: 1, slideDmg: 193, status: 0.1 }
+  { id: "Broken War", name: "破碎的战争之剑", tags: ["近战", "Sword"], dmg: [["Puncture", 9], ["Slash", 72], ["Impact", 9]], critMul: 1.5, critChance: 0.15, fireRate: 1, slideDmg: 193, status: 0.1 },
+
+  // 虚拟技能武器
+  { id: "Whipclaw", name: "长鞭利爪", tags: ["近战", "技能武器"], dmg: [["Puncture", 90], ["Slash", 120], ["Impact", 90]], critMul: 2, critChance: 0.25, fireRate: 1, slideDmg: 0, status: 0.2 },
+  { id: "Shattered Lash", name: "琉璃碎击", tags: ["近战", "技能武器"], dmg: [["Puncture", 150]], critMul: 1, critChance: 0, fireRate: 1, slideDmg: 0, status: 0 },
 ];

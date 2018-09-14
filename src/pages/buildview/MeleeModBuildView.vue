@@ -59,11 +59,14 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <!-- 攻击方式 -->
+        <!-- 选择比较类型 -->
         <el-form-item>
-          <el-switch v-model="isSlide" @change="debouncedRecalc" :active-text="$t('buildview.slide')" :inactive-text="$t('buildview.attack')">
-          </el-switch>
-          <!-- <el-checkbox size="small" v-model="isSlide" @change="debouncedRecalc" border>滑砍</el-checkbox> -->
+          <el-radio-group size="small" v-model="selectCompMethod" @change="debouncedRecalc">
+            <el-radio-button label="0">{{$t("buildview.attackDamage")}}</el-radio-button>
+            <el-radio-button label="1">{{$t("buildview.slideDamage")}}</el-radio-button>
+            <el-radio-button label="2">{{$t("buildview.attackDamagePS")}}</el-radio-button>
+            <el-radio-button label="3">{{$t("buildview.slideDamagePS")}}</el-radio-button>
+          </el-radio-group>
         </el-form-item>
         <!-- 限制MOD槽位 -->
         <el-form-item :label="$t('buildview.limitSlots')">
@@ -158,8 +161,8 @@ export default class MeleeModBuildView extends BaseModBuildView {
   get defalutMode() {
     let melee = this.weapon as MeleeWeapon;
     let slideList = ["Whip", "Polearm", "Staff"];
-    if (melee.tags.some(v => slideList.includes(v))) return MeleeCompareMode.SlideDamage;
-    return MeleeCompareMode.TotalDamage;
+    if (melee.tags.some(v => slideList.includes(v))) return MeleeCompareMode.SlideDamagePS;
+    return MeleeCompareMode.TotalDamagePS;
   }
 
   // === 事件处理器 ===

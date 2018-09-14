@@ -2,8 +2,10 @@ import { RivenMod, ModBuild, NormalMod, MeleeWeapon, NormalModDatabase, Enemy, A
 import { hAccMul, hAccSum } from "@/warframe/util";
 
 export enum MeleeCompareMode {
-  TotalDamage,// 平砍伤害
-  SlideDamage,// 滑砍伤害
+  TotalDamage,  // 平砍DPH
+  SlideDamage,  // 滑砍DPH
+  TotalDamagePS,// 平砍DPS
+  SlideDamagePS,// 滑砍DPS
 }
 export interface MeleeModBuildOptions {
   compareMode?: MeleeCompareMode
@@ -121,20 +123,33 @@ export class MeleeModBuild extends ModBuild {
   /** [overwrite] 总伤增幅倍率 */
   get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.overallMul, this.comboMul); }
   /** [overwrite] 总伤害 */
-  get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul, this.fireRate); }
+  get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul); }
+  /** 每秒总伤害 */
+  get totalDamagePS() { return hAccMul(this.totalDamage, this.fireRate); }
   /** [overwrite] 原总伤害 */
-  get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul, this.weapon.fireRate); }
+  get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul); }
+  /** 原每秒总伤害 */
+  get oriTotalDamagePS() { return hAccMul(this.oriTotalDamage, this.weapon.fireRate); }
   /** 滑行攻击伤害增幅倍率 */
   get slideDamageMul() { return hAccMul(this.panelDamageMul, this.slideCritDamageMul, this.overallMul, this.comboMul); }
   /** 原滑行攻击伤害 */
-  get oriSlideDamage() { return hAccMul(this.weapon.slideDmg, this.oriCritDamageMul, this.weapon.fireRate); }
+  get oriSlideDamage() { return hAccMul(this.weapon.slideDmg, this.oriCritDamageMul); }
   /** 滑行攻击伤害 */
-  get slideDamage() { return hAccMul(this.weapon.slideDmg, this.slideDamageMul, this.fireRate); }
+  get slideDamage() { return hAccMul(this.weapon.slideDmg, this.slideDamageMul); }
+  /** 原每秒滑行攻击伤害 */
+  get oriSlideDamagePS() { return hAccMul(this.oriSlideDamage, this.weapon.fireRate); }
+  /** 每秒滑行攻击伤害 */
+  get slideDamagePS() { return hAccMul(this.slideDamage, this.fireRate); }
   /** 面板滑行伤害 */
   get panelSlideDamage() { return hAccMul(this.weapon.slideDmg, this.panelDamageMul); }
   /** [overwrite] 用于比较的伤害 */
   get compareDamage() {
-    return this.compareMode === MeleeCompareMode.SlideDamage ? this.slideDamage : this.totalDamage;
+    switch (this.compareMode) {
+      case MeleeCompareMode.TotalDamage: return this.totalDamage;
+      case MeleeCompareMode.SlideDamage: return this.slideDamage;
+      default: case MeleeCompareMode.TotalDamagePS: return this.totalDamagePS;
+      case MeleeCompareMode.SlideDamagePS: return this.slideDamagePS;
+    }
   }
 
   // ### 基类方法 ###

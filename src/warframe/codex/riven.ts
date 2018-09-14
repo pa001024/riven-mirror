@@ -503,6 +503,8 @@ const _rivenWeaponDataBase = [
   ["Diwata", "仙女", "Melee", 0, 0],
   ["Artemis Bow", "月神狩弓", "Rifle", 0, 0],
   ["Dex Pixia", "Dex 妖精", "Pistol", 0, 0],
+  ["Whipclaw", "长鞭利爪", "Melee", 0, 0],
+  ["Shattered Lash", "琉璃碎击", "Melee", 0, 0],
 ] as [string, string, string, number, number][];
 export const ModTypeTable = {
   "Rifle": "步枪",

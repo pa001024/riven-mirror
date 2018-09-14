@@ -287,6 +287,7 @@ export default class Mod extends Vue {
   padding-top: 12px;
 }
 .mod-props .mod-prop {
+  line-height: 1.5em;
   padding: 4px 18px;
 }
 .mod-props .mod-prop .mod-dis {

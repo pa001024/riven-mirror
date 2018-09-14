@@ -472,7 +472,7 @@ export abstract class ModBuild {
   /** 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
     // 如果相应的P卡已经存在则不使用
-    if (this._mods.some(v => v.id === mod.primed))
+    if (this._mods.some(v => v.id === mod.primed || (mod.primed && v.primed === mod.primed)))
       return false;
     // 只允许选择的元素
     if (this.allowElementTypes)
@@ -620,7 +620,7 @@ export abstract class ModBuild {
     let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
     // 生成所有紫卡
     // 1. 计算目标配置
-    newBuild.fill(slots, 0);
+    newBuild.fill(slots - 1, 0);
     // 2. 列出所有属性
     let upLevel = toUpLevel(4, true), negaUpLevel = toNegaUpLevel(3, true);
     let avaliableProps = RivenPropertyDataBase[this.riven.mod].filter(v => {
@@ -640,7 +640,9 @@ export abstract class ModBuild {
     });
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.weapon.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
-    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), upLevel);
+    let valuedNegativeProp = new ValuedRivenProperty(negativeProp,
+      this.weapon.id === "Vectis Prime" ? -28 : RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel,
+      RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), upLevel);
 
     let fakeMods = avaliableProps.map(v => ({
       key: "01",
@@ -653,7 +655,7 @@ export abstract class ModBuild {
       rarity: "x",
       props: [[v.prop.id, v.value]] as [string, number][],
     } as NormalMod));
-    newBuild.fillEmpty(slots + 3, 0, fakeMods);
+    newBuild.fillEmpty(slots + 2, 0, fakeMods);
     let resultProps = newBuild.mods.slice(-3).map(v => new ValuedRivenProperty(RivenDataBase.getPropByName(v.props[0][0]), v.props[0][1], v.props[0][1], 1));
     let newRiven = new RivenMod(this.riven);
     newRiven.properties = resultProps;

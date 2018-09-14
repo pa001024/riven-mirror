@@ -24,6 +24,10 @@
                    class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
                 <PropDiff :name="$t('build.slideDamage')" :ori="build.oriSlideDamage" :val="build.slideDamage"
                    class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
+                <PropDiff :name="$t('build.attackDamagePS')" :ori="build.oriTotalDamagePS" :val="build.totalDamagePS"
+                   class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
+                <PropDiff :name="$t('build.slideDamagePS')" :ori="build.oriSlideDamagePS" :val="build.slideDamagePS"
+                   class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
               </tbody>
             </table>
           </el-card>

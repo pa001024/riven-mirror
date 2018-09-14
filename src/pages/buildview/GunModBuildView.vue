@@ -352,7 +352,7 @@ export default class GunModBuildView extends BaseModBuildView {
   padding: 0 10px;
 }
 .build-form-inline .el-form-item {
-  margin: 4px 0;
+  margin: 4px;
 }
 .build-list .build-container {
   overflow: visible;

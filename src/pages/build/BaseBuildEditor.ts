@@ -1,6 +1,6 @@
 import { Damage2_0, DamageType, ModBuild, NormalMod, RivenDataBase, RivenWeapon, ValuedRivenProperty, Weapon, RivenMod } from "@/warframe";
 import _ from "lodash";
-import { Vue } from "vue-property-decorator";
+import { Vue, Watch } from "vue-property-decorator";
 
 declare interface BuildSelectorTab {
   title: string
@@ -93,6 +93,8 @@ export abstract class BaseBuildEditor extends Vue {
     let n = +num.toFixed(preci);
     return n < 0 ? n.toString() : "+" + n;
   }
+  
+  @Watch("tabValue")
   refleshMods() {
     this.build.clear();
     let mods = _.compact(this.currentTab.mods);
