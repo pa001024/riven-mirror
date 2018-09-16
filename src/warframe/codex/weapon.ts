@@ -266,7 +266,7 @@ export const GunWeaponDataBase: GunWeapon[] = [
   { id: "Zhuge", name: "诸葛连弩", tags: ["枪", "主要武器", "步枪", "弓"], dmg: [["Slash", 20], ["Puncture", 75], ["Impact", 5]], accuracy: 40, bullets: 1, fireRate: 4.17, critChance: 0.2, critMul: 2, status: 0.35, magazine: 20, reload: 2.5, ammo: 540 },
   { id: "Phantasma", name: "幻离子", tags: ["枪", "主要武器", "霰弹枪", "射线"], dmg: [["Impact", 25], ["Radiation", 50]], accuracy: 100, bullets: 1, fireRate: 12, critChance: 0.03, critMul: 1.5, status: 0.37, magazine: 11, reload: 0.5, ammo: 120 },
   { id: "Phantasma (charged)", name: "幻离子 (蓄力)", tags: ["枪", "主要武器", "霰弹枪", "蓄力"], "rivenName": "Phantasma", dmg: [["Impact", 15], ["Radiation", 73]], accuracy: 100, bullets: 1, fireRate: 2, critChance: 0.03, critMul: 1.5, status: 0.37, magazine: 11, reload: 0.5, ammo: 120 },
-  { id: "Zylok", name: "Zylok", tags: ["枪", "手枪"], dmg: [["Slash", 78.4], ["Puncture", 16.8], ["Impact", 44.8]], accuracy: 23.5, bullets: 1, fireRate: 1.5, critChance: 0.08, critMul: 2, status: 0.26, magazine: 8, reload: 1.2, ammo: 210 },
+  { id: "Zylok", name: "席尔火枪", tags: ["枪", "手枪"], dmg: [["Slash", 78.4], ["Puncture", 16.8], ["Impact", 44.8]], accuracy: 23.5, bullets: 1, fireRate: 1.5, critChance: 0.08, critMul: 2, status: 0.26, magazine: 8, reload: 1.2, ammo: 210 },
 ];
 
 export const MeleeWeaponDataBase: MeleeWeapon[] = [

@@ -380,7 +380,7 @@ export class WorldStat {
       .filter(v => !this.filterType.includes(v.rewardTypes[0])));
   }
 
-  filterMission = ["Mobile Defense", "Interception"];
+  filterMission = ["Mobile Defense"];
   /**
    * 裂缝信息
    */

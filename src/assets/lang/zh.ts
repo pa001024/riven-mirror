@@ -2225,6 +2225,7 @@ let po = {
       spektaka: "华丽演出",
       halloween: "万圣节",
     },
+    title: "选择颜色",
     uploadtip: "将文件拖到此处，或<em>点击上传</em>参考图",
   },
 };

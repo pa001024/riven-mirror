@@ -4,7 +4,7 @@
       <!-- RGB输入 -->
       <el-col :md="12" :lg="8">
         <el-card>
-          <div slot="header" class="title">选择颜色</div>
+          <div slot="header" class="title">{{$t("palette.title")}}</div>
           <el-upload class="upload-refimage" drag :show-file-list="false" :style="{'background-image': `url(${refImageURL})`}" action="never" :before-upload="refImageUpload">
             <div class="upload-inner">
               <i class="el-icon-upload"></i>
@@ -61,11 +61,24 @@ export default class extends Vue {
   // 参考图
   refImage = null;
   refImageURL = null;
-  paletteColors: Color[] = [];
+  paletteColors: Color[] = [
+    "#bdaaad",
+    "#472e25",
+    "#cdbab8",
+    "#584857",
+    "#826c84",
+    "#5e5668",
+    "#84665c",
+    "#928497"
+  ].map(v => new Color(v));
 
-  color: { hsl: { h: number, s: number, l: number, a: number }, hex: string }
-    = { hsl: { h: 0, s: 0, l: 1, a: 1 }, hex: "#FFFFFF" };
-  get colorHEX() { return this.color.hex; }
+  color: {
+    hsl: { h: number; s: number; l: number; a: number };
+    hex: string;
+  } = { hsl: { h: 0.975, s: 0.13, l: 0.7, a: 1 }, hex: "#bdaaad" };
+  get colorHEX() {
+    return this.color.hex;
+  }
   palettes = PaletteData;
   matchedColors = ColorHelper.searchColor(this.colorHEX);
   matchedPalettes = ColorHelper.searchPalette(this.colorHEX);
@@ -75,7 +88,7 @@ export default class extends Vue {
     this.matchedPalettes = ColorHelper.searchPalette(this.colorHEX);
   }
   setColor(color: string) {
-    let c = tinycolor(color)
+    let c = tinycolor(color);
     this.color = { hsl: c.toHsl(), hex: c.toHexString() };
   }
   refImageUpload(file: File) {
@@ -86,7 +99,9 @@ export default class extends Vue {
     img.onload = () => {
       let colorThief = new ColorThief();
       let color = new Color(colorThief.getColor(img));
-      let palette = [color].concat(colorThief.getPalette(img, 8).map(v => new Color(v)));
+      let palette = [color].concat(
+        colorThief.getPalette(img, 8).map(v => new Color(v))
+      );
       this.paletteColors = palette;
       this.setColor(color.toString());
     };
@@ -101,7 +116,7 @@ export default class extends Vue {
         ev.preventDefault();
         let blob = item.getAsFile();
         this.refImageUpload(blob);
-        console.log(blob, item)
+        console.log(blob, item);
         return;
       }
     }
@@ -114,9 +129,12 @@ export default class extends Vue {
     img.onload = () => {
       let colorThief = new ColorThief();
       let color = new Color(colorThief.getColor(img));
-      let palette = [color].concat(colorThief.getPalette(img, 8).map(v => new Color(v)));
+      let palette = [color].concat(
+        colorThief.getPalette(img, 8).map(v => new Color(v))
+      );
       this.paletteColors = palette;
       this.setColor(color.toString());
+      console.log(palette);
     };
   }
 }

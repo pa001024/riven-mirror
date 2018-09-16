@@ -493,7 +493,7 @@ export abstract class ModBuild {
   /**
    * 返回MOD价值收益
    * @param index 也可以是mod.id
-   * @return MOD价值收益
+   * @return MOD价值收益 (-∞ ~ +∞ 小数)
    */
   modValue(index: number | string) {
     if (typeof index === "string")
@@ -501,9 +501,8 @@ export abstract class ModBuild {
     if (!this._mods[index]) return 0;
     let nb = new (this.constructor as any)(this.weapon, this.riven, this.options);
     nb._mods = this.mods;
-    nb.calcMods();
-    let oldVal = nb.compareDamage;
     nb._mods.splice(index, 1);
+    let oldVal = this.compareDamage;
     nb.calcMods();
     let newVal = nb.compareDamage;
     return oldVal / newVal - 1;
@@ -620,17 +619,17 @@ export abstract class ModBuild {
     let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
     // 生成所有紫卡
     // 1. 计算目标配置
-    newBuild.fill(slots - 1, 0);
+    newBuild.fill(slots, 0);
     // 2. 列出所有属性
-    let upLevel = toUpLevel(4, true), negaUpLevel = toNegaUpLevel(3, true);
+    let upLevel = toUpLevel(4, true), negaUpLevel = toNegaUpLevel(4, true);
     let avaliableProps = RivenPropertyDataBase[this.riven.mod].filter(v => {
       if (v.noDmg) return false;
-      if (!this.enemyDmgType && ["G", "I", "C", "O"].includes(v.id)) return false;
+      if (["G", "I", "C", "O"].includes(v.id)) return this.enemyDmgType === v.id;
       if (this.allowElementTypes) {
         if (["4", "5", "6", "7", "8", "9", "A"].includes(v.id))
           if (!this.allowElementTypes.includes(v[0]))
             return false;
-      } else if (["4", "5", "6"].includes(v.id)) {
+      } else if (["4", "5", "6", "8", "9", "A"].includes(v.id)) {
         return false;
       }
       return true;
@@ -644,6 +643,7 @@ export abstract class ModBuild {
       this.weapon.id === "Vectis Prime" ? -28 : RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel,
       RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), upLevel);
 
+    // 将属性虚拟成MOD
     let fakeMods = avaliableProps.map(v => ({
       key: "01",
       id: "RIVENFAKE",
@@ -653,10 +653,18 @@ export abstract class ModBuild {
       polarity: "r",
       cost: 18,
       rarity: "x",
-      props: [[v.prop.id, v.value]] as [string, number][],
+      props: [[v.prop.id, v.value / 100]] as [string, number][],
     } as NormalMod));
-    newBuild.fillEmpty(slots + 2, 0, fakeMods);
-    let resultProps = newBuild.mods.slice(-3).map(v => new ValuedRivenProperty(RivenDataBase.getPropByName(v.props[0][0]), v.props[0][1], v.props[0][1], 1));
+    newBuild.fillEmpty(slots + 3, 0, fakeMods);
+    // 计算有紫卡属性后收益最低的mod 如果是紫卡就结束计算 否则去掉该卡再算一次
+    let removeAble = _.minBy(newBuild.mods.map((_, i) => [i, newBuild.modValue(i)]), v => v[1]);
+    if (removeAble[0] < slots) {
+      newBuild.fill(slots, 0);
+      newBuild._mods.splice(removeAble[0], 1);
+      newBuild.fillEmpty(slots + 2, 0, fakeMods);
+    }
+    // 结算 生成紫卡
+    let resultProps = newBuild.mods.slice(-3).map(v => new ValuedRivenProperty(RivenDataBase.getPropByName(v.props[0][0]), v.props[0][1] * 100, v.props[0][1] * 100, 1));
     let newRiven = new RivenMod(this.riven);
     newRiven.properties = resultProps;
     newRiven.properties.push(valuedNegativeProp);
