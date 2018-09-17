@@ -487,6 +487,10 @@ export abstract class ModBuild {
           return false;
       }
     }
+    // 集团海克屏蔽散射正义
+    if (this.weapon.id === "Vaykor Hek" && mod.id === "Scattered Justice") {
+      return false;
+    }
     return true;
   }
 
