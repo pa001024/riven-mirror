@@ -357,3 +357,5 @@ export const AcolyteModsList: string[] = [
   "狭窄枪膛", "破片射击", "纳米涂覆", "转轮弹匣", "雷射瞄具",
   "内置触媒", "增压弹匣", "定位辅助", "尖锐子弹", "液压准心",
 ];
+
+export const VisualMeleeMods = ["D3", "D4", "D5", "D6"];

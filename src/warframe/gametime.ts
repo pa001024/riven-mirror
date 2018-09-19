@@ -27,7 +27,7 @@ export class EarthTime {
 }
 export class CetusTime {
   /** 现在到夜晚的秒数 */
-  static get secords() { return ~~(9e3 - (Date.now()  / 1e3 - 4590) % 9e3); }
+  static get secords() { return ~~(9e3 - (Date.now() * 1.0002 / 1e3 - 5945) % 9e3); }
   /** 现在是否是夜晚 */
   static get isNight() { return this.secords > 6e3; }
   /** 现在是否是白天 */

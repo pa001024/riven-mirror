@@ -51,9 +51,7 @@ export class ValuedRivenProperty {
   /** 根据属性基础值标准化属性值 */
   normalize() {
     let devi = this.deviation;
-    if (devi > 5)
-      this.value /= 10;
-    else if (devi < 0.3)
+    if (devi < 0.3)
       this.value *= 9;
     return this
   }
@@ -341,7 +339,6 @@ export class RivenMod {
   }
   /** 读取二维码识别后的序列化字符串 */
   set qrCode(value) {
-    console.log("parsing qrCode", value);
     let d = value.split("|");
     this.id = d[0];
     this.shortSubfix = d[1];

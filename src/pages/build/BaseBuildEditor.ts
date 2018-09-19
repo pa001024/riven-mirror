@@ -93,7 +93,7 @@ export abstract class BaseBuildEditor extends Vue {
     let n = +num.toFixed(preci);
     return n < 0 ? n.toString() : "+" + n;
   }
-  
+
   @Watch("tabValue")
   refleshMods() {
     this.build.clear();
@@ -117,8 +117,8 @@ export abstract class BaseBuildEditor extends Vue {
       }
     } else {
       if (mod.key === "01") {
-        if (this.currentTab.mods.some(v => v && v.key === "01")) {
-          this.$alert(this.$t("modselector.rivenexists") as string);
+        if (this.currentTab.mods.some((v, i) => i != this.selectModIndex && v && v.key === "01")) {
+          this.$message.error(this.$t("modselector.rivenexists") as string);
           return;
         }
         this.build.riven = new RivenMod(mod.riven);

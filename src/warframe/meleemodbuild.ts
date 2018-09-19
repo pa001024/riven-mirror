@@ -154,13 +154,6 @@ export class MeleeModBuild extends ModBuild {
 
   // ### 基类方法 ###
 
-  /** 检测当前MOD是否可用 */
-  isValidMod(mod: NormalMod) {
-    if (!super.isValidMod(mod))
-      return false;
-    return true;
-  }
-
   /** 重置所有属性增幅器 */
   reset() {
     super.reset();

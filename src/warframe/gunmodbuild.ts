@@ -260,6 +260,10 @@ export class GunModBuild extends ModBuild {
       return false;
     if (!this.useHunterMunitions && "Hunter Munitions" === mod.id)
       return false;
+    // 集团海克屏蔽散射正义
+    if (this.weapon.id === "Vaykor Hek" && mod.id === "Scattered Justice") {
+      return false;
+    }
     return true;
   }
 

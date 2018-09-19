@@ -45,7 +45,7 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { NormalMod, NormalModDatabase, Codex, ModBuild, RivenMod } from "@/warframe";
+import { NormalMod, NormalModDatabase, Codex, ModBuild, RivenMod, RivenDataBase, VisualMeleeMods } from "@/warframe";
 import RivenEditor from "@/components/RivenEditor.vue";
 import { Getter } from "vuex-class";
 
@@ -122,7 +122,11 @@ export default class ModSelector extends Vue {
   @Watch("build")
   reload() {
     let selected = this.build.mods;
-    let mods = NormalModDatabase.filter(v => this.build.weapon.tags.concat([this.build.rivenWeapon.name]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id));
+    // 是否虚拟技能武器
+    let isVisual = this.build.weapon.id === "Whipclaw" || this.build.weapon.id === "Shattered Lash";
+    let mods = NormalModDatabase.filter(v => 
+      (isVisual && VisualMeleeMods.includes( v.key)) || // 虚拟技能武器接受所有mod
+      this.build.weapon.tags.concat([this.build.rivenWeapon.name]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id));
     let benefits = mods.filter(v => v.props.some(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) >= 0))
       .map(v => [v, this.build.testMod(v)] as [NormalMod, number]).sort((a, b) => b[1] - a[1]).map(([v]) => v);
     this.tabs = [
