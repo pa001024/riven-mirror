@@ -34,11 +34,11 @@ export class Color {
   b: number
   constructor(rgb: string | number[]) {
     if (typeof rgb === "string") {
-    rgb = rgb.toLowerCase();
-    if (rgb[0] === '#') rgb = rgb.substr(1);
-    this.r = (rgb.charCodeAt(0) - 48) % 39 * 16 + (rgb.charCodeAt(1) - 48) % 39;
-    this.g = (rgb.charCodeAt(2) - 48) % 39 * 16 + (rgb.charCodeAt(3) - 48) % 39;
-    this.b = (rgb.charCodeAt(4) - 48) % 39 * 16 + (rgb.charCodeAt(5) - 48) % 39;
+      rgb = rgb.toLowerCase();
+      if (rgb[0] === '#') rgb = rgb.substr(1);
+      this.r = (rgb.charCodeAt(0) - 48) % 39 * 16 + (rgb.charCodeAt(1) - 48) % 39;
+      this.g = (rgb.charCodeAt(2) - 48) % 39 * 16 + (rgb.charCodeAt(3) - 48) % 39;
+      this.b = (rgb.charCodeAt(4) - 48) % 39 * 16 + (rgb.charCodeAt(5) - 48) % 39;
     } else {
       [this.r, this.g, this.b] = rgb;
     }
@@ -700,6 +700,30 @@ const _paletteData = [
       "729E61", "618B4E", "51783C", "43682D", "3C5C23",
       "7AAB6C", "6D9A5C", "5E8649", "4D7338", "416429",
       "85B777", "78A769", "699557", "598145", "496F33",
+    ]
+  },
+  {
+    id: "tenno2",
+    store: true,
+    colors: [
+      "94BCC1", "857572", "3F555D", "EDEABC", "00F3FF",
+      "545D83", "CDBCD5", "C16175", "FFFAD5", "FF2232",
+      "2B2B2B", "C6C1B7", "2D6C83", "857865", "00FFED",
+      "4B6172", "CCC1B0", "4C4536", "FFC600", "FFE900",
+      "C65009", "4F3E32", "8A9191", "E9E2D5", "FF8300",
+      "2D2C2C", "D7D7D7", "572323", "429CCD", "01E8FF",
+      "884837", "6F6C78", "DDE5E5", "B59C7B", "FF4800",
+      "686154", "4B80B8", "D74C1C", "FAFAFA", "00DCFF",
+      "6C615D", "B75D4B", "C1B178", "530D06", "00FFFF",
+      "4A4A4C", "5A78A6", "E5E5E5", "E8511C", "01E8FF",
+      "DDCA9A", "948065", "4E85AE", "AC553E", "FFBF00",
+      "80D9D2", "944347", "414248", "E6DEDE", "14FFF9",
+      "A09A9A", "726158", "37373D", "6F3156", "AC0D50",
+      "EAF7FB", "313F45", "AA4C9E", "00C2FF", "FB3972",
+      "5D2E3E", "544A48", "DCD6B7", "757B7D", "7BCAB7",
+      "CC7B46", "4A4A4A", "FFFBFB", "CFA67D", "5D8AB7",
+      "181E23", "968072", "462B35", "C9C9C9", "0094FF",
+      "B1ACA0", "535755", "652F2F", "6C6F6F", "72FFE5",
     ]
   },
 ];

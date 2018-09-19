@@ -12,7 +12,6 @@
       <div class="app-nav-pad hidden-sm-and-up">
       </div>
       <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
-        <!-- <i class="el-icon-more"></i> -->
         ☰
       </button>
     </el-header>
@@ -63,6 +62,13 @@ export default class App extends Vue {
     { title: i18n.t("navigate.palette"), path: "/palette", icon: "el-icon-menu" },
     { title: i18n.t("navigate.setting"), path: "/setting", icon: "el-icon-setting" },
   ];
+
+  mounted() {
+    let isNewUser = !localStorage.getItem("0w0");
+    if(isNewUser) {
+
+    }
+  }
 }
 </script>
 

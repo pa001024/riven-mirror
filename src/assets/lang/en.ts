@@ -2224,6 +2224,7 @@ let po = {
       redWhiteBlue: "Red/White/Blue",
       spektaka: "Spektaka",
       halloween: "Halloween",
+      tenno2: "TENNO II",
     },
     title: "SELECT COLOR",
     uploadtip: "Drag or <em>upload file</em> to pick colors automaticly",
