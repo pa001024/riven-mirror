@@ -4,7 +4,7 @@
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven Mirror
-          <span class="beta">ALPHA 0.9.4</span>
+          <span class="beta">ALPHA 0.9.5</span>
         </h1>
       </router-link>
       <MiniClock class="hidden-xs-only header-watch">
@@ -65,8 +65,8 @@ export default class App extends Vue {
 
   mounted() {
     let isNewUser = !localStorage.getItem("0w0");
-    if(isNewUser) {
-
+    if (isNewUser) {
+      this.$router.push("/welcome");
     }
   }
 }
