@@ -64,16 +64,16 @@
         <el-form-item>
           <el-radio-group size="small" v-model="selectCompMethod" @change="debouncedRecalc">
             <el-tooltip effect="dark" :content="$t('buildview.totalDamageTip')" placement="bottom">
-              <el-radio-button label="0">{{$t("buildview.totalDamage")}}</el-radio-button>
+              <el-radio-button :label="0">{{$t("buildview.totalDamage")}}</el-radio-button>
             </el-tooltip>
             <el-tooltip v-if="weapon.tags.includes('狙击枪')" effect="dark" :content="$t('buildview.firstDamageTip')" placement="bottom">
-              <el-radio-button label="3">{{$t("buildview.firstDamage")}}</el-radio-button>
+              <el-radio-button :label="3">{{$t("buildview.firstDamage")}}</el-radio-button>
             </el-tooltip>
             <el-tooltip effect="dark" :content="$t('buildview.burstDamageTip')" placement="bottom">
-              <el-radio-button label="1">{{$t("buildview.burstDamage")}}</el-radio-button>
+              <el-radio-button :label="1">{{$t("buildview.burstDamage")}}</el-radio-button>
             </el-tooltip>
             <el-tooltip effect="dark" :content="$t('buildview.sustainedDamageTip')" placement="bottom">
-              <el-radio-button label="2">{{$t("buildview.sustainedDamage")}}</el-radio-button>
+              <el-radio-button :label="2">{{$t("buildview.sustainedDamage")}}</el-radio-button>
             </el-tooltip>
           </el-radio-group>
         </el-form-item>

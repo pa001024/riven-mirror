@@ -234,7 +234,6 @@ export default class App extends Vue {
 [class*=" wf-icon-"],
 [class^="wf-icon-"] {
   font-family: WF !important;
-  speak: none;
   font-style: normal;
   font-weight: 400;
   font-variant: normal;

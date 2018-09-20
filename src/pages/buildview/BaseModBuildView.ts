@@ -36,14 +36,15 @@ export abstract class BaseModBuildView extends Vue {
   abstract get defalutMode(): number;
 
   @Watch("riven")
-  rivenChange() {
+  rivenChange(riven?: RivenMod, oldRiven?: RivenMod) {
     let weapons = this.riven.weapons;
     if (!weapons || weapons.length === 0) {
       console.warn("warn: weapons.length === 0");
       return;
     }
     this.selectWeapon = weapons[weapons.length - 1].id;
-    this.selectCompMethod = this.defalutMode;
+    if (!oldRiven || this.riven && oldRiven.id !== this.riven.id)
+      this.selectCompMethod = this.defalutMode;
     this.debouncedRecalc();
   }
   recalc(cls: any = GunModBuild, options = {}) {

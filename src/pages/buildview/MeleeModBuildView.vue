@@ -62,10 +62,10 @@
         <!-- 选择比较类型 -->
         <el-form-item>
           <el-radio-group size="small" v-model="selectCompMethod" @change="debouncedRecalc">
-            <el-radio-button label="0">{{$t("buildview.attackDamage")}}</el-radio-button>
-            <el-radio-button label="1">{{$t("buildview.slideDamage")}}</el-radio-button>
-            <el-radio-button label="2">{{$t("buildview.attackDamagePS")}}</el-radio-button>
-            <el-radio-button label="3">{{$t("buildview.slideDamagePS")}}</el-radio-button>
+            <el-radio-button :label="0">{{$t("buildview.attackDamage")}}</el-radio-button>
+            <el-radio-button :label="1">{{$t("buildview.slideDamage")}}</el-radio-button>
+            <el-radio-button :label="2">{{$t("buildview.attackDamagePS")}}</el-radio-button>
+            <el-radio-button :label="3">{{$t("buildview.slideDamagePS")}}</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <!-- 限制MOD槽位 -->
@@ -131,7 +131,6 @@ import { BaseModBuildView } from "./BaseModBuildView";
 
 @Component
 export default class MeleeModBuildView extends BaseModBuildView {
-  isSlide = true
   builds: [string, MeleeModBuild][] = []
   /** 连击倍率 */
   comboMul = 2
@@ -149,8 +148,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
 
   // === 计算属性 ===
   get selectCompMethodText() {
-    return this.isSlide ? this.$t("buildview.slideDamage").toString() :
-      this.$t("buildview.attackDamage").toString();
+    return this.$t("buildview." + ["attackDamage", "slideDamage", "attackDamagePS", "slideDamagePS"][this.selectCompMethod]).toString();
   }
 
   /**
@@ -177,13 +175,13 @@ export default class MeleeModBuildView extends BaseModBuildView {
   // === 生命周期钩子 ===
   beforeMount() {
     this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 150);
-    this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "Corrosive";
+    this.selectDamageType = localStorage.getItem("MeleeModBuildView.selectDamageType") || "Corrosive";
     this.rivenChange();
   }
   recalc() {
     if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
     let options = {
-      compareMode: this.isSlide ? 1 : 0,
+      compareMode: this.selectCompMethod,
       comboLevel: ~~((this.comboMul - 1) * 2),
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
       extraBaseDamage: this.extraBaseDamage / 100,
