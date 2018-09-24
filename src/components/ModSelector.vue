@@ -80,8 +80,8 @@ export default class ModSelector extends Vue {
       baseDmg: ["抵近射击 Prime", "地狱弹膛"],
       crit: ["破灭 Prime", "雷筒"],
       aimCrit: ["雷射瞄具", "破片射击"],
-      sliverCorrosive: ["充电弹头", "传染蔓延"],
-      silverRadiation: ["燃烧外壳", "充电弹头"],
+      sliverCorrosive: ["充电弹头 Prime", "传染蔓延"],
+      silverRadiation: ["充电弹头 Prime", "燃烧外壳"],
       silverViral: ["急冻控场", "传染蔓延"],
       goldCorrosive: ["电冲弹药", "毒素弹幕"],
       gas: ["毒素弹幕", "炼狱轰击", "传染蔓延"],
@@ -124,8 +124,8 @@ export default class ModSelector extends Vue {
     let selected = this.build.mods;
     // 是否虚拟技能武器
     let isVisual = this.build.weapon.id === "Whipclaw" || this.build.weapon.id === "Shattered Lash";
-    let mods = NormalModDatabase.filter(v => 
-      (isVisual && VisualMeleeMods.includes( v.key)) || // 虚拟技能武器接受所有mod
+    let mods = NormalModDatabase.filter(v =>
+      (isVisual && VisualMeleeMods.includes(v.key)) || // 虚拟技能武器接受所有mod
       this.build.weapon.tags.concat([this.build.rivenWeapon.name]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id));
     let benefits = mods.filter(v => v.props.some(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) >= 0))
       .map(v => [v, this.build.testMod(v)] as [NormalMod, number]).sort((a, b) => b[1] - a[1]).map(([v]) => v);

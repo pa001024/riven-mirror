@@ -458,7 +458,7 @@ const _rivenWeaponDataBase = [
   ["Dehtat", "德塔特", "Melee", 1, 160],
   ["Cyath", "西亚什", "Melee", 1, 170],
   ["Plague Keewar", "瘟疫 奇沃", "Melee", 1, 215],
-  ["Plague Kripath", "瘟疫 克里帕丝", "Melee", 0.862, 445],
+  ["Plague Kripath", "瘟疫 克里帕丝", "Melee", 1, 445],
   ["Gunsen", "军扇", "Melee", 1, 85],
   ["Silva & Aegis", "席瓦 & 神盾", "Melee", 1, 175],
   ["Sigma & Octantis", "西格玛 & 南极座", "Melee", 1, 170],
