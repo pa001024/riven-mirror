@@ -1,11 +1,14 @@
 /**
- * 赋能
+ * 加成
  */
 export interface Buff {
   id: string;
+  /** 名称(i18n) */
   name: string;
+  /** 类型 */
+  type: BuffType;
   /** 生效目标 */
-  type: string;
+  target: string;
   /** 属性 [属性名称, 数值] */
   props?: [string, number][];
   /** 随强度变化的属性 [属性名称, 数值, 受强度影响关系] */
@@ -23,39 +26,49 @@ export interface MultiLayer {
   unstackableProps?: [string, number][][];
 }
 
-// 牛/龙/易融/电盾/主教/猫叫/踩线/各种集团1附加元素/女枪1技能/DJ
-// 还有技能武器吃强度 武器外观
+export enum BuffType {
+  BaseDamage,
+  TotalDamage,
+  ElementDamage,
+  Other
+}
+
+/** 加成列表 */
 export const BuffList: Buff[] = [
   // 加法基伤类
-
   {
     id: "B",
     name: "ballisticBattery", // 女枪1 弹道蓄能 (加数值)
-    type: "武器",
-    dynamicProps: [["伤害数值", 0.5, 1]],
+    type: BuffType.BaseDamage,
+    target: "武器",
+    dynamicProps: [["伤害数值", 1600, 1]],
     parms: ["power", "%"],
   }, {
     id: "G",
     name: "shootingGallery", // 女枪2 靶场
-    type: "武器",
+    type: BuffType.BaseDamage,
+    target: "武器",
     dynamicProps: [["伤害", 0.5, 1]],
     parms: ["power", "%"],
   }, {
     id: "A",
     name: "vexArmor", // 龙3 怨怒护甲
-    type: "武器",
+    type: BuffType.BaseDamage,
+    target: "武器",
     dynamicProps: [["伤害", 2.75, 1]],
     parms: ["power", "%"],
   }, {
     id: "m",
     name: "metamorphosis",  // 扶她1 昼夜交替
-    type: "武器",
+    type: BuffType.BaseDamage,
+    target: "武器",
     dynamicProps: [["伤害", 0.25, 1]],
     parms: ["power", "%"],
   }, {
     id: "E",
     name: "eclipse",   // 小丑3 黯然失色
-    type: "武器",
+    type: BuffType.BaseDamage,
+    target: "武器",
     dynamicProps: [["伤害", 2, 1]],
     parms: ["power", "%"],
   },
@@ -63,64 +76,77 @@ export const BuffList: Buff[] = [
   {
     id: "R",
     name: "roar", // 牛吼
-    type: "全域",
+    type: BuffType.TotalDamage,
+    target: "全域",
     dynamicProps: [["最终伤害", 0.5, 1]],
     parms: ["power", "%"],
   }, {
     id: "M",
     name: "voidStrike", // M蹲 虚空重击
-    type: "武器",
+    type: BuffType.TotalDamage,
+    target: "武器",
     dynamicProps: [["最终伤害", 0.12, 1]],
     parms: ["time", "s"],
   }, {
     id: "N",
     name: "molecularPrime", // nova4 分子填充
-    type: "全域",
+    type: BuffType.TotalDamage,
+    target: "全域",
     props: [["最终伤害", 1]],
   },
   // 附加元素类
   {
     id: "f",
     name: "fireballFrenzy", // 火鸡集团1 狂热火球 火焰伤害
-    type: "武器",
+    type: BuffType.ElementDamage,
+    target: "武器",
     dynamicProps: [["4", 1, 1]],
     parms: ["power", "%"],
   }, {
-    id: "2",
+    id: "A",
     name: "flashAccelerant", // 火鸡集团2 闪耀助燃 火焰伤害
-    type: "武器",
+    type: BuffType.ElementDamage,
+    target: "武器",
     dynamicProps: [["4", 0.5, 1]],
     parms: ["power", "%"],
   }, {
     id: "F",
     name: "freezeForce", // 冰男集团1 寒冰之力 冰冻伤害
-    type: "武器",
+    type: BuffType.ElementDamage,
+    target: "武器",
     dynamicProps: [["5", 1, 1]],
     parms: ["power", "%"],
   }, {
     id: "S",
     name: "shockTrooper", // 电男集团1 电击奇兵 电击伤害
-    type: "武器",
+    type: BuffType.ElementDamage,
+    target: "武器",
     dynamicProps: [["7", 1, 1]],
     parms: ["power", "%"],
   }, {
     id: "O",
     name: "smiteInfusion",   // 奶爸集团1 惩击洗礼 辐射伤害
-    type: "武器",
+    type: BuffType.ElementDamage,
+    target: "武器",
     dynamicProps: [["辐射伤害", 1, 1]],
     parms: ["power", "%"],
   }, {
     id: "D",
     name: "venomDose",   // 毒妈集团1 猛毒附加 腐蚀伤害
-    type: "武器",
+    type: BuffType.ElementDamage,
+    target: "武器",
     dynamicProps: [["腐蚀伤害", 1, 1]],
     parms: ["power", "%"],
   },
+  // 速度类
+  // 电男2 女汉子2
+  // Octavia DJ 23
   // 复合类
   {
     id: "V",
     name: "electricShield", // 电盾
-    type: "远程武器",
+    type: BuffType.Other,
+    target: "远程武器",
     props: [["乘算暴伤", 1]],
     multiLayer: {
       maxStack: 6,
@@ -129,7 +155,8 @@ export const BuffList: Buff[] = [
   }, {
     id: "e",
     name: "fireBlast", // 火圈
-    type: "远程武器",
+    type: BuffType.Other,
+    target: "远程武器",
     multiLayer: {
       maxStack: 6,
       stackableProps: [["4", 0.5]],
@@ -137,17 +164,21 @@ export const BuffList: Buff[] = [
   }, {
     id: "I",
     name: "empoweredQuiver", // 弓妹集团1踩线
-    type: "武器",
+    type: BuffType.Other,
+    target: "武器",
     dynamicProps: [["乘算暴伤", 1, 1]],
+    parms: ["power", "%"],
   }, {
     id: "H",
     name: "covenant", // 主教4 庇佑圣约
-    type: "武器",
+    type: BuffType.Other,
+    target: "武器",
     props: [["加法暴击", 0.5], ["爆头暴击", 1.5]],
   }, {
     id: "L",
-    name: "异融",
-    type: "远程武器",
+    name: "mutalistQuanta", // 异融量子枪次要
+    type: BuffType.Other,
+    target: "远程武器",
     props: [["乘算暴伤", 0.25], ["加法暴击", 0.25], ["最终伤害", -0.333]],
     multiLayer: {
       maxStack: 3,
