@@ -1,6 +1,6 @@
 <template>
-  <el-tabs class="buff-tabs" v-model="buffType">
-    <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.name">
+  <el-tabs class="buff-tabs" v-model="selectTab">
+    <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
       <span slot="label" class="buff-tablabel">{{tab.name}}</span>
       <ul class="buff-select">
         <div class="buff-item-container" v-for="buff in tab.buffs" :key="buff.id">
@@ -17,25 +17,36 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { Codex, BuffType, Buff, BuffList } from "@/warframe";
+import { Codex, BuffType, BuffData, BuffList, ModBuild } from "@/warframe";
 
 declare interface BuffSelectorTab {
-  id: BuffType
+  id: string
   name: string
-  buffs: Buff[]
+  buffs: BuffData[]
 }
 
 @Component
 export default class buffSelector extends Vue {
-  buffType = 0
-  tabs: BuffSelectorTab[] = []
+  @Prop() build: ModBuild;
+
+  selectTab = "";
+  tabs: BuffSelectorTab[] = [];
+
   beforeMount() {
-    this.tabs = _.map(BuffType, (v, n) => ({ id: BuffType[n], name: n, buffs: BuffList.filter(k => k.type === v) }))
-      .filter(v => v.buffs.length > 0);
+    let buffList = BuffList.filter(v => v.target === "远程武器" ? !this.build.weapon.tags.includes("近战") :
+      (v.target === "全域" || v.target === "武器" || this.build.weapon.tags.includes(v.target)));
+    this.tabs = [
+      { id: "baseDamage", name: this.$t("buff.types.baseDamage") as string, buffs: buffList.filter(k => k.type === BuffType.BaseDamage) },
+      { id: "totalDamage", name: this.$t("buff.types.totalDamage") as string, buffs: buffList.filter(k => k.type === BuffType.TotalDamage) },
+      { id: "elementDamage", name: this.$t("buff.types.elementDamage") as string, buffs: buffList.filter(k => k.type === BuffType.ElementDamage) },
+      { id: "speed", name: this.$t("buff.types.speed") as string, buffs: buffList.filter(k => k.type === BuffType.Speed) },
+      { id: "other", name: this.$t("buff.types.other") as string, buffs: buffList.filter(k => k.type === BuffType.Other) },
+    ];
+    this.selectTab = "baseDamage";
   }
   handleClick(id: string) {
     let buff = Codex.getBuff(id);
-    this.$emit("select", buff);
+    this.$emit("command", buff);
   }
 }
 </script>

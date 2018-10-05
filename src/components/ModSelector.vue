@@ -131,12 +131,13 @@ export default class ModSelector extends Vue {
       .map(v => [v, this.build.testMod(v)] as [NormalMod, number]).sort((a, b) => b[1] - a[1]).map(([v]) => v);
     this.tabs = [
       // { id: "Fast", name: this.$t("modselector.fastSelect") as string, mods: _.map(this.fastSelect[this.build.rivenWeapon.mod], (v, i) => ({ name: i, id: v } as any)) },
-      { id: "Benefit", name: this.$t("modselector.sorted") as string, mods: benefits },
-      { id: "Damage", name: this.$t("modselector.damage") as string, mods: mods.filter(v => v.props.some(k => k[1] > 0 && "01DSKEGICO".indexOf(k[0]) >= 0)) },
-      { id: "Elements", name: this.$t("modselector.element") as string, mods: mods.filter(v => v.props.some(k => "456789A".indexOf(k[0]) >= 0)) },
-      { id: "Speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.props.some(k => "RLFJ".indexOf(k[0]) >= 0)) },
-      { id: "Other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.props.every(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) < 0)) },
+      { id: "benefit", name: this.$t("modselector.sorted") as string, mods: benefits },
+      { id: "damage", name: this.$t("modselector.damage") as string, mods: mods.filter(v => v.props.some(k => k[1] > 0 && "01DSKEGICO".indexOf(k[0]) >= 0)) },
+      { id: "elements", name: this.$t("modselector.element") as string, mods: mods.filter(v => v.props.some(k => "456789A".indexOf(k[0]) >= 0)) },
+      { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.props.some(k => "RLFJ".indexOf(k[0]) >= 0)) },
+      { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.props.every(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) < 0)) },
     ];
+    this.selectTab = "fast";
   }
   beforeMount() {
     this.reload();

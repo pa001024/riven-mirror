@@ -1,7 +1,9 @@
+import { NormalMod } from "@/warframe";
+
 /**
  * 加成
  */
-export interface Buff {
+export interface BuffData {
   id: string;
   /** 名称(i18n) */
   name: string;
@@ -30,12 +32,40 @@ export enum BuffType {
   BaseDamage,
   TotalDamage,
   ElementDamage,
+  Speed,
   Other
 }
+/**
+ * 实体BUFF类
+ */
+export class Buff {
+  data: BuffData;
+  layer = 1;
+  power = 1;
+  constructor(data: BuffData) {
+    this.data = data;
+  }
+  get name() { return this.data.name; }
+  get props() {
+    let pout = [];
+    if (this.data.props) pout = pout.concat(this.data.props);
+    if (this.data.dynamicProps) pout = pout.concat(this.data.dynamicProps.map(([n, v, p]) => [n, v * p * this.power]));
+    if (this.data.multiLayer && this.data.multiLayer.stackableProps) pout = pout.concat(this.data.multiLayer.stackableProps.map(([n, v]) => [n, v * this.layer]));
+    if (this.data.multiLayer && this.data.multiLayer.unstackableProps) pout = pout.concat(this.data.multiLayer.unstackableProps[this.layer]);
+    return pout;
+  }
+  get layerEnable() { return !!this.data.multiLayer; }
+  get powerEnable() { return !!this.data.parms; }
+}
+/**
+ * 需求效果:
+ * 按需添加常用buff并且结果可以编辑
+ */
 
 /** 加成列表 */
-export const BuffList: Buff[] = [
+export const BuffList: BuffData[] = [
   // 加法基伤类
+  // 死亡之眼光环等
   {
     id: "B",
     name: "ballisticBattery", // 女枪1 弹道蓄能 (加数值)
@@ -93,6 +123,13 @@ export const BuffList: Buff[] = [
     type: BuffType.TotalDamage,
     target: "全域",
     props: [["最终伤害", 1]],
+  }, {
+    id: "C",
+    name: "conditionOverlord", // 异况超量 次方计算
+    type: BuffType.TotalDamage,
+    target: "近战",
+    dynamicProps: [["最终伤害", 0.6, -1]],
+    parms: ["status", ""],
   },
   // 附加元素类
   {
@@ -103,7 +140,7 @@ export const BuffList: Buff[] = [
     dynamicProps: [["4", 1, 1]],
     parms: ["power", "%"],
   }, {
-    id: "A",
+    id: "a",
     name: "flashAccelerant", // 火鸡集团2 闪耀助燃 火焰伤害
     type: BuffType.ElementDamage,
     target: "武器",
@@ -139,7 +176,7 @@ export const BuffList: Buff[] = [
     parms: ["power", "%"],
   },
   // 速度类
-  // 电男2 女汉子2
+  // 电男2 女汉子2 毒龙2
   // Octavia DJ 23
   // 复合类
   {
@@ -147,7 +184,7 @@ export const BuffList: Buff[] = [
     name: "electricShield", // 电盾
     type: BuffType.Other,
     target: "远程武器",
-    props: [["乘算暴伤", 1]],
+    props: [["最终暴伤", 1]],
     multiLayer: {
       maxStack: 6,
       stackableProps: [["7", 0.5]],
@@ -166,7 +203,7 @@ export const BuffList: Buff[] = [
     name: "empoweredQuiver", // 弓妹集团1踩线
     type: BuffType.Other,
     target: "武器",
-    dynamicProps: [["乘算暴伤", 1, 1]],
+    dynamicProps: [["最终暴伤", 1, 1]],
     parms: ["power", "%"],
   }, {
     id: "H",
@@ -179,7 +216,7 @@ export const BuffList: Buff[] = [
     name: "mutalistQuanta", // 异融量子枪次要
     type: BuffType.Other,
     target: "远程武器",
-    props: [["乘算暴伤", 0.25], ["加法暴击", 0.25], ["最终伤害", -0.333]],
+    props: [["最终暴伤", 0.25], ["加法暴击", 0.25], ["最终伤害", -0.333]],
     multiLayer: {
       maxStack: 3,
       unstackableProps: [

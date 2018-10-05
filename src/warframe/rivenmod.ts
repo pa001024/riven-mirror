@@ -310,7 +310,7 @@ export class RivenMod {
       name: this.fullName,
       type: this.name,
       desc: "裂罅MOD",
-      polarity: this.polarity,
+      polarity: this.polarity || "r",
       cost: 18,
       rarity: "x",
       props: this.properties.map(v => [v.prop.id, v.value / 100] as [string, number]),

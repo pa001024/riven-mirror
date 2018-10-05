@@ -47,28 +47,6 @@
                   <el-slider class="right-side" v-model="handShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
                 </el-tooltip>
               </el-form-item>
-              <!-- 基伤加成 -->
-              <el-form-item :label="$t('buildview.extraBaseDamage')">
-                <el-tooltip effect="dark" placement="bottom">
-                  <div slot="content">
-                    <div v-html="$t('buildview.extraBaseDamageTip')"></div>
-                  </div>
-                  <el-input size="small" class="right-side chroma-dmg" v-model="extraBaseDamage">
-                    <template slot="append">%</template>
-                  </el-input>
-                </el-tooltip>
-              </el-form-item>
-              <!-- 总伤加成 -->
-              <el-form-item :label="$t('buildview.extraOverall')">
-                <el-tooltip effect="dark" placement="bottom">
-                  <div slot="content">
-                    <div v-html="$t('buildview.extraOverallTip')"></div>
-                  </div>
-                  <el-input size="small" class="right-side chroma-dmg" v-model="extraOverall">
-                    <template slot="append">%</template>
-                  </el-input>
-                </el-tooltip>
-              </el-form-item>
               <!-- 赋能 -->
               <el-form-item :label="$t('buildview.arcanes')">
                 <el-checkbox-group v-model="arcanes">
@@ -81,15 +59,18 @@
       </el-col>
       <!-- MOD编辑器区域 -->
       <el-col :sm="24" :md="12" :lg="18">
-        <!-- MOD区域 -->
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
+            <!-- MOD区域 -->
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
                   <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="slotClick(index)">
                     <template v-if="mod">
-                      <div class="mod-title" @click.stop="slotClick(index)">{{$t("zh") ? mod.name : mod.id}}</div>
+                      <div class="mod-title">
+                        <div class="mod-polarity"><i :class="`wf-icon-${mod.polarity}`"></i>{{mod.cost}}</div>
+                        {{$t("zh") ? mod.name : mod.id}}
+                      </div>
                       <div class="mod-detail" @click.stop="slotRemove(index)">
                         <div class="mod-stat">
                           <div class="mod-prop" v-for="prop in mod.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
@@ -106,6 +87,35 @@
                   </div>
                 </el-col>
               </draggable>
+            </el-row>
+            <div class="buff-head">{{$t('build.buff')}}</div>
+            <!-- Buff区域 -->
+            <el-row type="flex" class="buff-slot-containor" :gutter="12">
+              <div class="block">
+                <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(buff, index) in item.buffs" :key="index">
+                  <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)">
+                    <template v-if="buff">
+                      <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">
+                        <div class="buff-name">{{$t(`buff.${buff.name}`)}}</div>
+                        <div class="buff-parm layer" v-if="buff.layerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.layer" :min="1" :max="buff.data.multiLayer.maxStack"></el-input-number></div>
+                        <div class="buff-parm power" v-if="buff.powerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.power"></el-input-number></div>
+                      </div>
+                      <div class="buff-detail" @click.stop="buffRemove(index)">
+                        <div class="buff-stat">
+                          <div class="buff-prop" v-for="prop in buff.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
+                          <div class="buff-sum">{{PNNum(100 * item.build.buffValue(index))}}% {{$t("build.total")}}</div>
+                        </div>
+                        <div class="buff-action">
+                          <button type="button" class="buff-slot-remove">
+                            <i class="el-icon-close"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </template>
+                    <i v-else class="el-icon-plus"></i>
+                  </div>
+                </el-col>
+              </div>
             </el-row>
           </el-tab-pane>
         </el-tabs>
@@ -164,6 +174,9 @@
     <el-dialog :title="$t('build.selectMod')" :visible.sync="dialogVisible" width="600">
       <ModSelector ref="selector" :build="build" @command="modSelect($event)"></ModSelector>
     </el-dialog>
+    <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
+      <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
+    </el-dialog>
   </div>
 </template>
 <script lang="ts">
@@ -171,13 +184,14 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { EnemyFaction, RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty, EnemyData, Enemy, Codex } from "@/warframe";
 import ModSelector from "@/components/ModSelector.vue";
+import BuffSelector from "@/components/BuffSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import EnemySelector from "@/components/EnemySelector.vue";
 import EnemyTimeline from "@/components/EnemyTimeline.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 
 @Component({
-  components: { ModSelector, PropDiff, EnemySelector, EnemyTimeline }
+  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline }
 })
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;
@@ -251,7 +265,19 @@ export default class GunBuildEditor extends BaseBuildEditor {
 }
 </script>
 
-<style>
+<style lang="less">
+@text_grey : #606266;
+@theme_main: #6199ff;
+@theme_back: #fff;
+@theme_leaf: #89b2fd;
+@half_grey : #777;
+@text_info : #67c23a;
+@mod_n : #865e37;
+@mod_c : #a7a7a7;
+@mod_r : #f5e583;
+@mod_l : #eaeaea;
+@mod_x : #a072ce;
+
 .right-side {
   width: 50%;
   float: right;
@@ -262,107 +288,115 @@ export default class GunBuildEditor extends BaseBuildEditor {
   box-sizing: border-box;
   max-width: 100%;
   font-size: 14px;
-  color: #606266;
+  color: @text_grey;
+  li {
+    display: inline-block;
+    div {
+      display: inline-block;
+      padding: 4px 8px;
+      margin-right: 8px;
+      min-width: 0;
+      box-sizing: border-box;
+      text-overflow: ellipsis;
+      vertical-align: middle;
+      position: relative;
+    }
+  }
+  .control {
+    padding: 0 8px;
+    width: 100px;
+    margin: 0;
+    .el-input__inner {
+      padding: 0 12px;
+    }
+  }
+  .key {
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+    color: @theme_main;
+    font-weight: 500;
+    border-left: 3px solid;
+    padding-left: 8px;
+  }
 }
-@media only screen and (min-width: 1200px) {
-}
-.enemy-info li {
-  display: inline-block;
-}
-.enemy-info li div {
-  display: inline-block;
-  padding: 4px 8px;
-  margin-right: 8px;
-  min-width: 0;
-  box-sizing: border-box;
-  text-overflow: ellipsis;
-  vertical-align: middle;
-  position: relative;
-}
-.enemy-info .control {
-  padding: 0 8px;
-  width: 100px;
-  margin: 0;
-}
-.enemy-info .control .el-input__inner {
-  padding: 0 12px;
-}
-.enemy-info .key {
-  white-space: nowrap;
-  overflow: hidden;
-  text-align: left;
-  color: #6199ff;
-  font-weight: 500;
-  border-left: 3px solid;
-  padding-left: 8px;
-}
-
 .list-complete-item {
   transition: all 0.5s;
 }
-.list-complete-enter,
+.list-complete-enter {
+  opacity: 0;
+}
 .list-complete-leave-active {
   opacity: 0;
 }
-.enemy-sim-body > .el-form-item {
-  margin: 0;
+.enemy-sim-body {
+  > .el-form-item {
+    margin: 0;
+  }
 }
 .enemy-sim {
   margin-top: 8px;
 }
-.build-form-editor .el-form-item {
-  margin-bottom: 8px;
+.build-form-editor {
+  .el-form-item {
+    margin-bottom: 8px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
-.build-form-editor .el-form-item:last-child {
-  margin-bottom: 0;
-}
-.mod-stat .mod-prop {
-  font-size: 9pt;
-  color: #777;
+.mod-stat {
+  .mod-prop {
+    font-size: 9pt;
+    color: @half_grey;
+  }
+  display: initial;
 }
 .mod-sum {
   font-size: 11pt;
-  color: #67c23a;
+  color: @text_info;
 }
-.mod-title,
+.mod-title {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  cursor: move;
+  font-size: 20px;
+  border-radius: 4px 0 0 4px;
+  flex: 1;
+  position: relative;
+  &:hover {
+    background: #e8f0ff;
+  }
+  .mod-polarity {
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    font-size: 1rem;
+  }
+}
 .mod-detail {
   align-self: stretch;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: 0.3s;
-}
-.mod-title {
-  cursor: move;
-}
-.mod-detail {
   cursor: pointer;
-}
-.mod-detail:hover {
-  background: #ffd6d6;
-}
-.mod-stat {
-  display: initial;
-}
-.mod-detail:hover .mod-stat {
-  display: none;
+  flex: 1;
+  &:hover {
+    background: #ffd6d6;
+    .mod-stat {
+      display: none;
+    }
+    .mod-action {
+      display: initial;
+    }
+  }
 }
 .mod-action {
   display: none;
-}
-.mod-detail:hover .mod-action {
-  display: initial;
-}
-.mod-title {
-  font-size: 20px;
-  border-radius: 4px 0 0 4px;
-}
-.mod-title:hover {
-  background: #e8f0ff;
-}
-.mod-title,
-.mod-detail {
-  flex: 1;
 }
 .mod-slot-remove {
   background: 0 0;
@@ -373,12 +407,12 @@ export default class GunBuildEditor extends BaseBuildEditor {
 }
 .build-tools {
   margin-top: 16px;
-}
-.build-tools .el-form-item__label,
-.build-tools .el-form-item__content,
-.build-tools .el-checkbox__label {
-  font-size: 1rem;
-  line-height: 2.8rem;
+  .el-form-item__label,
+  .el-form-item__content,
+  .el-checkbox__label {
+    font-size: 1rem;
+    line-height: 2.8rem;
+  }
 }
 .build-tools-action {
   display: flex;
@@ -386,9 +420,9 @@ export default class GunBuildEditor extends BaseBuildEditor {
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 12px;
-}
-.build-tools-action > * {
-  flex: 1;
+  > * {
+    flex: 1;
+  }
 }
 .weapon-name {
   font-size: 1.1rem;
@@ -398,56 +432,44 @@ export default class GunBuildEditor extends BaseBuildEditor {
   border-spacing: 0;
   border-collapse: separate;
   font-size: 1em;
-}
-.weapon-props th {
-  color: #606266;
-  font-weight: inherit;
-  text-align: left;
+  th {
+    color: @text_grey;
+    font-weight: inherit;
+    text-align: left;
+  }
 }
 .select-cpmode {
   cursor: pointer;
-}
-.select-cpmode:hover {
-  background: #ebf2ff;
+  &:hover {
+    background: #ebf2ff;
+  }
 }
 .select-cpmode.active {
   background: #89b2fd;
-  color: #fff;
+  color: @theme_back;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-}
-.select-cpmode.active th {
-  color: #fff;
-}
-.select-cpmode.active > * {
-  border-top: 4px solid #d9e6ff;
-  border-bottom: 4px solid #d9e6ff;
-  border-left: 0;
-  border-right: 0;
-}
-.select-cpmode.active > *:first-child {
-  border-left: 4px solid #d9e6ff;
-  border-radius: 4px 0 0 4px;
-}
-.select-cpmode.active > *:last-child {
-  border-right: 4px solid #d9e6ff;
-  border-radius: 0 4px 4px 0;
+  th {
+    color: @theme_back;
+  }
+  > * {
+    border-top: 4px solid #d9e6ff;
+    border-bottom: 4px solid #d9e6ff;
+    border-left: 0;
+    border-right: 0;
+    &:first-child {
+      border-left: 4px solid #d9e6ff;
+      border-radius: 4px 0 0 4px;
+    }
+    &:last-child {
+      border-right: 4px solid #d9e6ff;
+      border-radius: 0 4px 4px 0;
+    }
+  }
 }
 .editor-main > .el-dialog__wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-@media only screen and (max-width: 1366px) {
-  .editor-main > .el-dialog__wrapper > .el-dialog {
-    width: 70%;
-    margin: 0 !important;
-  }
-}
-@media only screen and (max-width: 992px) {
-  .editor-main > .el-dialog__wrapper > .el-dialog {
-    width: 90%;
-    margin: 0 !important;
-  }
 }
 .mod-slot-containor {
   flex-wrap: wrap;
@@ -463,40 +485,160 @@ export default class GunBuildEditor extends BaseBuildEditor {
   display: flex;
   justify-content: center;
   align-items: center;
+  .el-icon-plus {
+    font-size: 40px;
+    color: @theme_leaf;
+    padding: 20px;
+  }
+  &:hover .el-icon-plus,
+  .el-icon-close {
+    color: @theme_main;
+  }
+  &.active {
+    cursor: pointer;
+  }
+  &.n {
+    border-left-color: @mod_n;
+  }
+  &.c {
+    border-left-color: @mod_c;
+  }
+  &.r {
+    border-left-color: @mod_r;
+  }
+  &.l {
+    border-left-color: @mod_l;
+  }
+  &.x {
+    border-left-color: @mod_x;
+  }
+}
+.mod-select {
+  max-height: 64vh;
+  overflow: auto;
+}
+// BUFF
+.buff-head {
+  color: #6199ff;
+  margin: 8px 0;
+}
+.buff-slot {
+  border-left: 4px solid transparent;
+  text-align: center;
+  margin: 8px 0;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left-color: #ffd6d6;
+  > .el-icon-plus {
+    font-size: 40px;
+    color: @theme_leaf;
+    padding: 20px;
+  }
+  &:hover > .el-icon-plus,
+  .el-icon-close {
+    color: @theme_main;
+  }
+  &.active {
+    cursor: pointer;
+  }
+}
+
+.buff-title {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  transition: 0.3s;
+  font-size: 20px;
+  border-radius: 4px 0 0 4px;
+  flex: 1;
+  position: relative;
+  flex-wrap: wrap;
+  &:hover {
+    background: #e8f0ff;
+  }
+  .mod-polarity {
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    font-size: 1rem;
+  }
+  &.layers,
+  &.powers {
+    font-size: 14px;
+  }
+}
+.buff-detail {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  cursor: pointer;
+  flex: 1;
+  &:hover {
+    background: #ffd6d6;
+    .buff-stat {
+      display: none;
+    }
+    .buff-action {
+      display: initial;
+    }
+  }
+}
+.buff-action {
+  display: none;
+}
+.buff-slot-remove {
+  background: 0 0;
+  border: none;
+  outline: 0;
+  cursor: pointer;
+  font-size: 36px;
+}
+.buff-stat {
+  .buff-prop {
+    font-size: 9pt;
+    color: @half_grey;
+  }
+  display: initial;
+}
+.buff-sum {
+  font-size: 11pt;
+  color: @text_info;
+}
+.buff-parm {
+  .el-input-number {
+    .el-input-number__decrease,
+    .el-input-number__increase,
+    .el-input > input {
+      background: none;
+      border: 0;
+    }
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .editor-main > .el-dialog__wrapper > .el-dialog {
+    width: 70%;
+    margin: 0 !important;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .editor-main > .el-dialog__wrapper > .el-dialog {
+    width: 90%;
+    margin: 0 !important;
+  }
 }
 @media only screen and (max-width: 1200px) {
   .mod-slot {
     margin: 4px 0;
   }
-}
-.mod-slot.n {
-  border-left-color: #865e37;
-}
-.mod-slot.c {
-  border-left-color: #a7a7a7;
-}
-.mod-slot.r {
-  border-left-color: #f5e583;
-}
-.mod-slot.l {
-  border-left-color: #eaeaea;
-}
-.mod-slot.x {
-  border-left-color: #a072ce;
-}
-.mod-slot.active {
-  cursor: pointer;
-}
-.mod-slot .el-icon-plus {
-  font-size: 40px;
-  padding: 20px;
-  color: #89b2fd;
-}
-.mod-slot:hover i {
-  color: #6199ff;
-}
-.mod-select {
-  max-height: 64vh;
-  overflow: auto;
 }
 </style>

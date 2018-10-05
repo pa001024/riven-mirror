@@ -5,6 +5,7 @@ import {
 } from "@/warframe";
 import _ from "lodash";
 import { choose, hAccDiv, hAccMul, hAccSum } from "./util";
+import { Buff } from "@/warframe/codex";
 
 // 基础类
 export abstract class ModBuild {
@@ -18,11 +19,16 @@ export abstract class ModBuild {
   protected avaliableMods: NormalMod[] = []
   protected _mods: NormalMod[] = [];
   protected _arcanes: Arcane[] = [];
+  protected _buffs: Buff[] = [];
   /** MOD列表 */
   get mods() { return _.cloneDeep(this._mods); }
+  set mods(value) { this._mods = _.cloneDeep(value); this.calcMods(); }
   /** 赋能列表 */
   get arcanes() { return _.cloneDeep(this._arcanes); }
-  set arcanes(value) { this._arcanes = value; this.calcMods(); }
+  set arcanes(value) { this._arcanes = _.cloneDeep(value); this.calcMods(); }
+  /** 加成列表 */
+  get buffs() { return _.cloneDeep(this._buffs); }
+  set buffs(value) { this._buffs = _.cloneDeep(value); this.calcMods(); }
 
   // ### 属性 ###
   protected _baseDamageMul = 1;
@@ -36,6 +42,7 @@ export abstract class ModBuild {
   protected _fireRateMul = 1;
   protected _handShotMulMul = 1;
   protected _overallMul = 1;
+
   protected _extraProcChance: [string, number][] = [];
 
   /** 基伤增幅倍率 */
@@ -115,7 +122,7 @@ export abstract class ModBuild {
     let mods = this.mods;
     while (mods.length < 8) mods.push(null);
     let normal = mods.map(v => v && v.key || "00").join("");
-    if (this.riven && this.riven.properties.length > 1) return normal + this.riven.qrCodeBase64;
+    if (this.riven && mods.some(v => v && v.key === "01") && this.riven.properties.length > 1) return normal + this.riven.qrCodeBase64;
     return normal;
   }
 
@@ -424,11 +431,22 @@ export abstract class ModBuild {
     return this;
   }
 
+  /** 应用加成 */
+  applyBuff(buff: Buff) {
+    this._buffs.push(buff);
+    this.calcMods();
+    return this;
+  }
+
   /** 将Mod属性写入到增幅上 */
   calcMods() {
     this.reset();
     this._arcanes.forEach(arc => {
       this.applyProp(arc, arc.prop[0], arc.prop[1]);
+    });
+    this._buffs.forEach(buff => {
+      console.log(buff.props)
+      _.forEachRight(buff.props, prop => this.applyProp(null, prop[0], prop[1]));
     });
     this._mods.forEach(mod => {
       // 后者优先 主要用于紫卡有多个元素词条时
@@ -501,7 +519,27 @@ export abstract class ModBuild {
     if (!this._mods[index]) return 0;
     let nb = new (this.constructor as any)(this.weapon, this.riven, this.options);
     nb._mods = this.mods;
+    nb._buffs = this.buffs;
     nb._mods.splice(index, 1);
+    let oldVal = this.compareDamage;
+    nb.calcMods();
+    let newVal = nb.compareDamage;
+    return oldVal / newVal - 1;
+  }
+
+  /**
+   * 返回BUFF价值收益
+   * @param index 也可以是buff.id
+   * @return MOD价值收益 (-∞ ~ +∞ 小数)
+   */
+  buffValue(index: number | string) {
+    if (typeof index === "string")
+      index = this._buffs.findIndex(v => v.data.id === index);
+    if (!this._buffs[index]) return 0;
+    let nb = new (this.constructor as any)(this.weapon, this.riven, this.options);
+    nb._mods = this.mods;
+    nb._buffs = this.buffs;
+    nb._buffs.splice(index, 1);
     let oldVal = this.compareDamage;
     nb.calcMods();
     let newVal = nb.compareDamage;
@@ -520,36 +558,36 @@ export abstract class ModBuild {
     if (mod.props.length == 1) {
       let oriDmg: [string, number];
       switch (mod.props[0][0]) {
-        case 'D': // 伤害 baseDmg
-        case 'K': // 近战伤害 baseDmg
+        case 'D':   // 伤害 baseDmg
+        case 'K':   // 近战伤害 baseDmg
           return mod.props[0][1] / this._baseDamageMul;
-        case '4': // 火焰伤害 heatDmg
-        case '5': // 冰冻伤害 coldDmg
-        case '6': // 毒素伤害 toxiDmg
-        case '7': // 电击伤害 elecDmg
+        case '4':   // 火焰伤害 heatDmg
+        case '5':   // 冰冻伤害 coldDmg
+        case '6':   // 毒素伤害 toxiDmg
+        case '7':   // 电击伤害 elecDmg
           return mod.props[0][1] / this._extraDmgMul;
-        case '8': // 冲击伤害 impaDmg
+        case '8':   // 冲击伤害 impaDmg
           oriDmg = this.weapon.dmg.find(v => v[0] == "Impact");
           if (oriDmg)
             return mod.props[0][1] * oriDmg[1] / this.originalDamage / this._extraDmgMul;
           break;
-        case '9': // 穿刺伤害 puncDmg
+        case '9':   // 穿刺伤害 puncDmg
           oriDmg = this.weapon.dmg.find(v => v[0] == "Puncture");
           if (oriDmg)
             return mod.props[0][1] * oriDmg[1] / this.originalDamage / this._extraDmgMul;
           break;
-        case 'A': // 切割伤害 slasDmg
+        case 'A':   // 切割伤害 slasDmg
           oriDmg = this.weapon.dmg.find(v => v[0] == "Slash");
           if (oriDmg)
             return mod.props[0][1] * oriDmg[1] / this.originalDamage / this._extraDmgMul;
           break;
-        case 'G': // 对Grineer伤害 grinDmg
+        case 'G':     // 对Grineer伤害 grinDmg
           return this.enemyDmgType === "G" ? mod.props[0][1] / this._enemyDmgMul[0] : 0;
-        case 'C': // 对Corpus伤害 corpDmg
+        case 'C':     // 对Corpus伤害 corpDmg
           return this.enemyDmgType === "C" ? mod.props[0][1] / this._enemyDmgMul[1] : 0;
-        case 'I': // 对Infested伤害 infeDmg
+        case 'I':     // 对Infested伤害 infeDmg
           return this.enemyDmgType === "I" ? mod.props[0][1] / this._enemyDmgMul[2] : 0;
-        case '对堕落者伤害': // 对堕落者伤害
+        case '对堕落者伤害':     // 对堕落者伤害
           return this.enemyDmgType === "O" ? mod.props[0][1] / this._enemyDmgMul[3] : 0;
       }
     }
@@ -566,7 +604,7 @@ export abstract class ModBuild {
   /**
    * 自动按武器属性填充MOD
    * @param slots 可用的插槽数
-   * @param useRiven 是否使用紫卡 0=不用 1=自动选择 2=必须用
+   * @param useRiven 是否使用紫卡 0 = 不用 1 = 自动选择 2 = 必须用
    */
   fill(slots = 8, useRiven = 1) {
     // 初始化
@@ -577,7 +615,7 @@ export abstract class ModBuild {
   /**
    * 自动按武器属性填充MOD(不移除已有,使用特定卡库)
    * @param slots 可用的插槽数
-   * @param useRiven 是否使用紫卡 0=不用 1=自动选择 2=必须用
+   * @param useRiven 是否使用紫卡 0 = 不用 1 = 自动选择 2 = 必须用
    */
   fillEmpty(slots = 8, useRiven = 1, lib = this.avaliableMods) {
     // 根据武器自动选择所有可安装的MOD
@@ -607,7 +645,7 @@ export abstract class ModBuild {
   }
   /**
    * 自动按武器属性生成最佳紫卡
-   * 算法3.0 介绍:  (复杂度: O(n))
+   * 算法3.0 介绍: (复杂度: O(n))
    * 1. 首先计算原本配置
    * 2. 过滤紫卡属性
    * 3. 将紫卡属性按收益从高到低加入
@@ -677,7 +715,7 @@ export abstract class ModBuild {
   }
   /**
    * [已废弃]自动按武器属性生成最佳紫卡
-   * 算法2.0 介绍 精度最高但效率太低 :  (复杂度: O(n!))
+   * 算法2.0 介绍 精度最高但效率太低: (复杂度: O(n!))
    * 1. 过滤紫卡属性
    * 2. 生成所有紫卡
    * 3. 计算所有紫卡的配置
@@ -704,7 +742,7 @@ export abstract class ModBuild {
       let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id) * upLevel;
       return new ValuedRivenProperty(v, base, base, upLevel);
     });
-    let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
+    let propsOfMods = choose(avaliableProps, 3);  // 只用三条属性 代表3+1-
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
     let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), upLevel);
@@ -756,6 +794,7 @@ export abstract class ModBuild {
       case '正中红心': /* 正中红心 overallMul */
       case '最终伤害': /* 全局伤害 overallMul */ this._overallMul = hAccMul(this._overallMul, 1 + pValue); break;
       case '加法暴击': /* 加法暴击 critChanceAdd */ this._critChanceAdd = hAccSum(this._critChanceAdd, pValue); break;
+      case '伤害': /* 伤害 baseDamageMul */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;
       default:
     }
   }

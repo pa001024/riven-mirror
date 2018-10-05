@@ -119,9 +119,9 @@ export default class Mod extends Vue {
   editorRivenCode = "";
   @Getter("mod") mod: RivenMod;
   @Getter("modHistoty") modHistoty: RivenMod[];
-  @Action("newBase64Text") newBase64Text: (text: string) => void
-  @Action("newModTextInput") newModTextInput: (text: string) => void
-  @Action("removeHistory") removeHistory: (qrcode: string) => void
+  @Action("newBase64Text") newBase64Text: (text: string) => void;
+  @Action("newModTextInput") newModTextInput: (text: string) => void;
+  @Action("removeHistory") removeHistory: (qrcode: string) => void;
   get isGun() {
     let vp = RivenDataBase.getRivenWeaponByName(this.mod.name);
     return vp && vp.mod != "Melee";

@@ -120,6 +120,22 @@
             </ul>
           </el-card>
         </el-col>
+        <!-- 赏金 -->
+        <el-col :xs="24" :sm="12" :lg="8" v-if="ostrons.length > 0">
+          <el-card class="index-card ostrons">
+            <h3 slot="header"><i class="wf-icon-ostrons"></i> {{$t("alerting.ostrons")}}</h3>
+            <ul>
+              <li v-for="(v, i) in ostrons" :key="i">
+                <div class="info">
+                  <div class="mission">{{v.type}}</div>
+                  <div class="reward">
+                    <div class="reward-item" v-for="reward in v.rewardPool" :key="reward">{{reward}}</div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </el-card>
+        </el-col>
       </el-row>
     </div>
   </div>
@@ -128,7 +144,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { CetusTime, EarthTime, WorldStat, Translator, Sortie, Alert, News, Fissure, Invasion } from "@/warframe";
+import { CetusTime, EarthTime, WorldStat, Translator, Sortie, Alert, News, Fissure, Invasion, Job } from "@/warframe";
 import BScroll from 'better-scroll';
 interface WarframeTime {
   isDay: boolean
@@ -145,13 +161,14 @@ export default class Index extends Vue {
   showTimeType = "cetus";
   scroll: BScroll;
   seconds = ~~(Date.now() / 1e3);
-  scrollWidth = 1920;
+  scrollWidth = 0;
   scrollEnable = false;
   sortie: Sortie = this.stat.sortie;
   alerts: Alert[] = [];
   news: News[] = [];
   fissures: Fissure[] = [];
   invasions: Invasion[] = [];
+  ostrons: Job[] = [];
 
   renderTime(time: string) {
     let sec = ~~(Date.parse(time) / 1e3) - this.seconds;
@@ -181,12 +198,15 @@ export default class Index extends Vue {
           lastRect = rect;
         }
       });
-      if (this.scrollWidth !== width) {
+      if (!this.scroll.isInTransition) {
         this.scroll.refresh();
         this.scrollWidth = width;
       }
     }
     this.scrollEnable = (this.$refs.wrapper as HTMLElement).getBoundingClientRect().width < this.scrollWidth;
+  }
+  updated() {
+    this.resize();
   }
   // === 生命周期钩子 ===
   mounted() {
@@ -198,12 +218,9 @@ export default class Index extends Vue {
         scrollY: false,
         eventPassthrough: 'vertical'
       });
+      this.scrollWidth = 0;
       window.addEventListener("resize", this.resize);
-      this.resize();
     });
-  }
-  updated() {
-    this.resize();
   }
   beforeMount() {
     this.updateTime();
@@ -223,7 +240,9 @@ export default class Index extends Vue {
       this.news = this.stat.news;
       this.fissures = this.stat.fissures;
       this.invasions = this.stat.invasions;
-      this.$nextTick(() => this.resize());
+      this.ostrons = this.stat.ostrons;
+      // this.$nextTick(() => this.resize());
+      setTimeout(() => this.resize(), 60);
     }).catch(() => setTimeout(() => this.updateStat(), 1e3));
   }
   updateTime() {
@@ -331,6 +350,18 @@ export default class Index extends Vue {
   text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
   border: 0;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+.index-card.ostrons .reward {
+  white-space: normal;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.reward-item {
+  display: inline-block;
+  border-bottom: 1px solid #999;
+  padding: 2px 4px;
+  margin: 0 2px 2px 0;
 }
 .wrapper {
   height: 100%;

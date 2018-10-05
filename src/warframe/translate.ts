@@ -43,9 +43,9 @@ export class Translator {
     this.subLinkDict = new Map();
     _partSubfixs.forEach(v => {
       if (!v[0].includes(" ")) return;
-      let sub = _.last(v[0].split(" "));
-      if (this.subLinkDict.has(sub)) this.subLinkDict.get(sub.toLowerCase()).push(v[0]);
-      else this.subLinkDict.set(sub.toLowerCase(), [v[0]]);
+      let sub = _.last(v[0].split(" ")).toLowerCase();
+      if (this.subLinkDict.has(sub)) this.subLinkDict.get(sub).push(v[0]);
+      else this.subLinkDict.set(sub, [v[0]]);
     });
   }
 
@@ -64,6 +64,9 @@ export class Translator {
   static getLocTextCN(rawText: string): string {
     // 忽略大小写
     let text = rawText.toLowerCase(), m;
+    // 处理如 "Lith A1" => "古纪 A1"
+    if (m = text.match(/^(lith|axi|meso|neo) (\w+?\d+) (.+)/))
+      return `${this.getLocText(m[1])} ${m[2].toUpperCase()} ${this.getLocText(m[3])}`;
     // 处理如 "100 Endo" => "100 内融核心"
     if (m = text.match(/^(\d+)s? (.+)/))
       return `${m[1]} ${this.getLocText(m[2])}`;
@@ -73,11 +76,11 @@ export class Translator {
     let lastWord = _.last(text.split(" "));
     // 辅助表查询
     let subfix = this.instance.subLinkDict.has(lastWord)
-      && this.instance.subLinkDict.get(lastWord).find(v => text.endsWith(v[1]))
+      && this.instance.subLinkDict.get(lastWord).find(v => text.endsWith(v))
       || lastWord;
     // 主表查询
     let localeSubfix = this.instance.subDict.get(subfix);
-    if (localeSubfix) {
+    if (localeSubfix && !this.instance.mainDict.has(text)) {
       let len = text.length - subfix.length - 1;
       if (len < 0)
         return localeSubfix;

@@ -149,14 +149,14 @@ export interface EnemyData {
   sheildType: SheildType;
   armorType: ArmorType;
   resistence: number;
-  ignoreProc: number;
+  ignoreProc: number; // 1免疫DoT 2免疫所有 3为夜灵 影响伤害算法
 }
 
 const _enemyList = [
-  ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.80, 2],
-  ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.80, 2],
-  ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.80, 2],
-  ["Teralyst Synovia", "兆力使骨液", 5, 1, 3000, 0, 200, 7, 0, 1, 0.80, 2],
+  ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.60, 3],
+  ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.60, 3],
+  ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.60, 3],
+  ["Teralyst Synovia", "兆力使骨液", 5, 1, 3000, 0, 200, 7, 0, 1, 0.60, 3],
   ["Tusk Firbolg", "巨牙博格", 1, 1, 8000, 0, 600, 7, 0, 1, 0, 1],
   ["Tusk Bolkor", "巨牙博寇", 1, 1, 10000, 0, 600, 7, 0, 1, 0, 1],
   ["Bailiff", "执法员", 1, 1, 600, 0, 500, 1, 0, 0, 0, 0],
@@ -294,12 +294,13 @@ export class Procs {
   }
 
   /**
+   * 结算触发伤害
    *
-   *
+   * @param {number} overallMul 全局伤害加成
    * @returns {[DamageType, number][]}
    * @memberof Procs
    */
-  pop(): [DamageType, number][] {
+  pop(overallMul: number): [DamageType, number][] {
     // 求和 然后去掉持续时间到0的
     let totalSlash = this.Slash.reduce((a, b) => a + b[0], 0);
     this.Slash = this.Slash.filter(v => --v[1] > 0) as [number, number][];
@@ -309,9 +310,9 @@ export class Procs {
     if (this.Heat && this.Heat[1] <= 1)
       this.Heat = null;
     let dmgs = [];
-    if (totalSlash > 0) dmgs.push([DamageType.True, totalSlash]);
-    if (totalToxin > 0) dmgs.push([DamageType.Toxin, totalToxin]);
-    if (totalHeat > 0) dmgs.push([DamageType.Heat, totalHeat]);
+    if (totalSlash > 0) dmgs.push([DamageType.True, overallMul * totalSlash]);
+    if (totalToxin > 0) dmgs.push([DamageType.Toxin, overallMul * totalToxin]);
+    if (totalHeat > 0) dmgs.push([DamageType.Heat, overallMul * totalHeat]);
     return dmgs;
   }
 }
@@ -486,7 +487,7 @@ export class Enemy implements EnemyData {
   /**
    * 应用伤害
    *
-   * @param {[string, number][]} dmgs
+   * @param {[string, number][]} dmgs 伤害表
    * @returns
    * @memberof Enemy
    */
@@ -522,6 +523,25 @@ export class Enemy implements EnemyData {
       this.currentSheild = 0;
       this.applyDmg(dmgs.map(([id, dmg]) => [id, dmg * remaingDmgRate] as [string, number]));
     }
+    return this;
+  }
+  /**
+   * 应用伤害(夜灵)
+   *
+   * @param {[string, number][]} dmgs 伤害表
+   * @param {number} critChance 暴击率
+   * @param {number} threshold 阈值
+   * @returns this
+   * @memberof Enemy
+   */
+  applyEidolonDmg(dmgs: [string, number][], critChance: number, threshold = 300) {
+    let mapped = this.mapDamage(dmgs);
+    let totalDmg = mapped.reduce((a, b) => a + b[1], 0);
+
+    let eidolonCritDmg = totalDmg + totalDmg * (critChance > 1 ? 1 : critChance);
+    // 目标夜灵 无视护盾
+    let eidolonDmg = eidolonCritDmg > threshold ? threshold + (eidolonCritDmg) / 10 : eidolonCritDmg;
+    this.currentHealth -= eidolonDmg;
     return this;
   }
   /**
@@ -562,14 +582,17 @@ export class Enemy implements EnemyData {
    * @param {number} [durationMul=1]
    * @memberof Enemy
    */
-  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets = 1, durationMul = 1) {
+  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets = 1, durationMul = 1, critChance = 0, threshold = 300) {
     let procChance = procChanceMap.reduce((a, [id, val]) => (a[id] = val, a), {});
     // [0.每个弹片单独计算]
     let bls = bullets;
     while (bls > 0) {
       // [0.将伤害平分给每个弹片 不满整个的按比例计算]
       let bh = bls >= 1 ? 1 : bls;
-      if (this.ignoreProc === 2) {
+      // 夜灵算法 https://warframe.huijiwiki.com/wiki/%E5%8D%9A%E5%AE%A2:%E5%A4%9C%E7%81%B5%E5%85%86%E5%8A%9B%E4%BD%BF%E4%BC%A4%E5%AE%B3%E6%9C%BA%E5%88%B6
+      if (this.ignoreProc === 3) {
+        this.applyEidolonDmg(dmgs.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]), critChance, threshold * this.resistence * bh); // 不足一个的乘以阈值
+      } else if (this.ignoreProc === 2) {
         this.applyDmg(dmgs.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]));
       } else {
         // [1.按当前病毒触发比例减少血上限]
@@ -610,8 +633,8 @@ export class Enemy implements EnemyData {
   /**
    * 将DoT计时器进入下一秒
    */
-  nextSecond() {
-    let dotDmgs = this.currentProcs.pop();
+  nextSecond(overallMul: number) {
+    let dotDmgs = this.currentProcs.pop(overallMul);
     this.applyDmg(dotDmgs);
     this.pushState(true);
   }

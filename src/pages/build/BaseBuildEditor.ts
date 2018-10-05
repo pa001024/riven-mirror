@@ -1,4 +1,4 @@
-import { Damage2_0, DamageType, ModBuild, NormalMod, RivenDataBase, RivenWeapon, ValuedRivenProperty, Weapon, RivenMod } from "@/warframe";
+import { Damage2_0, DamageType, ModBuild, NormalMod, RivenDataBase, RivenWeapon, ValuedRivenProperty, Weapon, RivenMod, Buff, BuffData } from "@/warframe";
 import _ from "lodash";
 import { Vue, Watch } from "vue-property-decorator";
 
@@ -7,6 +7,7 @@ declare interface BuildSelectorTab {
   name: string
   build: ModBuild
   mods: NormalMod[]
+  buffs: Buff[]
 }
 export abstract class BaseBuildEditor extends Vue {
   get code() { return this.$route.params.code; }
@@ -16,7 +17,9 @@ export abstract class BaseBuildEditor extends Vue {
   tabs: BuildSelectorTab[] = [];
   tabValue = "SET A";
   selectModIndex = 0;
+  selectBuffIndex = 0;
   dialogVisible = false;
+  buffDialogVisible = false;
   abstract newBuild(...parms): ModBuild;
 
   reload() {
@@ -25,7 +28,8 @@ export abstract class BaseBuildEditor extends Vue {
         title: this.$t("zh") ? `配置${v}` : `SET ${v}`,
         name: `SET ${v}`,
         build: this.newBuild(this.weapon),
-        mods: Array(8)
+        mods: Array(8),
+        buffs: [null],
       }));
       this.tabValue = "SET A";
       if (this.code) {
@@ -82,7 +86,7 @@ export abstract class BaseBuildEditor extends Vue {
       let vp = new ValuedRivenProperty(rp, prop[1] * 100);
       return this.$t("prop.fullName." + vp.id, [vp.displayValue]);
     }
-    return prop[0] + " " + (prop[1] * 100).toFixed() + "%";
+    return (prop[1] > 0 ? "+" : "") + (prop[1] * 100).toFixed() + "%" + " " + prop[0];
   }
   /** 返回固定精确度数值 */
   Num(num: number, preci = 1) {
@@ -98,7 +102,9 @@ export abstract class BaseBuildEditor extends Vue {
   refleshMods() {
     this.build.clear();
     let mods = _.compact(this.currentTab.mods);
-    mods.forEach(mod => this.build.applyMod(mod));
+    let buffs = _.compact(this.currentTab.buffs);
+    this.build.mods = mods;
+    this.build.buffs = buffs;
     this.$router.push({ name: 'BuildEditorWithCode', params: { code: this.build.miniCode } });
   }
   mapDname(id: string) {
@@ -128,12 +134,28 @@ export abstract class BaseBuildEditor extends Vue {
     this.refleshMods();
     this.dialogVisible = false;
   }
+  buffSelect(buff: BuffData) {
+    this.currentTab.buffs[this.selectBuffIndex] = new Buff(buff);
+    this.currentTab.buffs = _.compact(this.currentTab.buffs).concat([null]);
+    this.refleshMods();
+    this.buffDialogVisible = false;
+  }
   slotClick(modIndex: number) {
     this.selectModIndex = modIndex;
     this.dialogVisible = true;
   }
   slotRemove(modIndex: number) {
     this.currentTab.mods[modIndex] = null;
+    this.refleshMods();
+    this.reloadSelector();
+  }
+  buffClick(buffIndex: number) {
+    this.selectBuffIndex = buffIndex;
+    this.buffDialogVisible = true;
+  }
+  buffRemove(buffIndex: number) {
+    this.currentTab.buffs[buffIndex] = null;
+    this.currentTab.buffs = _.compact(this.currentTab.buffs).concat([null]);
     this.refleshMods();
     this.reloadSelector();
   }
@@ -144,7 +166,8 @@ export abstract class BaseBuildEditor extends Vue {
         title: newTabName.replace("SET", "配置"),
         name: newTabName,
         build: this.newBuild(this.weapon),
-        mods: Array(8)
+        mods: Array(8),
+        buffs: [null],
       });
       this.tabValue = newTabName;
     }

@@ -145,14 +145,16 @@ export class GunModBuild extends ModBuild {
       // 伤害
       while (nextDmgTick <= nextDoTTick && enemy.currentHealth > 0) {
         enemy.tickCount = nextDmgTick;
-        enemy.applyHit(remaingMag === this.magazineSize ? this.totalDmgFirst : this.totalDmg, this.procChanceMap, this.dotDamageMap, this.bullets, this.procDurationMul);
+        enemy.applyHit(remaingMag === this.magazineSize ? this.totalDmgFirst : this.totalDmg,
+          this.procChanceMap, this.dotDamageMap, this.bullets, this.procDurationMul,
+          this.critChance, this.weapon.tags.includes("狙击枪") ? 750 : 750 / this.fireRate);
         nextDmgTick += (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : (remaingMag = this.magazineSize, reloadTicks);
       }
       // DoT
       if (enemy.currentHealth > 0) {
         enemy.tickCount = nextDoTTick;
         nextDoTTick += enemy.TICKCYCLE;
-        enemy.nextSecond();
+        enemy.nextSecond(this.overallMul);
       }
     }
     return enemy.stateHistory;

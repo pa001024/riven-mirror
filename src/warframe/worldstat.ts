@@ -418,9 +418,10 @@ export class WorldStat {
    */
   get ostrons() {
     if (!this.data) return [];
-    let data = this.data.syndicateMissions.find(v => v.syndicate === "Ostrons")
+    let data = this.data.syndicateMissions.find(v => v.syndicate === "Ostrons");
     if (!data) return [];
     return this.deepTranslate(data.jobs
-      .map(v => (v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")), v)));
+      .map(v => (v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1"))
+        .filter(k => !k.match(/^\d/)), v)));
   }
 }
