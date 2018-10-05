@@ -42,6 +42,7 @@ export abstract class ModBuild {
   protected _fireRateMul = 1;
   protected _handShotMulMul = 1;
   protected _overallMul = 1;
+  protected _finalCritMulMul = 1;
 
   protected _extraProcChance: [string, number][] = [];
 
@@ -73,6 +74,8 @@ export abstract class ModBuild {
   get handShotMulMul() { return this._handShotMulMul; }
   /** 全局伤害增幅倍率 */
   get overallMul() { return hAccMul(this.enemyDmgMul, this._overallMul); }
+  /** 全局暴击伤害增幅倍率 */
+  get finalCritMulMul() { return this._finalCritMulMul; }
   /** 额外触发几率 */
   get extraProcChance() { return this._extraProcChance; }
   abstract get compareDamage(): number;
@@ -138,7 +141,7 @@ export abstract class ModBuild {
   /** 暴击率 */
   get critChance() { return hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd); }
   /** 暴击倍率 */
-  get critMul() { return hAccMul(this.weapon.critMul, this.critMulMul); }
+  get critMul() { return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul); }
   /** 平均暴击区增幅倍率 */
   get critDamageMul() { return this.calcCritDamage(this.critChance, this.critMul); }
 
@@ -478,6 +481,7 @@ export abstract class ModBuild {
     this._combElementsOrder = [];
     this._extraProcChance = []
     this._overallMul = 1 + this.extraOverall;
+    this._finalCritMulMul = 1;
     this.recalcElements();
   }
 
@@ -793,6 +797,7 @@ export abstract class ModBuild {
       case '爆头伤害': /* 爆头伤害 handShotMul */ this._handShotMulMul = hAccSum(this._handShotMulMul, pValue); break;
       case '正中红心': /* 正中红心 overallMul */
       case '最终伤害': /* 全局伤害 overallMul */ this._overallMul = hAccMul(this._overallMul, 1 + pValue); break;
+      case '最终暴伤': /* 最终暴伤 finalCritMulMul */ this._finalCritMulMul = hAccMul(this._finalCritMulMul, 1 + pValue); break;
       case '加法暴击': /* 加法暴击 critChanceAdd */ this._critChanceAdd = hAccSum(this._critChanceAdd, pValue); break;
       case '伤害': /* 伤害 baseDamageMul */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;
       default:
