@@ -39,6 +39,7 @@ export default class buffSelector extends Vue {
       { id: "baseDamage", name: this.$t("buff.types.baseDamage") as string, buffs: buffList.filter(k => k.type === BuffType.BaseDamage) },
       { id: "totalDamage", name: this.$t("buff.types.totalDamage") as string, buffs: buffList.filter(k => k.type === BuffType.TotalDamage) },
       { id: "elementDamage", name: this.$t("buff.types.elementDamage") as string, buffs: buffList.filter(k => k.type === BuffType.ElementDamage) },
+      { id: "critDamage", name: this.$t("buff.types.critDamage") as string, buffs: buffList.filter(k => k.type === BuffType.CritDamage) },
       { id: "speed", name: this.$t("buff.types.speed") as string, buffs: buffList.filter(k => k.type === BuffType.Speed) },
       { id: "other", name: this.$t("buff.types.other") as string, buffs: buffList.filter(k => k.type === BuffType.Other) },
     ];

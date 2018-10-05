@@ -1,5 +1,3 @@
-import { NormalMod } from "@/warframe";
-
 /**
  * 加成
  */
@@ -32,6 +30,7 @@ export enum BuffType {
   BaseDamage,
   TotalDamage,
   ElementDamage,
+  CritDamage,
   Speed,
   Other
 }
@@ -67,6 +66,13 @@ export const BuffList: BuffData[] = [
   // 加法基伤类
   // 死亡之眼光环等
   {
+    id: "b",
+    name: "baseDamage",   // 通用基伤
+    type: BuffType.BaseDamage,
+    target: "武器",
+    dynamicProps: [["伤害", 1, 1]],
+    parms: ["power", "%"],
+  }, {
     id: "B",
     name: "ballisticBattery", // 女枪1 弹道蓄能 (加数值)
     type: BuffType.BaseDamage,
@@ -88,6 +94,13 @@ export const BuffList: BuffData[] = [
     dynamicProps: [["伤害", 2.75, 1]],
     parms: ["power", "%"],
   }, {
+    id: "d",
+    name: "deadEye", // 死亡之眼 Dead Eye
+    type: BuffType.BaseDamage,
+    target: "狙击枪",
+    dynamicProps: [["伤害", 0.525, 1]],
+    parms: ["mul", "x"],
+  },  {
     id: "m",
     name: "metamorphosis",  // 扶她1 昼夜交替
     type: BuffType.BaseDamage,
@@ -104,6 +117,20 @@ export const BuffList: BuffData[] = [
   },
   // 乘法总伤类
   {
+    id: "c",
+    name: "combo", // 连击
+    type: BuffType.TotalDamage,
+    target: "狙击枪",
+    dynamicProps: [["最终伤害", 0.5, 1]],
+    parms: ["status", ""],
+  }, {
+    id: "o",
+    name: "finalDamage", // 通用终伤
+    type: BuffType.TotalDamage,
+    target: "武器",
+    dynamicProps: [["最终伤害", 1, 1]],
+    parms: ["power", "%"],
+  }, {
     id: "R",
     name: "roar", // 牛吼
     type: BuffType.TotalDamage,
@@ -178,6 +205,29 @@ export const BuffList: BuffData[] = [
   // 速度类
   // 电男2 女汉子2 毒龙2
   // Octavia DJ 23
+  {
+    id: "w",
+    name: "elementalWard", // 元素之护 (毒龙)
+    type: BuffType.Speed,
+    target: "枪",
+    dynamicProps: [["F", 0.35, 1]],
+    parms: ["power", "%"],
+  },
+  // 暴击类
+  {
+    id: "I",
+    name: "empoweredQuiver", // 弓妹集团1踩线
+    type: BuffType.CritDamage,
+    target: "武器",
+    dynamicProps: [["最终暴伤", 1, 1]],
+    parms: ["power", "%"],
+  }, {
+    id: "H",
+    name: "covenant", // 主教4 庇佑圣约
+    type: BuffType.CritDamage,
+    target: "武器",
+    props: [["加法暴击", 0.5], ["爆头暴击", 1.5]],
+  },
   // 复合类
   {
     id: "V",
@@ -198,19 +248,6 @@ export const BuffList: BuffData[] = [
       maxStack: 6,
       stackableProps: [["4", 0.5]],
     },
-  }, {
-    id: "I",
-    name: "empoweredQuiver", // 弓妹集团1踩线
-    type: BuffType.Other,
-    target: "武器",
-    dynamicProps: [["最终暴伤", 1, 1]],
-    parms: ["power", "%"],
-  }, {
-    id: "H",
-    name: "covenant", // 主教4 庇佑圣约
-    type: BuffType.Other,
-    target: "武器",
-    props: [["加法暴击", 0.5], ["爆头暴击", 1.5]],
   }, {
     id: "L",
     name: "mutalistQuanta", // 异融量子枪次要

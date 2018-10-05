@@ -2128,6 +2128,7 @@ let po = {
       baseDamage: "基础伤害",
       totalDamage: "最终伤害",
       elementDamage: "元素伤害",
+      critDamage: "暴击",
       speed: "速度",
       other: "其他",
     },
@@ -2149,8 +2150,13 @@ let po = {
     fireBlast: "火焰冲击 (Ember)",
     empoweredQuiver: "强化箭袋 (Ivara)",
     covenant: "庇佑圣约 (Harrow)",
+    elementalWard: "元素之护 (Chroma)",
     mutalistQuanta: "异融量子枪球体",
-    conditionOverlord: "异况超量层数",
+    conditionOverlord: "异况超量",
+    deadEye: "死亡之眼 (光环)",
+    baseDamage: "基础伤害 (通用)",
+    combo: "连击加成",
+    finalDamage: "最终伤害 (通用)",
   },
 };
 

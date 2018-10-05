@@ -2123,6 +2123,14 @@ let po = {
     uploadtip: "將文件拖至此處，或<em>點擊上傳</em>參考圖",
   },
   buff: {
+    types: {
+      baseDamage: "基礎傷害",
+      totalDamage: "最終傷害",
+      elementDamage: "元素傷害",
+      critDamage: "暴擊",
+      speed: "速度",
+      other: "其他",
+    },
     ballisticBattery: "彈道蓄能 (Mesa)",
     shootingGallery: "靶場 (Mesa)",
     vexArmor: "怨怒護甲 (Chroma)",
@@ -2141,7 +2149,13 @@ let po = {
     fireBlast: "火焰衝擊 (Ember)",
     empoweredQuiver: "強化箭袋 (Ivara)",
     covenant: "庇佑聖約 (Harrow)",
+    elementalWard: "元素之護 (Chroma)",
     mutalistQuanta: "異融量子槍球體",
+    conditionOverlord: "異況超量",
+    deadEye: "死亡之眼 (光環)",
+    baseDamage: "基礎傷害 (通用)",
+    combo: "連擊加成",
+    finalDamage: "最終傷害 (通用)",
   },
 };
 

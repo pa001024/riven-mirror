@@ -2123,6 +2123,14 @@ let po = {
     uploadtip: "Drag or <em>upload file</em> to pick colors automaticly",
   },
   buff: {
+    types: {
+      baseDamage: "BASE DAMAGE",
+      totalDamage: "TOTAL DAMAGE",
+      elementDamage: "ELEMENT DAMAGE",
+      critDamage: "CRIT DAMAGE",
+      speed: "SPEED",
+      other: "OTHER",
+    },
     ballisticBattery: "Ballistic Battery (Mesa)",
     shootingGallery: "Shooting Gallery (Mesa)",
     vexArmor: "Vex Armor (Chroma)",
@@ -2141,7 +2149,13 @@ let po = {
     fireBlast: "Fire Blast (Ember)",
     empoweredQuiver: "Empowered Quiver (Ivara)",
     covenant: "Covenant (Harrow)",
+    elementalWard: "Elemental Ward (Chroma)",
     mutalistQuanta: "Mutalist Quanta Orb",
+    conditionOverlord: "Condition Overlord",
+    deadEye: "Dead Eye (Aura)",
+    baseDamage: "Base Damage (Common)",
+    combo: "Combo",
+    finalDamage: "Final Damage (Common)",
   },
 };
 
