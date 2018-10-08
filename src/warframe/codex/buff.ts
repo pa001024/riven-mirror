@@ -97,7 +97,7 @@ export const BuffList: BuffData[] = [
     id: "d",
     name: "deadEye", // 死亡之眼 Dead Eye
     type: BuffType.BaseDamage,
-    target: "狙击枪",
+    target: "Sniper",
     dynamicProps: [["伤害", 0.525, 1]],
     parms: ["mul", "x"],
   },  {
@@ -120,7 +120,7 @@ export const BuffList: BuffData[] = [
     id: "c",
     name: "combo", // 连击
     type: BuffType.TotalDamage,
-    target: "狙击枪",
+    target: "Sniper",
     dynamicProps: [["最终伤害", 0.5, 1]],
     parms: ["status", ""],
   }, {
@@ -154,7 +154,7 @@ export const BuffList: BuffData[] = [
     id: "C",
     name: "conditionOverlord", // 异况超量 次方计算
     type: BuffType.TotalDamage,
-    target: "近战",
+    target: "Melee",
     dynamicProps: [["最终伤害", 0.6, -1]],
     parms: ["status", ""],
   },
@@ -209,7 +209,7 @@ export const BuffList: BuffData[] = [
     id: "w",
     name: "elementalWard", // 元素之护 (毒龙)
     type: BuffType.Speed,
-    target: "枪",
+    target: "Gun",
     dynamicProps: [["F", 0.35, 1]],
     parms: ["power", "%"],
   },

@@ -9,6 +9,7 @@ import BuildEditor from '@/pages/BuildEditor.vue'
 import Simulator from '@/pages/Simulator.vue'
 import Palette from '@/pages/Palette.vue'
 import EULA from '@/pages/EULA.vue'
+import ErrorPage from '@/pages/Error.vue'
 import NewUserWelcome from '@/pages/NewUserWelcome.vue'
 import WeaponSelector from '@/components/WeaponSelector.vue'
 
@@ -31,5 +32,6 @@ export default new Router({
     { path: '/palette', name: 'Palette', component: Palette },
     { path: '/eula', name: 'EULA', component: EULA },
     { path: '/welcome', name: 'NewUserWelcome', component: NewUserWelcome },
+    { path: '/*', name: 'Error', component: ErrorPage },
   ]
 })

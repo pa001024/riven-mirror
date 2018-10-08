@@ -132,7 +132,7 @@ export class RivenMod {
       case "melee": return this.mod === "Melee";
       case "pistol": return this.mod === "Pistol";
       case "rifle": return this.mod === "Rifle";
-      case "sniper": return this.mod === "Rifle" && this.weapons[0].tags.includes("狙击枪");
+      case "sniper": return this.mod === "Rifle" && this.weapons[0].tags.includes("Sniper");
       case "zaw": return this.mod === "Melee" && MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id)).length === 0;
     }
     return false;

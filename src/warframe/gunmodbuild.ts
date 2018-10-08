@@ -137,7 +137,7 @@ export class GunModBuild extends ModBuild {
     let ticks = Math.round(enemy.TICKCYCLE / this.fireRate); // 1200tick/s 整合射速和秒DoT
     let reloadTicks = Math.round(enemy.TICKCYCLE * this.reloadTime); // 装填需要的tick数
     let remaingMag = this.magazineSize; // 剩余子弹数
-    let shotAmmoCost = this.weapon.tags.includes("射线") ? 0.5 : 1; // 射击消耗子弹数
+    let shotAmmoCost = this.weapon.tags.includes("Continuous") ? 0.5 : 1; // 射击消耗子弹数
     let nextDoTTick = enemy.TICKCYCLE;
     let nextDmgTick = 0;
     // 敌人死亡或者到时间停止
@@ -147,7 +147,7 @@ export class GunModBuild extends ModBuild {
         enemy.tickCount = nextDmgTick;
         enemy.applyHit(remaingMag === this.magazineSize ? this.totalDmgFirst : this.totalDmg,
           this.procChanceMap, this.dotDamageMap, this.bullets, this.procDurationMul,
-          this.critChance, this.weapon.tags.includes("狙击枪") ? 750 : 750 / this.fireRate);
+          this.critChance, this.weapon.tags.includes("Sniper") ? 750 : 750 / this.fireRate);
         nextDmgTick += (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : (remaingMag = this.magazineSize, reloadTicks);
       }
       // DoT
@@ -305,7 +305,7 @@ export class GunModBuild extends ModBuild {
     switch (pName) {
       case 'D': /* 伤害 baseDmg */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;
       case 'S': /* 多重射击 multiShot */ this._multishotMul = hAccSum(this._multishotMul, pValue); break;
-      case 'R': /* 射速 fireRate */ this._fireRateMul = hAccSum(this._fireRateMul, (this.weapon.tags.includes("弓") ? 2 * pValue : pValue)); break;
+      case 'R': /* 射速 fireRate */ this._fireRateMul = hAccSum(this._fireRateMul, (this.weapon.tags.includes("Bow") ? 2 * pValue : pValue)); break;
       case 'L': /* 弹匣容量 magazine */ this._magazineMul = hAccSum(this._magazineMul, pValue); break;
       case 'F': /* 装填速度 reloadSpeed */ this._reloadSpeedMul = hAccSum(this._reloadSpeedMul, pValue); break;
       case 'M': /* 弹药最大值 maxAmmo' */ this._maxAmmoMul = hAccSum(this._maxAmmoMul, pValue); break;

@@ -56,7 +56,7 @@
         <!-- 选择武器 -->
         <el-form-item :label="$t('buildview.weapon')" v-if="riven.weapons.length > 1">
           <el-select size="small" v-model="selectWeapon" @change="debouncedRecalc" :placeholder="$t('buildview.selectWeapon')">
-            <el-option v-for="weapon in riven.weapons" :key="weapon.id" :label="$t('zh') ? weapon.name : weapon.id" :value="weapon.id">
+            <el-option v-for="weapon in riven.weapons" :key="weapon.id" :label="weapon.displayName" :value="weapon.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -66,7 +66,7 @@
             <el-tooltip effect="dark" :content="$t('buildview.totalDamageTip')" placement="bottom">
               <el-radio-button :label="0">{{$t("buildview.totalDamage")}}</el-radio-button>
             </el-tooltip>
-            <el-tooltip v-if="weapon.tags.includes('狙击枪')" effect="dark" :content="$t('buildview.firstDamageTip')" placement="bottom">
+            <el-tooltip v-if="weapon.tags.includes('Sniper')" effect="dark" :content="$t('buildview.firstDamageTip')" placement="bottom">
               <el-radio-button :label="3">{{$t("buildview.firstDamage")}}</el-radio-button>
             </el-tooltip>
             <el-tooltip effect="dark" :content="$t('buildview.burstDamageTip')" placement="bottom">
@@ -123,7 +123,7 @@
         <!-- 使用MOD -->
         <el-form-item :label="$t('buildview.usemods')">
           <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="debouncedRecalc">{{$t("buildview.heavyCaliber")}}</el-checkbox>
-          <el-checkbox v-if="weapon.tags.includes('狙击枪')" v-model="usePrimedChamber" @change="debouncedRecalc">{{$t("buildview.primedChamber")}}</el-checkbox>
+          <el-checkbox v-if="weapon.tags.includes('Sniper')" v-model="usePrimedChamber" @change="debouncedRecalc">{{$t("buildview.primedChamber")}}</el-checkbox>
           <el-tooltip effect="dark" :content="$t('buildview.acolyteModsTip')" placement="bottom">
             <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">{{$t("buildview.acolyteMods")}}</el-checkbox>
           </el-tooltip>
@@ -182,7 +182,7 @@ export default class GunModBuildView extends BaseModBuildView {
    */
   get defalutMode() {
     let gun = this.weapon as GunWeapon;
-    if (gun.tags.includes("狙击枪") && gun.magazine <= 2) return GunCompareMode.FirstDamage;
+    if (gun.tags.includes("Sniper") && gun.magazine <= 2) return GunCompareMode.FirstDamage;
     if (gun.magazine / gun.fireRate < gun.reload * 1.5) return GunCompareMode.SustainedDamage;
     if (gun.fireRate > 2) return GunCompareMode.BurstDamage;
     return GunCompareMode.TotalDamage;

@@ -33,7 +33,7 @@ export default class buffSelector extends Vue {
   tabs: BuffSelectorTab[] = [];
 
   beforeMount() {
-    let buffList = BuffList.filter(v => v.target === "远程武器" ? !this.build.weapon.tags.includes("近战") :
+    let buffList = BuffList.filter(v => v.target === "远程武器" ? !this.build.weapon.tags.includes("Melee") :
       (v.target === "全域" || v.target === "武器" || this.build.weapon.tags.includes(v.target)));
     this.tabs = [
       { id: "baseDamage", name: this.$t("buff.types.baseDamage") as string, buffs: buffList.filter(k => k.type === BuffType.BaseDamage) },

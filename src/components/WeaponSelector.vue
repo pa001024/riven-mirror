@@ -9,7 +9,7 @@
               {{$t("zh") ? riven.name : riven.id}} {{riven.ratio}}
             </li>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{$t("zh") ? weapon.name : weapon.id}}</el-dropdown-item>
+              <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{weapon.displayName}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <li v-else class="weapon-item el-dropdown" @click="handleClick(riven.id)">

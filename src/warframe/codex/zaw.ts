@@ -176,7 +176,7 @@ export class Zaw implements MeleeWeapon {
   get twoHand() { return this.grip.twoHand; }
   get panelDamage() { return this.dmg.reduce((a, b) => a + b[1], 0); }
   get slideDmg() { return this.panelDamage * (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide; }
-  get tags() { return ["近战", "ZAW", this.stance]; }
+  get tags() { return ["Melee", "ZAW", this.stance]; }
   get critMul() { return this.strike.id === "A" ? 2.2 : 2; }
   get url() { return `ZAW-${this.strike.idx}-${this.grip.idx}-${this.links.idx}`; }
   set url(value) {
@@ -205,5 +205,8 @@ export class Zaw implements MeleeWeapon {
     this.fireRate = hAccSum(this.strike.speed, this.grip.speed, this.links.speed);
     this.critChance = hAccSum(this.strike.crit, this.links.crit);
     this.status = hAccSum(this.strike.status, this.links.status);
+  }
+  get displayName() {
+    return this.name;
   }
 }
