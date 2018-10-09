@@ -512,6 +512,7 @@ let po = {
     "suppress": "消音",
     "hydraulicCrosshairs": "液压准心",
     "augurPact": "预言 契约",
+    "reach": "剑风",
     "primedReach": "剑风 Prime",
     "primedPressurePoint": "压迫点 Prime",
     "primedFeverStrike": "热病打击 Prime",

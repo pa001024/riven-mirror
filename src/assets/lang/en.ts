@@ -512,6 +512,7 @@ let po = {
     "suppress": "Suppress",
     "hydraulicCrosshairs": "Hydraulic Crosshairs",
     "augurPact": "Augur Pact",
+    "reach": "Reach",
     "primedReach": "Primed Reach",
     "primedPressurePoint": "Primed Pressure Point",
     "primedFeverStrike": "Primed Fever Strike",

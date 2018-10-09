@@ -6,7 +6,7 @@
         <div class="weapon-display">
           <el-card class="weapon-box">
             <div slot="header" class="weapon-name">
-              <span>{{$t("zh") ? weapon.name : weapon.id.toUpperCase()}}</span>
+              <span>{{weapon.displayName}}</span>
             </div>
             <table class="weapon-props">
               <tbody>
