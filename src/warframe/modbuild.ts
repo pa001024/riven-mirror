@@ -504,8 +504,8 @@ export abstract class ModBuild {
     // 过滤一些需要前置MOD的MOD
     for (let i = 0; i < NormalCardDependTable.length; i++) {
       const depend = NormalCardDependTable[i];
-      if (mod.name === depend[0]) {
-        if (!this._mods.some(v => v.name === depend[1]))
+      if (mod.id === depend[0]) {
+        if (!this._mods.some(v => v.id === depend[1]))
           return false;
       }
     }

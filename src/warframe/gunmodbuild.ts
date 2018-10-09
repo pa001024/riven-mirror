@@ -254,16 +254,16 @@ export class GunModBuild extends ModBuild {
   isValidMod(mod: NormalMod) {
     if (!super.isValidMod(mod))
       return false;
-    if (!this.useAcolyteMods && AcolyteModsList.some(v => v === mod.name))
+    if (!this.useAcolyteMods && AcolyteModsList.some(v => v === mod.id))
       return false;
-    if (!this.useHeavyCaliber && "Heavy Caliber" === mod.id)
+    if (!this.useHeavyCaliber && "heavyCaliber" === mod.id)
       return false;
-    if (!this.usePrimedChamber && "Primed Chamber" === mod.id)
+    if (!this.usePrimedChamber && "primedChamber" === mod.id)
       return false;
-    if (!this.useHunterMunitions && "Hunter Munitions" === mod.id)
+    if (!this.useHunterMunitions && "hunterMunitions" === mod.id)
       return false;
     // 集团海克屏蔽散射正义
-    if (this.weapon.id === "Vaykor Hek" && mod.id === "Scattered Justice") {
+    if (this.weapon.id === "Vaykor Hek" && mod.id === "scatteredJustice") {
       return false;
     }
     return true;

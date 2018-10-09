@@ -107,7 +107,7 @@ const _normalModSource = [
   ["1R", "metalAuger", [["P", 2.1]], "Rilfe", "-", "r", 15],
   ["1S", "magazineWarp", [["L", 0.3]], "Rilfe", "-", "n", 9],
   ["1T", "ammoDrum", [["M", 0.3]], "Rilfe", "-", "n", 7],
-  ["1U", "shred", [["R", 0.3], ["P", 1.2]], "Rilfe", "r", "r", 9],
+  ["1U", "shred", [["R", 0.3], ["P", 1.2]], "Rilfe", "r", "r", 11],
   ["1V", "continuousMisery", [["3", 1]], "Rilfe", "r", "n", 7],
   ["1W", "agileAim", [["移动速度", 0.2]], "Rilfe", "r", "c", 5],
   ["1X", "vilePrecision", [["Z", -0.6], ["R", -0.36]], "Rilfe", "-", "r", 11],
@@ -160,6 +160,7 @@ const _normalModSource = [
   // ["2I", "Serrated Rounds", "锯刃弹头", [["PVP", 0]], "一部分物理伤害转换为切割伤害（限武形秘仪）", "Rilfe", "r", "c", 5],
   // ["2J", "Ripper Rounds", "撕裂弹头", [["PVP", 0]], "将一部分物理伤害转化为穿刺伤害（限武形秘仪）", "Rilfe", "r", "c", 5],
   ["2K", "depletedReload", [["L", -0.6], ["F", 0.48]], "Sniper", "-", "r", 7],
+  ["2L", "primedShred", [["R", 0.55], ["P", 2.2]], "Rilfe", "r", "l", 16],
 
   // 霰弹枪 50 ~ 8z
   ["50", "pointBlank", [["D", 0.9]], "Shotgun", "r", "c", 9],
@@ -397,16 +398,16 @@ export const NormalModDatabase = _normalModSource.map(v => {
 });
 
 export const NormalCardDependTable: [string, string][] = [
-  ["尖刃弹头", "弱点感应"],
-  ["重口径", "膛线"],
-  ["增压弹匣", "乏能迅敏"],
+  ["bladedRounds", "vitalSense"],
+  ["heavyCaliber", "serration"],
+  ["pressurizedMagazine", "anemicAgility"],
 ];
 
 export const AcolyteModsList: string[] = [
-  "创口溃烂", "急进猛突", "杀伤计数", "致残突击", "重点防御",
-  "制导弹药", "尖刃弹头", "氩晶瞄具", "簧压膛室", "触媒连动",
-  "狭窄枪膛", "破片射击", "纳米涂覆", "转轮弹匣", "雷射瞄具",
-  "内置触媒", "增压弹匣", "定位辅助", "尖锐子弹", "液压准心",
+  "weepingWounds", "bloodRush", "bodyCount", "maimingStrike", "focusedDefense", // "创口溃烂", "急进猛突", "杀伤计数", "致残突击", "重点防御",
+  "guidedOrdinance", "bladedRounds", "argonScope", "springLoadedChamber", "catalyzerLink", // "制导弹药", "尖刃弹头", "氩晶瞄具", "簧压膛室", "触媒连动",
+  "narrowBarrel", "shrapnelShot", "nanoApplicator", "repeaterClip", "laserSight", // "狭窄枪膛", "破片射击", "纳米涂覆", "转轮弹匣", "雷射瞄具",
+  "embeddedCatalyzer", "pressurizedMagazine", "targetingSubsystem", "sharpenedBullets", "hydraulicCrosshairs", // "内置触媒", "增压弹匣", "定位辅助", "尖锐子弹", "液压准心",
 ];
 
 export const VisualMeleeMods = ["D3", "D4", "D5", "D6"];
