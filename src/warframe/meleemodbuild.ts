@@ -34,9 +34,9 @@ export class MeleeModBuild extends ModBuild {
 
   /** 范围增幅倍率 */
   get rangeMul() { return this._rangeMul; }
-  /** 充能倍率增幅倍率 */
+  /** 导引倍率增幅倍率 */
   get chargeMulMul() { return this._chargeMulMul; }
-  /** 充能效率增幅倍率 */
+  /** 导引效率增幅倍率 */
   get chargeEffMul() { return this._chargeEffMul; }
   /** 连击时间增值 */
   get comboDurationAdd() { return this._comboDurationAdd; }
@@ -189,8 +189,8 @@ export class MeleeModBuild extends ModBuild {
       case 'K': /* 近战伤害 baseDmg */ this._baseDamageMul += pValue; break;
       case 'T': /* 攻击范围 range */ this._rangeMul += pValue; break;
       case 'J': /* 攻击速度 attackSpeed */ this._fireRateMul += pValue; break;
-      case 'B': /* 充能伤害 chargeMul */ this._chargeMulMul += pValue; break;
-      case 'U': /* 充能效率 chargeEff */ this._chargeEffMul += pValue; break;
+      case 'B': /* 导引伤害 chargeMul */ this._chargeMulMul += pValue; break;
+      case 'U': /* 导引效率 chargeEff */ this._chargeEffMul += pValue; break;
       case 'N': /* 连击持续时间 comboDuration */ this._comboDurationAdd += pValue; break;
       case 'E': /* 滑行攻击造成暴击几率 slideCritChance */ this._slideCritChanceAdd += pValue; break;
       case 'X': /* 处决伤害 execDmg */ this._execDmgMul += pValue; break;

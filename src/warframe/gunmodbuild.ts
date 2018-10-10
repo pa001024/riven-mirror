@@ -290,7 +290,7 @@ export class GunModBuild extends ModBuild {
    * @param slots 可用的插槽数
    * @param useRiven 是否使用紫卡 0=不用 1=自动选择 2=必须用
    */
-  fill(slots = 8, useRiven = 1) {
+  fill(slots = 8, useRiven = 0) {
     if (this.useHunterMunitions === 2)
       this.applyMod(NormalModDatabase.find(v => v.name === "猎人 战备"));
     super.fill(slots, useRiven);

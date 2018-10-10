@@ -448,7 +448,6 @@ export abstract class ModBuild {
       this.applyProp(arc, arc.prop[0], arc.prop[1]);
     });
     this._buffs.forEach(buff => {
-      console.log(buff.props)
       _.forEachRight(buff.props, prop => this.applyProp(null, prop[0], prop[1]));
     });
     this._mods.forEach(mod => {
@@ -610,7 +609,7 @@ export abstract class ModBuild {
    * @param slots 可用的插槽数
    * @param useRiven 是否使用紫卡 0 = 不用 1 = 自动选择 2 = 必须用
    */
-  fill(slots = 8, useRiven = 1) {
+  fill(slots = 8, useRiven = 0) {
     // 初始化
     this.clear();
     this.fillEmpty(slots, useRiven);
@@ -621,9 +620,10 @@ export abstract class ModBuild {
    * @param slots 可用的插槽数
    * @param useRiven 是否使用紫卡 0 = 不用 1 = 自动选择 2 = 必须用
    */
-  fillEmpty(slots = 8, useRiven = 1, lib = this.avaliableMods) {
+  fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
     // 根据武器自动选择所有可安装的MOD
-    let mods = lib.filter(v => !this._mods.some(k => v.id === k.id || v.id === k.primed));
+    let mods = lib.filter(v => !this._mods.some(k => v.id === k.id && (v.id === "RIVENFAKE" ? v.props[0][0] === k.props[0][0] : true) || v.id === k.primed));
+    let rivenCount = this._mods.reduce((a, b) => a + (b.id === "RIVENFAKE" ? 1 : 0), 0), rivenSlots = rivenLimit ? slots + rivenLimit - 1 : slots;
     if (useRiven > 0) {
       if (useRiven == 2)
         this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
@@ -631,49 +631,49 @@ export abstract class ModBuild {
         mods.push(this.riven.normalMod); // 1. 将紫卡作为一张普卡进行计算
     }
     let sortableMods = mods.map(v => [v, 0] as [NormalMod, number]);
-    while (this._mods.length < slots && sortableMods.length > (slots - this._mods.length)) {
+    while (this._mods.length < rivenSlots && sortableMods.length > (rivenSlots - this._mods.length)) {
       // 2. 计算收益
+      // console.log("开始计算收益: ", this._mods.length)
       sortableMods.forEach(v => {
-        v[1] = this.testMod(v[0]);
-        // v[1] > 0 && console.log("测试收益: ", v[0].name, "的收益是", v[1]);
+        if (v[0].id === "RIVENFAKE" ? rivenCount >= rivenLimit : this._mods.length - rivenCount >= rivenSlots - rivenLimit)
+          v[1] = -2;
+        else
+          v[1] = this.testMod(v[0]);
+        v[0].id === "RIVENFAKE" && console.log("测试收益: ", this._mods.map(v => v.name).join(","), v[0].props[0][1], v[0].name, "的收益是", v[1]);
       });
       // 3. 把所有卡按收益排序
       sortableMods.sort((a, b) => b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]);
       if (sortableMods.length > 0) {
         // console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
         // 4. 将收益最高的一项插入并移出数组
-        this.applyMod(sortableMods.shift()[0]);
+        let expMod = sortableMods.shift()[0];
+        if (expMod.id === "RIVENFAKE") rivenCount++;
+        this.applyMod(expMod);
         // 5. 重复以上步骤直到卡槽充满
       }
     }
   }
   /**
    * 自动按武器属性生成最佳紫卡
-   * 算法3.0 介绍: (复杂度: O(n))
-   * 1. 首先计算原本配置
-   * 2. 过滤紫卡属性
-   * 3. 将紫卡属性按收益从高到低加入
-   * 4. 将最终普通卡收益最低的剔除
-   * 5. 返回最终结算结果的紫卡
+   * 算法4.0
+   * 1. 过滤紫卡属性
+   * 2. 将紫卡属性作为虚拟MOD参与正常fill
+   * 3. 返回最终结算结果的紫卡
    * @param slots 可用的插槽数
    */
   findBestRiven(slots = 8): RivenMod {
     let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
+    newBuild.fill(slots - 1, 0);
     // 生成所有紫卡
-    // 1. 计算目标配置
-    newBuild.fill(slots, 0);
-    // 2. 列出所有属性
+    // 1. 列出所有属性
     let upLevel = toUpLevel(4, true), negaUpLevel = toNegaUpLevel(4, true);
     let avaliableProps = RivenPropertyDataBase[this.riven.mod].filter(v => {
       if (v.noDmg) return false;
       if (["G", "I", "C", "O"].includes(v.id)) return this.enemyDmgType === v.id;
       if (this.allowElementTypes) {
-        if (["4", "5", "6", "7", "8", "9", "A"].includes(v.id))
-          if (!this.allowElementTypes.includes(v[0]))
-            return false;
-      } else if (["4", "5", "6", "8", "9", "A"].includes(v.id)) {
-        return false;
-      }
+        if (["4", "5", "6", "7", "8", "9", "A"].includes(v.id) && !this.allowElementTypes.includes(v.id))
+          return false;
+      } else if (["4", "5", "6", "8", "9", "A"].includes(v.id)) return false;
       return true;
     }).map(v => {
       let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id) * upLevel;
@@ -689,7 +689,7 @@ export abstract class ModBuild {
     let fakeMods = avaliableProps.map(v => ({
       key: "01",
       id: "RIVENFAKE",
-      name: "RIVENFAKE",
+      name: v.prop.sName,
       type: "",
       desc: "裂罅MOD",
       polarity: "r",
@@ -697,16 +697,20 @@ export abstract class ModBuild {
       rarity: "x",
       props: [[v.prop.id, v.value / 100]] as [string, number][],
     } as NormalMod));
-    newBuild.fillEmpty(slots + 3, 0, fakeMods);
-    // 计算有紫卡属性后收益最低的mod 如果是紫卡就结束计算 否则去掉该卡再算一次
-    let removeAble = _.minBy(newBuild.mods.map((_, i) => [i, newBuild.modValue(i)]), v => v[1]);
-    if (removeAble[0] < slots) {
-      newBuild.fill(slots, 0);
-      newBuild._mods.splice(removeAble[0], 1);
-      newBuild.fillEmpty(slots + 2, 0, fakeMods);
-    }
+    let rivenArea = this.avaliableMods.concat(fakeMods);
+    // 将紫卡属性作为虚拟MOD参与正常fill
+    newBuild.fillEmpty(slots, 0, rivenArea, 3);
+
+    // 计算有紫卡属性后收益最低的mod 如果不是紫卡就去掉收益最低的紫卡再计算一次
+    let valueList = newBuild._mods.map((_, i) => [i, newBuild.modValue(i)]).filter(v => newBuild._mods[v[0]].id === "RIVENFAKE");
+    let removeAble = _.minBy(valueList, v => v[1]);
+    console.log("去掉该卡", newBuild._mods[removeAble[0]].name)
+    newBuild._mods.splice(removeAble[0], 1);
+    newBuild.calcMods();
+    newBuild.fillEmpty(slots, 0, fakeMods, 3);
     // 结算 生成紫卡
-    let resultProps = newBuild.mods.slice(-3).map(v => new ValuedRivenProperty(RivenDataBase.getPropByName(v.props[0][0]), v.props[0][1] * 100, v.props[0][1] * 100, 1));
+    let resultProps = newBuild.mods.filter(v => v.id === "RIVENFAKE").map(v => new ValuedRivenProperty(RivenDataBase.getPropByName(v.props[0][0]), v.props[0][1] * 100, v.props[0][1] * 100, 1));
+    console.log(newBuild.mods.map(v => v.name).join(","))
     let newRiven = new RivenMod(this.riven);
     newRiven.properties = resultProps;
     newRiven.properties.push(valuedNegativeProp);
@@ -736,7 +740,7 @@ export abstract class ModBuild {
       if (!this.enemyDmgType && ["G", "I", "C", "O"].includes(v.id)) return false;
       if (this.allowElementTypes) {
         if (["4", "5", "6", "7", "8", "9", "A"].includes(v.id))
-          if (!this.allowElementTypes.includes(v[0]))
+          if (!this.allowElementTypes.includes(v.id))
             return false;
       } else if (["4", "5", "6"].includes(v.id)) {
         return false;
