@@ -1078,6 +1078,9 @@ let po = {
     "prismaTwinGremlins": "棱晶 双子小精灵",
     "cadus": "光棍",
     "carminePenta": "绯红五芒星榴弹炮",
+    "paracesis": "心智之殁",
+    "pupacyst": "毒囊骨茧",
+    "falcor": "猎鹰轮",
 
     "ferrite": "铁氧体",
     "nanoSpores": "纳米孢子",
@@ -2194,6 +2197,7 @@ let po = {
     conditionOverlord: "异况超量",
     deadEye: "死亡之眼 (光环)",
     baseDamage: "基础伤害 (通用)",
+    critChance: "暴击几率 (通用)",
     combo: "连击加成",
     finalDamage: "最终伤害 (通用)",
   },

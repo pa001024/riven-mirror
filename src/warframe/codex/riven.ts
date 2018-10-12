@@ -451,6 +451,10 @@ const _rivenWeaponDataBase = [
   ["Destreza", "技巧之剑", "Melee", 1.14, 325],
   ["Obex", "奥比克斯", "Melee", 1.1, 75],
   ["Magistar", "执法者", "Melee", 1.09, 105],
+
+  ["Paracesis", "心智之殁", "Melee", 1, 300],
+  ["Pupacyst", "毒囊骨茧", "Melee", 1, 70],
+  ["Falcor", "猎鹰轮", "Melee", 1, 200],
   ["Mewan", "密丸", "Melee", 1, 140],
   ["Kronsh", "客隆什", "Melee", 1, 70],
   ["Ooltha", "乌尔萨", "Melee", 1, 110],

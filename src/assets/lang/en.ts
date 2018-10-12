@@ -1078,6 +1078,9 @@ let po = {
     "prismaTwinGremlins": "Prisma Twin Gremlins",
     "cadus": "Cadus",
     "carminePenta": "Carmine Penta",
+    "paracesis": "Paracesis",
+    "pupacyst": "Pupacyst",
+    "falcor": "Falcor",
 
     "ferrite": "Ferrite",
     "nanoSpores": "Nano Spores",
@@ -2193,6 +2196,7 @@ let po = {
     conditionOverlord: "Condition Overlord",
     deadEye: "Dead Eye (Aura)",
     baseDamage: "Base Damage (Common)",
+    critChance: "Crit Chance (Common)",
     combo: "Combo",
     finalDamage: "Final Damage (Common)",
   },

@@ -100,7 +100,7 @@ export const BuffList: BuffData[] = [
     target: "Sniper",
     dynamicProps: [["伤害", 0.525, 1]],
     parms: ["mul", "x"],
-  },  {
+  }, {
     id: "m",
     name: "metamorphosis",  // 扶她1 昼夜交替
     type: BuffType.BaseDamage,
@@ -215,6 +215,13 @@ export const BuffList: BuffData[] = [
   },
   // 暴击类
   {
+    id: "t",
+    name: "critChance", // 通用暴击
+    type: BuffType.CritDamage,
+    target: "武器",
+    dynamicProps: [["F", 1, 1]],
+    parms: ["power", "%"],
+  }, {
     id: "I",
     name: "empoweredQuiver", // 弓妹集团1踩线
     type: BuffType.CritDamage,
