@@ -66,45 +66,45 @@ export default class ModSelector extends Vue {
 
   /** MOD快速选择 */
   fastSelect = {
-    "Rifle": {
-      baseDmg: ["膛线", "分裂膛室", "重口径"],
-      crit: ["致命一击", "弱点感应"],
-      aimCrit: ["氩晶瞄具", "尖刃弹头"],
-      sliverCorrosive: ["污染弹匣", "暴风使者"],
-      silverRadiation: ["地狱火", "暴风使者"],
-      silverViral: ["低温弹头 Prime", "污染弹匣"],
-      goldCorrosive: ["致命火力", "高压电流"],
-      gas: ["致命火力", "铝热焊弹", "污染弹匣"],
+    Rifle: {
+      baseDmg: ["serration", "splitChamber", "heavyCaliber"],
+      crit: ["pointStrike", "vitalSense"],
+      aimCrit: ["argonScope", "bladedRounds"],
+      sliverCorrosive: ["infectedClip", "stormbringer"],
+      silverRadiation: ["hellfire", "stormbringer"],
+      silverViral: ["primedCryoRounds", "infectedClip"],
+      goldCorrosive: ["malignantForce", "highVoltage"],
+      gas: ["malignantForce", "thermiteRounds", "infectedClip"]
     },
-    "Shotgun": {
-      baseDmg: ["抵近射击 Prime", "地狱弹膛"],
-      crit: ["破灭 Prime", "雷筒"],
-      aimCrit: ["雷射瞄具", "破片射击"],
-      sliverCorrosive: ["充电弹头 Prime", "传染蔓延"],
-      silverRadiation: ["充电弹头 Prime", "燃烧外壳"],
-      silverViral: ["急冻控场", "传染蔓延"],
-      goldCorrosive: ["电冲弹药", "毒素弹幕"],
-      gas: ["毒素弹幕", "炼狱轰击", "传染蔓延"],
+    Shotgun: {
+      baseDmg: ["primedPointBlank", "hellsChamber"],
+      crit: ["primedRavage", "blunderbuss"],
+      aimCrit: ["laserSight", "shrapnelShot"],
+      sliverCorrosive: ["primedChargedShell", "contagiousSpread"],
+      silverRadiation: ["primedChargedShell", "incendiaryCoat"],
+      silverViral: ["chillingGrasp", "contagiousSpread"],
+      goldCorrosive: ["shellShock", "toxicBarrage"],
+      gas: ["toxicBarrage", "scatteringInferno", "contagiousSpread"]
     },
-    "Pistol": {
-      baseDmg: ["黄蜂蛰刺", "弹头扩散", "致命洪流"],
-      crit: ["手枪精通 Prime", "弱点专精 Prime"],
-      aimCrit: ["液压准心", "尖锐子弹"],
-      sliverCorrosive: ["痉挛", "病原弹头"],
-      silverRadiation: ["火焰装填 Prime", "痉挛"],
-      silverViral: ["深层冷冻", "病原弹头"],
-      goldCorrosive: ["电流震击", "瘟疫手枪"],
-      gas: ["瘟疫手枪", "灼痕焦点", "病原弹头"],
+    Pistol: {
+      baseDmg: ["hornetStrike", "barrelDiffusion", "lethalTorrent"],
+      crit: ["primedPistolGambit", "primedTargetCracker"],
+      aimCrit: ["hydraulicCrosshairs", "sharpenedBullets"],
+      sliverCorrosive: ["convulsion", "pathogenRounds"],
+      silverRadiation: ["primedHeatedCharge", "convulsion"],
+      silverViral: ["deepFreeze", "pathogenRounds"],
+      goldCorrosive: ["jolt", "pistolPestilence"],
+      gas: ["pistolPestilence", "scorch", "pathogenRounds"]
     },
-    "Melee": {
-      baseDmg: ["压迫点 Prime", "剑风 Prime"],
-      crit: ["急进猛突", "肢解", "牺牲 斩铁"],
-      slideCrit: ["致残突击", "急进猛突", "肢解"],
-      sliverCorrosive: ["热病打击 Prime", "电击触点"],
-      silverRadiation: ["熔岩冲击", "电击触点"],
-      silverViral: ["热病打击 Prime", "北风"],
-      goldCorrosive: ["伏打电能", "剧毒灾害"],
-      gas: ["热病打击 Prime", "爆裂刀刃", "剧毒灾害"],
+    Melee: {
+      baseDmg: ["primedPressurePoint", "primedReach"],
+      crit: ["bloodRush", "organShatter", "sacrificialSteel"],
+      slideCrit: ["maimingStrike", "bloodRush", "organShatter"],
+      sliverCorrosive: ["primedFeverStrike", "shockingTouch"],
+      silverRadiation: ["moltenImpact", "shockingTouch"],
+      silverViral: ["primedFeverStrike", "northWind"],
+      goldCorrosive: ["voltaicStrike", "virulentScourge"],
+      gas: ["primedFeverStrike", "volcanicEdge", "virulentScourge"]
     }
   };
   get fast() { return _.map(this.fastSelect[this.build.rivenWeapon.mod], (v, i) => ({ name: i, id: v } as any)); }
@@ -148,7 +148,7 @@ export default class ModSelector extends Vue {
     else {
       let selected = this.build.mods;
       let mods = NormalModDatabase.filter(v => this.build.weapon.tags.concat([this.build.rivenWeapon.name]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id));
-      let found = id.map(v => mods.find(k => k.name === v)).filter(Boolean);
+      let found = id.map(v => mods.find(k => k.id === v)).filter(Boolean);
       this.$emit("command", found);
     }
     this.reload();
