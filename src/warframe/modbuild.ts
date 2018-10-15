@@ -448,6 +448,7 @@ export abstract class ModBuild {
       this.applyProp(arc, arc.prop[0], arc.prop[1]);
     });
     this._buffs.forEach(buff => {
+      console.log(buff.props)
       _.forEachRight(buff.props, prop => this.applyProp(null, prop[0], prop[1]));
     });
     this._mods.forEach(mod => {

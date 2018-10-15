@@ -50,7 +50,7 @@ export class Buff {
     if (this.data.props) pout = pout.concat(this.data.props);
     if (this.data.dynamicProps) pout = pout.concat(this.data.dynamicProps.map(([n, v, p]) => [n, v * p * this.power]));
     if (this.data.multiLayer && this.data.multiLayer.stackableProps) pout = pout.concat(this.data.multiLayer.stackableProps.map(([n, v]) => [n, v * this.layer]));
-    if (this.data.multiLayer && this.data.multiLayer.unstackableProps) pout = pout.concat(this.data.multiLayer.unstackableProps[this.layer]);
+    if (this.data.multiLayer && this.data.multiLayer.unstackableProps) pout = pout.concat(this.data.multiLayer.unstackableProps[this.layer - 1]);
     return pout;
   }
   get layerEnable() { return !!this.data.multiLayer; }
@@ -219,7 +219,7 @@ export const BuffList: BuffData[] = [
     name: "critChance", // 通用暴击
     type: BuffType.CritDamage,
     target: "武器",
-    dynamicProps: [["F", 1, 1]],
+    dynamicProps: [["加法暴击", 1, 1]],
     parms: ["power", "%"],
   }, {
     id: "I",

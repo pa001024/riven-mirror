@@ -4,7 +4,7 @@
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven Mirror
-          <span class="beta">ALPHA 0.9.C</span>
+          <span class="beta">ALPHA 0.9.D</span>
         </h1>
       </router-link>
       <MiniClock class="hidden-xs-only header-watch">
@@ -214,6 +214,11 @@ export default class App extends Vue {
   .i-mirror-logo {
     width: 50px;
     height: 50px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .el-header h1 {
+    font-size: 18px;
   }
 }
 /* 字体 */
