@@ -38,6 +38,7 @@ export abstract class ModBuild {
   protected _critMulMul = 1;
   protected _procChanceMul = 1;
   protected _procDurationMul = 1;
+  protected _procDamageMul = 1;
   protected _enemyDmgMul = [1, 1, 1, 1, 1];
   protected _fireRateMul = 1;
   protected _handShotMulMul = 1;
@@ -60,6 +61,8 @@ export abstract class ModBuild {
   get procChanceMul() { return this._procChanceMul; }
   /** 触发时间增幅倍率 */
   get procDurationMul() { return this._procDurationMul; }
+  /** 触发伤害增幅倍率 */
+  get procDamageMul() { return this._procDamageMul; }
   /** 种族伤害增幅倍率 */
   get enemyDmgMul() {
     if (this.enemyDmgTypeIndex >= 0)
@@ -467,6 +470,7 @@ export abstract class ModBuild {
     this._critChanceAdd = 0;
     this._procChanceMul = 1;
     this._procDurationMul = 1;
+    this._procDamageMul = 1;
     this._enemyDmgMul = [1, 1, 1, 1, 1];
     this._handShotMulMul = 1;
     this._fireRateMul = 1;
@@ -802,6 +806,7 @@ export abstract class ModBuild {
       case '爆头伤害': /* 爆头伤害 handShotMul */ this._handShotMulMul = hAccSum(this._handShotMulMul, pValue); break;
       case '正中红心': /* 正中红心 overallMul */
       case '最终伤害': /* 全局伤害 overallMul */ this._overallMul = hAccMul(this._overallMul, 1 + pValue); break;
+      case '触发伤害': /* 触发伤害 procDamageMul */ this._procDamageMul = hAccMul(this._procDamageMul, 1 + pValue); break;
       case '最终暴伤': /* 最终暴伤 finalCritMulMul */ this._finalCritMulMul = hAccMul(this._finalCritMulMul, 1 + pValue); break;
       case '加法暴击': /* 加法暴击 critChanceAdd */ this._critChanceAdd = hAccSum(this._critChanceAdd, pValue); break;
       case '伤害': /* 伤害 baseDamageMul */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;

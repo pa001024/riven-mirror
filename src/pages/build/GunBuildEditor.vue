@@ -69,7 +69,7 @@
                     <template v-if="mod">
                       <div class="mod-title">
                         <div class="mod-polarity"><i :class="`wf-icon-${mod.polarity}`"></i>{{mod.cost}}</div>
-                        {{$t("zh") ? mod.name : mod.id}}
+                        {{mod.name}}
                       </div>
                       <div class="mod-detail" @click.stop="slotRemove(index)">
                         <div class="mod-stat">

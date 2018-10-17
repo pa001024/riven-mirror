@@ -29,8 +29,7 @@ export class MeleeModBuild extends ModBuild {
   private _slideCritChanceAdd = 0;
   private _execDmgMul = 1;
   private _comboCritChanceMul = 0;
-  private _comboStatusMul = 1;
-  private _statusDamageMul = 1;
+  private _comboProcChanceMul = 0;
 
   /** 范围增幅倍率 */
   get rangeMul() { return this._rangeMul; }
@@ -45,11 +44,9 @@ export class MeleeModBuild extends ModBuild {
   /** 处决伤害增幅倍率 */
   get execDmgMul() { return this._execDmgMul; }
   /** 连击数增加暴击率 */
-  get comboCritChanceMul() { return this._comboCritChanceMul; }
+  get comboCritChanceMul() { return this.weapon.tags.includes("Exalted") ? 0 : this._comboCritChanceMul; }
   /** 连击数增加触发率 */
-  get comboStatusMul() { return this._comboStatusMul; }
-  /** 异常状态增加近战伤害 */
-  get statusDamageMul() { return this._statusDamageMul; }
+  get comboProcChanceMul() { return this.weapon.tags.includes("Exalted") ? 0 : this._comboProcChanceMul; }
 
   // 额外参数
   /** 异况触发量 */
@@ -110,13 +107,20 @@ export class MeleeModBuild extends ModBuild {
   }
   /** 连击数增加暴击率 */
   get comboCritChance() { return this.comboMul > 1 ? 1 + this.comboMul * this.comboCritChanceMul : 1; }
+  /** 连击数增加触发率 */
+  get comboProcChance() { return this.comboMul > 1 ? this.comboMul * this.comboProcChanceMul : 0; }
   /** [overwrite] 暴击率 */
   get critChance() { return hAccMul(hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd), this.comboCritChance); }
   /** 滑行暴击率 */
   get slideCritDamage() {
     return hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd) * this.comboCritChance
   }
-  /** 真实触发几率 */
+  /** [overwrite] 触发几率 */
+  get procChance() {
+    let s = this.weapon.status * (this.procChanceMul + this.comboProcChance);
+    return s > 1 ? 1 : s < 0 ? 0 : s;
+  }
+  /** [overwrite] 真实触发几率 */
   get realProcChance() { return this.procChance; }
   /** 滑行平均暴击区增幅倍率 */
   get slideCritDamageMul() { return this.calcCritDamage(this.slideCritDamage, this.critMul); }
@@ -174,8 +178,7 @@ export class MeleeModBuild extends ModBuild {
     this._slideCritChanceAdd = 0;
     this._execDmgMul = 1;
     this._comboCritChanceMul = 0;
-    this._comboStatusMul = 1;
-    this._statusDamageMul = 1;
+    this._comboProcChanceMul = 0;
   }
 
   /**
@@ -195,8 +198,7 @@ export class MeleeModBuild extends ModBuild {
       case 'E': /* 滑行攻击造成暴击几率 slideCritChance */ this._slideCritChanceAdd += pValue; break;
       case 'X': /* 处决伤害 execDmg */ this._execDmgMul += pValue; break;
       case '连击数增加暴击率': this._comboCritChanceMul += pValue; break;
-      case '连击数增加触发率': this._comboStatusMul += pValue; break;
-      case '异常状态增加近战伤害': this._statusDamageMul += pValue; break;
+      case '连击数增加触发率': this._comboProcChanceMul += pValue; break;
       default:
         super.applyProp(mod, pName, pValue); break;
     }

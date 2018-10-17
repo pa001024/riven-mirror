@@ -25,7 +25,7 @@
             <el-col class="build-card" :sm="12" :md="6" :lg="3" v-for="mod in build[1].mods" :key="mod.name">
               <div class="build-card-box" :class="[mod.rarity]">
                 <div class="build-card-header">
-                  <div class="build-card-name">{{$t("zh") ? mod.name: mod.id}}</div>
+                  <div class="build-card-name">{{mod.name}}</div>
                 </div>
                 <div class="build-card-body">
                   <div class="build-card-prop" v-for="prop in mod.props" :key="prop[0]">

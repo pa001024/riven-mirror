@@ -296,11 +296,11 @@ export class Procs {
   /**
    * 结算触发伤害
    *
-   * @param {number} overallMul 全局伤害加成
+   * @param {number} procDamageMul 触发伤害加成
    * @returns {[DamageType, number][]}
    * @memberof Procs
    */
-  pop(overallMul: number): [DamageType, number][] {
+  pop(procDamageMul: number): [DamageType, number][] {
     // 求和 然后去掉持续时间到0的
     let totalSlash = this.Slash.reduce((a, b) => a + b[0], 0);
     this.Slash = this.Slash.filter(v => --v[1] > 0) as [number, number][];
@@ -310,9 +310,9 @@ export class Procs {
     if (this.Heat && this.Heat[1] <= 1)
       this.Heat = null;
     let dmgs = [];
-    if (totalSlash > 0) dmgs.push([DamageType.True, overallMul * totalSlash]);
-    if (totalToxin > 0) dmgs.push([DamageType.Toxin, overallMul * totalToxin]);
-    if (totalHeat > 0) dmgs.push([DamageType.Heat, overallMul * totalHeat]);
+    if (totalSlash > 0) dmgs.push([DamageType.True, procDamageMul * totalSlash]);
+    if (totalToxin > 0) dmgs.push([DamageType.Toxin, procDamageMul * totalToxin]);
+    if (totalHeat > 0) dmgs.push([DamageType.Heat, procDamageMul * totalHeat]);
     return dmgs;
   }
 }
@@ -551,22 +551,22 @@ export class Enemy implements EnemyData {
    * @param {number} durationMul DoT伤害
    * @memberof Enemy
    */
-  applyDoTDmg(dmgs: [string, number][], durationMul: number = 1) {
+  applyDoTDmg(dmgs: [string, number][], durationMul: number = 1, procDamageMul: number = 1) {
     let immediateDamages = dmgs.map(([vn, vv]) => {
       switch (vn) {
         // 切割伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E5%88%87%E5%89%B2%E4%BC%A4%E5%AE%B3
         case "Slash":
-          this.currentProcs.push(DamageType.Slash, vv, durationMul);
+          this.currentProcs.push(DamageType.Slash, vv * procDamageMul, durationMul);
           return [DamageType.True, vv];
         // 毒素伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E7%B4%A0%E4%BC%A4%E5%AE%B3
         case "Toxin":
         case "Gas":
-          this.currentProcs.push(DamageType.Toxin, vv, durationMul);
+          this.currentProcs.push(DamageType.Toxin, vv * procDamageMul, durationMul);
           return [DamageType.Toxin, vv];
         // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
         // 注:火焰触发不会叠加
         case "Heat":
-          this.currentProcs.push(DamageType.Heat, vv, durationMul);
+          this.currentProcs.push(DamageType.Heat, vv * procDamageMul, durationMul);
           return [DamageType.Heat, vv];
       }
     }) as [DamageType, number][];
@@ -582,7 +582,7 @@ export class Enemy implements EnemyData {
    * @param {number} [durationMul=1]
    * @memberof Enemy
    */
-  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets = 1, durationMul = 1, critChance = 0, threshold = 300) {
+  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets = 1, durationMul = 1, critChance = 0, threshold = 300, procDamageMul = 1) {
     let procChance = procChanceMap.reduce((a, [id, val]) => (a[id] = val, a), {});
     // [0.每个弹片单独计算]
     let bls = bullets;
@@ -616,7 +616,7 @@ export class Enemy implements EnemyData {
         }
         // [5.DoT伤害]
         if (this.ignoreProc === 0)
-          this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]), durationMul);
+          this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]), durationMul, procDamageMul);
         // [6.将病毒下降的血量恢复]
         this.currentHealth /= (1 - 0.5 * currentViral);
       }
@@ -633,8 +633,8 @@ export class Enemy implements EnemyData {
   /**
    * 将DoT计时器进入下一秒
    */
-  nextSecond(overallMul: number) {
-    let dotDmgs = this.currentProcs.pop(overallMul);
+  nextSecond(procDamageMul: number) {
+    let dotDmgs = this.currentProcs.pop(procDamageMul);
     this.applyDmg(dotDmgs);
     this.pushState(true);
   }

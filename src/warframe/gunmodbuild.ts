@@ -154,7 +154,7 @@ export class GunModBuild extends ModBuild {
       if (enemy.currentHealth > 0) {
         enemy.tickCount = nextDoTTick;
         nextDoTTick += enemy.TICKCYCLE;
-        enemy.nextSecond(this.overallMul);
+        enemy.nextSecond(this.procDamageMul);
       }
     }
     return enemy.stateHistory;
