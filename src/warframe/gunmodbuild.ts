@@ -166,7 +166,7 @@ export class GunModBuild extends ModBuild {
   /** 换弹时间 */
   get reloadTime() { return hAccDiv(this.weapon.reload, this.reloadSpeedMul); }
   /** 弹夹容量 */
-  get magazineSize() { return Math.round(this.weapon.magazine * this.magazineMul); }
+  get magazineSize() { let s = Math.round(this.weapon.magazine * this.magazineMul); return s <= 1 ? 1 : s; }
   /** 最大弹药 */
   get maxAmmo() { return Math.round(this.weapon.ammo * this.maxAmmoMul); }
 
