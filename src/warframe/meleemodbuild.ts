@@ -30,6 +30,7 @@ export class MeleeModBuild extends ModBuild {
   private _execDmgMul = 1;
   private _comboCritChanceMul = 0;
   private _comboProcChanceMul = 0;
+  private _stealthDamageMul = 0;
 
   /** 范围增幅倍率 */
   get rangeMul() { return this._rangeMul; }
@@ -42,11 +43,13 @@ export class MeleeModBuild extends ModBuild {
   /** 滑行暴击增值 */
   get slideCritChanceAdd() { return this._slideCritChanceAdd; }
   /** 处决伤害增幅倍率 */
-  get execDmgMul() { return this._execDmgMul; }
+  get execDmgMul() { return this._execDmgMul < 0 ? 0 : this._execDmgMul; }
   /** 连击数增加暴击率 */
   get comboCritChanceMul() { return this.weapon.tags.includes("Exalted") ? 0 : this._comboCritChanceMul; }
   /** 连击数增加触发率 */
   get comboProcChanceMul() { return this.weapon.tags.includes("Exalted") ? 0 : this._comboProcChanceMul; }
+  /** 偷袭伤害 */
+  get stealthDamageMul() { return this._stealthDamageMul < 0 ? 0 : this._stealthDamageMul; }
 
   // 额外参数
   /** 异况触发量 */
@@ -158,7 +161,23 @@ export class MeleeModBuild extends ModBuild {
 
   // ### 基类方法 ###
 
-  /** 检测当前MOD是否可用 */
+  /**
+   * [overwrite] 计算暴击伤害 (近战偷袭)
+   * @param m 暴击率
+   * @param n 暴击倍率
+   * @param p 爆头几率 [=0]
+   * @param v 爆头倍率 [=2]
+   * @param s 偷袭倍率 [=0]
+   */
+  calcCritDamage(m: number, n: number, p = 0, v = 2, s = 0) {
+    if (v != 2)
+      return ((1 + (1 - v) * p) * (hAccMul(m, n - 1) + 1) + m * n * p * v) / (p + 1) + s;
+    if (p != 0)
+      return hAccMul(m, n - 1) + 1 + 2 * m * n * p / (p + 1) + s;
+    return hAccMul(m, n - 1) + s + 1;
+  }
+
+  /** [overwrite] 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
     if (!super.isValidMod(mod))
       return false;
@@ -168,7 +187,7 @@ export class MeleeModBuild extends ModBuild {
     return true;
   }
 
-  /** 重置所有属性增幅器 */
+  /** [overwrite] 重置所有属性增幅器 */
   reset() {
     super.reset();
     this._rangeMul = 1;
@@ -179,10 +198,11 @@ export class MeleeModBuild extends ModBuild {
     this._execDmgMul = 1;
     this._comboCritChanceMul = 0;
     this._comboProcChanceMul = 0;
+    this._stealthDamageMul = 0;
   }
 
   /**
-   * 应用通用属性
+   * [overwrite] 应用通用属性
    * @param mod MOD
    * @param pName 属性id或名称
    * @param pValue 属性值
@@ -199,6 +219,7 @@ export class MeleeModBuild extends ModBuild {
       case 'X': /* 处决伤害 execDmg */ this._execDmgMul += pValue; break;
       case '连击数增加暴击率': this._comboCritChanceMul += pValue; break;
       case '连击数增加触发率': this._comboProcChanceMul += pValue; break;
+      case '偷袭伤害': this._stealthDamageMul += pValue; break;
       default:
         super.applyProp(mod, pName, pValue); break;
     }

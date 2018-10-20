@@ -50,11 +50,11 @@ export class GunModBuild extends ModBuild {
 
   /** 多重增幅倍率 */
   get multishotMul() { return this._multishotMul; }
-  /** 弹夹容量增幅倍率 */
+  /** 弹匣容量增幅倍率 */
   get magazineMul() { return this._magazineMul; }
   /** 换弹增幅倍率 */
   get reloadSpeedMul() { return this._reloadSpeedMul; }
-  /** 最大弹容增幅倍率 */
+  /** 最大弹匣增幅倍率 */
   get maxAmmoMul() { return this._maxAmmoMul; }
   /** 变焦增幅倍率 */
   get zoomMul() { return this._zoomMul; }

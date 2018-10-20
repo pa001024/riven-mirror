@@ -331,7 +331,7 @@ export class WorldStat {
    * @param node 节点
    */
   nodeTranslate(node: string) {
-    return node.replace(/(.+) \((.+)\)/, (_, a, b) => `${Translator.getLocText(a)} | ${Translator.getLocText(b)}`);
+    return node.replace(/(.+) \((.+)\)/, (_, a, b) => `${a} | ${Translator.getLocText(b)}`);
   }
   /**
    * 突击信息

@@ -524,12 +524,13 @@ export const RivenWeaponDataBase = _rivenWeaponDataBase.map(v => new RivenWeapon
  */
 export class RivenDataBase {
   /** 通用名称 -> index */
-  private rWeaponDict = new Map<string, number>()
+  private rWeaponDict = new Map<string, number>();
   /** 武器名称 -> index */
-  private nWeaponDict = new Map<string, number>()
+  private nWeaponDict = new Map<string, number>();
   /** 通用名称 -> 武器名称 index list */
-  private ccWeaponDict = new Map<string, number[]>()
-  private propDict = new Map<string, number>()
+  private ccWeaponDict = new Map<string, number[]>();
+  /** 属性名称 -> 属性 index */
+  private propDict = new Map<string, number>();
 
   private static instance = new RivenDataBase();
 

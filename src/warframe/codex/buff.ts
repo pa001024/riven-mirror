@@ -124,6 +124,16 @@ export const BuffList: BuffData[] = [
     dynamicProps: [["伤害", 2, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
+  }, {
+    id: "v",
+    name: "vigorousSwap",   // 强力切换 (MOD)
+    type: BuffType.BaseDamage,
+    target: "武器",
+    multiLayer: {
+      maxStack: 11,
+      stackableProps: [["伤害", 0.15]],
+    },
+    defaultLayer: 11,
   },
   // 乘法总伤类
   {
@@ -146,7 +156,7 @@ export const BuffList: BuffData[] = [
     name: "roar", // 牛吼
     type: BuffType.TotalDamage,
     target: "全域",
-    dynamicProps: [["最终伤害", 0.5, 0], ["触发伤害", 0.2, 0]],
+    dynamicProps: [["最终伤害", 0.5, 0], ["触发伤害", 0.5, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {
@@ -192,7 +202,7 @@ export const BuffList: BuffData[] = [
     name: "stealth", // 偷袭
     type: BuffType.TotalDamage,
     target: "Melee",
-    dynamicProps: [["最终伤害", 0.2, 1], ["触发伤害", 0.2, 1]],
+    dynamicProps: [["偷袭伤害", 0.2, 1], ["触发伤害", 0.2, 1]],
     parms: ["level", ""],
     defaultValue: 30,
   },
