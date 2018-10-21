@@ -1905,6 +1905,8 @@ let po = {
     sharetip: "Scan or Paste on page",
     share: "Share",
     history: "History",
+    star: "Disposition: {0}",
+    range: "Range: {0} ~ {1} (±10%)",
   },
   build: {
     fill: "Auto fill",

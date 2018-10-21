@@ -44,14 +44,18 @@
                 <div class="mod-props">
                   <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
                     {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
-                    <el-tag v-if="prop.displayDeviation" size="small" class="mod-dis" :type="prop.deviation > 1 ^ prop.isNegative ? 'success' : 'danger'"> {{ prop.deviation > 1 ? $t("riven.higher") : $t("riven.lower")}} {{prop.displayDeviation}}</el-tag>
-                    <el-tag v-else size="small" class="mod-dis" type="success">{{$t("riven.average")}}</el-tag>
+                    <el-tooltip effect="dark" :content="$t('riven.range', prop.range)" placement="right">
+                      <el-tag v-if="prop.displayDeviation" size="small" class="mod-dis" :type="prop.deviation > 1 ^ prop.isNegative ? 'success' : 'danger'"> {{ prop.deviation > 1 ? $t("riven.higher") : $t("riven.lower")}} {{prop.displayDeviation}}</el-tag>
+                      <el-tag v-else size="small" class="mod-dis" type="success">{{$t("riven.average")}}</el-tag>
+                    </el-tooltip>
                   </div>
                   <div class="mod-extra">
                     <div class="extra-tag mod-rank">{{$t("riven.rank")}}{{mod.rank}}</div>
                     <div class="extra-tag mod-recycleTimes">{{$t("riven.recycle")}}{{mod.recycleTimes}}</div>
                     <div class="extra-tag mod-level">{{$t("riven.level")}}{{mod.level}}</div>
-                    <div class="extra-tag mod-ratio">{{$t("riven.ratio")}}{{mod.ratio}}</div>
+                    <el-tooltip effect="dark" :content="$t('riven.star', [mod.starText])" placement="right">
+                      <div class="extra-tag mod-ratio">{{$t("riven.ratio")}}{{mod.ratio}}</div>
+                    </el-tooltip>
                   </div>
                 </div>
               </div>

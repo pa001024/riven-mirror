@@ -216,6 +216,7 @@ export class RivenWeapon {
   }
   /** 武器倾向星数 */
   get star() { return [0, 0.7, 0.875, 1.125, 1.3, Infinity].findIndex(v => this.ratio < v); }
+  get starText() { return _.repeat("●", this.star) + _.repeat("○", 5 - this.star); }
   calcPrice(x: number) {
     let normal = 800;
     if (x > 30) normal = +0.0000016468253968327832 * x * x * x * x * x * x - 0.0006184523809555002 * x * x * x * x * x + 0.0937003968259277 * x * x * x * x - 7.283630952427242 * x * x * x + 306.6134920656638 * x * x - 6605.452381004125 * x + 57700.00000048811;

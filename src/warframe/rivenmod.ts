@@ -40,6 +40,11 @@ export class ValuedRivenProperty {
   get deviation() {
     return (this.isNegative ? -1 : 1) * this.value / (this.isNegative ? this.negativeUpLevel : this.upLevel) / this.baseValue;
   }
+  /** 数值范围 [下限, 上限]  */
+  get range() {
+    let val = this.baseValue * (this.isNegative ? -1 : 1) * (this.isNegative ? this.negativeUpLevel : this.upLevel);
+    return [+(val * 0.9).toFixed(1), +(val * 1.1).toFixed(1)];
+  }
   /** 获取偏差值显示数据 */
   get displayDeviation() {
     let val = (this.deviation * 100 - 100), tex = val.toFixed(1) + "%";
@@ -101,6 +106,8 @@ export class RivenMod {
   mod: string
   get weapon() { return RivenDataBase.getRivenWeaponByName(this.id); }
   get ratio() { return this.weapon.ratio; }
+  get star() { return this.weapon.star; }
+  get starText() { return this.weapon.starText; }
   calcPrice(x: number) { return this.weapon.calcPrice(x); }
 
   constructor(parm?: string | RivenMod, base64 = false) {

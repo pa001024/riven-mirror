@@ -1905,6 +1905,8 @@ let po = {
     sharetip: "手機掃描或直接粘貼",
     share: "分享",
     history: "歷史記錄",
+    star: "裂罅傾向: {0}",
+    range: "範圍: {0} ~ {1} (±10%)",
   },
   build: {
     fill: "自動配置",
