@@ -413,15 +413,15 @@ export default class GunBuildEditor extends BaseBuildEditor {
     font-size: 1rem;
     line-height: 2.8rem;
   }
-}
-.build-tools-action {
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-  > * {
-    flex: 1;
+  .build-tools-action {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    > * {
+      flex: 1;
+    }
   }
 }
 .weapon-name {

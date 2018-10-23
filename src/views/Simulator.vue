@@ -170,8 +170,9 @@ export default class Simulator extends Vue {
   display: block;
   width: 100%;
 }
-.simulator-new .el-button-group {
-  display: flex;
+.simulator-new.el-dropdown .el-button-group {
+  display: inline-flex;
+  width: 100%;
 }
 .simulator-new button:first-child {
   flex: 1;

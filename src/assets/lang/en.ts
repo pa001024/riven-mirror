@@ -567,6 +567,7 @@ let po = {
     "feverStrike": "Fever Strike",
     "moltenImpact": "Molten Impact",
     "fury": "Fury",
+    "speed": "Speed",
     "huntersBonesaw": "Hunter's Bonesaw",
     "shockingTouch": "Shocking Touch",
     "electromagneticShielding": "Electromagnetic Shielding",

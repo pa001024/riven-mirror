@@ -567,6 +567,7 @@ let po = {
     "feverStrike": "熱病打擊",
     "moltenImpact": "熔岩衝擊",
     "fury": "狂暴",
+    "speed": "加速",
     "huntersBonesaw": "獵人骨鋸",
     "shockingTouch": "電擊觸點",
     "electromagneticShielding": "電磁屏障",

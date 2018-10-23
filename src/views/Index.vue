@@ -343,6 +343,15 @@ export default class Index extends Vue {
   border-radius: 4px;
   margin: 16px 0 0 24px;
 }
+@media only screen and (max-width: 444px) {
+  .index-card.sortie .sortie-info {
+    padding: 4px 12px;
+    margin: 14px 0 0 16px;
+  }
+  .index-card.sortie .time {
+    margin: 20px 20px 0 0;
+  }
+}
 .index-card .el-card__header {
   background: #3d5afe;
   color: #fff;

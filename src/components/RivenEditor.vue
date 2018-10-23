@@ -7,7 +7,7 @@
         <div class="prop-picker" v-if="mod" v-for="(prop, index) in props" :key="index">
           <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
             <ul>
-              <li class="prop-button" v-for="vprop in allProps" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
+              <li class="prop-button" v-for="vprop in (index === 3 ? allProps.filter(v => !v.onlyPositive) : allProps)" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
                 {{$t("prop.shortName." + vprop.id)}} ({{index === 0 ? vprop.prefix : (index === 1 ? vprop.prefix + " / " + vprop.subfix : vprop.subfix)}})
               </li>
             </ul>
@@ -138,12 +138,15 @@ export default class RivenEditor extends Vue {
 .prop-button {
   display: inline-block;
   cursor: pointer;
-  margin: 4px 8px;
-  padding: 4px 16px;
+  margin: 4px 4px;
+  padding: 7px 0;
   border: 1px solid #ccc;
+  border-radius: 999px;
+  width: calc(50% - 8px);
+  text-align: center;
   background: #fefefe;
   user-select: none;
-  box-sizing: content-box;
+  box-sizing: border-box;
   transition: 0.3s;
 }
 .prop-button:hover {
@@ -172,5 +175,9 @@ export default class RivenEditor extends Vue {
 .prop-remove:focus {
   box-shadow: none;
   outline: none;
+}
+
+.el-popover {
+  max-width: calc(100vw - 35px);
 }
 </style>
