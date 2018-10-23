@@ -66,7 +66,7 @@ class TimeReminder {
         if (!this.notification) {
           this.notification = new Notification(i18n.t("reminder.notificationTitle") as string, {
             body: i18n.t("reminder.notificationBody", [this.minutesInAdvance]) as string,
-            icon: "/static/images/eidolon-night.jpg"
+            icon: "/images/eidolon-night.jpg"
           });
           this.notification.onclick = () => {
             this.removeSchedule(v);

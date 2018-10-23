@@ -1975,7 +1975,7 @@ let po = {
   },
   buildview: {
     totalDamage: "单发伤害",
-    firstDamage: "首发伤害",
+    firstAmmoDamage: "首发伤害",
     burstDamage: "爆发伤害",
     sustainedDamage: "持续伤害",
     slideDamage: "滑砍DPH",
@@ -1983,7 +1983,7 @@ let po = {
     slideDamagePS: "滑砍DPS",
     attackDamagePS: "平砍DPS",
     totalDamageTip: "不考虑射速算出的伤害DPH",
-    firstDamageTip: "狙击枪第一发的伤害FDPH",
+    firstAmmoDamageTip: "狙击枪第一发的伤害FDPH",
     burstDamageTip: "只考虑射速算出的DPS",
     sustainedDamageTip: "考虑射速、弹匣容量以及装填算出的DPS",
     attackType: "攻击方式",

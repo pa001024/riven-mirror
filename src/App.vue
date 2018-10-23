@@ -4,7 +4,7 @@
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven Mirror
-          <span class="beta">ALPHA 0.9.G</span>
+          <span class="beta">ALPHA 1.0.0</span>
         </h1>
       </router-link>
       <MiniClock class="hidden-xs-only header-watch">
@@ -225,15 +225,15 @@ export default class App extends Vue {
 
 @font-face {
   font-family: FuturaPT;
-  src: url("/static/fonts/Futura Heavy Italic BT.ttf");
+  src: url("/fonts/FuturaBT.ttf");
 }
 @font-face {
   font-family: SAOUI;
-  src: url("/static/fonts/SAOUI-Regular.otf");
+  src: url("/fonts/SAOUI-Regular.otf");
 }
 @font-face {
   font-family: WF;
-  src: url("/static/fonts/WF.ttf");
+  src: url("/fonts/WF.ttf");
 }
 
 [class*=" wf-icon-"],

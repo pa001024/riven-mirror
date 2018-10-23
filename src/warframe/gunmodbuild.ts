@@ -16,7 +16,7 @@ export enum GunCompareMode {
   TotalDamage, // 单发伤害
   BurstDamage, // 爆发伤害
   SustainedDamage, // 持续伤害
-  FirstDamage, // 首发伤害
+  FirstAmmoDamage, // 首发伤害
 }
 export interface GunModBuildOptions {
   compareMode?: GunCompareMode
@@ -236,7 +236,7 @@ export class GunModBuild extends ModBuild {
   /** [overwrite] 用于比较的伤害 */
   get compareDamage() {
     return this.compareMode == GunCompareMode.TotalDamage ? this.totalDamageAvg :
-      this.compareMode == GunCompareMode.FirstDamage ? this.firstAmmoDamage :
+      this.compareMode == GunCompareMode.FirstAmmoDamage ? this.firstAmmoDamage :
         this.compareMode == GunCompareMode.BurstDamage ? this.burstDamage :
           this.sustainedDamage;
   }

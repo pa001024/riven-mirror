@@ -1974,7 +1974,7 @@ let po = {
   },
   buildview: {
     totalDamage: "Total Damage",
-    firstDamage: "1st-Ammo Damage",
+    firstAmmoDamage: "1st-Ammo Damage",
     burstDamage: "Burst DPS",
     sustainedDamage: "Sustained DPS",
     slideDamage: "Slide DPH",
@@ -1982,7 +1982,7 @@ let po = {
     slideDamagePS: "Slide DPS",
     attackDamagePS: "Attack DPS",
     totalDamageTip: "Damage per Hit",
-    firstDamageTip: "Sniper First Ammo DPH",
+    firstAmmoDamageTip: "Sniper First Ammo DPH",
     burstDamageTip: "Burst DPS (no reload)",
     sustainedDamageTip: "Sustained Damage (including reload time)",
     attackType: "AttackType",
