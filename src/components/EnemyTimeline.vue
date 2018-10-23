@@ -231,7 +231,4 @@ export default class EnemyTimeline extends Vue {
   overflow: hidden;
   white-space: nowrap;
 }
-.timeline-text .item + .item {
-  margin-left: 8px;
-}
 </style>

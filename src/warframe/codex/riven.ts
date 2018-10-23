@@ -479,7 +479,7 @@ const _rivenWeaponDataBase = [
   ["Skiajati", "影生", "Melee", 1, 420],
   ["Ohma", "欧玛", "Melee", 0.97, 120],
   ["Fragor", "重击巨锤", "Melee", 0.96, 70],
-  ["Mios", "牝狮神", "Melee", 0.95, 195],
+  ["Mios", "牡狮神", "Melee", 0.95, 195],
   ["Heliocor", "赫利俄光锤", "Melee", 0.94, 45],
   ["Guandao", "关刀", "Melee", 0.9, 440],
   ["Ack & Brunt", "认知 & 冲击", "Melee", 0.9, 85],

@@ -415,7 +415,6 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Tonbo", name: "tonbo", tags: ["Melee", "Polearm"], dmg: [["Puncture", 12], ["Slash", 60], ["Impact", 8]], critMul: 2, critChance: 0.05, fireRate: 1, slideDmg: 178, status: 0.25 },
   { id: "Obex", name: "obex", tags: ["Melee", "Sparring"], dmg: [["Puncture", 3.8], ["Slash", 3.7], ["Impact", 17.5]], critMul: 2, critChance: 0.25, fireRate: 1, slideDmg: 100, status: 0.1 },
   { id: "Prisma Obex", name: "prismaObex", rivenName: "Obex", tags: ["Melee", "Sparring"], dmg: [["Puncture", 3.8], ["Slash", 3.7], ["Impact", 17.5]], critMul: 2, critChance: 0.25, fireRate: 1.33, slideDmg: 100, status: 0.3 },
-  { id: "Diwata", name: "diwata", tags: ["Melee", "Exalted"], dmg: [["Puncture", 150], ["Slash", 20], ["Impact", 30]], critMul: 2, critChance: 0.2, fireRate: 1.08, slideDmg: 429, status: 0.1 },
   { id: "Vaykor Sydon", name: "vaykorSydon", rivenName: "Sydon", tags: ["Melee", "Polearm"], dmg: [["Puncture", 80.8], ["Impact", 4.3]], critMul: 2, critChance: 0.15, fireRate: 1.08, slideDmg: 189, status: 0.25 },
   { id: "Ankyros", name: "ankyros", tags: ["Melee", "Fist"], dmg: [["Puncture", 4.5], ["Slash", 4.5], ["Impact", 21]], critMul: 2, critChance: 0.2, fireRate: 1.17, slideDmg: 90, status: 0.1 },
   { id: "Ankyros Prime", name: "ankyrosPrime", rivenName: "Ankyros", tags: ["Melee", "Fist"], dmg: [["Puncture", 5.7], ["Slash", 5.7], ["Impact", 26.6]], critMul: 2, critChance: 0.2, fireRate: 1.25, slideDmg: 114, status: 0.15 },
@@ -479,6 +478,7 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Pupacyst", name: "pupacyst", tags: ["Melee", "Polearm"], dmg: [["Viral", 43], ["Impact", 47]], critMul: 1.5, critChance: 0.13, fireRate: 0.833, slideDmg: 193, status: 0.27 },
   { id: "Falcor", name: "falcor", tags: ["Melee", "Glaive"], dmg: [["Electricity", 28], ["Puncture", 4], ["Slash", 34], ["Impact", 12]], critMul: 1.6, critChance: 0.12, fireRate: 0.833, slideDmg: 390, status: 0.28 },
   // 显赫武器
+  { id: "Diwata", name: "diwata", tags: ["Melee", "Exalted"], dmg: [["Puncture", 150], ["Slash", 20], ["Impact", 30]], critMul: 2, critChance: 0.2, fireRate: 1.08, slideDmg: 429, status: 0.1 },
   { id: "Iron Staff", name: "ironStaff", tags: ["Melee", "Exalted"], dmg: [["Puncture", 37.5], ["Impact", 212.5]], critMul: 2, critChance: 0.25, fireRate: 1, slideDmg: 536, status: 0.1 },
   { id: "Valkyr Talons", name: "valkyrTalons", tags: ["Melee", "Exalted"], dmg: [["Puncture", 83.3], ["Slash", 83.3], ["Impact", 83.3]], critMul: 2, critChance: 0.5, fireRate: 1.5, slideDmg: 750, status: 0.1 },
   { id: "Exalted Blade", name: "exaltedBlade", tags: ["Melee", "Exalted"], dmg: [["Puncture", 37.5], ["Slash", 175], ["Impact", 37.5]], critMul: 2, critChance: 0.15, fireRate: 0.833, slideDmg: 536, status: 0.1 },
