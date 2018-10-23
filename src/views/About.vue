@@ -2,7 +2,7 @@
   <el-row type="flex" :gutter="20" justify="center">
     <el-card class="about">
       <h3 slot="header">版权声明</h3>
-      <p><img src="/pic1.jpg">本网站（软件）目前是由本人（<a href="https://github.com/pa001024" target="_blank">pa001024</a>）独立开发完成的。</p>
+      <p>本网站（软件）目前是由本人（<a href="https://github.com/pa001024" target="_blank">pa001024</a>）独立开发完成的。</p>
       <p>如果对本项目有兴趣，</p>
       <p>欢迎发电: <a href="https://afdian.net/@rivenmirror" target="_blank">https://afdian.net/@rivenmirror</a></p>
       <p>欢迎入群: <a href="https://jq.qq.com/?_wv=1027&k=5G2T30X" target="_blank">165371868</a></p>

@@ -125,7 +125,7 @@ export default class extends Vue {
   // === 生命周期钩子 ===
   beforeMount() {
     let img = new Image();
-    img.src = this.refImageURL = "/images/eidolon-day.jpg";
+    img.src = this.refImageURL = "/img/eidolon-day.jpg";
     img.onload = () => {
       let colorThief = new ColorThief();
       let color = new Color(colorThief.getColor(img));

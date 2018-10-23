@@ -393,16 +393,16 @@ export default class Index extends Vue {
   background-repeat: no-repeat;
 }
 .clock .cetus.day {
-  background-image: url(/images/eidolon-day.jpg);
+  background-image: url(/img/eidolon-day.jpg);
 }
 .clock .cetus.night {
-  background-image: url(/images/eidolon-night.jpg);
+  background-image: url(/img/eidolon-night.jpg);
 }
 .clock .earth.day {
-  background-image: url(/images/eidolon-day.jpg);
+  background-image: url(/img/eidolon-day.jpg);
 }
 .clock .earth.night {
-  background-image: url(/images/eidolon-night.jpg);
+  background-image: url(/img/eidolon-night.jpg);
 }
 .clock-body {
   position: absolute;

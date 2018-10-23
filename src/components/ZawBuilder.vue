@@ -13,7 +13,7 @@
       <li v-for="item in strikeList" :key="item.id">
         <el-radio class="part" v-model="strike" :label="item" border>
           <div class="snapshot">
-            <img :src="`/images/zawStrike${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
+            <img :src="`/img/zawStrike${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
             {{$t('zh') ? item.name : item.id}}
@@ -29,7 +29,7 @@
       <li v-for="item in gripList" :key="item.id">
         <el-radio class="part" v-model="grip" :label="item" border>
           <div class="snapshot">
-            <img :src="`/images/zawGrip${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
+            <img :src="`/img/zawGrip${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
             {{$t('zh') ? item.name : item.id}}
@@ -49,7 +49,7 @@
       <li v-for="item in linksList" :key="item.id">
         <el-radio class="part" v-model="links" :label="item" border>
           <div class="snapshot">
-            <img :src="`/images/zawLink${item.id.replace(/II/g, '2').replace(/ /g, '')}.png`" :alt="item.id" width="100%">
+            <img :src="`/img/zawLink${item.id.replace(/II/g, '2').replace(/ /g, '')}.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
             {{$t('zh') ? item.name : item.id}}
