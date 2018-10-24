@@ -7,6 +7,16 @@
           <el-card class="weapon-box">
             <div slot="header" class="weapon-name">
               <span>{{weapon.displayName}}</span>
+              <el-popover placement="bottom" trigger="click">
+                <el-input :value="build.miniCodeURL" size="small" @click="select()" placeholder="请输入内容"></el-input>
+                <div style="text-align:center;">
+                  <qrcode :value="`https://rm.0-0.at/${build.miniCode}`" :options="{ size: 150, foreground: '#333' }"></qrcode>
+                </div>
+                <div style="text-align:center;">
+                  {{$t("riven.sharetip")}}
+                </div>
+                <i slot="reference" class="el-icon-share share-icon"></i>
+              </el-popover>
             </div>
             <table class="weapon-props">
               <tbody>
@@ -98,7 +108,7 @@
                       <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">
                         <div class="buff-name">{{$t(`buff.${buff.name}`)}}</div>
                         <div class="buff-parm layer" v-if="buff.layerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.layer" :min="1" :max="buff.data.multiLayer.maxStack"></el-input-number></div>
-                        <div class="buff-parm power" v-if="buff.powerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.power"></el-input-number></div>
+                        <div class="buff-parm power" v-if="buff.powerEnable"><el-input-number @change="refleshMods()" :step="0.5" size="mini" v-model="buff.power"></el-input-number></div>
                       </div>
                       <div class="buff-detail" @click.stop="buffRemove(index)">
                         <div class="buff-stat">
@@ -213,7 +223,10 @@ export default class GunBuildEditor extends BaseBuildEditor {
   @Watch("weapon")
   reload() { super.reload(); this.enemyData = this.enemy = null; }
   // [overwrite]
-  reloadSelector() { this.$refs.selector && (this.$refs.selector as any).reload(); }
+  reloadSelector() {
+    this.$refs.selector && (this.$refs.selector as any).reload();
+    this.$refs.buffselector && (this.$refs.buffselector as any).reload();
+  }
 
   get options() {
     return {
@@ -278,6 +291,17 @@ export default class GunBuildEditor extends BaseBuildEditor {
 @mod_l : #eaeaea;
 @mod_x : #a072ce;
 
+.weapon-display {
+  .share-icon {
+    float: right;
+    line-height: 23px;
+    cursor: pointer;
+    transition: 0.5s;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
 .right-side {
   width: 50%;
   float: right;

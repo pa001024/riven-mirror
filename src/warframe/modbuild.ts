@@ -141,6 +141,10 @@ export abstract class ModBuild {
     this.calcMods();
   }
 
+  get miniCodeURL() {
+    return `https://rm.0-0.at/weapon/${this.weapon.id.replace(/ /g, "_")}/${this.miniCode}`;
+  }
+
   /** 暴击率 */
   get critChance() { return hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd); }
   /** 暴击倍率 */

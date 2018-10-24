@@ -2215,7 +2215,7 @@ let po = {
     vigorousSwap: "Vigorous Swap (MOD)",
     baseDamage: "Base Damage (Common)",
     critChance: "Crit Chance (Common)",
-    combo: "Combo",
+    combo: "Combo (Sniper)",
     finalDamage: "Final Damage (Common)",
   },
 };

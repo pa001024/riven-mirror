@@ -20,7 +20,6 @@ export interface BuffData {
   /** 默认参数 */
   defaultValue?: number
   defaultLayer?: number
-  valueStep?: number
 }
 
 export interface MultiLayer {
@@ -145,7 +144,6 @@ export const BuffList: BuffData[] = [
     dynamicProps: [["最终伤害", 1, -1]],
     parms: ["status", ""],
     defaultValue: 2,
-    valueStep: 2,
   }, {
     id: "o",
     name: "finalDamage", // 通用终伤

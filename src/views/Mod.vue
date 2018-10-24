@@ -30,7 +30,7 @@
             <div v-show="mod.name" class="mod-display">
               <div class="mod-props-box">
                 <div class="mod-name">
-                  <span>{{$t("zh") ? mod.name : mod.id}} {{mod.subfix}}</span>
+                  <span>{{mod.name}} {{mod.subfix}}</span>
                   <el-popover placement="bottom" trigger="hover">
                     <div style="text-align:center;">
                       <qrcode :value="mod.qrCodeURL" :options="{ size: 150, foreground: '#333' }"></qrcode>
@@ -98,7 +98,6 @@ import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenMod, RivenDataBase } from "../warframe";
 import GunModBuildView from "@/views/buildview/GunModBuildView.vue";
 import MeleeModBuildView from "@/views/buildview/MeleeModBuildView.vue";
-import qrcode from "@/components/QRCode";
 import { Getter, Action } from 'vuex-class'
 // import jsQR from "jsqr";
 import RivenEditor from "@/components/RivenEditor.vue";
@@ -108,7 +107,7 @@ interface OCRResult {
   success: number
 }
 @Component({
-  components: { GunModBuildView, MeleeModBuildView, qrcode, RivenEditor }
+  components: { GunModBuildView, MeleeModBuildView, RivenEditor }
 })
 export default class Mod extends Vue {
   // prop

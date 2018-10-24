@@ -33,6 +33,15 @@ export default class buffSelector extends Vue {
   tabs: BuffSelectorTab[] = [];
 
   beforeMount() {
+    this.reload();
+  }
+  handleClick(id: string) {
+    let buff = Codex.getBuff(id);
+    this.$emit("command", buff);
+  }
+
+  @Watch("build.weapon")
+  reload() {
     let buffList = BuffList.filter(v => v.target === "远程武器" ? !this.build.weapon.tags.includes("Melee") :
       (v.target === "全域" || v.target === "武器" || this.build.weapon.tags.includes(v.target)));
     this.tabs = [
@@ -44,10 +53,6 @@ export default class buffSelector extends Vue {
       { id: "other", name: this.$t("buff.types.other") as string, buffs: buffList.filter(k => k.type === BuffType.Other) },
     ];
     this.selectTab = "baseDamage";
-  }
-  handleClick(id: string) {
-    let buff = Codex.getBuff(id);
-    this.$emit("command", buff);
   }
 }
 </script>

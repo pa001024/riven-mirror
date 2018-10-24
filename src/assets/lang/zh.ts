@@ -2216,7 +2216,7 @@ let po = {
     vigorousSwap: "强力切换 (MOD)",
     baseDamage: "基础伤害 (通用)",
     critChance: "暴击几率 (通用)",
-    combo: "连击加成",
+    combo: "连击加成 (狙击)",
     finalDamage: "最终伤害 (通用)",
   },
 };
