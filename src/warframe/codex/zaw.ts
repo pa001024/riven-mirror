@@ -17,9 +17,9 @@ export enum Stance {
 const _zawStrike = [
   ["0", "Balla", "宝拉", [["Impact", 3.4], ["Puncture", 40.8], ["Slash", 23.8]], 0.083, 0.18, 0.18, "Daggers", "Staves"],
   ["1", "Dokrahm", "多克拉姆", [["Impact", 10.2], ["Puncture", 23.8], ["Slash", 34]], 0.083, 0.18, 0.18, "Scythes", "HeavyBlade"],
-  ["2", "Kronsh", "客隆什", [["Impact", 60.2], ["Slash", 25.8]], -0.067, 0.18, 0.18, "Machetes", "Hammers"],
+  ["2", "Kronsh", "客隆什", [["Impact", 60.2], ["Slash", 25.8]], -0.067, 0.18, 0.18, "Machetes", "Polearms"],
   ["3", "Ooltha", "乌尔萨", [["Impact", 7.2], ["Puncture", 28.8], ["Slash", 36]], 0.000, 0.18, 0.18, "Swords", "Staves"],
-  ["4", "Rabvee", "拉比威", [["Impact", 51.6], ["Puncture", 4.3], ["Slash", 30.1]], -0.067, 0.18, 0.18, "Machetes", "Polearms"],
+  ["4", "Rabvee", "拉比威", [["Impact", 51.6], ["Puncture", 4.3], ["Slash", 30.1]], -0.067, 0.18, 0.18, "Machetes", "Hammers"],
   ["5", "Sepfahn", "瑟普梵", [["Impact", 7.2], ["Puncture", 18], ["Slash", 46.8]], 0.000, 0.20, 0.20, "Nikanas", "Staves"],
   ["6", "Dehtat", "德塔特", [["Impact", 6.8], ["Puncture", 34], ["Slash", 27.2]], 0.083, 0.18, 0.18, "Rapiers", "Polearms"],
   ["7", "Cyath", "西亚什", [["Impact", 14.4], ["Puncture", 3.6], ["Slash", 54]], 0.000, 0.18, 0.18, "Machetes", "Polearms"],

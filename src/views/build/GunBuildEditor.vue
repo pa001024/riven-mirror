@@ -8,7 +8,7 @@
             <div slot="header" class="weapon-name">
               <span>{{weapon.displayName}}</span>
               <el-popover placement="bottom" trigger="click">
-                <el-input :value="build.miniCodeURL" size="small" @click="select()" placeholder="请输入内容"></el-input>
+                <el-input :value="build.miniCodeURL" size="small" ref="miniCodeURL" @focus="$refs.miniCodeURL.select()"></el-input>
                 <div style="text-align:center;">
                   <qrcode :value="`https://rm.0-0.at/${build.miniCode}`" :options="{ size: 150, foreground: '#333' }"></qrcode>
                 </div>

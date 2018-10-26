@@ -1630,7 +1630,7 @@ let po = {
     "harkonarWraithCloak": "哈库纳亡魂斗篷",
 
     "captainVor": "VOR 上尉",
-    "councilorVayHek": "Vay Hek 议员",
+    "councilorVayHek": "Vay Hek 委员",
     "generalSargasRuk": "Sargas Ruk 将军",
     "lechKril": "LECH KRIL 中尉",
     "corruptedVor": "堕落的 VOR",
