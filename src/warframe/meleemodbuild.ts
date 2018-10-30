@@ -58,7 +58,7 @@ export class MeleeModBuild extends ModBuild {
   constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null) {
     super(riven);
     if (this.weapon = weapon) {
-      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.name]).includes(v.type));
+      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.id]).includes(v.type));
     }
     if (options) {
       this.options = options;

@@ -85,7 +85,7 @@ export class GunModBuild extends ModBuild {
   constructor(weapon: GunWeapon = null, riven: RivenMod = null, options: GunModBuildOptions = null) {
     super(riven);
     if (this.weapon = weapon) {
-      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.name]).includes(v.type));
+      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.id]).includes(v.type));
     }
     if (options) {
       this.options = options;
@@ -148,7 +148,7 @@ export class GunModBuild extends ModBuild {
         enemy.applyHit(remaingMag === this.magazineSize ? this.totalDmgFirst : this.totalDmg,
           this.procChanceMap, this.dotDamageMap, this.bullets, this.procDurationMul,
           this.critChance, this.weapon.tags.includes("Sniper") ? 750 : 750 / this.fireRate);
-        nextDmgTick += (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : (remaingMag = this.magazineSize, reloadTicks);
+        nextDmgTick += (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : (remaingMag = this.magazineSize, reloadTicks || ticks);
       }
       // DoT
       if (enemy.currentHealth > 0) {

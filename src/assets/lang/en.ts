@@ -980,7 +980,7 @@ let po = {
     "twinRogga": "Twin Rogga",
     "twinGrakata": "Twin Grakata",
     "twinVipers": "Twin Vipers",
-    "wraithTwinVipers": "Wraith Twin Vipers",
+    "twinVipersWraith": "Twin Vipers Wraith",
     "stubba": "Stubba",
     "akstiletto": "Akstiletto",
     "akstilettoPrime": "Akstiletto Prime",

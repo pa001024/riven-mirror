@@ -980,7 +980,7 @@ let po = {
     "twinRogga": "双子罗格",
     "twinGrakata": "双子葛拉卡达",
     "twinVipers": "双子蝰蛇",
-    "wraithTwinVipers": "双子蝰蛇 亡魂",
+    "twinVipersWraith": "双子蝰蛇 亡魂",
     "stubba": "史度巴",
     "akstiletto": "史提托双枪",
     "akstilettoPrime": "史提托双枪 Prime",
