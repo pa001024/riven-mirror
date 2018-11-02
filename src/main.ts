@@ -18,7 +18,7 @@ Vue.config.productionTip = false;
 Vue.component("draggable", draggable);
 Vue.component("qrcode", qrcode);
 
-import './plugins/element.js'
+import './plugins/element'
 
 /* eslint-disable no-new */
 new Vue({

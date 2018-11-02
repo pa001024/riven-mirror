@@ -31,6 +31,7 @@ export class MeleeModBuild extends ModBuild {
   private _comboCritChanceMul = 0;
   private _comboProcChanceMul = 0;
   private _stealthDamageMul = 0;
+  private _finalSpeedMul = 1;
 
   /** 范围增幅倍率 */
   get rangeMul() { return this._rangeMul; }
@@ -50,6 +51,8 @@ export class MeleeModBuild extends ModBuild {
   get comboProcChanceMul() { return this.weapon.tags.includes("Exalted") ? 0 : this._comboProcChanceMul; }
   /** 偷袭伤害 */
   get stealthDamageMul() { return this._stealthDamageMul < 0 ? 0 : this._stealthDamageMul; }
+  /** 最终攻速(狂战士) */
+  get finalSpeedMul() { return this._finalSpeedMul; }
 
   // 额外参数
   /** 异况触发量 */
@@ -125,6 +128,12 @@ export class MeleeModBuild extends ModBuild {
   }
   /** [overwrite] 真实触发几率 */
   get realProcChance() { return this.procChance; }
+  /** [overwrite] 攻速增幅倍率 */
+  get fireRate() {
+    let fr = hAccMul(this.weapon.fireRate, this.fireRateMul, this.finalSpeedMul);
+    // 攻速下限
+    return fr < 0.05 ? 0.05 : fr;
+  }
   /** 滑行平均暴击区增幅倍率 */
   get slideCritDamageMul() { return this.calcCritDamage(this.slideCritDamage, this.critMul); }
   /** [overwrite] 总伤增幅倍率 */
@@ -199,6 +208,7 @@ export class MeleeModBuild extends ModBuild {
     this._comboCritChanceMul = 0;
     this._comboProcChanceMul = 0;
     this._stealthDamageMul = 0;
+    this._finalSpeedMul = 1;
   }
 
   /**
@@ -220,6 +230,7 @@ export class MeleeModBuild extends ModBuild {
       case '连击数增加暴击率': this._comboCritChanceMul += pValue; break;
       case '连击数增加触发率': this._comboProcChanceMul += pValue; break;
       case '偷袭伤害': this._stealthDamageMul += pValue; break;
+      case '最终攻速': this._finalSpeedMul = hAccMul(this._finalSpeedMul, 1 + pValue); break;
       default:
         super.applyProp(mod, pName, pValue); break;
     }

@@ -6,4 +6,6 @@ export interface Warframe {
   amror: number;
   health: number;
   sheild: number;
+  polarity: string[];
 }
+
