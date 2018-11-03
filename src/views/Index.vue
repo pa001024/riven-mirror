@@ -136,6 +136,26 @@
             </ul>
           </el-card>
         </el-col>
+        <!-- 虚空商人 -->
+        <el-col :xs="24" :sm="12" :lg="8" v-if="voidTrader && voidTrader.inventory.length > 0">
+          <el-card class="index-card voidtrader">
+            <h3 slot="header"><i class="wf-icon-voidtrader"></i> {{$t("alerting.voidTrader")}}</h3>
+            <ul>
+              <li>
+                <div class="location">{{voidTrader.location}}</div>
+              </li>
+              <li v-for="(v, i) in voidTrader.inventory" :key="i">
+                <div class="info">
+                  <div class="item">{{v.item}}</div>
+                </div>
+                <div class="cost">
+                  <div class="cost-ducats">{{v.ducats}}</div>
+                  <div class="cost-credits">{{v.credits}}</div>
+                </div>
+              </li>
+            </ul>
+          </el-card>
+        </el-col>
       </el-row>
     </div>
   </div>
@@ -144,7 +164,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { CetusTime, EarthTime, WorldStat, Translator, Sortie, Alert, News, Fissure, Invasion, Job } from "@/warframe";
+import { CetusTime, EarthTime, WorldStat, Translator, Sortie, Alert, News, Fissure, Invasion, Job, VoidTrader } from "@/warframe";
 import BScroll from 'better-scroll';
 interface WarframeTime {
   isDay: boolean
@@ -169,6 +189,7 @@ export default class Index extends Vue {
   fissures: Fissure[] = [];
   invasions: Invasion[] = [];
   ostrons: Job[] = [];
+  voidTrader: VoidTrader = null;
 
   renderTime(time: string) {
     let sec = ~~(Date.parse(time) / 1e3) - this.seconds;
@@ -241,6 +262,7 @@ export default class Index extends Vue {
       this.fissures = this.stat.fissures;
       this.invasions = this.stat.invasions;
       this.ostrons = this.stat.ostrons;
+      this.voidTrader = this.stat.voidTrader;
       // this.$nextTick(() => this.resize());
       setTimeout(() => this.resize(), 60);
     }).catch(() => setTimeout(() => this.updateStat(), 1e3));
@@ -365,6 +387,21 @@ export default class Index extends Vue {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+.index-card.voidtrader .location {
+  font-size: 1.3em;
+}
+.index-card.voidtrader .item {
+  font-weight: 300;
+  font-size: 1.2em;
+}
+.index-card.voidtrader .cost {
+  font-size: 1.1em;
+  text-align: right;
+}
+.index-card.voidtrader .cost > * {
+  display: inline-block;
+  margin-left: 12px;
 }
 .reward-item {
   display: inline-block;

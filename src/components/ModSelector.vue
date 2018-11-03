@@ -134,8 +134,8 @@ export default class ModSelector extends Vue {
       { id: "benefit", name: this.$t("modselector.sorted") as string, mods: benefits },
       { id: "damage", name: this.$t("modselector.damage") as string, mods: mods.filter(v => v.props.some(k => k[1] > 0 && "01DSKEGICO".indexOf(k[0]) >= 0)) },
       { id: "elements", name: this.$t("modselector.element") as string, mods: mods.filter(v => v.props.some(k => "456789A".indexOf(k[0]) >= 0)) },
-      { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.props.some(k => "RLFJ".indexOf(k[0]) >= 0)) },
-      { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.props.every(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) < 0)) },
+      { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.id === "berserker" || v.props.some(k => "RLFJ".indexOf(k[0]) >= 0)) },
+      { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.id !== "berserker" && v.props.every(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) < 0)) },
     ];
     this.selectTab = "fast";
   }
