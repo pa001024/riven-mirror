@@ -58,10 +58,6 @@ export class Translator {
    * @memberof Translator
    */
   static getLocText(rawText: string): string {
-    if (this.Locale === "en") return rawText;
-    return this.getLocTextCN(rawText);
-  }
-  static getLocTextCN(rawText: string): string {
     // 忽略大小写
     let text = rawText.toLowerCase(), m;
     // 处理如 "Lith A1" => "古纪 A1"
@@ -80,13 +76,14 @@ export class Translator {
       || lastWord;
     // 主表查询
     let localeSubfix = this.instance.subDict.get(subfix);
-    if (localeSubfix && !this.instance.mainDict.has(text)) {
+    let mainMatch = i18n.t("messages")[_.camelCase(text)];
+    if (localeSubfix && !mainMatch) {
       let len = text.length - subfix.length - 1;
       if (len < 0)
         return localeSubfix;
       // 递归解析后缀
       return this.getLocText(rawText.substr(0, len)) + " " + localeSubfix;
     }
-    return this.instance.mainDict.get(text) || rawText;
+    return mainMatch || rawText;
   }
 }

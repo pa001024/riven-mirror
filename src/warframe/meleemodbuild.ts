@@ -112,15 +112,13 @@ export class MeleeModBuild extends ModBuild {
       return this.comboLevel * 0.5 + 1;
   }
   /** 连击数增加暴击率 */
-  get comboCritChance() { return this.comboMul > 1 ? 1 + this.comboMul * this.comboCritChanceMul : 1; }
+  get comboCritChance() { return this.comboMul > 1 ? 1 + hAccMul(this.comboMul, this.comboCritChanceMul) : 1; }
   /** 连击数增加触发率 */
-  get comboProcChance() { return this.comboMul > 1 ? this.comboMul * this.comboProcChanceMul : 0; }
+  get comboProcChance() { return this.comboMul > 1 ? hAccMul(this.comboMul, this.comboProcChanceMul) : 0; }
   /** [overwrite] 暴击率 */
   get critChance() { return hAccMul(hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd), this.comboCritChance); }
   /** 滑行暴击率 */
-  get slideCritDamage() {
-    return hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd) * this.comboCritChance
-  }
+  get slideCritDamage() { return hAccMul(hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd), this.comboCritChance); }
   /** [overwrite] 触发几率 */
   get procChance() {
     let s = this.weapon.status * (this.procChanceMul + this.comboProcChance);

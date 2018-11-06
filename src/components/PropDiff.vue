@@ -2,7 +2,7 @@
   <tr class="prop-diff" @click="handleClick">
     <th>{{name}}</th>
     <td class="diff diff-ori" :class="{negative: negative != ori > val, positive: negative != ori < val}">{{percent ? Num(ori * 100, preci) + "%" : Num(ori, preci)}}{{subfix}}</td>
-    <template v-if="Num(ori, preci) !== Num(val, preci)">
+    <template v-if="Num(percent ? ori * 100 : ori, preci) !== Num(percent ? val * 100 : val, preci)">
       <td class="diff diff-arrow" :class="{negative: negative != ori > val, positive: negative != ori < val}"><i class="el-icon-arrow-right"></i></td>
       <td class="diff diff-val" :class="{negative: negative != ori > val, positive: negative != ori < val}">
         {{percent ? Num(val * 100, preci)+"%":Num(val, preci)}}{{subfix}}

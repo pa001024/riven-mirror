@@ -76,6 +76,26 @@
             </ul>
           </el-card>
         </el-col>
+        <!-- 虚空商人 -->
+        <el-col :xs="24" :sm="12" :lg="8" v-if="voidTrader && voidTrader.inventory.length > 0">
+          <el-card class="index-card voidtrader">
+            <h3 slot="header"><i class="wf-icon-voidtrader"></i> {{$t("alerting.voidTrader")}}</h3>
+            <ul>
+              <li>
+                <div class="location">{{voidTrader.location}}</div>
+              </li>
+              <li v-for="(v, i) in voidTrader.inventory" :key="i">
+                <div class="info">
+                  <div class="item">{{v.item}}</div>
+                </div>
+                <div class="cost">
+                  <div class="cost-ducats">{{v.ducats}}</div>
+                  <div class="cost-credits">{{v.credits}}</div>
+                </div>
+              </li>
+            </ul>
+          </el-card>
+        </el-col>
         <!-- 裂缝 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="fissures.length > 0">
           <el-card class="index-card fissure">
@@ -131,26 +151,6 @@
                   <div class="reward">
                     <div class="reward-item" v-for="reward in v.rewardPool" :key="reward">{{reward}}</div>
                   </div>
-                </div>
-              </li>
-            </ul>
-          </el-card>
-        </el-col>
-        <!-- 虚空商人 -->
-        <el-col :xs="24" :sm="12" :lg="8" v-if="voidTrader && voidTrader.inventory.length > 0">
-          <el-card class="index-card voidtrader">
-            <h3 slot="header"><i class="wf-icon-voidtrader"></i> {{$t("alerting.voidTrader")}}</h3>
-            <ul>
-              <li>
-                <div class="location">{{voidTrader.location}}</div>
-              </li>
-              <li v-for="(v, i) in voidTrader.inventory" :key="i">
-                <div class="info">
-                  <div class="item">{{v.item}}</div>
-                </div>
-                <div class="cost">
-                  <div class="cost-ducats">{{v.ducats}}</div>
-                  <div class="cost-credits">{{v.credits}}</div>
                 </div>
               </li>
             </ul>

@@ -298,7 +298,7 @@ export const BuffList: BuffData[] = [
     name: "empoweredQuiver", // 弓妹集团1踩线
     type: BuffType.CritDamage,
     target: "武器",
-    dynamicProps: [["最终暴伤", 1, 0]],
+    dynamicProps: [["1", 1, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {
