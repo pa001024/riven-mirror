@@ -26,6 +26,7 @@ export interface GunWeaponData extends WeaponData {
   reload: number;
   ammo: number;
   ammoMode?: number;
+  prjSpeed?: number;
 }
 /**
  * 近战武器信息
@@ -75,6 +76,7 @@ export class GunWeapon extends Weapon implements GunWeaponData {
   reload: number;
   ammo: number;
   ammoMode?: number;
+  prjSpeed?: number;
   constructor(data: GunWeaponData) {
     super(data);
     this.accuracy = data.accuracy;
@@ -83,6 +85,7 @@ export class GunWeapon extends Weapon implements GunWeaponData {
     this.reload = data.reload;
     this.ammo = data.ammo;
     this.ammoMode = data.ammoMode;
+    this.prjSpeed = data.prjSpeed;
   }
 }
 export class MeleeWeapon extends Weapon implements MeleeWeaponData {
@@ -330,6 +333,9 @@ export const GunWeaponDataBase: GunWeapon[] = ([
   { id: "Phantasma", name: "phantasma", tags: ["Gun", "Primary", "Shotgun", "Continuous"], dmg: [["Impact", 25], ["Radiation", 50]], accuracy: 100, bullets: 1, fireRate: 12, critChance: 0.03, critMul: 1.5, status: 0.37, magazine: 11, reload: 0.5, ammo: 120 },
   { id: "Phantasma (charged)", name: "phantasma", rivenName: "Phantasma", mode: "charged", tags: ["Gun", "Primary", "Shotgun", "Charge"], dmg: [["Impact", 15], ["Radiation", 73]], accuracy: 100, bullets: 1, fireRate: 2, critChance: 0.03, critMul: 1.5, status: 0.37, magazine: 11, reload: 0.5, ammo: 120 },
   { id: "Zylok", name: "zylok", tags: ["Gun", "Secondary"], dmg: [["Slash", 78.4], ["Puncture", 16.8], ["Impact", 44.8]], accuracy: 23.5, bullets: 1, fireRate: 1.5, critChance: 0.08, critMul: 2, status: 0.26, magazine: 8, reload: 1.2, ammo: 210 },
+  { id: "Nagantaka", name: "nagantaka", tags: ["Gun", "Primary", "Rilfe", "Bow"], dmg: [["Slash", 143.1], ["Puncture", 14.3], ["Impact", 1.6]], accuracy: 40, bullets: 1, fireRate: 2.5, critChance: 0.15, critMul: 2.3, status: 0.39, magazine: 9, reload: 2.3, ammo: 72 },
+  { id: "Battacor", name: "battacor", tags: ["Gun", "Primary", "Rilfe", "AssaultRifle"], dmg: [["Puncture", 24], ["Magnetic", 42]], accuracy: 25, bullets: 1, fireRate: 3.57, critChance: 0.32, critMul: 2.4, status: 0.18, magazine: 60, reload: 2, ammo: 720 },
+  { id: "Ocucor", name: "ocucor", tags: ["Gun", "Secondary", "Continuous"], dmg: [["Puncture", 2], ["Radiation", 20]], accuracy: 100, bullets: 1, fireRate: 12, critChance: 0.16, critMul: 1.8, status: 0.24, magazine: 40, reload: 1.6, ammo: 210 },
   // 显赫武器
   { id: "Dex Pixia", name: "dexPixia", tags: ["Gun", "Exalted", "Secondary"], dmg: [["Slash", 128], ["Puncture", 16], ["Impact", 16]], accuracy: 23, bullets: 1, fireRate: 5.83, critChance: 0.1, critMul: 2, status: 0.25, magazine: 60, reload: 1.2, ammo: 210 },
   { id: "Regulators", name: "regulators", tags: ["Gun", "Exalted", "Secondary"], dmg: [["Slash", 12.5], ["Puncture", 12.5], ["Impact", 25]], accuracy: 13.3, bullets: 1, fireRate: 14.8, critChance: 0.25, critMul: 3, status: 0.1, magazine: 100, reload: 0, ammo: 99999999 },
@@ -437,7 +443,7 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Scindo Prime", name: "scindoPrime", rivenName: "Scindo", tags: ["Melee", "HeavyBlade"], dmg: [["Puncture", 13], ["Slash", 104], ["Impact", 13]], critMul: 2, critChance: 0.2, fireRate: 0.967, slideDmg: 260, status: 0.15 },
   { id: "Krohkur", name: "krohkur", tags: ["Melee", "Sword"], dmg: [["Puncture", 12.6], ["Slash", 49], ["Impact", 8.4]], critMul: 1.7, critChance: 0.29, fireRate: 0.833, slideDmg: 150, status: 0.19 },
   { id: "Tipedo", name: "tipedo", tags: ["Melee", "Staff"], dmg: [["Puncture", 5], ["Slash", 40], ["Impact", 5]], critMul: 2, critChance: 0.2, fireRate: 1.33, slideDmg: 107, status: 0.2 },
-  { id: "Okina", name: "okina", tags: ["Melee", "Dual Daggers"], dmg: [["Puncture", 18], ["Slash", 20], ["Impact", 2]], critMul: 2, critChance: 0.05, fireRate: 1.08, slideDmg: 200, status: 0.15 },
+  { id: "Okina", name: "okina", tags: ["Melee", "DualDaggers"], dmg: [["Puncture", 18], ["Slash", 20], ["Impact", 2]], critMul: 2, critChance: 0.05, fireRate: 1.08, slideDmg: 200, status: 0.15 },
   { id: "Shaku", name: "shaku", tags: ["Melee", "Nunchaku"], dmg: [["Puncture", 0], ["Slash", 0], ["Impact", 55]], critMul: 2, critChance: 0.075, fireRate: 1.17, slideDmg: 118, status: 0.25 },
   { id: "Kestrel", name: "kestrel", tags: ["Melee", "Glaive"], dmg: [["Puncture", 5.3], ["Slash", 5.2], ["Impact", 24.5]], critMul: 2, critChance: 0.1, fireRate: 1.08, slideDmg: 175, status: 0.1 },
   { id: "Dark Split-Sword (Heavy Blade)", name: "darkSplitSword", mode: "heavyBlade", rivenName: "Dark Split-Sword", tags: ["Melee", "HeavyBlade"], dmg: [["Radiation", 90]], critMul: 2, critChance: 0.1, fireRate: 0.917, slideDmg: 180, status: 0.25 },
@@ -478,6 +484,7 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Paracesis", name: "paracesis", tags: ["Melee", "HeavyBlade"], dmg: [["Puncture", 11.5], ["Slash", 100.8], ["Impact", 31.7]], critMul: 2.6, critChance: 0.31, fireRate: 0.917, slideDmg: 288, status: 0.12 },
   { id: "Pupacyst", name: "pupacyst", tags: ["Melee", "Polearm"], dmg: [["Viral", 43], ["Impact", 47]], critMul: 1.5, critChance: 0.13, fireRate: 0.833, slideDmg: 193, status: 0.27 },
   { id: "Falcor", name: "falcor", tags: ["Melee", "Glaive"], dmg: [["Electricity", 28], ["Puncture", 4], ["Slash", 34], ["Impact", 12]], critMul: 1.6, critChance: 0.12, fireRate: 0.833, slideDmg: 390, status: 0.28 },
+  { id: "Kreska", name: "kreska", tags: ["Melee", "Machete"], dmg: [["Heat", 40], ["Puncture", 5], ["Slash", 15], ["Impact", 10]], critMul: 2, critChance: 0.14, fireRate: 0.917, slideDmg: 210, status: 0.22 },
   // 显赫武器
   { id: "Diwata", name: "diwata", tags: ["Melee", "Exalted"], dmg: [["Puncture", 150], ["Slash", 20], ["Impact", 30]], critMul: 2, critChance: 0.2, fireRate: 1.08, slideDmg: 429, status: 0.1 },
   { id: "Iron Staff", name: "ironStaff", tags: ["Melee", "Exalted"], dmg: [["Puncture", 37.5], ["Impact", 212.5]], critMul: 2, critChance: 0.25, fireRate: 1, slideDmg: 536, status: 0.1 },

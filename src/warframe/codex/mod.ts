@@ -192,7 +192,7 @@ const _normalModSource = [
   ["5Q", "silentBattery", [["噪音", -1]], "Shotgun", "-", "c", 5],
   ["5R", "tacticalPump", [["F", 0.3]], "Shotgun", "-", "c", 7],
   ["5S", "lingeringTorment", [["3", 0.3]], "Shotgun", "r", "n", 11],
-  ["5T", "scatteredJustice", [["S", 2]], "海克", "r", "r", 7],
+  ["5T", "scatteredJustice", [["S", 2]], "Hek", "r", "r", 7],
   ["5U", "taintedShell", [["扩散", -0.77], ["R", -0.55]], "Shotgun", "d", "r", 14],
   ["5V", "chillingReload", [["5", 0.6], ["F", 0.4]], "Shotgun", "r", "r", 5],
   ["5W", "seekingFury", [["F", 0.15], ["P", 1.2]], "Shotgun", "r", "r", 11],
