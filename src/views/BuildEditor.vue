@@ -7,7 +7,7 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import GunBuildEditor from "@/views/build/GunBuildEditor.vue";
 import MeleeBuildEditor from "@/views/build/MeleeBuildEditor.vue";
-import { RivenDataBase, Weapon, RivenWeapon, Zaw } from "@/warframe";
+import { RivenDataBase, Weapon, RivenWeapon, Zaw, Kitgun } from "@/warframe";
 
 @Component({
   components: { GunBuildEditor, MeleeBuildEditor }
@@ -31,6 +31,10 @@ export default class BuildEditor extends Vue {
       let zaw = new Zaw(this.id);
       this._weapon = zaw;
       this._rWeapon = RivenDataBase.getRivenWeaponByName(zaw.strike.id);
+    } else if (this.id.startsWith("KITGUN-")) {
+      let kitgun = new Kitgun(this.id);
+      this._weapon = kitgun;
+      this._rWeapon = RivenDataBase.getRivenWeaponByName(_.startCase(kitgun.chamber.name));
     } else {
       // 普通武器
       this._weapon = RivenDataBase.getNormalWeaponsByName(this.id.replace(/_/g, " "));

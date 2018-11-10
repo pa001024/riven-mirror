@@ -365,6 +365,12 @@ const _rivenWeaponDataBase = [
   ["Detron", "德特昂", "Pistol", 1, 190],
   ["Zylok", "席尔火枪", "Pistol", 1, 150],
   ["Ocucor", "视使之触 (暂)", "Pistol", 1, 120],
+
+  ["Catchmoon", "捕月", "Pistol", 1, 300],
+  ["Gaze", "凝目", "Pistol", 1, 300],
+  ["Rattleguts", "响胆", "Pistol", 1, 300],
+  ["Tombfinger", "墓指", "Pistol", 1, 300],
+
   ["Brakk", "布拉克", "Pistol", 0.95, 135],
   ["Ballistica", "布里斯提卡", "Pistol", 0.95, 90],
   ["Pandero", "手鼓", "Pistol", 0.95, 365],

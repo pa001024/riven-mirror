@@ -18,8 +18,13 @@
         </div>
       </ul>
     </el-tab-pane>
+    <el-tab-pane name="KITGUN">
+      <span slot="label" class="weapon-tablabel">{{$t('kitgun.title')}}</span>
+      <KitgunBuilder @finish="newKITGUN">
+      </KitgunBuilder>
+    </el-tab-pane>
     <el-tab-pane name="ZAW">
-      <span slot="label" class="weapon-tablabel">ZAW</span>
+      <span slot="label" class="weapon-tablabel">{{$t('zaw.title')}}</span>
       <ZawBuilder @finish="newZAW">
       </ZawBuilder>
     </el-tab-pane>
@@ -30,8 +35,9 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenDataBase, RivenWeapon, ModTypeTable, RivenWeaponDataBase, Zaw } from "@/warframe";
+import { RivenDataBase, RivenWeapon, ModTypeTable, RivenWeaponDataBase, Zaw, Kitgun } from "@/warframe";
 import ZawBuilder from '@/components/ZawBuilder.vue'
+import KitgunBuilder from '@/components/KitgunBuilder.vue'
 
 declare interface WeaponSelectorTab {
   id: string
@@ -40,7 +46,7 @@ declare interface WeaponSelectorTab {
   weapons: string[][]
 }
 
-@Component({ components: { ZawBuilder } })
+@Component({ components: { ZawBuilder, KitgunBuilder } })
 export default class WeaponSelector extends Vue {
   modType = "Rifle";
   tabs: WeaponSelectorTab[] = [];
@@ -63,6 +69,10 @@ export default class WeaponSelector extends Vue {
   newZAW(zaw: Zaw) {
     console.log("newZAW->", zaw.url);
     this.$router.push({ name: 'BuildEditor', params: { id: zaw.url } });
+  }
+  newKITGUN(kitgun: Kitgun) {
+    console.log("newKITGUN->", kitgun.url);
+    this.$router.push({ name: 'BuildEditor', params: { id: kitgun.url } });
   }
 }
 </script>

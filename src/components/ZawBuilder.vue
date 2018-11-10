@@ -1,8 +1,5 @@
 <template>
   <div class="zawbuilder">
-    <div class="title strike"></div>
-    <div class="title grip"></div>
-    <div class="title links"></div>
     <el-steps :active="part" finish-status="success">
       <el-step :title="$t('zaw.selectStrike')"></el-step>
       <el-step :title="$t('zaw.selectGrip')"></el-step>
