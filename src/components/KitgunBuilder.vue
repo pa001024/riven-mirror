@@ -10,7 +10,7 @@
       <li v-for="item in chamberList" :key="item.id">
         <el-radio class="part" v-model="chamber" :label="item" border>
           <div class="snapshot">
-            <img :src="`/img/kitgunChamber${item.name.replace(/ /g, '')}.png`" :alt="item.name" width="100%">
+            <img :src="`/img/kitgunChamber${$t(`messages.${item.name}`, 'en')}.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
@@ -26,7 +26,7 @@
       <li v-for="item in gripList" :key="item.id">
         <el-radio class="part" v-model="grip" :label="item" border>
           <div class="snapshot">
-            <img :src="`/img/kitgunGrip${item.name.replace(/ /g, '')}.png`" :alt="item.name" width="100%">
+            <img :src="`/img/kitgunGrip${$t(`messages.${item.name}`, 'en')}.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
@@ -43,7 +43,7 @@
       <li v-for="item in loaderList" :key="item.id">
         <el-radio class="part" v-model="loader" :label="item" border>
           <div class="snapshot">
-            <img :src="`/img/kitgunLoader${item.name.replace(/ /g, '')}.png`" :alt="item.name" width="100%">
+            <img :src="`/img/kitgunLoader${$t(`messages.${item.name}`, 'en')}.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
@@ -53,7 +53,7 @@
             <span>{{loadLoader(item).critChance >= 0 ? "+" : ""}}{{(loadLoader(item).critChance*100).toFixed()}}% {{$t(`kitgun.critChance`)}}</span>
             <span>{{loadLoader(item).procChance >= 0 ? "+" : ""}}{{(loadLoader(item).procChance*100).toFixed()}}% {{$t(`kitgun.status`)}}</span>
             <span>{{loadLoader(item).reload >= 0 ? "+" : ""}}{{loadLoader(item).reload}}s {{$t(`kitgun.reload`)}}</span>
-            <span>{{loadLoader(item).magazine >= 0 ? "+" : ""}}{{loadLoader(item).magazine}} {{$t(`kitgun.magazine`)}}</span>
+            <span>{{loadLoader(item).magazine}} {{$t(`kitgun.magazine`)}}</span>
           </div>
         </el-radio>
       </li>

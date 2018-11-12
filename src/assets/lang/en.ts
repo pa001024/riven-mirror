@@ -1502,8 +1502,8 @@ let po = {
     "harrowSuffraganHelmet": "Harrow Suffragan Helmet",
     "brokkHammerSkin": "Fragor Brokk Skin",
     "daggerZorenSkin": "Dual Zoren Dagger Axe Skin",
-    "scindoManticoreAxeSkin": "Scindo Manticore Axe Skin",
-    "scindoDaggerAxeSkin": "Scindo Dagger Axe Skin",
+    "manticoreAxeScindoSkin": "Scindo Manticore Axe Skin",
+    "daggerAxeScindoSkin": "Scindo Dagger Axe Skin",
     "exilusAdapter": "Exilus Adapter",
     "encryptedJournalFragment": "Encrypted Journal Fragment",
     "mercury": "Mercury",
@@ -2111,6 +2111,7 @@ let po = {
   time: {
     earth: "Earth",
     cetus: "Cetus",
+    fortuna: "Fortuna",
     night: "Night",
     dawn: "Dawn",
     sunrise: "Sunrise",
@@ -2118,6 +2119,9 @@ let po = {
     day: "Day",
     dusk: "Dusk",
     sunset: "Sunset",
+    warm: "Warm",
+    cold: "Cold",
+    freezing: "Freezing",
   },
   huangli: {
     title: "Warframe's Almanac",

@@ -1,4 +1,7 @@
 module.exports = {
+  configureWebpack: {
+    devtool: false,
+  },
   pwa: {
     name: 'Riven Mirror',
     themeColor: '#3d5afe',

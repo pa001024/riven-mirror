@@ -26,7 +26,7 @@
       "es7",
       "es2015.promise"
     ],
-    "sourceMap": true,
-    "pretty": true
+    "sourceMap": false,
+    "pretty": false
   }
 }

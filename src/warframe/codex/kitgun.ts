@@ -74,29 +74,29 @@ const _kitgunChamber = [
 ] as [string, string, [string, number][], number, number, number[], number][];
 
 const _kitgunGrip = [
-  ["1", "gibber", [[0, 3.17], [0, 12], [0, 11], [0, 4.5]]],
-  ["2", "haymaker", [[102, 1.17], [2, 12], [12.5, 3.67], [16, 2.17]]],
-  ["3", "lovetap", [[51, 1.5], [1.5, 12], [7.8, 5.17], [8, 2.5]]],
   ["4", "ramble", [[0, 2.5], [0.5, 12], [1.5, 8.83], [0, 3.67]]],
+  ["1", "gibber", [[0, 3.17], [0, 12], [0, 11], [0, 4.5]]],
+  ["3", "lovetap", [[51, 1.5], [1.5, 12], [7.8, 5.17], [8, 2.5]]],
+  ["2", "haymaker", [[102, 1.17], [2, 12], [12.5, 3.67], [16, 2.17]]],
 ] as [string, string, [number, number][]][];
 
 const _kitgunLoader = [
-  ["7", "slap", 0, 0, 0, 0, 2, []],
-  ["3", "deepbreath", 0, 0, 0, 0.4, 3, []],
-  ["2", "bellows", 0, 0, 0, 0.8, 2, []],
-  ["E", "zip", 0, 0, 0, -0.4, 1, []],
-  ["F", "zipfire", -0.1, -0.04, 0.07, -0.4, 1, []],
-  ["1", "bashrack", 0.1, 0.07, -0.04, 0.4, 2, []],
-  ["G", "zipneedle", 0.1, 0.07, -0.04, -0.4, 1, []],
-  ["9", "sparkfire", -0.1, -0.04, 0.07, 0.4, 1, []],
-  ["C", "swiftfire", -0.1, -0.04, 0.07, 0, 2, []],
-  ["6", "ramflare", -0.3, -0.08, 0.14, 0.4, 2, []],
-  ["D", "thunderdrum", -0.1, -0.04, 0.07, 0.8, 3, [{ chamberID: "1", critChance: -0.08, procChance: 0.14 }]],
   ["4", "flutterfire", -0.3, -0.08, 0.14, 0, 1, []],
-  ["8", "slapneedle", 0.1, 0.07, -0.04, 0, 3, []],
-  ["B", "stitch", 0.1, 0.07, -0.04, 0.8, 0, []],
-  ["A", "splat", 0.3, 0.14, -0.08, 0.4, 0, [{ chamberID: "2", reload: -0.1 }]],
-  ["5", "killstream", 0.3, 0.14, -0.08, 0, 0, [{ chamberID: "1", procChance: -0.1 }]],
+  ["6", "ramflare", -0.3, -0.08, 0.14, 0.4, 2, []],
+  ["F", "zipfire", -0.1, -0.04, 0.07, -0.4, 0, []],
+  ["C", "swiftfire", -0.1, -0.04, 0.07, 0, 1, []],
+  ["9", "sparkfire", -0.1, -0.04, 0.07, 0.4, 2, []],
+  ["D", "thunderdrum", -0.1, -0.04, 0.07, 0.8, 3, [{ chamberID: "1", critChance: -0.08, procChance: 0.14 }]],
+  ["E", "zip", 0, 0, 0, -0.4, 0, []],
+  ["7", "slap", 0, 0, 0, 0, 1, []],
+  ["3", "deepbreath", 0, 0, 0, 0.4, 2, []],
+  ["2", "bellows", 0, 0, 0, 0.8, 3, []],
+  ["G", "zipneedle", 0.1, 0.07, -0.04, -0.4, 0, []],
+  ["8", "slapneedle", 0.1, 0.07, -0.04, 0, 1, []],
+  ["1", "bashrack", 0.1, 0.07, -0.04, 0.4, 2, []],
+  ["B", "stitch", 0.1, 0.07, -0.04, 0.8, 3, []],
+  ["5", "killstream", 0.3, 0.14, -0.08, 0, 1, [{ chamberID: "1", procChance: -0.1 }]],
+  ["A", "splat", 0.3, 0.14, -0.08, 0.4, 2, [{ chamberID: "2", reload: -0.1 }]],
 ] as [string, string, number, number, number, number, number, LoaderChamberData[]][];
 
 export const KitgunChamberData: KitgunChamber[] = _kitgunChamber.map(v => ({
@@ -129,9 +129,9 @@ export const KitgunLoaderData: KitgunLoader[] = _kitgunLoader.map(v => ({
   chambersData: v[7],
 }));
 
-export const NoneKitgunGripData: KitgunGrip = KitgunGripData[0];
+export const NoneKitgunGripData: KitgunGrip = KitgunGripData[1];
 
-export const NoneKitgunLoaderData: KitgunLoader = KitgunLoaderData[0];
+export const NoneKitgunLoaderData: KitgunLoader = KitgunLoaderData[7];
 
 export class Kitgun implements GunWeapon {
   chamber: KitgunChamber;
@@ -192,16 +192,17 @@ export class Kitgun implements GunWeapon {
   recalc() {
     const chamberID = +this.chamber.id;
     const grip = this.grip.chambersData[chamberID - 1];
+    const loader = Kitgun.loadLoader(this.chamber, this.loader);
 
     this.id = _.startCase(this.chamber.name);
     this.name = this.chamber.name;
-    this.critMul = hAccSum(this.loader.critDamage, 2);
-    this.critChance = hAccSum(this.chamber.critChance, this.loader.critChance);
-    this.status = hAccSum(this.chamber.procChance, this.loader.procChance);
+    this.critMul = hAccSum(loader.critDamage, 2);
+    this.critChance = hAccSum(this.chamber.critChance, loader.critChance);
+    this.status = hAccSum(this.chamber.procChance, loader.procChance);
     this.fireRate = grip.fireRate;
     this.dmg = this.chamber.dmgs.map(([n, v]) => [n, hAccSum(v, grip.dmgAdd)] as [string, number]).filter(v => v[1] > 0);
-    this.reload = hAccSum(1.3, this.loader.reloadTime);
-    this.magazine = this.chamber.magazine[this.loader.magazineIndex];
+    this.reload = hAccSum(1.3, loader.reload);
+    this.magazine = loader.magazine;
     this.accuracy = this.chamber.accuracy;
   }
   get displayName() {

@@ -26,6 +26,14 @@
         </div>
       </div>
     </el-popover>
+    <div class="time-block fortuna">
+      <div class="time-header">
+        {{$t("time.fortuna")}} {{fortunaTime.phase}}
+      </div>
+      <div class="time-clock">
+        {{fortunaTime.text}}
+      </div>
+    </div>
     <div class="time-block earth">
       <div class="time-header">
         {{$t("time.earth")}} {{earthTime.phase}}
@@ -40,7 +48,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch } from "vue-property-decorator";
-import { EarthTime, CetusTime } from "../warframe";
+import { EarthTime, CetusTime, FortunaTime } from "../warframe";
 import { i18n } from "@/i18n";
 
 interface WarframeTime {
@@ -111,6 +119,7 @@ class TimeReminder {
 export default class MiniClock extends Vue {
   cetusTime: WarframeTime = { phase: "", text: "00:00" }
   earthTime: WarframeTime = { phase: "", text: "00:00" }
+  fortunaTime: WarframeTime = { phase: "", text: "00:00" }
   timerID: any;
   timeReminder = new TimeReminder();
   now: number;
@@ -138,6 +147,7 @@ export default class MiniClock extends Vue {
   updateTime() {
     this.cetusTime = { phase: CetusTime.phaseText, text: CetusTime.text };
     this.earthTime = { phase: EarthTime.phaseText, text: EarthTime.text };
+    this.fortunaTime = { phase: FortunaTime.phaseText, text: FortunaTime.text };
     this.timeReminder.testSchedule();
     this.cetusFutureTimes = CetusTime.futures(5);
   }
