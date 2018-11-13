@@ -280,7 +280,7 @@ const _rivenWeaponDataBase = [
   ["Argonak", "氩格纳克", "Rifle", 1.1, 140],
   ["Quanta", "量子切割器", "Rifle", 1, 160],
   ["Nagantaka", "噬蛇弩", "Rifle", 1, 300],
-  ["Battacor", "战使之力 (暂)", "Rifle", 1, 300],
+  ["Battacor", "武使之力", "Rifle", 1, 300],
   ["Zarr", "沙皇", "Rifle", 1.08, 325],
   ["Tenora", "双簧管", "Rifle", 1.05, 230],
   ["Paris", "帕里斯", "Rifle", 1.05, 125],
@@ -364,7 +364,7 @@ const _rivenWeaponDataBase = [
   ["Pyrana", "食人鱼", "Pistol", 1, 910],
   ["Detron", "德特昂", "Pistol", 1, 190],
   ["Zylok", "席尔火枪", "Pistol", 1, 150],
-  ["Ocucor", "视使之触 (暂)", "Pistol", 1, 120],
+  ["Ocucor", "视使之触", "Pistol", 1, 120],
 
   ["Catchmoon", "捕月", "Pistol", 1, 300],
   ["Gaze", "凝目", "Pistol", 1, 300],
@@ -462,7 +462,8 @@ const _rivenWeaponDataBase = [
   ["Obex", "奥比克斯", "Melee", 1.1, 75],
   ["Magistar", "执法者", "Melee", 1.09, 105],
 
-  ["Kreska", "克雷斯卡直斧 (暂)", "Melee", 1, 300],
+  ["Cadus", "光棍", "Melee", 1, 50],
+  ["Kreska", "直刃", "Melee", 1, 300],
   ["Paracesis", "心智之殁", "Melee", 1, 300],
   ["Pupacyst", "毒囊骨茧", "Melee", 1, 70],
   ["Falcor", "猎鹰轮", "Melee", 1, 200],
