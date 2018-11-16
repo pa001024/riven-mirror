@@ -189,6 +189,12 @@ export default class Mod extends Vue {
           this.readOCR(blob);
         });
         return;
+      } else {
+        if (item.type === "text/plain")
+          item.getAsString(v => {
+            console.log("readClipboard=>", v);
+            this.modText = v;
+          });
       }
     }
   }

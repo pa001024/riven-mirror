@@ -60,6 +60,17 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <!-- 选择KITGUN组件 -->
+        <el-form-item :label="$t('buildview.components')" v-if="riven.isKitgun">
+          <el-select style="width:120px" size="small" v-model="gripId" @change="kitgunPartChange" :placeholder="$t('buildview.selectKitgunGrip')">
+            <el-option v-for="grip in gripList" :key="grip.id" :label="$t(`messages.${grip.name}`)" :value="grip.id">
+            </el-option>
+          </el-select>
+          <el-select style="width:120px" size="small" v-model="loaderId" @change="kitgunPartChange" :placeholder="$t('buildview.selectKitgunLoader')">
+            <el-option v-for="loader in loaderList" :key="loader.id" :label="$t(`messages.${loader.name}`)" :value="loader.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <!-- 选择比较类型 -->
         <el-form-item>
           <el-radio-group size="small" v-model="selectCompMethod" @change="debouncedRecalc">
@@ -142,7 +153,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, GunModBuild, ValuedRivenProperty, RivenDataBase, Codex, GunWeapon, GunCompareMode } from "@/warframe";
+import { RivenMod, GunModBuild, ValuedRivenProperty, RivenDataBase, Codex, GunWeapon, GunCompareMode, KitgunChamber, KitgunGrip, KitgunLoader, KitgunChamberData, KitgunGripData, KitgunLoaderData, Kitgun, Weapon } from "@/warframe";
 import { BaseModBuildView } from "./BaseModBuildView";
 
 @Component
@@ -165,6 +176,25 @@ export default class GunModBuildView extends BaseModBuildView {
   extraOverall = 0;
   /** 赋能 */
   arcanes = [];
+
+  chamberList = KitgunChamberData;
+  gripList = KitgunGripData;
+  loaderList = KitgunLoaderData;
+  chamber: KitgunChamber = null;
+  grip: KitgunGrip = null;
+  loader: KitgunLoader = null;
+  gripId: string = null;
+  loaderId: string = null;
+
+  /** [overwrite] 武器 */
+  get weapon() {
+    if (this.riven.isKitgun) {
+      return new Kitgun(this.chamber, this.grip, this.loader);
+    }
+    else
+      return RivenDataBase.getNormalWeaponsByName(this.selectWeapon);
+  }
+
   get availableArcanes() {
     return Codex.getAvailableArcanes(this.weapon);
   }
@@ -214,6 +244,29 @@ export default class GunModBuildView extends BaseModBuildView {
     localStorage.setItem("useAcolyteMods", JSON.stringify(this.useAcolyteMods));
   }
 
+  @Watch("riven")
+  rivenChange(riven?: RivenMod, oldRiven?: RivenMod) {
+    if (this.riven.isKitgun) {
+      this.chamber = KitgunChamberData.find(v => v.id === this.riven.id);
+      this.selectWeapon = this.riven.id;
+    } else {
+      let weapons = this.riven.weapons;
+      if (!weapons || weapons.length === 0) {
+        console.warn("warn: weapons.length === 0");
+        return;
+      }
+      this.selectWeapon = weapons[weapons.length - 1].id;
+    }
+    if (!oldRiven || this.riven && oldRiven.id !== this.riven.id)
+      this.selectCompMethod = this.defalutMode;
+    this.debouncedRecalc();
+  }
+
+  kitgunPartChange() {
+    this.grip = this.gripList.find(v => v.id === this.gripId);
+    this.loader = this.loaderList.find(v => v.id === this.loaderId);
+    this.debouncedRecalc();
+  }
   // === 生命周期钩子 ===
   beforeMount() {
     this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 150);

@@ -7,6 +7,7 @@ import { i18n } from "@/i18n";
  * 枪膛
  */
 export interface KitgunChamber {
+  index: number;
   id: string;
   name: string;
   dmgs: [string, number][];
@@ -20,6 +21,7 @@ export interface KitgunChamber {
  * 握把
  */
 export interface KitgunGrip {
+  index: number;
   id: string;
   name: string;
   chambersData: GripChamberData[];
@@ -36,6 +38,7 @@ export interface GripChamberData {
  * 填弹器
  */
 export interface KitgunLoader {
+  index: number;
   id: string;
   name: string;
   critDamage: number;
@@ -67,66 +70,69 @@ export interface LoaderChamberData {
 }
 
 const _kitgunChamber = [
-  ["1", "catchmoon", [["Heat", 167], ["Impact", 89]], 0.21, 0.21, [5, 7, 11, 13], 5.9],
-  ["2", "gaze", [["Puncture", 6], ["Radiation", 10]], 0.25, 0.25, [23, 31, 43, 51], 100],
-  ["3", "rattleguts", [["Impact", -1], ["Puncture", 7], ["Slash", 5], ["Radiation", 10]], 0.19, 0.19, [29, 45, 67, 83], 26],
-  ["4", "tombfinger", [["Impact", 16], ["Puncture", 9], ["Radiation", 59]], 0.24, 0.24, [9, 15, 23, 29], 50],
-] as [string, string, [string, number][], number, number, number[], number][];
+  [0, "Catchmoon", "catchmoon", [["Heat", 167], ["Impact", 89]], 0.21, 0.21, [5, 7, 11, 13], 5.9],
+  [1, "Gaze", "gaze", [["Puncture", 6], ["Radiation", 10]], 0.25, 0.25, [23, 31, 43, 51], 100],
+  [2, "Rattleguts", "rattleguts", [["Impact", -1], ["Puncture", 7], ["Slash", 5], ["Radiation", 10]], 0.19, 0.19, [29, 45, 67, 83], 26],
+  [3, "Tombfinger", "tombfinger", [["Impact", 16], ["Puncture", 9], ["Radiation", 59]], 0.24, 0.24, [9, 15, 23, 29], 50],
+] as [number, string, string, [string, number][], number, number, number[], number][];
 
 const _kitgunGrip = [
-  ["4", "ramble", [[0, 2.5], [0.5, 12], [1.5, 8.83], [0, 3.67]]],
-  ["1", "gibber", [[0, 3.17], [0, 12], [0, 11], [0, 4.5]]],
-  ["3", "lovetap", [[51, 1.5], [1.5, 12], [7.8, 5.17], [8, 2.5]]],
-  ["2", "haymaker", [[102, 1.17], [2, 12], [12.5, 3.67], [16, 2.17]]],
-] as [string, string, [number, number][]][];
+  [0, "Ramble", "ramble", [[0, 2.5], [0.5, 12], [1.5, 8.83], [0, 3.67]]],
+  [1, "Gibber", "gibber", [[0, 3.17], [0, 12], [0, 11], [0, 4.5]]],
+  [2, "Lovetap", "lovetap", [[51, 1.5], [1.5, 12], [7.8, 5.17], [8, 2.5]]],
+  [3, "Haymaker", "haymaker", [[102, 1.17], [2, 12], [12.5, 3.67], [16, 2.17]]],
+] as [number, string, string, [number, number][]][];
 
 const _kitgunLoader = [
-  ["4", "flutterfire", -0.3, -0.08, 0.14, 0, 1, []],
-  ["6", "ramflare", -0.3, -0.08, 0.14, 0.4, 2, []],
-  ["F", "zipfire", -0.1, -0.04, 0.07, -0.4, 0, []],
-  ["C", "swiftfire", -0.1, -0.04, 0.07, 0, 1, []],
-  ["9", "sparkfire", -0.1, -0.04, 0.07, 0.4, 2, []],
-  ["D", "thunderdrum", -0.1, -0.04, 0.07, 0.8, 3, [{ chamberID: "1", critChance: -0.08, procChance: 0.14 }]],
-  ["E", "zip", 0, 0, 0, -0.4, 0, []],
-  ["7", "slap", 0, 0, 0, 0, 1, []],
-  ["3", "deepbreath", 0, 0, 0, 0.4, 2, []],
-  ["2", "bellows", 0, 0, 0, 0.8, 3, []],
-  ["G", "zipneedle", 0.1, 0.07, -0.04, -0.4, 0, []],
-  ["8", "slapneedle", 0.1, 0.07, -0.04, 0, 1, []],
-  ["1", "bashrack", 0.1, 0.07, -0.04, 0.4, 2, []],
-  ["B", "stitch", 0.1, 0.07, -0.04, 0.8, 3, []],
-  ["5", "killstream", 0.3, 0.14, -0.08, 0, 1, [{ chamberID: "1", procChance: -0.1 }]],
-  ["A", "splat", 0.3, 0.14, -0.08, 0.4, 2, [{ chamberID: "2", reload: -0.1 }]],
-] as [string, string, number, number, number, number, number, LoaderChamberData[]][];
+  [0, "Flutterfire", "flutterfire", -0.3, -0.08, 0.14, 0, 1, []],
+  [1, "Ramflare", "ramflare", -0.3, -0.08, 0.14, 0.4, 2, []],
+  [2, "Zipfire", "zipfire", -0.1, -0.04, 0.07, -0.4, 0, []],
+  [3, "Swiftfire", "swiftfire", -0.1, -0.04, 0.07, 0, 1, []],
+  [4, "Sparkfire", "sparkfire", -0.1, -0.04, 0.07, 0.4, 2, []],
+  [5, "Thunderdrum", "thunderdrum", -0.1, -0.04, 0.07, 0.8, 3, [{ chamberID: "Catchmoon", critChance: -0.08, procChance: 0.14 }]],
+  [6, "Zip", "zip", 0, 0, 0, -0.4, 0, []],
+  [7, "Slap", "slap", 0, 0, 0, 0, 1, []],
+  [8, "Deepbreath", "deepbreath", 0, 0, 0, 0.4, 2, []],
+  [9, "Bellows", "bellows", 0, 0, 0, 0.8, 3, []],
+  [10, "Zipneedle", "zipneedle", 0.1, 0.07, -0.04, -0.4, 0, []],
+  [11, "Slapneedle", "slapneedle", 0.1, 0.07, -0.04, 0, 1, []],
+  [12, "Bashrack", "bashrack", 0.1, 0.07, -0.04, 0.4, 2, []],
+  [13, "Stitch", "stitch", 0.1, 0.07, -0.04, 0.8, 3, []],
+  [14, "Killstream", "killstream", 0.3, 0.14, -0.08, 0, 1, [{ chamberID: "Catchmoon", procChance: -0.1 }]],
+  [15, "Splat", "splat", 0.3, 0.14, -0.08, 0.4, 2, [{ chamberID: "Gaze", reload: -0.1 }]],
+] as [number, string, string, number, number, number, number, number, LoaderChamberData[]][];
 
 export const KitgunChamberData: KitgunChamber[] = _kitgunChamber.map(v => ({
-  id: v[0],
-  name: v[1],
-  dmgs: v[2],
-  critChance: v[3],
-  procChance: v[4],
-  magazine: v[5],
-  accuracy: v[6],
+  index: v[0],
+  id: v[1],
+  name: v[2],
+  dmgs: v[3],
+  critChance: v[4],
+  procChance: v[5],
+  magazine: v[6],
+  accuracy: v[7],
 }));
 
 export const KitgunGripData: KitgunGrip[] = _kitgunGrip.map(v => ({
-  id: v[0],
-  name: v[1],
-  chambersData: v[2].map(k => ({
+  index: v[0],
+  id: v[1],
+  name: v[2],
+  chambersData: v[3].map(k => ({
     dmgAdd: k[0],
     fireRate: k[1],
   })),
 }));
 
 export const KitgunLoaderData: KitgunLoader[] = _kitgunLoader.map(v => ({
-  id: v[0],
-  name: v[1],
-  critDamage: v[2],
-  critChance: v[3],
-  procChance: v[4],
-  reloadTime: v[5],
-  magazineIndex: v[6],
-  chambersData: v[7],
+  index: v[0],
+  id: v[1],
+  name: v[2],
+  critDamage: v[3],
+  critChance: v[4],
+  procChance: v[5],
+  reloadTime: v[6],
+  magazineIndex: v[7],
+  chambersData: v[8],
 }));
 
 export const NoneKitgunGripData: KitgunGrip = KitgunGripData[1];
@@ -155,7 +161,7 @@ export class Kitgun implements GunWeapon {
   accuracy: number;
 
   static loadGrip(chamber: KitgunChamber, grip: KitgunGrip) {
-    return grip.chambersData[+chamber.id - 1];
+    return grip.chambersData[chamber.index];
   }
   static loadLoader(chamber: KitgunChamber, loader: KitgunLoader) {
     let data = loader.chambersData.find(v => v.chamberID === chamber.id);
@@ -190,11 +196,10 @@ export class Kitgun implements GunWeapon {
     }
   }
   recalc() {
-    const chamberID = +this.chamber.id;
-    const grip = this.grip.chambersData[chamberID - 1];
+    const grip = this.grip.chambersData[this.chamber.index];
     const loader = Kitgun.loadLoader(this.chamber, this.loader);
 
-    this.id = _.startCase(this.chamber.name);
+    this.id = this.chamber.id;
     this.name = this.chamber.name;
     this.critMul = hAccSum(loader.critDamage, 2);
     this.critChance = hAccSum(this.chamber.critChance, loader.critChance);

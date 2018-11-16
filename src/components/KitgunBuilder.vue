@@ -102,7 +102,6 @@ export default class extends Vue {
   finish() {
     this.$emit("finish", this.kitgun);
   }
-
 }
 
 </script>

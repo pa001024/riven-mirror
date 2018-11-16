@@ -5,9 +5,7 @@ import { i18n } from "@/i18n";
 export abstract class BaseModBuildView extends Vue {
   @Prop() riven: RivenMod;
   selectWeapon = "";
-  get weapon() {
-    return (this.riven.weapons as Weapon[]).find(v => v.id === this.selectWeapon);
-  }
+  get weapon() { return RivenDataBase.getNormalWeaponsByName(this.selectWeapon); }
   selectCompMethod: number = 0;
   selectDamageType: string = "Corrosive";
   builds: [string, ModBuild][] = [];
@@ -35,22 +33,10 @@ export abstract class BaseModBuildView extends Vue {
   abstract debouncedRecalc();
   abstract get defalutMode(): number;
 
-  @Watch("riven")
-  rivenChange(riven?: RivenMod, oldRiven?: RivenMod) {
-    let weapons = this.riven.weapons;
-    if (!weapons || weapons.length === 0) {
-      console.warn("warn: weapons.length === 0");
-      return;
-    }
-    this.selectWeapon = weapons[weapons.length - 1].id;
-    if (!oldRiven || this.riven && oldRiven.id !== this.riven.id)
-      this.selectCompMethod = this.defalutMode;
-    this.debouncedRecalc();
-  }
   recalc(cls: any = GunModBuild, options = {}) {
     let startTime = Date.now();
     if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
-    let weapon = RivenDataBase.getNormalWeaponsByName(this.selectWeapon);
+    let weapon = this.weapon;
     let stand = new cls(weapon, this.riven, options);
     let riven = new cls(weapon, this.riven, options);
     let best = stand.findBestRiven();

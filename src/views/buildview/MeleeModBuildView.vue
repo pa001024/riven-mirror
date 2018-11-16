@@ -1,7 +1,5 @@
 <template>
-  <el-alert v-if="riven.isZaw" title="暂不支持Zaw" type="error">
-  </el-alert>
-  <div class="build-container" v-else>
+  <div class="build-container">
     <div class="build-list">
       <!-- 评级 -->
       <div class="build-result" v-if="builds.length">
@@ -59,6 +57,17 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <!-- 选择ZAW组件 -->
+        <el-form-item :label="$t('buildview.components')" v-if="riven.isZaw">
+          <el-select style="width:140px" size="small" v-model="gripId" @change="zawPartChange" :placeholder="$t('buildview.selectZawGrip')">
+            <el-option v-for="grip in gripList" :key="grip.id" :label="$t(`messages.${grip.name}`)" :value="grip.id">
+            </el-option>
+          </el-select>
+          <el-select style="width:160px" size="small" v-model="linksId" @change="zawPartChange" :placeholder="$t('buildview.selectZawLinks')">
+            <el-option v-for="links in linksList" :key="links.id" :label="$t(`messages.${links.name}`)" :value="links.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <!-- 选择比较类型 -->
         <el-form-item>
           <el-radio-group size="small" v-model="selectCompMethod" @change="debouncedRecalc">
@@ -111,6 +120,14 @@
             </el-input>
           </el-tooltip>
         </el-form-item>
+        <!-- 使用MOD -->
+        <!-- <el-form-item :label="$t('buildview.usemods')">
+          <el-checkbox v-model="useCombotime" @change="debouncedRecalc">{{$t("buildview.heavyCaliber")}}</el-checkbox>
+          <el-checkbox v-model="usePrimedChamber" @change="debouncedRecalc">{{$t("buildview.primedChamber")}}</el-checkbox>
+          <el-tooltip effect="dark" :content="$t('buildview.acolyteModsTip')" placement="bottom">
+            <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">{{$t("buildview.acolyteMods")}}</el-checkbox>
+          </el-tooltip>
+        </el-form-item> -->
         <!-- 赋能 -->
         <el-form-item :label="$t('buildview.arcanes')">
           <el-checkbox-group v-model="arcanes">
@@ -126,7 +143,7 @@
 
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, MeleeModBuild, ValuedRivenProperty, RivenDataBase, Codex, MeleeWeapon, MeleeCompareMode } from "@/warframe";
+import { RivenMod, MeleeModBuild, ValuedRivenProperty, RivenDataBase, Codex, MeleeWeapon, MeleeCompareMode, ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, Weapon } from "@/warframe";
 import { BaseModBuildView } from "./BaseModBuildView";
 
 @Component
@@ -142,6 +159,24 @@ export default class MeleeModBuildView extends BaseModBuildView {
   extraOverall = 0;
   /** 赋能 */
   arcanes = [];
+
+  strikeList = ZawStrikeData;
+  gripList = ZawGripData;
+  linksList = ZawLinksData;
+  strike: ZawStrike = null;
+  grip: ZawGrip = null;
+  links: ZawLinks = null;
+  gripId: string = null;
+  linksId: string = null;
+
+  /** [overwrite] 武器 */
+  get weapon() {
+    if (this.riven.isZaw)
+      return new Zaw(this.strike, this.grip, this.links);
+    else
+      return RivenDataBase.getNormalWeaponsByName(this.selectWeapon);
+  }
+
   get availableArcanes() {
     return Codex.getAvailableArcanes(this.weapon);
   }
@@ -172,6 +207,28 @@ export default class MeleeModBuildView extends BaseModBuildView {
     this._debouncedRecalc();
   }
 
+  @Watch("riven")
+  rivenChange(riven?: RivenMod, oldRiven?: RivenMod) {
+    if (this.riven.isZaw) {
+      this.strike = ZawStrikeData.find(v => v.id === this.riven.id);
+      this.selectWeapon = this.riven.id;
+    } else {
+      let weapons = this.riven.weapons;
+      if (!weapons || weapons.length === 0) {
+        console.warn("warn: weapons.length === 0");
+        return;
+      }
+      this.selectWeapon = weapons[weapons.length - 1].id;
+    }
+    if (!oldRiven || this.riven && oldRiven.id !== this.riven.id)
+      this.selectCompMethod = this.defalutMode;
+    this.debouncedRecalc();
+  }
+  zawPartChange() {
+    this.grip = this.gripList.find(v => v.id === this.gripId);
+    this.links = this.linksList.find(v => v.id === this.linksId);
+    this.debouncedRecalc();
+  }
   // === 生命周期钩子 ===
   beforeMount() {
     this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 150);

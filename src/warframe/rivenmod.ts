@@ -1,6 +1,7 @@
-import { MeleeWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase, RivenWeaponDataBase } from ".";
+import { MeleeWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase, RivenWeaponDataBase, GunWeaponDataBase } from ".";
 import { Base64, randomNormalDistribution, strSimilarity } from "./util";
 import _ from "lodash";
+import { i18n } from "@/i18n";
 
 export class ValuedRivenProperty {
   /** 属性原型 */
@@ -63,9 +64,9 @@ export class ValuedRivenProperty {
 }
 
 export class RivenMod {
-  /** 武器英文名称 */
+  /** 武器ID */
   id: string
-  /** 武器名称 */
+  /** 武器本地化名称 */
   name: string
   /** 后缀 */
   private _subfix: string;
@@ -141,6 +142,7 @@ export class RivenMod {
       case "rifle": return this.mod === "Rifle";
       case "sniper": return this.mod === "Rifle" && this.weapons[0].tags.includes("Sniper");
       case "zaw": return this.mod === "Melee" && MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id)).length === 0;
+      case "kitgun": return this.mod === "Pistol" && GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id)).length === 0;
     }
     return false;
   }
@@ -149,11 +151,23 @@ export class RivenMod {
    * @param modText MOD文本
    */
   parseString(modText: string) {
+    /*
+示例输入:
+多克拉姆
+Pleci-loctitis
++78.6%暴击伤害
+滑行攻击有+89.2%的几率
+造成暴击。
++106.6%攻击范围
+-34.9%对Infested伤害
+A段位12023
+    */
     this.id = this.name = "";
     this.hasNegativeProp = false;
     this.rank = this.recycleTimes = 0;
-    let lines = modText.replace(/\n([A-z\u4e00-\u9fa5])/g, (m, r1) => m.indexOf("段") >= 0 || m.indexOf("rank") >= 0 ? m : r1)
+    let lines = modText.replace(/\n([A-z\u4e00-\u9fa5。]+)\n/g, (m, r1) => r1 + "\n")
       .replace(/(（\S*?)\s(\S*?）)|(\(\S*?)\s(\S*?\))/g, "$1$2$3$4").replace("·", "-").replace(/lgni/g, "Igni").split(/\n+/g);
+    console.log("lines=>", lines);
     let subfixIndex = lines.findIndex(v => v.match(RivenDataBase.PrefixAll) != null);
     if (subfixIndex < 0) return new Error("紫卡属性识别错误: 找不到后缀");
     else {
@@ -326,6 +340,8 @@ export class RivenMod {
   }
   /** 是否是Zaw */
   get isZaw() { return this.is("zaw"); }
+  /** 是否是Kitgun */
+  get isKitgun() { return this.is("kitgun"); }
   /** 短后缀 */
   get shortSubfix() {
     let subs = this.parseSubfix(this.subfix, this.mod);

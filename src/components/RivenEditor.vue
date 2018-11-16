@@ -113,7 +113,7 @@ export default class RivenEditor extends Vue {
   beforeMount() {
     let isZH = this.$i18n.locale.substr(0, 2) === "zh";
     _.forEach(ModTypeTable, (name, id) => {
-      let rWeapons = RivenWeaponDataBase.filter(v => v.mod === id && v.weapons.length > 0).map(v => ({ value: v.id, label: isZH ? v.name : v.id }));
+      let rWeapons = RivenWeaponDataBase.filter(v => v.mod === id && v.ratio > 0.1).map(v => ({ value: v.id, label: isZH ? v.name : v.id }));
       this.nameOptions.push({ value: id, label: isZH ? name : id, children: rWeapons });
     });
     if (this.weapon) this.handleChange();

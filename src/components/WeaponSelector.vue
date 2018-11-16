@@ -3,19 +3,24 @@
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
       <span slot="label" class="weapon-tablabel">{{$t("zh") ? tab.name : tab.id}}</span>
       <ul class="weapon-select">
-        <div class="weapon-item-container" v-for="riven in tab.rivens" :key="riven.id">
-          <el-dropdown v-if="riven.weapons.length > 1" trigger="click" @command="handleCommand">
-            <li class="weapon-item">
+        <template v-for="(riven, index) in tab.rivens">
+          <div class="weapon-group-header" v-if="!tab.rivens[index-1] || tab.rivens[index-1].star != riven.star" :key="riven.star">
+            {{riven.starText}}
+          </div>
+          <div class="weapon-item-container" :key="riven.id">
+            <el-dropdown v-if="riven.weapons.length > 1" trigger="click" @command="handleCommand">
+              <li class="weapon-item">
+                {{$t("zh") ? riven.name : riven.id}} {{riven.ratio}}
+              </li>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{weapon.displayName}}</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <li v-else class="weapon-item el-dropdown" @click="handleClick(riven.id)">
               {{$t("zh") ? riven.name : riven.id}} {{riven.ratio}}
             </li>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{weapon.displayName}}</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <li v-else class="weapon-item el-dropdown" @click="handleClick(riven.id)">
-            {{$t("zh") ? riven.name : riven.id}} {{riven.ratio}}
-          </li>
-        </div>
+          </div>
+        </template>
       </ul>
     </el-tab-pane>
     <el-tab-pane name="KITGUN">
@@ -101,6 +106,11 @@ export default class WeaponSelector extends Vue {
   color: white;
   box-shadow: 0 0 0 4px #a8c7ff80;
   border-color: transparent;
+}
+.weapon-group-header {
+  font-size: 1.6em;
+  margin: 0 12px;
+  color: #6199ff;
 }
 </style>
 

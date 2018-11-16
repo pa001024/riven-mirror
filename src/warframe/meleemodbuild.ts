@@ -132,8 +132,10 @@ export class MeleeModBuild extends ModBuild {
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }
+  /** [overwrite] 平均暴击区增幅倍率 */
+  get critDamageMul() { return this.calcCritDamage(this.critChance, this.critMul, 0, 2, this.stealthDamageMul); }
   /** 滑行平均暴击区增幅倍率 */
-  get slideCritDamageMul() { return this.calcCritDamage(this.slideCritDamage, this.critMul); }
+  get slideCritDamageMul() { return this.calcCritDamage(this.slideCritDamage, this.critMul, 0, 2, this.stealthDamageMul); }
   /** [overwrite] 总伤增幅倍率 */
   get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.overallMul, this.comboMul); }
   /** [overwrite] 总伤害 */
@@ -180,7 +182,7 @@ export class MeleeModBuild extends ModBuild {
     if (v != 2)
       return ((1 + (1 - v) * p) * (hAccMul(m, n - 1) + 1) + m * n * p * v) / (p + 1) + s;
     if (p != 0)
-      return hAccMul(m, n - 1) + 1 + 2 * m * n * p / (p + 1) + s;
+      return hAccMul(m, n - 1) + s + 1 + 2 * m * n * p / (p + 1);
     return hAccMul(m, n - 1) + s + 1;
   }
 

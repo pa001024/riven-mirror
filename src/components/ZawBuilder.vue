@@ -13,7 +13,7 @@
             <img :src="`/img/zawStrike${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
-            {{$t('zh') ? item.name : item.id}}
+            {{$t(`messages.${item.name}`)}}
           </div>
           <div class="type">
             {{$t(`zaw.${item.oneHand.type}`)}} / {{$t(`zaw.${item.twoHand.type}`)}}
@@ -29,7 +29,7 @@
             <img :src="`/img/zawGrip${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
-            {{$t('zh') ? item.name : item.id}}
+            {{$t(`messages.${item.name}`)}}
           </div>
           <div class="type">
             {{$t(`zaw.${strike[item.twoHand ? 'twoHand' : 'oneHand'].type}`)}}
@@ -49,7 +49,7 @@
             <img :src="`/img/zawLink${item.id.replace(/II/g, '2').replace(/ /g, '')}.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
-            {{$t('zh') ? item.name : item.id}}
+            {{$t(`messages.${item.name}`)}}
           </div>
           <div class="prop">
             <span>{{item.speed >= 0 ? "+" : ""}}{{item.speed}} {{$t(`zaw.fireRate`)}}</span>
@@ -62,9 +62,9 @@
     </ul>
     <!-- 部件 -->
     <div class="parts">
-      <div class="part" v-if="strike">{{$t("zaw.strike")}}: {{$t('zh') ? strike.name : strike.id}}</div><!--
-   --><div class="part" v-if="grip">{{$t("zaw.grip")}}: {{$t('zh') ? grip.name : grip.id}}</div><!--
-   --><div class="part" v-if="links">{{$t("zaw.links")}}: {{$t('zh') ? links.name : links.id}}</div>
+      <div class="part" v-if="strike">{{$t("zaw.strike")}}: {{$t(`messages.${strike.name}`)}}</div><!--
+   --><div class="part" v-if="grip">{{$t("zaw.grip")}}: {{$t(`messages.${grip.name}`)}}</div><!--
+   --><div class="part" v-if="links">{{$t("zaw.links")}}: {{$t(`messages.${links.name}`)}}</div>
     </div>
     <!-- 预览 -->
     <div class="preview" v-if="strike">
