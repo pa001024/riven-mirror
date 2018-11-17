@@ -140,12 +140,28 @@
             </ul>
           </el-card>
         </el-col>
-        <!-- 赏金 -->
+        <!-- 地球赏金 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="ostrons.length > 0">
           <el-card class="index-card ostrons">
             <h3 slot="header"><i class="wf-icon-ostrons"></i> {{$t("alerting.ostrons")}}</h3>
             <ul>
               <li v-for="(v, i) in ostrons" :key="i">
+                <div class="info">
+                  <div class="mission">{{v.type}}</div>
+                  <div class="reward">
+                    <div class="reward-item" v-for="reward in v.rewardPool" :key="reward">{{reward}}</div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </el-card>
+        </el-col>
+        <!-- 金星赏金 -->
+        <el-col :xs="24" :sm="12" :lg="8" v-if="solarisUnited.length > 0">
+          <el-card class="index-card solarisUnited">
+            <h3 slot="header"><i class="wf-icon-solarisUnited"></i> {{$t("alerting.solarisUnited")}}</h3>
+            <ul>
+              <li v-for="(v, i) in solarisUnited" :key="i">
                 <div class="info">
                   <div class="mission">{{v.type}}</div>
                   <div class="reward">
@@ -189,6 +205,7 @@ export default class Index extends Vue {
   fissures: Fissure[] = [];
   invasions: Invasion[] = [];
   ostrons: Job[] = [];
+  solarisUnited: Job[] = [];
   voidTrader: VoidTrader = null;
 
   renderTime(time: string) {
@@ -262,6 +279,7 @@ export default class Index extends Vue {
       this.fissures = this.stat.fissures;
       this.invasions = this.stat.invasions;
       this.ostrons = this.stat.ostrons;
+      this.solarisUnited = this.stat.solarisUnited;
       this.voidTrader = this.stat.voidTrader;
       // this.$nextTick(() => this.resize());
       setTimeout(() => this.resize(), 60);
@@ -382,7 +400,8 @@ export default class Index extends Vue {
   border: 0;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 }
-.index-card.ostrons .reward {
+.index-card.ostrons .reward,
+.index-card.solarisUnited .reward {
   white-space: normal;
   display: flex;
   flex-wrap: wrap;
