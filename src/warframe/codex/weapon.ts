@@ -61,6 +61,9 @@ export class Weapon implements WeaponData {
     this.status = data.status;
     this.defaultMode = data.defaultMode;
   }
+  get url() {
+    return this.id.replace(/ /g, "_");
+  }
   get displayName() {
     let name = i18n.t(`messages.${this.name}`) as string;
     if (!this.mode) return name;

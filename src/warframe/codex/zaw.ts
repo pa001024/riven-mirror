@@ -21,7 +21,7 @@ const _zawStrike = [
   ["2", "Kronsh", "kronsh", [["Impact", 60.2], ["Slash", 25.8]], -0.067, 0.18, 0.18, "Machetes", "Polearms"],
   ["3", "Ooltha", "ooltha", [["Impact", 7.2], ["Puncture", 28.8], ["Slash", 36]], 0.000, 0.18, 0.18, "Swords", "Staves"],
   ["4", "Rabvee", "rabvee", [["Impact", 51.6], ["Puncture", 4.3], ["Slash", 30.1]], -0.067, 0.18, 0.18, "Machetes", "Hammers"],
-  ["5", "Sepfahn", "sephahn", [["Impact", 7.2], ["Puncture", 18], ["Slash", 46.8]], 0.000, 0.20, 0.20, "Nikanas", "Staves"],
+  ["5", "Sepfahn", "sepfahn", [["Impact", 7.2], ["Puncture", 18], ["Slash", 46.8]], 0.000, 0.20, 0.20, "Nikanas", "Staves"],
   ["6", "Dehtat", "dehtat", [["Impact", 6.8], ["Puncture", 34], ["Slash", 27.2]], 0.083, 0.18, 0.18, "Rapiers", "Polearms"],
   ["7", "Cyath", "cyath", [["Impact", 14.4], ["Puncture", 3.6], ["Slash", 54]], 0.000, 0.18, 0.18, "Machetes", "Polearms"],
   ["8", "Mewan", "mewan", [["Impact", 21.5], ["Puncture", 30.1], ["Slash", 34.4]], -0.067, 0.18, 0.18, "Swords", "Polearms"],

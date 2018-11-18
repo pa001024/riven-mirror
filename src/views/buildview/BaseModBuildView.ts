@@ -89,6 +89,6 @@ export abstract class BaseModBuildView extends Vue {
   }
 
   toBuild(build: ModBuild) {
-    this.$router.push({ name: 'BuildEditorWithCode', params: { id: this.selectWeapon, code: build.miniCode } });
+    this.$router.push({ name: 'BuildEditorWithCode', params: { id: this.weapon.url, code: build.miniCode } });
   }
 }
