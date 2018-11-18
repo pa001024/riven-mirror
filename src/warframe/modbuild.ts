@@ -671,7 +671,7 @@ export abstract class ModBuild {
    */
   findBestRiven(slots = 8): RivenMod {
     let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
-    newBuild.fill(slots - 1, 0);
+    newBuild.fill(slots - 2, 0);
     // 生成所有紫卡
     // 1. 列出所有属性
     let upLevel = toUpLevel(4, true), negaUpLevel = toNegaUpLevel(4, true);

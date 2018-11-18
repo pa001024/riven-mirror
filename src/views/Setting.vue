@@ -7,6 +7,7 @@
         <span class="lang" @click="setlang('en')">English</span>
         <span class="lang" @click="setlang('zh-CN')">简体中文</span>
         <span class="lang" @click="setlang('zh-TW')">繁體中文</span>
+        <span class="lang" @click="setlang('zh-CY')">国服中文</span>
       </div>
     </el-card>
   </el-row>

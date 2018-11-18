@@ -4,6 +4,7 @@ import VueI18n from 'vue-i18n';
 
 import lang_en from '@/assets/lang/en';
 import lang_zh from '@/assets/lang/zh';
+import lang_zhCY from '@/assets/lang/zh-CY';
 import lang_zhTW from '@/assets/lang/zh-TW';
 
 import elLang_en from 'element-ui/lib/locale/lang/en'
@@ -45,6 +46,7 @@ const dateTimeFormats = {
     }
   },
   'zh-CN': cnDF,
+  'zh-CY': cnDF,
   'zh-TW': cnDF,
   'zh-HK': cnDF,
   'zh-SG': cnDF,
@@ -54,6 +56,7 @@ const dateTimeFormats = {
 // 配置
 const en = _.assign(elLang_en, lang_en);
 const chs = _.assign(elLang_zh, lang_zh);
+const chCY = _.assign({}, elLang_zh, lang_zhCY);
 const cht = _.assign(elLang_zhTW, lang_zhTW);
 
 export const i18n = new VueI18n({
@@ -63,6 +66,7 @@ export const i18n = new VueI18n({
   messages: {
     'en': en,
     'zh-CN': chs,
+    'zh-CY': chCY,
     'zh-SG': chs,
     'zh-TW': cht,
     'zh-HK': cht,
