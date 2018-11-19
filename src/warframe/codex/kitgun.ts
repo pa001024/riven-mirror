@@ -73,14 +73,14 @@ const _kitgunChamber = [
   [0, "Catchmoon", "catchmoon", [["Heat", 167], ["Impact", 89]], 0.21, 0.21, [5, 7, 11, 13], 5.9],
   [1, "Gaze", "gaze", [["Puncture", 6], ["Radiation", 10]], 0.25, 0.25, [23, 31, 43, 51], 100],
   [2, "Rattleguts", "rattleguts", [["Impact", -1], ["Puncture", 7], ["Slash", 5], ["Radiation", 10]], 0.19, 0.19, [29, 45, 67, 83], 26],
-  [3, "Tombfinger", "tombfinger", [["Impact", 16], ["Puncture", 9], ["Radiation", 59]], 0.24, 0.24, [9, 15, 23, 29], 50],
+  [3, "Tombfinger", "tombfinger", [["Impact", 12], ["Puncture", 5], ["Radiation", 43]], 0.24, 0.24, [9, 15, 23, 29], 50],
 ] as [number, string, string, [string, number][], number, number, number[], number][];
 
 const _kitgunGrip = [
-  [0, "Ramble", "ramble", [[0, 2.5], [0.5, 12], [1.5, 8.83], [0, 3.67]]],
-  [1, "Gibber", "gibber", [[0, 3.17], [0, 12], [0, 11], [0, 4.5]]],
-  [2, "Lovetap", "lovetap", [[51, 1.5], [1.5, 12], [7.8, 5.17], [8, 2.5]]],
-  [3, "Haymaker", "haymaker", [[102, 1.17], [2, 12], [12.5, 3.67], [16, 2.17]]],
+  [0, "Gibber", "gibber", [[-48, 3.17], [0, 12], [0, 11], [-4, 4.5]]],
+  [1, "Ramble", "ramble", [[-24, 2.5], [0.5, 12], [1.5, 8.83], [0, 3.67]]],
+  [2, "Lovetap", "lovetap", [[51, 1.5], [1.5, 12], [7.8, 5.17], [12, 2.5]]],
+  [3, "Haymaker", "haymaker", [[102, 1.17], [2, 12], [12.5, 3.67], [20, 2.17]]],
 ] as [number, string, string, [number, number][]][];
 
 const _kitgunLoader = [
@@ -205,7 +205,7 @@ export class Kitgun implements GunWeapon {
     this.critChance = hAccSum(this.chamber.critChance, loader.critChance);
     this.status = hAccSum(this.chamber.procChance, loader.procChance);
     this.fireRate = grip.fireRate;
-    this.dmg = this.chamber.dmgs.map(([n, v]) => [n, hAccSum(v, grip.dmgAdd)] as [string, number]).filter(v => v[1] > 0);
+    this.dmg = this.chamber.dmgs.map(([n, v]) => [n, hAccSum(v, (this.id === "Tombfinger" && n === "Radiation" ? 4 : 1) * grip.dmgAdd)] as [string, number]).filter(v => v[1] > 0);
     this.reload = hAccSum(1.3, loader.reload);
     this.magazine = loader.magazine;
     this.accuracy = this.chamber.accuracy;

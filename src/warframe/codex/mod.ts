@@ -241,7 +241,7 @@ const _normalModSource = [
   ["93", "pistolGambit", [["0", 1.2]], "Secondary", "r", "n", 9],
   ["94", "primedPistolGambit", [["0", 1.87]], "Secondary", "r", "l", 14],
   ["95", "targetCracker", [["1", 0.6]], "Secondary", "r", "c", 9],
-  ["96", "primedTargetCracker", [["1", 1.2]], "Secondary", "r", "l", 14],
+  ["96", "primedTargetCracker", [["1", 1.1]], "Secondary", "r", "l", 14],
   ["97", "hydraulicCrosshairs", [["0", 1.35]], "Secondary", "r", "n", 7],
   ["98", "embeddedCatalyzer", [["2", 0.9]], "Secondary", "r", "c", 9],
   ["99", "pressurizedMagazine", [["R", 0.9]], "Secondary", "r", "r", 9],

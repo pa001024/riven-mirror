@@ -712,13 +712,13 @@ export abstract class ModBuild {
     // 计算有紫卡属性后收益最低的mod 如果不是紫卡就去掉收益最低的紫卡再计算一次
     let valueList = newBuild._mods.map((_, i) => [i, newBuild.modValue(i)]).filter(v => newBuild._mods[v[0]].id === "RIVENFAKE");
     let removeAble = _.minBy(valueList, v => v[1]);
-    console.log("去掉该卡", newBuild._mods[removeAble[0]].name)
+    // console.log("去掉该卡", newBuild._mods[removeAble[0]].name);
     newBuild._mods.splice(removeAble[0], 1);
     newBuild.calcMods();
     newBuild.fillEmpty(slots, 0, fakeMods, 3);
     // 结算 生成紫卡
     let resultProps = newBuild.mods.filter(v => v.id === "RIVENFAKE").map(v => new ValuedRivenProperty(RivenDataBase.getPropByName(v.props[0][0]), v.props[0][1] * 100, v.props[0][1] * 100, 1));
-    console.log(newBuild.mods.map(v => v.name).join(","))
+    // console.log(newBuild.mods.map(v => v.name).join(","));
     let newRiven = new RivenMod(this.riven);
     newRiven.properties = resultProps;
     newRiven.properties.push(valuedNegativeProp);
