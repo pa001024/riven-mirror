@@ -71,9 +71,7 @@ export class FortunaTime {
   static get angel() { return 270 - this.secords * 360 / 1600; }
   static get text() {
     let sec = this.secords;
-    if (sec > 1200) sec -= 1200; // 1266 ~ 1600s
-    if (sec > 734) sec -= 734; // 800 ~ 1266s
-    if (sec > 400) sec -= 400; // 400 ~ 800s
+    if (sec > 400) sec -= 400; // 400 ~ 1600s
     let min = ~~(sec / 60);
     let hou = ~~(min / 60);
     min = min % 60;

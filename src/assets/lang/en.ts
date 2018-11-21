@@ -1882,6 +1882,9 @@ let po = {
     "servedCold": "Served Cold",
     "venusCullJobAssassinate": "Venus Cull Job Assassinate",
     "courierAmbush": "Courier Ambush",
+    "operationalIntelligence": "Operational Intelligence",
+    "taxTheTaxmen": "Tax The Taxmen",
+    "venusPreservationJobResource": "Venus Preservation Job Resource",
   },
   messagesExtend: {
     "blueprint": "Blueprint",
@@ -2157,6 +2160,7 @@ let po = {
     critChance: "Crit Chance:",
     critMul: "Crit Multiply:",
     fireRate: "Fire Rate:",
+    magazine: "Magazine:",
     reload: "Reload:",
     status: "Status Chance(per bullet):",
     rank: "Rank:",

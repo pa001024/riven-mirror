@@ -41,6 +41,7 @@
             <el-tag style="margin-left: 8px;">{{$t("buildview.critChance")}} {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
             <el-tag style="margin-left: 8px;">{{$t("buildview.critMul")}} {{(build[1].critMul).toFixed(1)}}x </el-tag>
             <el-tag style="margin-left: 8px;">{{$t("buildview.fireRate")}} {{(build[1].fireRate).toFixed(1)}} </el-tag>
+            <el-tag style="margin-left: 8px;">{{$t("buildview.magazine")}} {{(build[1].magazineSize).toFixed(0)}} </el-tag>
             <el-tag style="margin-left: 8px;">{{$t("buildview.reload")}} {{(build[1].reloadTime).toFixed(1)}} </el-tag>
             <el-tag style="margin-left: 8px;">{{$t("buildview.status")}} {{(build[1].realProcChance*100).toFixed(1)}}% </el-tag>
           </el-row>

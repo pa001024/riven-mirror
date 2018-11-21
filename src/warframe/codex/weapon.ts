@@ -342,7 +342,7 @@ export const GunWeaponDataBase: GunWeapon[] = ([
   // 显赫武器
   { id: "Dex Pixia", name: "dexPixia", tags: ["Gun", "Exalted", "Secondary"], dmg: [["Slash", 128], ["Puncture", 16], ["Impact", 16]], accuracy: 23, bullets: 1, fireRate: 5.83, critChance: 0.1, critMul: 2, status: 0.25, magazine: 60, reload: 1.2, ammo: 210 },
   { id: "Regulators", name: "regulators", tags: ["Gun", "Exalted", "Secondary"], dmg: [["Slash", 12.5], ["Puncture", 12.5], ["Impact", 25]], accuracy: 13.3, bullets: 1, fireRate: 14.8, critChance: 0.25, critMul: 3, status: 0.1, magazine: 100, reload: 0, ammo: 99999999 },
-  { id: "Artemis Bow", name: "artemisBow", tags: ["Gun", "Exalted", "Primary", "Rilfe", "Bow"], dmg: [["Slash", 14.4], ["Puncture", 192], ["Impact", 33.6]], accuracy: 100, bullets: 7, fireRate: 1.11, critChance: 0.25, critMul: 2.5, status: 0.2, magazine: 1, reload: 0.9, ammo: 72 }
+  { id: "Artemis Bow", name: "artemisBow", tags: ["Gun", "Exalted", "Primary", "Rilfe", "Bow"], dmg: [["Slash", 14.4], ["Puncture", 192], ["Impact", 33.6]], accuracy: 100, bullets: 1, fireRate: 1.11, critChance: 0.25, critMul: 2.5, status: 0.2, magazine: 1, reload: 0.9, ammo: 72 }
 ] as GunWeaponData[]).map(v => new GunWeapon(v));
 
 export const MeleeWeaponDataBase: MeleeWeapon[] = ([

@@ -218,7 +218,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   }
   enemyData: EnemyData = null;
   enemy: Enemy = null;
-  enemyLevel = 155;
+  enemyLevel = 160;
 
   @Watch("weapon")
   reload() { super.reload(); this.enemyData = this.enemy = null; }

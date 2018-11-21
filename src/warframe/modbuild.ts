@@ -671,7 +671,24 @@ export abstract class ModBuild {
    */
   findBestRiven(slots = 8): RivenMod {
     let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
-    newBuild.fill(slots - 2, 0);
+    let riven1 = this.findBestRivenSub(slots, 1),
+      riven2 = this.findBestRivenSub(slots, 2);
+    if (riven1.qrCode == riven2.qrCode) return riven1;
+    let score1, score2;
+    newBuild.riven = riven1;
+    newBuild.fill(slots, 2);
+    newBuild.calcMods();
+    score1 = newBuild.compareDamage;
+    newBuild.riven = riven2;
+    newBuild.fill(slots, 2);
+    newBuild.calcMods();
+    score2 = newBuild.compareDamage;
+    console.log("offset=1 紫卡:", riven1, "分数:", score1, "offset=2 紫卡:", riven2, "分数:", score2)
+    return score1 > score2 ? riven1 : riven2;
+  }
+  findBestRivenSub(slots = 8, offset = 1): RivenMod {
+    let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
+    newBuild.fill(slots - offset, 0);
     // 生成所有紫卡
     // 1. 列出所有属性
     let upLevel = toUpLevel(4, true), negaUpLevel = toNegaUpLevel(4, true);

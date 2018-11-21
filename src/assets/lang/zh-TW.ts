@@ -1882,6 +1882,9 @@ let po = {
     "servedCold": "冷餐",
     "venusCullJobAssassinate": "網絡崩潰",
     "courierAmbush": "伏擊信使",
+    "operationalIntelligence": "行動情報",
+    "taxTheTaxmen": "向稅務官課稅",
+    "venusPreservationJobResource": "拆散陷阱",
   },
   messagesExtend: {
     "blueprint": "藍圖",
@@ -2157,6 +2160,7 @@ let po = {
     critChance: "暴擊率:",
     critMul: "暴擊傷害:",
     fireRate: "射速:",
+    magazine: "彈匣:",
     reload: "裝填:",
     status: "觸發率(每個彈片):",
     rank: "評級:",

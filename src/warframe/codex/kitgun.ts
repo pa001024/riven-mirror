@@ -135,9 +135,9 @@ export const KitgunLoaderData: KitgunLoader[] = _kitgunLoader.map(v => ({
   chambersData: v[8],
 }));
 
-export const NoneKitgunGripData: KitgunGrip = KitgunGripData[1];
+export const NoneKitgunGripData: KitgunGrip = KitgunGripData[2];
 
-export const NoneKitgunLoaderData: KitgunLoader = KitgunLoaderData[7];
+export const NoneKitgunLoaderData: KitgunLoader = KitgunLoaderData[14];
 
 export class Kitgun implements GunWeapon {
   chamber: KitgunChamber;

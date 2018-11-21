@@ -1752,6 +1752,7 @@ let po = {
     "wraithTurbinesChestArmor": "哈库纳亡魂胸甲",
     "wraithTurbinesArmArmor": "哈库纳亡魂臂甲",
     "wraithTurbinesLegArmor": "哈库纳亡魂腿甲",
+
     "captainVor": "VOR 上尉",
     "councilorVayHek": "Vay Hek 委员",
     "generalSargasRuk": "Sargas Ruk 将军",
@@ -1881,6 +1882,9 @@ let po = {
     "servedCold": "冷餐",
     "venusCullJobAssassinate": "网络崩溃",
     "courierAmbush": "伏击信使",
+    "operationalIntelligence": "行动情报",
+    "taxTheTaxmen": "向税务官课税",
+    "venusPreservationJobResource": "拆散陷阱",
   },
   messagesExtend: {
     "blueprint": "蓝图",
@@ -2157,6 +2161,7 @@ let po = {
     critChance: "暴击率:",
     critMul: "暴击伤害:",
     fireRate: "射速:",
+    magazine: "弹匣:",
     reload: "装填:",
     status: "触发率(每个弹片):",
     rank: "评级:",
