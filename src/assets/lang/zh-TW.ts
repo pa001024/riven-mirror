@@ -1885,6 +1885,7 @@ let po = {
     "operationalIntelligence": "行動情報",
     "taxTheTaxmen": "向稅務官課稅",
     "venusPreservationJobResource": "拆散陷阱",
+    "venusHelpingJobCaches": "鷹嘴板",
   },
   messagesExtend: {
     "blueprint": "藍圖",
@@ -2373,6 +2374,7 @@ let po = {
     ballisticBattery: "彈道蓄能 (Mesa)",
     shootingGallery: "靶場 (Mesa)",
     vexArmor: "怨怒護甲 (Chroma)",
+    mallet: "強音增幅 (Octavia)",
     metamorphosis: "晝夜交替 (Equinox)",
     eclipse: "黯然失色 (Mirage)",
     roar: "戰吼 (Rhino)",

@@ -1885,6 +1885,7 @@ let po = {
     "operationalIntelligence": "Operational Intelligence",
     "taxTheTaxmen": "Tax The Taxmen",
     "venusPreservationJobResource": "Venus Preservation Job Resource",
+    "venusHelpingJobCaches": "Venus Helping Job Caches",
   },
   messagesExtend: {
     "blueprint": "Blueprint",
@@ -2373,6 +2374,7 @@ let po = {
     ballisticBattery: "Ballistic Battery (Mesa)",
     shootingGallery: "Shooting Gallery (Mesa)",
     vexArmor: "Vex Armor (Chroma)",
+    mallet: "Mallet (Octavia)",
     metamorphosis: "Metamorphosis (Equinox)",
     eclipse: "Eclipse (Mirage)",
     roar: "Roar (Rhino)",

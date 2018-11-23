@@ -102,6 +102,14 @@ export const BuffList: BuffData[] = [
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {
+    id: "J",
+    name: "mallet", // DJ4 强音增幅
+    type: BuffType.BaseDamage,
+    target: "武器",
+    dynamicProps: [["伤害", 2, 0]],
+    parms: ["power", "%"],
+    defaultValue: 3.48,
+  }, {
     id: "d",
     name: "deadEye", // 死亡之眼 Dead Eye
     type: BuffType.BaseDamage,
@@ -114,14 +122,6 @@ export const BuffList: BuffData[] = [
     type: BuffType.BaseDamage,
     target: "武器",
     dynamicProps: [["伤害", 0.25, 0]],
-    parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
-    id: "E",
-    name: "eclipse",   // 小丑3 黯然失色
-    type: BuffType.BaseDamage,
-    target: "武器",
-    dynamicProps: [["伤害", 2, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {
@@ -157,6 +157,14 @@ export const BuffList: BuffData[] = [
     type: BuffType.TotalDamage,
     target: "全域",
     dynamicProps: [["最终伤害", 0.5, 0], ["触发伤害", 0.5, 0]],
+    parms: ["power", "%"],
+    defaultValue: 3.48,
+  }, {
+    id: "E",
+    name: "eclipse",   // 小丑3 黯然失色
+    type: BuffType.TotalDamage,
+    target: "武器",
+    dynamicProps: [["最终伤害", 2, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {

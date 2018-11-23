@@ -135,7 +135,7 @@ export const KitgunLoaderData: KitgunLoader[] = _kitgunLoader.map(v => ({
   chambersData: v[8],
 }));
 
-export const NoneKitgunGripData: KitgunGrip = KitgunGripData[2];
+export const NoneKitgunGripData: number[] = [3, 0, 2, 3];
 
 export const NoneKitgunLoaderData: KitgunLoader = KitgunLoaderData[14];
 
@@ -182,7 +182,7 @@ export class Kitgun implements GunWeapon {
   set url(value) {
     let parts = value.split("-");
     this.chamber = KitgunChamberData.find(v => v.id === parts[1]);
-    this.grip = KitgunGripData.find(v => v.id === parts[2]) || NoneKitgunGripData;
+    this.grip = KitgunGripData.find(v => v.id === parts[2]) || KitgunGripData[NoneKitgunGripData[this.chamber.index]];
     this.loader = KitgunLoaderData.find(v => v.id === parts[3]) || NoneKitgunLoaderData;
     this.recalc();
   }
@@ -191,7 +191,7 @@ export class Kitgun implements GunWeapon {
       this.url = chamber;
     }
     else {
-      [this.chamber, this.grip, this.loader] = [chamber, grip || NoneKitgunGripData, loader || NoneKitgunLoaderData];
+      [this.chamber, this.grip, this.loader] = [chamber, grip || KitgunGripData[NoneKitgunGripData[chamber.index]], loader || NoneKitgunLoaderData];
       if (chamber) this.recalc();
     }
   }
