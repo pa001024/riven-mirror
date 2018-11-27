@@ -2194,6 +2194,7 @@ let po = {
     ok: "OK",
     fast: {
       baseDmg: "DAMAGE & MULTISHOT",
+      baseDmgRange: "DAMAGE & RANGE",
       crit: "CC/CD",
       aimCrit: "AIMING CC/CD",
       sliverCorrosive: "SLIVER CORROSIVE",
@@ -2202,6 +2203,7 @@ let po = {
       goldCorrosive: "GOLD CORROSIVE",
       gas: "GAS",
       slideCrit: "SLIDE CC/CD",
+      allStatus: "4 GOLD ELEMENTS",
     },
     weaponWarn: "WARNING",
     weaponWarnTip: "Chosen riven is not available for this weapon (you may choose wrong weapon), confirm operation?",

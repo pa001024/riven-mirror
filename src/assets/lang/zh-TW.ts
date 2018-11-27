@@ -2194,6 +2194,7 @@ let po = {
     ok: "確定",
     fast: {
       baseDmg: "基傷多重",
+      baseDmgRange: "基傷範圍",
       crit: "雙暴",
       aimCrit: "瞄準雙暴",
       sliverCorrosive: "銀腐蝕",
@@ -2202,6 +2203,7 @@ let po = {
       goldCorrosive: "金腐蝕",
       gas: "毒氣",
       slideCrit: "滑砍雙暴",
+      allStatus: "四活動",
     },
     weaponWarn: "提示",
     weaponWarnTip: "你選擇的紫卡並不適用於該武器(你可能選擇了錯誤的武器)，是否繼續操作？",

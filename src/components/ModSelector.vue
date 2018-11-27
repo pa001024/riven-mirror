@@ -74,7 +74,8 @@ export default class ModSelector extends Vue {
       silverRadiation: ["hellfire", "stormbringer"],
       silverViral: ["primedCryoRounds", "infectedClip"],
       goldCorrosive: ["malignantForce", "highVoltage"],
-      gas: ["malignantForce", "thermiteRounds", "infectedClip"]
+      gas: ["malignantForce", "thermiteRounds", "infectedClip"],
+      allStatus: ["highVoltage", "malignantForce", "thermiteRounds", "rimeRounds"],
     },
     Shotgun: {
       baseDmg: ["primedPointBlank", "hellsChamber"],
@@ -84,7 +85,8 @@ export default class ModSelector extends Vue {
       silverRadiation: ["primedChargedShell", "incendiaryCoat"],
       silverViral: ["chillingGrasp", "contagiousSpread"],
       goldCorrosive: ["shellShock", "toxicBarrage"],
-      gas: ["toxicBarrage", "scatteringInferno", "contagiousSpread"]
+      gas: ["toxicBarrage", "scatteringInferno", "contagiousSpread"],
+      allStatus: ["shellShock", "toxicBarrage", "scatteringInferno", "frigidBlast"],
     },
     Pistol: {
       baseDmg: ["hornetStrike", "barrelDiffusion", "lethalTorrent"],
@@ -94,17 +96,19 @@ export default class ModSelector extends Vue {
       silverRadiation: ["primedHeatedCharge", "convulsion"],
       silverViral: ["deepFreeze", "pathogenRounds"],
       goldCorrosive: ["jolt", "pistolPestilence"],
-      gas: ["pistolPestilence", "scorch", "pathogenRounds"]
+      gas: ["pistolPestilence", "scorch", "pathogenRounds"],
+      allStatus: ["jolt", "pistolPestilence", "scorch", "frostbite"],
     },
     Melee: {
-      baseDmg: ["primedPressurePoint", "primedReach"],
+      baseDmgRange: ["primedPressurePoint", "primedReach"],
       crit: ["bloodRush", "organShatter", "sacrificialSteel"],
       slideCrit: ["maimingStrike", "bloodRush", "organShatter"],
       sliverCorrosive: ["primedFeverStrike", "shockingTouch"],
       silverRadiation: ["moltenImpact", "shockingTouch"],
       silverViral: ["primedFeverStrike", "northWind"],
       goldCorrosive: ["voltaicStrike", "virulentScourge"],
-      gas: ["primedFeverStrike", "volcanicEdge", "virulentScourge"]
+      gas: ["primedFeverStrike", "volcanicEdge", "virulentScourge"],
+      allStatus: ["voltaicStrike", "virulentScourge", "volcanicEdge", "viciousFrost"],
     }
   };
   get fast() { return _.map(this.fastSelect[this.build.rivenWeapon.mod], (v, i) => ({ name: i, id: v } as any)); }
