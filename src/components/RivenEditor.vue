@@ -7,7 +7,10 @@
         <div class="prop-picker" v-if="mod" v-for="(prop, index) in props" :key="index">
           <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
             <ul>
-              <li class="prop-button" v-for="vprop in (index === 3 ? allProps.filter(v => !v.onlyPositive) : allProps)" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
+              <li class="prop-button" v-if="index === 2">
+                <el-checkbox v-model="is21Negative">{{$t("rivenedit.isNegative")}}</el-checkbox>
+              </li>
+              <li class="prop-button" v-for="vprop in (index === 3 || is21Negative && index === 2 ? allProps.filter(v => !v.onlyPositive) : allProps)" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
                 {{$t("prop.shortName." + vprop.id)}} ({{index === 0 ? vprop.prefix : (index === 1 ? vprop.prefix + " / " + vprop.subfix : vprop.subfix)}})
               </li>
             </ul>
@@ -47,6 +50,7 @@ export default class RivenEditor extends Vue {
   selectWeapon = [];
   mod = "";
   props: { id: string, prop: RivenProperty, value: number, visable: boolean }[] = [];
+  is21Negative = false;
   get allProps() { return RivenPropertyDataBase[this.mod].filter(v => !this.props.some(k => k.id === v.id)); }
   // cnpyFilter(input: string) {
   //   let names = input.match(/^\w+$/) && CNPY_RivenWeapon.find(input) || [input];
@@ -60,6 +64,7 @@ export default class RivenEditor extends Vue {
     this.riven = new RivenMod();
     [this.riven.id, this.riven.name, this.riven.mod] = [rWeapon.id, rWeapon.name, rWeapon.mod];
     this.mod = rWeapon.mod;
+    this.is21Negative = false;
     this.props = [{ id: "", prop: null, value: 0, visable: false }];
     this.updateRiven();
   }
@@ -95,7 +100,8 @@ export default class RivenEditor extends Vue {
   refill() {
     let props = this.props.filter(v => v.prop);
     if (props.length > 1) {
-      let lastProp = _.last(props), hasNegative = !lastProp.prop.negative !== lastProp.value >= 0;
+      let lastProp = _.last(props), hasNegative = this.is21Negative || !lastProp.prop.negative !== lastProp.value >= 0;
+      this.is21Negative = false;
       // 正面属性增幅, 负面属性增幅
       let pUpLevel = toUpLevel(props.length, hasNegative), nUpLevel = toNegaUpLevel(props.length, hasNegative);
       props.forEach((v, i) => {

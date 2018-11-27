@@ -2044,6 +2044,7 @@ let po = {
     selectWeapon: "Input weapon name",
     selectProp: "Select prop",
     inputValue: "Input value",
+    isNegative: "Negative",
   },
   riven: {
     confirm: "Confirm",

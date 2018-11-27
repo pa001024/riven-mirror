@@ -4,7 +4,7 @@
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven Mirror
-          <span class="beta">ALPHA 1.1.5</span>
+          <span class="beta">ALPHA 1.1.6</span>
         </h1>
       </router-link>
       <MiniClock class="hidden-xs-only header-watch">
@@ -12,7 +12,7 @@
       <div class="app-nav-pad hidden-sm-and-up">
       </div>
       <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
-        ☰
+        <i class="el-icon-arrow-down"></i>
       </button>
     </el-header>
     <transition name="el-zoom-in-top">

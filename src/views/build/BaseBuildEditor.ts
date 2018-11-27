@@ -22,6 +22,7 @@ export abstract class BaseBuildEditor extends Vue {
   buffDialogVisible = false;
   abstract newBuild(...parms): ModBuild;
 
+  @Watch("code")
   reload() {
     if (this.weapon) {
       this.tabs = "ABC".split("").map(v => ({

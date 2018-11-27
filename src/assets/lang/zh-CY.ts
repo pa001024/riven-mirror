@@ -2044,6 +2044,7 @@ let po = {
     selectWeapon: "请输入武器名",
     selectProp: "请选择属性",
     inputValue: "请输入数值",
+    isNegative: "负面",
   },
   riven: {
     confirm: "确定",
