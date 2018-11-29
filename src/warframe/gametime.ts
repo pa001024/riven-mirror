@@ -17,7 +17,7 @@ export class EarthTime {
     let hou = ~~(min / 60);
     min = min % 60;
     sec = sec % 60;
-    return `${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`
+    return `${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
   }
   /** 返回 白昼/夜晚 */
   static get phaseText() {
@@ -26,7 +26,7 @@ export class EarthTime {
 }
 export class CetusTime {
   /** 现在到夜晚的秒数 */
-  static get secords() { return ~~(9e3 - (Date.now() * 1.00015 / 1e3 - 1150) % 9e3); }
+  static get secords() { return ~~(9e3 - (Date.now() / 1e3 - 3720) % 9e3); }
   /** 现在是否是夜晚 */
   static get isNight() { return this.secords > 6e3; }
   /** 现在是否是白天 */
@@ -41,7 +41,7 @@ export class CetusTime {
     let hou = ~~(min / 60);
     min = min % 60;
     sec = sec % 60;
-    return `${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`
+    return `${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
   }
   /** 返回 白昼/黄昏/日落/夜晚/黎明/日出/早晨 */
   static get phaseText() {
@@ -76,7 +76,7 @@ export class FortunaTime {
     let hou = ~~(min / 60);
     min = min % 60;
     sec = sec % 60;
-    return `${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`
+    return `${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
   }
   /** 返回 温暖/寒冷/刺骨 */
   static get phaseText() {
