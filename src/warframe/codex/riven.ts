@@ -631,8 +631,9 @@ export class RivenDataBase {
    * @param name 模糊匹配的名称
    */
   static findMostSimRivenWeapon(name: string) {
+    name = name.trim();
     if (this.hasWeapon(name)) return this.getRivenWeaponByName(name);
-    let weaponFinded = _.maxBy(RivenWeaponDataBase, v => strSimilarity(name, v.name));
+    let weaponFinded = _.maxBy(RivenWeaponDataBase, v => _.max([strSimilarity(name, v.id), strSimilarity(name, v.name)]));
     return weaponFinded;
   }
   /**

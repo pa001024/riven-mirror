@@ -1752,6 +1752,9 @@ let po = {
     "wraithTurbinesChestArmor": "哈库纳亡魂胸甲",
     "wraithTurbinesArmArmor": "哈库纳亡魂臂甲",
     "wraithTurbinesLegArmor": "哈库纳亡魂腿甲",
+    "elixisTigris": "猛虎 镀铜外观",
+    "avatarImageGlyphCookieKavat": "饼干 库娃 浮印",
+    "avatarImageGlyphCookieKubrow": "饼干 库狛 浮印",
 
     "captainVor": "VOR 上尉",
     "councilorVayHek": "Vay Hek 委员",

@@ -165,7 +165,7 @@ A段位12023
     this.id = this.name = "";
     this.hasNegativeProp = false;
     this.rank = this.recycleTimes = 0;
-    let lines = modText.replace(/\n([A-z\u4e00-\u9fa5。]+)\n/g, (m, r1) => r1 + "\n")
+    let lines = modText.replace(/\n([A-Za-z\u4e00-\u9fa5。]+)\n/g, (m, r1) => r1 + "\n")
       .replace(/(（\S*?)\s(\S*?）)|(\(\S*?)\s(\S*?\))/g, "$1$2$3$4").replace("·", "-").replace(/lgni/g, "Igni").split(/\n+/g);
     console.log("lines=>", lines);
     let subfixIndex = lines.findIndex(v => v.match(RivenDataBase.PrefixAll) != null);
@@ -194,7 +194,7 @@ A段位12023
       let propLine = lines[i].match(propRegExp);
       if (properties.length < 4 && !this.hasNegativeProp && propLine) {
         // 如果后缀已识别则优先使用(只识别一定次数)
-        let prop = ((i <= subfixIndex + rivenProps.length) && rivenProps && _.maxBy(rivenProps, v => {
+        let prop = ((i <= subfixIndex + (rivenProps && rivenProps.length || 0)) && rivenProps && _.maxBy(rivenProps, v => {
           let s = _.max([strSimilarity(v[0].name, propLine[2]), strSimilarity(v[0].eName, propLine[2])]);
           console.log("strSimilarity: ", v[0].name, propLine[2], "s=", s);
           return s;

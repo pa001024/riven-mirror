@@ -1752,6 +1752,9 @@ let po = {
     "wraithTurbinesChestArmor": "Harkonar Wraith Chest Armor",
     "wraithTurbinesArmArmor": "Harkonar Wraith Arm Armor",
     "wraithTurbinesLegArmor": "Harkonar Wraith Leg Armor",
+    "elixisTigris": "Elixis Tigris",
+    "avatarImageGlyphCookieKavat": "Cookie Kavat Glyph",
+    "avatarImageGlyphCookieKubrow": "Cookie Kubrow Glyph",
 
     "captainVor": "Captain Vor",
     "councilorVayHek": "Councilor Vay Hek",
