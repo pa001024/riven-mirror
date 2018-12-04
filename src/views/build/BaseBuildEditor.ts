@@ -1,4 +1,4 @@
-import { Damage2_0, DamageType, ModBuild, NormalMod, RivenDataBase, RivenWeapon, ValuedRivenProperty, Weapon, RivenMod, Buff, BuffData } from "@/warframe";
+import { Damage2_0, DamageType, ModBuild, NormalMod, RivenDataBase, RivenWeapon, ValuedRivenProperty, Weapon, RivenMod, Buff, BuffData, ValuedProperty } from "@/warframe";
 import _ from "lodash";
 import { Vue, Watch } from "vue-property-decorator";
 
@@ -36,8 +36,11 @@ export abstract class BaseBuildEditor extends Vue {
       if (this.code) {
         this.build.miniCode = this.code;
         let mods = this.build.mods;
+        let buffs = this.build.buffs;
         while (mods.length < 8) mods.push(null);
+        if (buffs.length < 1) buffs.push(null);
         this.currentTab.mods = mods;
+        this.currentTab.buffs = buffs;
       }
     }
   }
@@ -87,7 +90,8 @@ export abstract class BaseBuildEditor extends Vue {
       let vp = new ValuedRivenProperty(rp, prop[1] * 100);
       return this.$t("prop.fullName." + vp.id, [vp.displayValue]);
     }
-    return (prop[1] > 0 ? "+" : "") + (prop[1] * 100).toFixed() + "%" + " " + prop[0];
+    let vp = ValuedProperty.parse(prop);
+    return vp && vp.fullString() || prop[0] + " " + (prop[1] * 100).toFixed() + "%";
   }
   /** 返回固定精确度数值 */
   Num(num: number, preci = 1) {

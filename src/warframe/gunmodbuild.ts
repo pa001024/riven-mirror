@@ -169,6 +169,8 @@ export class GunModBuild extends ModBuild {
   get magazineSize() { let s = Math.round(this.weapon.magazine * this.magazineMul); return s <= 1 ? 1 : s; }
   /** 最大弹药 */
   get maxAmmo() { return Math.round(this.weapon.ammo * this.maxAmmoMul); }
+  /** 飞行速度 */
+  get prjSpeed() { return this.weapon.prjSpeed * this.projectileSpeedMul; }
 
   /** [overwrite] 暴击率 */
   get critChance() {
@@ -292,7 +294,7 @@ export class GunModBuild extends ModBuild {
    */
   fill(slots = 8, useRiven = 0) {
     if (this.useHunterMunitions === 2)
-      this.applyMod(NormalModDatabase.find(v => v.name === "猎人 战备"));
+      this.applyMod(NormalModDatabase.find(v => v.id === "hunterMunitions"));
     super.fill(slots, useRiven);
   }
   /**
@@ -313,9 +315,11 @@ export class GunModBuild extends ModBuild {
       case 'H': /* 变焦 zoom */ this._zoomMul = hAccSum(this._zoomMul, pValue); break;
       case 'V': /* 抛射物飞行速度 projectileSpeed */ this._projectileSpeedMul = hAccSum(this._projectileSpeedMul, pValue); break;
       case 'Z': /* 后坐力 recoil */ this._recoilMul = hAccSum(this._recoilMul, pValue); break;
-      case '暴击时触发切割伤害': /* 暴击时触发切割伤害 slashWhenCrit */ this._slashWhenCrit = hAccSum(this._slashWhenCrit, pValue); break;
-      case '暴击强化': /* 暴击强化 critLevelUpChance */ this._critLevelUpChance = hAccSum(this._critLevelUpChance, pValue); break;
-      case '第一发子弹伤害加成': /* 第一发子弹伤害加成 firstAmmoMul */ this._firstAmmoMul = hAccSum(this._firstAmmoMul, pValue); break;
+      case 'ac': /* 暴击时触发切割伤害 slashWhenCrit */ this._slashWhenCrit = hAccSum(this._slashWhenCrit, pValue); break;
+      case 'ce': /* 暴击强化 critLevelUpChance */ this._critLevelUpChance = hAccSum(this._critLevelUpChance, pValue); break;
+      case 'fsb': /* 第一发子弹伤害加成 firstAmmoMul */ this._firstAmmoMul = hAccSum(this._firstAmmoMul, pValue); break;
+      case 'eed': /* 电击伤害 */ this.weapon.prjSpeed ? this.electricityMul = hAccSum(this.electricityMul, pValue) : this.applyStandaloneElement("Electricity", pValue); break;
+      case 'efd': /* 火焰伤害 */ this.weapon.prjSpeed ? this.heatMul = hAccSum(this.heatMul, pValue) : this.applyStandaloneElement("Heat", pValue); break;
       default:
         super.applyProp(mod, pName, pValue);
     }

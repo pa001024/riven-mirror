@@ -587,7 +587,7 @@ let po = {
     "trueSteel": "True Steel",
     "lastingSting": "Lasting Sting",
     "bodyCount": "Body Count",
-    "blocking": "Blocking",
+    "parry": "Parry",
     "truePunishment": "True Punishment",
     "shatteringImpact": "Shattering Impact",
     "organShatter": "Organ Shatter",
@@ -2026,6 +2026,108 @@ let po = {
       X: "Finisher Damage",
     },
   },
+  exprop: {
+    fullName: {
+      acc: "{0} Accuracy",// 精准
+      range: "{0} Range",// 射程
+      stick: "{0} chance for grenades to stick to surfaces",// {0} 的几率使榴弹附着于壁面
+      aimm: "{0} movement speed while aiming",// 瞄准时 {0} 移动速度
+      ckm: "{0} movement speed after Melee Channel kill ",// 近战导引击杀后 {0} 移动速度
+      od: "{0} Damage to Corrupted", // {0} 对堕落者伤害
+      kb: "Enemies killed explode, dealing {0} damage shortly after death", // 被击杀的敌人不久后会爆炸，造成 {0} 伤害。
+      brad: "Improves the blast radius of specialized launcher weapons. {0} Blast Radius",// 提高特殊发射型武器的爆炸半径。{0} 爆炸半径
+      sp: "Special Change", // 魔改
+      hr: "{0} Holster Rate", // {0} 拔枪速度
+      fsb: "{0} Bonus Damage on first shot in clip",// 第一发子弹获得 {0} 伤害加成
+      am: "Convert unused ammo drops.",// 转换未使用的弹药。
+      hm: "{0} to Headshot Multiplier",// {0} 爆头倍率
+      bsc: "{0} Base Status Chance",// {0} 基础触发几率
+      da: "{0} Dead Aim",// {0} 正中红心
+      oad: "{0} Final Damage",// 最终伤害
+      lal: "{0} Clip Reloaded per Second when Holstered",// 切换武器后 {0} 几率自动装填。
+      spr: "{0} Spread", // {0} 扩散
+      slc: "Reduce the chance an enemy will hear gunfire by {0}",// 降低 {0} 敌人听见枪声的几率
+      bnc: "{0} Bounce",// 反弹 {0} 次
+      exp: "{0} Chance to Explode", // {0} 爆炸率
+      ls: "{0} Life Steal", // {0} 生命窃取
+      maga: "{0} Magazine Capacity", // {0} 弹匣容量
+      bldr: "{0} Critical Chance stacks with Combo Multiplier", // 连击数可叠加 {0} 暴击率
+      sccm: "{0} Status Chance stacks with Combo Multiplier", // 连击数可叠加 {0} 触发几率
+      ccws: "{0} combo chance when Slash status deals damage", // 当切割触发状态造成伤害时，有 {0} 几率增加连击数。
+      bsk: "{0} Final Attack Speed",// {0} 最终攻速
+      co: "{0} Final Damage stacks with Status Types", // 每种异常状态增加 {0} 最终伤害
+      gdr: "parry taunts enemies within {0} meters to target you instead of allies.",// 格挡会嘲讽 {0} 米内的敌人，使你代替队友成为被攻击目标。
+      hlr: "{0} Healed when hitting a target affected by status", // 攻击一个被异常状态影响之目标时会被治愈 {0}
+      exd: "{0} Bonus Damage",// {0} 额外伤害
+      amr: "{0} Armor",// {0} 护甲
+      par: "{0} Counter Chance",// {0} 反击几率
+      msd: "{0} Melee Slam Damage",// {0} 近战震波伤害
+      fs: "{0} Flight Speed",// {0} 飞行速度
+      ce: "{0} chance Enhance Critical Hits",// {0} 暴击等级上升
+      ac: "{0} chance to apply Slice on Critical",// {0} 几率在暴击时造成切割触发
+      ds: "{0} Damage when Stealth",// {0} 偷袭伤害
+      sd: "{0} Status Damage",// {0} 触发伤害
+      fcd: "{0} Final Critical Damage",// {0} 最终暴伤
+      eca: "{0} Critical Chance ADD",// {0} 加法暴击
+      smd: "{0} Damage to Sentient",// {0} 对Sentient伤害
+      dmg: "{0} Damage",// {0} 伤害
+      cwh: "{0} Critical Chance ADD when Headshot",// {0} 爆头暴击率
+      erd: "{0} Radiation Damage",// {0} 辐射伤害
+      ecd: "{0} Corrosive Damage",// {0} 腐蚀伤害
+      eed: "{0} Electricity Damage",// {0} 电击伤害
+      efd: "{0} Heat Damage",// {0} 火焰伤害
+    },
+    shortName: {
+      acc: "Accuracy",// 精准
+      range: "Range",// 射程
+      stick: "Stick Chance",// 壁面附着
+      aimm: "Aim Movement",// 瞄准移速
+      ckm: "Movement",// 移动速度
+      od: "Corrupted Damage", // O系伤害
+      kb: "Death Explode", // 死亡爆炸
+      brad: "Blast Radius", // 爆炸半径
+      sp: "Special Change",// 魔改
+      hr: "Holster Rate", // 拔枪速度
+      fsb: "First shot Bonus",// 首发伤害
+      am: "Convert Ammo", // 弹药转换
+      hm: "Headshot Multiplier",// 爆头倍率
+      bsc: "Base Status Chance",// 基础触发几率
+      da: "Dead Aim",// 正中红心
+      oad: "Final Damage",// 最终伤害
+      lal: "Auto Reload",// 自动装填
+      spr: "Spread", // 扩散
+      slc: "Silence",// 消音
+      bnc: "Bounce",// 反弹
+      exp: "Explode", // 爆炸
+      ls: "Life Steal", // 生命窃取
+      maga: "Magazine Capacity", // 弹匣容量
+      bldr: "Combo Critical Chance", // 连击暴击率
+      sccm: "Combo Status Chance", // 连击触发几率
+      ccws: "Combo when Slash", // 切割增加连击数
+      bsk: "Final Attack Speed",// 最终攻速
+      co: "Status Stack Damage", // 异常状态增加伤害
+      gdr: "Taunt",// 嘲讽
+      hlr: "Heal", // 治愈
+      exd: "Bonus Damage",// 额外伤害
+      amr: "Armor",// 护甲
+      par: "Counter Chance",// 反击几率
+      msd: "Melee Slam Damage",// 近战震波伤害
+      fs: "Flight Speed",// 飞行速度
+      ce: "Enhance Critical",// 暴击强化
+      ac: "Slice on Critical",// 暴击造成切割触发
+      ds: "Damage when Stealth",// 偷袭伤害
+      sd: "Status Damage",// 触发伤害
+      fcd: "Final Critical Damage",// 最终暴伤
+      eca: "Critical Chance ADD",// 加法暴击
+      smd: "Sentient Damage",// S系伤害
+      dmg: "Damage",// 伤害
+      cwh: "Headshot Critical Chance",// 爆头暴击率
+      erd: "Radiation Damage",// 辐射伤害
+      ecd: "Corrosive Damage",// 腐蚀伤害
+      eed: "Electricity Damage",// 电击伤害
+      efd: "Heat Damage",// 火焰伤害
+    },
+  },
   elements: {
     Physical: "Physical",
     Impact: "Impact",
@@ -2075,6 +2177,7 @@ let po = {
     fillEmpty: "Fill Empty",
     clear: "Clear",
     fireRate: "FIRE RATE",
+    prjSpeed: "PROJECTILE SPEED",
     critMul: "CRIT MULTIPLIER",
     critChance: "CRIT CHANCE",
     slideDmg: "SPIN ATTACK",
@@ -2260,7 +2363,7 @@ let po = {
   },
   simulator: {
     random: "Random",
-    rifle: "rifle",
+    rifle: "Rifle",
     shotgun: "Shotgun",
     pistol: "Pistol",
     melee: "Melee",

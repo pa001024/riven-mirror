@@ -572,11 +572,11 @@ export class RivenDataBase {
       return;
     }
     if (this.ccWeaponDict.has(riven.name)) {
-      this.ccWeaponDict.get(riven.id).push(index);
+      if (riven.id !== riven.name) this.ccWeaponDict.get(riven.id).push(index);
       this.ccWeaponDict.get(riven.name).push(index);
     }
     else {
-      this.ccWeaponDict.set(riven.id, [index]);
+      if (riven.id !== riven.name) this.ccWeaponDict.set(riven.id, [index]);
       this.ccWeaponDict.set(riven.name, [index]);
     }
   }

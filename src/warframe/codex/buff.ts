@@ -75,7 +75,7 @@ export const BuffList: BuffData[] = [
     name: "baseDamage",   // 通用基伤
     type: BuffType.BaseDamage,
     target: "武器",
-    dynamicProps: [["伤害", 1, 0]],
+    dynamicProps: [["dmg", 1, 0]],
     parms: ["power", "%"],
   }, {
     id: "B",
@@ -90,7 +90,7 @@ export const BuffList: BuffData[] = [
     name: "shootingGallery", // 女枪2 靶场
     type: BuffType.BaseDamage,
     target: "武器",
-    dynamicProps: [["伤害", 0.5, 0]],
+    dynamicProps: [["dmg", 0.5, 0]],
     parms: ["power", "%"],
     defaultValue: 2,
   }, {
@@ -98,7 +98,7 @@ export const BuffList: BuffData[] = [
     name: "vexArmor", // 龙3 怨怒护甲
     type: BuffType.BaseDamage,
     target: "武器",
-    dynamicProps: [["伤害", 2.75, 0]],
+    dynamicProps: [["dmg", 2.75, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {
@@ -106,7 +106,7 @@ export const BuffList: BuffData[] = [
     name: "mallet", // DJ4 强音增幅
     type: BuffType.BaseDamage,
     target: "武器",
-    dynamicProps: [["伤害", 2, 0]],
+    dynamicProps: [["dmg", 2, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {
@@ -114,14 +114,14 @@ export const BuffList: BuffData[] = [
     name: "deadEye", // 死亡之眼 Dead Eye
     type: BuffType.BaseDamage,
     target: "Sniper",
-    dynamicProps: [["伤害", 0.525, 0]],
+    dynamicProps: [["dmg", 0.525, 0]],
     parms: ["mul", "x"],
   }, {
     id: "m",
     name: "metamorphosis",  // 扶她1 昼夜交替
     type: BuffType.BaseDamage,
     target: "武器",
-    dynamicProps: [["伤害", 0.25, 0]],
+    dynamicProps: [["dmg", 0.25, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {
@@ -131,7 +131,7 @@ export const BuffList: BuffData[] = [
     target: "武器",
     multiLayer: {
       maxStack: 11,
-      stackableProps: [["伤害", 0.15]],
+      stackableProps: [["dmg", 0.15]],
     },
     defaultLayer: 11,
   },
@@ -141,7 +141,7 @@ export const BuffList: BuffData[] = [
     name: "combo", // 连击
     type: BuffType.TotalDamage,
     target: "Sniper",
-    dynamicProps: [["最终伤害", 1, -1]],
+    dynamicProps: [["oad", 1, -1]],
     parms: ["status", ""],
     defaultValue: 2,
   }, {
@@ -149,14 +149,14 @@ export const BuffList: BuffData[] = [
     name: "finalDamage", // 通用终伤
     type: BuffType.TotalDamage,
     target: "武器",
-    dynamicProps: [["最终伤害", 1, 0]],
+    dynamicProps: [["oad", 1, 0]],
     parms: ["power", "%"],
   }, {
     id: "R",
     name: "roar", // 牛吼
     type: BuffType.TotalDamage,
     target: "全域",
-    dynamicProps: [["最终伤害", 0.5, 0], ["触发伤害", 0.5, 0]],
+    dynamicProps: [["oad", 0.5, 0], ["sd", 0.5, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {
@@ -164,7 +164,7 @@ export const BuffList: BuffData[] = [
     name: "eclipse",   // 小丑3 黯然失色
     type: BuffType.TotalDamage,
     target: "武器",
-    dynamicProps: [["最终伤害", 2, 0]],
+    dynamicProps: [["oad", 2, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {
@@ -172,7 +172,7 @@ export const BuffList: BuffData[] = [
     name: "voidStrike", // M蹲 虚空重击
     type: BuffType.TotalDamage,
     target: "武器",
-    dynamicProps: [["最终伤害", 0.12, 1]],
+    dynamicProps: [["oad", 0.12, 1]],
     parms: ["time", "s"],
     defaultValue: 30,
   }, {
@@ -180,7 +180,7 @@ export const BuffList: BuffData[] = [
     name: "molecularPrime", // nova4 分子填充
     type: BuffType.TotalDamage,
     target: "全域",
-    props: [["最终伤害", 1]],
+    props: [["oad", 1]],
   }, {
     id: "C",
     name: "conditionOverlord", // 异况超量 次方计算
@@ -189,19 +189,19 @@ export const BuffList: BuffData[] = [
     multiLayer: {
       maxStack: 13,
       unstackableProps: [
-        [["最终伤害", 0.6]],
-        [["最终伤害", 1.56]],
-        [["最终伤害", 3.096]],
-        [["最终伤害", 5.5536]],
-        [["最终伤害", 9.48576]],
-        [["最终伤害", 15.777216]],
-        [["最终伤害", 25.8435456]],
-        [["最终伤害", 41.94967296]],
-        [["最终伤害", 67.71947674]],
-        [["最终伤害", 108.9511628]],
-        [["最终伤害", 174.9218604]],
-        [["最终伤害", 280.4749767]],
-        [["最终伤害", 449.3599627]],
+        [["oad", 0.6]],
+        [["oad", 1.56]],
+        [["oad", 3.096]],
+        [["oad", 5.5536]],
+        [["oad", 9.48576]],
+        [["oad", 15.777216]],
+        [["oad", 25.8435456]],
+        [["oad", 41.94967296]],
+        [["oad", 67.71947674]],
+        [["oad", 108.9511628]],
+        [["oad", 174.9218604]],
+        [["oad", 280.4749767]],
+        [["oad", 449.3599627]],
       ],
     },
     defaultLayer: 2,
@@ -210,7 +210,7 @@ export const BuffList: BuffData[] = [
     name: "stealth", // 偷袭
     type: BuffType.TotalDamage,
     target: "Melee",
-    dynamicProps: [["偷袭伤害", 0.2, 1], ["触发伤害", 0.2, 1]],
+    dynamicProps: [["ds", 0.2, 1], ["sd", 0.2, 1]],
     parms: ["level", ""],
     defaultValue: 30,
   },
@@ -252,7 +252,7 @@ export const BuffList: BuffData[] = [
     name: "smiteInfusion",   // 奶爸集团1 惩击洗礼 辐射伤害
     type: BuffType.ElementDamage,
     target: "武器",
-    dynamicProps: [["辐射伤害", 1, 0]],
+    dynamicProps: [["erd", 1, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {
@@ -260,7 +260,7 @@ export const BuffList: BuffData[] = [
     name: "venomDose",   // 毒妈集团1 猛毒附加 腐蚀伤害
     type: BuffType.ElementDamage,
     target: "武器",
-    dynamicProps: [["腐蚀伤害", 1, 0]],
+    dynamicProps: [["ecd", 1, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   },
@@ -298,7 +298,7 @@ export const BuffList: BuffData[] = [
     name: "critChance", // 通用暴击
     type: BuffType.CritDamage,
     target: "武器",
-    dynamicProps: [["加法暴击", 1, 0]],
+    dynamicProps: [["eca", 1, 0]],
     parms: ["power", "%"],
     defaultValue: 0.6,
   }, {
@@ -314,7 +314,7 @@ export const BuffList: BuffData[] = [
     name: "covenant", // 主教4 庇佑圣约
     type: BuffType.CritDamage,
     target: "武器",
-    props: [["加法暴击", 0.5], ["爆头暴击", 1.5]],
+    props: [["eca", 0.5], ["cwh", 1.5]],
   },
   // 复合类
   {
@@ -322,10 +322,10 @@ export const BuffList: BuffData[] = [
     name: "electricShield", // 电盾
     type: BuffType.Other,
     target: "远程武器",
-    props: [["最终暴伤", 1]],
+    props: [["fcd", 1]],
     multiLayer: {
       maxStack: 6,
-      stackableProps: [["7", 0.5]],
+      stackableProps: [["eed", 0.5]],
     },
     defaultLayer: 6,
   }, {
@@ -335,20 +335,20 @@ export const BuffList: BuffData[] = [
     target: "远程武器",
     multiLayer: {
       maxStack: 6,
-      stackableProps: [["4", 0.5]],
+      stackableProps: [["efd", 0.5]],
     },
   }, {
     id: "L",
     name: "mutalistQuanta", // 异融量子枪次要
     type: BuffType.Other,
     target: "远程武器",
-    props: [["最终暴伤", 0.25], ["加法暴击", 0.25], ["最终伤害", -0.333]],
+    props: [["fcd", 0.25], ["eca", 0.25], ["oad", -0.333]],
     multiLayer: {
       maxStack: 3,
       unstackableProps: [
-        [["7", 1]],
-        [["7", 3.666]],
-        [["7", 5]],
+        [["eed", 1]],
+        [["eed", 3.666]],
+        [["eed", 5]],
       ],
     },
     defaultLayer: 3,

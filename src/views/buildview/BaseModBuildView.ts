@@ -1,5 +1,5 @@
 import { Vue, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, GunModBuild, ModBuild, ValuedRivenProperty, RivenDataBase, Weapon } from "@/warframe";
+import { RivenMod, GunModBuild, ModBuild, ValuedRivenProperty, RivenDataBase, ValuedProperty } from "@/warframe";
 import { i18n } from "@/i18n";
 
 export abstract class BaseModBuildView extends Vue {
@@ -85,7 +85,8 @@ export abstract class BaseModBuildView extends Vue {
       let vp = new ValuedRivenProperty(rp, prop[1] * 100);
       return this.$t("prop.fullName." + vp.id, [vp.displayValue]);
     }
-    return prop[0] + " " + (prop[1] * 100).toFixed() + "%";
+    let vp = ValuedProperty.parse(prop);
+    return vp && vp.fullString() || prop[0] + " " + (prop[1] * 100).toFixed() + "%";
   }
 
   toBuild(build: ModBuild) {

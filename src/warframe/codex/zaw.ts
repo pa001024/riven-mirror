@@ -173,6 +173,7 @@ export class Zaw implements MeleeWeapon {
   critChance: number;
   status: number;
   stance: string;
+  fltSpeed: number;
   get oneHand() { return !this.grip.twoHand; }
   get twoHand() { return this.grip.twoHand; }
   get panelDamage() { return this.dmg.reduce((a, b) => a + b[1], 0); }

@@ -17,7 +17,7 @@
       <ul class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in tab.mods" :key="index">
           <li class="mod-item el-dropdown" @click="handleClick(mod.id)">
-            {{$t("zh") ? mod.name : mod.id}}
+            {{mod.name}}
           </li>
         </div>
       </ul>
@@ -28,7 +28,7 @@
       <ul class="mod-select">
         <div class="mod-item-container" v-for="(hiRiven, index) in modHistoty" :key="index">
           <li class="mod-item el-dropdown" @click="newRiven(hiRiven.qrCodeBase64)">
-            {{$t("zh") ? hiRiven.fullName : hiRiven.fullId}}
+            {{hiRiven.fullName}}
           </li>
         </div>
       </ul>

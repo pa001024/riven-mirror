@@ -227,10 +227,10 @@ export class MeleeModBuild extends ModBuild {
       case 'N': /* 连击持续时间 comboDuration */ this._comboDurationAdd += pValue; break;
       case 'E': /* 滑行攻击造成暴击几率 slideCritChance */ this._slideCritChanceAdd += pValue; break;
       case 'X': /* 处决伤害 execDmg */ this._execDmgMul += pValue; break;
-      case '连击数增加暴击率': this._comboCritChanceMul += pValue; break;
-      case '连击数增加触发率': this._comboProcChanceMul += pValue; break;
+      case 'bldr': this._comboCritChanceMul += pValue; break;
+      case 'sccm': this._comboProcChanceMul += pValue; break;
       case '偷袭伤害': this._stealthDamageMul += pValue; break;
-      case '最终攻速': this._finalSpeedMul = hAccMul(this._finalSpeedMul, 1 + pValue); break;
+      case 'bsk': this._finalSpeedMul = hAccMul(this._finalSpeedMul, 1 + pValue); break;
       default:
         super.applyProp(mod, pName, pValue); break;
     }

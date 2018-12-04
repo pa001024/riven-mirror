@@ -25,7 +25,7 @@
             <div v-show="mod.name" class="mod-display">
               <el-card class="mod-props-box">
                 <div slot="header" class="mod-name">
-                  <span>{{$t("zh") ? mod.name : mod.id}} {{mod.subfix}}</span>
+                  <span>{{mod.name}} {{mod.subfix}}</span>
                 </div>
                 <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
                   {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
@@ -56,7 +56,7 @@
             <div class="mod-display">
               <el-card class="mod-props-box">
                 <div slot="header" class="mod-name">
-                  <span>{{$t("zh") ? newMod.name : newMod.id}} {{newMod.subfix}}</span>
+                  <span>{{newMod.name}} {{newMod.subfix}}</span>
                 </div>
                 <div v-for="prop in newMod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
                   {{$t("prop.fullName." + prop.id, [prop.displayValue])}}

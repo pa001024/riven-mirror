@@ -56,7 +56,7 @@ const dateTimeFormats = {
 // 配置
 const en = _.assign(elLang_en, lang_en);
 const chs = _.assign(elLang_zh, lang_zh);
-const chCY = _.assign({}, elLang_zh, lang_zhCY);
+const chCY = _.assign({}, elLang_zh, lang_zh, lang_zhCY);
 const cht = _.assign(elLang_zhTW, lang_zhTW);
 
 export const i18n = new VueI18n({

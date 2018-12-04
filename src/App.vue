@@ -4,7 +4,7 @@
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven Mirror
-          <span class="beta">ALPHA 1.1.7</span>
+          <span class="beta">ALPHA 1.2.0</span>
         </h1>
       </router-link>
       <MiniClock class="hidden-xs-only header-watch">

@@ -71,7 +71,7 @@
               </div>
               <ul class="mod-history-list">
                 <li v-for="(hiRiven, index) in modHistoty" :key="index" @click="newBase64Text(hiRiven.qrCodeBase64)" class="mod-history-item">
-                  {{$t("zh") ? hiRiven.fullName : hiRiven.fullId}}
+                  {{hiRiven.fullName}}
                   <span class="history-delete" @click.stop="removeHistory(hiRiven.qrCode)"><i class="el-icon-close"></i></span>
                 </li>
               </ul>
