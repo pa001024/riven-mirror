@@ -6,7 +6,7 @@ const _BASE62_ST = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwx
 export function base62(src: number): string {
   let rst = "";
   while (1) {
-    let a = src % 62;
+    let a = ~~src % 62;
     rst = _BASE62_ST[a] + rst;
     src = ~~(src / 62)
     if (src <= 0) {

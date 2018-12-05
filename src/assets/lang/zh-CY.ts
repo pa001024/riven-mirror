@@ -1112,6 +1112,7 @@ let po = {
     "ocucor": "视使之触",
     "kreska": "直镐",
 
+    "none": "无",
     "balla": "轻短刃",
     "dokrahm": "轻镰刃",
     "kronsh": "重弯刃",

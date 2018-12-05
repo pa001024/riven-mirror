@@ -22,6 +22,7 @@ export default class extends Vue {
   @Prop({ type: Boolean, default: false }) percent: boolean;
   @Prop({ type: Boolean, default: false }) negative: boolean;
   @Prop({ type: Number, default: 1 }) preci: Number;
+  @Prop({ type: Object }) data: any;
 
   /** 返回固定精确度数值 */
   Num(num: number, preci = 1) {

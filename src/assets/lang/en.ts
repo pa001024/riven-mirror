@@ -1112,6 +1112,7 @@ let po = {
     "ocucor": "Ocucor",
     "kreska": "Kreska",
 
+    "none": "None",
     "balla": "Balla",
     "dokrahm": "Dokrahm",
     "kronsh": "Kronsh",

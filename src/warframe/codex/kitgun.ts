@@ -26,6 +26,7 @@ export interface KitgunGrip {
   name: string;
   chambersData: GripChamberData[];
 }
+
 /**
  * 枪膛-握把 组合数据
  */
@@ -148,6 +149,7 @@ export class Kitgun implements GunWeapon {
   ammo: number = 210;
   ammoMode?: number;
   prjSpeed?: number;
+  rangeLimit?: number;
 
   id: string;
   name: string;
@@ -175,7 +177,6 @@ export class Kitgun implements GunWeapon {
       magazine: chamber.magazine[loader.magazineIndex],
     } as KitgunLoaderDisplay;
   }
-
   get panelDamage() { return this.dmg.reduce((a, b) => a + b[1], 0); }
   get tags() { return ["Gun", "Secondary", "KITGUN"]; }
   get url() { return `KITGUN-${this.chamber.id}-${this.grip.id}-${this.loader.id}`; }
@@ -209,6 +210,10 @@ export class Kitgun implements GunWeapon {
     this.reload = hAccSum(1.3, loader.reload);
     this.magazine = loader.magazine;
     this.accuracy = this.chamber.accuracy;
+    switch (this.id) {
+      case "Catchmoon": this.prjSpeed = 70; this.rangeLimit = 40; break;
+      case "Tombfinger": this.prjSpeed = 200; break;
+    }
   }
   get displayName() {
     return `${i18n.t(`messages.${this.chamber.name}`)}-${i18n.t(`messages.${this.grip.name}`)}-${i18n.t(`messages.${this.loader.name}`)}` as string;

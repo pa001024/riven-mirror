@@ -1112,6 +1112,7 @@ let po = {
     "ocucor": "視使之觸",
     "kreska": "直鎬",
 
+    "none": "無",
     "balla": "寶拉",
     "dokrahm": "多克拉姆",
     "kronsh": "客隆什",

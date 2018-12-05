@@ -106,7 +106,7 @@ export const ZawGripData: ZawGrip[] = _zawGrip.map(v => ({
 export const NoneZawGripData = {
   idx: "",
   id: "None",
-  name: "无",
+  name: "none",
   twoHand: false,
   dmg: 0,
   speed: 1,
@@ -154,7 +154,7 @@ export const ZawLinksData: ZawLinks[] = _zawLinks.map(v => ({
 export const NoneZawLinksData = {
   idx: "",
   id: "None",
-  name: "无",
+  name: "none",
   dmg: 0,
   speed: 0,
   crit: 0,

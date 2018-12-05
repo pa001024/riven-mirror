@@ -132,7 +132,7 @@ export abstract class ModBuild {
     let mods = this.mods;
     while (mods.length < 8) mods.push(null);
     let normal = mods.map(v => v && v.key || "00").join("");
-    let buffseq = this.buffs.map(v => `!${v.data.id}:${base62(v.power * 100)}${v.layerEnable ? ":" + v.layer : ""}`).join("");
+    let buffseq = this.buffs.map(v => `!${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 100) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
     if (this.riven && mods.some(v => v && v.key === "01") && this.riven.properties.length > 1) return normal + this.riven.qrCodeBase64 + buffseq;
     return normal + buffseq;
   }
@@ -162,7 +162,7 @@ export abstract class ModBuild {
   }
 
   get miniCodeURL() {
-    return `https://rm.0-0.at/weapon/${this.weapon.id.replace(/ /g, "_")}/${this.miniCode}`;
+    return `https://rm.0-0.at/weapon/${this.weapon.url}/${this.miniCode}`;
   }
 
   /** 暴击率 */
@@ -382,6 +382,11 @@ export abstract class ModBuild {
       }
       return null;
     }).filter(Boolean) as [DamageType, number][];
+  }
+
+  get statusMap() {
+    // TODO
+    return {}
   }
 
   /** 面板基础伤害增幅倍率 */

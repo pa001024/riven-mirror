@@ -38,7 +38,7 @@ export abstract class BaseBuildEditor extends Vue {
         let mods = this.build.mods;
         let buffs = this.build.buffs;
         while (mods.length < 8) mods.push(null);
-        if (buffs.length < 1) buffs.push(null);
+        buffs.push(null);
         this.currentTab.mods = mods;
         this.currentTab.buffs = buffs;
       }
@@ -111,10 +111,6 @@ export abstract class BaseBuildEditor extends Vue {
     this.build.mods = mods;
     this.build.buffs = buffs;
     this.$router.push({ name: 'BuildEditorWithCode', params: { code: this.build.miniCode } });
-  }
-  mapDname(id: string) {
-    let dtype = Damage2_0.getDamageType(id as DamageType);
-    return dtype && (this.$t("zh") ? dtype.name : dtype.id.toUpperCase()) || "";
   }
   // === 事件处理 ===
   modSelect(mod: NormalMod | NormalMod[]) {

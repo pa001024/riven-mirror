@@ -10,7 +10,7 @@
               <el-popover placement="bottom" trigger="click">
                 <el-input :value="build.miniCodeURL" size="small" ref="miniCodeURL" @focus="$refs.miniCodeURL.select()"></el-input>
                 <div style="text-align:center;">
-                  <qrcode :value="`https://rm.0-0.at/${build.miniCode}`" :options="{ size: 150, foreground: '#333' }"></qrcode>
+                  <qrcode :value="build.miniCodeURL" :options="{ size: 150, foreground: '#333' }"></qrcode>
                 </div>
                 <div style="text-align:center;">
                   {{$t("riven.sharetip")}}
@@ -27,7 +27,7 @@
                 <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
                 <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
                 <br>
-                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="mapDname(dname)" :ori="ori" :val="val"></PropDiff>
+                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>
                 <br>
                 <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
                 <PropDiff :name="$t('build.attackDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
