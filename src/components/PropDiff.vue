@@ -1,11 +1,13 @@
 <template>
   <tr class="prop-diff" @click="handleClick">
     <th>{{name}}</th>
-    <td class="diff diff-ori" :class="{negative: negative != ori > val, positive: negative != ori < val}">{{percent ? Num(ori * 100, preci) + "%" : Num(ori, preci)}}{{subfix}}</td>
+    <td class="diff diff-ori" :class="activeClass">
+      {{displayValue(ori)}}
+    </td>
     <template v-if="Num(percent ? ori * 100 : ori, preci) !== Num(percent ? val * 100 : val, preci)">
-      <td class="diff diff-arrow" :class="{negative: negative != ori > val, positive: negative != ori < val}"><i class="el-icon-arrow-right"></i></td>
-      <td class="diff diff-val" :class="{negative: negative != ori > val, positive: negative != ori < val}">
-        {{percent ? Num(val * 100, preci)+"%":Num(val, preci)}}{{subfix}}
+      <td class="diff diff-arrow" :class="activeClass"><i class="el-icon-arrow-right"></i></td>
+      <td class="diff diff-val" :class="activeClass">
+        {{displayValue(val)}}
       </td>
     </template>
   </tr>
@@ -21,8 +23,18 @@ export default class extends Vue {
   @Prop({ type: Number }) val: number;
   @Prop({ type: Boolean, default: false }) percent: boolean;
   @Prop({ type: Boolean, default: false }) negative: boolean;
-  @Prop({ type: Number, default: 1 }) preci: Number;
+  @Prop({ type: Number, default: 1 }) preci: number;
   @Prop({ type: Object }) data: any;
+
+  /** 类切换 */
+  get activeClass() {
+    return { negative: this.negative != this.ori > this.val, positive: this.negative != this.ori < this.val };
+  }
+
+  /** 格式化输出 */
+  displayValue(value) {
+    return `${this.percent ? this.Num(value * 100, this.preci) + "%" : this.Num(value, this.preci)}${this.subfix || ""}`;
+  }
 
   /** 返回固定精确度数值 */
   Num(num: number, preci = 1) {

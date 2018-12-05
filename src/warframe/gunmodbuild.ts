@@ -1,5 +1,6 @@
 import { AcolyteModsList, GunWeapon, NormalMod, NormalModDatabase, ModBuild, RivenMod, Enemy, Arcane } from "@/warframe";
 import { hAccSum, hAccMul, hAccDiv } from "@/warframe/util";
+import { StatusInfo } from "./status";
 
 /*
  * MOD自动配置模块
@@ -24,7 +25,7 @@ export interface GunModBuildOptions {
   useHeavyCaliber?: boolean
   usePrimedChamber?: boolean
   useHunterMunitions?: number
-  handShotChance?: number
+  headShotChance?: number
   allowElementTypes?: string[]
   extraBaseDamage?: number
   extraOverall?: number
@@ -98,7 +99,7 @@ export class GunModBuild extends ModBuild {
     this.useHeavyCaliber = typeof options.useHeavyCaliber !== "undefined" ? options.useHeavyCaliber : this.useHeavyCaliber;
     this.usePrimedChamber = typeof options.usePrimedChamber !== "undefined" ? options.usePrimedChamber : this.usePrimedChamber;
     this.useHunterMunitions = typeof options.useHunterMunitions !== "undefined" ? options.useHunterMunitions : this.useHunterMunitions;
-    this.handShotChance = typeof options.handShotChance !== "undefined" ? options.handShotChance : this.handShotChance;
+    this.headShotChance = typeof options.headShotChance !== "undefined" ? options.headShotChance : this.headShotChance;
     this.allowElementTypes = typeof options.allowElementTypes !== "undefined" ? options.allowElementTypes : this.allowElementTypes;
     this.extraBaseDamage = typeof options.extraBaseDamage !== "undefined" ? options.extraBaseDamage : this.extraBaseDamage;
     this.extraOverall = typeof options.extraOverall !== "undefined" ? options.extraOverall : this.extraOverall;
@@ -113,7 +114,7 @@ export class GunModBuild extends ModBuild {
       useHeavyCaliber: this.useHeavyCaliber,
       usePrimedChamber: this.usePrimedChamber,
       useHunterMunitions: this.useHunterMunitions,
-      handShotChance: this.handShotChance,
+      headShotChance: this.headShotChance,
       allowElementTypes: this.allowElementTypes,
       extraBaseDamage: this.extraBaseDamage,
       extraOverall: this.extraOverall,
@@ -190,6 +191,12 @@ export class GunModBuild extends ModBuild {
     return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul);
   }
 
+  /** [overwrite] 显示各触发参数 */
+  get statusInfo() { return new StatusInfo(this.totalDmg, this.procChanceMap, this.procChance, this.weapon.bullets); }
+
+  /** [overwrite] 每发触发率 */
+  get procChancePerHit() { return 1 - (1 - this.procChance) ** this.weapon.bullets; }
+
   /** [overwrite] 面板基础伤害增幅倍率 */
   get panelBaseDamageMul() { return hAccMul(this.baseDamageMul, this.multishotMul); }
   /** 爆发伤害增幅倍率 */
@@ -198,7 +205,7 @@ export class GunModBuild extends ModBuild {
   get critDamageMul() {
     // 私法系列的暴击强化可以直接加在这里 因为白字无加成 去掉不暴击的概率
     let upLvlChance = this.critChance >= 1 ? this.critLevelUpChance : this.critChance * this.critLevelUpChance;
-    return this.calcCritDamage(this.critChance + upLvlChance, this.critMul, this.handShotChance, this.handShotMul);
+    return this.calcCritDamage(this.critChance + upLvlChance, this.critMul, this.headShotChance, this.headShotMul);
   }
   /** 每个弹片触发几率 */
   get realProcChance() { return 1 - (1 - this.procChance) ** (1 / this.weapon.bullets); }

@@ -2077,6 +2077,7 @@ let po = {
       ecd: "{0} Corrosive Damage",// {0} 腐蚀伤害
       eed: "{0} Electricity Damage",// {0} 电击伤害
       efd: "{0} Heat Damage",// {0} 火焰伤害
+      aed: "{0} Damage to All Enemy",// {0} 对全派系伤害
     },
     shortName: {
       acc: "Accuracy",// 精准
@@ -2127,6 +2128,7 @@ let po = {
       ecd: "Corrosive Damage",// 腐蚀伤害
       eed: "Electricity Damage",// 电击伤害
       efd: "Heat Damage",// 火焰伤害
+      aed: "All Enemy Damage",// 对全派系伤害
     },
   },
   elements: {
@@ -2254,8 +2256,8 @@ let po = {
     limitElementsType: "Limit elements type",
     limitElementsTypeTip: "auto-fill will only use selected types",
     unlimited: "Unlimited",
-    handshotChance: "Handshot rates",
-    handshotChanceTip: "Handshots can improve crit damage",
+    headshotChance: "Headshot rate",
+    headshotChanceTip: "Crit damage is higher when headshot",
     extraBaseDamage: "Extra base damage",
     extraOverall: "Extra overall damage",
     extraBaseDamageTip: "e.g. Chroma's \"Vex Armor\" and Mirage's \"Eclipse\"",

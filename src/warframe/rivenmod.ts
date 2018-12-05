@@ -1,7 +1,7 @@
 import { MeleeWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase, RivenWeaponDataBase, GunWeaponDataBase } from ".";
 import { Base64, randomNormalDistribution, strSimilarity } from "./util";
 import _ from "lodash";
-import { i18n } from "@/i18n";
+import { base62, debase62 } from "./lib/base62";
 
 export class ValuedRivenProperty {
   /** 属性原型 */
@@ -358,7 +358,7 @@ A段位12023
   }
   /** 返回二维码使用的序列化字符串 */
   get qrCode() {
-    return [this.id, this.shortSubfix, this.rank, this.recycleTimes, this.properties.map(v => v.prop.id + "#" + +v.value.toFixed(1)).join("&")].join("|");
+    return [this.id, this.shortSubfix, base62(this.rank) + base62(this.recycleTimes), this.properties.map(v => v.prop.id + base62(+(v.value * 10).toFixed(0))).join(".")].join("|");
   }
   /** 读取二维码识别后的序列化字符串 */
   set qrCode(value) {
@@ -368,11 +368,11 @@ A段位12023
     let weapon = RivenDataBase.findMostSimRivenWeapon(this.id);
     this.name = weapon.name;
     this.mod = weapon.mod;
-    this.rank = +d[2];
-    this.recycleTimes = +d[3];
-    let props = d[4].split("&").map(v => {
-      let kv = v.split("#");
-      return [RivenDataBase.getPropByName(kv[0]), +kv[1]];
+    this.rank = debase62(d[2][0]);
+    this.recycleTimes = debase62(d[2].substr(1));
+    let props = d[3].split(".").map(v => {
+      let vv = debase62(v.substr(1)) / 10;
+      return [RivenDataBase.getPropByName(v[0]), vv];
     }) as [RivenProperty, number][];
     let lastProp = props[props.length - 1];
     this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == (lastProp[1] < 0);

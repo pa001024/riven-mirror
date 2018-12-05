@@ -18,6 +18,7 @@
                 <i slot="reference" class="el-icon-share share-icon"></i>
               </el-popover>
             </div>
+            <div class="weapon-capacity"></div>
             <table class="weapon-props">
               <tbody>
                 <PropDiff :name="$t('build.magazine')" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
@@ -30,7 +31,7 @@
                 <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
                 <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
                 <br>
-                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>
+                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val" :data="build.statusInfo"></PropDiff>
                 <br>
                 <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
                 <PropDiff :name="$t('build.totalDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
@@ -53,9 +54,9 @@
             </el-button-group>
             <el-form class="build-form-editor">
               <!-- 爆头几率 -->
-              <el-form-item :label="$t('buildview.handshotChance')">
-                <el-tooltip effect="dark" :content="$t('buildview.handshotChanceTip')" placement="bottom">
-                  <el-slider class="right-side" v-model="handShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
+              <el-form-item :label="$t('buildview.headshotChance')">
+                <el-tooltip effect="dark" :content="$t('buildview.headshotChanceTip')" placement="bottom">
+                  <el-slider class="right-side" v-model="headShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
                 </el-tooltip>
               </el-form-item>
               <!-- 赋能 -->
@@ -208,7 +209,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;
   @Prop() rWeapon: RivenWeapon;
 
-  handShotChance = 0;
+  headShotChance = 0;
   extraBaseDamage = 0;
   extraOverall = 0;
   amrorReduce = 0;
@@ -222,7 +223,10 @@ export default class GunBuildEditor extends BaseBuildEditor {
   enemyLevel = 160;
 
   @Watch("weapon")
-  reload() { super.reload(); this.enemyData = this.enemy = null; }
+  reload() {
+    super.reload();
+    this.build.target = this.enemy;
+  }
   // [overwrite]
   reloadSelector() {
     this.$refs.selector && (this.$refs.selector as any).reload();
@@ -231,7 +235,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
 
   get options() {
     return {
-      handShotChance: this.handShotChance / 100,
+      headShotChance: this.headShotChance / 100,
       extraBaseDamage: this.extraBaseDamage / 100,
       extraOverall: this.extraOverall / 100,
       arcanes: this.arcanes,

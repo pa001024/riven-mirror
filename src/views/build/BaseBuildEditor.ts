@@ -23,7 +23,18 @@ export abstract class BaseBuildEditor extends Vue {
   abstract newBuild(...parms): ModBuild;
 
   @Watch("code")
-  reload() {
+  onCodeChange() {
+    if (this.code && this.build.miniCode != this.code) {
+      this.build.miniCode = this.code;
+      let mods = this.build.mods;
+      let buffs = this.build.buffs;
+      while (mods.length < 8) mods.push(null);
+      buffs.push(null);
+      this.currentTab.mods = mods;
+      this.currentTab.buffs = buffs;
+    }
+  }
+  reload(oldCode?: string, newCode?: string) {
     if (this.weapon) {
       this.tabs = "ABC".split("").map(v => ({
         title: this.$t("zh") ? `配置${v}` : `SET ${v}`,
@@ -34,13 +45,7 @@ export abstract class BaseBuildEditor extends Vue {
       }));
       this.tabValue = "SET A";
       if (this.code) {
-        this.build.miniCode = this.code;
-        let mods = this.build.mods;
-        let buffs = this.build.buffs;
-        while (mods.length < 8) mods.push(null);
-        buffs.push(null);
-        this.currentTab.mods = mods;
-        this.currentTab.buffs = buffs;
+        this.onCodeChange();
       }
     }
   }

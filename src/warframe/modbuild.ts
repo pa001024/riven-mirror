@@ -1,12 +1,13 @@
 import {
   Arcane, Codex, CombElementMap, Damage2_0, DamageType, Enemy, EnemyTimelineState, ExtraDmgSet,
   NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase,
-  toNegaUpLevel, toUpLevel, ValuedRivenProperty, Weapon
+  toNegaUpLevel, toUpLevel, ValuedRivenProperty, Weapon, StatusInfo
 } from "@/warframe";
 import _ from "lodash";
 import { choose, hAccDiv, hAccMul, hAccSum } from "./util";
 import { Buff, BuffList } from "@/warframe/codex";
 import { base62, debase62 } from "./lib/base62";
+import { procDurationMap } from "./status";
 
 // 基础类
 export abstract class ModBuild {
@@ -42,9 +43,10 @@ export abstract class ModBuild {
   protected _procDamageMul = 1;
   protected _enemyDmgMul = [1, 1, 1, 1, 1];
   protected _fireRateMul = 1;
-  protected _handShotMulMul = 1;
+  protected _headShotMulMul = 1;
   protected _overallMul = 1;
   protected _finalCritMulMul = 1;
+  protected _allEnemyDmgMul = 0;
 
   protected _extraProcChance: [string, number][] = [];
 
@@ -63,19 +65,21 @@ export abstract class ModBuild {
   /** 触发时间增幅倍率 */
   get procDurationMul() { return this._procDurationMul; }
   /** 触发伤害增幅倍率 */
-  get procDamageMul() { return this._procDamageMul; }
+  get procDamageMul() { return hAccMul(this.enemyDmgMul, this._procDamageMul); }
+  /** 全种族伤害增幅倍率 */
+  get allEnemyDmgMul() { return this._allEnemyDmgMul; }
   /** 种族伤害增幅倍率 */
   get enemyDmgMul() {
     if (this.enemyDmgTypeIndex >= 0)
-      return this._enemyDmgMul[this.enemyDmgTypeIndex] <= 0 ? 0
-        : this._enemyDmgMul[this.enemyDmgTypeIndex];
+      return this.allEnemyDmgMul + (this._enemyDmgMul[this.enemyDmgTypeIndex] <= 0 ? 0
+        : this._enemyDmgMul[this.enemyDmgTypeIndex]);
     else
-      return 1;
+      return this.allEnemyDmgMul + 1;
   }
   /** 攻速增幅倍率 */
   get fireRateMul() { return this._fireRateMul; }
   /** 爆头倍率增幅倍率 */
-  get handShotMulMul() { return this._handShotMulMul; }
+  get headShotMulMul() { return this._headShotMulMul; }
   /** 全局伤害增幅倍率 */
   get overallMul() { return hAccMul(this.enemyDmgMul, this._overallMul); }
   /** 全局暴击伤害增幅倍率 */
@@ -95,13 +99,13 @@ export abstract class ModBuild {
   /** 护甲削减 */
   amrorReduce = 0;
 
-  private _handShotChance = 0;
+  private _headShotChance = 0;
   /** 爆头概率 */
-  get handShotChance() { return this._handShotChance; }
-  set handShotChance(value) {
+  get headShotChance() { return this._headShotChance; }
+  set headShotChance(value) {
     if (value > 1) value = 1;
     if (value < 0) value = 0;
-    this._handShotChance = value;
+    this._headShotChance = value;
   }
 
   private _compareMode: number = 0;
@@ -254,6 +258,7 @@ export abstract class ModBuild {
       }
     });
     let combs = _.chunk(eleOrder, 2);
+    // 复合元素合成
     let tmpCombs = combs.map(comb => {
       if (comb.length > 1) {
         let combElement = CombElementMap[comb.sort().join("+")];
@@ -263,6 +268,7 @@ export abstract class ModBuild {
         return [comb[0], eleMul[comb[0]]] as [string, number];
       }
     });
+    // 将独立元素合并或加入到元素列表中
     this.standaloneElements.forEach(([vn, vv]) => {
       this._extraDmgMul = hAccSum(this._extraDmgMul, vv);
       let idx = tmpCombs.findIndex(v => v[0] === vn);
@@ -274,15 +280,11 @@ export abstract class ModBuild {
     });
     this._combElementsOrder = tmpCombs.concat(otherOrder);
   }
-  /**
-     * 所有伤害
-     */
+  /** 所有伤害 */
   get totalDmg() {
     return this.baseDmg.map(([i, v]) => [i, v * this.totalDamage / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
   }
-  /**
-   * 所有伤害类型面板
-   */
+  /** 所有伤害类型面板 */
   get dmg() {
     return this.baseDmg.map(([i, v]) => [i, v * this.panelBaseDamage]).filter(v => v[1] > 0) as [string, number][];
   }
@@ -315,9 +317,9 @@ export abstract class ModBuild {
 
   // ### 计算属性 ###
   /** 原爆头倍率 */
-  get oriHandShotMul() { return 2; }
+  get oriHeadShotMul() { return 2; }
   /** 爆头倍率 */
-  get handShotMul() { return hAccMul(this.oriHandShotMul, this.handShotMulMul); }
+  get headShotMul() { return hAccMul(this.oriHeadShotMul, this.headShotMulMul); }
 
   /** 触发率是否存在跃迁 */
   get isStatusJump() {
@@ -355,46 +357,67 @@ export abstract class ModBuild {
         if (cp) cp[1] = cp[1] + vv;
         else opM.push([vn, vv]);
       });
-      // 防止触发率溢出
-      let totalChance = opM.reduce((a, b) => a + b[1], 0);
-      if (totalChance > 1)
-        return opM.map(([vn, vv]) => [vn, vv / totalChance]) as [string, number][];
-      return opM;
     }
+    // 防止触发率溢出
+    let totalChance = opM.reduce((a, b) => a + b[1], 0);
+    if (totalChance > 1)
+      return opM.map(([vn, vv]) => [vn, vv / totalChance]) as [string, number][];
     return opM;
   }
 
-  /** 触发伤害(各属性) */
+  /** 无多重触发伤害(各属性) */
   get dotDamageMap() {
     let procs = this.procChanceMap;
     return procs.map(([vn, vv]) => {
       switch (vn) {
-        // 切割伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E5%88%87%E5%89%B2%E4%BC%A4%E5%AE%B3
+        // 切割伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Slash_Damage
         case "Slash":
           return [vn, vv * this.baseDamage * 0.35];
-        // 毒素伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E7%B4%A0%E4%BC%A4%E5%AE%B3
+        // 毒素伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Toxin_Damage
         case "Toxin":
-        case "Gas":
           return [vn, vv * this.toxinBaseDamage * 0.5];
-        // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
+        // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
+        case "Gas":
+          return [vn, vv * this.toxinBaseDamage * this.procDamageMul * 0.5];
+        // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
         case "Heat":
           return [vn, vv * this.heatBaseDamage * 0.5];
+        // 电击伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Electricity_Damage
+        case "Electricity":
+          return [vn, vv * this.electricityBaseDamage * 0.5];
       }
       return null;
     }).filter(Boolean) as [DamageType, number][];
   }
 
-  get statusMap() {
-    // TODO
-    return {}
+  /** 显示各触发参数 */
+  get statusInfo() { return new StatusInfo(this.totalDmg, this.procChanceMap, this.procChance); }
+  /** 触发总伤增幅倍率 */
+  get procTotalDamageMul() { return hAccMul(this.critChanceMul, this.headShotDmgMul, this.overallMul, this.enemyDmgMul, this.procDamageMul); }
+
+  /** 每发触发率 */
+  get procChancePerHit() { return this.procChance; }
+  /** 每秒触发率 */
+  get procChancePerSecond() { return 1 - (1 - this.procChancePerHit) ** this.fireRate; }
+  /** 平均状态量期望 */
+  get averageProcQE() {
+    let mergedMap = {}, asQE = 0;
+    this.procChanceMap.forEach(v => {
+      let k = v[0] === "Gas" ? "Toxin" : v[1];
+      mergedMap[k] = hAccSum(mergedMap[k] || 0, v[1])
+    });
+    Object.keys(mergedMap).forEach(v => {
+      asQE += mergedMap[v] * procDurationMap[v] * this.procDurationMul;
+    });
+    return asQE;
   }
 
   /** 面板基础伤害增幅倍率 */
   get panelBaseDamageMul() { return this.baseDamageMul; }
   /** 原平均爆头增伤倍率 */
-  get oriHandShotDmgMul() { return hAccMul(this.handShotChance, this.oriHandShotMul - 1) + 1; }
+  get oriHeadShotDmgMul() { return hAccMul(this.headShotChance, this.oriHeadShotMul - 1) + 1; }
   /** 平均爆头增伤倍率 */
-  get handShotDmgMul() { return hAccMul(this.handShotChance, this.handShotMul - 1) + 1; }
+  get headShotDmgMul() { return hAccMul(this.headShotChance, this.headShotMul - 1) + 1; }
   /** 面板伤害增幅倍率 */
   get panelDamageMul() { return hAccMul(this.panelBaseDamageMul, this.extraDmgMul); }
   /** 面板基础伤害 */
@@ -402,17 +425,19 @@ export abstract class ModBuild {
   /** 面板伤害 */
   get panelDamage() { return hAccMul(this.originalDamage, this.panelDamageMul); }
   /** 总伤增幅倍率 */
-  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.handShotDmgMul, this.overallMul); }
+  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.headShotDmgMul, this.overallMul, this.enemyDmgMul); }
   /** 总伤害 */
   get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul); }
   /** 原总伤害 */
-  get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul, this.handShotDmgMul); }
-  /** 基伤 */
-  get baseDamage() { return hAccMul(this.originalDamage, this.baseDamageMul, this.critDamageMul, this.handShotDmgMul, this.overallMul); }
+  get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul, this.headShotDmgMul); }
+  /** 基伤 触发计算中的基伤概念 包含多重暴击等 */
+  get baseDamage() { return hAccMul(this.originalDamage, this.panelBaseDamageMul, this.critDamageMul, this.headShotDmgMul, this.overallMul, this.enemyDmgMul); }
   /** 毒DoT的基伤 */
-  get toxinBaseDamage() { return hAccMul(this.baseDamage, (1 + this.toxinMul)); }
+  get toxinBaseDamage() { return hAccMul(this.baseDamage, 1 + this.toxinMul); }
   /** 火DoT的基伤 */
-  get heatBaseDamage() { return hAccMul(this.baseDamage, (1 + this.heatMul)); }
+  get heatBaseDamage() { return hAccMul(this.baseDamage, 1 + this.heatMul); }
+  /** 电DoT的基伤 */
+  get electricityBaseDamage() { return hAccMul(this.baseDamage, 1 + this.electricityMul); }
   /** 攻速 */
   get fireRate() {
     let fr = hAccMul(this.weapon.fireRate, this.fireRateMul);
@@ -420,7 +445,7 @@ export abstract class ModBuild {
     return fr < 0.05 ? 0.05 : fr;
   }
   /** 原平均暴击区增幅倍率 */
-  get oriCritDamageMul() { return this.calcCritDamage(this.weapon.critChance, this.weapon.critMul, this.handShotChance, this.oriHandShotMul); }
+  get oriCritDamageMul() { return this.calcCritDamage(this.weapon.critChance, this.weapon.critMul, this.headShotChance, this.oriHeadShotMul); }
 
   protected _originalDamage: number;
   /** 武器原本伤害 */
@@ -512,7 +537,7 @@ export abstract class ModBuild {
     this._procDurationMul = 1;
     this._procDamageMul = 1;
     this._enemyDmgMul = [1, 1, 1, 1, 1];
-    this._handShotMulMul = 1;
+    this._headShotMulMul = 1;
     this._fireRateMul = 1;
     this._heatMul = 0;
     this._coldMul = 0;
@@ -526,6 +551,7 @@ export abstract class ModBuild {
     this._extraProcChance = []
     this._overallMul = 1 + this.extraOverall;
     this._finalCritMulMul = 1;
+    this._allEnemyDmgMul = 0;
     this.standaloneElements = [];
     this.recalcElements();
   }
@@ -861,7 +887,7 @@ export abstract class ModBuild {
       case 'I': /* 对Infested伤害 infeDmg */ this._enemyDmgMul[2] = hAccSum(this._enemyDmgMul[2], pValue); break;
       case 'od': /* 对堕落者伤害 */ this._enemyDmgMul[3] = hAccSum(this._enemyDmgMul[3], pValue); break;
       case 'smd': /* 对Sentient伤害 */ this._enemyDmgMul[4] = hAccSum(this._enemyDmgMul[4], pValue); break;
-      case 'hm': /* 爆头伤害 handShotMul */ this._handShotMulMul = hAccSum(this._handShotMulMul, pValue); break;
+      case 'hm': /* 爆头伤害 headShotMul */ this._headShotMulMul = hAccSum(this._headShotMulMul, pValue); break;
       case 'da': /* 正中红心 overallMul */
       case 'oad': /* 全局伤害 overallMul */ this._overallMul = hAccMul(this._overallMul, 1 + pValue); break;
       case 'sd': /* 触发伤害 procDamageMul */ this._procDamageMul = hAccMul(this._procDamageMul, 1 + pValue); break;
@@ -872,6 +898,7 @@ export abstract class ModBuild {
       case 'ecd': /* 腐蚀伤害 */ this.applyStandaloneElement("Corrosive", pValue); break;
       case 'eed': /* 电击伤害 */ this.electricityMul = hAccSum(this.electricityMul, pValue); break;
       case 'efd': /* 火焰伤害 */ this.heatMul = hAccSum(this.heatMul, pValue); break;
+      case 'aed': /* 对全种族伤害 allEnemyDmgMul */ this._allEnemyDmgMul = hAccSum(this._allEnemyDmgMul, pValue); break;
       default:
     }
   }

@@ -17,7 +17,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "aimm" }, // 瞄准移速
   { id: "ckm" }, // 移动速度
   { id: "od", dmg: true }, // O系伤害
-  { id: "kb", nopercent: true }, // 死亡爆炸
+  { id: "kb", nopercent: true, noplus: true }, // 死亡爆炸
   { id: "brad" }, // 爆炸半径
   { id: "sp" }, // 魔改
   { id: "hr" }, // 拔枪速度
@@ -27,7 +27,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "bsc" }, // 基础触发几率
   { id: "da", dmg: true }, // 正中红心
   { id: "oad", dmg: true }, // 最终伤害
-  { id: "lal" }, // 自动装填。
+  { id: "lal" }, // 自动装填
   { id: "spr" }, // 扩散
   { id: "slc" }, // 消音
   { id: "bnc", nopercent: true }, // 反弹
@@ -40,14 +40,14 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "bsk" }, // 最终攻速
   { id: "co", dmg: true }, // 异常状态增加伤害
   { id: "gdr", nopercent: true }, // 嘲讽
-  { id: "hlr", nopercent: true }, // 治愈
+  { id: "hlr", nopercent: true, noplus: true }, // 治愈
   { id: "exd", nopercent: true }, // 额外伤害
   { id: "amr" }, // 护甲
-  { id: "par" }, // 反击几率
+  { id: "par", noplus: true }, // 反击几率
   { id: "msd" }, // 近战震波伤害
   { id: "fs" }, // 飞行速度
   { id: "ce", dmg: true }, // 暴击强化
-  { id: "ac", dmg: true }, // 暴击造成切割触发
+  { id: "ac", dmg: true, noplus: true }, // 暴击造成切割触发
   { id: "ds", dmg: true }, // 偷袭伤害
   { id: "sd", dmg: true }, // 触发伤害
   { id: "fcd", dmg: true }, // 最终暴伤
@@ -59,6 +59,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "ecd", dmg: true }, // 腐蚀伤害
   { id: "eed", dmg: true }, // 电击伤害
   { id: "efd", dmg: true }, // 火焰伤害
+  { id: "aed", dmg: true }, // 火焰伤害
 ].reduce((a, b) => (a[b.id] = b, a), {});
 
 /**

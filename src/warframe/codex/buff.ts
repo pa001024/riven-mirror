@@ -156,7 +156,7 @@ export const BuffList: BuffData[] = [
     name: "roar", // 牛吼
     type: BuffType.TotalDamage,
     target: "全域",
-    dynamicProps: [["oad", 0.5, 0], ["sd", 0.5, 0]],
+    dynamicProps: [["aed", 0.5, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
   }, {

@@ -5,8 +5,8 @@
       <!-- 评级 -->
       <div class="build-result" v-if="builds.length">
         <span class="rank-final">{{scoreLevelText}}</span>
+        <el-progress class="rank-progress" :show-text="false" :percentage="+(scoreLevel<0?0:scoreLevel>100?100:scoreLevel).toFixed()"></el-progress>
         <span class="rank-progress-text">{{scoreLevel.toFixed()}}%</span>
-        <el-progress class="rank-progress" :percentage="+scoreLevel.toFixed()"></el-progress>
         <span v-html="$t('buildview.scoreResult', [score, selectCompMethodText])"></span>
         <!-- <span class="build-price">
           估价:
@@ -105,9 +105,9 @@
           </el-tooltip>
         </el-form-item>
         <!-- 爆头几率 -->
-        <el-form-item :label="$t('buildview.handshotChance')">
-          <el-tooltip effect="dark" :content="$t('buildview.handshotChanceTip')" placement="bottom">
-            <el-slider v-model="handShotChance" :format-tooltip="v=>v+'%'" style="width:200px;margin-left: 8px;"></el-slider>
+        <el-form-item :label="$t('buildview.headshotChance')">
+          <el-tooltip effect="dark" :content="$t('buildview.headshotChanceTip')" placement="bottom">
+            <el-slider v-model="headShotChance" :format-tooltip="v=>v+'%'" style="width:200px;margin-left: 8px;"></el-slider>
           </el-tooltip>
         </el-form-item>
         <!-- 基伤加成 -->
@@ -170,7 +170,7 @@ export default class GunModBuildView extends BaseModBuildView {
   useHunterMunitions = false;
   notMustUseHunterMunitions = false;
   /** 爆头几率 */
-  handShotChance = 0;
+  headShotChance = 0;
   /** 基伤加成 */
   extraBaseDamage = 0;
   /** 总伤加成 */
@@ -234,7 +234,7 @@ export default class GunModBuildView extends BaseModBuildView {
 
   @Watch("extraBaseDamage")
   @Watch("extraOverall")
-  @Watch("handShotChance")
+  @Watch("headShotChance")
   @Watch("slots")
   debouncedRecalc() {
     this.builds = [];
@@ -284,7 +284,7 @@ export default class GunModBuildView extends BaseModBuildView {
       useHeavyCaliber: this.useHeavyCaliber,
       usePrimedChamber: this.usePrimedChamber,
       useHunterMunitions: this.useHunterMunitions ? this.notMustUseHunterMunitions ? 1 : 2 : 0,
-      handShotChance: this.handShotChance / 100,
+      headShotChance: this.headShotChance / 100,
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
       extraBaseDamage: this.extraBaseDamage / 100,
       extraOverall: this.extraOverall / 100,
@@ -379,18 +379,20 @@ export default class GunModBuildView extends BaseModBuildView {
   padding: 10px;
 }
 .build-result .rank-progress {
-  width: 180px;
+  width: 140px;
   display: inline-block;
 }
 .build-result .rank-progress-text {
-  display: none;
+  display: inline-block;
+  font-size: 14px;
+  color: #606266;
+  vertical-align: middle;
+  margin: 0 6px;
+  line-height: 1;
 }
 @media only screen and (max-width: 482px) {
   .build-result .rank-progress {
     display: none;
-  }
-  .build-result .rank-progress-text {
-    display: inline-block;
   }
 }
 /* 以上是新样式 */

@@ -203,7 +203,7 @@ export default class EnemyTimeline extends Vue {
 
 <style>
 .timeline-chart {
-  height: 400px;
+  height: 360px;
   width: 100%;
 }
 .timeline-text {
