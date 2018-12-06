@@ -341,7 +341,7 @@ const _normalModSource = [
   ["Ca", "guardianDerision", [["gdr", 15]], "Melee", "d", "r", 11],
   ["Cb", "healingReturn", [["hlr", 1]], "Melee", "d", "r", 16],
   ["Cc", "energyChannel", [["exd", 300]], "Melee", "r", "r", 7],
-  ["Cd", "enduringAffliction", [["1", 1.5]], "Melee", "d", "c", 9],
+  ["Cd", "enduringAffliction", [["3", 1.5]], "Melee", "d", "c", 9],
   ["Ce", "enduringStrike", [["2", 0.6], ["U", -0.4]], "Melee", "=", "n", 7],
   ["Cf", "focusEnergy", [["U", 0.4], ["7", 0.6]], "Melee", "r", "r", 9],
   ["Cg", "focusedDefense", [["amr", 0.2], ["U", -1.4]], "Melee", "d", "n", 9],

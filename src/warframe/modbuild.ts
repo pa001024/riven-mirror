@@ -1,11 +1,10 @@
 import {
   Arcane, Codex, CombElementMap, Damage2_0, DamageType, Enemy, EnemyTimelineState, ExtraDmgSet,
   NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase,
-  toNegaUpLevel, toUpLevel, ValuedRivenProperty, Weapon, StatusInfo
+  toNegaUpLevel, toUpLevel, ValuedRivenProperty, Weapon, Buff, BuffList, StatusInfo
 } from "@/warframe";
 import _ from "lodash";
 import { choose, hAccDiv, hAccMul, hAccSum } from "./util";
-import { Buff, BuffList } from "@/warframe/codex";
 import { base62, debase62 } from "./lib/base62";
 import { procDurationMap } from "./status";
 
@@ -49,6 +48,7 @@ export abstract class ModBuild {
   protected _allEnemyDmgMul = 0;
 
   protected _extraProcChance: [string, number][] = [];
+  _statusInfo = null;
 
   /** 基伤增幅倍率 */
   get baseDamageMul() { return this._baseDamageMul; }
@@ -280,6 +280,10 @@ export abstract class ModBuild {
     });
     this._combElementsOrder = tmpCombs.concat(otherOrder);
   }
+  /** 重新计算触发信息 */
+  recalcStatusInfo() {
+    this._statusInfo = new StatusInfo(this.dotDamageMap, this.procChanceMap, this.procChance);
+  }
   /** 所有伤害 */
   get totalDmg() {
     return this.baseDmg.map(([i, v]) => [i, v * this.totalDamage / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
@@ -389,11 +393,8 @@ export abstract class ModBuild {
       return null;
     }).filter(Boolean) as [DamageType, number][];
   }
-
   /** 显示各触发参数 */
-  get statusInfo() { return new StatusInfo(this.totalDmg, this.procChanceMap, this.procChance); }
-  /** 触发总伤增幅倍率 */
-  get procTotalDamageMul() { return hAccMul(this.critChanceMul, this.headShotDmgMul, this.overallMul, this.enemyDmgMul, this.procDamageMul); }
+  get statusInfo() { return this._statusInfo; }
 
   /** 每发触发率 */
   get procChancePerHit() { return this.procChance; }
@@ -524,6 +525,7 @@ export abstract class ModBuild {
       _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
     });
     this.recalcElements();
+    this.recalcStatusInfo();
   }
 
   /** 重置所有属性增幅器 */

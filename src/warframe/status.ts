@@ -26,23 +26,27 @@ export class ProbInfo {
 
 /** 各触发参数 */
 export class StatusInfo {
-  // [总体]
-
-  /** 每弹片触发率 */
-  CPB: number
-  /** 每发触发率 */
-  CPH: number
-  /** 每秒触发率 */
-  CPS: number
-  /** 平均状态量期望 */
-  ASQE: number
-
   /** 元素 */
-  SPEC: { [key: string]: SpecialStatusInfo }
+  private _spec: { [key: string]: SpecialStatusInfo }
 
-  constructor(totalDmg: [string, number][], procChanceMap: [string, number][], procChance: number, bullets = 1, ) {
-
+  constructor(dotDamage: [string, number][], procChanceMap: [string, number][], procChance: number, bullets = 1, firerate = 1) {
+    // TODO let mergedProcInfo = new Map<string, {}>();
   }
+
+  get(dname) { return this._spec[dname]; }
+  get Impact() { return this.get("Impact"); }
+  get Puncture() { return this.get("Puncture"); }
+  get Slash() { return this.get("Slash"); }
+  get Cold() { return this.get("Cold"); }
+  get Electricity() { return this.get("Electricity"); }
+  get Heat() { return this.get("Heat"); }
+  get Toxin() { return this.get("Toxin"); }
+  get Blast() { return this.get("Blast"); }
+  get Corrosive() { return this.get("Corrosive"); }
+  get Gas() { return this.get("Gas"); }
+  get Magnetic() { return this.get("Magnetic"); }
+  get Radiation() { return this.get("Radiation"); }
+  get Viral() { return this.get("Viral"); }
 }
 
 /** 其他触发参数 */

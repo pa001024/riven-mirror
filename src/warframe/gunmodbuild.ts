@@ -124,6 +124,10 @@ export class GunModBuild extends ModBuild {
     }
   }
 
+  /** [overwrite] 重新计算触发信息 */
+  recalcStatusInfo() {
+    this._statusInfo = new StatusInfo(this.dotDamageMap, this.procChanceMap, this.procChance, this.weapon.bullets, this.fireRate);
+  }
   /**
    * 生成伤害时间线
    *
@@ -190,9 +194,6 @@ export class GunModBuild extends ModBuild {
       return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul) + 2.5;
     return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul);
   }
-
-  /** [overwrite] 显示各触发参数 */
-  get statusInfo() { return new StatusInfo(this.totalDmg, this.procChanceMap, this.procChance, this.weapon.bullets); }
 
   /** [overwrite] 每发触发率 */
   get procChancePerHit() { return 1 - (1 - this.procChance) ** this.weapon.bullets; }
