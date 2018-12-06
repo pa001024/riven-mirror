@@ -363,8 +363,9 @@ A段位12023
   /** 读取二维码识别后的序列化字符串 */
   set qrCode(value) {
     let d = value.split("|");
+    if (!d[0]) return;
     this.id = d[0];
-    this.shortSubfix = d[1];
+    if (d[1]) this.shortSubfix = d[1];
     let weapon = RivenDataBase.findMostSimRivenWeapon(this.id);
     this.name = weapon.name;
     this.mod = weapon.mod;

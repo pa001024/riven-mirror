@@ -10,14 +10,14 @@
           <div class="weapon-item-container" :key="riven.id">
             <el-dropdown v-if="riven.weapons.length > 1" trigger="click" @command="handleCommand">
               <li class="weapon-item">
-                {{$t("zh") ? riven.name : riven.id}} {{riven.ratio}}
+                {{riven.name}} {{riven.ratio}}
               </li>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{weapon.displayName}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <li v-else class="weapon-item el-dropdown" @click="handleClick(riven.id)">
-              {{$t("zh") ? riven.name : riven.id}} {{riven.ratio}}
+              {{riven.name}} {{riven.ratio}}
             </li>
           </div>
         </template>

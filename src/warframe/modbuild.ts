@@ -81,7 +81,7 @@ export abstract class ModBuild {
   /** 爆头倍率增幅倍率 */
   get headShotMulMul() { return this._headShotMulMul; }
   /** 全局伤害增幅倍率 */
-  get overallMul() { return hAccMul(this.enemyDmgMul, this._overallMul); }
+  get overallMul() { return this._overallMul; }
   /** 全局暴击伤害增幅倍率 */
   get finalCritMulMul() { return this._finalCritMulMul; }
   /** 额外触发几率 */

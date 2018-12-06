@@ -148,7 +148,7 @@
                 </li>
                 <li class="enemy-level">
                   <div class="key">{{$t("enemy.level")}}</div>
-                  <div class="value control"><el-input size="small" class="enemy-level-edit" v-model="enemyLevel"></el-input></div>
+                  <div class="value control"><el-input-number size="small" class="enemy-level-edit" controls-position="right" v-model="enemyLevel"></el-input-number></div>
                 </li>
                 <li class="enemy-health">
                   <div class="key">{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</div>
@@ -320,7 +320,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   color: @text_grey;
   li {
     display: inline-block;
-    div {
+    & > div {
       display: inline-block;
       padding: 4px 8px;
       margin-right: 8px;
@@ -333,10 +333,13 @@ export default class GunBuildEditor extends BaseBuildEditor {
   }
   .control {
     padding: 0 8px;
-    width: 100px;
+    width: 110px;
     margin: 0;
     .el-input__inner {
       padding: 0 12px;
+    }
+    .el-input-number--small {
+      width: fit-content;
     }
   }
   .key {

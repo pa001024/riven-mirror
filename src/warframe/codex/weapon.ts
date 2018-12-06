@@ -502,5 +502,5 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Exalted Blade", name: "exaltedBlade", tags: ["Melee", "Exalted"], dmg: [["Puncture", 37.5], ["Slash", 175], ["Impact", 37.5]], critMul: 2, critChance: 0.15, fireRate: 0.833, slideDmg: 536, status: 0.1 },
   // 虚拟技能武器
   { id: "Whipclaw", name: "whipclaw", tags: ["Melee", "Exalted"], dmg: [["Puncture", 90], ["Slash", 120], ["Impact", 90]], critMul: 2, critChance: 0.25, fireRate: 1, slideDmg: 0, status: 0.2 },
-  { id: "Shattered Lash", name: "shatteredLash", tags: ["Melee", "Exalted"], dmg: [["Puncture", 150]], critMul: 1, critChance: 0, fireRate: 1, slideDmg: 0, status: 0 },
+  { id: "Shattered Lash", name: "shatteredLash", tags: ["Melee", "Exalted"], dmg: [["Puncture", 800]], critMul: 1, critChance: 0, fireRate: 1, slideDmg: 0, status: 0 },
 ] as MeleeWeaponData[]).map(v => new MeleeWeapon(v));
