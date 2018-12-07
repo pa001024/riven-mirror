@@ -514,15 +514,18 @@ export abstract class ModBuild {
   /** 将Mod属性写入到增幅上 */
   calcMods() {
     this.reset();
-    this._arcanes.forEach(arc => {
-      this.applyProp(arc, arc.prop[0], arc.prop[1]);
-    });
-    this._buffs.forEach(buff => {
-      _.forEachRight(buff.props, prop => this.applyProp(null, prop[0], prop[1]));
-    });
+    // 加载Mod
     this._mods.forEach(mod => {
       // 后者优先 主要用于紫卡有多个元素词条时
       _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
+    });
+    // 加载赋能
+    this._arcanes.forEach(arc => {
+      this.applyProp(arc, arc.prop[0], arc.prop[1]);
+    });
+    // 加载Buff
+    this._buffs.forEach(buff => {
+      buff.props.forEach(prop => this.applyProp(null, prop[0], prop[1]));
     });
     this.recalcElements();
     this.recalcStatusInfo();

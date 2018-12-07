@@ -1631,7 +1631,7 @@ let po = {
     "harrowSuffraganHelmet": "HARROW 副主教頭盔",
     "brokkHammerSkin": "重擊巨錘 布洛克外觀",
     "daggerZorenSkin": "佐倫雙斧 戈刃外觀",
-    "manticoreAxeScindoSkin": "分裂斬斧 蠍尾獅外觀",
+    "scindoManticoreAxeSkin": "分裂斬斧 蠍尾獅外觀",
     "daggerAxeScindoSkin": "分裂斬斧 戈刃外觀",
     "exilusAdapter": "特殊功能槽連接器",
     "encryptedJournalFragment": "加密的日記碎片",

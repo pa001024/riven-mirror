@@ -228,20 +228,21 @@ export default class Index extends Vue {
     }
     else {
       // 计算宽度
-      let ls = document.querySelectorAll(".index > .el-col"), lastRect: DOMRect, width = -20;
-      [].forEach.call(document.querySelectorAll(".index > .el-col"), (el: HTMLElement) => {
+      let ls = document.querySelectorAll(".index > .el-col") as any, lastRect: DOMRect = null, width = -20;
+      [].forEach.call(ls, (el: HTMLElement) => {
         let rect = el.getBoundingClientRect() as DOMRect;
-        if (!lastRect || lastRect.x != rect.x) {
+        if (!lastRect || lastRect.left != rect.left) {
           width += rect.width;
           lastRect = rect;
         }
       });
-      if (!this.scroll.isInTransition) {
+      if (this.scroll && !this.scroll.isInTransition) {
         this.scroll.refresh();
         this.scrollWidth = width;
       }
     }
-    this.scrollEnable = (this.$refs.wrapper as HTMLElement).getBoundingClientRect().width < this.scrollWidth;
+    let wrapperWidth = (this.$refs.wrapper as HTMLElement).getBoundingClientRect().width;
+    this.scrollEnable = wrapperWidth < this.scrollWidth;
   }
   updated() {
     this.resize();
@@ -266,7 +267,7 @@ export default class Index extends Vue {
     this.updateStat();
     this.statID = setInterval(this.updateStat, 6e4);
   }
-  beforeDestory() {
+  beforeDestroy() {
     clearInterval(this.timerID);
     clearInterval(this.statID);
     window.removeEventListener("resize", this.resize);

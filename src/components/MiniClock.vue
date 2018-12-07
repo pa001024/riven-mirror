@@ -141,7 +141,7 @@ export default class MiniClock extends Vue {
     this.updateTime();
     this.timerID = setInterval(this.updateTime, 1000);
   }
-  beforeDestory() {
+  beforeDestroy() {
     clearInterval(this.timerID);
   }
   updateTime() {

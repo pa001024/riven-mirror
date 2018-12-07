@@ -1631,7 +1631,7 @@ let po = {
     "harrowSuffraganHelmet": "Harrow Suffragan Helmet",
     "brokkHammerSkin": "Fragor Brokk Skin",
     "daggerZorenSkin": "Dual Zoren Dagger Axe Skin",
-    "manticoreAxeScindoSkin": "Scindo Manticore Axe Skin",
+    "scindoManticoreAxeSkin": "Scindo Manticore Axe Skin",
     "daggerAxeScindoSkin": "Scindo Dagger Axe Skin",
     "exilusAdapter": "Exilus Adapter",
     "encryptedJournalFragment": "Encrypted Journal Fragment",
