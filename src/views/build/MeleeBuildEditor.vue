@@ -185,7 +185,9 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
     };
   }
   newBuild(weapon: MeleeWeapon) {
-    return new MeleeModBuild(weapon, null, this.options);
+    let b = new MeleeModBuild(weapon, null, this.options);
+    b.fastMode = false;
+    return b;
   }
   // === 事件处理 ===
   @Watch("extraBaseDamage")

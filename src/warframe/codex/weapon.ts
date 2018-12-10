@@ -106,7 +106,7 @@ export class MeleeWeapon extends Weapon implements MeleeWeaponData {
 }
 
 /*
-Data from https://warframe.huijiwiki.com/wiki/%E6%A8%A1%E5%9D%97:Weapons/data
+Data from https://warframe.huijiwiki.com/wiki/module:Weapons/data
 */
 export const GunWeaponDataBase: GunWeapon[] = ([
   { id: "MK1-Braton", name: "mk1Braton", rivenName: "Braton", tags: ["Gun", "Primary", "Rilfe", "AssaultRifle"], dmg: [["Slash", 9], ["Puncture", 4.5], ["Impact", 4.5]], accuracy: 40, bullets: 1, fireRate: 7.5, critChance: 0.08, critMul: 1.5, status: 0.05, magazine: 60, reload: 2, ammo: 540 },
@@ -123,6 +123,7 @@ export const GunWeaponDataBase: GunWeapon[] = ([
   { id: "Akbronco", name: "akbronco", tags: ["Gun", "Secondary"], dmg: [["Slash", 28], ["Puncture", 28], ["Impact", 224]], accuracy: 3.7, bullets: 7, fireRate: 8.33, critChance: 0.06, critMul: 2, status: 0.22, magazine: 4, reload: 2.25, ammo: 210 },
   { id: "Akbronco Prime", name: "akbroncoPrime", rivenName: "Akbronco", tags: ["Gun", "Secondary"], dmg: [["Slash", 35], ["Puncture", 35], ["Impact", 280]], accuracy: 3.7, bullets: 7, fireRate: 4.33, critChance: 0.06, critMul: 2, status: 0.3, magazine: 8, reload: 2.25, ammo: 210 },
   { id: "Akjagara", name: "akjagara", tags: ["Gun", "Secondary"], dmg: [["Slash", 21], ["Puncture", 4.5], ["Impact", 4.5]], accuracy: 8.7, bullets: 1, fireRate: 16.666, critChance: 0.06, critMul: 2, status: 0.28, magazine: 36, reload: 2.3, ammo: 210 },
+  { id: "Akjagara Prime", name: "akjagaraPrime", rivenName: "Akjagara", tags: ["Gun", "Secondary"], dmg: [["Slash", 28], ["Puncture", 6], ["Impact", 6]], accuracy: 33.3, bullets: 1, fireRate: 10, critChance: 0.18, critMul: 2.2, status: 0.32, magazine: 40, reload: 1.4, ammo: 210 },
   { id: "Aklato", name: "aklato", tags: ["Gun", "Secondary"], dmg: [["Slash", 18], ["Puncture", 7.5], ["Impact", 4.5]], accuracy: 11.1, bullets: 1, fireRate: 8.3, critChance: 0.1, critMul: 1.8, status: 0.06, magazine: 30, reload: 2.4, ammo: 210 },
   { id: "Aklex", name: "aklex", tags: ["Gun", "Secondary"], dmg: [["Slash", 13], ["Puncture", 104], ["Impact", 13]], accuracy: 9.8, bullets: 1, fireRate: 2, critChance: 0.2, critMul: 2, status: 0.15, magazine: 12, reload: 3, ammo: 210 },
   { id: "Aklex Prime", name: "aklexPrime", rivenName: "Aklex", tags: ["Gun", "Secondary"], dmg: [["Slash", 15], ["Puncture", 120], ["Impact", 15]], accuracy: 9.8, bullets: 1, fireRate: 2.67, critChance: 0.25, critMul: 2, status: 0.25, magazine: 16, reload: 3, ammo: 210 },
@@ -358,6 +359,7 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Nami Skyla", name: "namiSkyla", tags: ["Melee", "DualSwords"], dmg: [["Puncture", 7.5], ["Slash", 35], ["Impact", 7.5]], critMul: 1.5, critChance: 0.05, fireRate: 0.917, slideDmg: 300, status: 0.1 },
   { id: "Nami Skyla Prime", name: "namiSkylaPrime", rivenName: "Nami Skyla", tags: ["Melee", "DualSwords"], dmg: [["Puncture", 12], ["Slash", 42], ["Impact", 6]], critMul: 1.5, critChance: 0.2, fireRate: 1.33, slideDmg: 360, status: 0.3 },
   { id: "Redeemer", name: "redeemer", tags: ["Melee", "Gunblade"], dmg: [["Puncture", 12], ["Slash", 42], ["Impact", 6]], critMul: 1.5, critChance: 0.05, fireRate: 0.833, slideDmg: 180, status: 0.1 },
+  { id: "Redeemer Prime", name: "redeemerPrime", rivenName: "Redeemer", tags: ["Melee", "Gunblade"], dmg: [["Puncture", 14], ["Slash", 58], ["Impact", 8]], critMul: 2.2, critChance: 0.16, fireRate: 0.917, slideDmg: 240, status: 0.22 },
   { id: "Sigma & Octantis", name: "sigmaOctantis", tags: ["Melee", "Sword-Shield"], dmg: [["Puncture", 9.6], ["Slash", 37.2], ["Impact", 13.2]], critMul: 2.2, critChance: 0.28, fireRate: 1.08, slideDmg: 129, status: 0.16 },
   { id: "Prova", name: "prova", tags: ["Melee", "Machete"], dmg: [["Electricity", 35]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 105, status: 0.1 },
   { id: "Prova Vandal", name: "provaVandal", rivenName: "Prova", tags: ["Melee", "Machete"], dmg: [["Electricity", 48]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 144, status: 0.2 },

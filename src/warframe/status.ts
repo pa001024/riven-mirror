@@ -15,22 +15,59 @@ export const procDurationMap = {
   Viral: 6,
 };
 
-export class ProbInfo {
-  /** 最低值 */
-  MIN: number
-  /** 平均值 */
-  AVG: number
-  /** 最高值 */
-  MAX: number
-}
-
 /** 各触发参数 */
 export class StatusInfo {
   /** 元素 */
   private _spec: { [key: string]: SpecialStatusInfo }
 
-  constructor(dotDamage: [string, number][], procChanceMap: [string, number][], procChance: number, bullets = 1, firerate = 1) {
-    // TODO let mergedProcInfo = new Map<string, {}>();
+  /** 列表 */
+  toArray() {
+    return Object.keys(this._spec).map(v => this._spec[v]);
+  }
+
+  constructor(dotDamage: [string, number][], procChanceMap: [string, number][], procWeights: [string, number][], procDurationMul: number, bullets = 1, firerate = 1, dutyCycle = 0) {
+    let dotMap = new Map(dotDamage);
+    let pwMap = new Map(procWeights);
+    this._spec = {};
+    procChanceMap.forEach(([vn, vv]) => {
+      let dur = procDurationMap[vn] * procDurationMul;
+      let durTick = Math.max(0, ~~dur) + 1;
+      let cor = vv * bullets * firerate * dur;
+      this._spec[vn] = {
+        chance: vv,
+        proportion: pwMap.get(vn),
+        duration: dur,
+        coverage: cor > 1 ? 1 : cor < 0 ? 0 : cor
+      };
+      // [腐蚀 磁力]
+      if (vn === "Corrosive" || vn === "Magnetic") {
+        this._spec[vn].procPerHit = vv * bullets;
+        this._spec[vn].procPerSecond = vv * bullets * firerate;
+      } else {
+        this._spec[vn].chancePerHit = 1 - (1 - vv) ** bullets;
+        this._spec[vn].chancePerSecond = 1 - (1 - vv) ** (bullets * firerate);
+      }
+      if (vn === "Slash" || vn === "Toxin" || vn === "Gas" || vn === "Electricity" || vn === "Heat") {
+        // [切割 毒 毒气 电]
+        if (vn !== "Heat") {
+          this._spec[vn].instantProcDamage = dotMap.get(vn);
+          this._spec[vn].instantProcDamagePerHit = this._spec[vn].instantProcDamage * bullets;
+          this._spec[vn].instantProcDamagePerSecond = this._spec[vn].instantProcDamagePerHit * firerate;
+        }
+        // [切割 毒 毒气]
+        if (vn !== "Electricity" && vn !== "Heat") {
+          this._spec[vn].latentProcDamage = this._spec[vn].instantProcDamage * durTick;
+          this._spec[vn].latentProcDamagePerHit = this._spec[vn].instantProcDamagePerHit * durTick;
+          this._spec[vn].latentProcDamagePerSecond = this._spec[vn].instantProcDamagePerSecond * durTick;
+        }
+        // [切割 毒 毒气 火]
+        if (vn !== "Electricity") {
+          this._spec[vn].averageProcDamage = this._spec[vn].latentProcDamage * (1 - dutyCycle);
+          this._spec[vn].averageProcDamagePerHit = this._spec[vn].latentProcDamagePerHit * (1 - dutyCycle);
+          this._spec[vn].averageProcDamagePerSecond = this._spec[vn].latentProcDamagePerSecond * (1 - dutyCycle);
+        }
+      }
+    });
   }
 
   get(dname) { return this._spec[dname]; }
@@ -50,54 +87,56 @@ export class StatusInfo {
 }
 
 /** 其他触发参数 */
-export class SpecialStatusInfo {
+export interface SpecialStatusInfo {
   // [所有类型]
 
-  /** 总体占比 */
-  COP: number
-  /** 平均覆盖率 */
-  SAC: number
+  /** 弹片触发率 */
+  chance: number
+  /** 比重 */
+  proportion: number
+  /** 持续时间 */
+  duration: number
+  /** 覆盖率 */
+  coverage: number
 
   // [腐蚀 磁力]
 
-  /** 每弹片触发量 */
-  SPB?: number
   /** 每发触发量 */
-  SPH?: number
+  procPerHit?: number
   /** 每秒触发量 */
-  SPS?: number
+  procPerSecond?: number
 
-  // [火 病毒 冲击 爆炸 冰冻 穿刺 辐射 电]
+  // [其他]
 
   /** 每发触发率 */
-  KSPH?: number
+  chancePerHit?: number
   /** 每秒触发率 */
-  KSPS?: number
+  chancePerSecond?: number
 
   // [切割 毒 毒气 电]
 
-  /** 每弹片立即触发伤害 */
-  ISDPB?: number
+  /** 弹片立即触发伤害 */
+  instantProcDamage?: number
   /** 每发立即触发伤害 */
-  ISDPH?: number
+  instantProcDamagePerHit?: number
   /** 每秒立即触发伤害 */
-  ISDPS?: number
+  instantProcDamagePerSecond?: number
 
   // [切割 毒 毒气]
 
-  /** 每弹片潜在触发伤害 */
-  PSDPB?: number
+  /** 弹片潜在触发伤害 */
+  latentProcDamage?: number
   /** 每发潜在触发伤害 */
-  PSDPH?: number
+  latentProcDamagePerHit?: number
   /** 每秒潜在触发伤害 */
-  PSDPS?: number
+  latentProcDamagePerSecond?: number
 
   // [火 切割 毒 毒气]
 
-  /** 每弹片平均触发伤害 */
-  ASDPB?: number
+  /** 弹片平均触发伤害 */
+  averageProcDamage?: number
   /** 每发平均触发伤害 */
-  ASDPH?: number
+  averageProcDamagePerHit?: number
   /** 每秒平均触发伤害 */
-  ASDPS?: number
+  averageProcDamagePerSecond?: number
 }

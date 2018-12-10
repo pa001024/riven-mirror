@@ -126,7 +126,7 @@ export class GunModBuild extends ModBuild {
 
   /** [overwrite] 重新计算触发信息 */
   recalcStatusInfo() {
-    this._statusInfo = new StatusInfo(this.dotDamageMap, this.procChanceMap, this.procChance, this.weapon.bullets, this.fireRate);
+    this._statusInfo = new StatusInfo(this.dotDamageMap, this.procChanceMap, this.procWeights, this.procDurationMul, this.weapon.bullets, this.fireRate, this.dutyCycle);
   }
   /**
    * 生成伤害时间线
@@ -166,7 +166,9 @@ export class GunModBuild extends ModBuild {
   }
 
   // ### 计算属性 ###
+  /** 精准度 */
   get accuracy() { return this.weapon.accuracy; }
+  /** 弹片数 */
   get bullets() { return hAccMul(this.weapon.bullets, this.multishotMul); }
   /** 换弹时间 */
   get reloadTime() { return hAccDiv(this.weapon.reload, this.reloadSpeedMul); }
@@ -176,6 +178,8 @@ export class GunModBuild extends ModBuild {
   get maxAmmo() { return Math.round(this.weapon.ammo * this.maxAmmoMul); }
   /** 飞行速度 */
   get prjSpeed() { return this.weapon.prjSpeed * this.projectileSpeedMul; }
+  /** 空占比 */
+  get dutyCycle() { return this.reloadTime / (this.magazineSize / this.fireRate + this.reloadTime) }
 
   /** [overwrite] 暴击率 */
   get critChance() {

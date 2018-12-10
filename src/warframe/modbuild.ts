@@ -48,7 +48,9 @@ export abstract class ModBuild {
   protected _allEnemyDmgMul = 0;
 
   protected _extraProcChance: [string, number][] = [];
-  _statusInfo = null;
+  protected _statusInfo = null;
+  /** 快速模式 */
+  fastMode = true;
 
   /** 基伤增幅倍率 */
   get baseDamageMul() { return this._baseDamageMul; }
@@ -229,8 +231,8 @@ export abstract class ModBuild {
   /** 独立元素 */
   public standaloneElements: [string, number][] = [];
 
-  /** 复合元素顺序 */
   private _combElementsOrder: [string, number][] = [];
+  /** 复合元素顺序 */
   public get combElementsOrder(): [string, number][] { return this._combElementsOrder; }
 
   /** 重新计算元素顺序 */
@@ -282,7 +284,7 @@ export abstract class ModBuild {
   }
   /** 重新计算触发信息 */
   recalcStatusInfo() {
-    this._statusInfo = new StatusInfo(this.dotDamageMap, this.procChanceMap, this.procChance);
+    this._statusInfo = new StatusInfo(this.dotDamageMap, this.procChanceMap, this.procWeights, this.procDurationMul);
   }
   /** 所有伤害 */
   get totalDmg() {
@@ -344,8 +346,10 @@ export abstract class ModBuild {
 
   /** 触发权重 */
   get procWeights() {
-    let oE = this.extraDmgMul;
-    return this.baseDmg.map(([vn, vv]) => ["Impact", "Puncture", "Slash"].includes(vn) ? [vn, hAccDiv(vv * 4, oE)] : [vn, hAccDiv(vv, oE)]) as [string, number][];;
+    let pw = this.baseDmg.map(([vn, vv]) => ["Impact", "Puncture", "Slash"].includes(vn) ? [vn, vv * 4] : [vn, vv]) as [string, number][];
+    let pwT = pw.reduce((a, b) => a + b[1], 0);
+    let rst = pw.map(([vn, vv]) => [vn, vv / pwT] as [string, number]);
+    return rst;
   }
 
   /** 真实触发几率(各属性) */
@@ -528,7 +532,7 @@ export abstract class ModBuild {
       buff.props.forEach(prop => this.applyProp(null, prop[0], prop[1]));
     });
     this.recalcElements();
-    this.recalcStatusInfo();
+    if (!this.fastMode) this.recalcStatusInfo();
   }
 
   /** 重置所有属性增幅器 */

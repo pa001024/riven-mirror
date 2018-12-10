@@ -24,7 +24,6 @@ export default class extends Vue {
   @Prop({ type: Boolean, default: false }) percent: boolean;
   @Prop({ type: Boolean, default: false }) negative: boolean;
   @Prop({ type: Number, default: 1 }) preci: number;
-  @Prop({ type: Object }) data: any;
 
   /** 类切换 */
   get activeClass() {

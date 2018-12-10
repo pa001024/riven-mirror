@@ -31,7 +31,7 @@
                 <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
                 <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
                 <br>
-                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val" :data="build.statusInfo"></PropDiff>
+                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>
                 <br>
                 <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
                 <PropDiff :name="$t('build.totalDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
@@ -243,7 +243,9 @@ export default class GunBuildEditor extends BaseBuildEditor {
     };
   }
   newBuild(weapon: GunWeapon) {
-    return new GunModBuild(weapon, null, this.options);
+    let b = new GunModBuild(weapon, null, this.options);
+    b.fastMode = false;
+    return b;
   }
   // === 事件处理 ===
   @Watch("extraBaseDamage")

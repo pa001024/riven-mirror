@@ -785,6 +785,7 @@ let po = {
     "tipedo": "Tipedo",
     "reaperPrime": "Reaper Prime",
     "redeemer": "Redeemer",
+    "redeemerPrime": "Redeemer Prime",
     "dualCleavers": "Dual Cleavers",
     "prova": "Prova",
     "provaVandal": "Prova Vandal",
@@ -1050,6 +1051,7 @@ let po = {
     "akboltoPrime": "Akbolto Prime",
     "bolto": "Bolto",
     "akjagara": "AkJagara",
+    "akjagaraPrime": "AkJagara Prime",
     "sonicor": "Sonicor",
     "aksomati": "Aksomati",
     "bronco": "Bronco",
@@ -1890,6 +1892,7 @@ let po = {
     "taxTheTaxmen": "Tax The Taxmen",
     "venusPreservationJobResource": "Venus Preservation Job Resource",
     "venusHelpingJobCaches": "Venus Helping Job Caches",
+    "buryThem": "Bury Them",
   },
   messagesExtend: {
     "blueprint": "Blueprint",

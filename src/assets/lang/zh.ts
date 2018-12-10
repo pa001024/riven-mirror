@@ -785,6 +785,7 @@ let po = {
     "tipedo": "提佩多",
     "reaperPrime": "收割者 Prime",
     "redeemer": "救赎者",
+    "redeemerPrime": "救赎者 Prime",
     "dualCleavers": "斩肉双刀",
     "prova": "普罗沃",
     "provaVandal": "普罗沃 破坏者",
@@ -1050,6 +1051,7 @@ let po = {
     "akboltoPrime": "螺钉双枪 Prime",
     "bolto": "螺钉手枪",
     "akjagara": "觉醒双枪",
+    "akjagaraPrime": "觉醒双枪 Prime",
     "sonicor": "超音波冲击枪",
     "aksomati": "轻灵月神双枪",
     "bronco": "野马",
@@ -1890,6 +1892,7 @@ let po = {
     "taxTheTaxmen": "向税务官课税",
     "venusPreservationJobResource": "拆散陷阱",
     "venusHelpingJobCaches": "鹰嘴板",
+    "buryThem": "埋葬他们",
   },
   messagesExtend: {
     "blueprint": "蓝图",
