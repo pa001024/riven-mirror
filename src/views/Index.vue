@@ -193,6 +193,7 @@ export default class Index extends Vue {
   earthTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" }
   timerID: number;
   statID: number;
+  updating = false;
   stat: WorldStat = new WorldStat();
   showTimeType = "cetus";
   scroll: BScroll;
@@ -244,10 +245,10 @@ export default class Index extends Vue {
     let wrapperWidth = (this.$refs.wrapper as HTMLElement).getBoundingClientRect().width;
     this.scrollEnable = wrapperWidth < this.scrollWidth;
   }
+  // === 生命周期钩子 ===
   updated() {
     this.resize();
   }
-  // === 生命周期钩子 ===
   mounted() {
     this.$nextTick(() => {
       this.scroll = new BScroll(this.$refs.wrapper as Element, {
@@ -265,7 +266,7 @@ export default class Index extends Vue {
     this.updateTime();
     this.timerID = setInterval(this.updateTime, 1000);
     this.updateStat();
-    this.statID = setInterval(this.updateStat, 6e4);
+    this.statID = setInterval(_ => this.updating || this.updateStat(), 6e4);
   }
   beforeDestroy() {
     clearInterval(this.timerID);
@@ -273,7 +274,9 @@ export default class Index extends Vue {
     window.removeEventListener("resize", this.resize);
   }
   updateStat() {
+    this.updating = true;
     this.stat.fetch().then(() => {
+      this.updating = false;
       this.sortie = this.stat.sortie;
       this.alerts = this.stat.alerts;
       this.news = this.stat.news;
@@ -282,8 +285,6 @@ export default class Index extends Vue {
       this.ostrons = this.stat.ostrons;
       this.solarisUnited = this.stat.solarisUnited;
       this.voidTrader = this.stat.voidTrader;
-      // this.$nextTick(() => this.resize());
-      setTimeout(() => this.resize(), 60);
     }).catch(() => setTimeout(() => this.updateStat(), 1e3));
   }
   updateTime() {

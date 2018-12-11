@@ -209,6 +209,8 @@ export default class EnemyTimeline extends Vue {
 .timeline-text {
   display: flex;
   flex-wrap: wrap;
+  background: #fff;
+  padding: 0 2px;
 }
 .timeline-text .item {
   flex: 1;

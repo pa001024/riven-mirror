@@ -58,8 +58,8 @@ export class MeleeModBuild extends ModBuild {
   /** 异况触发量 */
   statusCount = 2;
 
-  constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null) {
-    super(riven);
+  constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null, fast = false) {
+    super(riven, fast);
     if (this.weapon = weapon) {
       this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.id]).includes(v.type));
     }

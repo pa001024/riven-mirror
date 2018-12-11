@@ -1,12 +1,12 @@
 import {
   Arcane, Codex, CombElementMap, Damage2_0, DamageType, Enemy, EnemyTimelineState, ExtraDmgSet,
   NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase,
-  toNegaUpLevel, toUpLevel, ValuedRivenProperty, Weapon, Buff, BuffList, StatusInfo
+  toNegaUpLevel, toUpLevel, ValuedRivenProperty, Weapon, Buff, BuffList
 } from "@/warframe";
 import _ from "lodash";
-import { choose, hAccDiv, hAccMul, hAccSum } from "./util";
+import { choose, hAccMul, hAccSum } from "./util";
 import { base62, debase62 } from "./lib/base62";
-import { procDurationMap } from "./status";
+import { procDurationMap, SpecialStatusInfo } from "./status";
 
 // 基础类
 export abstract class ModBuild {
@@ -48,9 +48,9 @@ export abstract class ModBuild {
   protected _allEnemyDmgMul = 0;
 
   protected _extraProcChance: [string, number][] = [];
-  protected _statusInfo = null;
+  protected _statusInfo: { [key: string]: SpecialStatusInfo } = null;
   /** 快速模式 */
-  fastMode = true;
+  fastMode = false;
 
   /** 基伤增幅倍率 */
   get baseDamageMul() { return this._baseDamageMul; }
@@ -88,6 +88,10 @@ export abstract class ModBuild {
   get finalCritMulMul() { return this._finalCritMulMul; }
   /** 额外触发几率 */
   get extraProcChance() { return this._extraProcChance; }
+  /** 弹片数 */
+  get bullets() { return 1; }
+  /** 空占比 */
+  get dutyCycle() { return 0; }
   abstract get compareDamage(): number;
   abstract set options(val: any);
   abstract get options(): any;
@@ -284,8 +288,54 @@ export abstract class ModBuild {
   }
   /** 重新计算触发信息 */
   recalcStatusInfo() {
-    this._statusInfo = new StatusInfo(this.dotDamageMap, this.procChanceMap, this.procWeights, this.procDurationMul);
+    let dotMap = new Map(this.dotBaseDamageMap as [string, number][]);
+    let pwMap = new Map(this.procWeights);
+    this._statusInfo = {};
+    let { bullets, fireRate, dutyCycle } = this;
+    this.procChanceMap.forEach(([vn, vv]) => {
+      let dur = procDurationMap[vn] * this.procDurationMul;
+      let durTick = Math.max(0, ~~dur) + 1;
+      let cor = vv * bullets * this.fireRate * dur;
+      this._statusInfo[vn] = {
+        appearRate: vv,
+        proportion: pwMap.get(vn),
+        duration: dur,
+        coverage: cor > 1 ? 1 : cor < 0 ? 0 : cor
+      };
+      // [腐蚀 磁力]
+      if (vn === "Corrosive" || vn === "Magnetic") {
+        this._statusInfo[vn].procPerHit = vv * bullets;
+        this._statusInfo[vn].procPerSecond = vv * bullets * fireRate;
+      } else {
+        this._statusInfo[vn].appearRatePerHit = 1 - (1 - vv) ** bullets;
+        this._statusInfo[vn].appearRatePerSecond = 1 - (1 - vv) ** (bullets * fireRate);
+      }
+      if (vn === "Slash" || vn === "Toxin" || vn === "Gas" || vn === "Electricity" || vn === "Heat") {
+        let dd = dotMap.get(vn);
+        // [切割 毒 毒气 电]
+        if (vn !== "Heat") {
+          this._statusInfo[vn].instantProcDamage = dd / bullets;
+          this._statusInfo[vn].instantProcDamagePerHit = dd;
+          this._statusInfo[vn].instantProcDamagePerSecond = dd * fireRate;
+        }
+        // [切割 毒 毒气]
+        if (vn !== "Electricity" && vn !== "Heat") {
+          this._statusInfo[vn].latentProcDamage = dd / bullets * durTick;
+          this._statusInfo[vn].latentProcDamagePerHit = dd * durTick;
+          this._statusInfo[vn].latentProcDamagePerSecond = dd * fireRate * durTick;
+        }
+        // [切割 毒 毒气 火]
+        if (vn !== "Electricity") {
+          this._statusInfo[vn].averageProcDamage = dd / bullets * durTick * (1 - dutyCycle);
+          this._statusInfo[vn].averageProcDamagePerHit = dd * durTick * (1 - dutyCycle);
+          this._statusInfo[vn].averageProcDamagePerSecond = dd * fireRate * durTick * (1 - dutyCycle);
+        }
+      }
+    });
   }
+  /** 显示各触发参数 */
+  get statusInfo() { return this._statusInfo; }
+
   /** 所有伤害 */
   get totalDmg() {
     return this.baseDmg.map(([i, v]) => [i, v * this.totalDamage / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
@@ -373,6 +423,30 @@ export abstract class ModBuild {
     return opM;
   }
 
+  /** 无多重触发基伤(各属性) */
+  get dotBaseDamageMap() {
+    let procs = this.procChanceMap;
+    return procs.map(([vn]) => {
+      switch (vn) {
+        // 切割伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Slash_Damage
+        case "Slash":
+          return [vn, this.baseDamage * 0.35];
+        // 毒素伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Toxin_Damage
+        case "Toxin":
+          return [vn, this.toxinBaseDamage * 0.5];
+        // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
+        case "Gas":
+          return [vn, this.toxinBaseDamage * this.procDamageMul * 0.5];
+        // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
+        case "Heat":
+          return [vn, this.heatBaseDamage * 0.5];
+        // 电击伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Electricity_Damage
+        case "Electricity":
+          return [vn, this.electricityBaseDamage * 0.5];
+      }
+      return null;
+    }).filter(Boolean) as [DamageType, number][];
+  }
   /** 无多重触发伤害(各属性) */
   get dotDamageMap() {
     let procs = this.procChanceMap;
@@ -397,9 +471,6 @@ export abstract class ModBuild {
       return null;
     }).filter(Boolean) as [DamageType, number][];
   }
-  /** 显示各触发参数 */
-  get statusInfo() { return this._statusInfo; }
-
   /** 每发触发率 */
   get procChancePerHit() { return this.procChance; }
   /** 每秒触发率 */
@@ -460,8 +531,9 @@ export abstract class ModBuild {
     return this._originalDamage;
   }
 
-  constructor(riven: RivenMod) {
+  constructor(riven: RivenMod, fast = false) {
     this.riven = riven;
+    this.fastMode = fast;
   }
   // 额外参数
   protected _enemyDmgType = " ";
@@ -532,7 +604,9 @@ export abstract class ModBuild {
       buff.props.forEach(prop => this.applyProp(null, prop[0], prop[1]));
     });
     this.recalcElements();
-    if (!this.fastMode) this.recalcStatusInfo();
+    if (!this.fastMode) {
+      this.recalcStatusInfo();
+    }
   }
 
   /** 重置所有属性增幅器 */
@@ -743,7 +817,7 @@ export abstract class ModBuild {
    * @param slots 可用的插槽数
    */
   findBestRiven(slots = 8): RivenMod {
-    let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
+    let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options, true);
     let riven1 = this.findBestRivenSub(slots, 1),
       riven2 = this.findBestRivenSub(slots, 2);
     if (riven1.qrCode == riven2.qrCode) return riven1;
@@ -760,7 +834,7 @@ export abstract class ModBuild {
     return score1 > score2 ? riven1 : riven2;
   }
   findBestRivenSub(slots = 8, offset = 1): RivenMod {
-    let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
+    let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options, true);
     newBuild.fill(slots - offset, 0);
     // 生成所有紫卡
     // 1. 列出所有属性

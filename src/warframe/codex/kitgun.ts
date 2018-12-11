@@ -100,7 +100,7 @@ const _kitgunLoader = [
   [12, "Bashrack", "bashrack", 0.1, 0.07, -0.04, 0.4, 2, []],
   [13, "Stitch", "stitch", 0.1, 0.07, -0.04, 0.8, 3, []],
   [14, "Killstream", "killstream", 0.3, 0.14, -0.08, 0, 1, [{ chamberID: "Catchmoon", procChance: -0.1 }]],
-  [15, "Splat", "splat", 0.3, 0.14, -0.08, 0.4, 2, [{ chamberID: "Gaze", reload: -0.1 }]],
+  [15, "Splat", "splat", 0.3, 0.14, -0.08, 0.4, 2, [{ chamberID: "Gaze", reload: 0.6 }]],
 ] as [number, string, string, number, number, number, number, number, LoaderChamberData[]][];
 
 export const KitgunChamberData: KitgunChamber[] = _kitgunChamber.map(v => ({

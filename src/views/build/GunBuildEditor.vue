@@ -131,56 +131,62 @@
             </el-row>
           </el-tab-pane>
         </el-tabs>
-        <!-- 幻影装置区域 -->
-        <el-card class="enemy-sim">
-          <div slot="header" class="enemy-sim-header">{{$t("build.simulacrum")}}</div>
-          <keep-alive>
-            <div v-if="enemy" class="enemy-main">
-              <!-- 敌人信息区域 -->
-              <ul class="enemy-info">
-                <li class="enemy-name">
-                  <div class="key">{{$t("enemy.name")}}</div>
-                  <div class="value">{{$t("zh") ? enemy.name : enemy.id}}</div>
-                </li>
-                <li class="enemy-faction">
-                  <div class="key">{{$t("enemy.faction")}}</div>
-                  <div class="value">{{enemy.factionName}}</div>
-                </li>
-                <li class="enemy-level">
-                  <div class="key">{{$t("enemy.level")}}</div>
-                  <div class="value control"><el-input-number size="small" class="enemy-level-edit" controls-position="right" v-model="enemyLevel"></el-input-number></div>
-                </li>
-                <li class="enemy-health">
-                  <div class="key">{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</div>
-                  <div class="value">{{enemy.health.toFixed()}}</div>
-                </li>
-                <li v-if="enemy.sheild > 0" class="enemy-shield">
-                  <div class="key">{{$t(`enemy.sheildType.${enemy.sheildType}`)}}</div>
-                  <div class="value">{{enemy.sheild.toFixed()}}</div>
-                </li>
-                <li v-if="enemy.armor > 0" class="enemy-armor">
-                  <div class="key">{{$t(`enemy.armorType.${enemy.armorType}`)}}</div>
-                  <div class="value">{{enemy.armor.toFixed()}}</div>
-                </li>
-                <li v-if="enemy.resistence > 0" class="enemy-resistence">
-                  <div class="key">{{$t("enemy.resistence")}}</div>
-                  <div class="value">{{enemy.resistenceText}}</div>
-                </li>
-                <li class="enemy-amrorreduce">
-                  <div class="key">{{$t("enemy.amrorReduce")}}</div>
-                  <div class="value control"><el-input size="small" class="enemy-amrorreduce-edit" v-model="amrorReduce"></el-input></div>
-                </li>
-                <li class="enemy-action">
-                  <div class="key">{{$t("enemy.action")}}</div>
-                  <div class="value control"><el-button size="small" @click="selectEnemy(null)">{{$t("enemy.reselect")}}</el-button></div>
-                </li>
-              </ul>
-              <!-- 伤害显示区域 -->
-              <EnemyTimeline :timeline="build.getTimeline()"></EnemyTimeline>
-            </div>
-            <EnemySelector v-else @select="selectEnemy"></EnemySelector>
-          </keep-alive>
-        </el-card>
+        <!-- 扩展功能区 -->
+        <el-tabs value="simulacrum" class="external-area">
+          <!-- 幻影装置-->
+          <el-tab-pane class="enemy-sim" :label="$t('build.simulacrum')" name="simulacrum">
+            <keep-alive>
+              <div v-if="enemy" class="enemy-main">
+                <!-- 敌人信息区域 -->
+                <ul class="enemy-info">
+                  <li class="enemy-name">
+                    <div class="key">{{$t("enemy.name")}}</div>
+                    <div class="value">{{$t("zh") ? enemy.name : enemy.id}}</div>
+                  </li>
+                  <li class="enemy-faction">
+                    <div class="key">{{$t("enemy.faction")}}</div>
+                    <div class="value">{{enemy.factionName}}</div>
+                  </li>
+                  <li class="enemy-level">
+                    <div class="key">{{$t("enemy.level")}}</div>
+                    <div class="value control"><el-input-number size="small" class="enemy-level-edit" controls-position="right" v-model="enemyLevel"></el-input-number></div>
+                  </li>
+                  <li class="enemy-health">
+                    <div class="key">{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</div>
+                    <div class="value">{{enemy.health.toFixed()}}</div>
+                  </li>
+                  <li v-if="enemy.sheild > 0" class="enemy-shield">
+                    <div class="key">{{$t(`enemy.sheildType.${enemy.sheildType}`)}}</div>
+                    <div class="value">{{enemy.sheild.toFixed()}}</div>
+                  </li>
+                  <li v-if="enemy.armor > 0" class="enemy-armor">
+                    <div class="key">{{$t(`enemy.armorType.${enemy.armorType}`)}}</div>
+                    <div class="value">{{enemy.armor.toFixed()}}</div>
+                  </li>
+                  <li v-if="enemy.resistence > 0" class="enemy-resistence">
+                    <div class="key">{{$t("enemy.resistence")}}</div>
+                    <div class="value">{{enemy.resistenceText}}</div>
+                  </li>
+                  <li class="enemy-amrorreduce">
+                    <div class="key">{{$t("enemy.amrorReduce")}}</div>
+                    <div class="value control"><el-input size="small" class="enemy-amrorreduce-edit" v-model="amrorReduce"></el-input></div>
+                  </li>
+                  <li class="enemy-action">
+                    <div class="key">{{$t("enemy.action")}}</div>
+                    <div class="value control"><el-button size="small" @click="selectEnemy(null)">{{$t("enemy.reselect")}}</el-button></div>
+                  </li>
+                </ul>
+                <!-- 伤害显示区域 -->
+                <EnemyTimeline :timeline="build.getTimeline()"></EnemyTimeline>
+              </div>
+              <EnemySelector v-else @select="selectEnemy"></EnemySelector>
+            </keep-alive>
+          </el-tab-pane>
+          <!-- 触发计算 -->
+          <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
+            <StatusInfoDisplay :info="build.statusInfo" :asQE="build.averageProcQE" />
+          </el-tab-pane>
+        </el-tabs>
       </el-col>
     </el-row>
     <el-dialog :title="$t('build.selectMod')" :visible.sync="dialogVisible" width="600">
@@ -200,10 +206,11 @@ import BuffSelector from "@/components/BuffSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import EnemySelector from "@/components/EnemySelector.vue";
 import EnemyTimeline from "@/components/EnemyTimeline.vue";
+import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 
 @Component({
-  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline }
+  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay }
 })
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;

@@ -1,6 +1,5 @@
 import { AcolyteModsList, GunWeapon, NormalMod, NormalModDatabase, ModBuild, RivenMod, Enemy, Arcane } from "@/warframe";
 import { hAccSum, hAccMul, hAccDiv } from "@/warframe/util";
-import { StatusInfo } from "./status";
 
 /*
  * MOD自动配置模块
@@ -83,8 +82,8 @@ export class GunModBuild extends ModBuild {
   /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
   useHunterMunitions = 0;
 
-  constructor(weapon: GunWeapon = null, riven: RivenMod = null, options: GunModBuildOptions = null) {
-    super(riven);
+  constructor(weapon: GunWeapon = null, riven: RivenMod = null, options: GunModBuildOptions = null, fast = false) {
+    super(riven, fast);
     if (this.weapon = weapon) {
       this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.id]).includes(v.type));
     }
@@ -122,11 +121,6 @@ export class GunModBuild extends ModBuild {
       target: this.target,
       amrorReduce: this.amrorReduce,
     }
-  }
-
-  /** [overwrite] 重新计算触发信息 */
-  recalcStatusInfo() {
-    this._statusInfo = new StatusInfo(this.dotDamageMap, this.procChanceMap, this.procWeights, this.procDurationMul, this.weapon.bullets, this.fireRate, this.dutyCycle);
   }
   /**
    * 生成伤害时间线
@@ -168,7 +162,7 @@ export class GunModBuild extends ModBuild {
   // ### 计算属性 ###
   /** 精准度 */
   get accuracy() { return this.weapon.accuracy; }
-  /** 弹片数 */
+  /** [overwrite] 弹片数 */
   get bullets() { return hAccMul(this.weapon.bullets, this.multishotMul); }
   /** 换弹时间 */
   get reloadTime() { return hAccDiv(this.weapon.reload, this.reloadSpeedMul); }
@@ -178,7 +172,7 @@ export class GunModBuild extends ModBuild {
   get maxAmmo() { return Math.round(this.weapon.ammo * this.maxAmmoMul); }
   /** 飞行速度 */
   get prjSpeed() { return this.weapon.prjSpeed * this.projectileSpeedMul; }
-  /** 空占比 */
+  /** [overwrite] 空占比 */
   get dutyCycle() { return this.reloadTime / (this.magazineSize / this.fireRate + this.reloadTime) }
 
   /** [overwrite] 暴击率 */

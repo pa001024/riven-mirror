@@ -392,7 +392,7 @@ export class WorldStat {
    */
   fetch() {
     return new Promise((resolve, reject) => {
-      axios.get(this.APIBase, { timeout: 3000 })
+      axios.get(this.APIBase, { timeout: 8e3 })
         .then(data => {
           this.data = data.data;
           resolve();
