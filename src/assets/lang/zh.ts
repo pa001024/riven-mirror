@@ -2426,7 +2426,7 @@ let po = {
     Swords: "剑",
     Nikanas: "侍刃",
     Rapiers: "细剑",
-    Staves: "杖",
+    Staves: "长棍",
     Polearms: "长柄武器",
     HeavyBlade: "巨刃",
     Hammers: "锤",

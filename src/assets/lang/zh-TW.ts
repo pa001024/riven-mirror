@@ -2224,6 +2224,8 @@ let po = {
     selectMod: "選擇MOD",
     total: "總收益",
     buff: "加成",
+    selectBuff: "選擇加成",
+    statusinfo: "觸發計算",
   },
   enemy: {
     name: "敵人",
@@ -2424,7 +2426,7 @@ let po = {
     Swords: "劍",
     Nikanas: "侍刃",
     Rapiers: "細劍",
-    Staves: "杖",
+    Staves: "長棍",
     Polearms: "長柄武器",
     HeavyBlade: "巨刃",
     Hammers: "錘",

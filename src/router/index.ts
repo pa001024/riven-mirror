@@ -24,6 +24,8 @@ export default new Router({
     { path: '/setting', name: 'Setting', component: Setting },
     { path: '/sim', name: 'Simulator', component: Simulator },
     { path: '/weapon', name: 'WeaponSelector', component: WeaponSelector },
+    { path: '/weapon/zaw', name: 'WeaponSelector', component: WeaponSelector },
+    { path: '/weapon/kitgun', name: 'WeaponSelector', component: WeaponSelector },
     { path: '/weapon/:id', name: 'BuildEditor', component: BuildEditor },
     { path: '/weapon/:id/:code', name: 'BuildEditorWithCode', component: BuildEditor },
     { path: '/huangli', name: 'Huangli', component: Huangli },

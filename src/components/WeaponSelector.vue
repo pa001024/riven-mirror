@@ -51,9 +51,16 @@ declare interface WeaponSelectorTab {
   weapons: string[][]
 }
 
+const AllTabs = Object.assign({}, ModTypeTable, { KITGUN: "KITGUN", ZAW: "ZAW" });
+
 @Component({ components: { ZawBuilder, KitgunBuilder } })
 export default class WeaponSelector extends Vue {
-  modType = "Rifle";
+  // modType = "Rifle";
+  get modType() {
+    let val = location.hash && location.hash.split("#")[1].trim();
+    return val in AllTabs ? val : "Rifle";
+  }
+  set modType(value) { location.hash = value; }
   tabs: WeaponSelectorTab[] = [];
   beforeMount() {
     this.tabs = _.map(ModTypeTable, (name, id) => ({ id, name, rivens: RivenWeaponDataBase.filter(v => v.mod === id && v.weapons.length > 0), weapons: [] }));
