@@ -1758,6 +1758,8 @@ let po = {
     "elixisTigris": "Elixis Tigris",
     "avatarImageGlyphCookieKavat": "Cookie Kavat Glyph",
     "avatarImageGlyphCookieKubrow": "Cookie Kubrow Glyph",
+    "eminencePalette": "Eminence Palette",
+    "tennoKindredRug": "Tenno Kindred Rug",
 
     "captainVor": "Captain Vor",
     "councilorVayHek": "Councilor Vay Hek",

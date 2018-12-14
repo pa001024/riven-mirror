@@ -58,11 +58,13 @@ export class Translator {
    * @memberof Translator
    */
   static getLocText(rawText: string): string {
+    // alias 转换
+    if (tranlateAlias.has(rawText)) rawText = tranlateAlias.get(rawText);
     // 忽略大小写
     let text = rawText.toLowerCase(), m;
-    // 处理如 "Lith A1" => "古纪 A1"
-    if (m = rawText.match(/^(lith|axi|meso|neo) (\w+?\d+) (.+)/i))
-      return `${this.getLocText(m[1])} ${m[2].toUpperCase()} ${this.getLocText(m[3])}`;
+    // 处理如 "Lith A1" / "Lith A1 Relic" => "古纪 A1 遗物"
+    if (m = rawText.match(/^(lith|axi|meso|neo) (\w+?\d+)(?: (\S+?)(?: \(\S+\))?)?$/i))
+      return `${this.getLocText(m[1])} ${m[2].toUpperCase()} ${this.getLocText(m[3] || "relic")}`;
     // 处理如 "100 Endo" => "100 内融核心"
     if (m = rawText.match(/^(\d+)s? (.+)/i))
       return `${m[1]} ${this.getLocText(m[2])}`;
@@ -87,3 +89,9 @@ export class Translator {
     return mainMatch || rawText;
   }
 }
+
+const tranlateAlias = new Map([
+  ["Liset Prop Ost Rug Baro", "Tenno Kindred Rug"],
+  ["Colour Picker Twitch B Item A", "Eminence Palette"],
+  ["Prisma Twin Gremlins Weapon", "Prisma Twin Gremlins"],
+]);

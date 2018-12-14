@@ -1758,6 +1758,8 @@ let po = {
     "elixisTigris": "猛虎 鍍銅外觀",
     "avatarImageGlyphCookieKavat": "餅乾 庫娃 浮印",
     "avatarImageGlyphCookieKubrow": "餅乾 庫狛 浮印",
+    "eminencePalette": "顯赫色板",
+    "tennoKindredRug": "Tenno Kindred 地毯",
 
     "captainVor": "VOR 上尉",
     "councilorVayHek": "Vay Hek 委員",
