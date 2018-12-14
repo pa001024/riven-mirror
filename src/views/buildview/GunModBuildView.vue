@@ -313,7 +313,7 @@ export default class GunModBuildView extends BaseModBuildView {
 }
 .build-container .setting {
   background: #fff;
-  padding: 8px 20px;
+  padding: 8px 20px 0;
   margin: 16px 0;
   border-radius: 20px;
   border-left: 4px solid #3e5dfe;
@@ -342,9 +342,12 @@ export default class GunModBuildView extends BaseModBuildView {
   border-right: 4px solid #508aff;
 }
 .build-list .el-collapse-item__header {
-  padding: 8px;
+  margin: 8px 8px 0;
   height: auto;
   min-height: 40px;
+  border-radius: 20px;
+  background-color: #3d5afe;
+  background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
 }
 .build-list .el-collapse-item__arrow {
   line-height: 40px;
@@ -355,9 +358,6 @@ export default class GunModBuildView extends BaseModBuildView {
   font-size: 1rem;
   line-height: 40px;
   padding: 0px 16px;
-  border-radius: 20px;
-  background-color: #3d5afe;
-  background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
   color: #fff;
 }
 .build-card-header {
@@ -436,6 +436,7 @@ export default class GunModBuildView extends BaseModBuildView {
 }
 .build-list {
   margin-top: 8px;
+  padding-bottom: 8px;
 }
 .score-text {
   color: #f56c6c;

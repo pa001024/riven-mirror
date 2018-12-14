@@ -325,18 +325,17 @@ A段位12023
   }
   /** 返回一个标准MOD对象 */
   get normalMod(): NormalMod {
-    return {
+    return new NormalMod({
       key: "01",
       id: this.fullId,
       name: this.fullName,
       type: this.name,
-      desc: "裂罅MOD",
       polarity: this.polarity || "r",
       cost: 18,
       rarity: "x",
       props: this.properties.map(v => [v.prop.id, v.value / 100] as [string, number]),
-      riven: this.qrCode
-    };
+      riven: this.qrCode,
+    });
   }
   /** 是否是Zaw */
   get isZaw() { return this.is("zaw"); }

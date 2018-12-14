@@ -125,7 +125,7 @@ export default class ModSelector extends Vue {
   }
   @Watch("build")
   reload() {
-    let selected = this.build.mods;
+    let selected = _.compact(this.build.mods);
     // 是否虚拟技能武器
     let isVisual = this.build.weapon.id === "Whipclaw" || this.build.weapon.id === "Shattered Lash";
     let mods = NormalModDatabase.filter(v =>
@@ -150,7 +150,7 @@ export default class ModSelector extends Vue {
     if (typeof id === "string")
       this.$emit("command", Codex.getNormalMod(id));
     else {
-      let selected = this.build.mods;
+      let selected = _.compact(this.build.mods);
       let mods = NormalModDatabase.filter(v => this.build.weapon.tags.concat([this.build.rivenWeapon.id]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id));
       let found = id.map(v => mods.find(k => k.id === v)).filter(Boolean);
       this.$emit("command", found);

@@ -2226,6 +2226,7 @@ let po = {
     buff: "加成",
     selectBuff: "選擇加成",
     statusinfo: "觸發計算",
+    cost: "容量",
   },
   enemy: {
     name: "敵人",

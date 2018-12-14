@@ -2226,6 +2226,7 @@ let po = {
     buff: "BUFF",
     selectBuff: "SELECT BUFF",
     statusinfo: "STATUS CALC",
+    cost: "CAPACITY",
   },
   enemy: {
     name: "Enemy",

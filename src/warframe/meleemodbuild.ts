@@ -114,14 +114,14 @@ export class MeleeModBuild extends ModBuild {
   /** 连击数增加暴击率 */
   get comboCritChance() { return this.comboMul > 1 ? 1 + hAccMul(this.comboMul, this.comboCritChanceMul) : 1; }
   /** 连击数增加触发率 */
-  get comboProcChance() { return this.comboMul > 1 ? hAccMul(this.comboMul, this.comboProcChanceMul) : 0; }
+  get comboProcChance() { return this.comboMul > 1 ? 1 + hAccMul(this.comboMul, this.comboProcChanceMul) : 1; }
   /** [overwrite] 暴击率 */
   get critChance() { return hAccMul(hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd), this.comboCritChance); }
   /** 滑行暴击率 */
   get slideCritDamage() { return hAccMul(hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd), this.comboCritChance); }
   /** [overwrite] 触发几率 */
   get procChance() {
-    let s = this.weapon.status * (this.procChanceMul + this.comboProcChance);
+    let s = hAccMul(hAccSum(hAccMul(this.weapon.status, this.procChanceMul), this.procChanceAdd), this.comboProcChance);
     return s > 1 ? 1 : s < 0 ? 0 : s;
   }
   /** [overwrite] 真实触发几率 */
@@ -190,8 +190,8 @@ export class MeleeModBuild extends ModBuild {
   isValidMod(mod: NormalMod) {
     if (!super.isValidMod(mod))
       return false;
-    if ("sacrificialPressure" === mod.id && this._mods.some(v => v.id === "primedPressurePoint")
-      || "primedPressurePoint" === mod.id && this._mods.some(v => v.id === "sacrificialPressure"))
+    if ("sacrificialPressure" === mod.id && this._mods.some(v => v && v.id === "primedPressurePoint")
+      || "primedPressurePoint" === mod.id && this._mods.some(v => v && v.id === "sacrificialPressure"))
       return false;
     return true;
   }
@@ -235,4 +235,7 @@ export class MeleeModBuild extends ModBuild {
         super.applyProp(mod, pName, pValue); break;
     }
   }
+
+  /** [overwrite] 最大容量 */
+  get maxCost() { return this.weapon.id === "paracesis" ? 80 : 70; }
 }

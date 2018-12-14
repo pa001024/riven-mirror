@@ -368,10 +368,6 @@ export default class Mod extends Vue {
 .mod-extra {
   margin-top: 8px;
 }
-.mod-props-box,
-.mod-history-box {
-  margin: 16px 0 0;
-}
 .negative-prop {
   color: #f56c6c;
 }

@@ -21,15 +21,27 @@
             <div class="weapon-capacity"></div>
             <table class="weapon-props">
               <tbody>
+                <tr class="prop-diff cost-show">
+                  <th>{{$t('build.cost')}}</th>
+                  <td class="diff diff-ori">
+                    {{build.totalCost}}
+                  </td>
+                  <template v-if="build.totalCost > 0">
+                    <td class="diff diff-arrow">/</td>
+                    <td class="diff diff-val">
+                      {{build.maxCost}}
+                    </td>
+                  </template>
+                </tr>
                 <PropDiff :name="$t('build.magazine')" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
                 <PropDiff :name="$t('build.prjSpeed')" v-if="weapon.prjSpeed" :ori="weapon.prjSpeed" :val="build.prjSpeed" subfix=" m/s" :preci="1"></PropDiff>
-                <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
+                <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="3"></PropDiff>
                 <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
                 <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
                 <PropDiff :name="$t('build.bullets')" v-if="weapon.bullets != 1 || build.bullets != 1" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
                 <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
                 <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
-                <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
+                <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
                 <br>
                 <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>
                 <br>
@@ -80,7 +92,7 @@
                   <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="slotClick(index)">
                     <template v-if="mod">
                       <div class="mod-title">
-                        <div class="mod-polarity"><i :class="`wf-icon-${mod.polarity}`"></i>{{mod.cost}}</div>
+                        <div class="mod-polarity" :class="{'np': mod.polarity === build.polarizations[index]}"><i :class="`wf-icon-${mod.polarity}`"></i>{{build.getCost(index)}}</div>
                         {{mod.name}}
                       </div>
                       <div class="mod-detail" @click.stop="slotRemove(index)">
@@ -132,7 +144,11 @@
           </el-tab-pane>
         </el-tabs>
         <!-- 扩展功能区 -->
-        <el-tabs value="simulacrum" class="external-area">
+        <el-tabs value="statusinfo" class="external-area">
+          <!-- 触发计算 -->
+          <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
+            <StatusInfoDisplay :info="build.statusInfo" :asQE="build.averageProcQE" />
+          </el-tab-pane>
           <!-- 幻影装置-->
           <el-tab-pane class="enemy-sim" :label="$t('build.simulacrum')" name="simulacrum">
             <keep-alive>
@@ -181,10 +197,6 @@
               </div>
               <EnemySelector v-else @select="selectEnemy"></EnemySelector>
             </keep-alive>
-          </el-tab-pane>
-          <!-- 触发计算 -->
-          <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
-            <StatusInfoDisplay :info="build.statusInfo" :asQE="build.averageProcQE" />
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -416,6 +428,9 @@ export default class GunBuildEditor extends BaseBuildEditor {
     left: 10px;
     top: 8px;
     font-size: 1rem;
+    &.np {
+      color: #67c23a;
+    }
   }
 }
 .mod-detail {

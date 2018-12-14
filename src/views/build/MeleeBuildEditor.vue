@@ -20,12 +20,24 @@
             </div>
             <table class="weapon-props">
               <tbody>
-                <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="2"></PropDiff>
+                <tr class="prop-diff cost-show">
+                  <th>{{$t('build.cost')}}</th>
+                  <td class="diff diff-ori">
+                    {{build.totalCost}}
+                  </td>
+                  <template v-if="build.totalCost > 0">
+                    <td class="diff diff-arrow">/</td>
+                    <td class="diff diff-val">
+                      {{build.maxCost}}
+                    </td>
+                  </template>
+                </tr>
+                <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="3"></PropDiff>
                 <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
                 <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
                 <PropDiff :name="$t('build.slideDmg')" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
                 <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
-                <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChance" percent></PropDiff>
+                <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
                 <br>
                 <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>
                 <br>
@@ -76,7 +88,7 @@
                   <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="slotClick(index)">
                     <template v-if="mod">
                       <div class="mod-title">
-                        <div class="mod-polarity"><i :class="`wf-icon-${mod.polarity}`"></i>{{mod.cost}}</div>
+                        <div class="mod-polarity" :class="{'np': mod.polarity === build.polarizations[index]}"><i :class="`wf-icon-${mod.polarity}`"></i>{{build.getCost(index)}}</div>
                         {{mod.name}}
                       </div>
                       <div class="mod-detail" @click.stop="slotRemove(index)">
@@ -127,6 +139,13 @@
             </el-row>
           </el-tab-pane>
         </el-tabs>
+        <!-- 扩展功能区 -->
+        <el-tabs value="statusinfo" class="external-area">
+          <!-- 触发计算 -->
+          <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
+            <StatusInfoDisplay :info="build.statusInfo" :asQE="build.averageProcQE" />
+          </el-tab-pane>
+        </el-tabs>
       </el-col>
     </el-row>
     <el-dialog :title="$t('build.selectMod')" :visible.sync="dialogVisible" width="600">
@@ -144,6 +163,7 @@ import { RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod
 import PropDiff from "@/components/PropDiff.vue";
 import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
+import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 
 declare interface BuildSelectorTab {
@@ -154,7 +174,7 @@ declare interface BuildSelectorTab {
 }
 
 @Component({
-  components: { ModSelector, PropDiff, BuffSelector }
+  components: { ModSelector, PropDiff, BuffSelector, StatusInfoDisplay }
 })
 export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: MeleeWeapon;

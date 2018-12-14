@@ -23,7 +23,11 @@ export abstract class ModBuild {
   protected _buffs: Buff[] = [];
   /** MOD列表 */
   get mods() { return _.cloneDeep(this._mods); }
-  set mods(value) { this._mods = _.cloneDeep(value); this.calcMods(); }
+  set mods(value) {
+    this._mods = _.cloneDeep(value);
+    this.calcMods();
+    this.fastMode || this.recalcPolarizations();
+  }
   /** 赋能列表 */
   get arcanes() { return _.cloneDeep(this._arcanes); }
   set arcanes(value) { this._arcanes = _.cloneDeep(value); this.calcMods(); }
@@ -38,6 +42,7 @@ export abstract class ModBuild {
   protected _critChanceAdd = 0;
   protected _critMulMul = 1;
   protected _procChanceMul = 1;
+  protected _procChanceAdd = 0;
   protected _procDurationMul = 1;
   protected _procDamageMul = 1;
   protected _enemyDmgMul = [1, 1, 1, 1, 1];
@@ -64,6 +69,8 @@ export abstract class ModBuild {
   get critMulMul() { return this._critMulMul; }
   /** 触发几率增幅倍率 */
   get procChanceMul() { return this._procChanceMul; }
+  /** 加法触发几率增幅倍率 */
+  get procChanceAdd() { return this._procChanceAdd; }
   /** 触发时间增幅倍率 */
   get procDurationMul() { return this._procDurationMul; }
   /** 触发伤害增幅倍率 */
@@ -165,10 +172,11 @@ export abstract class ModBuild {
       }
     });
     this.riven = riven && new RivenMod(riven, true);
-    let mods = _.compact(_.words(normal, /../g).map(v => v === "01" ? this.riven.normalMod : Codex.getNormalMod(v)));
+    let mods = _.words(normal, /../g).map(v => v === "01" ? this.riven.normalMod : Codex.getNormalMod(v));
     this._mods = mods;
     this._buffs = bufflist;
     this.calcMods();
+    this.fastMode || this.recalcPolarizations();
   }
 
   get miniCodeURL() {
@@ -314,21 +322,25 @@ export abstract class ModBuild {
         let dd = dotMap.get(vn);
         // [切割 毒 毒气 电]
         if (vn !== "Heat") {
-          this._statusInfo[vn].instantProcDamage = dd / bullets;
+          if (bullets > 1) this._statusInfo[vn].instantProcDamage = dd / bullets;
           this._statusInfo[vn].instantProcDamagePerHit = dd;
           this._statusInfo[vn].instantProcDamagePerSecond = dd * fireRate;
         }
         // [切割 毒 毒气]
         if (vn !== "Electricity" && vn !== "Heat") {
-          this._statusInfo[vn].latentProcDamage = dd / bullets * durTick;
+          if (bullets > 1) this._statusInfo[vn].latentProcDamage = dd / bullets * durTick;
           this._statusInfo[vn].latentProcDamagePerHit = dd * durTick;
           this._statusInfo[vn].latentProcDamagePerSecond = dd * fireRate * durTick;
         }
         // [切割 毒 毒气 火]
-        if (vn !== "Electricity") {
-          this._statusInfo[vn].averageProcDamage = dd / bullets * durTick * (1 - dutyCycle);
-          this._statusInfo[vn].averageProcDamagePerHit = dd * durTick * (1 - dutyCycle);
-          this._statusInfo[vn].averageProcDamagePerSecond = dd * fireRate * durTick * (1 - dutyCycle);
+        if (vn === "Heat") {
+          if (bullets > 1) this._statusInfo[vn].averageProcDamage = cor * dd / bullets * durTick;
+          this._statusInfo[vn].averageProcDamagePerHit = cor * dd * durTick;
+          this._statusInfo[vn].averageProcDamagePerSecond = cor * dd * fireRate * durTick;
+        } else if (vn !== "Electricity") {
+          if (bullets > 1) this._statusInfo[vn].averageProcDamage = vv * dd / bullets * durTick * (1 - dutyCycle);
+          this._statusInfo[vn].averageProcDamagePerHit = vv * dd * durTick * (1 - dutyCycle);
+          this._statusInfo[vn].averageProcDamagePerSecond = vv * dd * fireRate * durTick * (1 - dutyCycle);
         }
       }
     });
@@ -388,7 +400,7 @@ export abstract class ModBuild {
 
   /** 触发几率 */
   get procChance() {
-    let s = this.weapon.status * this.procChanceMul;
+    let s = hAccSum(hAccMul(this.weapon.status, this.procChanceMul), this.procChanceAdd);
     return s > 1 ? 1 : s < 0 ? 0 : s;
   }
   /** 真实触发几率 */
@@ -570,6 +582,7 @@ export abstract class ModBuild {
   applyMod(mod: NormalMod) {
     this._mods.push(mod);
     this.calcMods();
+    this.fastMode || this.recalcPolarizations();
     return this;
   }
 
@@ -593,15 +606,15 @@ export abstract class ModBuild {
     // 加载Mod
     this._mods.forEach(mod => {
       // 后者优先 主要用于紫卡有多个元素词条时
-      _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
+      mod && _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
     });
     // 加载赋能
     this._arcanes.forEach(arc => {
-      this.applyProp(arc, arc.prop[0], arc.prop[1]);
+      arc && this.applyProp(arc, arc.prop[0], arc.prop[1]);
     });
     // 加载Buff
     this._buffs.forEach(buff => {
-      buff.props.forEach(prop => this.applyProp(null, prop[0], prop[1]));
+      buff && buff.props.forEach(prop => this.applyProp(null, prop[0], prop[1]));
     });
     this.recalcElements();
     if (!this.fastMode) {
@@ -617,6 +630,7 @@ export abstract class ModBuild {
     this._critMulMul = 1;
     this._critChanceAdd = 0;
     this._procChanceMul = 1;
+    this._procChanceAdd = 0;
     this._procDurationMul = 1;
     this._procDamageMul = 1;
     this._enemyDmgMul = [1, 1, 1, 1, 1];
@@ -647,8 +661,9 @@ export abstract class ModBuild {
 
   /** 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
+    let mods = _.compact(this._mods);
     // 如果相应的P卡已经存在则不使用
-    if (this._mods.some(v => v.id === mod.primed || (mod.primed && v.primed === mod.primed)))
+    if (mods.some(v => v.id === mod.primed || (mod.primed && v.primed === mod.primed)))
       return false;
     // 只允许选择的元素
     if (this.allowElementTypes)
@@ -659,7 +674,7 @@ export abstract class ModBuild {
     for (let i = 0; i < NormalCardDependTable.length; i++) {
       const depend = NormalCardDependTable[i];
       if (mod.id === depend[0]) {
-        if (!this._mods.some(v => v.id === depend[1]))
+        if (!mods.some(v => v.id === depend[1]))
           return false;
       }
     }
@@ -673,7 +688,7 @@ export abstract class ModBuild {
    */
   modValue(index: number | string) {
     if (typeof index === "string")
-      index = this._mods.findIndex(v => v.id === index);
+      index = this._mods.findIndex(v => v && v.id === index);
     if (!this._mods[index]) return 0;
     let nb = new (this.constructor as any)(this.weapon, this.riven, this.options);
     nb._mods = this.mods;
@@ -777,20 +792,21 @@ export abstract class ModBuild {
    */
   fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
     // 根据武器自动选择所有可安装的MOD
-    let mods = lib.filter(v => !this._mods.some(k => v.id === k.id && (v.id === "RIVENFAKE" ? v.props[0][0] === k.props[0][0] : true) || v.id === k.primed));
-    let rivenCount = this._mods.reduce((a, b) => a + (b.id === "RIVENFAKE" ? 1 : 0), 0), rivenSlots = rivenLimit ? slots + rivenLimit - 1 : slots;
+    let mods = this._mods = _.compact(this._mods);
+    let othermods = lib.filter(v => !mods.some(k => v.id === k.id && (v.id === "RIVENFAKE" ? v.props[0][0] === k.props[0][0] : true) || v.id === k.primed));
+    let rivenCount = mods.reduce((a, b) => a + (b.id === "RIVENFAKE" ? 1 : 0), 0), rivenSlots = rivenLimit ? slots + rivenLimit - 1 : slots;
     if (useRiven > 0) {
       if (useRiven == 2)
         this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
       else
-        mods.push(this.riven.normalMod); // 1. 将紫卡作为一张普卡进行计算
+        othermods.push(this.riven.normalMod); // 1. 将紫卡作为一张普卡进行计算
     }
-    let sortableMods = mods.map(v => [v, 0] as [NormalMod, number]);
-    while (this._mods.length < rivenSlots && sortableMods.length > (rivenSlots - this._mods.length)) {
+    let sortableMods = othermods.map(v => [v, 0] as [NormalMod, number]);
+    while (mods.length < rivenSlots && sortableMods.length > (rivenSlots - mods.length)) {
       // 2. 计算收益
       // console.log("开始计算收益: ", this._mods.length)
       sortableMods.forEach(v => {
-        if (v[0].id === "RIVENFAKE" ? rivenCount >= rivenLimit : this._mods.length - rivenCount >= rivenSlots - rivenLimit)
+        if (v[0].id === "RIVENFAKE" ? rivenCount >= rivenLimit : mods.length - rivenCount >= rivenSlots - rivenLimit)
           v[1] = -2;
         else
           v[1] = this.testMod(v[0]);
@@ -982,6 +998,7 @@ export abstract class ModBuild {
       case 'eed': /* 电击伤害 */ this.electricityMul = hAccSum(this.electricityMul, pValue); break;
       case 'efd': /* 火焰伤害 */ this.heatMul = hAccSum(this.heatMul, pValue); break;
       case 'aed': /* 对全种族伤害 allEnemyDmgMul */ this._allEnemyDmgMul = hAccSum(this._allEnemyDmgMul, pValue); break;
+      case 'bsc': /* 加法触发几率 */ this._procChanceAdd = hAccSum(this._procChanceAdd, pValue); break;
       default:
     }
   }
@@ -997,5 +1014,36 @@ export abstract class ModBuild {
     } else {
       this.standaloneElements.push([vn, vv]);
     }
+  }
+
+  // 容量计算与极化
+
+  protected _polarizations: string[] = Array(8);
+  get polarizations() { return this._polarizations; }
+  /** 容量 */
+  get totalCost() {
+    let total = this._mods.reduce((a, _, i) => a += this.getCost(i), 0);
+    return total;
+  }
+
+  /** 获取指定位置MOD的容量 */
+  getCost(modIndex: number) {
+    let mod = this._mods[modIndex];
+    if (mod) return mod.calcCost(this._polarizations[modIndex]);
+    return 0;
+  }
+
+  /** 最大容量 */
+  get maxCost() { return 60; }
+  /** 重新计算极化次数 */
+  recalcPolarizations() {
+    this._polarizations = Array(8);
+    // 按容量需求量排序
+    const pls = this._mods.map((v, i) => [i, v ? v.cost : 0]).sort((a, b) => b[1] - a[1]);
+    // 最多极化8次
+    for (let i = 0; this.totalCost > this.maxCost && i < pls.length && this._mods[pls[i][0]]; ++i) {
+      this._polarizations[pls[i][0]] = this._mods[pls[i][0]].polarity;
+    }
+    return this.polarizations;
   }
 }

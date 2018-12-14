@@ -4,7 +4,7 @@
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven Mirror
-          <span class="beta">ALPHA 1.2.8</span>
+          <span class="beta">ALPHA 1.2.9</span>
         </h1>
       </router-link>
       <MiniClock class="hidden-xs-only header-watch">
@@ -303,10 +303,10 @@ export default class App extends Vue {
 .wf-icon-undefined::before {
   content: "?";
 }
-/* .wf-icon-zenurik::before {
-  content: "";
-}
 .wf-icon-umbra::before {
+  content: "w";
+}
+/* .wf-icon-zenurik::before {
   content: "";
 }
 .wf-icon-unairu::before {

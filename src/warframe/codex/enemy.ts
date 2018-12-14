@@ -554,20 +554,27 @@ export class Enemy implements EnemyData {
   applyDoTDmg(dmgs: [string, number][], durationMul: number = 1, procDamageMul: number = 1) {
     let immediateDamages = dmgs.map(([vn, vv]) => {
       switch (vn) {
-        // 切割伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E5%88%87%E5%89%B2%E4%BC%A4%E5%AE%B3
+        // 切割伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Slash_Damage
         case "Slash":
           this.currentProcs.push(DamageType.Slash, vv * procDamageMul, durationMul);
           return [DamageType.True, vv];
-        // 毒素伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E7%B4%A0%E4%BC%A4%E5%AE%B3
+        // 毒素伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Toxin_Damage
         case "Toxin":
-        case "Gas":
           this.currentProcs.push(DamageType.Toxin, vv * procDamageMul, durationMul);
           return [DamageType.Toxin, vv];
-        // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
+        // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
+        case "Gas":
+          this.currentProcs.push(DamageType.Toxin, vv * procDamageMul * procDamageMul, durationMul);
+          return [DamageType.Toxin, vv];
+        // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
         // 注:火焰触发不会叠加
         case "Heat":
           this.currentProcs.push(DamageType.Heat, vv * procDamageMul, durationMul);
           return [DamageType.Heat, vv];
+        // 电击伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Electricity_Damage
+        case "Electricity":
+          this.currentProcs.push(DamageType.Electricity, vv * procDamageMul, durationMul);
+          return [DamageType.Electricity, vv];
       }
     }) as [DamageType, number][];
     this.applyDmg(immediateDamages);
@@ -615,8 +622,7 @@ export class Enemy implements EnemyData {
           this.currentProcs.Viral = newViral > 1 ? 1 : newViral;
         }
         // [5.DoT伤害]
-        if (this.ignoreProc === 0)
-          this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]), durationMul, procDamageMul);
+        if (this.ignoreProc === 0) this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, vv * bh / bullets] as [string, number]), durationMul, procDamageMul);
         // [6.将病毒下降的血量恢复]
         this.currentHealth /= (1 - 0.5 * currentViral);
       }

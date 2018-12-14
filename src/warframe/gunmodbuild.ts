@@ -70,6 +70,8 @@ export class GunModBuild extends ModBuild {
   get firstAmmoMul() { return this._firstAmmoMul; }
   /** 猎人 战备 */
   get slashWhenCrit() { return this._slashWhenCrit; }
+  /** 子弹消耗速度 */
+  get ammoCost() { return this.weapon.ammoCost || this.weapon.tags.includes("Continuous") ? 0.5 : 1; }
 
   // 额外参数
 
@@ -136,7 +138,7 @@ export class GunModBuild extends ModBuild {
     let ticks = Math.round(enemy.TICKCYCLE / this.fireRate); // 1200tick/s 整合射速和秒DoT
     let reloadTicks = Math.round(enemy.TICKCYCLE * this.reloadTime); // 装填需要的tick数
     let remaingMag = this.magazineSize; // 剩余子弹数
-    let shotAmmoCost = this.weapon.tags.includes("Continuous") ? 0.5 : 1; // 射击消耗子弹数
+    let shotAmmoCost = this.ammoCost; // 射击消耗子弹数
     let nextDoTTick = enemy.TICKCYCLE;
     let nextDmgTick = 0;
     // 敌人死亡或者到时间停止
@@ -162,6 +164,8 @@ export class GunModBuild extends ModBuild {
   // ### 计算属性 ###
   /** 精准度 */
   get accuracy() { return this.weapon.accuracy; }
+  /** 是否是射线武器 */
+  get isLaser() { return !(this.weapon.bullets > 1) && this.weapon.tags.includes("Continuous"); }
   /** [overwrite] 弹片数 */
   get bullets() { return hAccMul(this.weapon.bullets, this.multishotMul); }
   /** 换弹时间 */
@@ -194,7 +198,7 @@ export class GunModBuild extends ModBuild {
   }
 
   /** [overwrite] 每发触发率 */
-  get procChancePerHit() { return 1 - (1 - this.procChance) ** this.weapon.bullets; }
+  get procChancePerHit() { return this.weapon.tags.includes("Continuous") ? this.procChance : 1 - (1 - this.procChance) ** this.weapon.bullets; }
 
   /** [overwrite] 面板基础伤害增幅倍率 */
   get panelBaseDamageMul() { return hAccMul(this.baseDamageMul, this.multishotMul); }
@@ -312,7 +316,12 @@ export class GunModBuild extends ModBuild {
   applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
     switch (pName) {
       case 'D': /* 伤害 baseDmg */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;
-      case 'S': /* 多重射击 multiShot */ this._multishotMul = hAccSum(this._multishotMul, pValue); break;
+      case 'S': /* 多重射击 multiShot */
+        if (this.isLaser)
+          this._overallMul = hAccSum(this._overallMul, pValue);
+        else
+          this._multishotMul = hAccSum(this._multishotMul, pValue);
+        break;
       case 'R': /* 射速 fireRate */ this._fireRateMul = hAccSum(this._fireRateMul, (this.weapon.tags.includes("Bow") ? 2 * pValue : pValue)); break;
       case 'L': /* 弹匣容量 magazine */ this._magazineMul = hAccSum(this._magazineMul, pValue); break;
       case 'F': /* 装填速度 reloadSpeed */ this._reloadSpeedMul = hAccSum(this._reloadSpeedMul, pValue); break;

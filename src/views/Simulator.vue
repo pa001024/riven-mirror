@@ -23,17 +23,16 @@
         <transition name="el-zoom-in-center">
           <el-col :sm="24" :md="12" :lg="8" v-if="mod">
             <div v-show="mod.name" class="mod-display">
-              <el-card class="mod-props-box">
-                <div slot="header" class="mod-name">
+              <el-card class="mod-props-box index-card">
+                <h3 slot="header" class="mod-name">
                   <span>{{mod.name}} {{mod.subfix}}</span>
-                </div>
-                <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
-                  {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
-                </div>
-                <div class="mod-extra">
-                  <el-tag size="medium" class="mod-rank">{{$t("riven.rank")}}{{mod.rank}}</el-tag>
-                  <el-tag size="medium" class="mod-recycleTimes">{{$t("riven.recycle")}}{{mod.recycleTimes}}</el-tag>
-                </div>
+                  <span class="mod-recycle"><i class="el-icon-refresh"></i>{{mod.recycleTimes}}</span>
+                </h3>
+                <ul>
+                  <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
+                    {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
+                  </div>
+                </ul>
                 <div class="mod-qrcode">
                   <el-popover placement="bottom" trigger="hover">
                     <div style="text-align:center;">
@@ -44,7 +43,7 @@
                     </div>
                     <el-button slot="reference" icon="el-icon-search" @click="toRiven(mod)">{{$t("simulator.analyze")}}</el-button>
                   </el-popover>
-                  <el-button class="simulator-choose" type="primary" icon="el-icon-check" v-if="newMod" @click="choose(false)">{{$t("simulator.choose")}}</el-button>
+                  <el-button class="simulator-choose" type="primary" plain icon="el-icon-check" v-if="newMod" @click="choose(false)">{{$t("simulator.choose")}}</el-button>
                 </div>
               </el-card>
             </div>
@@ -54,17 +53,16 @@
         <transition name="el-zoom-in-center">
           <el-col :sm="24" :md="12" :lg="8" v-if="newMod && !hasChoosen">
             <div class="mod-display">
-              <el-card class="mod-props-box">
-                <div slot="header" class="mod-name">
+              <el-card class="mod-props-box index-card">
+                <h3 slot="header" class="mod-name">
                   <span>{{newMod.name}} {{newMod.subfix}}</span>
-                </div>
-                <div v-for="prop in newMod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
-                  {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
-                </div>
-                <div class="mod-extra">
-                  <el-tag size="medium" class="mod-rank">{{$t("riven.rank")}}{{newMod.rank}}</el-tag>
-                  <el-tag size="medium" class="mod-recycleTimes">{{$t("riven.recycle")}}{{newMod.recycleTimes}}</el-tag>
-                </div>
+                  <span class="mod-recycle"><i class="el-icon-refresh"></i>{{newMod.recycleTimes}}</span>
+                </h3>
+                <ul>
+                  <div v-for="prop in newMod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
+                    {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
+                  </div>
+                </ul>
                 <div class="mod-qrcode">
                   <el-popover placement="bottom" trigger="hover">
                     <div style="text-align:center;">
@@ -75,7 +73,7 @@
                     </div>
                     <el-button slot="reference" icon="el-icon-search" @click="toRiven(newMod)">{{$t("simulator.analyze")}}</el-button>
                   </el-popover>
-                  <el-button class="simulator-choose" type="primary" icon="el-icon-check" v-if="newMod" @click="choose(true)">{{$t("simulator.choose")}}</el-button>
+                  <el-button class="simulator-choose" type="primary" plain icon="el-icon-check" v-if="newMod" @click="choose(true)">{{$t("simulator.choose")}}</el-button>
                 </div>
               </el-card>
             </div>
@@ -106,6 +104,8 @@ function countDown(sec = 3, tickCallback: (sec: number) => void) {
     return
   })
 }
+
+
 
 @Component({
   components: { qrcode }
@@ -165,37 +165,57 @@ export default class Simulator extends Vue {
   }
 }
 </script>
-<style>
-.simulator-new {
-  display: block;
-  width: 100%;
-}
-.simulator-new.el-dropdown .el-button-group {
-  display: inline-flex;
-  width: 100%;
-}
-.simulator-new button:first-child {
-  flex: 1;
-}
-.simulator-new.is-disabled .el-button,
-.simulator-new.is-disabled .el-button:focus,
-.simulator-new.is-disabled .el-button:hover {
-  color: #fff;
-  background-color: #a0cfff;
-  border-color: #a0cfff;
-  cursor: not-allowed;
-  background-image: none;
-  pointer-events: none;
-}
-.simulator-roll,
-.simulator-choose {
-  width: 100%;
-}
-.simulator-choose {
-  margin-top: 12px;
-}
-.simulator .mod-prop {
-  text-align: center;
-  line-height: 1.5;
+<style lang="less">
+.simulator {
+  .mod-prop {
+    text-align: center;
+    line-height: 1.5;
+    padding: 5px 0;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    font-size: 1.1em;
+  }
+  .mod-name {
+    position: relative;
+  }
+  .mod-recycle {
+    position: absolute;
+    right: 0;
+    text-align: right;
+  }
+  .mod-display {
+    margin-top: 12px;
+    ul {
+      padding: 5px 0;
+    }
+  }
+  .simulator-new {
+    display: block;
+    width: 100%;
+  }
+  .simulator-new.el-dropdown .el-button-group {
+    display: inline-flex;
+    width: 100%;
+  }
+  .simulator-new button:first-child {
+    flex: 1;
+  }
+  .simulator-new.is-disabled .el-button,
+  .simulator-new.is-disabled .el-button:focus,
+  .simulator-new.is-disabled .el-button:hover {
+    color: #fff;
+    background-color: #a0cfff;
+    border-color: #a0cfff;
+    cursor: not-allowed;
+    background-image: none;
+    pointer-events: none;
+  }
+  .simulator-roll,
+  .simulator-choose {
+    width: 100%;
+  }
+  .simulator-choose {
+    margin-top: 12px;
+  }
 }
 </style>

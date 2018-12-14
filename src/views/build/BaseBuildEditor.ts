@@ -70,11 +70,13 @@ export abstract class BaseBuildEditor extends Vue {
     this.build.fill(8, 0);
     this.currentTab.mods = this.build.mods;
     this.reloadSelector();
+    this.$router.push({ name: 'BuildEditorWithCode', params: { code: this.build.miniCode } });
   }
   fillEmpty() {
     this.build.fillEmpty(8, 0);
     this.currentTab.mods = this.build.mods;
     this.reloadSelector();
+    this.$router.push({ name: 'BuildEditorWithCode', params: { code: this.build.miniCode } });
   }
   clear() {
     let rivenIdx = this.currentTab.mods.findIndex(v => v.rarity === "x"), riven = this.currentTab.mods[rivenIdx];
@@ -111,7 +113,7 @@ export abstract class BaseBuildEditor extends Vue {
   @Watch("tabValue")
   refleshMods() {
     this.build.clear();
-    let mods = _.compact(this.currentTab.mods);
+    let mods = this.currentTab.mods;
     let buffs = _.compact(this.currentTab.buffs);
     this.build.mods = mods;
     this.build.buffs = buffs;

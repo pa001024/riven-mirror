@@ -7,13 +7,13 @@ export interface NormalModData {
   /** ID */
   id: string
   /** 名称 */
-  name: string
+  name?: string
   /** 描述 */
-  desc: string
+  desc?: string
   /** 适用武器 */
   type: string
   /** 极性 */
-  polarity: "r" | "-" | "d" | "="
+  polarity: "r" | "-" | "d" | "=" | "w"
   /** 消耗 */
   cost: number
   /** 稀有度 */
@@ -34,8 +34,9 @@ export interface NormalModData {
 export class NormalMod implements NormalModData {
   key: string
   id: string
+  _name?: string
   type: string
-  polarity: "r" | "-" | "d" | "="
+  polarity: "r" | "-" | "d" | "=" | "w"
   cost: number
   rarity: "n" | "c" | "r" | "l" | "x"
   props: [string, number][]
@@ -44,7 +45,7 @@ export class NormalMod implements NormalModData {
   riven?: string
 
   get name() {
-    let name = i18n.t(`messages.${this.id}`) as string;
+    let name = this._name || i18n.t(`messages.${this.id}`) as string;
     name || console.log(`warn: missing ${this.id}`);
     return name || "";
   }
@@ -54,9 +55,18 @@ export class NormalMod implements NormalModData {
     return desc || "";
   }
 
+  /** 计算实际容量消耗 */
+  calcCost(polarity: string) {
+    if (polarity)
+      return Math.ceil(polarity === this.polarity ? this.cost / 2 : this.cost * 1.25);
+    else
+      return this.cost;
+  }
+
   constructor(data: NormalModData) {
     this.key = data.key;
     this.id = data.id;
+    this._name = data.name;
     this.type = data.type;
     this.polarity = data.polarity;
     this.cost = data.cost;
@@ -378,7 +388,7 @@ const _normalModSource = [
   ["DB", "electromagneticShielding", [["sp", 0.5]], "Ack & Brunt", "r", "r", 7],
   ["DC", "riftStrike", [["sp", 25]], "Twin Basolk", "r", "r", 7],
   ["DD", "sacrificialPressure", [["K", 1.375], ["0", 0.25]], "Melee", "w", "l", 16],
-] as [string, string, [string, number][], string, "r" | "-" | "d" | "=", "n" | "c" | "r" | "l" | "x", number][];
+] as [string, string, [string, number][], string, "r" | "-" | "d" | "=" | "w", "n" | "c" | "r" | "l" | "x", number][];
 /**
  * 普通MOD信息
  */
