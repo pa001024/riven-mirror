@@ -58,7 +58,7 @@ export class GunModBuild extends ModBuild {
   get maxAmmoMul() { return this._maxAmmoMul; }
   /** 变焦增幅倍率 */
   get zoomMul() { return this._zoomMul; }
-  /** 抛射物飞行速度增幅倍率 */
+  /** 弹道飞行速度增幅倍率 */
   get projectileSpeedMul() { return this._projectileSpeedMul; }
   /** 后坐力增幅倍率 */
   get recoilMul() { return this._recoilMul; }
@@ -198,7 +198,7 @@ export class GunModBuild extends ModBuild {
   }
 
   /** [overwrite] 每发触发率 */
-  get procChancePerHit() { return this.weapon.tags.includes("Continuous") ? this.procChance : 1 - (1 - this.procChance) ** this.weapon.bullets; }
+  get procChancePerHit() { return this.weapon.tags.includes("Continuous") ? this.procChance : 1 - (1 - this.procChance) ** this.multishotMul; }
 
   /** [overwrite] 面板基础伤害增幅倍率 */
   get panelBaseDamageMul() { return hAccMul(this.baseDamageMul, this.multishotMul); }
@@ -328,7 +328,7 @@ export class GunModBuild extends ModBuild {
       case 'M': /* 弹药最大值 maxAmmo' */ this._maxAmmoMul = hAccSum(this._maxAmmoMul, pValue); break;
       case 'P': /* 穿透 punchThrough */ this._punchThrough = hAccSum(this._punchThrough, pValue); break;
       case 'H': /* 变焦 zoom */ this._zoomMul = hAccSum(this._zoomMul, pValue); break;
-      case 'V': /* 抛射物飞行速度 projectileSpeed */ this._projectileSpeedMul = hAccSum(this._projectileSpeedMul, pValue); break;
+      case 'V': /* 弹道飞行速度 projectileSpeed */ this._projectileSpeedMul = hAccSum(this._projectileSpeedMul, pValue); break;
       case 'Z': /* 后坐力 recoil */ this._recoilMul = hAccSum(this._recoilMul, pValue); break;
       case 'ac': /* 暴击时触发切割伤害 slashWhenCrit */ this._slashWhenCrit = hAccSum(this._slashWhenCrit, pValue); break;
       case 'ce': /* 暴击强化 critLevelUpChance */ this._critLevelUpChance = hAccSum(this._critLevelUpChance, pValue); break;

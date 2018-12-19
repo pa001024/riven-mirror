@@ -55,7 +55,7 @@ const gunProperty: RivenProperty[] = [
   { id: 'M', sName: "弹药", eName: "Ammo Maximum", name: "弹药最大值", prefix: "ampi", subfix: "bin", noDmg: true },
   { id: 'P', sName: "穿透", eName: "Punch Through", name: "穿透", prefix: "lexi", subfix: "nok", onlyPositive: true, nopercent: true, noDmg: true },
   { id: 'H', sName: "变焦", eName: "Zoom", name: "变焦", prefix: "hera", subfix: "lis", noDmg: true },
-  { id: 'V', sName: "抛射", eName: "Projectile Flight Speed", name: "抛射物飞行速度", prefix: "conci", subfix: "nak", noDmg: true },
+  { id: 'V', sName: "弹道", eName: "Projectile Flight Speed", name: "弹道飞行速度", prefix: "conci", subfix: "nak", noDmg: true },
   { id: 'Z', sName: "后坐", eName: "Weapon Recoil", name: "后坐力", prefix: "zeti", subfix: "mag", negative: true, noDmg: true },
 ];
 
@@ -108,7 +108,7 @@ export const RivenPropertyValueBaseDataBase = {
     M: 5,   // 弹药最大值
     P: 27,  // 穿透
     H: 6,   // 变焦
-    V: 9,   // 抛射物飞行速度
+    V: 9,   // 弹道飞行速度
     Z: -9,  // 后坐力
   },
   "Shotgun": {
@@ -135,7 +135,7 @@ export const RivenPropertyValueBaseDataBase = {
     M: 9,   // 弹药最大值
     P: 27,  // 穿透
     H: 6,   // 变焦
-    V: 9,   // 抛射物飞行速度
+    V: 9,   // 弹道飞行速度
     Z: -9,  // 后坐力
   },
   "Pistol": {
@@ -162,7 +162,7 @@ export const RivenPropertyValueBaseDataBase = {
     M: 9,   // 弹药最大值
     P: 27,  // 穿透
     H: 8,   // 变焦
-    V: 9,   // 抛射物飞行速度
+    V: 9,   // 弹道飞行速度
     Z: -9,  // 后坐力
   },
   "Melee": {

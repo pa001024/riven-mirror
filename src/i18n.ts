@@ -2,16 +2,16 @@ import _ from "lodash";
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 
-import lang_en from '@/assets/lang/en';
-import lang_zh from '@/assets/lang/zh';
-import lang_zhCY from '@/assets/lang/zh-CY';
-import lang_zhTW from '@/assets/lang/zh-TW';
+import lang_en from './assets/lang/en';
+import lang_zh from './assets/lang/zh';
+import lang_zhCY from './assets/lang/zh-CY';
+import lang_zhTW from './assets/lang/zh-TW';
 
 import elLang_en from 'element-ui/lib/locale/lang/en'
 import elLang_zh from 'element-ui/lib/locale/lang/zh-CN'
 import elLang_zhTW from 'element-ui/lib/locale/lang/zh-TW'
 
-Vue.use(VueI18n);
+Vue && Vue.use(VueI18n);
 
 const cnDF = {
   short: {

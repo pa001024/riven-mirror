@@ -22,7 +22,7 @@ export interface SpecialStatusInfo {
   // [所有类型]
 
   /** 弹片触发率 */
-  appearRate: number
+  appearRate?: number
   /** 比重 */
   proportion: number
   /** 持续时间 */

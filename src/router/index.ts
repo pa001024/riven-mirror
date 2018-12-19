@@ -12,6 +12,8 @@ import EULA from '@/views/EULA.vue'
 import ErrorPage from '@/views/Error.vue'
 import NewUserWelcome from '@/views/NewUserWelcome.vue'
 import WeaponSelector from '@/components/WeaponSelector.vue'
+import WarframeSelector from '@/components/WarframeSelector.vue'
+import WarframeEditor from '@/views/team/WarframeEditor.vue'
 
 Vue.use(Router)
 
@@ -19,13 +21,18 @@ export default new Router({
   mode: 'history',
   routes: [
     { path: '/', name: 'Index', component: Index },
-    // { path: '/news', name: 'IndexNews', component: Index },
+    { path: '/news', name: 'News', component: Index },
     { path: '/about', name: 'About', component: About },
     { path: '/setting', name: 'Setting', component: Setting },
     { path: '/sim', name: 'Simulator', component: Simulator },
+    { path: '/warframe', name: 'WarframeSelector', component: WarframeSelector },
+    { path: '/warframe/:id', name: 'WarframeEditor', component: WarframeEditor },
+    { path: '/warframe/:id/:code', name: 'WarframeEditorWithCode', component: WarframeEditor },
+    // lazy load
+    // { path: '/warframe', name: 'WarframeSelector', component: () => import(/* webpackChunkName: "team" */ "@/components/WarframeSelector.vue") },
+    // { path: '/warframe/:id', name: 'WarframeEditor', component: () => import(/* webpackChunkName: "team" */ "@/components/WarframeEditor.vue") },
+    // { path: '/warframe/:id/:code', name: 'WarframeEditorWithCode', component: () => import(/* webpackChunkName: "team" */ "@/components/WarframeEditor.vue") },
     { path: '/weapon', name: 'WeaponSelector', component: WeaponSelector },
-    { path: '/weapon/zaw', name: 'WeaponSelector', component: WeaponSelector },
-    { path: '/weapon/kitgun', name: 'WeaponSelector', component: WeaponSelector },
     { path: '/weapon/:id', name: 'BuildEditor', component: BuildEditor },
     { path: '/weapon/:id/:code', name: 'BuildEditorWithCode', component: BuildEditor },
     { path: '/huangli', name: 'Huangli', component: Huangli },

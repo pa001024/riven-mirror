@@ -4,7 +4,7 @@
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven Mirror
-          <span class="beta">ALPHA 1.2.9</span>
+          <span class="beta">ALPHA 1.3.0</span>
         </h1>
       </router-link>
       <MiniClock class="hidden-xs-only header-watch">
@@ -56,6 +56,7 @@ export default class App extends Vue {
     { title: i18n.t("navigate.index"), path: "/", icon: "el-icon-news", exact: true },
     { title: i18n.t("navigate.riven"), path: "/riven", icon: "el-icon-view" },
     { title: i18n.t("navigate.weapon"), path: "/weapon", icon: "el-icon-edit-outline" },
+    { title: i18n.t("navigate.warframe"), path: "/warframe", icon: "el-icon-tickets" },
     { title: i18n.t("navigate.simulator"), path: "/sim", icon: "el-icon-refresh" },
     { title: i18n.t("navigate.huangli"), path: "/huangli", icon: "el-icon-date" },
     // { title: i18n.t("navigate.about"), path: "/about", icon: "el-icon-info" },

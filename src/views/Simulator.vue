@@ -217,5 +217,9 @@ export default class Simulator extends Vue {
   .simulator-choose {
     margin-top: 12px;
   }
+  .index-card .el-card__header,
+  .index-card .el-card__body {
+    background: #6199ff;
+  }
 }
 </style>

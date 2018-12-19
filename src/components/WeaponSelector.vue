@@ -8,7 +8,7 @@
             {{riven.starText}}
           </div>
           <div class="weapon-item-container" :key="riven.id">
-            <el-dropdown v-if="riven.weapons.length > 1" trigger="click" @command="handleCommand">
+            <el-dropdown v-if="riven.weapons.length > 1" trigger="click" @command="handleCommand" placement="bottom-start">
               <li class="weapon-item">
                 {{riven.name}} {{riven.ratio}}
               </li>
@@ -91,6 +91,7 @@ export default class WeaponSelector extends Vue {
 
 <style>
 .weapon-item-container {
+  margin: 4px;
   display: inline-block;
 }
 .weapon-tablabel {
@@ -99,7 +100,7 @@ export default class WeaponSelector extends Vue {
 }
 .weapon-item {
   display: inline-block;
-  margin: 8px;
+  margin: 4px;
   padding: 8px 20px;
   border: 1px solid #ccc;
   background: #fefefe;

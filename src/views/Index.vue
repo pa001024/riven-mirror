@@ -14,6 +14,14 @@
                   </div>
                 </div>
               </el-carousel-item>
+              <el-carousel-item class="fortuna" :class="[fortunaTime.isDay ? 'day' : 'night']">
+                <div class="clock-body">
+                  <div class="block">
+                    <div class="time">{{fortunaTime.text}}</div>
+                    <div class="title">{{$t("time.fortuna")}} - {{fortunaTime.phase}}</div>
+                  </div>
+                </div>
+              </el-carousel-item>
               <el-carousel-item class="earth" :class="[earthTime.isDay ? 'day' : 'night']">
                 <div class="clock-body">
                   <div class="block">
@@ -180,7 +188,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { CetusTime, EarthTime, WorldStat, Translator, Sortie, Alert, News, Fissure, Invasion, Job, VoidTrader } from "@/warframe";
+import { CetusTime, EarthTime, FortunaTime, WorldStat, Translator, Sortie, Alert, News, Fissure, Invasion, Job, VoidTrader } from "@/warframe";
 import BScroll from 'better-scroll';
 interface WarframeTime {
   isDay: boolean
@@ -190,6 +198,7 @@ interface WarframeTime {
 @Component
 export default class Index extends Vue {
   cetusTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" }
+  fortunaTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" }
   earthTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" }
   timerID: number;
   statID: number;
@@ -290,6 +299,7 @@ export default class Index extends Vue {
   updateTime() {
     this.seconds = ~~(Date.now() / 1e3);
     this.cetusTime = { isDay: CetusTime.isDay, phase: CetusTime.phaseText, text: CetusTime.text };
+    this.fortunaTime = { isDay: FortunaTime.isDay, phase: FortunaTime.phaseText, text: FortunaTime.text };
     this.earthTime = { isDay: EarthTime.isDay, phase: EarthTime.phaseText, text: EarthTime.text };
   }
 }
@@ -455,6 +465,7 @@ export default class Index extends Vue {
   padding-top: 38.66666667%;
 }
 .clock .cetus,
+.clock .fortuna,
 .clock .earth {
   background-size: 100%;
   background-repeat: no-repeat;
@@ -465,11 +476,17 @@ export default class Index extends Vue {
 .clock .cetus.night {
   background-image: url(/img/eidolon-night.jpg);
 }
+.clock .fortuna.day {
+  background-image: url(/img/fortuna-day.jpg);
+}
+.clock .fortuna.night {
+  background-image: url(/img/fortuna-night.jpg);
+}
 .clock .earth.day {
-  background-image: url(/img/eidolon-day.jpg);
+  background-image: url(/img/earth-day.jpg);
 }
 .clock .earth.night {
-  background-image: url(/img/eidolon-night.jpg);
+  background-image: url(/img/earth-night.jpg);
 }
 .clock-body {
   position: absolute;

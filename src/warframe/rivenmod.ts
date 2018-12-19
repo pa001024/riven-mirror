@@ -2,6 +2,7 @@ import { MeleeWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenProp
 import { Base64, randomNormalDistribution, strSimilarity } from "./util";
 import _ from "lodash";
 import { base62, debase62 } from "./lib/base62";
+import { Polarity } from "./codex";
 
 export class ValuedRivenProperty {
   /** 属性原型 */
@@ -86,7 +87,7 @@ export class RivenMod {
   /** 等级 */
   level: number = 8
   /** 极性 */
-  polarity: "r" | "-" | "d"
+  polarity: Polarity
   /** 根据卡面所带来的提升值 一共三种 0.8 | 1 | 1.2 分别代表 3+; 2+/3+1-; 2+1- */
   upLevel = 1
   /** 全名 如: 西诺斯 Critacan*/
@@ -332,6 +333,7 @@ A段位12023
       type: this.name,
       polarity: this.polarity || "r",
       cost: 18,
+      level: 8,
       rarity: "x",
       props: this.properties.map(v => [v.prop.id, v.value / 100] as [string, number]),
       riven: this.qrCode,

@@ -26,7 +26,7 @@ declare interface BuffSelectorTab {
 }
 
 @Component
-export default class buffSelector extends Vue {
+export default class extends Vue {
   @Prop() build: ModBuild;
 
   selectTab = "";

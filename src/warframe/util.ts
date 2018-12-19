@@ -97,7 +97,7 @@ export function randomNormalDistribution() {
   return u * c;
 }
 
-export { Base64 } from '@/warframe/lib/base64';
+export { Base64 } from '../warframe/lib/base64';
 
 /**
  * 获得指定数组的所有组合

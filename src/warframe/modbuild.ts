@@ -305,11 +305,11 @@ export abstract class ModBuild {
       let durTick = Math.max(0, ~~dur) + 1;
       let cor = vv * bullets * this.fireRate * dur;
       this._statusInfo[vn] = {
-        appearRate: vv,
         proportion: pwMap.get(vn),
         duration: dur,
         coverage: cor > 1 ? 1 : cor < 0 ? 0 : cor
       };
+      if (bullets > 1) this._statusInfo[vn].appearRate = vv;
       // [腐蚀 磁力]
       if (vn === "Corrosive" || vn === "Magnetic") {
         this._statusInfo[vn].procPerHit = vv * bullets;
