@@ -1113,6 +1113,10 @@ let po = {
     "battacor": "Battacor",
     "ocucor": "Ocucor",
     "kreska": "Kreska",
+    "plinx": "Plinx",
+    "exergis": "Exergis",
+    "galvacord": "Galvacord",
+    "cobraCrane": "Cobra & Crane",
 
     "none": "None",
     "balla": "Balla",

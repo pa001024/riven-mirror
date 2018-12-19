@@ -1673,6 +1673,19 @@ export const _warframeData: WarframeData[] = [
     polarities: ["-", "-"],
     sex: "Female"
   }, {
+    id: "Mesa Prime",
+    name: "mesaPrime",
+    className: "Mesa",
+    description: "Cast a long shadow with this lethal enforcer. Featuring altered mod polarities for greater customization.",
+    health: 135,
+    shield: 75,
+    armor: 85,
+    energy: 125,
+    sprint: 1.1,
+    introduced: "24.2.2",
+    masteryReq: 2,
+    polarities: ["-", "-"],
+  }, {
     id: "Mirage",
     name: "mirage",
     tags: ["Tactics"],

@@ -194,7 +194,6 @@ export const RivenPropertyValueBaseDataBase = {
 
 /**
  * 武器名称及裂罅倾向
- * Data from https://wfaw.richasy.cn/
  */
 export class RivenWeapon {
   /** 武器英文名 */
@@ -311,6 +310,7 @@ const _rivenWeaponDataBase = [
   ["Sweeper", "sweeper", "Shotgun", 1],
   ["Corinth", "corinth", "Shotgun", 1.05],
   ["Phantasma", "phantasma", "Shotgun", 1],
+  ["Exergis", "exergis", "Shotgun", 1],
   ["Arca Plasmor", "arcaPlasmor", "Shotgun", 0.7],
   ["Hek", "hek", "Shotgun", 0.7],
   ["Tigris", "tigris", "Shotgun", 0.5],
@@ -366,6 +366,7 @@ const _rivenWeaponDataBase = [
   ["Detron", "detron", "Pistol", 1],
   ["Zylok", "zylok", "Pistol", 1],
   ["Ocucor", "ocucor", "Pistol", 1],
+  ["Plinx", "plinx", "Pistol", 1],
 
   ["Catchmoon", "catchmoon", "Pistol", 1],
   ["Gaze", "gaze", "Pistol", 1],
@@ -472,12 +473,14 @@ const _rivenWeaponDataBase = [
   ["Plague Keewar", "plagueKeewar", "Melee", 1],
   ["Plague Kripath", "plagueKripath", "Melee", 1],
 
+  ["Galvacord", "galvacord", "Melee", 1],
   ["Cadus", "cadus", "Melee", 1],
   ["Kreska", "kreska", "Melee", 1],
   ["Paracesis", "paracesis", "Melee", 1],
   ["Pupacyst", "pupacyst", "Melee", 1],
   ["Falcor", "falcor", "Melee", 1],
   ["Gunsen", "gunsen", "Melee", 1],
+  ["Cobra & Crane", "cobraCrane", "Melee", 1],
   ["Silva & Aegis", "silvaAegis", "Melee", 1],
   ["Sigma & Octantis", "sigmaOctantis", "Melee", 1],
   ["Dual Cleavers", "dualCleavers", "Melee", 1],
