@@ -62,10 +62,14 @@ export class Warframe implements WarframeData {
   get isBase() { return !this.className }
   get warframes() { return WarframeDataBase.getWarframeByClassName(this.className || this.id) }
 
-  get abilityStrength() { return 100 }
-  get abilityDuration() { return 100 }
-  get abilityEfficiency() { return 100 }
-  get abilityRange() { return 100 }
+  get abilityStrength() { return 1 }
+  get abilityDuration() { return 1 }
+  get abilityEfficiency() { return 1 }
+  get abilityRange() { return 1 }
+  /** 有效生命 */
+  get effectiveHealth() {
+    return this.shield + (this.health * (1 + this.armor / 300));
+  }
 }
 
 /** 战甲数据辅助类 */

@@ -38,19 +38,21 @@ export type Rarity = "n" | "c" | "r" | "l" | "x"
 export class NormalMod implements NormalModData {
   key: string
   id: string
-  _name?: string
+  customName?: string
   type: string
   polarity: Polarity
-  cost: number
+  maxCost: number;
   level: number
+  maxLevel: number
   rarity: Rarity
   props: [string, number][]
   canReplaceBy?: string[]
   primed?: string
   riven?: string
 
+  get cost(): number { return this.maxCost + this.level - this.maxLevel; }
   get name() {
-    let name = this._name || i18n.t(`messages.${this.id}`) as string;
+    let name = this.customName || i18n.t(`messages.${this.id}`) as string;
     name || console.log(`warn: missing ${this.id}`);
     return name || "";
   }
@@ -68,16 +70,29 @@ export class NormalMod implements NormalModData {
       return this.cost;
   }
 
-  constructor(data: NormalModData) {
+  /** 调整等级 */
+  scaleLevel(level: number) {
+    if (level >= this.maxLevel) return this;
+    let { key, id, customName, type, polarity, rarity, maxLevel, props, canReplaceBy, primed, riven } = this;
+    return new NormalMod({
+      key, id, type, polarity, rarity, canReplaceBy, primed, riven, level, props,
+      name: customName,
+      cost: this.maxCost,
+    }, level)
+  }
+
+  constructor(data: NormalModData, userLevel?: number) {
     this.key = data.key;
     this.id = data.id;
-    this._name = data.name;
+    this.customName = data.name;
     this.type = data.type;
     this.polarity = data.polarity;
-    this.cost = data.cost;
-    this.level = data.level;
+    this.maxCost = data.cost;
+    this.level = userLevel || data.level;
+    this.maxLevel = data.level;
     this.rarity = data.rarity;
-    this.props = data.props;
+    this.props = this.level === this.maxLevel ? data.props :
+      data.props.map(([vn, vv]) => [vn, vv / (data.level + 1) * (userLevel + 1)] as [string, number]);
     this.canReplaceBy = data.canReplaceBy;
     this.primed = data.primed;
     this.riven = data.riven;

@@ -1197,6 +1197,34 @@ export const _abilityData: AbilityData[] = [
     description: "Create deadly tornadoes that seek out and engulf enemies. Tornadoes deal the elemental Damage Type they absorb the most. Shoot enemies engulfed in Tornadoes to do additional damage.",
     tags: 0,
     energyCost: 25,
+  },
+  {
+    id: "Elude",
+    name: "elude",
+    description: "Dodge all incoming projectiles, but only while not attacking. Use again to deactivate this ability.",
+    tags: 0,
+    energyCost: 25,
+  },
+  {
+    id: "Lull",
+    name: "lull",
+    description: "A calming wave slows enemies until they fall into a slumber. Enemies woken by damage will be confused and disoriented. Short-term amnesia means all waking enemies forget anything that happened before the lull.",
+    tags: 0,
+    energyCost: 50,
+  },
+  {
+    id: "Desolate Hands",
+    name: "desolateHands",
+    description: "Summon a bevy of orbiting daggers to seek out enemy guns, destroying them with a small explosion. Combine with Elude to double the range.",
+    tags: 0,
+    energyCost: 75,
+  },
+  {
+    id: "Serene Storm",
+    name: "sereneStorm",
+    description: "With his Restraint eroded, Baruuk commands the Desert Wind to deliver powerful radial strikes with his fists and feet. Each moment commanding the storm restores his Restraint.",
+    tags: 0,
+    energyCost: 0,
   }
 ];
 export const _warframeData: WarframeData[] = [
@@ -1281,6 +1309,23 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2017 02 28",
     vaultDate: "n/a",
     estimatedVaultDate: "2019 01 01"
+  }, {
+    id: "Baruuk",
+    name: "baruuk",
+    tags: ["DPS", "Tactics"],
+    description: "Beware the fury of the truly patient. Pushed beyond restraint, a reluctant master unleashes the storm within.",
+    health: 75,
+    shield: 100,
+    armor: 150,
+    energy: 200,
+    sprint: 1.2,
+    passiveDescription: "Each projectile dodged, each enemy lulled or disarmed, erodes Baruuk’s restraint and fuels the storm within. As Baruuk’s restraint is diminished he becomes more resistant to damage.",
+    abilities: ["Elude", "Lull", "Desolate Hands", "Serene Storm"],
+    aura: "-",
+    exilus: "-",
+    introduced: "24.2.0",
+    polarities: ["r", "r"],
+    sex: "Male"
   }, {
     id: "Chroma",
     name: "chroma",
@@ -1465,7 +1510,8 @@ export const _warframeData: WarframeData[] = [
     aura: "r",
     introduced: "24",
     polarities: ["-", "d"],
-    sex: "Female"
+    sex: "Female",
+    lvlUps: [["h", 2], ["e", 1.25], ["s", 2]]
   }, {
     id: "Harrow",
     name: "harrow",
@@ -1527,9 +1573,11 @@ export const _warframeData: WarframeData[] = [
     passiveDescription: "While bleeding-out, Inaros becomes entombed in a protective Sarcophagus. He can revive himself by draining the life-force from nearby enemies and allies.",
     abilities: ["Desiccation", "Devour", "Sandstorm", "Scarab Swarm"],
     aura: "-",
+    exilus: "-",
     introduced: "18.5",
     polarities: ["d", "d"],
-    sex: "Male"
+    sex: "Male",
+    lvlUps: [["h", 3], ["e", 0.5]]
   }, {
     id: "Ivara",
     name: "ivara",
@@ -1559,6 +1607,7 @@ export const _warframeData: WarframeData[] = [
     passiveDescription: "The ferocious kavat, Venari, fights by Khora’s side and provides her with a speed boost while active. If killed, Venari will reappear after a short time.",
     abilities: ["Whipclaw", "Ensnare", "Venari", "Strangledome"],
     aura: "d",
+    exilus: "-",
     introduced: "22.18.0",
     polarities: ["r", "-"],
     sex: "Female"
@@ -1684,7 +1733,7 @@ export const _warframeData: WarframeData[] = [
     sprint: 1.1,
     introduced: "24.2.2",
     masteryReq: 2,
-    polarities: ["-", "-"],
+    polarities: ["-", "-", "d", "r"],
   }, {
     id: "Mirage",
     name: "mirage",
@@ -1778,7 +1827,8 @@ export const _warframeData: WarframeData[] = [
     aura: "r",
     introduced: "19.5",
     polarities: ["r", "d"],
-    sex: "Male"
+    sex: "Male",
+    lvlUps: [["h", 3], ["e", 0.5], ["a", 0.5], ["S", 0.15]]
   }, {
     id: "Nova",
     name: "nova",

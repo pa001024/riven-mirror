@@ -102,14 +102,14 @@ const _fleshTypeName = [
   "物件",
 ];
 
-export enum SheildType {
+export enum ShieldType {
   /** 护盾 */
-  Sheild,
+  Shield,
   /** 原型护盾 */
-  ProtoSheild,
+  ProtoShield,
 }
 
-const _sheildTypeName = [
+const _shieldTypeName = [
   "护盾",
   "原型护盾",
 ];
@@ -143,10 +143,10 @@ export interface EnemyData {
   faction: EnemyFaction;
   baseLevel: number;
   baseHealth: number;
-  baseSheild: number;
+  baseShield: number;
   baseArmor: number;
   fleshType: FleshType;
-  sheildType: SheildType;
+  shieldType: ShieldType;
   armorType: ArmorType;
   resistence: number;
   ignoreProc: number; // 1免疫DoT 2免疫所有 3为夜灵 影响伤害算法
@@ -249,10 +249,10 @@ export const EnemyList = _enemyList.map(v => ({
   faction: v[2],
   baseLevel: v[3],
   baseHealth: v[4],
-  baseSheild: v[5],
+  baseShield: v[5],
   baseArmor: v[6],
   fleshType: v[7],
-  sheildType: v[8],
+  shieldType: v[8],
   armorType: v[9],
   resistence: v[10],
   ignoreProc: v[11],
@@ -321,7 +321,7 @@ export interface EnemyTimelineState {
   ms: number;
   ammo: number;
   health: number;
-  sheild: number;
+  shield: number;
   armor: number;
   isDoT: boolean;
 }
@@ -334,16 +334,16 @@ export class Enemy implements EnemyData {
   get factionName() { return EnemyFaction[this.faction]; }
   baseLevel: number;
   baseHealth: number;
-  baseSheild: number;
+  baseShield: number;
   baseArmor: number;
   fleshType: FleshType;
-  sheildType: SheildType;
+  shieldType: ShieldType;
   armorType: ArmorType;
   get fleshTypeId() { return FleshType[this.fleshType]; }
-  get sheildTypeId() { return SheildType[this.sheildType]; }
+  get shieldTypeId() { return ShieldType[this.shieldType]; }
   get armorTypeId() { return ArmorType[this.armorType]; }
   get fleshTypeName() { return _fleshTypeName[this.fleshType]; }
-  get sheildTypeName() { return _sheildTypeName[this.sheildType]; }
+  get shieldTypeName() { return _shieldTypeName[this.shieldType]; }
   get armorTypeName() { return _armorTypeName[this.armorType]; }
   resistence: number;
   get resistenceText() { return this.resistence && (this.resistence * 100).toFixed() + "%"; }
@@ -356,7 +356,7 @@ export class Enemy implements EnemyData {
     this.reset();
   }
   currentHealth: number = 0;
-  currentSheild: number = 0;
+  currentShield: number = 0;
   currentArmor: number = 0;
   currentProcs: Procs;
   amrorReduce: number = 0;
@@ -372,7 +372,7 @@ export class Enemy implements EnemyData {
    * 当前等级基础护盾
    * = 基础护盾 × ( 1 + ( 当前等级 − 基础等级 )^2 × 0.0075 )
    */
-  get sheild() { return this.baseSheild * (1 + (this.level - this.baseLevel) ** 2 * 0.0075); }
+  get shield() { return this.baseShield * (1 + (this.level - this.baseLevel) ** 2 * 0.0075); }
   /**
    * 当前等级基础护甲
    * = 基础护甲 × ( 1 + ( 当前等级 − 基础等级 )^1.75 × 0.005 )
@@ -384,7 +384,7 @@ export class Enemy implements EnemyData {
    */
   reset() {
     this.currentHealth = this.health;
-    this.currentSheild = this.sheild;
+    this.currentShield = this.shield;
     this.currentArmor = this.armor * (this.amrorReduce > 1 ? 0 : 1 - this.amrorReduce);
     this.currentProcs = new Procs();
     this.stateHistory = [];
@@ -397,10 +397,10 @@ export class Enemy implements EnemyData {
    * @param {EnemyData} obj 参数对象
    * @param level 等级
    */
-  constructor({ id, name, faction, baseLevel, baseHealth, baseSheild, baseArmor, fleshType, sheildType, armorType, resistence, ignoreProc }: EnemyData, level: number) {
+  constructor({ id, name, faction, baseLevel, baseHealth, baseShield, baseArmor, fleshType, shieldType, armorType, resistence, ignoreProc }: EnemyData, level: number) {
     [this.id, this.name, this.faction] = [id, name, faction];
-    [this.baseLevel, this.baseHealth, this.baseSheild, this.baseArmor] = [baseLevel, baseHealth, baseSheild, baseArmor];
-    [this.fleshType, this.sheildType, this.armorType] = [fleshType, sheildType, armorType];
+    [this.baseLevel, this.baseHealth, this.baseShield, this.baseArmor] = [baseLevel, baseHealth, baseShield, baseArmor];
+    [this.fleshType, this.shieldType, this.armorType] = [fleshType, shieldType, armorType];
     this.resistence = resistence;
     this.ignoreProc = ignoreProc;
     this.level = level;
@@ -413,10 +413,10 @@ export class Enemy implements EnemyData {
       faction: this.faction,
       baseLevel: this.baseLevel,
       baseHealth: this.baseHealth,
-      baseSheild: this.baseSheild,
+      baseShield: this.baseShield,
       baseArmor: this.baseArmor,
       fleshType: this.fleshType,
-      sheildType: this.sheildType,
+      shieldType: this.shieldType,
       armorType: this.armorType,
       resistence: this.resistence,
       ignoreProc: this.ignoreProc
@@ -430,7 +430,7 @@ export class Enemy implements EnemyData {
    * @memberof Enemy
    */
   mapDamage(dmgs: [string, number][]) {
-    if (this.currentSheild > 1) return this.mapDamageSheild(dmgs);
+    if (this.currentShield > 1) return this.mapDamageShield(dmgs);
     if (this.currentArmor > 1) return this.mapDamageArmor(dmgs);
     return this.mapDamageHealth(dmgs);
   }
@@ -474,11 +474,11 @@ export class Enemy implements EnemyData {
    * @returns 映射后的伤害数值
    * @memberof Enemy
    */
-  mapDamageSheild(dmgs: [string, number][]) {
+  mapDamageShield(dmgs: [string, number][]) {
     return dmgs.map(([id, dmg]) => {
       let dtype = Damage2_0.getDamageType(id as DamageType);
       if (!dtype) return [id, dmg];
-      let SM = dtype.dmgMul[9 + this.sheildType];
+      let SM = dtype.dmgMul[9 + this.shieldType];
       // 毒素伤害直接穿透护盾对血量进行打击, 不计算对护盾的伤害
       let DM = isNaN(SM) ? 0 : 1 + SM;
       return [id, dmg * DM * (1 - this.resistence)];
@@ -502,7 +502,7 @@ export class Enemy implements EnemyData {
         this.currentHealth -= dmg;
       } else {
         // 毒素穿透护盾
-        if (this.currentSheild > 0) {
+        if (this.currentShield > 0) {
           if (id === DamageType.Toxin) {
             let dtype = Damage2_0.getDamageType(id as DamageType);
             let HM = dtype.dmgMul[this.fleshType];
@@ -510,7 +510,7 @@ export class Enemy implements EnemyData {
             let DM = (1 + HM) * (1 + AM) / (1 + this.currentArmor * (1 - AM) / 300);
             this.currentHealth -= dmgs[i][1] * DM;
           } else {
-            this.currentSheild -= dmg;
+            this.currentShield -= dmg;
           }
         } else {
           this.currentHealth -= dmg;
@@ -518,9 +518,9 @@ export class Enemy implements EnemyData {
       }
     }
     // 如果伤害穿透护盾之后还有剩 按剩余比例再计算一次
-    if (this.currentSheild < 0) {
-      let remaingDmgRate = 1 - this.currentSheild / totalDmg;
-      this.currentSheild = 0;
+    if (this.currentShield < 0) {
+      let remaingDmgRate = 1 - this.currentShield / totalDmg;
+      this.currentShield = 0;
       this.applyDmg(dmgs.map(([id, dmg]) => [id, dmg * remaingDmgRate] as [string, number]));
     }
     return this;
@@ -613,7 +613,7 @@ export class Enemy implements EnemyData {
         }
         // [4.1.磁力少盾]
         if (procChance[DamageType.Magnetic] > 0) {
-          this.currentSheild *= (0.25 ** (procChance[DamageType.Magnetic] * bh));
+          this.currentShield *= (0.25 ** (procChance[DamageType.Magnetic] * bh));
         }
         // [4.2.病毒少血]
         if (procChance[DamageType.Viral] > 0 && this.currentProcs.Viral < 1) {
@@ -654,7 +654,7 @@ export class Enemy implements EnemyData {
       ms: ~~(this.tickCount * 1e3 / this.TICKCYCLE),
       ammo,
       health: this.currentHealth,
-      sheild: this.currentSheild,
+      shield: this.currentShield,
       armor: this.currentArmor,
       isDoT
     })

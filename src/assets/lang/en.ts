@@ -1493,6 +1493,8 @@ let po = {
     "khora": "KHORA",
     "revenant": "REVENANT",
     "garuda": "GARUDA",
+    "baruuk": "BARUUK",
+    "mesaPrime": "MESA PRIME",
     "maduraiLens": "Madurai Lens",
     "naramonLens": "Naramon Lens",
     "vazarinLens": "Vazarin Lens",
@@ -2238,6 +2240,7 @@ let po = {
     armor: "ARMOR",
     energy: "ENERGY",
     sprint: "SPRINT",
+    effectiveHealth: "EFFECTIVE HEALTH",
     abilityStrength: "ABILITY STRENGTH",
     abilityDuration: "ABILITY DURATION",
     abilityEfficiency: "ABILITY EFFICIENCY",
@@ -2262,9 +2265,9 @@ let po = {
       7: "Robotic",
       8: "Object",
     },
-    sheildType: {
-      0: "Sheild",
-      1: "Proto Sheild",
+    shieldType: {
+      0: "Shield",
+      1: "Proto Shield",
     },
     armorType: {
       0: "Ferrite Armor",

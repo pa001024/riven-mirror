@@ -18,6 +18,7 @@ export interface WarframeData {
   passiveDescription?: string;
   abilities?: string[];
   aura?: string;
+  exilus?: string;
   sex?: string;
   // prime only props
   releaseDate?: string;
@@ -28,11 +29,11 @@ export interface WarframeData {
 /** 战甲属性条目 */
 export enum WarframeProperty {
   Health = "h",
-  Sheild = "s",
+  Shield = "s",
   Amror = "a",
   Energy = "e",
   Sprint = "f",
-  SheildRecharge = "r",
+  ShieldRecharge = "r",
   AbilityStrength = "S",
   AbilityDuration = "D",
   AbilityEfficiency = "E",

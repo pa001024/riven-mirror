@@ -79,7 +79,7 @@ export abstract class BaseBuildEditor extends Vue {
     this.$router.push({ name: 'BuildEditorWithCode', params: { code: this.build.miniCode } });
   }
   clear() {
-    let rivenIdx = this.currentTab.mods.findIndex(v => v.rarity === "x"), riven = this.currentTab.mods[rivenIdx];
+    let rivenIdx = this.currentTab.mods.findIndex(v => v && v.rarity === "x"), riven = this.currentTab.mods[rivenIdx];
     this.currentTab.mods = Array(8);
     // 不清除紫卡
     if (riven) this.currentTab.mods[rivenIdx] = riven;

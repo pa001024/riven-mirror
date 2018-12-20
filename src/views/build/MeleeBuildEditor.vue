@@ -85,26 +85,7 @@
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
-                  <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="slotClick(index)">
-                    <template v-if="mod">
-                      <div class="mod-title">
-                        <div class="mod-polarity" :class="{'np': mod.polarity === build.polarizations[index]}"><i :class="`wf-icon-${mod.polarity}`"></i>{{build.getCost(index)}}</div>
-                        {{mod.name}}
-                      </div>
-                      <div class="mod-detail" @click.stop="slotRemove(index)">
-                        <div class="mod-stat">
-                          <div class="mod-prop" v-for="prop in mod.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
-                          <div class="mod-sum">{{PNNum(100 * item.build.modValue(mod.id))}}% {{$t("build.total")}}</div>
-                        </div>
-                        <div class="mod-action">
-                          <button type="button" class="mod-slot-remove">
-                            <i class="el-icon-close"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </template>
-                    <i v-else class="el-icon-plus"></i>
-                  </div>
+                  <ModSlot @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
                 </el-col>
               </draggable>
             </el-row>
@@ -164,6 +145,7 @@ import PropDiff from "@/components/PropDiff.vue";
 import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
+import ModSlot from "@/components/ModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 
 declare interface BuildSelectorTab {
@@ -174,7 +156,7 @@ declare interface BuildSelectorTab {
 }
 
 @Component({
-  components: { ModSelector, PropDiff, BuffSelector, StatusInfoDisplay }
+  components: { ModSelector, PropDiff, BuffSelector, StatusInfoDisplay, ModSlot }
 })
 export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: MeleeWeapon;

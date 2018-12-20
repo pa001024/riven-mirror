@@ -89,26 +89,7 @@
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
-                  <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod }]" @click="slotClick(index)">
-                    <template v-if="mod">
-                      <div class="mod-title">
-                        <div class="mod-polarity" :class="{'np': mod.polarity === build.polarizations[index]}"><i :class="`wf-icon-${mod.polarity}`"></i>{{build.getCost(index)}}</div>
-                        {{mod.name}}
-                      </div>
-                      <div class="mod-detail" @click.stop="slotRemove(index)">
-                        <div class="mod-stat">
-                          <div class="mod-prop" v-for="prop in mod.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
-                          <div class="mod-sum">{{PNNum(100 * item.build.modValue(mod.id))}}% {{$t("build.total")}}</div>
-                        </div>
-                        <div class="mod-action">
-                          <button type="button" class="mod-slot-remove">
-                            <i class="el-icon-close"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </template>
-                    <i v-else class="el-icon-plus"></i>
-                  </div>
+                  <ModSlot @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
                 </el-col>
               </draggable>
             </el-row>
@@ -171,9 +152,9 @@
                     <div class="key">{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</div>
                     <div class="value">{{enemy.health.toFixed()}}</div>
                   </li>
-                  <li v-if="enemy.sheild > 0" class="enemy-shield">
-                    <div class="key">{{$t(`enemy.sheildType.${enemy.sheildType}`)}}</div>
-                    <div class="value">{{enemy.sheild.toFixed()}}</div>
+                  <li v-if="enemy.shield > 0" class="enemy-shield">
+                    <div class="key">{{$t(`enemy.shieldType.${enemy.shieldType}`)}}</div>
+                    <div class="value">{{enemy.shield.toFixed()}}</div>
                   </li>
                   <li v-if="enemy.armor > 0" class="enemy-armor">
                     <div class="key">{{$t(`enemy.armorType.${enemy.armorType}`)}}</div>
@@ -219,10 +200,11 @@ import PropDiff from "@/components/PropDiff.vue";
 import EnemySelector from "@/components/EnemySelector.vue";
 import EnemyTimeline from "@/components/EnemyTimeline.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
+import ModSlot from "@/components/ModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 
 @Component({
-  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay }
+  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot }
 })
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;
@@ -311,11 +293,6 @@ export default class GunBuildEditor extends BaseBuildEditor {
 @theme_leaf: #89b2fd;
 @half_grey : #777;
 @text_info : #67c23a;
-@mod_n : #865e37;
-@mod_c : #a7a7a7;
-@mod_r : #f5e583;
-@mod_l : #eaeaea;
-@mod_x : #a072ce;
 
 .weapon-display {
   .share-icon {
@@ -530,45 +507,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
 .mod-slot-containor {
   flex-wrap: wrap;
 }
-.mod-slot {
-  border-left: 4px solid transparent;
-  text-align: center;
-  margin: 8px 0;
-  border-radius: 4px;
-  background: #fff;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .el-icon-plus {
-    font-size: 40px;
-    color: @theme_leaf;
-    padding: 20px;
-  }
-  &:hover .el-icon-plus,
-  .el-icon-close {
-    color: @theme_main;
-  }
-  &.active {
-    cursor: pointer;
-  }
-  &.n {
-    border-left-color: @mod_n;
-  }
-  &.c {
-    border-left-color: @mod_c;
-  }
-  &.r {
-    border-left-color: @mod_r;
-  }
-  &.l {
-    border-left-color: @mod_l;
-  }
-  &.x {
-    border-left-color: @mod_x;
-  }
-}
+
 .mod-select {
   max-height: 64vh;
   overflow: auto;
