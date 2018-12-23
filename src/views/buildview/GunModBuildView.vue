@@ -28,8 +28,8 @@
                   <div class="build-card-name">{{mod.name}}</div>
                 </div>
                 <div class="build-card-body">
-                  <div class="build-card-prop" v-for="prop in mod.props" :key="prop[0]">
-                    {{convertToPropName(prop)}}
+                  <div class="build-card-prop" v-for="prop in mod.vProps" :key="prop.id">
+                    {{prop.fullName}}
                   </div>
                 </div>
               </div>

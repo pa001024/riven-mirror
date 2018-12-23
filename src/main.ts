@@ -18,6 +18,9 @@ Vue.config.productionTip = false;
 Vue.component("draggable", draggable);
 Vue.component("qrcode", qrcode);
 
+import WfIcon from "./components/WfIcon.vue";
+Vue.component("WfIcon", WfIcon);
+
 import './plugins/element'
 
 /* eslint-disable no-new */

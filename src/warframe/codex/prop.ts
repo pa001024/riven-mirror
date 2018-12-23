@@ -8,9 +8,71 @@ export interface CommonProperty {
   nopercent?: boolean;
   dmg?: boolean;
   noplus?: boolean;
+  negative?: boolean;
 }
 
 export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
+  // 基础
+  { id: "0", dmg: true }, // 暴击率
+  { id: "1", dmg: true }, // 暴击伤害
+  { id: "2", dmg: true }, // 触发率
+  { id: "3", dmg: true }, // 触发时间
+  { id: "4", dmg: true }, // 火伤
+  { id: "5", dmg: true }, // 冰伤
+  { id: "6", dmg: true }, // 毒伤
+  { id: "7", dmg: true }, // 电伤
+  { id: "8", dmg: true }, // 冲击
+  { id: "9", dmg: true }, // 穿刺
+  { id: "A", dmg: true }, // 切割
+  { id: "G", dmg: true }, // G系伤害
+  { id: "I", dmg: true }, // I系伤害
+  { id: "C", dmg: true }, // C系伤害
+  { id: "D", dmg: true }, // 伤害
+  { id: "S", dmg: true }, // 多重
+  { id: "R", dmg: true }, // 射速
+  { id: "L", dmg: true }, // 弹匣
+  { id: "F", dmg: true }, // 装填
+  { id: "M" }, // 弹药
+  { id: "P" }, // 穿透
+  { id: "H" }, // 变焦
+  { id: "V" }, // 弹道
+  { id: "Z" }, // 后坐
+  { id: "K", dmg: true }, // 近战伤害
+  { id: "T" }, // 范围
+  { id: "J", dmg: true }, // 攻速
+  { id: "B", dmg: true }, // 导引伤害
+  { id: "U" }, // 导引效率
+  { id: "N", nopercent: true }, // 连击
+  { id: "E", dmg: true }, // 滑暴
+  { id: "X" }, // 处决
+  // 战甲
+  { id: "h", }, // Health
+  { id: "s", }, // Shield
+  { id: "a", }, // Amror
+  { id: "e", }, // Energy
+  { id: "f", }, // Sprint
+  { id: "r", }, // ShieldRecharge
+  { id: "t", }, // AbilityStrength S=>t
+  { id: "u", }, // AbilityDuration D=>u
+  { id: "x", }, // AbilityEfficiency E=>x
+  { id: "g", }, // AbilityRange R=>g
+  { id: "c", }, // CastSpeed
+  { id: "k", }, // KnockdownResistance
+  { id: "y", }, // KnockdownRecovery h=>y
+  { id: "l", }, // Slide
+  { id: "i", }, // Friction F=>i
+  { id: "v", }, // ParkourVelocity
+  { id: "z", }, // QuickThinking
+  { id: "rg", }, // Rage A=>rg
+  { id: "hc", nopercent: true, }, // HealthConversion
+  { id: "ec", }, // EnergyConversion
+  { id: "tr", }, // TauResist
+  { id: "as", }, // AuraStrength
+  { id: "ae", }, // AuraEffectiveness
+  { id: "at", }, // AimGlideWallLatchTime
+  { id: "er", nopercent: true, }, // EnemyRadar
+  { id: "lr", nopercent: true, }, // LootRadar
+  // 其他
   { id: "acc" }, // 精准
   { id: "range", nopercent: true }, // 射程
   { id: "stick" }, // 壁面附着
@@ -71,7 +133,14 @@ export class ValuedProperty {
     if (prop) {
       return new ValuedProperty(prop, vv);
     }
-    return null;
+    return {
+      id: vn,
+      displayValue: String(vv),
+      fullString: vn,
+      shortString: vn,
+      value: vv,
+      prop: { id: vn }
+    };
   }
   /** 属性原型 */
   prop: CommonProperty
@@ -90,10 +159,19 @@ export class ValuedProperty {
       return "+" + dv;
     return dv;
   }
+
+  get id() { return this.prop.id }
   /**
    * 完整属性显示
    */
-  fullString() {
-    return i18n.t("exprop.fullName." + this.prop.id, [this.displayValue])
+  get fullString() {
+    return i18n.t("prop.fullName." + this.prop.id, [this.displayValue])
   }
+  /**
+   * 属性简称
+   */
+  get shortString() {
+    return i18n.t("prop.shortName." + this.prop.id)
+  }
+
 }

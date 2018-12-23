@@ -36,10 +36,10 @@
         <!-- 突击 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="sortie.id">
           <el-card class="index-card sortie">
-            <h3 slot="header"><i class="wf-icon-sortie"></i> {{$t("alerting.sortie")}}</h3>
+            <h3 slot="header"><WfIcon type="sortie" shadow/> {{$t("alerting.sortie")}}</h3>
             <ul>
               <div class="sortie-info"><!--
-             --><i :class="['wf-icon-' + sortie.faction.toLowerCase()]"></i> {{sortie.boss}}<!--
+             --><WfIcon :type="sortie.faction.toLowerCase()"/> {{sortie.boss}}<!--
            --></div>
               <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sortie.expiry)}}</div>
               <li v-for="(v, i) in sortie.variants" :key="i">
@@ -55,7 +55,7 @@
         <!-- 警报 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="alerts.length > 0">
           <el-card class="index-card alert">
-            <h3 slot="header"><i class="wf-icon-alert"></i> {{$t("alerting.alerts")}}</h3>
+            <h3 slot="header"><WfIcon type="alert" shadow/> {{$t("alerting.alerts")}}</h3>
             <ul>
               <li v-for="(v, i) in alerts" :key="i">
                 <div class="info">
@@ -64,7 +64,7 @@
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <i :class="['wf-icon-' + v.mission.faction.toLowerCase()]"></i> {{v.mission.node}}
+                    <WfIcon :type="v.mission.faction.toLowerCase()"/> {{v.mission.node}}
                   </div>
                   <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
                 </div>
@@ -75,7 +75,7 @@
         <!-- 新闻 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="news.length > 0">
           <el-card class="index-card news">
-            <h3 slot="header"><i class="wf-icon-earth"></i> {{$t("alerting.news")}}</h3>
+            <h3 slot="header"><WfIcon type="earth" shadow/> {{$t("alerting.news")}}</h3>
             <ul>
               <li v-for="(v, i) in news" :key="i">
                 <i class="el-icon-caret-right"></i>
@@ -87,7 +87,7 @@
         <!-- 虚空商人 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="voidTrader && voidTrader.inventory.length > 0">
           <el-card class="index-card voidtrader">
-            <h3 slot="header"><i class="wf-icon-voidtrader"></i> {{$t("alerting.voidTrader")}}</h3>
+            <h3 slot="header"><WfIcon type="voidtrader" shadow/> {{$t("alerting.voidTrader")}}</h3>
             <ul>
               <li>
                 <div class="location">{{voidTrader.location}}</div>
@@ -107,7 +107,7 @@
         <!-- 裂缝 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="fissures.length > 0">
           <el-card class="index-card fissure">
-            <h3 slot="header"><i class="wf-icon-fissure"></i> {{$t("alerting.fissures")}}</h3>
+            <h3 slot="header"><WfIcon type="fissure" shadow/> {{$t("alerting.fissures")}}</h3>
             <ul>
               <li v-for="(v, i) in fissures" :key="i">
                 <div class="info">
@@ -116,7 +116,7 @@
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <i :class="['wf-icon-' + v.enemy.toLowerCase()]"></i> {{v.node}}
+                    <WfIcon :type="v.enemy.toLowerCase()"/> {{v.node}}
                   </div>
                   <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
                 </div>
@@ -127,16 +127,16 @@
         <!-- 入侵 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="invasions.length > 0">
           <el-card class="index-card invasion">
-            <h3 slot="header"><i class="wf-icon-invasion"></i> {{$t("alerting.invasion")}}</h3>
+            <h3 slot="header"><WfIcon type="invasion" shadow/> {{$t("alerting.invasion")}}</h3>
             <ul>
               <li v-for="(v, i) in invasions" :key="i">
                 <div class="info">
                   <div class="reward">
-                    <i :class="['wf-icon-' + v.attackingFaction.toLowerCase()]"></i>
+                    <WfIcon :type="v.attackingFaction.toLowerCase()"/>
                     {{v.attackerReward.itemString || '-'}}
                   </div>
                   <div class="reward">
-                    <i :class="['wf-icon-' + v.defendingFaction.toLowerCase()]"></i>
+                    <WfIcon :type="v.defendingFaction.toLowerCase()"/>
                     {{v.defenderReward.itemString || '-'}}
                   </div>
                 </div>
@@ -151,7 +151,7 @@
         <!-- 地球赏金 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="ostrons.length > 0">
           <el-card class="index-card ostrons">
-            <h3 slot="header"><i class="wf-icon-ostrons"></i> {{$t("alerting.ostrons")}}</h3>
+            <h3 slot="header"><WfIcon type="ostrons" shadow/> {{$t("alerting.ostrons")}}</h3>
             <ul>
               <li v-for="(v, i) in ostrons" :key="i">
                 <div class="info">
@@ -167,7 +167,7 @@
         <!-- 金星赏金 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="solarisUnited.length > 0">
           <el-card class="index-card solarisUnited">
-            <h3 slot="header"><i class="wf-icon-solarisUnited"></i> {{$t("alerting.solarisUnited")}}</h3>
+            <h3 slot="header"><WfIcon type="fortuna" shadow/> {{$t("alerting.solarisUnited")}}</h3>
             <ul>
               <li v-for="(v, i) in solarisUnited" :key="i">
                 <div class="info">

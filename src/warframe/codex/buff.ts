@@ -1,3 +1,5 @@
+import { ValuedProperty } from "./prop";
+
 /**
  * 加成
  */
@@ -57,6 +59,23 @@ export class Buff {
     if (this.data.multiLayer && this.data.multiLayer.stackableProps) pout = pout.concat(this.data.multiLayer.stackableProps.map(([n, v]) => [n, v * this.layer]));
     if (this.data.multiLayer && this.data.multiLayer.unstackableProps) pout = pout.concat(this.data.multiLayer.unstackableProps[this.layer - 1]);
     return pout;
+  }
+  /**
+   * 显示用Props
+   *
+   * @readonly
+   * @memberof NormalMod
+   */
+  get vProps() {
+    return this.props.map(prop => {
+      let vp = ValuedProperty.parse(prop)
+      return {
+        id: vp.id,
+        fullName: vp.fullString,
+        shortName: vp.shortString,
+        value: vp.value
+      }
+    })
   }
   get layerEnable() { return !!this.data.multiLayer; }
   get powerEnable() { return !!this.data.parms; }

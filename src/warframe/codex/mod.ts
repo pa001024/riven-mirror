@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { i18n } from "@/i18n";
+import { ValuedProperty } from "./prop";
 
 export interface NormalModData {
   /** 索引 */
@@ -45,15 +46,37 @@ export class NormalMod implements NormalModData {
   level: number
   maxLevel: number
   rarity: Rarity
-  props: [string, number][]
+  _props: [string, number][]
   canReplaceBy?: string[]
   primed?: string
   riven?: string
+  setMul: number = 1
+
+  get props() {
+    if (this.setMul === 1 && this.level === this.maxLevel) return this._props;
+    return this._props.map(([vn, vv]) => [vn, +(vv / (this.maxLevel + 1) * (this.level + 1) * this.setMul).toFixed(4)] as [string, number])
+  }
+  /**
+   * 显示用Props
+   *
+   * @readonly
+   * @memberof NormalMod
+   */
+  get vProps() {
+    return this.props.map(prop => {
+      let vp = ValuedProperty.parse(prop)
+      return {
+        id: vp.id,
+        fullName: vp.fullString,
+        shortName: vp.shortString,
+        value: vp.value,
+      }
+    })
+  }
 
   get cost(): number { return this.maxCost + this.level - this.maxLevel; }
   get name() {
     let name = this.customName || i18n.t(`messages.${this.id}`) as string;
-    name || console.log(`warn: missing ${this.id}`);
     return name || "";
   }
   /** 描述 */
@@ -75,8 +98,9 @@ export class NormalMod implements NormalModData {
     if (level >= this.maxLevel) return this;
     let { key, id, customName, type, polarity, rarity, maxLevel, props, canReplaceBy, primed, riven } = this;
     return new NormalMod({
-      key, id, type, polarity, rarity, canReplaceBy, primed, riven, level, props,
+      key, id, type, polarity, rarity, canReplaceBy, primed, riven, props,
       name: customName,
+      level: maxLevel,
       cost: this.maxCost,
     }, level)
   }
@@ -91,8 +115,7 @@ export class NormalMod implements NormalModData {
     this.level = userLevel || data.level;
     this.maxLevel = data.level;
     this.rarity = data.rarity;
-    this.props = this.level === this.maxLevel ? data.props :
-      data.props.map(([vn, vv]) => [vn, vv / (data.level + 1) * (userLevel + 1)] as [string, number]);
+    this._props = data.props;
     this.canReplaceBy = data.canReplaceBy;
     this.primed = data.primed;
     this.riven = data.riven;
@@ -414,47 +437,47 @@ const _normalModSource = [
 
   // 战甲 G0 ~ Nz
   // 光环
-  ["G0", "growingPower", [["成长之力"]], "Warframe,Aura", "r", "r", 7],
-  ["G1", "pistolAmp", [["手枪增幅"]], "Warframe,Aura", "r", "c", 7],
-  ["G2", "rifleAmp", [["步枪增幅"]], "Warframe,Aura", "r", "c", 7],
-  ["G3", "deadEye", [["死亡之眼"]], "Warframe,Aura", "r", "c", 7],
-  ["G4", "powerDonation", [["献出力量"]], "Warframe,Aura", "r", "r", 9],
-  ["G5", "steelCharge", [["钢铁充能"]], "Warframe,Aura", "r", "c", 9],
-  ["G6", "shotgunAmp", [["霰弹枪增幅"]], "Warframe,Aura", "r", "c", 7],
-  ["G7", "physique", [["体魄"]], "Warframe,Aura", "d", "c", 7],
-  ["G8", "standUnited", [["团结一致"]], "Warframe,Aura", "d", "c", 7],
-  ["G9", "infestedImpedance", [["感染者阻抗"]], "Warframe,Aura", "d", "c", 7],
-  ["GA", "toxinResistance", [["毒素抵抗"]], "Warframe,Aura", "d", "c", 7],
-  ["GB", "empAura", [["电磁脉冲场"]], "Warframe,Aura", "d", "c", 7],
-  ["GC", "rejuvenation", [["返老还童"]], "Warframe,Aura", "d", "c", 7],
-  ["GD", "enemyRadar", [["侦敌雷达"]], "Warframe,Aura", "-", "c", 7],
-  ["GE", "sprintBoost", [["冲刺提升"]], "Warframe,Aura", "-", "c", 7],
-  ["GF", "empoweredBlades", [["强化刀锋"]], "Warframe,Aura", "-", "r", 7],
-  ["GG", "speedHolster", [["快速切换"]], "Warframe,Aura", "-", "c", 7],
-  ["GH", "lootDetector", [["战利品探测器"]], "Warframe,Aura", "-", "c", 7],
-  ["GI", "pistolScavenger", [["手枪弹药搜集者"]], "Warframe,Aura", "-", "c", 7],
-  ["GJ", "shieldDisruption", [["护盾瓦解"]], "Warframe,Aura", "-", "c", 7],
-  ["GK", "mechaEmpowered", [["机甲强化"]], "Warframe,Aura", "-", "r", 7],
-  ["GL", "rifleScavenger", [["步枪弹药搜集者"]], "Warframe,Aura", "-", "c", 7],
-  ["GM", "sniperScavenger", [["狙击枪弹药搜集者"]], "Warframe,Aura", "-", "c", 7],
-  ["GN", "energySiphon", [["能量虹吸"]], "Warframe,Aura", "-", "c", 7],
-  ["GO", "corrosiveProjection", [["腐蚀投射"]], "Warframe,Aura", "-", "c", 7],
-  ["GP", "shotgunScavenger", [["霰弹枪弹药搜集者"]], "Warframe,Aura", "-", "c", 7],
-  ["GQ", "briefRespite", [["快速休整"]], "Warframe,Aura", "=", "c", 7],
+  ["G0", "growingPower", [["t", 0.255]], "Aura", "r", "r", 7],
+  ["G1", "pistolAmp", [["手枪增幅"]], "Aura", "r", "c", 7],
+  ["G2", "rifleAmp", [["步枪增幅"]], "Aura", "r", "c", 7],
+  ["G3", "deadEye", [["死亡之眼"]], "Aura", "r", "c", 7],
+  ["G4", "powerDonation", [["献出力量"]], "Aura", "r", "r", 9],
+  ["G5", "steelCharge", [["钢铁充能"]], "Aura", "r", "c", 9],
+  ["G6", "shotgunAmp", [["霰弹枪增幅"]], "Aura", "r", "c", 7],
+  ["G7", "physique", [["体魄"]], "Aura", "d", "c", 7],
+  ["G8", "standUnited", [["团结一致"]], "Aura", "d", "c", 7],
+  ["G9", "infestedImpedance", [["感染者阻抗"]], "Aura", "d", "c", 7],
+  ["GA", "toxinResistance", [["毒素抵抗"]], "Aura", "d", "c", 7],
+  ["GB", "empAura", [["电磁脉冲场"]], "Aura", "d", "c", 7],
+  ["GC", "rejuvenation", [["返老还童"]], "Aura", "d", "c", 7],
+  ["GD", "enemyRadar", [["侦敌雷达"]], "Aura", "-", "c", 7],
+  ["GE", "sprintBoost", [["冲刺提升"]], "Aura", "-", "c", 7],
+  ["GF", "empoweredBlades", [["强化刀锋"]], "Aura", "-", "r", 7],
+  ["GG", "speedHolster", [["快速切换"]], "Aura", "-", "c", 7],
+  ["GH", "lootDetector", [["战利品探测器"]], "Aura", "-", "c", 7],
+  ["GI", "pistolScavenger", [["手枪弹药搜集者"]], "Aura", "-", "c", 7],
+  ["GJ", "shieldDisruption", [["护盾瓦解"]], "Aura", "-", "c", 7],
+  ["GK", "mechaEmpowered", [["机甲强化"]], "Aura", "-", "r", 7],
+  ["GL", "rifleScavenger", [["步枪弹药搜集者"]], "Aura", "-", "c", 7],
+  ["GM", "sniperScavenger", [["狙击枪弹药搜集者"]], "Aura", "-", "c", 7],
+  ["GN", "energySiphon", [["能量虹吸"]], "Aura", "-", "c", 7],
+  ["GO", "corrosiveProjection", [["腐蚀投射"]], "Aura", "-", "c", 7],
+  ["GP", "shotgunScavenger", [["霰弹枪弹药搜集者"]], "Aura", "-", "c", 7],
+  ["GQ", "briefRespite", [["快速休整"]], "Aura", "=", "c", 7],
 
   // 战甲
-  ["Gl", "intensify", [["S", 0.3]], "Warframe", "r", "r", 11],
-  ["Gm", "stretch", [["R", 0.45]], "Warframe", "-", "c", 9],
-  ["Gn", "streamline", [["E", 0.3]], "Warframe", "-", "r", 9],
-  ["Go", "continuity", [["D", 0.3]], "Warframe", "r", "r", 9],
-  ["Gp", "primedContinuity", [["D", 0.55]], "Warframe", "r", "l", 14, 10],
+  ["Gl", "intensify", [["t", 0.3]], "Warframe", "r", "r", 11],
+  ["Gm", "stretch", [["g", 0.45]], "Warframe", "-", "c", 9],
+  ["Gn", "streamline", [["x", 0.3]], "Warframe", "-", "r", 9],
+  ["Go", "continuity", [["u", 0.3]], "Warframe", "r", "r", 9],
+  ["Gp", "primedContinuity", [["u", 0.55]], "Warframe", "r", "l", 14, 10],
   ["Gq", "flow", [["e", 1.5]], "Warframe", "-", "r", 9],
   ["Gr", "primedFlow", [["e", 2.75]], "Warframe", "-", "l", 14, 10],
-  ["Gs", "blindRage", [["S", 0.99], ["E", -0.55]], "Warframe", "r", "r", 16, 10],
-  ["Gt", "fleetingExpertise", [["E", 0.6], ["D", -0.6]], "Warframe", "-", "r", 11],
-  ["Gu", "narrowMinded", [["D", 0.99], ["R", -0.66]], "Warframe", "d", "r", 16, 10],
-  ["Gv", "overextended", [["R", 0.9], ["S", -0.6]], "Warframe", "d", "r", 11],
-  ["Gw", "transientFortitude", [["S", 0.55], ["E", -0.275]], "Warframe", "r", "r", 16, 10],
+  ["Gs", "blindRage", [["t", 0.99], ["x", -0.55]], "Warframe", "r", "r", 16, 10],
+  ["Gt", "fleetingExpertise", [["x", 0.6], ["u", -0.6]], "Warframe", "-", "r", 11],
+  ["Gu", "narrowMinded", [["u", 0.99], ["g", -0.66]], "Warframe", "d", "r", 16, 10],
+  ["Gv", "overextended", [["g", 0.9], ["t", -0.6]], "Warframe", "d", "r", 11],
+  ["Gw", "transientFortitude", [["t", 0.55], ["x", -0.275]], "Warframe", "r", "r", 16, 10],
   ["Gx", "vitality", [["h", 4.4]], "Warframe", "d", "n", 12, 10],
   ["Gy", "redirection", [["s", 4.4]], "Warframe", "d", "n", 12, 10],
   ["Gz", "steelFiber", [["a", 1.1]], "Warframe", "d", "n", 12, 10],
@@ -462,9 +485,9 @@ const _normalModSource = [
   ["H1", "vigor", [["h", 1.2], ["s", 1.2]], "Warframe", "d", "r", 11],
   ["H2", "primedVigor", [["h", 2.2], ["s", 2.2]], "Warframe", "d", "l", 16, 10],
   ["H3", "armoredAgility", [["f", 0.15], ["a", 0.45]], "Warframe", "d", "r", 11],
-  ["H4", "constitution", [["h", 0.4], ["D", 0.28]], "Warframe", "-", "r", 13, 3],
+  ["H4", "constitution", [["y", 0.4], ["u", 0.28]], "Warframe", "-", "r", 13, 3],
   ["H5", "quickThinking", [["z", 2.4]], "Warframe", "d", "r", 15],
-  ["H6", "rage", [["A", 0.4]], "Warframe", "r", "r", 9, 3],
+  ["H6", "rage", [["rg", 0.4]], "Warframe", "r", "r", 9, 3],
   ["H7", "warmCoat", [["保温服"]], "Warframe", "d", "n", 9, 3],
   ["H8", "insulation", [["隔热"]], "Warframe", "d", "n", 9],
   ["H9", "flameRepellent", [["火焰防护"]], "Warframe", "d", "n", 9],
@@ -485,29 +508,29 @@ const _normalModSource = [
   ["HO", "naturalTalent", [["c", 0.5]], "Warframe", "-", "r", 9],
 
   // 组合
-  ["HO", "umbralVitality", [["h", 4.4], ["tr", 0.11]], "Warframe", "w", "l", 16, 10],
-  ["HP", "umbralFiber", [["a", 1.1], ["tr", 0.11]], "Warframe", "w", "l", 16, 10],
-  ["HQ", "umbralIntensify", [["S", 0.44], ["tr", 0.11]], "Warframe", "w", "l", 16, 10],
-  ["HR", "augurAccord", [["s", 1.8]], "Warframe", "d", "c", 7],
-  ["HS", "augurMessage", [["D", 0.24]], "Warframe", "-", "n", 7],
-  ["HT", "augurReach", [["R", 0.3]], "Warframe", "-", "c", 7],
-  ["HU", "augurSecrets", [["S", 0.24]], "Warframe", "-", "r", 7],
-  ["HV", "gladiatorAegis", [["a", 0.45]], "Warframe", "d", "n", 9],
-  ["HW", "gladiatorFinesse", [["z", 0.6]], "Warframe", "d", "r", 9],
-  ["HX", "gladiatorResolve", [["h", 1.8]], "Warframe", "d", "c", 9],
-  ["HY", "hunterAdrenaline", [["A"], 0.45], "Warframe", "r", "n", 11],
-  ["HZ", "vigilantePursuit", [["私法追踪"]], "Warframe,Exilus", "-", "c", 9],
-  ["Ha", "vigilanteVigor", [["r", 0.6]], "Warframe", "d", "n", 9],
-  ["Hb", "tekCollateral", [["技法连带"]], "Warframe", "-", "r", 5, 3],
-  ["Hc", "mechaPulse", [["机甲脉冲"]], "Warframe", "r", "r", 9, 3],
-  ["Hd", "synthReflex", [["hr", 1]], "Warframe,Exilus", "r", "r", 7, 3],
+  ["HP", "umbralVitality", [["h", 4.4], ["tr", 0.11]], "Warframe", "w", "l", 16, 10],
+  ["HQ", "umbralFiber", [["a", 1.1], ["tr", 0.11]], "Warframe", "w", "l", 16, 10],
+  ["HR", "umbralIntensify", [["t", 0.44], ["tr", 0.11]], "Warframe", "w", "l", 16, 10],
+  ["HS", "augurAccord", [["s", 1.8]], "Warframe", "d", "c", 7],
+  ["HT", "augurMessage", [["u", 0.24]], "Warframe", "-", "n", 7],
+  ["HU", "augurReach", [["g", 0.3]], "Warframe", "-", "c", 7],
+  ["HV", "augurSecrets", [["t", 0.24]], "Warframe", "-", "r", 7],
+  ["HW", "gladiatorAegis", [["a", 0.45]], "Warframe", "d", "n", 9],
+  ["HX", "gladiatorFinesse", [["z", 0.6]], "Warframe", "d", "r", 9],
+  ["HY", "gladiatorResolve", [["h", 1.8]], "Warframe", "d", "c", 9],
+  ["HZ", "hunterAdrenaline", [["rg"], 0.45], "Warframe", "r", "n", 11],
+  ["Ha", "vigilantePursuit", [["私法追踪"]], "Warframe,Exilus", "-", "c", 9],
+  ["Hb", "vigilanteVigor", [["r", 0.6]], "Warframe", "d", "n", 9],
+  ["Hc", "tekCollateral", [["技法连带"]], "Warframe", "-", "r", 5, 3],
+  ["Hd", "mechaPulse", [["机甲脉冲"]], "Warframe", "r", "r", 9, 3],
+  ["He", "synthReflex", [["hr", 1]], "Warframe,Exilus", "r", "r", 7, 3],
 
   // 特殊功能
   ["I7", "agilityDrift", [["矫捷窜升"]], "Warframe,Exilus", "d", "r", 9],
   ["I8", "coactionDrift", [["as", 0.15], ["ae", 0.15]], "Warframe,Exilus", "-", "r", 9],
-  ["I9", "cunningDrift", [["l", 0.12], ["F", -0.3], ["R", 0.15]], "Warframe,Exilus", "r", "r", 9],
+  ["I9", "cunningDrift", [["l", 0.12], ["i", -0.3], ["g", 0.15]], "Warframe,Exilus", "r", "r", 9],
   ["IA", "enduranceDrift", [["e", 0.15], ["v", 0.12]], "Warframe,Exilus", "=", "r", 9],
-  ["IB", "powerDrift", [["S", 0.15], ["k", 0.3]], "Warframe,Exilus", "=", "r", 9],
+  ["IB", "powerDrift", [["t", 0.15], ["k", 0.3]], "Warframe,Exilus", "=", "r", 9],
   ["IC", "speedDrift", [["f", 0.12], ["c", 0.15]], "Warframe,Exilus", "r", "r", 9],
   ["ID", "stealthDrift", [["er", 18], ["at", 0.12]], "Warframe,Exilus", "-", "r", 9],
   ["IE", "batteringManeuver", [["机动冲撞"]], "Warframe,Exilus", "d", "c", 9],
@@ -517,18 +540,18 @@ const _normalModSource = [
   ["II", "iceSpring", [["冰冷跃动"]], "Warframe,Exilus", "d", "r", 12, 10],
   ["IJ", "lightningDash", [["电光冲刺"]], "Warframe,Exilus", "r", "r", 12, 10],
   ["IK", "toxicFlight", [["剧毒飞腾"]], "Warframe,Exilus", "-", "r", 12, 10],
-  ["IL", "maglev", [["l", 0.3], ["F", -0.3]], "Warframe,Exilus", "-", "c", 11],
+  ["IL", "maglev", [["l", 0.3], ["i", -0.3]], "Warframe,Exilus", "-", "c", 11],
   ["IM", "mobilize", [["全面驱动"]], "Warframe,Exilus", "-", "c", 5, 3],
   ["IN", "patagium", [["at"], 0.9], "Warframe,Exilus", "-", "c", 7],
   ["IO", "rush", [["f", 0.3]], "Warframe,Exilus", "-", "c", 11],
-  ["IP", "streamlinedForm", [["hr", 60], ["l", 0.15], ["F", -0.15]], "Warframe,Exilus", "-", "r", 7],
+  ["IP", "streamlinedForm", [["hr", 0.6], ["l", 0.15], ["i", -0.15]], "Warframe,Exilus", "-", "r", 7],
   ["IQ", "aviator", [["飞行员"]], "Warframe,Exilus", "d", "n", 7, 3],
   ["IR", "shockAbsorbers", [["减震器"]], "Warframe,Exilus", "d", "r", 7, 3],
   ["IS", "sureFooted", [["k", 0.6]], "Warframe,Exilus", "d", "r", 9, 3],
   ["IT", "primedSureFooted", [["k", 0.999167]], "Warframe,Exilus", "d", "l", 16, 10],
   ["IU", "warmCoat", [["保温服"]], "Warframe,Exilus", "d", "n", 9, 3],
-  ["IV", "enemySense", [["er"], 30], "Warframe,Exilus", "-", "r", 9],
-  ["IW", "handspring", [["h", 1.6]], "Warframe,Exilus", "-", "r", 9, 3],
+  ["IV", "enemySense", [["er", 30]], "Warframe,Exilus", "-", "r", 9],
+  ["IW", "handspring", [["y", 1.6]], "Warframe,Exilus", "-", "r", 9, 3],
   ["IX", "heavyImpact", [["震地冲击"]], "Warframe,Exilus", "-", "c", 9],
   ["IY", "intruder", [["入侵者"]], "Warframe,Exilus", "-", "n", 7],
   ["IZ", "masterThief", [["盗贼大师"]], "Warframe,Exilus", "-", "r", 13, 3],

@@ -8,7 +8,7 @@ import { Buff, BuffList } from "./codex/buff";
 import { base62, debase62 } from "./lib/base62";
 
 export class WarframeBuild {
-  data: Warframe
+  data: Warframe;
   protected _rawmods: NormalMod[] = [];
   protected _mods: NormalMod[] = [];
   protected _arcanes: Arcane[] = [];
@@ -31,10 +31,10 @@ export class WarframeBuild {
   /** 原型MOD列表 */
   get rawMods() { return this._rawmods; }
   /** MOD列表 */
-  get mods() { return this._mods; }
+  get mods() { return _.cloneDeep(this._mods); }
   set mods(value) {
     this._rawmods = _.cloneDeep(value);
-    this._mods = this.mapRankUpMods(value)
+    this._mods = this.mapRankUpMods(value);
     this.calcMods();
   }
   /** 赋能列表 */
@@ -208,18 +208,18 @@ export class WarframeBuild {
     /** Energy */ case "e": this._energyMul = hAccSum(this._energyMul, pValue); break;
     /** Sprint */ case "f": this._sprintMul = hAccSum(this._sprintMul, pValue); break;
     /** ShieldRecharge */ case "r": this._shieldRecharge = hAccSum(this._shieldRecharge, pValue); break;
-    /** AbilityStrength */ case "S": this._abilityStrengthAdd = hAccSum(this._abilityStrengthAdd, pValue); break;
-    /** AbilityDuration */ case "D": this._abilityDurationAdd = hAccSum(this._abilityDurationAdd, pValue); break;
-    /** AbilityEfficiency */ case "E": this._abilityEfficiencyAdd = hAccSum(this._abilityEfficiencyAdd, pValue); break;
-    /** AbilityRange */ case "R": this._abilityRangeAdd = hAccSum(this._abilityRangeAdd, pValue); break;
+    /** AbilityStrength */ case "t": this._abilityStrengthAdd = hAccSum(this._abilityStrengthAdd, pValue); break;
+    /** AbilityDuration */ case "u": this._abilityDurationAdd = hAccSum(this._abilityDurationAdd, pValue); break;
+    /** AbilityEfficiency */ case "x": this._abilityEfficiencyAdd = hAccSum(this._abilityEfficiencyAdd, pValue); break;
+    /** AbilityRange */ case "g": this._abilityRangeAdd = hAccSum(this._abilityRangeAdd, pValue); break;
     /** CastSpeed */ case "c": this._castSpeedMul = hAccSum(this._castSpeedMul, pValue); break;
     /** KnockdownResistance */ case "k": this._knockdownResistanceMul = hAccSum(this._knockdownResistanceMul, pValue); break;
-    /** KnockdownRecovery */ case "h": this._knockdownRecoveryMul = hAccSum(this._knockdownRecoveryMul, pValue); break;
+    /** KnockdownRecovery */ case "y": this._knockdownRecoveryMul = hAccSum(this._knockdownRecoveryMul, pValue); break;
     /** Slide */ case "l": this._slideMul = hAccSum(this._slideMul, pValue); break;
-    /** Friction */ case "F": this._frictionMul = hAccSum(this._frictionMul, pValue); break;
+    /** Friction */ case "i": this._frictionMul = hAccSum(this._frictionMul, pValue); break;
     /** ParkourVelocity */ case "v": this._parkourVelocityMul = hAccSum(this._parkourVelocityMul, pValue); break;
     /** QuickThinking */ case "z": this._quickThinkingAdd = hAccSum(this._quickThinkingAdd, pValue); break;
-    /** Rage */ case "A": this._rageAdd = hAccSum(this._rageAdd, pValue); break;
+    /** Rage */ case "rg": this._rageAdd = hAccSum(this._rageAdd, pValue); break;
     /** HealthConversion */ case "hc": this._healthConversionAdd = hAccSum(this._healthConversionAdd, pValue); break;
     /** EnergyConversion */ case "ec": this._energyConversionAdd = hAccSum(this._energyConversionAdd, pValue); break;
     /** TauResist */ case "tr": this._tauResistAdd = hAccSum(this._tauResistAdd, pValue); break;
@@ -278,7 +278,7 @@ export class WarframeBuild {
    */
   calcMods() {
     this.reset();
-    this.mods.forEach(mod => {
+    [this._aura, this._exilus, ...this._mods].forEach(mod => {
       mod && _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
     });
   }
@@ -318,18 +318,37 @@ export class WarframeBuild {
    * @memberof WarframeBuild
    */
   mapRankUpMods(mods: NormalMod[]): NormalMod[] {
-    let umbraSet = { "HO": [1, 1.25, 1.75], "HP": [1, 1.25, 1.75], "HQ": [1, 1.25, 1.5] };
-    let umbraSetCount = mods.filter(v => v.key in umbraSet).length;
+    let umbraSet = { "HP": [1, 1.25, 1.75], "HQ": [1, 1.25, 1.75], "HR": [1, 1.25, 1.5] };
+    let umbraSetCount = mods.filter(v => v && v.key in umbraSet).length - 1;
     let rst = mods.map(mod => {
-      if (mod.key in umbraSet) {
+      if (mod && mod.key in umbraSet) {
         let mapped = _.clone(mod);
-        mapped.props = mod.props.map(p => [p[0], hAccMul(umbraSet[mod.id][umbraSetCount], p[1])] as [string, number]);
+        mapped.setMul = umbraSet[mod.key][umbraSetCount];
         return mapped;
       }
       return mod;
     });
     // console.log(rst);
     return rst;
+  }
+
+  /**
+   * 返回MOD价值有效生命值收益
+   * @param index 也可以是mod.id
+   * @return MOD价值收益 (-∞ ~ +∞ 小数)
+   */
+  modValue(index: number | string) {
+    if (typeof index === "string")
+      index = this._mods.findIndex(v => v && v.id === index);
+    if (!this._mods[index]) return 0;
+    let nb = new (this.constructor as any)(this.data);
+    nb._mods = this.mods;
+    nb._buffs = this.buffs;
+    nb._mods.splice(index, 1);
+    let oldVal = this.effectiveHealth;
+    nb.calcMods();
+    let newVal = nb.effectiveHealth;
+    return oldVal / newVal - 1;
   }
 
   /**
@@ -382,22 +401,23 @@ export class WarframeBuild {
 
   /**
    * 序列化支持
-   * 16位 普通MOD序列 如1A1B000000000000
+   * 20位 普通MOD序列 如00001A1B000000000000
+   * 等级修饰符@0-A 如00001A@01B000000000000
    * 不定长buff序列 ![id]:[base62 encoded power]:[layer]
    * @type {string}
    * @memberof WarframeBuild
    */
   get miniCode(): string {
-    let mods = this.mods;
-    while (mods.length < 8) mods.push(null);
-    let normal = mods.map(v => v && v.key || "00").join("");
+    let mods = [this.aura, this.exilus, ...this.mods];
+    while (mods.length < 10) mods.push(null);
+    let normal = mods.map(v => v && (v.key + (v.level !== v.maxLevel ? "@" + base62(v.level) : "")) || "00").join("");
     let buffseq = this.buffs.map(v => `!${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 100) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
     return normal + buffseq;
   }
 
   set miniCode(code: string) {
-    let normal = code.substr(0, 16);
-    let subPart = code.substr(16);
+    let normal = code.match(/..(?:@.)?/g).slice(0, 10);
+    let subPart = code.substr(normal.join("").length);
     let buffIdx = subPart.indexOf("!");
     let buffseq = subPart.substr(buffIdx + 1);
     let bufflist = [];
@@ -411,8 +431,15 @@ export class WarframeBuild {
         bufflist.push(newBuff);
       }
     });
-    let mods = _.words(normal, /../g).map(v => Codex.getNormalMod(v));
-    this._mods = mods;
+    let [aura, exilus, ...mods] = normal.map(v => {
+      let key = v.substr(0, 2), level = v.substr(3, 4);
+      let mod = _.cloneDeep(Codex.getNormalMod(key));
+      if (level) mod.level = debase62(level);
+      return mod;
+    });
+    this.mods = mods;
+    this.aura = aura;
+    this.exilus = exilus;
     this._buffs = bufflist;
     this.calcMods();
   }

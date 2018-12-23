@@ -107,7 +107,7 @@
                       </div>
                       <div class="buff-detail" @click.stop="buffRemove(index)">
                         <div class="buff-stat">
-                          <div class="buff-prop" v-for="prop in buff.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
+                          <div class="buff-prop" v-for="prop in buff.vProps" :key="prop.id">{{prop.fullName}}</div>
                           <div class="buff-sum">{{PNNum(100 * item.build.buffValue(index))}}% {{$t("build.total")}}</div>
                         </div>
                         <div class="buff-action">
@@ -391,12 +391,14 @@ export default class GunBuildEditor extends BaseBuildEditor {
   display: flex;
   justify-content: center;
   align-items: center;
+  align-content: center;
   transition: 0.3s;
   cursor: move;
   font-size: 20px;
   border-radius: 4px 0 0 4px;
   flex: 1;
   position: relative;
+  flex-wrap: wrap;
   &:hover {
     background: #e8f0ff;
   }

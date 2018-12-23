@@ -1,7 +1,7 @@
 <template>
   <el-tabs class="mod-tabs" v-model="selectTab">
     <!-- 快速选择 -->
-    <el-tab-pane name="fast">
+    <el-tab-pane name="fast" v-if="type === 'Warframe'">
       <span slot="label" class="mod-tablabel">{{$t("modselector.fastSelect")}}</span>
       <ul class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in fast" :key="index">
@@ -41,6 +41,7 @@ interface ModSelectorTab {
 @Component({ components: {} })
 export default class extends Vue {
   @Prop() build: WarframeBuild;
+  @Prop({ type: String, default: "Warframe" }) type: "Warframe" | "Aura" | "Exilus";
 
   tabs: ModSelectorTab[] = [];
   selectTab = "fast";
@@ -48,21 +49,37 @@ export default class extends Vue {
 
   /** MOD快速选择 */
   fastSelect = {
+    maxStrength: ["transientFortitude", "blindRage", "umbralIntensify", "augurSecrets", "powerDrift", "umbralVitality", "umbralFiber"],
+    maxDuration: [​​​​​"primedContinuity", "narrowMinded", "augurMessage", "constitution"]​​​​,
+    maxEfficiency: [​​​​"streamline", "fleetingExpertise"]​​​​​,
+    maxRange: ["stretch", "overextended", "augurReach", "cunningDrift"]​​​​​,
   };
   get fast() { return _.map(this.fastSelect, (v, i) => ({ name: i, id: v } as any)) }
 
   @Watch("build")
+  @Watch("type")
   reload() {
     let selected = _.compact(this.build.mods);
     let mods = NormalModDatabase.filter(v =>
-      this.build.tags.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id));
-    this.tabs = [
-      { id: "ability", name: this.$t("modselector.ability") as string, mods: mods.filter(v => v.props.some(k => k[1] > 0 && "SDER".indexOf(k[0]) >= 0)) },
-      { id: "tank", name: this.$t("modselector.tank") as string, mods: mods.filter(v => v.props.some(k => "hsae".indexOf(k[0]) >= 0)) },
-      { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.props.some(k => "fclFv".indexOf(k[0]) >= 0)) },
-      { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.props.every(k => "SDERhsaefclFv".indexOf(k[0]) < 0)) },
-    ];
-    this.selectTab = "fast";
+      v.type.split(",").some(vv => [this.type, this.build.baseId].includes(vv)) && !selected.some(k => k.id === v.id || k.primed === v.id));
+    if (this.type === "Aura") {
+      const usefulAura = [];
+      this.tabs = [
+        { id: "useful", name: this.$t("modselector.common") as string, mods: mods.filter(v => usefulAura.includes(v.key)) },
+        { id: "all", name: this.$t("modselector.all") as string, mods: mods },
+      ];
+      this.selectTab = "useful";
+    } else {
+      this.tabs = [
+        { id: "ability", name: this.$t("modselector.ability") as string, mods: mods.filter(v => v.props.some(k => k[1] > 0 && "tuxg".indexOf(k[0]) >= 0)) },
+        { id: "tank", name: this.$t("modselector.tank") as string, mods: mods.filter(v => v.props.some(k => "hsae".indexOf(k[0]) >= 0)) },
+        { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.props.some(k => "fcliv".indexOf(k[0]) >= 0)) },
+        { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.props.every(k => "tuxghsaefcliv".indexOf(k[0]) < 0)) },
+      ];
+      if (this.type === "Warframe")
+        this.selectTab = "fast";
+      else this.selectTab = "ability";
+    }
   }
   beforeMount() {
     this.reload();

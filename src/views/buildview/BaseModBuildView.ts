@@ -79,16 +79,6 @@ export abstract class BaseModBuildView extends Vue {
       return "S+";
     return "EX";
   }
-  convertToPropName(prop: [string, number]) {
-    let rp = RivenDataBase.getPropByName(prop[0]);
-    if (rp) {
-      let vp = new ValuedRivenProperty(rp, prop[1] * 100);
-      return this.$t("prop.fullName." + vp.id, [vp.displayValue]);
-    }
-    let vp = ValuedProperty.parse(prop);
-    return vp && vp.fullString() || prop[0] + " " + (prop[1] * 100).toFixed() + "%";
-  }
-
   toBuild(build: ModBuild) {
     this.$router.push({ name: 'BuildEditorWithCode', params: { id: this.weapon.url, code: build.miniCode } });
   }

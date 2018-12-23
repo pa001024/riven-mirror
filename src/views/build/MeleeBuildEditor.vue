@@ -103,7 +103,7 @@
                       </div>
                       <div class="buff-detail" @click.stop="buffRemove(index)">
                         <div class="buff-stat">
-                          <div class="buff-prop" v-for="prop in buff.props" :key="prop[0]">{{convertToPropName(prop)}}</div>
+                          <div class="buff-prop" v-for="prop in buff.vProps" :key="prop.id">{{prop.fullName}}</div>
                           <div class="buff-sum">{{PNNum(100 * item.build.buffValue(index))}}% {{$t("build.total")}}</div>
                         </div>
                         <div class="buff-action">

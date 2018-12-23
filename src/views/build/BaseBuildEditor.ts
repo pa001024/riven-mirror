@@ -1,4 +1,4 @@
-import { Damage2_0, DamageType, ModBuild, NormalMod, RivenDataBase, RivenWeapon, ValuedRivenProperty, Weapon, RivenMod, Buff, BuffData, ValuedProperty } from "@/warframe";
+import { ModBuild, NormalMod, RivenDataBase, RivenWeapon, ValuedRivenProperty, Weapon, RivenMod, Buff, BuffData, ValuedProperty } from "@/warframe";
 import _ from "lodash";
 import { Vue, Watch } from "vue-property-decorator";
 
@@ -34,7 +34,7 @@ export abstract class BaseBuildEditor extends Vue {
       this.currentTab.buffs = buffs;
     }
   }
-  reload(oldCode?: string, newCode?: string) {
+  reload() {
     if (this.weapon) {
       this.tabs = "ABC".split("").map(v => ({
         title: this.$t("zh") ? `配置${v}` : `SET ${v}`,
@@ -91,15 +91,6 @@ export abstract class BaseBuildEditor extends Vue {
     this.reloadSelector();
   }
   abstract reloadSelector();
-  convertToPropName(prop: [string, number]) {
-    let rp = RivenDataBase.getPropByName(prop[0]);
-    if (rp) {
-      let vp = new ValuedRivenProperty(rp, prop[1] * 100);
-      return this.$t("prop.fullName." + vp.id, [vp.displayValue]);
-    }
-    let vp = ValuedProperty.parse(prop);
-    return vp && vp.fullString() || prop[0] + " " + (prop[1] * 100).toFixed() + "%";
-  }
   /** 返回固定精确度数值 */
   Num(num: number, preci = 1) {
     return +num.toFixed(preci);
@@ -121,7 +112,7 @@ export abstract class BaseBuildEditor extends Vue {
   }
   // === 事件处理 ===
   modSelect(mod: NormalMod | NormalMod[]) {
-    if (_.isArray(mod)) {
+    if (Array.isArray(mod)) {
       if (mod.length > 0 && mod[0]) {
         this.currentTab.mods[this.selectModIndex] = null;
         mod.forEach(v => {

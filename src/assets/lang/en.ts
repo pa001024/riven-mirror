@@ -78,6 +78,7 @@ let po = {
     "heavyImpact": "Heavy Impact",
     "fortitude": "Fortitude",
     "sureFooted": "Sure Footed",
+    "primedSureFooted": "Primed Sure Footed",
     "painThreshold": "Pain Threshold",
     "masterThief": "Master Thief",
     "infestedImpedance": "Infested Impedance",
@@ -225,6 +226,7 @@ let po = {
     "larvaBurst": "Larva Burst",
     "lastingCovenant": "Lasting Covenant",
     "razorwingBlitz": "Razorwing Blitz",
+    "sprintBoost": "Sprint Boost",
 
     "primedRegen": "Primed Regen",
     "coolantLeak": "Coolant Leak",
@@ -713,6 +715,7 @@ let po = {
     "primedPistolAmmoMutation": "Primed Pistol Ammo Mutation",
     "primedRifleAmmoMutation": "Primed Rifle Ammo Mutation",
     "primedShotgunAmmoMutation": "Primed Shotgun Ammo Mutation",
+    "primedSniperAmmoMutation": "Primed Sniper Ammo Mutation",
     "sacrificialSteel": "Sacrificial Steel",
     "sacrificialPressure": "Sacrificial Pressure",
     "cautiousShot": "Cautious Shot",
@@ -2002,6 +2005,81 @@ let po = {
       N: "{0} Combo Duration",
       E: "Slide Attack has {0} chance to to be a Critical Hit.",
       X: "{0} Finisher Damage",
+      h: "{0} Health",
+      s: "{0} Shield",
+      a: "{0} Amror",
+      e: "{0} Energy",
+      f: "{0} Sprint",
+      r: "{0} Shield Recharge",
+      t: "{0} Ability Strength",
+      u: "{0} Ability Duration",
+      x: "{0} Ability Efficiency",
+      g: "{0} Ability Range",
+      c: "{0} Cast Speed",
+      k: "{0} Knockdown Resistance",
+      y: "{0} Knockdown Recovery",
+      l: "{0} Slide",
+      i: "{0} Friction",
+      v: "{0} Parkour Velocity",
+      z: "{0} Energy to stop lethal damage",
+      rg: "Convert {0} of Damage on Health to Energy",
+      hc: "Health Orb grant {0} Armor",
+      ec: "Energy Orb grant {0} Ability Strength",
+      tr: "{0} Tau Resist",
+      as: "{0} Aura Strength",
+      ae: "{0} Aura Effectiveness",
+      at: "{0} Aim Glide Wall Latch Time",
+      er: "{0} Enemy Radar",
+      lr: "{0} Loot Radar",
+      acc: "{0} Accuracy",
+      range: "{0} Range",
+      stick: "{0} chance for grenades to stick to surfaces",
+      aimm: "{0} movement speed while aiming",
+      ckm: "{0} movement speed after Melee Channel kill ",
+      od: "{0} Damage to Corrupted",
+      kb: "Enemies killed explode, dealing {0} damage shortly after death",
+      brad: "Improves the blast radius of specialized launcher weapons. {0} Blast Radius",
+      sp: "Special Change",
+      hr: "{0} Holster Rate",
+      fsb: "{0} Bonus Damage on first shot in clip",
+      am: "Convert unused ammo drops.",
+      hm: "{0} to Headshot Multiplier",
+      bsc: "{0} Base Status Chance",
+      da: "{0} Dead Aim",
+      oad: "{0} Final Damage",
+      lal: "{0} Clip Reloaded per Second when Holstered",
+      spr: "{0} Spread",
+      slc: "Reduce the chance an enemy will hear gunfire by {0}",
+      bnc: "{0} Bounce",
+      exp: "{0} Chance to Explode",
+      ls: "{0} Life Steal",
+      maga: "{0} Magazine Capacity",
+      bldr: "{0} Critical Chance stacks with Combo Multiplier",
+      sccm: "{0} Status Chance stacks with Combo Multiplier",
+      ccws: "{0} combo chance when Slash status deals damage",
+      bsk: "{0} Final Attack Speed",
+      co: "{0} Final Damage stacks with Status Types",
+      gdr: "parry taunts enemies within {0} meters to target you instead of allies.",
+      hlr: "{0} Healed when hitting a target affected by status",
+      exd: "{0} Bonus Damage",
+      amr: "{0} Armor",
+      par: "{0} Counter Chance",
+      msd: "{0} Melee Slam Damage",
+      fs: "{0} Flight Speed",
+      ce: "{0} chance Enhance Critical Hits",
+      ac: "{0} chance to apply Slice on Critical",
+      ds: "{0} Damage when Stealth",
+      sd: "{0} Status Damage",
+      fcd: "{0} Final Critical Damage",
+      eca: "{0} Critical Chance ADD",
+      smd: "{0} Damage to Sentient",
+      dmg: "{0} Damage",
+      cwh: "{0} Critical Chance ADD when Headshot",
+      erd: "{0} Radiation Damage",
+      ecd: "{0} Corrosive Damage",
+      eed: "{0} Electricity Damage",
+      efd: "{0} Heat Damage",
+      aed: "{0} Damage to All Enemy",
     },
     shortName: {
       0: "Critical Chance",
@@ -2036,110 +2114,81 @@ let po = {
       N: "Combo Duration",
       E: "Slash Critical",
       X: "Finisher Damage",
-    },
-  },
-  exprop: {
-    fullName: {
-      acc: "{0} Accuracy",// 精准
-      range: "{0} Range",// 射程
-      stick: "{0} chance for grenades to stick to surfaces",// {0} 的几率使榴弹附着于壁面
-      aimm: "{0} movement speed while aiming",// 瞄准时 {0} 移动速度
-      ckm: "{0} movement speed after Melee Channel kill ",// 近战导引击杀后 {0} 移动速度
-      od: "{0} Damage to Corrupted", // {0} 对堕落者伤害
-      kb: "Enemies killed explode, dealing {0} damage shortly after death", // 被击杀的敌人不久后会爆炸，造成 {0} 伤害。
-      brad: "Improves the blast radius of specialized launcher weapons. {0} Blast Radius",// 提高特殊发射型武器的爆炸半径。{0} 爆炸半径
-      sp: "Special Change", // 魔改
-      hr: "{0} Holster Rate", // {0} 拔枪速度
-      fsb: "{0} Bonus Damage on first shot in clip",// 第一发子弹获得 {0} 伤害加成
-      am: "Convert unused ammo drops.",// 转换未使用的弹药。
-      hm: "{0} to Headshot Multiplier",// {0} 爆头倍率
-      bsc: "{0} Base Status Chance",// {0} 基础触发几率
-      da: "{0} Dead Aim",// {0} 正中红心
-      oad: "{0} Final Damage",// 最终伤害
-      lal: "{0} Clip Reloaded per Second when Holstered",// 切换武器后 {0} 几率自动装填。
-      spr: "{0} Spread", // {0} 扩散
-      slc: "Reduce the chance an enemy will hear gunfire by {0}",// 降低 {0} 敌人听见枪声的几率
-      bnc: "{0} Bounce",// 反弹 {0} 次
-      exp: "{0} Chance to Explode", // {0} 爆炸率
-      ls: "{0} Life Steal", // {0} 生命窃取
-      maga: "{0} Magazine Capacity", // {0} 弹匣容量
-      bldr: "{0} Critical Chance stacks with Combo Multiplier", // 连击数可叠加 {0} 暴击率
-      sccm: "{0} Status Chance stacks with Combo Multiplier", // 连击数可叠加 {0} 触发几率
-      ccws: "{0} combo chance when Slash status deals damage", // 当切割触发状态造成伤害时，有 {0} 几率增加连击数。
-      bsk: "{0} Final Attack Speed",// {0} 最终攻速
-      co: "{0} Final Damage stacks with Status Types", // 每种异常状态增加 {0} 最终伤害
-      gdr: "parry taunts enemies within {0} meters to target you instead of allies.",// 格挡会嘲讽 {0} 米内的敌人，使你代替队友成为被攻击目标。
-      hlr: "{0} Healed when hitting a target affected by status", // 攻击一个被异常状态影响之目标时会被治愈 {0}
-      exd: "{0} Bonus Damage",// {0} 额外伤害
-      amr: "{0} Armor",// {0} 护甲
-      par: "{0} Counter Chance",// {0} 反击几率
-      msd: "{0} Melee Slam Damage",// {0} 近战震波伤害
-      fs: "{0} Flight Speed",// {0} 飞行速度
-      ce: "{0} chance Enhance Critical Hits",// {0} 暴击等级上升
-      ac: "{0} chance to apply Slice on Critical",// {0} 几率在暴击时造成切割触发
-      ds: "{0} Damage when Stealth",// {0} 偷袭伤害
-      sd: "{0} Status Damage",// {0} 触发伤害
-      fcd: "{0} Final Critical Damage",// {0} 最终暴伤
-      eca: "{0} Critical Chance ADD",// {0} 加法暴击
-      smd: "{0} Damage to Sentient",// {0} 对Sentient伤害
-      dmg: "{0} Damage",// {0} 伤害
-      cwh: "{0} Critical Chance ADD when Headshot",// {0} 爆头暴击率
-      erd: "{0} Radiation Damage",// {0} 辐射伤害
-      ecd: "{0} Corrosive Damage",// {0} 腐蚀伤害
-      eed: "{0} Electricity Damage",// {0} 电击伤害
-      efd: "{0} Heat Damage",// {0} 火焰伤害
-      aed: "{0} Damage to All Enemy",// {0} 对全派系伤害
-    },
-    shortName: {
-      acc: "Accuracy",// 精准
-      range: "Range",// 射程
-      stick: "Stick Chance",// 壁面附着
-      aimm: "Aim Movement",// 瞄准移速
-      ckm: "Movement",// 移动速度
-      od: "Corrupted Damage", // O系伤害
-      kb: "Death Explode", // 死亡爆炸
-      brad: "Blast Radius", // 爆炸半径
-      sp: "Special Change",// 魔改
-      hr: "Holster Rate", // 拔枪速度
-      fsb: "First shot Bonus",// 首发伤害
-      am: "Convert Ammo", // 弹药转换
-      hm: "Headshot Multiplier",// 爆头倍率
-      bsc: "Base Status Chance",// 基础触发几率
-      da: "Dead Aim",// 正中红心
-      oad: "Final Damage",// 最终伤害
-      lal: "Auto Reload",// 自动装填
-      spr: "Spread", // 扩散
-      slc: "Silence",// 消音
-      bnc: "Bounce",// 反弹
-      exp: "Explode", // 爆炸
-      ls: "Life Steal", // 生命窃取
-      maga: "Magazine Capacity", // 弹匣容量
-      bldr: "Combo Critical Chance", // 连击暴击率
-      sccm: "Combo Status Chance", // 连击触发几率
-      ccws: "Combo when Slash", // 切割增加连击数
-      bsk: "Final Attack Speed",// 最终攻速
-      co: "Status Stack Damage", // 异常状态增加伤害
-      gdr: "Taunt",// 嘲讽
-      hlr: "Heal", // 治愈
-      exd: "Bonus Damage",// 额外伤害
-      amr: "Armor",// 护甲
-      par: "Counter Chance",// 反击几率
-      msd: "Melee Slam Damage",// 近战震波伤害
-      fs: "Flight Speed",// 飞行速度
-      ce: "Enhance Critical",// 暴击强化
-      ac: "Slice on Critical",// 暴击造成切割触发
-      ds: "Damage when Stealth",// 偷袭伤害
-      sd: "Status Damage",// 触发伤害
-      fcd: "Final Critical Damage",// 最终暴伤
-      eca: "Critical Chance ADD",// 加法暴击
-      smd: "Sentient Damage",// S系伤害
-      dmg: "Damage",// 伤害
-      cwh: "Headshot Critical Chance",// 爆头暴击率
-      erd: "Radiation Damage",// 辐射伤害
-      ecd: "Corrosive Damage",// 腐蚀伤害
-      eed: "Electricity Damage",// 电击伤害
-      efd: "Heat Damage",// 火焰伤害
-      aed: "All Enemy Damage",// 对全派系伤害
+      h: "Health",
+      s: "Shield",
+      a: "Amror",
+      e: "Energy",
+      f: "Sprint",
+      r: "Shield Recharge",
+      t: "Ability Strength",
+      u: "Ability Duration",
+      x: "Ability Efficiency",
+      g: "Ability Range",
+      c: "Cast Speed",
+      k: "Knockdown Resistance",
+      y: "Knockdown Recovery",
+      l: "Slide",
+      i: "Friction",
+      v: "Parkour Velocity",
+      z: "Quick Thinking",
+      rg: "Rage",
+      hc: "Health Conversion",
+      ec: "Energy Conversion",
+      tr: "Tau Resist",
+      as: "Aura Strength",
+      ae: "Aura Effectiveness",
+      at: "Aim Glide Wall Latch Time",
+      er: "Enemy Radar",
+      lr: "Loot Radar",
+      acc: "Accuracy",
+      range: "Range",
+      stick: "Stick Chance",
+      aimm: "Aim Movement",
+      ckm: "Movement",
+      od: "Corrupted Damage",
+      kb: "Death Explode",
+      brad: "Blast Radius",
+      sp: "Special Change",
+      hr: "Holster Rate",
+      fsb: "First shot Bonus",
+      am: "Convert Ammo",
+      hm: "Headshot Multiplier",
+      bsc: "Base Status Chance",
+      da: "Dead Aim",
+      oad: "Final Damage",
+      lal: "Auto Reload",
+      spr: "Spread",
+      slc: "Silence",
+      bnc: "Bounce",
+      exp: "Explode",
+      ls: "Life Steal",
+      maga: "Magazine Capacity",
+      bldr: "Combo Critical Chance",
+      sccm: "Combo Status Chance",
+      ccws: "Combo when Slash",
+      bsk: "Final Attack Speed",
+      co: "Status Stack Damage",
+      gdr: "Taunt",
+      hlr: "Heal",
+      exd: "Bonus Damage",
+      amr: "Armor",
+      par: "Counter Chance",
+      msd: "Melee Slam Damage",
+      fs: "Flight Speed",
+      ce: "Enhance Critical",
+      ac: "Slice on Critical",
+      ds: "Damage when Stealth",
+      sd: "Status Damage",
+      fcd: "Final Critical Damage",
+      eca: "Critical Chance ADD",
+      smd: "Sentient Damage",
+      dmg: "Damage",
+      cwh: "Headshot Critical Chance",
+      erd: "Radiation Damage",
+      ecd: "Corrosive Damage",
+      eed: "Electricity Damage",
+      efd: "Heat Damage",
+      aed: "All Enemy Damage",
     },
   },
   elements: {
@@ -2346,6 +2395,7 @@ let po = {
   modselector: {
     rivenMod: "RIVEN MOD",
     fastSelect: "FAST SELECT",
+    common: "COMMON",
     sorted: "SORTED",
     damage: "DAMAGE",
     element: "ELEMENT",
@@ -2365,6 +2415,11 @@ let po = {
       gas: "GAS",
       slideCrit: "SLIDE CC/CD",
       allStatus: "4 GOLD ELEMENTS",
+      maxStrength: "MAX STRENGTH",
+      maxDuration: "MAX DURATION",
+      maxEfficiency: "MAX EFFICIENCY",
+      maxRange: "MAX RANGE",
+      maxHealth: "MAX HEALTH",
     },
     weaponWarn: "WARNING",
     weaponWarnTip: "Chosen riven is not available for this weapon (you may choose wrong weapon), confirm operation?",

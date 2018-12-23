@@ -8,7 +8,7 @@ const defaultLvlUps: [string, number][] = [["h", 2], ["e", 0.5], ["s", 2]];
 export class Warframe implements WarframeData {
   id: string;
   name: string;
-  tags?: string[];
+  tags: string[];
   description: string;
   className?: string;
   health: number;
@@ -34,7 +34,7 @@ export class Warframe implements WarframeData {
     let base = this.className ? _warframeData.find(v => v.id === this.className) : {} as WarframeData;
     this.id = data.id;
     this.name = i18n.t(`messages.${data.name}`) as string;
-    this.tags = data.tags || base.tags;
+    this.tags = data.tags || base.tags || [];
     this.description = data.description;
     this.className = data.className;
     this.health = data.health;
