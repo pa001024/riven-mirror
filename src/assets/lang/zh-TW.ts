@@ -2393,6 +2393,7 @@ let po = {
     element: "附加傷害",
     speed: "速度",
     other: "其他",
+    all: "全部",
     createRiven: "手動輸入:",
     ok: "確定",
     fast: {
@@ -2408,8 +2409,8 @@ let po = {
       slideCrit: "滑砍雙暴",
       allStatus: "四活動",
       maxStrength: "強度最大化",
-      maxDuration: "效率最大化",
-      maxEfficiency: "持續最大化",
+      maxDuration: "持續最大化",
+      maxEfficiency: "效率最大化",
       maxRange: "範圍最大化",
       maxHealth: "生存最大化",
     },

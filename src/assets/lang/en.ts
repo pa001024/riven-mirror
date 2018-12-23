@@ -2401,6 +2401,7 @@ let po = {
     element: "ELEMENT",
     speed: "SPEED",
     other: "OTHER",
+    all: "ALL",
     createRiven: "New Riven:",
     ok: "OK",
     fast: {

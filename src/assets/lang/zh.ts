@@ -2403,6 +2403,7 @@ let po = {
     other: "其他",
     ability: "技能",
     tank: "生存",
+    all: "全部",
     createRiven: "手动输入:",
     ok: "确定",
     fast: {
@@ -2418,8 +2419,8 @@ let po = {
       slideCrit: "滑砍双暴",
       allStatus: "四活动",
       maxStrength: "强度最大化",
-      maxDuration: "效率最大化",
-      maxEfficiency: "持续最大化",
+      maxDuration: "持续最大化",
+      maxEfficiency: "效率最大化",
       maxRange: "范围最大化",
       maxHealth: "生存最大化",
     },

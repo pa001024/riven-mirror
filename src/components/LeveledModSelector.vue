@@ -63,12 +63,12 @@ export default class extends Vue {
     let mods = NormalModDatabase.filter(v =>
       v.type.split(",").some(vv => [this.type, this.build.baseId].includes(vv)) && !selected.some(k => k.id === v.id || k.primed === v.id));
     if (this.type === "Aura") {
-      const usefulAura = [];
+      const commonAura = ["G0", "G3", "G4", "G5", "GG", "GJ", "GN", "GO"];
       this.tabs = [
-        { id: "useful", name: this.$t("modselector.common") as string, mods: mods.filter(v => usefulAura.includes(v.key)) },
-        { id: "all", name: this.$t("modselector.all") as string, mods: mods },
+        { id: "common", name: this.$t("modselector.common") as string, mods: mods.filter(v => commonAura.includes(v.key)) },
+        { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => !commonAura.includes(v.key)) },
       ];
-      this.selectTab = "useful";
+      this.selectTab = "common";
     } else {
       this.tabs = [
         { id: "ability", name: this.$t("modselector.ability") as string, mods: mods.filter(v => v.props.some(k => k[1] > 0 && "tuxg".indexOf(k[0]) >= 0)) },
