@@ -3,7 +3,7 @@ export interface WarframeData {
   id: string;
   name: string;
   tags?: string[];
-  description: string;
+  description?: string;
   className?: string;
   health: number;
   shield: number;
@@ -93,6 +93,8 @@ namespace AbilityPropTypes {
   export interface Damage {
     /** 伤害 */
     damage: [string, AbilityPropValue][]
+    /** 范围伤害 */
+    rangeDamage?: [string, AbilityPropValue][]
     /** 持续时间 不填表示是瞬间伤害 */
     duration?: AbilityPropValue
     /** 有持续时间表示总持续时间内伤害次数 没有表示单次伤害攻击数量 */
@@ -138,6 +140,20 @@ namespace AbilityPropTypes {
     /** 施放距离 不填表示是以自身为中心 */
     distance?: AbilityPropValue
   }
+  export interface Summon {
+    /** 生命值 */
+    health?: AbilityPropValue
+    /** 持续时间 不填表示是开关技能 */
+    duration?: AbilityPropValue
+    /** 施放距离 不填表示是以自身为中心 */
+    distance?: AbilityPropValue
+    /** 影响范围 不填表示是单体技能 */
+    range?: AbilityPropValue
+    /** 伤害 */
+    damage?: [string, AbilityPropValue][]
+    /** 范围伤害 */
+    rangeDamage?: [string, AbilityPropValue][]
+  }
   /** 减伤对象 */
   export enum Target {
     /** 所有 */
@@ -146,6 +162,7 @@ namespace AbilityPropTypes {
     Range,
     /** 近战 */
     Melee,
+    /** 抛射物 */
     Projectile,
   }
   /** 减伤 */
@@ -200,6 +217,7 @@ export type AbilityProp = {
   Damage?: AbilityPropTypes.Damage
   Buff?: AbilityPropTypes.Buff
   Debuff?: AbilityPropTypes.Debuff
+  Summon?: AbilityPropTypes.Summon
   Target?: AbilityPropTypes.Target
   DamageReduce?: AbilityPropTypes.DamageReduce
   DamageReflect?: AbilityPropTypes.DamageReflect
@@ -231,11 +249,32 @@ export interface AbilityData {
   /** 本地化名称 */
   name: string
   /** 描述 */
-  description: string
+  description?: string
   /** 单手动作 */
   oneHand?: boolean
+  /** 技能标记 union enum AbilityType 没有则为0 */
+  tags: number
+  /** 技能使用蓝耗 */
+  energyCost: number
+  /** 技能持续蓝耗 不填表示不是开关技能 */
+  energyCostPS?: number
+  /** 技能使用蓝耗 (弓妹4) */
+  energyCostN?: number
+  /** 技能强化 (集团卡) */
+  enhance?: AbilityEnhance
   /** 技能属性 */
   props?: AbilityProp
+  /** 形态 */
+  forms?: AbilityFormData[]
+}
+
+export interface AbilityFormData {
+  /** ID */
+  id: string
+  /** 技能属性 */
+  props?: AbilityProp
+  /** 单手动作 */
+  oneHand?: boolean
   /** 技能标记 union enum AbilityType 没有则为0 */
   tags: number
   /** 技能使用蓝耗 */

@@ -477,7 +477,7 @@ const _normalModSource = [
   ["Gt", "fleetingExpertise", [["x", 0.6], ["u", -0.6]], "Warframe", "-", "r", 11],
   ["Gu", "narrowMinded", [["u", 0.99], ["g", -0.66]], "Warframe", "d", "r", 16, 10],
   ["Gv", "overextended", [["g", 0.9], ["t", -0.6]], "Warframe", "d", "r", 11],
-  ["Gw", "transientFortitude", [["t", 0.55], ["x", -0.275]], "Warframe", "r", "r", 16, 10],
+  ["Gw", "transientFortitude", [["t", 0.55], ["u", -0.275]], "Warframe", "r", "r", 16, 10],
   ["Gx", "vitality", [["h", 4.4]], "Warframe", "d", "n", 12, 10],
   ["Gy", "redirection", [["s", 4.4]], "Warframe", "d", "n", 12, 10],
   ["Gz", "steelFiber", [["a", 1.1]], "Warframe", "d", "n", 12, 10],
