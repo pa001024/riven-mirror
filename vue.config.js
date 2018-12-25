@@ -21,7 +21,6 @@ module.exports = {
       precacheManifestFilename: 'cache.[manifestHash].js',
       swSrc: './sw.js',
       swDest: './sw.js',
-      globDirectory: './dist/',
     },
   },
 }

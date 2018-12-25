@@ -1116,9 +1116,9 @@ let po = {
     "battacor": "武使之力",
     "ocucor": "视使之触",
     "kreska": "直镐",
-    "plinx": "Plinx",
-    "exergis": "Exergis",
-    "galvacord": "Galvacord",
+    "plinx": "漫射者",
+    "exergis": "晶能放射器",
+    "galvacord": "电镀绞线鞭",
     "cobraCrane": "Cobra & Crane",
 
     "none": "无",

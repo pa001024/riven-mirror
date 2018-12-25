@@ -3,15 +3,12 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 
 import lang_en from './assets/lang/en';
-import lang_zh from './assets/lang/zh';
-import lang_zhCY from './assets/lang/zh-CY';
-import lang_zhTW from './assets/lang/zh-TW';
 
 import elLang_en from 'element-ui/lib/locale/lang/en'
 import elLang_zh from 'element-ui/lib/locale/lang/zh-CN'
 import elLang_zhTW from 'element-ui/lib/locale/lang/zh-TW'
 
-Vue && Vue.use(VueI18n);
+Vue.use(VueI18n);
 
 const cnDF = {
   short: {
@@ -55,29 +52,57 @@ const dateTimeFormats = {
 
 // 配置
 const en = _.assign(elLang_en, lang_en);
-const chs = _.assign(elLang_zh, lang_zh);
-const chCY = _.assign({}, elLang_zh, lang_zh, lang_zhCY);
-const cht = _.assign(elLang_zhTW, lang_zhTW);
+
+let messages = { en }
 
 export const i18n = new VueI18n({
   dateTimeFormats,
   locale: localStorage.getItem("lang") || navigator && navigator.language || 'en',
   fallbackLocale: 'en',
-  messages: {
-    'en': en,
-    'zh-CN': chs,
-    'zh-CY': chCY,
-    'zh-SG': chs,
-    'zh-TW': cht,
-    'zh-HK': cht,
-    'zh-MO': cht,
-  },
+  messages,
 });
 
+let loadedLocales = ["en"];
+
 export function changeLocale(locale: string) {
-  i18n.locale = locale;
-  localStorage.setItem("lang", locale);
-  document.title = i18n.t("title.main").toString();
+  return new Promise((resolve, reject) => {
+    if (i18n.locale !== locale) {
+      i18n.locale = locale;
+      localStorage.setItem("lang", locale);
+    }
+    switch (locale) {
+      case 'zh-CN':
+      case 'zh-SG':
+        import(/* webpackChunkName: "lang-zh" */ './assets/lang/zh').then(module => {
+          const chs = _.assign(elLang_zh, module.default);
+          i18n.setLocaleMessage(locale, chs);
+          document.title = i18n.t("title.main").toString();
+          resolve();
+        });
+        break;
+      case 'zh-CY':
+        Promise.all([
+          import(/* webpackChunkName: "lang-zh" */ './assets/lang/zh'),
+          import(/* webpackChunkName: "lang-zhCY" */ './assets/lang/zh-CY')]).then(module => {
+            const chCY = _.assign({}, elLang_zh, module[0].default, module[1].default);
+            i18n.setLocaleMessage(locale, chCY);
+            document.title = i18n.t("title.main").toString();
+            resolve();
+          });
+        break;
+      case 'zh-TW':
+      case 'zh-HK':
+      case 'zh-MO':
+        import(/* webpackChunkName: "lang-zhTW" */ './assets/lang/zh-TW').then(module => {
+          const cht = _.assign(elLang_zhTW, module.default);
+          i18n.setLocaleMessage(locale, cht);
+          document.title = i18n.t("title.main").toString();
+          resolve();
+        });
+        break;
+      default:
+        resolve();
+    }
+  })
 }
 
-document.title = i18n.t("title.main").toString();
