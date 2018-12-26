@@ -152,7 +152,6 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenMod, GunModBuild, ValuedRivenProperty, RivenDataBase, Codex, GunWeapon, GunCompareMode, KitgunChamber, KitgunGrip, KitgunLoader, KitgunChamberData, KitgunGripData, KitgunLoaderData, Kitgun, Weapon } from "@/warframe";
 import { BaseModBuildView } from "./BaseModBuildView";

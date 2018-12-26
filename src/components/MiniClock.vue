@@ -48,8 +48,9 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch } from "vue-property-decorator";
-import { EarthTime, CetusTime, FortunaTime } from "../warframe";
+import { EarthTime, CetusTime, FortunaTime, WorldStat } from "../warframe";
 import { i18n } from "@/i18n";
+import Axios from "axios";
 
 interface WarframeTime {
   phase: string
@@ -140,6 +141,11 @@ export default class MiniClock extends Vue {
   mounted() {
     this.updateTime();
     this.timerID = setInterval(this.updateTime, 1000);
+
+    Axios.get("https://api.warframestat.us/pc/cetusCycle", { timeout: 30e3 })
+      .then(data => {
+        CetusTime.calibration(data.data.expiry, data.data.isDay);
+      });
   }
   beforeDestroy() {
     clearInterval(this.timerID);
@@ -213,7 +219,7 @@ input.text-input[type="text"]:active {
   display: inline-block;
   text-align: center;
 }
-.time-block.cetus{
+.time-block.cetus {
   cursor: pointer;
 }
 .time-clock {

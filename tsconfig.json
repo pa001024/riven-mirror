@@ -18,7 +18,7 @@
     "module": "esnext",
     "target": "es6",
     "moduleResolution": "node",
-    // "isolatedModules": true,
+    "isolatedModules": false,
     "lib": [
       "dom",
       "es5",

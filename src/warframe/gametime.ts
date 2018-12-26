@@ -25,8 +25,15 @@ export class EarthTime {
   }
 }
 export class CetusTime {
+  static offset = 3360;
+  /** 校准 */
+  static calibration(dateString: string, isDay: boolean) {
+    this.offset = new Date(dateString).getTime() % 9e6 / 1e3;
+    if (!isDay) this.offset = this.offset - 3e3;
+    console.log("[CetusTime] calibration", dateString, isDay, this.offset)
+  }
   /** 现在到夜晚的秒数 */
-  static get secords() { return ~~(9e3 - (Date.now() / 1e3 - 3720) % 9e3); }
+  static get secords() { return ~~(9e3 - (Date.now() / 1e3 - this.offset) % 9e3); }
   /** 现在是否是夜晚 */
   static get isNight() { return this.secords > 6e3; }
   /** 现在是否是白天 */

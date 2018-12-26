@@ -92,7 +92,6 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import axios from 'axios';
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { RivenMod, RivenDataBase } from "../warframe";
