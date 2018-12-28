@@ -70,10 +70,10 @@ export default class extends Vue {
       this.selectTab = "common";
     } else {
       this.tabs = [
-        { id: "ability", name: this.$t("modselector.ability") as string, mods: mods.filter(v => v.props.some(k => k[1] > 0 && "tuxg".indexOf(k[0]) >= 0)) },
-        { id: "tank", name: this.$t("modselector.tank") as string, mods: mods.filter(v => v.props.some(k => "hsae".indexOf(k[0]) >= 0)) },
+        { id: "ability", name: this.$t("modselector.ability") as string, mods: mods.filter(v => v.props.some(k => "tuxge".indexOf(k[0]) >= 0 || ["ec"].includes(k[0]))) },
+        { id: "tank", name: this.$t("modselector.tank") as string, mods: mods.filter(v => v.props.some(k => "hsaz".indexOf(k[0]) >= 0 || ["hc"].includes(k[0]))) },
         { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.props.some(k => "fcliv".indexOf(k[0]) >= 0)) },
-        { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.props.every(k => "tuxghsaefcliv".indexOf(k[0]) < 0)) },
+        { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.props.every(k => "tuxgehsazefcliv".indexOf(k[0]) < 0)) },
       ];
       this.selectTab = this.type === "Warframe" ? "fast" : "ability";
     }

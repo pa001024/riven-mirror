@@ -80,6 +80,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "ehb", }, // extra health orb
   { id: "eeb", }, // extra energy orb
   { id: "rgd", }, // range knockdown
+  { id: "tt", }, // team AbilityStrength
 
   // 其他
   { id: "acc" }, // 精准

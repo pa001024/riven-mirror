@@ -206,7 +206,7 @@ export class WarframeBuild {
    * @param {number} pValue 属性值
    * @memberof WarframeBuild
    */
-  applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
+  applyProp(mod: NormalMod | Arcane, pName: string, pValue: number = 0) {
     switch (pName) {
     /** Health */ case "h": this._healthMul = hAccSum(this._healthMul, pValue); break;
     /** Shield */ case "s": this._shieldMul = hAccSum(this._shieldMul, pValue); break;
@@ -514,8 +514,11 @@ export class WarframeBuild {
     while (defaultPolarities.length > 0) {
       const pol = defaultPolarities.pop();
       let mod = thetaSeq.pop();
-      if (mod) this._polarizations[mod[0]] = pol;
+      if (mod) {
+        this._polarizations[mod[0]] = pol;
+      }
     }
+    let thetaMods = this.data.polarities.slice();
     // 按容量需求量排序
     const mods = this.allMods;
     const delta = mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1]);
@@ -539,8 +542,12 @@ export class WarframeBuild {
       } else {
         if (pol !== "w") {
           if (this._polarizations[modIndex - 2] !== pol) {
+            // console.log(`set pol [[${thetaMods}]] ${modIndex}: ${this._polarizations[modIndex - 2]} to ${pol}`)
             this._polarizations[modIndex - 2] = pol;
-            ++this._formaCount;
+            if (thetaMods.includes(pol)) {
+              let index = thetaMods.indexOf(pol);
+              thetaMods.splice(index, 1);
+            } else ++this._formaCount;
           }
         }
       }
