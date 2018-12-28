@@ -37,12 +37,10 @@
 </template>
 
 <script lang="ts">
-
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenDataBase, RivenWeapon, ModTypeTable, RivenWeaponDataBase, Zaw, Kitgun } from "@/warframe";
 import ZawBuilder from '@/components/ZawBuilder.vue'
 import KitgunBuilder from '@/components/KitgunBuilder.vue'
+import { ModTypeTable, RivenWeapon, RivenWeaponDataBase, RivenDataBase, Zaw, Kitgun } from "@/warframe/codex";
 
 declare interface WeaponSelectorTab {
   id: string

@@ -22,9 +22,8 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { WarframeDataBase, Warframe } from "@/warframe";
+import { Warframe, WarframeDataBase } from "@/warframe/codex";
 
 declare interface WarframeSelectorTab {
   id: string

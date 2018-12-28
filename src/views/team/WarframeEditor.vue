@@ -7,7 +7,8 @@
           <el-card class="infobox">
             <!-- 二维码和名称 -->
             <div slot="header" class="core-name">
-              <span>{{core.name}}</span>
+              <span class="title">{{core.name}}</span>
+              <span class="forma">{{$t("build.formaCount", [build.formaCount])}}</span>
               <el-popover placement="bottom" trigger="click">
                 <el-input :value="build.miniCodeURL" size="small" ref="miniCodeURL" @focus="$refs.miniCodeURL.select()"></el-input>
                 <div style="text-align:center;">
@@ -24,7 +25,7 @@
                 <tr class="prop-diff cost-show">
                   <th>{{$t('build.cost')}}</th>
                   <td class="diff diff-ori">
-                    {{build.totalCost}}
+                    {{build.maxCost - build.totalCost}}
                   </td>
                   <template v-if="build.totalCost > 0">
                     <td class="diff diff-arrow">/</td>
@@ -56,10 +57,10 @@
             <!-- MOD区域 -->
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
               <el-col class="list-complete-item" :sm="12" :md="12" :lg="6">
-                <LeveledModSlot icon="aura" @level="refleshMods()" @change="slotClick(-2)" @remove="slotRemove(-2)" :mod="item.aura" :build="item.build" :polarization="item.build.auraPor"/>
+                <LeveledModSlot icon="aura" @level="refleshMods()" @change="slotClick(-2)" @remove="slotRemove(-2)" :mod="item.aura" :build="item.build" :polarization="item.build.auraPol"/>
               </el-col>
               <el-col class="list-complete-item" :sm="12" :md="12" :lg="6">
-                <LeveledModSlot icon="exilus" @level="refleshMods()" @change="slotClick(-1)" @remove="slotRemove(-1)" :mod="item.exilus" :build="item.build" :polarization="item.build.exilusPor"/>
+                <LeveledModSlot icon="exilus" @level="refleshMods()" @change="slotClick(-1)" @remove="slotRemove(-1)" :mod="item.exilus" :build="item.build" :polarization="item.build.exilusPol"/>
               </el-col>
             </el-row>
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
@@ -79,13 +80,12 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { Warframe, WarframeDataBase, NormalMod, Buff } from "@/warframe";
 import { WarframeBuild } from "@/warframe/warframebuild";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import LeveledModSelector from "@/components/LeveledModSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
+import { NormalMod, Buff, Warframe, WarframeDataBase } from "@/warframe/codex";
 
 interface BuildSelectorTab {
   title: string
@@ -128,8 +128,10 @@ export default class WarframeEditor extends Vue {
   get currentTab() { return this.tabs.find(v => v.name === this.tabValue); }
   get build() { return this.currentTab.build; }
 
-  @Watch("$route")
+  @Watch("id")
+  @Watch("code")
   reload() {
+    if ((this.$route.name !== "WarframeEditor" && this.$route.name !== "WarframeEditorWithCode")) return;
     if (this.id && this._lastid !== this.id) {
       this._lastid = this.id;
       this._core = WarframeDataBase.getWarframeById(this.id.replace(/_/g, " "));

@@ -1,5 +1,14 @@
 <template>
   <div class="status-info">
+    <div class="info-block">
+      <div class="info-element-title">
+        {{$t(`statusinfo.total`)}}
+      </div>
+      <div class="info-inline-element" v-for="(valContent, valKey) in common" :key="valKey">
+        <div class="info-title">{{$t(`statusinfo.${valKey}`)}}</div>
+        <div class="info-value">{{renderProps(valKey, valContent)}}</div>
+      </div>
+    </div>
     <div class="info-block" v-for="(elValue, elType) in elementTypes" :key="elType">
       <div class="info-element-title">
         {{$t(`elements.${elType}`)}}
@@ -18,6 +27,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 @Component
 export default class extends Vue {
   @Prop() info: any;
+  @Prop() common: any;
 
   get elementTypes() { return this.info; }
   renderProps(vn: string, vv: number) {

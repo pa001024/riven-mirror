@@ -1,5 +1,5 @@
-import { RivenMod } from "@/warframe";
 import { ActionContext } from "vuex";
+import { RivenMod } from "@/warframe/rivenmod";
 
 interface State {
   mod: RivenMod
@@ -7,8 +7,8 @@ interface State {
 }
 
 let state: State = {
-  mod: new RivenMod(localStorage.getItem("lastMod") || "Lanka|1DS|C3l|DOk.SCn.1Hl.H-6x", true),
-  history: localStorage.getItem("modHistory") ? JSON.parse(localStorage.getItem("modHistory")).map(v => new RivenMod(v)) : [],
+  mod: null,
+  history: []
 }
 
 const MAX_HISTORY_COUNT = 10;
@@ -24,6 +24,9 @@ const mutations = {
   removeHistory(state: State, qrCode: string) {
     state.history = state.history.filter((v, i) => v.qrCode !== qrCode);
     localStorage.setItem("modHistory", JSON.stringify(state.history.map(v => v.qrCode)));
+  },
+  load(state: State, newState: State) {
+    Object.assign(state, newState);
   }
 }
 
@@ -41,6 +44,12 @@ const actions = {
   },
   removeHistory(context: ActionContext<State, any>, qrcode: string) {
     context.commit("removeHistory", qrcode);
+  },
+  load(context: ActionContext<State, any>) {
+    context.commit("load", {
+      mod: new RivenMod(localStorage.getItem("lastMod") || "Lanka|1DS|C3l|DOk.SCn.1Hl.H-6x", true),
+      history: localStorage.getItem("modHistory") ? JSON.parse(localStorage.getItem("modHistory")).map(v => new RivenMod(v)) : [],
+    });
   }
 };
 

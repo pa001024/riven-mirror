@@ -1,6 +1,5 @@
 import { GunWeaponDataBase, MeleeWeaponDataBase, Weapon } from ".";
 import { strSimilarity } from "../util";
-import _ from "lodash";
 import { i18n } from "@/i18n";
 
 /**MOD上的裂罅属性 */
@@ -198,8 +197,9 @@ export const RivenPropertyValueBaseDataBase = {
 export class RivenWeapon {
   /** 武器英文名 */
   id: string;
+  protected _name: string;
   /** 武器本地化名称 */
-  name: string;
+  get name() { return i18n.t(`messages.${this._name}`) }
   /** 武器MOD类型 */
   mod: string;
   /** 武器裂罅倾向 */
@@ -217,14 +217,9 @@ export class RivenWeapon {
   /** 武器倾向星数 */
   get star() { return [0.1, 0.7, 0.875, 1.125, 1.305, Infinity].findIndex(v => this.ratio < v); }
   get starText() { return _.repeat("●", this.star) + _.repeat("○", 5 - this.star); }
-  calcPrice(x: number) {
-    let normal = 800;
-    if (x > 30) normal = +0.0000016468253968327832 * x * x * x * x * x * x - 0.0006184523809555002 * x * x * x * x * x + 0.0937003968259277 * x * x * x * x - 7.283630952427242 * x * x * x + 306.6134920656638 * x * x - 6605.452381004125 * x + 57700.00000048811;
-    return ~~(normal * this.price / 1600);
-  }
   constructor(id: string, name: string, mod: string, ratio: number, price: number = 0) {
     this.id = id;
-    this.name = i18n.t(`messages.${name}`) as string;
+    this._name = name;
     this.mod = mod;
     this.ratio = ratio;
     this.price = price;
@@ -309,7 +304,7 @@ const _rivenWeaponDataBase = [
   ["Astilla", "Shotgun", 1.1],
   ["Sweeper", "Shotgun", 1],
   ["Corinth", "Shotgun", 1.05],
-  ["phantasma", "Shotgun", 1],
+  ["Phantasma", "Shotgun", 1],
   ["Exergis", "Shotgun", 1],
   ["Arca Plasmor", "Shotgun", 0.7],
   ["Hek", "Shotgun", 0.7],
@@ -563,15 +558,23 @@ export class RivenDataBase {
   static PrefixAll = new RegExp(`(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})`, "i")
 
   constructor() {
+    this.reload();
+  }
+
+  reload() {
     // 同时添加中英文名称
     RivenWeaponDataBase.forEach((v, i) => { this.rWeaponDict.set(v.id, i); this.rWeaponDict.set(v.name, i); });
     RivenPropertyDataBase.all.forEach((v, i) => { this.propDict.set(v.id, i); this.propDict.set(v.eName, i); this.propDict.set(v.name, i); });
     (GunWeaponDataBase as Weapon[]).concat(MeleeWeaponDataBase).forEach((v, i) => this.addWeapon(v, i));
   }
 
+  static reload() {
+    this.instance.reload();
+  }
+
   addWeapon(weapon: Weapon, index: number) {
     this.nWeaponDict.set(weapon.id, index);
-    this.nWeaponDict.set(i18n.t(`messages.${weapon.name}`) as string, index);
+    this.nWeaponDict.set(i18n.t(`messages.${weapon.name}`), index);
     let riven = RivenWeaponDataBase[this.rWeaponDict.get(weapon.rivenName || weapon.id)];
     if (!riven) {
       // 部分技能武器

@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { hAccSum } from "@/warframe/util";
 import { GunWeapon } from "@/warframe/codex/weapon";
 import { i18n } from "@/i18n";

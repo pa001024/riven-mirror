@@ -1,7 +1,7 @@
 /** 战甲信息 */
 export interface WarframeData {
   id: string;
-  name: string;
+  // name: string;
   tags?: string[];
   description?: string;
   className?: string;
@@ -247,7 +247,7 @@ export interface AbilityData {
   /** ID */
   id: string
   /** 本地化名称 */
-  name: string
+  // name: string
   /** 描述 */
   description?: string
   /** 单手动作 */

@@ -1,8 +1,6 @@
-import { MeleeWeaponDataBase, NormalMod, RivenDataBase, RivenProperty, RivenPropertyDataBase, RivenWeaponDataBase, GunWeaponDataBase } from ".";
 import { Base64, randomNormalDistribution, strSimilarity } from "./util";
-import _ from "lodash";
 import { base62, debase62 } from "./lib/base62";
-import { Polarity } from "./codex";
+import { Polarity, RivenProperty, RivenDataBase, MeleeWeaponDataBase, GunWeaponDataBase, RivenPropertyDataBase, RivenWeaponDataBase, NormalMod } from "./codex";
 
 export class ValuedRivenProperty {
   /** 属性原型 */
@@ -110,7 +108,6 @@ export class RivenMod {
   get ratio() { return this.weapon.ratio; }
   get star() { return this.weapon.star; }
   get starText() { return this.weapon.starText; }
-  calcPrice(x: number) { return this.weapon.calcPrice(x); }
 
   constructor(parm?: string | RivenMod, base64 = false) {
     if (typeof parm === "string") {
@@ -276,7 +273,7 @@ A段位12023
     this.properties = props.map((v, i) => {
       let prop = RivenDataBase.getPropByName(v[0]);
       if (i >= 3 || (prop.negative ? -v[1] : v[1]) < 0) this.hasNegativeProp = true;
-      return new ValuedRivenProperty(prop, v[1], RivenDataBase.getPropBaseValue(this.name, prop.name), this.upLevel).normalize();
+      return new ValuedRivenProperty(prop, v[1], RivenDataBase.getPropBaseValue(this.id, prop.name), this.upLevel).normalize();
     });
   }
   /**
@@ -303,10 +300,10 @@ A段位12023
     // 偏差值 正态分布 标准差=5
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
     let props = _.sampleSize(RivenPropertyDataBase[this.mod], count)
-      .map(v => [v.id, _.round(devi() * this.upLevel * RivenDataBase.getPropBaseValue(this.name, v.id), 1)]) as [string, number][];
+      .map(v => [v.id, _.round(devi() * this.upLevel * RivenDataBase.getPropBaseValue(this.id, v.id), 1)]) as [string, number][];
     if (this.hasNegativeProp) {
       let neProp = _.sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
-      props.push([neProp.id, _.round(devi() * -negaUplvl * RivenDataBase.getPropBaseValue(this.name, neProp.id), 1)]);
+      props.push([neProp.id, _.round(devi() * -negaUplvl * RivenDataBase.getPropBaseValue(this.id, neProp.id), 1)]);
     }
     this.parseProps(props);
   }
@@ -367,7 +364,7 @@ A段位12023
     if (!d[0]) return;
     this.id = d[0];
     if (d[1]) this.shortSubfix = d[1];
-    let weapon = RivenDataBase.findMostSimRivenWeapon(this.id);
+    let weapon = RivenDataBase.getRivenWeaponByName(this.id);
     this.name = weapon.name;
     this.mod = weapon.mod;
     this.rank = debase62(d[2][0]);
@@ -380,7 +377,7 @@ A段位12023
     this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == (lastProp[1] < 0);
     this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
     this.properties = props.map(v =>
-      new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel).normalize());
+      new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.id, v[0].name), this.upLevel).normalize());
   }
   /** Base64形式的二维码 */
   get qrCodeBase64() {

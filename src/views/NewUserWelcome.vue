@@ -20,8 +20,6 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
-import { changeLocale } from "@/i18n";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 
 @Component

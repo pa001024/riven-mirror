@@ -72,6 +72,15 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "at", }, // AimGlideWallLatchTime
   { id: "er", nopercent: true, }, // EnemyRadar
   { id: "lr", nopercent: true, }, // LootRadar
+  { id: "ea", nopercent: true, }, // extra armor
+  { id: "fsr", }, // fully shield recovery
+  { id: "psr", }, // persecond shield recovery
+  { id: "phr", }, // persecond health recovery
+  { id: "ivb", }, // invisible
+  { id: "ehb", }, // extra health orb
+  { id: "eeb", }, // extra energy orb
+  { id: "rgd", }, // range knockdown
+
   // 其他
   { id: "acc" }, // 精准
   { id: "range", nopercent: true }, // 射程

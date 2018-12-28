@@ -21,7 +21,7 @@ export class Codex {
   static getEnemy(id: string) { return this.instance.enemyDict.get(id); }
   static getBuff(id: string) { return this.instance.buffDict.get(id); }
   static getAvailableArcanes(weapon: Weapon) {
-    return ArcaneList.filter(v => v.type === "武器" || weapon.tags.includes(v.type));
+    return ArcaneList.filter(v => v.type === "Weapon" || weapon.tags.includes(v.type));
   }
 }
 

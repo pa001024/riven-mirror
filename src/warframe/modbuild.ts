@@ -1,12 +1,9 @@
-import {
-  Arcane, Codex, CombElementMap, Damage2_0, DamageType, Enemy, EnemyTimelineState, ExtraDmgSet,
-  NormalCardDependTable, NormalMod, RivenDataBase, RivenMod, RivenPropertyDataBase,
-  toNegaUpLevel, toUpLevel, ValuedRivenProperty, Weapon, Buff, BuffList
-} from "@/warframe";
-import _ from "lodash";
+
 import { choose, hAccMul, hAccSum } from "./util";
 import { base62, debase62 } from "./lib/base62";
 import { procDurationMap, SpecialStatusInfo } from "./status";
+import { Weapon, NormalMod, RivenDataBase, Arcane, Buff, Enemy, EnemyTimelineState, BuffList, Codex, CombElementMap, Damage2_0, DamageType, ExtraDmgSet, NormalCardDependTable, RivenPropertyDataBase } from "./codex";
+import { RivenMod, toUpLevel, toNegaUpLevel, ValuedRivenProperty } from "./rivenmod";
 
 // 基础类
 export abstract class ModBuild {
@@ -348,6 +345,16 @@ export abstract class ModBuild {
   /** 显示各触发参数 */
   get statusInfo() { return this._statusInfo; }
 
+  /** 通用各触发参数 */
+  get commonStatusInfo() {
+    return {
+      averageProcQE: this.averageProcQE,
+      appearRate: this.realProcChance,
+      appearRatePerHit: this.procChancePerHit,
+      appearRatePerSecond: this.procChancePerSecond,
+    }
+  }
+
   /** 所有伤害 */
   get totalDmg() {
     return this.baseDmg.map(([i, v]) => [i, v * this.totalDamage / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
@@ -491,11 +498,12 @@ export abstract class ModBuild {
   get averageProcQE() {
     let mergedMap = {}, asQE = 0;
     this.procChanceMap.forEach(v => {
-      let k = v[0] === "Gas" ? "Toxin" : v[1];
+      let k = v[0] === "Gas" ? "Toxin" : v[0];
       mergedMap[k] = hAccSum(mergedMap[k] || 0, v[1])
     });
     Object.keys(mergedMap).forEach(v => {
-      asQE += mergedMap[v] * procDurationMap[v] * this.procDurationMul;
+      let single = mergedMap[v] * procDurationMap[v] * this.procDurationMul;
+      asQE += single > 1 ? 1 : single;
     });
     return asQE;
   }
@@ -610,7 +618,7 @@ export abstract class ModBuild {
     });
     // 加载赋能
     this._arcanes.forEach(arc => {
-      arc && this.applyProp(arc, arc.prop[0], arc.prop[1]);
+      arc && this.applyProp(arc, arc.props[0][0], arc.props[0][1]);
     });
     // 加载Buff
     this._buffs.forEach(buff => {
@@ -864,14 +872,14 @@ export abstract class ModBuild {
       } else if (["4", "5", "6", "8", "9", "A"].includes(v.id)) return false;
       return true;
     }).map(v => {
-      let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id) * upLevel;
+      let base = RivenDataBase.getPropBaseValue(this.riven.id, v.id) * upLevel;
       return new ValuedRivenProperty(v, base, base, upLevel);
     });
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.weapon.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
     let valuedNegativeProp = new ValuedRivenProperty(negativeProp,
-      this.weapon.id === "Vectis Prime" ? -28 : RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel,
-      RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), upLevel);
+      this.weapon.id === "Vectis Prime" ? -28 : RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id) * -negaUpLevel,
+      RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id), upLevel);
 
     // 将属性虚拟成MOD
     let fakeMods = avaliableProps.map(v => ({
@@ -935,13 +943,13 @@ export abstract class ModBuild {
       }
       return true;
     }).map(v => {
-      let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id) * upLevel;
+      let base = RivenDataBase.getPropBaseValue(this.riven.id, v.id) * upLevel;
       return new ValuedRivenProperty(v, base, base, upLevel);
     });
     let propsOfMods = choose(avaliableProps, 3);  // 只用三条属性 代表3+1-
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
-    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel, RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id), upLevel);
+    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id) * -negaUpLevel, RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id), upLevel);
 
     let newRivens = propsOfMods.map(v => {
       let newRiven = new RivenMod(this.riven);

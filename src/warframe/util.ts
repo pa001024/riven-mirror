@@ -1,4 +1,3 @@
-import _ from "lodash";
 /**
   * 检查两个字符串的相似度
   */

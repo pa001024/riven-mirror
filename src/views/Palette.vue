@@ -47,12 +47,11 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { PaletteData, ColorHelper, Color } from "@/warframe";
 import { Chrome as ColorPicker } from "vue-color";
 import tinycolor from "tinycolor2";
 import ColorThief from "color-thief-browser";
+import { Color, PaletteData, ColorHelper } from "@/warframe/codex";
 
 @Component({
   components: { ColorPicker }

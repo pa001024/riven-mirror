@@ -94,12 +94,13 @@
 <script lang="ts">
 import axios from 'axios';
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, RivenDataBase } from "../warframe";
 import GunModBuildView from "@/views/buildview/GunModBuildView.vue";
 import MeleeModBuildView from "@/views/buildview/MeleeModBuildView.vue";
 import { Getter, Action } from 'vuex-class'
 // import jsQR from "jsqr";
 import RivenEditor from "@/components/RivenEditor.vue";
+import { RivenMod } from '@/warframe/rivenmod';
+import { RivenDataBase } from '@/warframe/codex';
 
 interface OCRResult {
   result: string[]
@@ -125,7 +126,7 @@ export default class Mod extends Vue {
   @Action("newModTextInput") newModTextInput: (text: string) => void;
   @Action("removeHistory") removeHistory: (qrcode: string) => void;
   get isGun() {
-    let vp = RivenDataBase.getRivenWeaponByName(this.mod.name);
+    let vp = RivenDataBase.getRivenWeaponByName(this.mod.id);
     return vp && vp.mod != "Melee";
   }
   readQRCode(file: File) {

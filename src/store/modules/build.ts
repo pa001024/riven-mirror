@@ -1,4 +1,3 @@
-import { RivenMod } from "@/warframe";
 import { ActionContext } from "vuex";
 
 interface State {

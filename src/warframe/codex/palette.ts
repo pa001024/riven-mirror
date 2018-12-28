@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 /**
  * 色板类
  */

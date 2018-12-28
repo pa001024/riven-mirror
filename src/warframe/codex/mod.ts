@@ -1,6 +1,5 @@
-import _ from "lodash";
-import { i18n } from "@/i18n";
 import { ValuedProperty } from "./prop";
+import { i18n } from "@/i18n";
 
 export interface NormalModData {
   /** 索引 */
@@ -75,6 +74,8 @@ export class NormalMod implements NormalModData {
   }
 
   get cost(): number { return this.maxCost + this.level - this.maxLevel; }
+  get delta() { return this.type === "Aura" ? this.cost : this.cost - Math.ceil(this.cost / 2) }
+  get theta() { return this.type === "Aura" ? this.cost - Math.ceil(this.cost / 1.25) : this.cost - Math.ceil(this.cost * 1.25) }
   get name() {
     let name = this.customName || i18n.t(`messages.${this.id}`) as string;
     return name || "";
@@ -88,7 +89,7 @@ export class NormalMod implements NormalModData {
   /** 计算实际容量消耗 */
   calcCost(polarity: string) {
     if (polarity)
-      return Math.ceil(polarity === this.polarity ? this.cost / 2 : this.cost * 1.25);
+      return this.type === "Aura" ? Math.ceil(polarity === this.polarity ? this.cost * 2 : this.cost / 1.25) : Math.ceil(polarity === this.polarity ? this.cost / 2 : this.cost * 1.25);
     else
       return this.cost;
   }
@@ -519,47 +520,47 @@ const _normalModSource = [
   ["HX", "gladiatorFinesse", [["z", 0.6]], "Warframe", "d", "r", 9],
   ["HY", "gladiatorResolve", [["h", 1.8]], "Warframe", "d", "c", 9],
   ["HZ", "hunterAdrenaline", [["rg"], 0.45], "Warframe", "r", "n", 11],
-  ["Ha", "vigilantePursuit", [["私法追踪"]], "Warframe,Exilus", "-", "c", 9],
+  ["Ha", "vigilantePursuit", [["私法追踪"]], "Exilus", "-", "c", 9],
   ["Hb", "vigilanteVigor", [["r", 0.6]], "Warframe", "d", "n", 9],
   ["Hc", "tekCollateral", [["技法连带"]], "Warframe", "-", "r", 5, 3],
   ["Hd", "mechaPulse", [["机甲脉冲"]], "Warframe", "r", "r", 9, 3],
-  ["He", "synthReflex", [["hr", 1]], "Warframe,Exilus", "r", "r", 7, 3],
+  ["He", "synthReflex", [["hr", 1]], "Exilus", "r", "r", 7, 3],
 
   // 特殊功能
-  ["I7", "agilityDrift", [["矫捷窜升"]], "Warframe,Exilus", "d", "r", 9],
-  ["I8", "coactionDrift", [["as", 0.15], ["ae", 0.15]], "Warframe,Exilus", "-", "r", 9],
-  ["I9", "cunningDrift", [["l", 0.12], ["i", -0.3], ["g", 0.15]], "Warframe,Exilus", "r", "r", 9],
-  ["IA", "enduranceDrift", [["e", 0.15], ["v", 0.12]], "Warframe,Exilus", "=", "r", 9],
-  ["IB", "powerDrift", [["t", 0.15], ["k", 0.3]], "Warframe,Exilus", "=", "r", 9],
-  ["IC", "speedDrift", [["f", 0.12], ["c", 0.15]], "Warframe,Exilus", "r", "r", 9],
-  ["ID", "stealthDrift", [["er", 18], ["at", 0.12]], "Warframe,Exilus", "-", "r", 9],
-  ["IE", "batteringManeuver", [["机动冲撞"]], "Warframe,Exilus", "d", "c", 9],
-  ["IF", "piercingStep", [["穿刺步伐"]], "Warframe,Exilus", "-", "c", 9],
-  ["IG", "rendingTurn", [["撕裂翻转"]], "Warframe,Exilus", "r", "c", 9],
-  ["IH", "firewalker", [["火焰行者"]], "Warframe,Exilus", "r", "r", 12, 10],
-  ["II", "iceSpring", [["冰冷跃动"]], "Warframe,Exilus", "d", "r", 12, 10],
-  ["IJ", "lightningDash", [["电光冲刺"]], "Warframe,Exilus", "r", "r", 12, 10],
-  ["IK", "toxicFlight", [["剧毒飞腾"]], "Warframe,Exilus", "-", "r", 12, 10],
-  ["IL", "maglev", [["l", 0.3], ["i", -0.3]], "Warframe,Exilus", "-", "c", 11],
-  ["IM", "mobilize", [["全面驱动"]], "Warframe,Exilus", "-", "c", 5, 3],
-  ["IN", "patagium", [["at"], 0.9], "Warframe,Exilus", "-", "c", 7],
-  ["IO", "rush", [["f", 0.3]], "Warframe,Exilus", "-", "c", 11],
-  ["IP", "streamlinedForm", [["hr", 0.6], ["l", 0.15], ["i", -0.15]], "Warframe,Exilus", "-", "r", 7],
-  ["IQ", "aviator", [["飞行员"]], "Warframe,Exilus", "d", "n", 7, 3],
-  ["IR", "shockAbsorbers", [["减震器"]], "Warframe,Exilus", "d", "r", 7, 3],
-  ["IS", "sureFooted", [["k", 0.6]], "Warframe,Exilus", "d", "r", 9, 3],
-  ["IT", "primedSureFooted", [["k", 0.999167]], "Warframe,Exilus", "d", "l", 16, 10],
-  ["IU", "warmCoat", [["保温服"]], "Warframe,Exilus", "d", "n", 9, 3],
-  ["IV", "enemySense", [["er", 30]], "Warframe,Exilus", "-", "r", 9],
-  ["IW", "handspring", [["y", 1.6]], "Warframe,Exilus", "-", "r", 9, 3],
-  ["IX", "heavyImpact", [["震地冲击"]], "Warframe,Exilus", "-", "c", 9],
-  ["IY", "intruder", [["入侵者"]], "Warframe,Exilus", "-", "n", 7],
-  ["IZ", "masterThief", [["盗贼大师"]], "Warframe,Exilus", "-", "r", 13, 3],
-  ["Ia", "painThreshold", [["痛苦阈值"]], "Warframe,Exilus", "-", "r", 9, 3],
-  ["Ib", "peculiarBloom", [["花开怪奇"]], "Warframe,Exilus", "-", "g", 7],
-  ["Ic", "peculiarGrowth", [["生长怪奇"]], "Warframe,Exilus", "-", "g", 7],
-  ["Id", "retribution", [["惩戒"]], "Warframe,Exilus", "d", "r", 9, 3],
-  ["Ie", "thiefsWit", [["lr", 48]], "Warframe,Exilus", "-", "n", 7],
+  ["I7", "agilityDrift", [["矫捷窜升"]], "Exilus", "d", "r", 9],
+  ["I8", "coactionDrift", [["as", 0.15], ["ae", 0.15]], "Exilus", "-", "r", 9],
+  ["I9", "cunningDrift", [["l", 0.12], ["i", -0.3], ["g", 0.15]], "Exilus", "r", "r", 9],
+  ["IA", "enduranceDrift", [["e", 0.15], ["v", 0.12]], "Exilus", "=", "r", 9],
+  ["IB", "powerDrift", [["t", 0.15], ["k", 0.3]], "Exilus", "=", "r", 9],
+  ["IC", "speedDrift", [["f", 0.12], ["c", 0.15]], "Exilus", "r", "r", 9],
+  ["ID", "stealthDrift", [["er", 18], ["at", 0.12]], "Exilus", "-", "r", 9],
+  ["IE", "batteringManeuver", [["机动冲撞"]], "Exilus", "d", "c", 9],
+  ["IF", "piercingStep", [["穿刺步伐"]], "Exilus", "-", "c", 9],
+  ["IG", "rendingTurn", [["撕裂翻转"]], "Exilus", "r", "c", 9],
+  ["IH", "firewalker", [["火焰行者"]], "Exilus", "r", "r", 12, 10],
+  ["II", "iceSpring", [["冰冷跃动"]], "Exilus", "d", "r", 12, 10],
+  ["IJ", "lightningDash", [["电光冲刺"]], "Exilus", "r", "r", 12, 10],
+  ["IK", "toxicFlight", [["剧毒飞腾"]], "Exilus", "-", "r", 12, 10],
+  ["IL", "maglev", [["l", 0.3], ["i", -0.3]], "Exilus", "-", "c", 11],
+  ["IM", "mobilize", [["全面驱动"]], "Exilus", "-", "c", 5, 3],
+  ["IN", "patagium", [["at"], 0.9], "Exilus", "-", "c", 7],
+  ["IO", "rush", [["f", 0.3]], "Exilus", "-", "c", 11],
+  ["IP", "streamlinedForm", [["hr", 0.6], ["l", 0.15], ["i", -0.15]], "Exilus", "-", "r", 7],
+  ["IQ", "aviator", [["飞行员"]], "Exilus", "d", "n", 7, 3],
+  ["IR", "shockAbsorbers", [["减震器"]], "Exilus", "d", "r", 7, 3],
+  ["IS", "sureFooted", [["k", 0.6]], "Exilus", "d", "r", 9, 3],
+  ["IT", "primedSureFooted", [["k", 0.999167]], "Exilus", "d", "l", 16, 10],
+  ["IU", "warmCoat", [["保温服"]], "Exilus", "d", "n", 9, 3],
+  ["IV", "enemySense", [["er", 30]], "Exilus", "-", "r", 9],
+  ["IW", "handspring", [["y", 1.6]], "Exilus", "-", "r", 9, 3],
+  ["IX", "heavyImpact", [["震地冲击"]], "Exilus", "-", "c", 9],
+  ["IY", "intruder", [["入侵者"]], "Exilus", "-", "n", 7],
+  ["IZ", "masterThief", [["盗贼大师"]], "Exilus", "-", "r", 13, 3],
+  ["Ia", "painThreshold", [["痛苦阈值"]], "Exilus", "-", "r", 9, 3],
+  ["Ib", "peculiarBloom", [["花开怪奇"]], "Exilus", "-", "g", 7],
+  ["Ic", "peculiarGrowth", [["生长怪奇"]], "Exilus", "-", "g", 7],
+  ["Id", "retribution", [["惩戒"]], "Exilus", "d", "r", 9, 3],
+  ["Ie", "thiefsWit", [["lr", 48]], "Exilus", "-", "n", 7],
 
   // 技能强化
   ["JX", "seekingShuriken", [["削甲手里剑"]], "Ash", "=", "r", 9, 3],

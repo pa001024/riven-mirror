@@ -1,5 +1,7 @@
-import { RivenMod, ModBuild, NormalMod, MeleeWeapon, NormalModDatabase, Enemy, Arcane } from "@/warframe";
 import { hAccMul, hAccSum } from "@/warframe/util";
+import { Arcane, Enemy, MeleeWeapon, NormalModDatabase, NormalMod } from "./codex";
+import { ModBuild } from "./modbuild";
+import { RivenMod } from "./rivenmod";
 
 export enum MeleeCompareMode {
   TotalDamage,  // 平砍DPH

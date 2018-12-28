@@ -27,10 +27,9 @@
 
 <script lang="ts">
 
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { NormalMod, NormalModDatabase, Codex, ModBuild, RivenMod, RivenDataBase, VisualMeleeMods } from "@/warframe";
 import { WarframeBuild } from "@/warframe/warframebuild";
+import { NormalMod, NormalModDatabase, Codex } from "@/warframe/codex";
 
 interface ModSelectorTab {
   id: string
@@ -55,13 +54,13 @@ export default class extends Vue {
     maxRange: ["stretch", "overextended", "augurReach", "cunningDrift"]​​​​​,
   };
   get fast() { return _.map(this.fastSelect, (v, i) => ({ name: i, id: v } as any)) }
-
+  get allowedTypes() { return this.type === "Warframe" ? ["Warframe", `${this.build.baseId}`, "Exilus", `${this.build.baseId},Exilus`] : [this.type, `${this.build.baseId},${this.type}`] }
   @Watch("build")
   @Watch("type")
   reload() {
     let selected = _.compact(this.build.mods);
     let mods = NormalModDatabase.filter(v =>
-      v.type.split(",").some(vv => [this.type, this.build.baseId].includes(vv)) && !selected.some(k => k.id === v.id || k.primed === v.id));
+      this.allowedTypes.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id));
     if (this.type === "Aura") {
       const commonAura = ["G0", "G3", "G4", "G5", "GG", "GJ", "GN", "GO"];
       this.tabs = [
@@ -76,9 +75,7 @@ export default class extends Vue {
         { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.props.some(k => "fcliv".indexOf(k[0]) >= 0)) },
         { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.props.every(k => "tuxghsaefcliv".indexOf(k[0]) < 0)) },
       ];
-      if (this.type === "Warframe")
-        this.selectTab = "fast";
-      else this.selectTab = "ability";
+      this.selectTab = this.type === "Warframe" ? "fast" : "ability";
     }
   }
   beforeMount() {
@@ -89,7 +86,7 @@ export default class extends Vue {
       this.$emit("command", Codex.getNormalMod(id));
     else {
       let selected = _.compact(this.build.mods);
-      let mods = NormalModDatabase.filter(v => this.build.tags.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id));
+      let mods = NormalModDatabase.filter(v => this.allowedTypes.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id));
       let found = id.map(v => mods.find(k => k.id === v)).filter(Boolean);
       this.$emit("command", found);
     }

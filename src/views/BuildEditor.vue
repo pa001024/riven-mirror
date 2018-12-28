@@ -3,11 +3,10 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import GunBuildEditor from "@/views/build/GunBuildEditor.vue";
 import MeleeBuildEditor from "@/views/build/MeleeBuildEditor.vue";
-import { RivenDataBase, Weapon, RivenWeapon, Zaw, Kitgun } from "@/warframe";
+import { Weapon, RivenWeapon, RivenDataBase, Zaw, Kitgun } from "@/warframe/codex";
 
 @Component({
   components: { GunBuildEditor, MeleeBuildEditor }
@@ -24,7 +23,7 @@ export default class BuildEditor extends Vue {
 
   @Watch("id")
   reload() {
-    if (!this.id || this._lastid === this.id) return;
+    if (!this.id || this._lastid === this.id || (this.$route.name !== "BuildEditorWithCode" && this.$route.name !== "BuildEditor")) return;
     this._lastid = this.id;
     // ZAW
     if (this.id.startsWith("ZAW-")) {

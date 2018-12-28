@@ -131,7 +131,7 @@
         <!-- 赋能 -->
         <el-form-item :label="$t('buildview.arcanes')">
           <el-checkbox-group v-model="arcanes">
-            <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="debouncedRecalc">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
+            <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="debouncedRecalc">{{$t(`buff.${arcane.name}`)}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -140,11 +140,11 @@
 </template>
 
 <script lang="ts">
-
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, MeleeModBuild, ValuedRivenProperty, RivenDataBase, Codex, MeleeWeapon, MeleeCompareMode, ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, Weapon } from "@/warframe";
 import { BaseModBuildView } from "./BaseModBuildView";
+import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
+import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDataBase, Codex, MeleeWeapon } from "@/warframe/codex";
+import { RivenMod } from "@/warframe/rivenmod";
 
 @Component
 export default class MeleeModBuildView extends BaseModBuildView {

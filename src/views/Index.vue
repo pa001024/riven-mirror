@@ -186,10 +186,10 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { CetusTime, EarthTime, FortunaTime, WorldStat, Translator, Sortie, Alert, News, Fissure, Invasion, Job, VoidTrader } from "@/warframe";
 import BScroll from 'better-scroll';
+import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert } from "@/warframe/worldstat";
+import { CetusTime, FortunaTime, EarthTime } from "@/warframe/gametime";
 interface WarframeTime {
   isDay: boolean
   phase: string

@@ -80,9 +80,8 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { Kitgun, KitgunChamberData, KitgunGripData, KitgunLoaderData, KitgunChamber, KitgunGrip, KitgunLoader } from "@/warframe";
+import { KitgunChamberData, KitgunGripData, KitgunLoaderData, KitgunChamber, KitgunGrip, KitgunLoader, Kitgun } from "@/warframe/codex";
 
 @Component
 export default class extends Vue {

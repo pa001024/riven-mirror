@@ -41,7 +41,8 @@
     "sass-loader": "^7.0.3",
     "typescript": "^3.0.0",
     "vue-cli-plugin-element": "^1.0.0",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.17",
+    "worker-loader": "^2.0.0"
   },
   "browserslist": [
     "> 1%",

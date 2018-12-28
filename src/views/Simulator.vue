@@ -84,10 +84,9 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod } from "@/warframe";
 import qrcode from "@/components/QRCode";
+import { RivenMod } from "@/warframe/rivenmod";
 
 /** 倒计时 */
 function countDown(sec = 3, tickCallback: (sec: number) => void) {
@@ -104,8 +103,6 @@ function countDown(sec = 3, tickCallback: (sec: number) => void) {
     return
   })
 }
-
-
 
 @Component({
   components: { qrcode }

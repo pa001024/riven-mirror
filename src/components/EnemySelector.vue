@@ -15,9 +15,8 @@
 
 <script lang="ts">
 
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { EnemyFaction, EnemyList, EnemyData, Codex } from "@/warframe";
+import { EnemyFaction, EnemyData, EnemyList, Codex } from "@/warframe/codex";
 
 declare interface EnemySelectorTab {
   id: EnemyFaction

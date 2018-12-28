@@ -80,9 +80,8 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { Zaw, ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks } from "@/warframe";
+import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw } from "@/warframe/codex";
 
 @Component
 export default class extends Vue {

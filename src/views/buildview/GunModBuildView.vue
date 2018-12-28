@@ -143,7 +143,7 @@
         <!-- 赋能 -->
         <el-form-item :label="$t('buildview.arcanes')">
           <el-checkbox-group v-model="arcanes">
-            <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="debouncedRecalc">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
+            <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="debouncedRecalc">{{$t(`buff.${arcane.name}`)}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -153,8 +153,10 @@
 
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, GunModBuild, ValuedRivenProperty, RivenDataBase, Codex, GunWeapon, GunCompareMode, KitgunChamber, KitgunGrip, KitgunLoader, KitgunChamberData, KitgunGripData, KitgunLoaderData, Kitgun, Weapon } from "@/warframe";
 import { BaseModBuildView } from "./BaseModBuildView";
+import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
+import { KitgunChamberData, KitgunGripData, KitgunLoaderData, KitgunChamber, KitgunGrip, KitgunLoader, Kitgun, RivenDataBase, Codex, GunWeapon } from "@/warframe/codex";
+import { RivenMod } from "@/warframe/rivenmod";
 
 @Component
 export default class GunModBuildView extends BaseModBuildView {

@@ -4,7 +4,6 @@
   </svg>
 </template>
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 const PorTrans = {

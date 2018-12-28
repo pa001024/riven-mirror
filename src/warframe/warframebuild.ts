@@ -1,8 +1,7 @@
-import _ from "lodash";
 import { WarframeDataBase, Warframe, Codex } from "./codex";
 import { i18n } from "@/i18n";
 import { NormalMod } from "./codex/mod";
-import { hAccSum, hAccMul } from "./util";
+import { hAccSum } from "./util";
 import { Arcane } from "./codex/arcane";
 import { Buff, BuffList } from "./codex/buff";
 import { base62, debase62 } from "./lib/base62";
@@ -15,18 +14,21 @@ export class WarframeBuild {
   protected _buffs: Buff[] = [];
   protected _aura: NormalMod = null;
   protected _exilus: NormalMod = null;
-  protected _auraPor: string;
-  protected _exilusPor: string;
 
   /** 光环 */
   get aura() { return this._aura }
-  set aura(value) { this._aura = value }
+  set aura(value) {
+    this._aura = value;
+    this.calcMods();
+    this.recalcPolarizations();
+  }
   /** 特殊功能 */
   get exilus() { return this._exilus }
-  set exilus(value) { this._exilus = value }
-
-  get auraPor() { return this._auraPor }
-  get exilusPor() { return this._exilusPor }
+  set exilus(value) {
+    this._exilus = value;
+    this.calcMods();
+    this.recalcPolarizations();
+  }
 
   /** 原型MOD列表 */
   get rawMods() { return this._rawmods; }
@@ -36,7 +38,12 @@ export class WarframeBuild {
     this._rawmods = _.cloneDeep(value);
     this._mods = this.mapRankUpMods(value);
     this.calcMods();
+    this.recalcPolarizations();
   }
+  /** 特殊功能MOD与MOD */
+  get costMods() { return [this.exilus, ...this._mods] }
+  /** 所有MOD */
+  get allMods() { return [this._aura, this._exilus, ...this._mods] }
   /** 赋能列表 */
   get arcanes() { return _.cloneDeep(this._arcanes); }
   set arcanes(value) { this._arcanes = _.cloneDeep(value); this.calcMods(); }
@@ -242,6 +249,7 @@ export class WarframeBuild {
   applyMod(mod: NormalMod) {
     this._mods.push(mod);
     this.calcMods();
+    this.recalcPolarizations();
     return this;
   }
 
@@ -437,11 +445,10 @@ export class WarframeBuild {
       if (level) mod.level = debase62(level);
       return mod;
     });
-    this.mods = mods;
-    this.aura = aura;
-    this.exilus = exilus;
+    this._aura = aura;
+    this._exilus = exilus;
     this._buffs = bufflist;
-    this.calcMods();
+    this.mods = mods;
   }
   get miniCodeURL() {
     return `https://rm.0-0.at/warframe/${this.data.url}/${this.miniCode}`;
@@ -458,33 +465,88 @@ export class WarframeBuild {
 
   // 容量计算与极化
 
+  protected _auraPol: string;
+  protected _exilusPol: string;
+  get auraPol() { return this._auraPol }
+  get exilusPol() { return this._exilusPol }
   protected _polarizations: string[] = Array(8);
   get polarizations() { return this._polarizations; }
+  get allPolarizations() { return [this._auraPol, this._exilusPol, ...this._polarizations]; }
   /** 容量 */
   get totalCost() {
-    let total = this._mods.reduce((a, _, i) => a += this.getCost(i), 0);
+    let total = this.costMods.reduce((a, _, i) => a += this.getCost(i - 1), 0);
     return total;
   }
 
   /** 获取指定位置MOD的容量 */
   getCost(modIndex: number) {
-    let mod = this._mods[modIndex];
-    if (mod) return mod.calcCost(this._polarizations[modIndex]);
+    let mod = this.allMods[modIndex + 2];
+    if (mod) return mod.calcCost(this.allPolarizations[modIndex + 2]);
     return 0;
   }
 
   /** 最大容量 */
-  get maxCost() { return 60; }
+  get maxCost() { return 60 + this.getCost(-2); }
+  _formaCount = 0;
+  /** 极化次数 */
+  get formaCount() { return this._formaCount }
   /** 重新计算极化次数 */
   recalcPolarizations() {
+    // 自带的极性
+    let defaultPolarities = this.data.polarities.slice();
+    this._auraPol = this.data.aura;
+    this._exilusPol = this.data.exilus;
     this._polarizations = Array(8);
-    // 按容量需求量排序
-    const pls = this._mods.map((v, i) => [i, v ? v.cost : 0]).sort((a, b) => b[1] - a[1]);
-    // 最多极化8次
-    for (let i = 0; this.totalCost > this.maxCost && i < pls.length && this._mods[pls[i][0]]; ++i) {
-      this._polarizations[pls[i][0]] = this._mods[pls[i][0]].polarity;
+    this._formaCount = 0;
+    // 自动匹配自带槽位
+    const deltaSeq = this._mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1]);
+    const thetaSeq = this._mods.map((v, i) => [i, v ? v.theta : 0]).sort((a, b) => a[1] - b[1]);
+    deltaSeq.forEach(([i]) => {
+      if (this._mods[i]) {
+        let matched = defaultPolarities.indexOf(this._mods[i].polarity);
+        if (matched >= 0) {
+          defaultPolarities.splice(matched, 1);
+          this._polarizations[i] = this._mods[i].polarity;
+        }
+      }
+    });
+    // 强制使用自带槽位
+    while (defaultPolarities.length > 0) {
+      const pol = defaultPolarities.pop();
+      let mod = thetaSeq.pop();
+      if (mod) this._polarizations[mod[0]] = pol;
     }
-    return this.polarizations;
+    // 按容量需求量排序
+    const mods = this.allMods;
+    const delta = mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1]);
+    // 最多极化10次
+    for (let i = 0; this.totalCost > this.maxCost && i < delta.length && mods[delta[i][0]]; ++i) {
+      const [modIndex] = delta[i];
+      const pol = mods[modIndex].polarity;
+      // aura
+      if (modIndex === 0) {
+        if (this._auraPol !== pol) {
+          this._auraPol = pol;
+          ++this._formaCount;
+        }
+      }
+      // exilus
+      else if (modIndex === 1) {
+        if (this._exilusPol !== pol) {
+          this._exilusPol = pol;
+          ++this._formaCount;
+        }
+      } else {
+        if (pol !== "w") {
+          if (this._polarizations[modIndex - 2] !== pol) {
+            this._polarizations[modIndex - 2] = pol;
+            ++this._formaCount;
+          }
+        }
+      }
+    }
+    // console.log(this.allMods, this.allPolarizations)
+    return this.allPolarizations;
   }
 }
 

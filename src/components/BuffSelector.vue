@@ -14,10 +14,9 @@
 </template>
 
 <script lang="ts">
-
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { Codex, BuffType, BuffData, BuffList, ModBuild } from "@/warframe";
+import { BuffData, Codex, BuffList, BuffType } from "@/warframe/codex";
+import { ModBuild } from "@/warframe/modbuild";
 
 declare interface BuffSelectorTab {
   id: string
@@ -42,9 +41,10 @@ export default class extends Vue {
 
   @Watch("build.weapon")
   reload() {
-    let buffList = BuffList.filter(v => v.target === "远程武器" ? !this.build.weapon.tags.includes("Melee") :
-      (v.target === "全域" || v.target === "武器" || this.build.weapon.tags.includes(v.target)));
+    let buffList = BuffList.filter(v => v.target === "Ranged" ? !this.build.weapon.tags.includes("Melee") :
+      (v.target === "All" || v.target === "Weapon" || this.build.weapon.tags.includes(v.target)));
     this.tabs = [
+      { id: "arcane", name: this.$t("buff.types.arcane") as string, buffs: buffList.filter(k => k.type === BuffType.Arcane) },
       { id: "baseDamage", name: this.$t("buff.types.baseDamage") as string, buffs: buffList.filter(k => k.type === BuffType.BaseDamage) },
       { id: "totalDamage", name: this.$t("buff.types.totalDamage") as string, buffs: buffList.filter(k => k.type === BuffType.TotalDamage) },
       { id: "elementDamage", name: this.$t("buff.types.elementDamage") as string, buffs: buffList.filter(k => k.type === BuffType.ElementDamage) },

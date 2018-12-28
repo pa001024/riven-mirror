@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 /** 触发持续时间表 */
 export const procDurationMap = {
   Impact: 2,

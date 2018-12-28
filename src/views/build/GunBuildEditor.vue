@@ -24,7 +24,7 @@
                 <tr class="prop-diff cost-show">
                   <th>{{$t('build.cost')}}</th>
                   <td class="diff diff-ori">
-                    {{build.totalCost}}
+                    {{build.maxCost - build.totalCost}}
                   </td>
                   <template v-if="build.totalCost > 0">
                     <td class="diff diff-arrow">/</td>
@@ -70,12 +70,6 @@
                 <el-tooltip effect="dark" :content="$t('buildview.headshotChanceTip')" placement="bottom">
                   <el-slider class="right-side" v-model="headShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
                 </el-tooltip>
-              </el-form-item>
-              <!-- 赋能 -->
-              <el-form-item :label="$t('buildview.arcanes')">
-                <el-checkbox-group v-model="arcanes">
-                  <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="optionChange">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
-                </el-checkbox-group>
               </el-form-item>
             </el-form>
           </el-card>
@@ -128,7 +122,7 @@
         <el-tabs value="statusinfo" class="external-area">
           <!-- 触发计算 -->
           <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
-            <StatusInfoDisplay :info="build.statusInfo" :asQE="build.averageProcQE" />
+            <StatusInfoDisplay :info="build.statusInfo" :common="build.commonStatusInfo" />
           </el-tab-pane>
           <!-- 幻影装置-->
           <el-tab-pane class="enemy-sim" :label="$t('build.simulacrum')" name="simulacrum">
@@ -191,9 +185,7 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { EnemyFaction, RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty, EnemyData, Enemy, Codex } from "@/warframe";
 import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
@@ -202,6 +194,8 @@ import EnemyTimeline from "@/components/EnemyTimeline.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
+import { GunWeapon, RivenWeapon, EnemyData, Codex, Enemy } from "@/warframe/codex";
+import { GunModBuild } from "@/warframe/gunmodbuild";
 
 @Component({
   components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot }
@@ -374,71 +368,6 @@ export default class GunBuildEditor extends BaseBuildEditor {
       margin-bottom: 0;
     }
   }
-}
-.mod-stat {
-  .mod-prop {
-    font-size: 9pt;
-    color: @half_grey;
-  }
-  display: initial;
-}
-.mod-sum {
-  font-size: 11pt;
-  color: @text_info;
-}
-.mod-title {
-  align-self: stretch;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  transition: 0.3s;
-  cursor: move;
-  font-size: 20px;
-  border-radius: 4px 0 0 4px;
-  flex: 1;
-  position: relative;
-  flex-wrap: wrap;
-  &:hover {
-    background: #e8f0ff;
-  }
-  .mod-polarity {
-    position: absolute;
-    left: 10px;
-    top: 8px;
-    font-size: 1rem;
-    &.np {
-      color: #67c23a;
-    }
-  }
-}
-.mod-detail {
-  align-self: stretch;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.3s;
-  cursor: pointer;
-  flex: 1;
-  &:hover {
-    background: #ffd6d6;
-    .mod-stat {
-      display: none;
-    }
-    .mod-action {
-      display: initial;
-    }
-  }
-}
-.mod-action {
-  display: none;
-}
-.mod-slot-remove {
-  background: 0 0;
-  border: none;
-  outline: 0;
-  cursor: pointer;
-  font-size: 36px;
 }
 .build-tools {
   margin-top: 16px;

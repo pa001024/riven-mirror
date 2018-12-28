@@ -1,7 +1,17 @@
 module.exports = {
   configureWebpack: {
-    devtool: false,
+    devtool: 'inline-source-map',
+    module: {
+      rules: [{
+        test: /\.worker\.js$/,
+        use: {
+          loader: 'worker-loader'
+        },
+        exclude: /(node_modules)/
+      }]
+    }
   },
+  productionSourceMap: false,
   pwa: {
     name: 'Riven Mirror',
     themeColor: '#3d5afe',

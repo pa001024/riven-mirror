@@ -1,6 +1,9 @@
 import { Vue, Watch, Prop } from "vue-property-decorator";
-import { RivenMod, GunModBuild, ModBuild, ValuedRivenProperty, RivenDataBase, ValuedProperty } from "@/warframe";
 import { i18n } from "@/i18n";
+import { RivenMod } from "@/warframe/rivenmod";
+import { RivenDataBase } from "@/warframe/codex";
+import { ModBuild } from "@/warframe/modbuild";
+import { GunModBuild } from "@/warframe/gunmodbuild";
 
 export abstract class BaseModBuildView extends Vue {
   @Prop() riven: RivenMod;

@@ -5,9 +5,8 @@
 </template>
 <script lang="ts">
 
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { Arcane } from "@/warframe";
+import { Arcane } from "@/warframe/codex";
 
 declare interface ArcaneSelectorTab {
   id: string

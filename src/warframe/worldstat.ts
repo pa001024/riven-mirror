@@ -1,6 +1,6 @@
-import _ from "lodash";
 import axios from 'axios';
 import { Translator } from "@/warframe/translate";
+import { i18n } from "../i18n";
 
 export interface WarframeStat {
   timestamp: string;
@@ -486,8 +486,8 @@ export class WorldStat {
   get news() {
     if (!this.data) return [];
     return _.reverse(this.deepTranslate(this.data.news.filter(v => v.translations.en)).map(v => {
-      if (v.translations[Translator.Locale.substr(0, 2)])
-        v.message = v.translations[Translator.Locale.substr(0, 2)];
+      if (v.translations[i18n.locale.substr(0, 2)])
+        v.message = v.translations[i18n.locale.substr(0, 2)];
       return v;
     }));
   }

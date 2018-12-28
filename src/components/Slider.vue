@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import BScroll from 'better-scroll';
 

@@ -23,7 +23,7 @@
                 <tr class="prop-diff cost-show">
                   <th>{{$t('build.cost')}}</th>
                   <td class="diff diff-ori">
-                    {{build.totalCost}}
+                    {{build.maxCost - build.totalCost}}
                   </td>
                   <template v-if="build.totalCost > 0">
                     <td class="diff diff-arrow">/</td>
@@ -66,12 +66,6 @@
                 <el-tooltip effect="dark" :content="$t('buildview.comboMulTip')" placement="bottom">
                   <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="1" :max="6" :step="0.5" label="使用MOD槽位"></el-input-number>
                 </el-tooltip>
-              </el-form-item>
-              <!-- 赋能 -->
-              <el-form-item :label="$t('buildview.arcanes')">
-                <el-checkbox-group v-model="arcanes">
-                  <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="optionChange">{{$t("zh") ? arcane.name : arcane.id}}</el-checkbox>
-                </el-checkbox-group>
               </el-form-item>
             </el-form>
           </el-card>
@@ -124,7 +118,7 @@
         <el-tabs value="statusinfo" class="external-area">
           <!-- 触发计算 -->
           <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
-            <StatusInfoDisplay :info="build.statusInfo" :asQE="build.averageProcQE" />
+            <StatusInfoDisplay :info="build.statusInfo" :common="build.commonStatusInfo" />
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -138,15 +132,16 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { RivenWeapon, ModBuild, RivenDataBase, GunWeapon, GunModBuild, NormalMod, Damage2_0, DamageType, ValuedRivenProperty, MeleeWeapon, MeleeModBuild, Codex } from "@/warframe";
 import PropDiff from "@/components/PropDiff.vue";
 import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
+import { ModBuild } from "@/warframe/modbuild";
+import { NormalMod, MeleeWeapon, RivenWeapon, Codex } from "@/warframe/codex";
+import { MeleeModBuild } from "@/warframe/meleemodbuild";
 
 declare interface BuildSelectorTab {
   title: string

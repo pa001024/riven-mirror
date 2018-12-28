@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { i18n } from "@/i18n";
 
 /**
@@ -8,22 +7,9 @@ import { i18n } from "@/i18n";
  * @class Translator
  */
 export class Translator {
-  private static _locale = "en";
-  public static get Locale() {
-    if (this._locale !== i18n.locale) {
-      this._locale = i18n.locale || "en";
-      this.instance.reload();
-    }
-    return this._locale;
-  };
   protected static instance = new Translator();
-  private mainDict: Map<string, string>;
   private subDict: Map<string, string>;
   private subLinkDict: Map<string, string[]>;
-
-  constructor() {
-    this.reload();
-  }
 
   /**
    * 重新加载语言文件
@@ -31,12 +17,8 @@ export class Translator {
    * @memberof Translator
    */
   reload() {
-    let en = i18n.t("messages", "en") as { [key: string]: any }, cl = i18n.t("messages") as { [key: string]: any };
-    let enE = i18n.t("messagesExtend", "en") as { [key: string]: any }, clE = i18n.t("messagesExtend") as { [key: string]: any };
-    let _transData = _.map(en, (v, i) => [v.toLowerCase(), cl[i]] as [string, string]);
+    let enE = i18n.a("messagesExtend", "en") as { [key: string]: any }, clE = i18n.a("messagesExtend") as { [key: string]: any };
     let _partSubfixs = _.map(enE, (v, i) => [v.toLowerCase(), clE[i]] as [string, string]);
-    // 英中字典
-    this.mainDict = new Map(_transData);
     // 后缀字典
     this.subDict = new Map(_partSubfixs);
     // 后缀辅助字典
@@ -47,6 +29,9 @@ export class Translator {
       if (this.subLinkDict.has(sub)) this.subLinkDict.get(sub).push(v[0]);
       else this.subLinkDict.set(sub, [v[0]]);
     });
+  }
+  static reload(){
+    this.instance.reload();
   }
 
   /**

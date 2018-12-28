@@ -1,6 +1,7 @@
-import { ModBuild, NormalMod, RivenDataBase, RivenWeapon, ValuedRivenProperty, Weapon, RivenMod, Buff, BuffData, ValuedProperty } from "@/warframe";
-import _ from "lodash";
 import { Vue, Watch } from "vue-property-decorator";
+import { ModBuild } from "@/warframe/modbuild";
+import { NormalMod, Buff, Weapon, RivenWeapon, BuffData } from "@/warframe/codex";
+import { RivenMod } from "@/warframe/rivenmod";
 
 declare interface BuildSelectorTab {
   title: string
@@ -24,6 +25,7 @@ export abstract class BaseBuildEditor extends Vue {
 
   @Watch("code")
   onCodeChange() {
+    if (this.$route.name !== "BuildEditorWithCode" && this.$route.name !== "BuildEditor") return;
     if (this.code && this.build.miniCode != this.code) {
       this.build.miniCode = this.code;
       let mods = this.build.mods;

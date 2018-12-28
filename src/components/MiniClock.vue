@@ -46,11 +46,10 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch } from "vue-property-decorator";
-import { EarthTime, CetusTime, FortunaTime, WorldStat } from "../warframe";
 import { i18n } from "@/i18n";
 import Axios from "axios";
+import { CetusTime, EarthTime, FortunaTime } from "@/warframe/gametime";
 
 interface WarframeTime {
   phase: string

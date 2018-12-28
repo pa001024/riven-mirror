@@ -30,9 +30,7 @@
 
 <script lang="ts">
 
-import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { EnemyTimelineState, Enemy } from "@/warframe";
 
 import echarts from "echarts/lib/echarts";
 // 引入柱状图
@@ -41,6 +39,7 @@ import 'echarts/lib/chart/line';
 // 引入组件
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/grid';
+import { EnemyTimelineState } from "@/warframe/codex";
 
 @Component
 export default class EnemyTimeline extends Vue {

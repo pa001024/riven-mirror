@@ -13,14 +13,13 @@
   </el-row>
 </template>
 <script lang="ts">
-import _ from "lodash";
-import { changeLocale } from "@/i18n";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { i18n } from "@/i18n";
 
 @Component
 export default class extends Vue {
   setlang(lang: string) {
-    changeLocale(lang || navigator.language);
+    i18n.locale = lang || navigator.language;
     location.reload();
   }
 }

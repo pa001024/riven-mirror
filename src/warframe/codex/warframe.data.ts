@@ -15,7 +15,7 @@ const R = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityStr
 export const _abilityData: AbilityData[] = [
   {
     id: "Shuriken", // https://warframe.huijiwiki.com/wiki/Shuriken
-    name: "shuriken",
+    // name: "shuriken",
     // description: "Launches a spinning blade of pain, dealing high damage and impaling enemies to walls.",
     oneHand: true,
     tags: AbilityType.Damage,
@@ -30,7 +30,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Smoke Screen", // https://warframe.huijiwiki.com/wiki/Smoke_Screen
-    name: "smokeScreen",
+    // name: "smokeScreen",
     // description: "Drops a smoke bomb that stuns enemies and obscures their vision, rendering Ash invisible for a short time.",
     tags: AbilityType.Perception,
     energyCost: 50,
@@ -43,7 +43,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Teleport", // https://warframe.huijiwiki.com/wiki/Teleport
-    name: "teleport",
+    // name: "teleport",
     // description: "Ash teleports towards the target, bringing him into melee range and making enemies vulnerable to finishers.",
     tags: AbilityType.Mobility,
     energyCost: 25,
@@ -56,7 +56,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Blade Storm", // https://warframe.huijiwiki.com/wiki/Blade_Storm
-    name: "bladeStorm",
+    // name: "bladeStorm",
     // description: "Project fierce shadow clones of Ash upon groups of distant enemies. Join the fray using Teleport.",
     tags: AbilityType.Damage,
     energyCost: 0,
@@ -69,7 +69,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Landslide", // https://warframe.huijiwiki.com/wiki/Landslide
-    name: "landslide",
+    // name: "landslide",
     // description: "Bash enemies with an explosive sliding punch, and repeat for a devastating combo. Petrified enemies take extra damage, and drop Rubble when destroyed. Rubble can heal Atlas and bolster his armor.",
     tags: AbilityType.Damage | AbilityType.Mobility,
     energyCost: 25,
@@ -86,14 +86,14 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Tectonics", // https://warframe.huijiwiki.com/wiki/Tectonics
-    name: "tectonics",
+    // name: "tectonics",
     // description: "Summon a rock-wall, activate again to send the rocks crashing toward the enemy.",
     tags: AbilityType.Summon,
     energyCost: 50,
   },
   {
     id: "Petrify", // https://warframe.huijiwiki.com/wiki/Petrify
-    name: "petrify",
+    // name: "petrify",
     // description: "Atlas' hardened gaze will fossilize foes, heal Rumblers, and create Petrified Bulwarks. When shattered, petrified enemies drop healing Rubble for Atlas.",
     tags: AbilityType.Control,
     energyCost: 75,
@@ -110,14 +110,14 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Rumblers", // https://warframe.huijiwiki.com/wiki/Rumblers
-    name: "rumblers",
+    // name: "rumblers",
     // description: "Summon two elemental stone brawlers to the melee. Summoning petrifies enemies in close proximity to Atlas. When finished, Rumblers collapse into a pile of healing Rubble.",
     tags: AbilityType.Summon,
     energyCost: 100,
   },
   {
     id: "Sonic Boom", // https://warframe.huijiwiki.com/wiki/Sonic_Boom
-    name: "sonicBoom",
+    // name: "sonicBoom",
     // description: "Banshee emits a sonic shockwave that pushes targets in range with enough force to incapacitate or kill attackers.",
     tags: AbilityType.Damage | AbilityType.Control,
     energyCost: 25,
@@ -131,7 +131,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Sonar", // https://warframe.huijiwiki.com/wiki/Sonar
-    name: "sonar",
+    // name: "sonar",
     // description: "Using acoustic location, Banshee's Sonar power finds and tracks enemies, and exposes critical weak spots to everyone in your squad.",
     tags: AbilityType.BuffDebuff,
     energyCost: 50,
@@ -145,14 +145,14 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Silence", // https://warframe.huijiwiki.com/wiki/Silence
-    name: "silence",
+    // name: "silence",
     // description: "Using Silence surrounds Banshee in an aura that stuns enemies and will limit their perceptions and tactical response to gunfire and Warframe attacks.",
     tags: 0,
     energyCost: 75,
   },
   {
     id: "Sound Quake", // https://warframe.huijiwiki.com/wiki/Sound_Quake
-    name: "soundQuake",
+    // name: "soundQuake",
     // description: "Channeling all of her acoustic energy into the environment, Banshee uses ultrasonic reverberations to violently shake the ground.",
     tags: 0,
     energyCost: 25,
@@ -176,7 +176,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Spectral Scream",
-    name: "spectralScream",
+    // name: "spectralScream",
     // description: "Exhale a deep breath of elemental destruction. Chroma's energy color determines the element.",
     tags: AbilityType.Damage,
     energyCost: 25,
@@ -190,7 +190,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Elemental Ward",
-    name: "elementalWard",
+    // name: "elementalWard",
     // description: "Depending on Chroma's elemental alignment, an offensive area-of-effect is created. Chroma and its nearby allies are imbued with defensive energy.",
     tags: AbilityType.BuffDebuff,
     energyCost: 50,
@@ -203,7 +203,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Vex Armor", // 怨怒护甲
-    name: "vexArmor",
+    // name: "vexArmor",
     // description: "When shields are hit, Chroma's armor grows stronger, when health takes a hit, weapon damage increases.",
     tags: AbilityType.BuffDebuff,
     energyCost: 75,
@@ -220,7 +220,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Effigy",
-    name: "effigy",
+    // name: "effigy",
     // description: "Chroma turns his pelt into a massive sentry that strengthens nearby allies and engulfs enemies in elemental attacks.",
     tags: AbilityType.Summon,
     energyCost: 50,
@@ -239,7 +239,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Fireball", // 火球
-    name: "fireball",
+    // name: "fireball",
     // description: "Charge and release a fiery projectile that ignites enemies on contact and leaves behind a treacherous patch of flame.",
     tags: AbilityType.Damage,
     oneHand: true,
@@ -257,7 +257,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Accelerant", // 助燃
-    name: "accelerant",
+    // name: "accelerant",
     // description: "Stun nearby enemies with strong accelerant. Increases all fire damage dealt.",
     tags: AbilityType.BuffDebuff,
     energyCost: 50,
@@ -279,7 +279,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Fire Blast",
-    name: "fireBlast",
+    // name: "fireBlast",
     // description: "Slam the ground to create a wave of plasma that incinerates nearby enemies and forms a persistent ring of fire. Add <DT_FIRE>Heat Damage to weapons by firing them through the ring.",
     tags: AbilityType.Damage | AbilityType.BuffDebuff,
     energyCost: 75,
@@ -298,7 +298,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "World On Fire",
-    name: "worldOnFire",
+    // name: "worldOnFire",
     // description: "Blast nearby foes with a burst of fire, and follow that up with a barrage of fireballs against any enemy who dares approach. Over time, these fireballs burn hotter as they consume more energy.",
     tags: AbilityType.Damage,
     energyCost: 25,
@@ -315,7 +315,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Metamorphosis", // 昼夜交替
-    name: "metamorphosis",
+    // name: "metamorphosis",
     // description: "Switch forms, temporarily gaining bonus Shields and Armor in Night-Form, or bonus Damage and Speed in Day-Form.",
     tags: AbilityType.BuffDebuff,
     energyCost: 25,
@@ -330,7 +330,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Rest & Rage", // 暂息-怒气
-    name: "restRage",
+    // name: "restRage",
     // description: "In Night Form, targets are put to sleep. In Day Form, targets become more vulnerable to damage.",
     tags: AbilityType.Control,
     energyCost: 50,
@@ -340,21 +340,21 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Pacify & Provoke",
-    name: "pacifyProvoke",
+    // name: "pacifyProvoke",
     // description: "In Night Form, reduces damage inflicted by nearby enemies. In Day Form, increases Ability Strength of nearby allies.",
     tags: 0,
     energyCost: 75,
   },
   {
     id: "Mend & Maim",
-    name: "mend&Maim",
+    // name: "mend&Maim",
     // description: "In Night Form, allies are healed with each nearby enemy killed. In Day Form, nearby enemies are bled and then subjected to a wave of slashing force.",
     tags: 0,
     energyCost: 100,
   },
   {
     id: "Slash Dash", // 咖喱
-    name: "slashDash",
+    // name: "slashDash",
     // description: "Dash between enemies while slashing with the Exalted Blade.",
     tags: AbilityType.Damage | AbilityType.Mobility,
     energyCost: 25,
@@ -371,7 +371,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Radial Blind",
-    name: "radialBlind",
+    // name: "radialBlind",
     // description: "Emits a bright flash of light, blinding all enemies in a small radius for several seconds.",
     tags: AbilityType.Control,
     energyCost: 50,
@@ -385,7 +385,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Radial Javelin",
-    name: "radialJavelin",
+    // name: "radialJavelin",
     // description: "Launches javelins towards enemies, dealing high damage and impaling them to walls.",
     tags: 0,
     energyCost: 75,
@@ -400,7 +400,7 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Exalted Blade",
-    name: "exaltedBlade",
+    // name: "exaltedBlade",
     // description: "Summon a sword of pure light and immense power.",
     tags: 0,
     energyCost: 100,
@@ -413,168 +413,168 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Radial Howl",
-    name: "radialHowl",
+    // name: "radialHowl",
     // description: "Let out ferocious howl that stuns nearby enemies and causes Sentients to shed any built up resistances.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Freeze",
-    name: "freeze",
+    // name: "freeze",
     // description: "A frigid energy blast that freezes targets in their tracks.",
     tags: 0,
     energyCost: 50,
   },
   {
     id: "Ice Wave",
-    name: "iceWave",
+    // name: "iceWave",
     // description: "Sends a wave of razor sharp, crystalized ice toward an enemy, dealing heavy damage.",
     tags: 0,
     energyCost: 75,
   },
   {
     id: "Snow Globe",
-    name: "snowGlobe",
+    // name: "snowGlobe",
     // description: "Frost deep freezes any vapor and moisture in the area, creating a protective sphere with brief invulnerability to boost its strength.",
     tags: AbilityType.Damage | AbilityType.Control,
     energyCost: 100,
   },
   {
     id: "Avalanche",
-    name: "avalanche",
+    // name: "avalanche",
     // description: "Summons a treacherous landslide of ice that instantly freezes and shatters all enemies in its radius.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Shattered Lash",
-    name: "shatteredLash",
+    // name: "shatteredLash",
     // description: "Lash out with stream of shattered glass, or hold for an arcing strike.",
     tags: 0,
     energyCost: 50,
   },
   {
     id: "Splinter Storm",
-    name: "splinterStorm",
+    // name: "splinterStorm",
     // description: "Gara’s armor splinters into a maelstrom of shattered glass. Allies who contact the cloud are fortified against damage.",
     tags: 0,
     energyCost: 50,
   },
   {
     id: "Spectrorage",
-    name: "spectrorage",
+    // name: "spectrorage",
     // description: "Trap enemies in a carousel of mirrors, forcing them to attack visions of their true selves. Destroyed mirrors damage their attackers, as does the collapse of the carousel.",
     tags: 0,
     energyCost: 75,
   },
   {
     id: "Mass Vitrify",
-    name: "massVitrify",
+    // name: "massVitrify",
     // description: "Create an expanding ring of molten glass that slowly crystallizes enemies who enter. When the expansion is complete, the ring hardens to block weapons fire. The ring draws extra strength from the health and shields of crystallized enemies. Use Shattered Lash to smash the ring and send razor-sharp glass flying outward.",
     tags: 0,
     energyCost: 100,
   },
   {
     id: "Dread Mirror",
-    name: "dreadMirror",
+    // name: "dreadMirror",
     // description: "Rip the life force from an enemy and use it as a shield that captures damage, this kills significantly weakened enemies instantly. Charge to channel the captured damage into an explosive projectile.",
     tags: AbilityType.Damage,
     energyCost: 25,
   },
   {
     id: "Blood Altar",
-    name: "bloodAltar",
+    // name: "bloodAltar",
     // description: "Impale an enemy on an altar of talons and siphon health for Garuda and her allies.",
     tags: 0,
     energyCost: 50,
   },
   {
     id: "Bloodletting",
-    name: "bloodletting",
+    // name: "bloodletting",
     // description: "Garuda sacrifices her health to generate energy.",
     tags: 0,
     energyCost: 0,
   },
   {
     id: "Seeking Talons",
-    name: "seekingTalons",
+    // name: "seekingTalons",
     // description: "Charge to expand the targeting area, release to send Garuda’s talons careening toward each target in area. Surviving enemies are prone to bleeding.",
     tags: 0,
     energyCost: 100,
   },
   {
     id: "Condemn",
-    name: "condemn",
+    // name: "condemn",
     // description: "Cast a wave of energy that chains them where they stand. Each enemy held reinforces Harrow’s shields.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Penance",
-    name: "penance",
+    // name: "penance",
     // description: "Sacrifice shields to boost reload, and Fire Rate while converting damage inflicted on enemies into health for Harrow and nearby allies.",
     tags: 0,
     energyCost: 50,
   },
   {
     id: "Thurible",
-    name: "thurible",
+    // name: "thurible",
     // description: "Channel Harrow’s energy into the Thurible to generate a buff. Once finished, kill enemies to bestow nearby allies with bursts of energy. The more energy channeled the greater the reward for each kill. Headshots produce extra energy.",
     tags: 0,
     energyCost: 75,
   },
   {
     id: "Covenant",
-    name: "covenant",
+    // name: "covenant",
     // description: "Protect nearby allies with an energy force that absorbs all damage and converts it to a Critical Chance bonus for all those under the Covenant. Headshots are amplified even further.",
     tags: 0,
     energyCost: 10,
   },
   {
     id: "Tempest Barrage",
-    name: "tempestBarrage",
+    // name: "tempestBarrage",
     // description: "Target an area and call down a barrage of liquid fury. Charge this attack to increase the lethality of the onslaught.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Tidal Surge",
-    name: "tidalSurge",
+    // name: "tidalSurge",
     // description: "Crash through enemies in a ferocious wall of water.",
     tags: 0,
     energyCost: 50,
   },
   {
     id: "Undertow",
-    name: "undertow",
+    // name: "undertow",
     // description: "Become a water trap and drown unsuspecting enemies.",
     tags: 0,
     energyCost: 75,
   },
   {
     id: "Tentacle Swarm", // 水男4
-    name: "tentacleSwarm",
+    // name: "tentacleSwarm",
     // description: "Tap to spawn watery tentacles from all nearby surfaces to wreak havoc. Charge to increase the number of tentacles and spawn area. Use while in Undertow to have the tentacles emerge from the pool.",
     tags: 0,
     energyCost: 100,
   },
   {
     id: "Desiccation", // 沙甲
-    name: "desiccation",
+    // name: "desiccation",
     // description: "Blast enemies with a wave of cursed sand that blinds them and steals their health.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Devour",
-    name: "devour",
+    // name: "devour",
     // description: "Hold power to trap target in quicksand and draw them in for devouring; this steals health and ultimately creates a friendly Sand Shadow.",
     tags: 0,
     energyCost: 50,
   },
   {
     id: "Sandstorm",
-    name: "sandstorm",
+    // name: "sandstorm",
     // description: "Become a whirling spiral of sand that sends enemies flying and devours those trapped in quicksand.",
     tags: AbilityType.Damage | AbilityType.Control,
     energyCost: 75,
@@ -582,21 +582,21 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Scarab Swarm",
-    name: "scarabSwarm",
+    // name: "scarabSwarm",
     // description: "Charge to transform Health into hardened Scarab Armor. Discharge to blast enemies with a scarab swarm. Survivors have their Health drained and bestowed on allies.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Quiver", // 弓
-    name: "quiver",
+    // name: "quiver",
     // description: "Cycle through and shoot one of four tactical arrows: Cloak, Dashwire, Noise and Sleep. In the Conclave, use the Null-Shield and Slow Arrows.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Navigator",
-    name: "navigator",
+    // name: "navigator",
     // description: "Assume control of a projectile and guide it to the target.",
     tags: AbilityType.BuffDebuff,
     energyCost: 25,
@@ -604,14 +604,14 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Prowl",
-    name: "prowl",
+    // name: "prowl",
     // description: "Become invisible and steal loot from unsuspecting enemies or take out prey with deadly headshots.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Artemis Bow",
-    name: "artemisBow",
+    // name: "artemisBow",
     // description: "Summon a mighty bow and unleash a volley of devastating arrows.",
     tags: AbilityType.BuffDebuff,
     energyCost: 25,
@@ -624,14 +624,14 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Whipclaw", // 猫
-    name: "whipclaw",
+    // name: "whipclaw",
     // description: "Send enemies reeling with a deafening whipcrack.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Ensnare",
-    name: "ensnare",
+    // name: "ensnare",
     // description: "Bind a hapless target in living metal, entangling others who stray too close. Whipclaw will refresh the trap allowing it to capture more enemies.",
     tags: AbilityType.Control,
     energyCost: 50,
@@ -646,14 +646,14 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Venari",
-    name: "venari",
+    // name: "venari",
     // description: "Command Venari to focus on a target. Hold to cycle between Attack, Protect, and Heal postures. If Venari is killed, use this ability to revive her instantly.",
     tags: AbilityType.Summon,
     energyCost: 0,
   },
   {
     id: "Strangledome",
-    name: "strangledome",
+    // name: "strangledome",
     // description: "Weave a dome of living chain that ensnares and strangles any enemy within, and any foolish enough to approach. Foes outside the trap will try to hasten their comrade's deaths by shooting them. Crack Whipclaw on the dome to further damage any trapped enemies.",
     tags: AbilityType.Damage | AbilityType.Control,
     energyCost: 100,
@@ -677,644 +677,644 @@ export const _abilityData: AbilityData[] = [
   },
   {
     id: "Banish", // 小明
-    name: "banish",
+    // name: "banish",
     // description: "Casts a wave of Rift energy that damages hostiles while pushing enemies and allies out of Limbo’s current plane of existence.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Stasis",
-    name: "stasis",
+    // name: "stasis",
     // description: "Freezes Rift-bound enemies. While active, enemy projectiles are arrested in mid-air, resuming its trajectory when stasis ends.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Rift Surge",
-    name: "riftSurge",
+    // name: "riftSurge",
     // description: "Surges nearby Rift-bound enemies with Rift energy. When killed the Rift Surge is transferred to a nearby enemy outside the rift. Surged enemies that leave the Rift perform a radial Banish.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Cataclysm",
-    name: "cataclysm",
+    // name: "cataclysm",
     // description: "A violent blast of Void energy tears open a pocket of rift plane which can sustain itself for a short period before collapsing in another lethal blast.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Decoy",
-    name: "decoy",
+    // name: "decoy",
     // description: "Loki deploys a holographic copy of himself, drawing enemy fire.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Invisibility",
-    name: "invisibility",
+    // name: "invisibility",
     // description: "Loki camouflages himself, becoming invisible to enemies.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Switch Teleport",
-    name: "switchTeleport",
+    // name: "switchTeleport",
     // description: "Loki instantaneously swaps positions with a target, confusing the enemy.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Radial Disarm",
-    name: "radialDisarm",
+    // name: "radialDisarm",
     // description: "Lets forth a wave of energy, disrupting the projectile weapons of enemies in range and forcing them to revert to melee combat.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Pull",
-    name: "pull",
+    // name: "pull",
     // description: "Magnetic force pulls enemies toward you, stunning them and bringing them into melee range.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Magnetize",
-    name: "magnetize",
+    // name: "magnetize",
     // description: "Creates a magnetic field around a target, ensnaring nearby enemies and dealing damage over time. The field reacts to bullets and shards created from Polarize to increase the damage.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Polarize",
-    name: "polarize",
+    // name: "polarize",
     // description: "Emit an energy pulse that depletes enemy shields and armor, creating shards which become deadly when mixed with Magnetize. Shields of allies touched by the pulse are restored.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Crush",
-    name: "crush",
+    // name: "crush",
     // description: "Magnetizes the bones of nearby enemies, causing them to collapse upon themselves.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Ballistic Battery",
-    name: "ballisticBattery",
+    // name: "ballisticBattery",
     // description: "When activated, this power stores damage caused by guns. When triggered again, that damage is channelled through the next gunshot.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Shooting Gallery",
-    name: "shootingGallery",
+    // name: "shootingGallery",
     // description: "Gives an ally extra damage while jamming the guns of nearby enemies. This power shifts between team members.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Shatter Shield",
-    name: "shatterShield",
+    // name: "shatterShield",
     // description: "Envelops Mesa in a barrier of energy, reflecting back incoming bullet damage.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Peacemaker",
-    name: "peacemaker",
+    // name: "peacemaker",
     // description: "With intense focus, Mesa draws her Regulator pistols, shooting down her foes in rapid succession.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Hall Of Mirrors",
-    name: "hallOfMirrors",
+    // name: "hallOfMirrors",
     // description: "Mirage creates an entourage of doppelgangers to confuse and distract the enemy.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Sleight Of Hand",
-    name: "sleightOfHand",
+    // name: "sleightOfHand",
     // description: "Booby trap nearby objects while conjuring an irresistible jewel that bursts with radial blind when touched in darkness, or a radial explosion in light. Conjure multiple smaller jewels with the help of Hall of Mirrors.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Eclipse",
-    name: "eclipse",
+    // name: "eclipse",
     // description: "Standing in light, Mirage deals heavy damage, while the shadows make Mirage difficult to track and even harder to hurt.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Prism",
-    name: "prism",
+    // name: "prism",
     // description: "Fires an energy prism that shoots lasers in all directions. Activating again detonates the prism, blinding nearby foes.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Soul Punch",
-    name: "soulPunch",
+    // name: "soulPunch",
     // description: "A blow so powerful, it turns the enemy's very soul into a deadly projectile, damaging all in its path.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Terrify",
-    name: "terrify",
+    // name: "terrify",
     // description: "Cast fear into the hearts of nearby enemies, causing them to run away in terror.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Desecrate",
-    name: "desecrate",
+    // name: "desecrate",
     // description: "Forces fallen enemies around you to drop additional loot.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Shadows Of The Dead",
-    name: "shadowsOfTheDead",
+    // name: "shadowsOfTheDead",
     // description: "Summon shadow versions of vanquished enemies to fight alongside you for a short period.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Fire Walker",
-    name: "fireWalker",
+    // name: "fireWalker",
     // description: "Blaze a trail of flames, scorching enemies and cleansing allies. Teleporting blasts the landing area with a ring of fire.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Blazing Chakram",
-    name: "blazingChakram",
+    // name: "blazingChakram",
     // description: "Hurl a flaming ring that sets enemies ablaze making them vulnerable to any damage. Flaming enemies drop Restorative Orbs on death. Charge to amplify the power of the ring, and reactivate to instantly travel to the ring's location.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Warding Halo",
-    name: "wardingHalo",
+    // name: "wardingHalo",
     // description: "Create a protective ring of fire, that also stuns and damages enemies who get too close.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Divine Spears",
-    name: "divineSpears",
+    // name: "divineSpears",
     // description: "Impale nearby enemies on spears that erupt from the below. Activate again to slam surviving enemies back into the ground.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Virulence",
-    name: "virulence",
+    // name: "virulence",
     // description: "Rupture the ground with a damaging fungal growth that steals energy from each enemy it strikes. For every five enemies hit, the Infestation mutates, multiplying its destructive force.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Larva",
-    name: "larva",
+    // name: "larva",
     // description: "Spawn an Infested pod that erupts with tendrils, latches onto nearby enemies and pulls them in.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Parasitic Link",
-    name: "parasiticLink",
+    // name: "parasiticLink",
     // description: "Bind to a target with a parasitic link. For allies, both the host and Nidus deal increased damage. Linked enemies take the damage inflicted on Nidus.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Ravenous",
-    name: "ravenous",
+    // name: "ravenous",
     // description: "Gluttonous maggots swarm nearby enemies, feasting until they are hit with Virulence and burst with Infestation. The maggots benefit from Mutation and each enemy hit adds to the Mutation stack.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Null Star",
-    name: "nullStar",
+    // name: "nullStar",
     // description: "Creates antimatter particles that orbit Nova and seek nearby targets. Each active particle gives +5% damage reduction to Nova's health, stacking up to 90%.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Antimatter Drop",
-    name: "antimatterDrop",
+    // name: "antimatterDrop",
     // description: "Launches a contained particle of antimatter that will detonate upon collision with increased deadliness when targeted by weapons.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Worm Hole",
-    name: "wormHole",
+    // name: "wormHole",
     // description: "Creates a wormhole allowing instantaneous travel.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Molecular Prime",
-    name: "molecularPrime",
+    // name: "molecularPrime",
     // description: "Primes all enemies in a radius with volatile antimatter.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Mind Control",
-    name: "mindControl",
+    // name: "mindControl",
     // description: "Nyx invades the psyche of a target, confusing enemies and making them fight for the Tenno cause.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Psychic Bolts",
-    name: "psychicBolts",
+    // name: "psychicBolts",
     // description: "Nyx launches a cluster of force bolts at enemies, using telekinesis to adjust flight paths and seek nearby targets.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Chaos",
-    name: "chaos",
+    // name: "chaos",
     // description: "With a powerful psychic blast, Nyx causes mass hysteria on the battlefield by confusing all enemies to attack random factions.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Absorb",
-    name: "absorb",
+    // name: "absorb",
     // description: "Nyx absorbs all incoming damage and channels that collected energy into an explosive radial discharge.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Smite",
-    name: "smite",
+    // name: "smite",
     // description: "Focuses deadly energy within a target and then projects it outwards, damaging both the target and surrounding enemies.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Hallowed Ground",
-    name: "hallowedGround",
+    // name: "hallowedGround",
     // description: "Sanctifies the ground before Oberon with righteous fire, inflicting damage to any enemy that stands in the flames.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Renewal",
-    name: "renewal",
+    // name: "renewal",
     // description: "Healing waves of energy flow outward from Oberon to his allies, regenerating Health over time.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Reckoning",
-    name: "reckoning",
+    // name: "reckoning",
     // description: "Quickly lifts enemies into the air and then hurls them down with conviction. Enemies who succumb to this power have a chance to spawn a Health Sphere.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Mallet",
-    name: "mallet",
+    // name: "mallet",
     // description: "Rhythmically beats damage into nearby enemies and draws their fire. Damage inflicted on the Mallet increases its lethality.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Resonator",
-    name: "resonator",
+    // name: "resonator",
     // description: "Launches a rollerball that charms foes to follow it. Combines with the Mallet to create a roving ball of sonic destruction.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Metronome",
-    name: "metronome",
+    // name: "metronome",
     // description: "Grants buffs to those who consistently perform actions in time to Octavia’s music. Timed jumps offer the Vivace speed buff. Crouching on the beat grants cloaking with the Nocturne buff. Firing rhythmically bestows Opera multishot buff. Timed melee swings give the Forte damage buff.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Amp",
-    name: "amp",
+    // name: "amp",
     // description: "Draws power from the decibel level of sound in the area and uses it to amplify a damage buff for Octavia and her allies. It also doubles the damage and range of nearby Mallets.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Enthrall",
-    name: "enthrall",
+    // name: "enthrall",
     // description: "Convert a target into a zealous thrall. Thralls turn on their allies and enthrall through damage. On death, they disintegrate into a damaging pillar of energy. The thrall horde remains under Revenants spell until this ability runs out.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Mesmer Skin",
-    name: "mesmerSkin",
+    // name: "mesmerSkin",
     // description: "Become enveloped in Sentient energy, redirecting damage and stunning all those who dare attack. Stunned enemies can be Enthralled at no energy cost.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Reave",
-    name: "reave",
+    // name: "reave",
     // description: "Dash through enemies as a wall of sentient energy, leeching shields and health from any encountered, enhanced for thralls.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Danse Macabre",
-    name: "danseMacabre",
+    // name: "danseMacabre",
     // description: "Erupt with a multitude of Eidolon energy beams and sweep a circle of death around Revenant. The beams will modify their Damage Type to target select defenses, while incoming damage is redirected back into the beams. Hold fire to boost Status Effects and Damage, at the cost of increased energy consumption. Thralls killed by this ability leave overshield pickups.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Rhino Charge",
-    name: "rhinoCharge",
+    // name: "rhinoCharge",
     // description: "Rhino charges towards a target, clobbering any in his path and goring his victim.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Iron Skin",
-    name: "ironSkin",
+    // name: "ironSkin",
     // description: "Rhino hardens his skin, insulating himself from all damage.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Roar",
-    name: "roar",
+    // name: "roar",
     // description: "Grants all nearby Warframes increased damage for a short duration.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Rhino Stomp",
-    name: "rhinoStomp",
+    // name: "rhinoStomp",
     // description: "Rhino stomps with force sufficient to disrupt time, tumbling enemies around him in stasis.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Spores",
-    name: "spores",
+    // name: "spores",
     // description: "Inflict a target with a pox of <DT_CORROSIVE>Corrosive spores. Spread spores to nearby enemies by destroying them or killing their host. The longer the Spore spreads, its damage will increase.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Molt",
-    name: "molt",
+    // name: "molt",
     // description: "Shedding her skin like a snake, Saryn leaves a decoy behind to draw fire from enemies.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Toxic Lash",
-    name: "toxicLash",
+    // name: "toxicLash",
     // description: "While active, attacks deal additional <DT_POISON>Toxin Damage; this effect is doubled for Melee Strikes. Instantly burst spores when attacking afflicted enemies.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Miasma",
-    name: "miasma",
+    // name: "miasma",
     // description: "Release a poisonous miasma that deals <DT_VIRAL>Viral Damage to enemies in range. Foes afflicted by spores are more susceptible to the mist.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Spellbind",
-    name: "spellbind",
+    // name: "spellbind",
     // description: "Enemies fumble their weapons as they are whisked into the air. Nearby allies become immune to Status Effects.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Tribute",
-    name: "tribute",
+    // name: "tribute",
     // description: "Extract an offering from an enemy in the form of a random Ability Buff. Survivor’s attacks are weakened.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Lantern",
-    name: "lantern",
+    // name: "lantern",
     // description: "Create a swarm of razorflies that transform an enemy into an irresistible floating beacon, attracting witless comrades and finally exploding.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Razorwing",
-    name: "razorwing",
+    // name: "razorwing",
     // description: "Shrink down and take flight, while razorflies attack nearby enemies.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Well Of Life",
-    name: "wellOfLife",
+    // name: "wellOfLife",
     // description: "Create a well of life on an enemy. Allies will gain health when damaging the target.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Energy Vampire",
-    name: "energyVampire",
+    // name: "energyVampire",
     // description: "Allies will gain energy over time when enemies are marked with Energy Vampire.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Link",
-    name: "link",
+    // name: "link",
     // description: "Any damage taken while Link is active will be channeled to a nearby enemy.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Blessing",
-    name: "blessing",
+    // name: "blessing",
     // description: "Restore the health and shields of allies within Trinity's affinity aura while giving them some damage resistance.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Rip Line",
-    name: "ripLine",
+    // name: "ripLine",
     // description: "Valkyr hurls forth a hook. If it hits an enemy, she pulls them to her. If it hits terrain, she pulls herself to the hook's location.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Warcry",
-    name: "warcry",
+    // name: "warcry",
     // description: "Valkyr lets out a rallying cry that bolsters her allies melee speed while slowing down nearby enemies.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Paralysis",
-    name: "paralysis",
+    // name: "paralysis",
     // description: "Valkyr unleashes her shields, stunning and damaging enemies around her.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Hysteria",
-    name: "hysteria",
+    // name: "hysteria",
     // description: "Valkyr is imbued with energy and becomes a ball of vicious rage, capable of unleashing a torrent of deadly claw attacks on unsuspecting foes.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Tesla",
-    name: "tesla",
+    // name: "tesla",
     // description: "Launches a grenade that holds an electrical charge, zapping enemies that come within range.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Minelayer",
-    name: "minelayer",
+    // name: "minelayer",
     // description: "Cycle through four deployable trap mines: Bounce, Trip Laser, Shred and Concuss.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Bastille",
-    name: "bastille",
+    // name: "bastille",
     // description: "Creates an energy-based containment field in which captives are held suspended in stasis.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Vortex",
-    name: "vortex",
+    // name: "vortex",
     // description: "Creates a whirling mass of energy that violently attracts nearby enemies, crushing their atoms into a tiny spec of matter.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Shock",
-    name: "shock",
+    // name: "shock",
     // description: "Launches a shocking projectile. It stuns and deals high damage to a single target and chains damage to nearby enemies.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Speed",
-    name: "speed",
+    // name: "speed",
     // description: "Gain a brief boost of Movement Speed which affects all allies in range.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Electric Shield",
-    name: "electricShield",
+    // name: "electricShield",
     // description: "Volt deploys an obstacle of energy, providing cover in any situation.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Discharge",
-    name: "discharge",
+    // name: "discharge",
     // description: "Paralyze nearby hostiles with a damaging electric charge, this also shocks approaching enemies.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Iron Jab",
-    name: "ironJab",
+    // name: "ironJab",
     // description: "Explode the iron staff to its true length, knocking down anything in its path.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Defy",
-    name: "defy",
+    // name: "defy",
     // description: "Escape death by receiving a boost of health when killed.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Cloud Walker",
-    name: "cloudWalker",
+    // name: "cloudWalker",
     // description: "Evaporate into a cloud of mist and float through the battlefield.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Primal Fury",
-    name: "primalFury",
+    // name: "primalFury",
     // description: "Summon the iron staff and unleash fury.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Tail Wind",
-    name: "tailWind",
+    // name: "tailWind",
     // description: "From the ground, charge and release to launch Zephyr into an airborne hover. From the air, tap to dash forward, or aim down to dive bomb enemies below.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Airburst",
-    name: "airburst",
+    // name: "airburst",
     // description: "Generate a burst of massively dense air that explodes on contact and sends enemies flying. Launch Airbursts into Tornadoes to make them grow.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Turbulence",
-    name: "turbulence",
+    // name: "turbulence",
     // description: "Creates a wind shield around Zephyr, redirecting all incoming projectiles.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Tornado",
-    name: "tornado",
+    // name: "tornado",
     // description: "Create deadly tornadoes that seek out and engulf enemies. Tornadoes deal the elemental Damage Type they absorb the most. Shoot enemies engulfed in Tornadoes to do additional damage.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Elude",
-    name: "elude",
+    // name: "elude",
     // description: "Dodge all incoming projectiles, but only while not attacking. Use again to deactivate this ability.",
     tags: 0,
     energyCost: 25,
   },
   {
     id: "Lull",
-    name: "lull",
+    // name: "lull",
     // description: "A calming wave slows enemies until they fall into a slumber. Enemies woken by damage will be confused and disoriented. Short-term amnesia means all waking enemies forget anything that happened before the lull.",
     tags: 0,
     energyCost: 50,
   },
   {
     id: "Desolate Hands",
-    name: "desolateHands",
+    // name: "desolateHands",
     // description: "Summon a bevy of orbiting daggers to seek out enemy guns, destroying them with a small explosion. Combine with Elude to double the range.",
     tags: 0,
     energyCost: 75,
   },
   {
     id: "Serene Storm",
-    name: "sereneStorm",
+    // name: "sereneStorm",
     // description: "With his Restraint eroded, Baruuk commands the Desert Wind to deliver powerful radial strikes with his fists and feet. Each moment commanding the storm restores his Restraint.",
     tags: 0,
     energyCost: 0,
@@ -1323,7 +1323,7 @@ export const _abilityData: AbilityData[] = [
 export const _warframeData: WarframeData[] = [
   {
     id: "Ash",
-    name: "ash",
+    // name: "ash",
     tags: ["DPS", "Tactics"],
     // description: "Ash is great for players looking for a stealthier approach to combat. Lethal abilities are complemented by powers of distraction.",
     health: 150,
@@ -1339,7 +1339,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male",
   }, {
     id: "Ash Prime",
-    name: "ashPrime",
+    // name: "ashPrime",
     className: "Ash",
     // description: "Distraction and subterfuge become lethal weapons with Ash Prime. Featuring altered mod polarities for greater customization.",
     health: 150,
@@ -1354,7 +1354,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2017 05 30"
   }, {
     id: "Atlas",
-    name: "atlas",
+    // name: "atlas",
     tags: ["Tank", "Control", "Tactics"],
     // description: "Titan of stone, lord of the earthly elementals.",
     health: 100,
@@ -1370,7 +1370,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Banshee",
-    name: "banshee",
+    // name: "banshee",
     tags: ["DPS", "Support"],
     // description: "Using sonic attacks and acoustic target detection, Banshee is well suited for stealth gameplay and is capable of filling both attack and support roles.",
     health: 100,
@@ -1386,7 +1386,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Banshee Prime",
-    name: "bansheePrime",
+    // name: "bansheePrime",
     className: "Banshee",
     // description: "Banshee Prime assails her foes by manipulating sonic forces to deadly effect. Featuring altered mod polarities for greater customization.",
     health: 100,
@@ -1404,7 +1404,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2019 01 01"
   }, {
     id: "Baruuk",
-    name: "baruuk",
+    // name: "baruuk",
     tags: ["DPS", "Tactics"],
     // description: "Beware the fury of the truly patient. Pushed beyond restraint, a reluctant master unleashes the storm within.",
     health: 75,
@@ -1421,7 +1421,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Chroma",
-    name: "chroma",
+    // name: "chroma",
     tags: ["Tactics"],
     // description: "A master of the deadly elements, Chroma can alter his damage output by changing his energy color.",
     health: 100,
@@ -1437,7 +1437,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Chroma Prime",
-    name: "chromaPrime",
+    // name: "chromaPrime",
     className: "Chroma",
     // description: "Bind the elements and unleash untold destruction with Chroma Prime. Featuring altered mod polarities for greater customization.",
     health: 100,
@@ -1453,7 +1453,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2020 08 11"
   }, {
     id: "Ember",
-    name: "ember",
+    // name: "ember",
     tags: ["DPS"],
     // description: "Ember is a nightmare for light-armored targets. Ember can super-heat the air which opens up surprising crowd-control possibilities.",
     health: 100,
@@ -1469,7 +1469,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Ember Prime",
-    name: "emberPrime",
+    // name: "emberPrime",
     className: "Ember",
     // description: "Ember Prime offers the same potential for wanton destruction as Ember but provides unique mod polarities, allowing for greater customization.",
     health: 100,
@@ -1484,7 +1484,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2015 10 06"
   }, {
     id: "Equinox",
-    name: "equinox",
+    // name: "equinox",
     tags: ["DPS", "Support", "Control"],
     // description: "Split between day and night, Equinox manifests aggressive and defensive forms at will.",
     health: 100,
@@ -1500,7 +1500,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Excalibur",
-    name: "excalibur",
+    // name: "excalibur",
     tags: ["DPS", "Control"],
     // description: "A perfect balance of mobility and offense, Excalibur is the ideal Warframe for new players.",
     health: 100,
@@ -1515,7 +1515,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Excalibur Prime",
-    name: "excaliburPrime",
+    // name: "excaliburPrime",
     className: "Excalibur",
     // description: "Excalibur Prime is the epitome of mobility and offense, and features the same abilities as Excalibur, but has unique mod polarities installed allowing for greater customization.",
     health: 100,
@@ -1528,7 +1528,7 @@ export const _warframeData: WarframeData[] = [
     polarities: ["d", "r", "r"],
   }, {
     id: "Excalibur Umbra",
-    name: "excaliburUmbra",
+    // name: "excaliburUmbra",
     className: "Excalibur",
     // description: "From the shadow of the long night emerges a new Excalibur.",
     health: 100,
@@ -1543,7 +1543,7 @@ export const _warframeData: WarframeData[] = [
     polarities: ["r", "w", "w", "w"],
   }, {
     id: "Frost",
-    name: "frost",
+    // name: "frost",
     tags: ["DPS", "Tactics", "Control"],
     // description: "By channeling moisture and vapor in the surrounding environment, Frost creates formidable defenses and lethal attacks from sub zero conditions.",
     health: 100,
@@ -1559,7 +1559,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Frost Prime",
-    name: "frostPrime",
+    // name: "frostPrime",
     className: "Frost",
     // description: "Frost Prime has the same chilling abilities as Frost but provides unique mod polarities, allowing for greater customization.",
     health: 100,
@@ -1574,7 +1574,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2015 04 01"
   }, {
     id: "Gara",
-    name: "gara",
+    // name: "gara",
     tags: ["DPS", "Tank"],
     // description: "The battlefield trembles before Gara's crystalline power, her ringing touch transforming opponents to targets of brittle beauty.",
     health: 100,
@@ -1590,7 +1590,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Garuda",
-    name: "garuda",
+    // name: "garuda",
     tags: ["DPS", "Support"],
     // description: "Death's crimson maiden, the blood of Garuda's foes imbue her with strength and vitality.",
     health: 100,
@@ -1607,7 +1607,7 @@ export const _warframeData: WarframeData[] = [
     lvlUps: [["h", 2], ["e", 1.25], ["s", 2]]
   }, {
     id: "Harrow",
-    name: "harrow",
+    // name: "harrow",
     tags: ["Support", "Control"],
     // description: "Always prepared to sacrifice. This monastic Warframe uses the Void to bolster allies’ defenses and amplify their lethality.",
     health: 100,
@@ -1623,7 +1623,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Hydroid",
-    name: "hydroid",
+    // name: "hydroid",
     tags: ["Tactics"],
     // description: "Rising from the ocean depths, Hydroid harnesses the power of water to a devastating effect.",
     health: 100,
@@ -1639,7 +1639,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Hydroid Prime",
-    name: "hydroidPrime",
+    // name: "hydroidPrime",
     className: "Hydroid",
     // description: "Command the ocean’s fury with this king of gold and silver. Featuring altered mod polarities for greater customization.",
     health: 100,
@@ -1655,7 +1655,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2019 07 16"
   }, {
     id: "Inaros",
-    name: "inaros",
+    // name: "inaros",
     tags: ["Tank", "Control"],
     // description: "Risen from the sands, Inaros commands the desert's fearsome power.",
     health: 550,
@@ -1673,7 +1673,7 @@ export const _warframeData: WarframeData[] = [
     lvlUps: [["h", 3], ["e", 0.5]]
   }, {
     id: "Ivara",
-    name: "ivara",
+    // name: "ivara",
     tags: ["DPS", "Tactics", "Control"],
     // description: "With her quiver of tactical arrows, this huntress prowls unseen and strikes without warning.",
     health: 75,
@@ -1689,7 +1689,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Khora",
-    name: "khora",
+    // name: "khora",
     tags: ["DPS", "Control"],
     // description: "Tenno and beast, red in whip and claw. Khora and her Kavat companion, Venari, embody lethal versatility. Two bodies, one will.",
     health: 125,
@@ -1706,7 +1706,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Limbo",
-    name: "limbo",
+    // name: "limbo",
     tags: ["Tank", "Support", "Control"],
     // description: "Limbo manipulates the very planes of existence to divide his enemies and conquer them in the rift.",
     health: 100,
@@ -1722,7 +1722,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Limbo Prime",
-    name: "limboPrime",
+    // name: "limboPrime",
     className: "Limbo",
     // description: "Dance between realms with this golden rift walker. Featuring altered mod polarities for greater customization.",
     health: 100,
@@ -1738,7 +1738,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2020 05 05"
   }, {
     id: "Loki",
-    name: "loki",
+    // name: "loki",
     tags: ["Tactics"],
     // description: "Desired by advanced players, Loki offers a variety of specialized reconfiguring abilities. The creativity of Loki's powers allows players to master the battlefield through manipulation.",
     health: 75,
@@ -1754,7 +1754,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Loki Prime",
-    name: "lokiPrime",
+    // name: "lokiPrime",
     className: "Loki",
     // description: "Confuse, deceive and destroy with Loki Prime. Featuring altered mod polarities for greater customization.",
     health: 75,
@@ -1769,7 +1769,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2016 05 17"
   }, {
     id: "Mag",
-    name: "mag",
+    // name: "mag",
     tags: ["DPS"],
     // description: "With full command of surrounding magnetic energy, Mag is an expert at enemy manipulation.",
     health: 75,
@@ -1785,7 +1785,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Mag Prime",
-    name: "magPrime",
+    // name: "magPrime",
     className: "Mag",
     // description: "The exquisite Mag Prime offers the same abilities as Mag but with unique mod polarities for greater customization.",
     health: 100,
@@ -1800,7 +1800,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2015 07 07"
   }, {
     id: "Mesa",
-    name: "mesa",
+    // name: "mesa",
     tags: ["DPS", "Control"],
     // description: "With a steady hand and quick reflexes, Mesa is a true gunfighter.",
     health: 125,
@@ -1816,7 +1816,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Mesa Prime",
-    name: "mesaPrime",
+    // name: "mesaPrime",
     className: "Mesa",
     // description: "Cast a long shadow with this lethal enforcer. Featuring altered mod polarities for greater customization.",
     health: 135,
@@ -1829,7 +1829,7 @@ export const _warframeData: WarframeData[] = [
     polarities: ["-", "-", "d", "r"],
   }, {
     id: "Mirage",
-    name: "mirage",
+    // name: "mirage",
     tags: ["Tactics"],
     // description: "A master of illusion, Mirage confounds the enemy in a spectacle of style and power.",
     health: 80,
@@ -1845,7 +1845,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Mirage Prime",
-    name: "miragePrime",
+    // name: "miragePrime",
     className: "Mirage",
     // description: "Dazzle the opposition with this golden master of illusion and mayhem. Featuring altered mod polarities allow for greater customization.",
     health: 80,
@@ -1861,7 +1861,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2019 10 22"
   }, {
     id: "Nekros",
-    name: "nekros",
+    // name: "nekros",
     tags: ["Tactics"],
     // description: "Nekros uses his dark powers to manipulate his enemies, both living and dead.",
     health: 100,
@@ -1876,7 +1876,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Nekros Prime",
-    name: "nekrosPrime",
+    // name: "nekrosPrime",
     className: "Nekros",
     // description: "Death's new master. Featuring altered mod polarities allow for greater customization.",
     health: 100,
@@ -1891,7 +1891,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2018 06 19"
   }, {
     id: "Nezha",
-    name: "nezha",
+    // name: "nezha",
     tags: ["DPS", "Control"],
     // description: "A petite and playful facade conceals this frame’s immense power.",
     health: 125,
@@ -1907,7 +1907,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Nidus",
-    name: "nidus",
+    // name: "nidus",
     tags: ["Tank", "Support"],
     // description: "Command the Infestation to mutate and grow ever more destructive.",
     health: 150,
@@ -1924,7 +1924,7 @@ export const _warframeData: WarframeData[] = [
     lvlUps: [["h", 3], ["e", 0.5], ["a", 0.5], ["t", 0.15]]
   }, {
     id: "Nova",
-    name: "nova",
+    // name: "nova",
     tags: ["Support", "Control"],
     // description: "Nova uses electromagnetic energy to contain and control highly volatile antimatter that fuels her abilities.",
     health: 100,
@@ -1940,7 +1940,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Nova Prime",
-    name: "novaPrime",
+    // name: "novaPrime",
     className: "Nova",
     // description: "Nova Prime wreaks devastation on her enemies using volatile antimatter. Featuring altered mod polarities for greater customization.",
     health: 100,
@@ -1955,7 +1955,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2016 11 22"
   }, {
     id: "Nyx",
-    name: "nyx",
+    // name: "nyx",
     tags: ["Tank", "Control"],
     // description: "Mind control and psychic attacks make Nyx a very dangerous foe. Her ability to reach into enemy consciousness and manipulate their behavior can turn the tide of battle.",
     health: 100,
@@ -1971,7 +1971,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Nyx Prime",
-    name: "nyxPrime",
+    // name: "nyxPrime",
     className: "Nyx",
     // description: "Infiltrate the minds of your enemies with Nyx Prime. Featuring altered mod polarities for greater customization.",
     health: 100,
@@ -1986,7 +1986,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2016 08 23"
   }, {
     id: "Oberon",
-    name: "oberon",
+    // name: "oberon",
     tags: ["DPS", "Support"],
     // description: "Equally adept at healing friends or striking down the enemy. Oberon embodies the balance Tenno are sworn to uphold.",
     health: 125,
@@ -2002,7 +2002,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Oberon Prime",
-    name: "oberonPrime",
+    // name: "oberonPrime",
     className: "Oberon",
     // description: "Protect the balance with this regal forest guardian. Featuring altered mod polarities for greater customization.",
     health: 125,
@@ -2018,7 +2018,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2019 04 09"
   }, {
     id: "Octavia",
-    name: "octavia",
+    // name: "octavia",
     tags: ["DPS", "Tactics"],
     // description: "Compose her song and then conduct the mighty Mandachord, turning bass, beat and melody into an anthem of devastation.",
     health: 100,
@@ -2034,7 +2034,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Revenant",
-    name: "revenant",
+    // name: "revenant",
     tags: ["DPS"],
     // description: "Rise from the broken remains of the Eidolon to seduce an army of zealous thralls.",
     health: 100,
@@ -2050,7 +2050,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Rhino",
-    name: "rhino",
+    // name: "rhino",
     tags: ["Tactics", "Tank", "Support", "Control"],
     // description: "Rhino is the heaviest Warframe, combining offensive and defensive capabilities.",
     health: 100,
@@ -2066,7 +2066,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Rhino Prime",
-    name: "rhinoPrime",
+    // name: "rhinoPrime",
     className: "Rhino",
     // description: "Takes Rhino's ground-shaking abilities to the next level with altered mod polarities that offer greater customization.",
     health: 100,
@@ -2081,7 +2081,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2016 02 16"
   }, {
     id: "Saryn",
-    name: "saryn",
+    // name: "saryn",
     tags: ["DPS"],
     // description: "Saryn's venomous attacks are horrifyingly effective against organic and synthetic enemies, and her ability to 'shed' her skin makes her very elusive.",
     health: 125,
@@ -2097,7 +2097,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Saryn Prime",
-    name: "sarynPrime",
+    // name: "sarynPrime",
     className: "Saryn",
     // description: "A golden blossom conceals deadly nectar. Featuring altered mod polarities for greater customization.",
     health: 125,
@@ -2112,7 +2112,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2017 12 12"
   }, {
     id: "Titania",
-    name: "titania",
+    // name: "titania",
     tags: ["DPS"],
     // description: "Take flight with this mischievous pixie.",
     health: 100,
@@ -2128,7 +2128,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Trinity",
-    name: "trinity",
+    // name: "trinity",
     tags: ["Support"],
     // description: "Trinity is great for players who prefer a supportive role. Warframes with healing technology are rare making Trinity a great equalizer when the odds are stacked against the Tenno.",
     health: 100,
@@ -2144,7 +2144,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Trinity Prime",
-    name: "trinityPrime",
+    // name: "trinityPrime",
     className: "Trinity",
     // description: "Become the bastion that defends allies using powerful healing abilities with Trinity Prime. Featuring altered mod polarities for greater customization.",
     health: 100,
@@ -2159,7 +2159,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2017 08 29"
   }, {
     id: "Valkyr",
-    name: "valkyr",
+    // name: "valkyr",
     tags: ["Tank", "Support"],
     // description: "Forged in the labs of the Zanuka project, the original Valkyr was subject to cruel experiments, leaving her scarred, angry and frighteningly adept at killing.",
     health: 100,
@@ -2175,7 +2175,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Valkyr Prime",
-    name: "valkyrPrime",
+    // name: "valkyrPrime",
     className: "Valkyr",
     // description: "A proud fighter emerges unscarred by time or malice. Featuring altered mod polarities allow for greater customization.",
     health: 100,
@@ -2190,7 +2190,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2018 09 25"
   }, {
     id: "Vauban",
-    name: "vauban",
+    // name: "vauban",
     tags: ["Tactics", "Control"],
     // description: "The highly tactical Vauban uses his powers to create deadly traps that can zap, imprison and dimensionally crush enemies.",
     health: 100,
@@ -2206,7 +2206,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Vauban Prime",
-    name: "vaubanPrime",
+    // name: "vaubanPrime",
     className: "Vauban",
     // description: "Transform the battlefield into a weapon with this gilded tactician. Features unique mod polarities for extended customization.",
     health: 100,
@@ -2221,7 +2221,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2018 03 20"
   }, {
     id: "Volt",
-    name: "volt",
+    // name: "volt",
     tags: ["DPS", "Tactics"],
     // description: "Volt can create and harness electrical elements. This is a high-damage Warframe perfect for players who want a potent alternative to gun-play.",
     health: 100,
@@ -2237,7 +2237,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Volt Prime",
-    name: "voltPrime",
+    // name: "voltPrime",
     className: "Volt",
     // description: "A glorious warrior from the past, Volt Prime features the same abilities as Volt but with unique mod polarities for greater customization.",
     health: 100,
@@ -2252,7 +2252,7 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2017 02 28"
   }, {
     id: "Wukong",
-    name: "wukong",
+    // name: "wukong",
     tags: ["Tank"],
     // description: "A primal warrior with the heart of a trickster.",
     health: 100,
@@ -2268,7 +2268,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   }, {
     id: "Zephyr",
-    name: "zephyr",
+    // name: "zephyr",
     tags: ["Tactics"],
     // description: "Specializing in air attacks and mobility, Zephyr dominates from above.",
     health: 150,
@@ -2284,7 +2284,7 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   }, {
     id: "Zephyr Prime",
-    name: "zephyrPrime",
+    // name: "zephyrPrime",
     className: "Zephyr",
     // description: "Take to the skies with this golden bird of destruction.",
     health: 150,

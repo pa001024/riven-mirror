@@ -1,6 +1,6 @@
-import { Warframe, NormalMod, WarframeDataBase } from "@/warframe";
 import { ActionContext } from "vuex";
-import { WarframeBuild } from "@/warframe/warframebuild";
+import { WarframeBuild, Warframe, WarframeDataBase } from "@/warframe/warframebuild";
+import { NormalMod } from "@/warframe/codex";
 
 /**
  * 团队配置

@@ -4,7 +4,7 @@
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven Mirror
-          <span class="beta">ALPHA 1.3.4</span>
+          <span class="beta">ALPHA 1.3.5</span>
         </h1>
       </router-link>
       <MiniClock class="hidden-xs-only header-watch">
@@ -46,6 +46,7 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import MiniClock from "./components/MiniClock.vue";
 import { i18n } from "@/i18n";
+import { RivenDataBase } from "@/warframe/codex";
 
 @Component({
   components: { MiniClock }
@@ -65,22 +66,36 @@ export default class App extends Vue {
   ];
 
   mounted() {
+    RivenDataBase.reload();
     let isNewUser = !localStorage.getItem("0w0");
-    if (isNewUser) {
+    if (this.$route.path === "/" && isNewUser) {
       this.$router.push("/welcome");
     }
   }
 }
 </script>
 
-<style>
+<style lang="less">
+@import "./less/common.less";
+@font_logo: FuturaPT;
+
+/* APP */
+/* 字体 */
+@font-face {
+  font-family: FuturaPT;
+  src: url("/fonts/FuturaBT.ttf");
+}
+@font-face {
+  font-family: SAOUI;
+  src: url("/fonts/SAOUI-Regular.otf");
+}
+/* 全局样式 */
 .app-nav-pad {
   flex: 1;
 }
-/* APP */
 .app-nav-menu {
   background: #3952e0;
-  color: white;
+  color: @text_light;
   padding: 8px 0;
   transition: 0.5s;
   position: absolute;
@@ -88,28 +103,28 @@ export default class App extends Vue {
   z-index: 999;
   width: 100%;
   top: 50px;
-}
-.app-nav-menu .menu-item {
-  display: flex;
-  align-items: center;
-}
-.app-nav-menu .menu-item.router-link-active {
-  background: #3d5afe;
-}
-.app-nav-menu .menu-item:hover {
-  background: #5c6de8;
-}
-.app-nav-menu .menu-item:active {
-  background: #707de2;
-}
-.app-nav-menu .menu-item i {
-  padding: 20px;
-  font-size: 24px;
+  .menu-item {
+    display: flex;
+    align-items: center;
+    &:hover {
+      background: #5c6de8;
+    }
+    &:active {
+      background: #707de2;
+    }
+    i {
+      padding: 20px;
+      font-size: 24px;
+    }
+  }
+  .menu-item.router-link-active {
+    background: @theme_primary;
+  }
 }
 .app-nav-button {
-  background: #3d5afe;
-  color: white;
-  border-color: #3d5afe;
+  background: @theme_primary;
+  color: @text_light;
+  border-color: @theme_primary;
   font-size: 22px;
   line-height: 1;
   padding: 6px 12px;
@@ -120,73 +135,79 @@ export default class App extends Vue {
   -webkit-appearance: none;
   cursor: pointer;
   white-space: nowrap;
-}
-.app-nav-button:active {
-  border-color: #768aff;
-  background-color: #768aff;
+  &:active {
+    border-color: @theme_highlight;
+    background-color: @theme_highlight;
+  }
 }
 /* ASIDE */
 .el-aside {
   background-color: #ffffff80;
-  color: #333;
+  color: @text_main;
   text-align: center;
   box-shadow: inset 0 0 8px 0px #0000001f;
 }
-.aside-nav-menu .menu-item i {
-  font-size: 24px;
-  padding: 18px;
+.aside-nav-menu {
+  .menu-item {
+    i {
+      font-size: 24px;
+      padding: 18px;
+    }
+    width: 100%;
+    cursor: pointer;
+    overflow: hidden;
+    background-color: transparent;
+    transition: 0.2s;
+    line-height: 36px;
+    display: block;
+    color: @theme_main;
+    &:hover {
+      background-color: @theme_main;
+      color: @text_light;
+    }
+  }
+  .menu-item.router-link-active {
+    background-color: @theme_leaf;
+    color: @text_light;
+  }
+  .menu-item-title {
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0;
+    box-sizing: border-box;
+    height: 100%;
+    white-space: nowrap;
+    float: left;
+  }
 }
-.aside-nav-menu .menu-item {
-  width: 100%;
-  cursor: pointer;
-  overflow: hidden;
-  background-color: transparent;
-  transition: 0.2s;
-  line-height: 36px;
-  display: block;
-  color: #6199ff;
-}
-.aside-nav-menu .menu-item.router-link-active {
-  background-color: #89b2fd;
-  color: white;
-}
-.aside-nav-menu .menu-item:hover {
-  background-color: #6199ff;
-  color: white;
-}
-.aside-nav-menu .menu-item-title {
-  font-size: 16px;
-  font-weight: normal;
-  margin: 0;
-  box-sizing: border-box;
-  height: 100%;
-  white-space: nowrap;
-  float: left;
-}
-
 .beta {
   font-size: 0.4em;
 }
-#app .el-header {
-  display: flex;
-  align-items: center;
-  background-color: #3d5afe;
-  color: #fff;
-  padding: 0 10px;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.25);
-  text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+#app {
+  .el-header {
+    display: flex;
+    align-items: center;
+    background-color: @theme_primary;
+    color: @text_light;
+    padding: 0 10px;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.25);
+    text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+  .el-main {
+    background-color: @theme_mainback;
+    color: @text_main;
+    padding: 14px;
+  }
 }
-.el-header h1 {
-  margin: 0 0 0 16px;
-  font-weight: normal;
-  font-family: FuturaPT;
-  font-size: 24px;
-  user-select: none;
-}
-.el-main {
-  background-color: #ecf0f1;
-  color: #333;
+.el-header {
+  h1 {
+    margin: 0 0 0 16px;
+    font-weight: normal;
+    font-family: @font_logo;
+    font-size: 24px;
+    user-select: none;
+  }
 }
 .site-logo {
   display: flex;
@@ -205,35 +226,6 @@ export default class App extends Vue {
   background-position: center;
   float: left;
 }
-@media only screen and (max-width: 767px) {
-  #app .el-header {
-    height: 50px !important;
-  }
-  .el-header h1 {
-    font-size: 22px;
-  }
-  .i-mirror-logo {
-    width: 50px;
-    height: 50px;
-  }
-}
-@media only screen and (max-width: 360px) {
-  .el-header h1 {
-    font-size: 18px;
-  }
-}
-/* 字体 */
-
-@font-face {
-  font-family: FuturaPT;
-  src: url("/fonts/FuturaBT.ttf");
-}
-@font-face {
-  font-family: SAOUI;
-  src: url("/fonts/SAOUI-Regular.otf");
-}
-
-/* 全局样式 */
 html,
 body {
   margin: 0;
@@ -241,8 +233,7 @@ body {
   width: 100%;
   display: flex;
   font-size: 14px;
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-family: @font_main;
 }
 h1,
 h2,
@@ -263,9 +254,34 @@ ol {
   padding: 0;
   margin: 0;
 }
+@media only screen and (max-width: 767px) {
+  #app {
+    .el-header {
+      height: 50px !important;
+    }
+  }
+  .el-header {
+    h1 {
+      font-size: 22px;
+    }
+  }
+  .i-mirror-logo {
+    width: 50px;
+    height: 50px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .el-header {
+    h1 {
+      font-size: 18px;
+    }
+  }
+}
 /* 移动端缩小字体 */
 @media only screen and (max-width: 444px) {
-  html,
+  html {
+    font-size: 13px;
+  }
   body {
     font-size: 13px;
   }

@@ -32,9 +32,9 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
-import { RivenMod, ModTypeTable, RivenWeaponDataBase, RivenDataBase, RivenProperty, RivenPropertyDataBase, Weapon, RivenWeapon, toUpLevel, toNegaUpLevel } from "@/warframe";
+import { RivenWeapon, RivenProperty, RivenPropertyDataBase, RivenDataBase, ModTypeTable, RivenWeaponDataBase } from "@/warframe/codex";
+import { RivenMod, toNegaUpLevel, toUpLevel } from "@/warframe/rivenmod";
 
 interface CascaderValue {
   value: string

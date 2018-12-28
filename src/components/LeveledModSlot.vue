@@ -6,7 +6,7 @@
     <template v-if="mod">
       <div class="mod-title">
         <div class="mod-polarity" :class="costClass"><WfIcon :type="mod.polarity"/>{{cost}}</div>
-        <div class="mod-name" @click="$emit('change')">{{mod.name}}</div>
+        <div class="mod-name leveled" @click="$emit('change')">{{mod.name}}</div>
         <div class="mod-level"><el-input-number size="mini" @change="$emit('level')" v-model="mod.level" :min="0" :max="mod.maxLevel"></el-input-number></div>
       </div>
       <div class="mod-detail" @click.stop="$emit('remove')">
@@ -26,8 +26,8 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { NormalMod, RivenDataBase, ValuedRivenProperty, ValuedProperty } from "@/warframe";
 import { WarframeBuild } from "@/warframe/warframebuild";
+import { NormalMod } from "@/warframe/codex";
 
 @Component
 export default class LeveledModSlot extends Vue {
@@ -50,7 +50,7 @@ export default class LeveledModSlot extends Vue {
   }
 
   get costClass() {
-    return { 'np': this.mod.polarity === this.polarization };
+    return { 'np': this.mod.polarity === this.polarization, 'wp': this.polarization && this.mod.polarity !== this.polarization };
   }
 }
 
@@ -79,6 +79,9 @@ export default class LeveledModSlot extends Vue {
 }
 
 .mod-title {
+  .mod-name.leveled {
+    font-size: 16px;
+  }
   .mod-level {
     font-size: 14px;
   }
