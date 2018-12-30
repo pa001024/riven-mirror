@@ -22,9 +22,10 @@
             </div>
             <table class="warframe-props">
               <tbody>
+                <!-- 容量 -->
                 <tr class="prop-diff cost-show">
                   <th>{{$t('build.cost')}}</th>
-                  <td class="diff diff-ori">
+                  <td class="diff diff-ori diff-cost" :class="{error: build.maxCost < build.totalCost}">
                     {{build.maxCost - build.totalCost}}
                   </td>
                   <template v-if="build.totalCost > 0">
@@ -235,7 +236,7 @@ export default class WarframeEditor extends Vue {
 </script>
 
 <style lang="less">
-@text_grey : #606266;
+@import "../../less/common.less";
 
 .team-editor-main {
   .warframe-props {
@@ -267,5 +268,8 @@ export default class WarframeEditor extends Vue {
   .mod-slot-containor {
     justify-content: center;
   }
+}
+.diff-cost.error {
+  color: @text_error;
 }
 </style>

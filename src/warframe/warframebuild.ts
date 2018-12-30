@@ -249,7 +249,6 @@ export class WarframeBuild {
   applyMod(mod: NormalMod) {
     this._mods.push(mod);
     this.calcMods();
-    this.recalcPolarizations();
     return this;
   }
 
@@ -494,12 +493,12 @@ export class WarframeBuild {
   recalcPolarizations() {
     // 自带的极性
     let defaultPolarities = this.data.polarities.slice();
-    this._auraPol = this.data.aura;
-    this._exilusPol = this.data.exilus;
-    this._polarizations = Array(8);
+    [this._auraPol, this._exilusPol, this._polarizations] = [this.data.aura, this.data.exilus, Array(8).fill(null)];
     this._formaCount = 0;
-    // 自动匹配自带槽位
+    // 匹配自带槽位
+    // - 正面极性
     const deltaSeq = this._mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1]);
+    // - 负面极性
     const thetaSeq = this._mods.map((v, i) => [i, v ? v.theta : 0]).sort((a, b) => a[1] - b[1]);
     deltaSeq.forEach(([i]) => {
       if (this._mods[i]) {
@@ -510,15 +509,18 @@ export class WarframeBuild {
         }
       }
     });
+    // 负面极性位
+    let thetaMod = [];
     // 强制使用自带槽位
     while (defaultPolarities.length > 0) {
       const pol = defaultPolarities.pop();
       let mod = thetaSeq.pop();
-      if (mod) {
+      // 跳过已经极化的槽位
+      if (mod && !this._polarizations[mod[0]]) {
         this._polarizations[mod[0]] = pol;
+        thetaMod.push(mod[0]);
       }
     }
-    let thetaMods = this.data.polarities.slice();
     // 按容量需求量排序
     const mods = this.allMods;
     const delta = mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1]);
@@ -541,14 +543,15 @@ export class WarframeBuild {
         }
       } else {
         if (pol !== "w") {
+          console.log(`set pol [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to ${pol}`)
           if (this._polarizations[modIndex - 2] !== pol) {
-            // console.log(`set pol [[${thetaMods}]] ${modIndex}: ${this._polarizations[modIndex - 2]} to ${pol}`)
             this._polarizations[modIndex - 2] = pol;
-            if (thetaMods.includes(pol)) {
-              let index = thetaMods.indexOf(pol);
-              thetaMods.splice(index, 1);
-            } else ++this._formaCount;
+            ++this._formaCount;
           }
+        } else if (thetaMod.includes(modIndex - 2)) {
+          console.log(`set null [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to null`)
+          this._polarizations[modIndex - 2] = "";
+          thetaMod = thetaMod.filter(v => v != modIndex - 2);
         }
       }
     }

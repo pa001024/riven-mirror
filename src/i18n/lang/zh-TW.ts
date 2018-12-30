@@ -1763,7 +1763,10 @@ let po = {
     "avatarImageGlyphCookieKavat": "餅乾 庫娃 浮印",
     "avatarImageGlyphCookieKubrow": "餅乾 庫狛 浮印",
     "eminencePalette": "顯赫色板",
-    "tennoKindredRug": "Tenno Kindred 地毯",
+    "tennoKindredRug": "TENNO 血緣小地毯",
+    "kubrowArmorPrisma": "棱晶 洛斯塔姆庫狛護甲",
+    "mirageImmortalSkin": "Mirage 不朽外觀",
+    "taxonDesertCamoSkin": "塔克桑 沙漠迷彩外觀",
 
     "captainVor": "VOR 上尉",
     "councilorVayHek": "Vay Hek 委員",

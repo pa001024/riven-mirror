@@ -1770,6 +1770,9 @@ let po = {
     "avatarImageGlyphCookieKubrow": "Cookie Kubrow Glyph",
     "eminencePalette": "Eminence Palette",
     "tennoKindredRug": "Tenno Kindred Rug",
+    "kubrowArmorPrisma": "Kubrow Prisma Armor",
+    "mirageImmortalSkin": "Mirage Immortal Skin",
+    "taxonDesertCamoSkin": "Taxon Desert-Camo Skin",
 
     "captainVor": "Captain Vor",
     "councilorVayHek": "Councilor Vay Hek",

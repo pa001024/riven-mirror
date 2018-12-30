@@ -30,7 +30,7 @@ export class Translator {
       else this.subLinkDict.set(sub, [v[0]]);
     });
   }
-  static reload(){
+  static reload() {
     this.instance.reload();
   }
 
@@ -76,6 +76,8 @@ export class Translator {
 }
 
 const tranlateAlias = new Map([
+  ["Mirage Alternate Skin", "Mirage Immortal Skin"],
+  ["Detron Mara", "Mara Detron"],
   ["Liset Prop Ost Rug Baro", "Tenno Kindred Rug"],
   ["Colour Picker Twitch B Item A", "Eminence Palette"],
   ["Prisma Twin Gremlins Weapon", "Prisma Twin Gremlins"],

@@ -357,6 +357,7 @@ const _normalModSource = [
   ["A0", "primedExpelInfested", [["I", 0.55]], "Secondary", "r", "l", 14, 10],
   ["A1", "primedExpelCorrupted", [["od", 0.55]], "Secondary", "r", "l", 14, 10],
   ["A2", "concealedExplosives", [["exp", 0.8]], "Secondary", "r", "r", 9],
+  ["A3", "lethalMomentum", [["V", 0.4]], "Secondary", "r", "n", 7],
 
   // 近战 C0 ~ Fz
   ["C0", "pressurePoint", [["K", 1.2]], "Melee", "r", "n", 9],

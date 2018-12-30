@@ -58,7 +58,7 @@ export default class extends Vue {
   @Watch("build")
   @Watch("type")
   reload() {
-    let selected = _.compact(this.build.mods);
+    let selected = _.compact(this.build.allMods);
     let mods = NormalModDatabase.filter(v =>
       this.allowedTypes.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id));
     if (this.type === "Aura") {
@@ -85,7 +85,7 @@ export default class extends Vue {
     if (typeof id === "string")
       this.$emit("command", Codex.getNormalMod(id));
     else {
-      let selected = _.compact(this.build.mods);
+      let selected = _.compact(this.build.allMods);
       let mods = NormalModDatabase.filter(v => this.allowedTypes.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id));
       let found = id.map(v => mods.find(k => k.id === v)).filter(Boolean);
       this.$emit("command", found);

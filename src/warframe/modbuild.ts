@@ -300,11 +300,11 @@ export abstract class ModBuild {
     this.procChanceMap.forEach(([vn, vv]) => {
       let dur = procDurationMap[vn] * this.procDurationMul;
       let durTick = Math.max(0, ~~dur) + 1;
-      let cor = vv * bullets * this.fireRate * dur;
+      let cor = Math.min(1, Math.max(vv * bullets * this.fireRate * dur, 0));
       this._statusInfo[vn] = {
         proportion: pwMap.get(vn),
         duration: dur,
-        coverage: cor > 1 ? 1 : cor < 0 ? 0 : cor
+        coverage: cor
       };
       if (bullets > 1) this._statusInfo[vn].appearRate = vv;
       // [腐蚀 磁力]
@@ -331,9 +331,9 @@ export abstract class ModBuild {
         }
         // [切割 毒 毒气 火]
         if (vn === "Heat") {
-          if (bullets > 1) this._statusInfo[vn].averageProcDamage = cor * dd / bullets * durTick;
-          this._statusInfo[vn].averageProcDamagePerHit = cor * dd * durTick;
-          this._statusInfo[vn].averageProcDamagePerSecond = cor * dd * fireRate * durTick;
+          if (bullets > 1) this._statusInfo[vn].averageProcDamage = cor * dd / bullets;
+          this._statusInfo[vn].averageProcDamagePerHit = cor * dd;
+          this._statusInfo[vn].averageProcDamagePerSecond = cor * dd * fireRate;
         } else if (vn !== "Electricity") {
           if (bullets > 1) this._statusInfo[vn].averageProcDamage = vv * dd / bullets * durTick * (1 - dutyCycle);
           this._statusInfo[vn].averageProcDamagePerHit = vv * dd * durTick * (1 - dutyCycle);
@@ -590,7 +590,6 @@ export abstract class ModBuild {
   applyMod(mod: NormalMod) {
     this._mods.push(mod);
     this.calcMods();
-    this.fastMode || this.recalcPolarizations();
     return this;
   }
 
