@@ -196,7 +196,7 @@ interface WarframeTime {
   text: string
 }
 @Component
-export default class Index extends Vue {
+export default class Alerts extends Vue {
   cetusTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" }
   fortunaTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" }
   earthTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" }

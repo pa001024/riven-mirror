@@ -15,12 +15,13 @@
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { i18n } from "@/i18n";
+import { changeLocale } from "@/i18n/plugin";
 
 @Component
 export default class extends Vue {
   setlang(lang: string) {
-    i18n.locale = lang || navigator.language;
-    location.reload();
+    changeLocale(lang || navigator.language)
+    // location.reload();
   }
 }
 </script>

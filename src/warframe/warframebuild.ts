@@ -543,13 +543,13 @@ export class WarframeBuild {
         }
       } else {
         if (pol !== "w") {
-          console.log(`set pol [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to ${pol}`)
+          // console.log(`set pol [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to ${pol}`)
           if (this._polarizations[modIndex - 2] !== pol) {
             this._polarizations[modIndex - 2] = pol;
             ++this._formaCount;
           }
         } else if (thetaMod.includes(modIndex - 2)) {
-          console.log(`set null [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to null`)
+          // console.log(`set null [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to null`)
           this._polarizations[modIndex - 2] = "";
           thetaMod = thetaMod.filter(v => v != modIndex - 2);
         }

@@ -35,17 +35,17 @@
                     </td>
                   </template>
                 </tr>
-                <PropDiff :name="$t('build.health')" :ori="core.health" :val="build.health"></PropDiff>
-                <PropDiff :name="$t('build.shield')" :ori="core.shield" :val="build.shield"></PropDiff>
-                <PropDiff :name="$t('build.armor')" :ori="core.armor" :val="build.armor"></PropDiff>
-                <PropDiff :name="$t('build.energy')" :ori="core.energy" :val="build.energy"></PropDiff>
-                <PropDiff :name="$t('build.sprint')" :ori="core.sprint" :val="build.sprint" :preci="2"></PropDiff>
-                <PropDiff :name="$t('build.effectiveHealth')" :ori="core.effectiveHealth" :val="build.effectiveHealth" :preci="0"></PropDiff>
+                <PropDiff :name="$t('build.health')" :ori="coreBuild.health" :val="build.health"></PropDiff>
+                <PropDiff :name="$t('build.shield')" :ori="coreBuild.shield" :val="build.shield"></PropDiff>
+                <PropDiff :name="$t('build.armor')" :ori="coreBuild.armor" :val="build.armor"></PropDiff>
+                <PropDiff :name="$t('build.energy')" :ori="coreBuild.energy" :val="build.energy"></PropDiff>
+                <PropDiff :name="$t('build.sprint')" :ori="coreBuild.sprint" :val="build.sprint" :preci="2"></PropDiff>
+                <PropDiff :name="$t('build.effectiveHealth')" :ori="coreBuild.effectiveHealth" :val="build.effectiveHealth" :preci="0"></PropDiff>
                 <br>
-                <PropDiff :name="$t('build.abilityStrength')" :ori="core.abilityStrength" :val="build.abilityStrength" percent :preci="0"></PropDiff>
-                <PropDiff :name="$t('build.abilityDuration')" :ori="core.abilityDuration" :val="build.abilityDuration" percent :preci="0"></PropDiff>
-                <PropDiff :name="$t('build.abilityEfficiency')" :ori="core.abilityEfficiency" :val="build.abilityEfficiency" percent :preci="0"></PropDiff>
-                <PropDiff :name="$t('build.abilityRange')" :ori="core.abilityRange" :val="build.abilityRange" percent :preci="0"></PropDiff>
+                <PropDiff :name="$t('build.abilityStrength')" :ori="coreBuild.abilityStrength" :val="build.abilityStrength" percent :preci="0"></PropDiff>
+                <PropDiff :name="$t('build.abilityDuration')" :ori="coreBuild.abilityDuration" :val="build.abilityDuration" percent :preci="0"></PropDiff>
+                <PropDiff :name="$t('build.abilityEfficiency')" :ori="coreBuild.abilityEfficiency" :val="build.abilityEfficiency" percent :preci="0"></PropDiff>
+                <PropDiff :name="$t('build.abilityRange')" :ori="coreBuild.abilityRange" :val="build.abilityRange" percent :preci="0"></PropDiff>
               </tbody>
             </table>
           </el-card>
@@ -53,9 +53,9 @@
       </el-col>
       <!-- MOD编辑器区域 -->
       <el-col :xs="24" :sm="12" :lg="18">
+        <!-- MOD区域 -->
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
-            <!-- MOD区域 -->
             <el-row type="flex" class="mod-slot-containor" :gutter="12">
               <el-col class="list-complete-item" :sm="12" :md="12" :lg="6">
                 <LeveledModSlot icon="aura" @level="refleshMods()" @change="slotClick(-2)" @remove="slotRemove(-2)" :mod="item.aura" :build="item.build" :polarization="item.build.auraPol"/>
@@ -72,6 +72,9 @@
               </draggable>
             </el-row>
           </el-tab-pane>
+        </el-tabs>
+        <!-- 技能区域 -->
+        <el-tabs v-model="currentAbility">
         </el-tabs>
       </el-col>
     </el-row>
@@ -107,12 +110,14 @@ export default class WarframeEditor extends Vue {
 
   tabs: BuildSelectorTab[] = [];
   tabValue = "SET A";
+  currentAbility = "";
   private _lastid = "";
   private _core: Warframe = null;
   private selectModIndex: number = 0;
   get selectModType() { return this.selectModIndex === -2 ? "Aura" : this.selectModIndex === -1 ? "Exilus" : "Warframe" }
 
-  get core() { if (this.id !== this._lastid) this.reload(); return this._core; }
+  get core() { if (this._lastid !== this.id) this.reload(); return this._core; }
+  get coreBuild() { return new WarframeBuild(this.core); }
 
   onCodeChange() {
     if (this.code && this.build.miniCode != this.code) {

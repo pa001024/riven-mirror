@@ -1,6 +1,6 @@
 import { ActionContext } from "vuex";
 import { WarframeBuild, Warframe, WarframeDataBase } from "@/warframe/warframebuild";
-import { NormalMod } from "@/warframe/codex";
+type NormalMod = import("@/warframe/codex").NormalMod;
 
 /**
  * 团队配置

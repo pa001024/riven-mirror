@@ -4,7 +4,7 @@ import Mod from '@/views/Mod.vue'
 import Huangli from '@/views/Huangli.vue'
 import About from '@/views/About.vue'
 import Setting from '@/views/Setting.vue'
-import Index from '@/views/Index.vue'
+import Alerts from '@/views/Alerts.vue'
 import BuildEditor from '@/views/BuildEditor.vue'
 import Simulator from '@/views/Simulator.vue'
 import Palette from '@/views/Palette.vue'
@@ -20,8 +20,8 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-    { path: '/', name: 'Index', component: Index },
-    { path: '/news', name: 'News', component: Index },
+    { path: '/', name: 'Alerts', component: Alerts },
+    { path: '/news', name: 'News', component: Alerts },
     { path: '/about', name: 'About', component: About },
     { path: '/setting', name: 'Setting', component: Setting },
     { path: '/sim', name: 'Simulator', component: Simulator },

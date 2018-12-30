@@ -858,18 +858,34 @@ export const _abilityData: AbilityData[] = [
     energyCost: 25,
   },
   {
-    id: "Warding Halo",
+    id: "Warding Halo", // 混天火绫
     // name: "wardingHalo",
     // description: "Create a protective ring of fire, that also stuns and damages enemies who get too close.",
-    tags: 0,
-    energyCost: 25,
+    tags: AbilityType.BuffDebuff,
+    energyCost: 75,
+    props: {
+    }
   },
   {
-    id: "Divine Spears",
+    id: "Divine Spears", // 圣火尖枪
     // name: "divineSpears",
     // description: "Impale nearby enemies on spears that erupt from the below. Activate again to slam surviving enemies back into the ground.",
-    tags: 0,
-    energyCost: 25,
+    tags: AbilityType.Damage | AbilityType.Control,
+    energyCost: 100,
+    props: {
+      Damage: {
+        // 光枪从地面爆发，刺穿半径10 / 13 / 16 / 19米内的敌人
+        // 并造成150 / 300 / 450 / 600点Puncture b.png 穿刺伤害。
+        // 在技能持续时间结束或玩家手动解除技能（默认4）后，被刺穿的敌人会被砸到地面并受到 150 / 300 / 450 / 600点Impact b.png 冲击 伤害。
+        damage: [["Puncture", S(600)]],
+        range: R(19),
+      },
+      Control: {
+        // 并将其钉在原地6 / 8 / 10 / 12秒。在此期间，敌人无法移动或攻击。
+        duration: D(12),
+        range: R(19),
+      }
+    }
   },
   {
     id: "Virulence",

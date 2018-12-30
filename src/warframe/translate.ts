@@ -76,7 +76,6 @@ export class Translator {
 }
 
 const tranlateAlias = new Map([
-  ["Mirage Alternate Skin", "Mirage Immortal Skin"],
   ["Detron Mara", "Mara Detron"],
   ["Liset Prop Ost Rug Baro", "Tenno Kindred Rug"],
   ["Colour Picker Twitch B Item A", "Eminence Palette"],

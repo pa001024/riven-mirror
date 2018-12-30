@@ -4,7 +4,7 @@
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven Mirror
-          <span class="beta">ALPHA 1.3.5</span>
+          <span class="beta">ALPHA 1.3.6</span>
         </h1>
       </router-link>
       <MiniClock class="hidden-xs-only header-watch">
@@ -19,14 +19,14 @@
       <ul class="app-nav-menu" v-if="menuOpen" @click="menuOpen=false">
         <router-link v-for="link in links" :key="link.title" tag="li" :to="link.path" class="menu-item" :exact="link.exact">
           <i :class="link.icon"></i>
-          <span class="app-nav-title">{{link.title}}</span>
+          <span class="app-nav-title">{{$t(link.title)}}</span>
         </router-link>
       </ul>
     </transition>
     <el-container class="body-container">
       <el-aside width="60px" class="hidden-xs-only">
         <ul class="aside-nav-menu">
-          <el-tooltip v-for="link in links" :key="link.title" :content="link.title" placement="right" :enterable="false">
+          <el-tooltip v-for="link in links" :key="link.title" :content="$t(link.title)" placement="right" :enterable="false">
             <router-link tag="li" :to="link.path" class="menu-item" :exact="link.exact">
               <i :class="link.icon"></i>
             </router-link>
@@ -45,8 +45,8 @@
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import MiniClock from "./components/MiniClock.vue";
-import { i18n } from "@/i18n";
 import { RivenDataBase } from "@/warframe/codex";
+import { i18n } from "@/i18n";
 
 @Component({
   components: { MiniClock }
@@ -54,16 +54,16 @@ import { RivenDataBase } from "@/warframe/codex";
 export default class App extends Vue {
   menuOpen = false;
   links = [
-    { title: i18n.t("navigate.index"), path: "/", icon: "el-icon-news", exact: true },
-    { title: i18n.t("navigate.riven"), path: "/riven", icon: "el-icon-view" },
-    { title: i18n.t("navigate.weapon"), path: "/weapon", icon: "el-icon-edit-outline" },
-    { title: i18n.t("navigate.warframe"), path: "/warframe", icon: "el-icon-tickets" },
-    { title: i18n.t("navigate.simulator"), path: "/sim", icon: "el-icon-refresh" },
-    { title: i18n.t("navigate.huangli"), path: "/huangli", icon: "el-icon-date" },
-    // { title: i18n.t("navigate.about"), path: "/about", icon: "el-icon-info" },
-    { title: i18n.t("navigate.palette"), path: "/palette", icon: "el-icon-menu" },
-    { title: i18n.t("navigate.setting"), path: "/setting", icon: "el-icon-setting" },
-  ];
+    { title: "navigate.index", path: "/", icon: "el-icon-news", exact: true },
+    { title: "navigate.riven", path: "/riven", icon: "el-icon-view" },
+    { title: "navigate.weapon", path: "/weapon", icon: "el-icon-edit-outline" },
+    { title: "navigate.warframe", path: "/warframe", icon: "el-icon-tickets" },
+    { title: "navigate.simulator", path: "/sim", icon: "el-icon-refresh" },
+    { title: "navigate.huangli", path: "/huangli", icon: "el-icon-date" },
+    // { title: "navigate.about", path: "/about", icon: "el-icon-info" },
+    { title: "navigate.palette", path: "/palette", icon: "el-icon-menu" },
+    { title: "navigate.setting", path: "/setting", icon: "el-icon-setting" },
+  ].filter(v => v.title !== "navigate.huangli" || i18n.locale !== "en");
 
   mounted() {
     RivenDataBase.reload();
