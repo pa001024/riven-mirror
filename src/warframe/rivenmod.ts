@@ -329,10 +329,10 @@ A段位12023
       name: this.fullName,
       type: this.name,
       polarity: this.polarity || "r",
-      cost: 18,
+      cost: 10,
       level: 8,
       rarity: "x",
-      props: this.properties.map(v => [v.prop.id, v.value / 100] as [string, number]),
+      props: this.properties.map(v => [v.prop.id, v.value / 9] as [string, number]),
       riven: this.qrCode,
     });
   }
@@ -356,7 +356,12 @@ A段位12023
   }
   /** 返回二维码使用的序列化字符串 */
   get qrCode() {
-    return [this.id, this.shortSubfix, base62(this.rank) + base62(this.recycleTimes), this.properties.map(v => v.prop.id + base62(+(v.value * 10).toFixed(0))).join(".")].join("|");
+    return [
+      this.id,
+      this.shortSubfix,
+      base62(this.rank) + base62(this.recycleTimes),
+      this.properties.map(v => v.prop.id + base62(+(v.value * 10).toFixed(0))).join(".")
+    ].join("|");
   }
   /** 读取二维码识别后的序列化字符串 */
   set qrCode(value) {
@@ -376,8 +381,7 @@ A段位12023
     let lastProp = props[props.length - 1];
     this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == (lastProp[1] < 0);
     this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
-    this.properties = props.map(v =>
-      new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.id, v[0].name), this.upLevel).normalize());
+    this.properties = props.map(v => new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.id, v[0].name), this.upLevel).normalize());
   }
   /** Base64形式的二维码 */
   get qrCodeBase64() {

@@ -38,40 +38,40 @@ export interface GunModBuildOptions {
 export class GunModBuild extends ModBuild {
   weapon: GunWeapon
   // 属性增幅器
-  private _multishotMul = 1;
-  private _magazineMul = 1;
-  private _reloadSpeedMul = 1;
-  private _maxAmmoMul = 1;
-  private _zoomMul = 1;
-  private _projectileSpeedMul = 1;
-  private _recoilMul = 1;
+  private _multishotMul = 100;
+  private _magazineMul = 100;
+  private _reloadSpeedMul = 100;
+  private _maxAmmoMul = 100;
+  private _zoomMul = 100;
+  private _projectileSpeedMul = 100;
+  private _recoilMul = 100;
   private _punchThrough = 0;
   private _critLevelUpChance = 0;
-  private _firstAmmoMul = 1;
+  private _firstAmmoMul = 100;
   private _slashWhenCrit = 0;
 
   /** 多重增幅倍率 */
-  get multishotMul() { return this._multishotMul; }
+  get multishotMul() { return this._multishotMul / 100; }
   /** 弹匣容量增幅倍率 */
-  get magazineMul() { return this._magazineMul; }
+  get magazineMul() { return this._magazineMul / 100; }
   /** 换弹增幅倍率 */
-  get reloadSpeedMul() { return this._reloadSpeedMul; }
+  get reloadSpeedMul() { return this._reloadSpeedMul / 100; }
   /** 最大弹匣增幅倍率 */
-  get maxAmmoMul() { return this._maxAmmoMul; }
+  get maxAmmoMul() { return this._maxAmmoMul / 100; }
   /** 变焦增幅倍率 */
-  get zoomMul() { return this._zoomMul; }
+  get zoomMul() { return this._zoomMul / 100; }
   /** 弹道飞行速度增幅倍率 */
-  get projectileSpeedMul() { return this._projectileSpeedMul; }
+  get projectileSpeedMul() { return this._projectileSpeedMul / 100; }
   /** 后坐力增幅倍率 */
-  get recoilMul() { return this._recoilMul; }
+  get recoilMul() { return this._recoilMul / 100; }
   /** 穿透增幅量 */
   get punchThrough() { return this._punchThrough; }
   /** 暴击强化 */
-  get critLevelUpChance() { return this._critLevelUpChance; }
+  get critLevelUpChance() { return this._critLevelUpChance / 100; }
   /** 第一发子弹伤害加成 */
-  get firstAmmoMul() { return this._firstAmmoMul; }
+  get firstAmmoMul() { return this._firstAmmoMul / 100; }
   /** 猎人 战备 */
-  get slashWhenCrit() { return this._slashWhenCrit; }
+  get slashWhenCrit() { return this._slashWhenCrit / 100; }
   /** 子弹消耗速度 */
   get ammoCost() { return this.weapon.ammoCost || this.weapon.tags.includes("Continuous") ? 0.5 : 1; }
 
@@ -258,8 +258,8 @@ export class GunModBuild extends ModBuild {
   /** [overwrite] 额外触发几率 */
   get extraProcChance() {
     if (this.slashWhenCrit)
-      return this._extraProcChance.concat([["Slash", (this.critChance > 1 ? 1 : this.critChance) * this.slashWhenCrit]]);
-    return this._extraProcChance;
+      return this._extraProcChance.concat([["Slash", (this.critChance > 1 ? 1 : this.critChance) * this.slashWhenCrit]]).map(v => [v[0], v[1] / 100] as [string, number]);
+    return this._extraProcChance.map(v => [v[0], v[1] / 100] as [string, number]);
   }
 
   // ### 基类方法 ###
@@ -270,14 +270,14 @@ export class GunModBuild extends ModBuild {
       return false;
     if (!this.useAcolyteMods && AcolyteModsList.some(v => v === mod.id))
       return false;
-    if (!this.useHeavyCaliber && "heavyCaliber" === mod.id)
+    if (!this.useHeavyCaliber && "Heavy Caliber" === mod.id)
       return false;
-    if (!this.usePrimedChamber && "primedChamber" === mod.id)
+    if (!this.usePrimedChamber && "Primed Chamber" === mod.id)
       return false;
-    if (!this.useHunterMunitions && "hunterMunitions" === mod.id)
+    if (!this.useHunterMunitions && "Hunter Munitions" === mod.id)
       return false;
     // 集团海克屏蔽散射正义
-    if (this.weapon.id === "Vaykor Hek" && mod.id === "scatteredJustice") {
+    if (this.weapon.id === "Vaykor Hek" && mod.id === "Scattered Justice") {
       return false;
     }
     return true;
@@ -286,17 +286,17 @@ export class GunModBuild extends ModBuild {
   /** 重置所有属性增幅器 */
   reset() {
     super.reset();
-    this._multishotMul = 1;
-    this._fireRateMul = 1;
-    this._magazineMul = 1;
-    this._reloadSpeedMul = 1;
-    this._maxAmmoMul = 1;
+    this._multishotMul = 100;
+    this._fireRateMul = 100;
+    this._magazineMul = 100;
+    this._reloadSpeedMul = 100;
+    this._maxAmmoMul = 100;
     this._punchThrough = 0;
-    this._zoomMul = 1;
-    this._projectileSpeedMul = 1;
-    this._recoilMul = 1;
+    this._zoomMul = 100;
+    this._projectileSpeedMul = 100;
+    this._recoilMul = 100;
     this._critLevelUpChance = 0;
-    this._firstAmmoMul = 1;
+    this._firstAmmoMul = 100;
     this._slashWhenCrit = 0;
   }
   /**
@@ -306,7 +306,7 @@ export class GunModBuild extends ModBuild {
    */
   fill(slots = 8, useRiven = 0) {
     if (this.useHunterMunitions === 2)
-      this.applyMod(NormalModDatabase.find(v => v.id === "hunterMunitions"));
+      this.applyMod(NormalModDatabase.find(v => v.id === "Hunter Munitions"));
     super.fill(slots, useRiven);
   }
   /**
@@ -320,7 +320,7 @@ export class GunModBuild extends ModBuild {
       case 'D': /* 伤害 baseDmg */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;
       case 'S': /* 多重射击 multiShot */
         if (this.isLaser)
-          this._overallMul = hAccSum(this._overallMul, pValue);
+          this._overallMul = this._overallMul * (100 + pValue) / 100;
         else
           this._multishotMul = hAccSum(this._multishotMul, pValue);
         break;

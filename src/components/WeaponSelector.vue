@@ -1,7 +1,7 @@
 <template>
   <el-tabs class="weapon-tabs" v-model="modType">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
-      <span slot="label" class="weapon-tablabel">{{$t("zh") ? tab.name : tab.id}}</span>
+      <span slot="label" class="weapon-tablabel">{{$t(`weaponselector.${tab.name}`)}}</span>
       <ul class="weapon-select">
         <template v-for="(riven, index) in tab.rivens">
           <div class="weapon-group-header" v-if="!tab.rivens[index-1] || tab.rivens[index-1].star != riven.star" :key="riven.star">

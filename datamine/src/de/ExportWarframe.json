@@ -1,0 +1,2008 @@
+{
+  "ExportWarframes": [{
+    "uniqueName": "/Lotus/Powersuits/Archwing/SupportJetPack/SupportJetPack",
+    "name": "<ARCHWING> AMESHA",
+    "parentName": "/Lotus/Types/Game/FlightJetPackItems/PlayerFlightJetPackItem",
+    "description": "Transform into a winged guardian.",
+    "longDescription": "",
+    "health": 400,
+    "shield": 200,
+    "armor": 200,
+    "stamina": 150,
+    "power": 200,
+    "codexSecret": false,
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/SupportDronesAbility",
+      "abilityName": "Watchful Swarm",
+      "description": "Tiny drones orbit the Warframe or an ally, and intercept enemy fire."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/SupportAnchorsAbility",
+      "abilityName": "Benevolent Decoy",
+      "description": "Creates beacons that draw enemy fire, converting the damage into healing pulses."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/SupportWardAbility",
+      "abilityName": "Warding Grace",
+      "description": "Renders the Warframe and nearby allies immune to Status Effects, while slowing nearby enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/SupportEnergyAbility",
+      "abilityName": "Vengeful Rush",
+      "description": "All damage taken is transformed into Energy, while abilities gain enhanced Range, Duration and Power. Affects the Warframe and nearby allies."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Archwing/StealthJetPack/StealthJetPack",
+    "name": "<ARCHWING> ITZAL",
+    "parentName": "/Lotus/Types/Game/FlightJetPackItems/PlayerFlightJetPackItem",
+    "description": "Designed for quick clandestine attacks, the Itzal Archwing excels at striking from the darkness of space.",
+    "longDescription": "",
+    "health": 200,
+    "shield": 200,
+    "armor": 50,
+    "stamina": 500,
+    "power": 200,
+    "codexSecret": false,
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/BlinkAbility",
+      "abilityName": "Blink",
+      "description": "The Itzal Archwing teleports a short distance, dropping all enemy target locks."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/CloakingAbility",
+      "abilityName": "Penumbra",
+      "description": "Activates a cloaking field that hides the Warframe and any nearby allies who remain stationary."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/GravitationalInstabilityAbility",
+      "abilityName": "Cosmic Crush",
+      "description": "Forms a miniature black hole that sucks in all nearby objects before rupturing in a massive shock wave."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/DistractionDronesAbility",
+      "abilityName": "Fighter Escort",
+      "description": "Deploys drones that fight alongside the Warframe, each detonating in a destructive blast when killed."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Archwing/StandardJetPack/StandardJetPack",
+    "name": "<ARCHWING> ODONATA",
+    "parentName": "/Lotus/Types/Game/FlightJetPackItems/PlayerFlightJetPackItem",
+    "description": "The systems built into this Archwing balance offensive capabilities with defensive countermeasures.",
+    "longDescription": "",
+    "health": 300,
+    "shield": 300,
+    "armor": 100,
+    "stamina": 200,
+    "power": 100,
+    "codexSecret": false,
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FireShieldAbility",
+      "abilityName": "Energy Shell",
+      "description": "Forms a protective energy shell around the Warframe"
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FlareCounterMeasureAbility",
+      "abilityName": "Disarray",
+      "description": "Drops flare beacons confusing incoming guided missiles."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/MissileVolleyAbility",
+      "abilityName": "Seeking Fire",
+      "description": "Fires a large volley of homing missiles."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/EMPPushAbility",
+      "abilityName": "Repel",
+      "description": "The Warframe emits a massive pulse of energy, stunning nearby enemies and sending them flying."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Archwing/PrimeJetPack/PrimeJetPack",
+    "name": "<ARCHWING> ODONATA PRIME",
+    "parentName": "/Lotus/Powersuits/Archwing/StandardJetPack/StandardJetPack",
+    "description": "This enhanced version of the first Archwing prototype takes the design to its theoretical limits.",
+    "longDescription": "",
+    "health": 400,
+    "shield": 400,
+    "armor": 100,
+    "stamina": 200,
+    "power": 100,
+    "codexSecret": false,
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FireShieldAbility",
+      "abilityName": "Energy Shell",
+      "description": "Forms a protective energy shell around the Warframe"
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/FlareCounterMeasureAbility",
+      "abilityName": "Disarray",
+      "description": "Drops flare beacons confusing incoming guided missiles."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/MissileVolleyAbility",
+      "abilityName": "Seeking Fire",
+      "description": "Fires a large volley of homing missiles."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/EMPPushAbility",
+      "abilityName": "Repel",
+      "description": "The Warframe emits a massive pulse of energy, stunning nearby enemies and sending them flying."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Archwing/DemolitionJetPack/DemolitionJetPack",
+    "name": "<ARCHWING> ELYTRON",
+    "parentName": "/Lotus/Types/Game/FlightJetPackItems/PlayerFlightJetPackItem",
+    "description": "This heavy duty Archwing was designed for one purpose, destruction.",
+    "longDescription": "",
+    "health": 450,
+    "shield": 450,
+    "armor": 150,
+    "stamina": 150,
+    "power": 125,
+    "codexSecret": false,
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/TnTAbility",
+      "abilityName": "Bloomer",
+      "description": "Fires a high-yield, remotely detonated explosive projectile capable of latching onto targets."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/ExhaustTrailAbility",
+      "abilityName": "Core Vent",
+      "description": "Vents out the Archwing's propulsion core, confusing enemy projectiles and causing them to detonate."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/ArtilleryBarrageAbility",
+      "abilityName": "Thumper",
+      "description": "Creates a localized storm of punishing explosions."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/Archwing/ArchwingAbilities/BigBoyAbility",
+      "abilityName": "Warhead",
+      "description": "Launches a plodding missile capable of unleashing a massive explosion."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/YinYang/YinYang",
+    "name": "EQUINOX",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "Split between day and night, Equinox manifests aggressive and defensive forms at will.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 100,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Health Orbs generate a little Energy, while Energy Orbs restore a bit of Health.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/YinYangSwitchAbility",
+      "abilityName": "Metamorphosis",
+      "description": "Switch forms, temporarily gaining bonus Shields and Armor in Night-Form, or bonus Damage and Speed in Day-Form."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/YinYangTargetAbility",
+      "abilityName": "Rest & Rage",
+      "description": "In Night-Form, targets are put to sleep. In Day-Form, targets become more vulnerable to damage."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/YinYangAuraAbility",
+      "abilityName": "Pacify & Provoke",
+      "description": "In Night-Form, reduces damage inflicted by nearby enemies. In Day-Form, increases Ability Strength of nearby allies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/YinYangBurstAbility",
+      "abilityName": "Mend & Maim",
+      "description": "In Night-Form, allies are healed with each nearby enemy killed. In Day-Form, nearby enemies are bled and then subjected to a wave of slashing force."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Volt/VoltPrime",
+    "name": "VOLT PRIME",
+    "parentName": "/Lotus/Powersuits/Volt/VoltBaseSuit",
+    "description": "A glorious warrior from the past, Volt Prime features the same abilities as Volt but with unique mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 150,
+    "armor": 100,
+    "stamina": 3,
+    "power": 200,
+    "codexSecret": false,
+    "passiveDescription": "Grounded movement generates an electrical charge that is unleashed with the next attack.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ShockAbility",
+      "abilityName": "Shock",
+      "description": "Launches a shocking projectile. It stuns and deals high damage to a single target and chains damage to nearby enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SpeedAbility",
+      "abilityName": "Speed",
+      "description": "Gain a brief boost of Movement Speed which affects all allies in range."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ShieldAbility",
+      "abilityName": "Electric Shield",
+      "description": "Volt deploys an obstacle of energy, providing cover in any situation."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/OverLoadAbility",
+      "abilityName": "Discharge",
+      "description": "Paralyze nearby hostiles with a damaging electric charge, this also shocks approaching enemies."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Volt/Volt",
+    "name": "VOLT",
+    "parentName": "/Lotus/Powersuits/Volt/VoltBaseSuit",
+    "description": "Volt can create and harness electrical elements. This is a high-damage Warframe perfect for players who want a potent alternative to gun-play.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 150,
+    "armor": 15,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Grounded movement generates an electrical charge that is unleashed with the next attack.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ShockAbility",
+      "abilityName": "Shock",
+      "description": "Launches a shocking projectile. It stuns and deals high damage to a single target and chains damage to nearby enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SpeedAbility",
+      "abilityName": "Speed",
+      "description": "Gain a brief boost of Movement Speed which affects all allies in range."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ShieldAbility",
+      "abilityName": "Electric Shield",
+      "description": "Volt deploys an obstacle of energy, providing cover in any situation."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/OverLoadAbility",
+      "abilityName": "Discharge",
+      "description": "Paralyze nearby hostiles with a damaging electric charge, this also shocks approaching enemies."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Trinity/TrinityPrime",
+    "name": "TRINITY PRIME",
+    "parentName": "/Lotus/Powersuits/Trinity/TrinityBaseSuit",
+    "description": "Become the bastion that defends allies using powerful healing abilities with Trinity Prime. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 150,
+    "armor": 15,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Revive fallen allies faster and from farther away.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/WellOfLifeAbility",
+      "abilityName": "Well Of Life",
+      "description": "Create a well of life on an enemy. Allies will gain health when damaging the target."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/EnergyVampireAbility",
+      "abilityName": "Energy Vampire",
+      "description": "Allies will gain energy over time when enemies are marked with Energy Vampire."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/LinkAbility",
+      "abilityName": "Link",
+      "description": "Any damage taken while Link is active will be channeled to a nearby enemy."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BlessingAbility",
+      "abilityName": "Blessing",
+      "description": "Restore the health and shields of allies within Trinity's affinity aura while giving them some damage resistance."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Trinity/Trinity",
+    "name": "TRINITY",
+    "parentName": "/Lotus/Powersuits/Trinity/TrinityBaseSuit",
+    "description": "Trinity is great for players who prefer a supportive role. Warframes with healing technology are rare making Trinity a great equalizer when the odds are stacked against the Tenno.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 15,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Revive fallen allies faster and from farther away.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/WellOfLifeAbility",
+      "abilityName": "Well Of Life",
+      "description": "Create a well of life on an enemy. Allies will gain health when damaging the target."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/EnergyVampireAbility",
+      "abilityName": "Energy Vampire",
+      "description": "Allies will gain energy over time when enemies are marked with Energy Vampire."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/LinkAbility",
+      "abilityName": "Link",
+      "description": "Any damage taken while Link is active will be channeled to a nearby enemy."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BlessingAbility",
+      "abilityName": "Blessing",
+      "description": "Restore the health and shields of allies within Trinity's affinity aura while giving them some damage resistance."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Trapper/TrapperPrime",
+    "name": "VAUBAN PRIME",
+    "parentName": "/Lotus/Powersuits/Trapper/TrapperBaseSuit",
+    "description": "Transform the battlefield into a weapon with this gilded tactician. Features unique mod polarities for extended customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 100,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Deal 25% extra damage to incapacitated enemies.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ZapTrapAbility",
+      "abilityName": "Tesla",
+      "description": "Launches a grenade that holds an electrical charge, zapping enemies that come within range."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TrapperMultinadeAbility",
+      "abilityName": "Minelayer",
+      "description": "Cycle through four deployable trap mines: Bounce, Trip Laser, Shred and Concuss."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/LevTrapAbility",
+      "abilityName": "Bastille",
+      "description": "Creates an energy-based containment field in which captives are held suspended in stasis."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BlackHoleTrapAbility",
+      "abilityName": "Vortex",
+      "description": "Creates a whirling mass of energy that violently attracts nearby enemies, crushing their atoms into a tiny spec of matter."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Trapper/Trapper",
+    "name": "VAUBAN",
+    "parentName": "/Lotus/Powersuits/Trapper/TrapperBaseSuit",
+    "description": "The highly tactical Vauban uses his powers to create deadly traps that can zap, imprison and dimensionally crush enemies.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 75,
+    "armor": 50,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Deal 25% extra damage to incapacitated enemies.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ZapTrapAbility",
+      "abilityName": "Tesla",
+      "description": "Launches a grenade that holds an electrical charge, zapping enemies that come within range."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TrapperMultinadeAbility",
+      "abilityName": "Minelayer",
+      "description": "Cycle through four deployable trap mines: Bounce, Trip Laser, Shred and Concuss."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/LevTrapAbility",
+      "abilityName": "Bastille",
+      "description": "Creates an energy-based containment field in which captives are held suspended in stasis."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BlackHoleTrapAbility",
+      "abilityName": "Vortex",
+      "description": "Creates a whirling mass of energy that violently attracts nearby enemies, crushing their atoms into a tiny spec of matter."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Tengu/ZephyrPrime",
+    "name": "ZEPHYR PRIME",
+    "parentName": "/Lotus/Powersuits/Tengu/TenguBaseSuit",
+    "description": "Take to the skies with this golden bird of destruction.",
+    "longDescription": "",
+    "health": 150,
+    "shield": 150,
+    "armor": 75,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Move with increased agility while Airborne and fall more slowly.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TailWindAbility",
+      "abilityName": "Tail Wind",
+      "description": "From the ground, charge and release to launch Zephyr into an airborne hover. From the air, tap to dash forward, or aim down to dive bomb enemies below."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TenguBurstAbility",
+      "abilityName": "Airburst",
+      "description": "Generate a burst of massively dense air that explodes on contact and sends enemies flying. Launch Airbursts into Tornadoes to make them grow."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TurbulenceAbility",
+      "abilityName": "Turbulence",
+      "description": "Creates a wind shield around Zephyr, redirecting all incoming projectiles."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TornadoAbility",
+      "abilityName": "Tornado",
+      "description": "Create deadly tornadoes that seek out and engulf enemies. Tornadoes deal the elemental Damage Type they absorb the most. Shoot enemies engulfed in Tornadoes to do additional damage."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Tengu/Tengu",
+    "name": "ZEPHYR",
+    "parentName": "/Lotus/Powersuits/Tengu/TenguBaseSuit",
+    "description": "Specializing in air attacks and mobility, Zephyr dominates from above.",
+    "longDescription": "",
+    "health": 150,
+    "shield": 150,
+    "armor": 15,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Move with increased agility while Airborne and fall more slowly.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TailWindAbility",
+      "abilityName": "Tail Wind",
+      "description": "From the ground, charge and release to launch Zephyr into an airborne hover. From the air, tap to dash forward, or aim down to dive bomb enemies below."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TenguBurstAbility",
+      "abilityName": "Airburst",
+      "description": "Generate a burst of massively dense air that explodes on contact and sends enemies flying. Launch Airbursts into Tornadoes to make them grow."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TurbulenceAbility",
+      "abilityName": "Turbulence",
+      "description": "Creates a wind shield around Zephyr, redirecting all incoming projectiles."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TornadoAbility",
+      "abilityName": "Tornado",
+      "description": "Create deadly tornadoes that seek out and engulf enemies. Tornadoes deal the elemental Damage Type they absorb the most. Shoot enemies engulfed in Tornadoes to do additional damage."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Saryn/SarynPrime",
+    "name": "SARYN PRIME",
+    "parentName": "/Lotus/Powersuits/Saryn/SarynBaseSuit",
+    "description": "A golden blossom conceals deadly nectar. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 125,
+    "shield": 100,
+    "armor": 300,
+    "stamina": 3,
+    "power": 200,
+    "codexSecret": false,
+    "passiveDescription": "Status Effects inflicted upon enemies last longer.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PoisonAbility",
+      "abilityName": "Spores",
+      "description": "Inflict a target with a pox of <DT_CORROSIVE>Corrosive spores. Spread spores to nearby enemies by destroying them or killing their host. The longer the Spore spreads, its damage will increase."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ShedAbility",
+      "abilityName": "Molt",
+      "description": "Shedding her skin like a snake, Saryn leaves a decoy behind to draw fire from enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/WeaponPoisonAbility",
+      "abilityName": "Toxic Lash",
+      "description": "While active, attacks deal additional <DT_POISON>Toxin Damage; this effect is doubled for Melee Strikes. Instantly burst spores when attacking afflicted enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ExplosiveDissolveAbility",
+      "abilityName": "Miasma",
+      "description": "Release a poisonous miasma that deals <DT_VIRAL>Viral Damage to enemies in range. Foes afflicted by spores are more susceptible to the mist."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Saryn/Saryn",
+    "name": "SARYN",
+    "parentName": "/Lotus/Powersuits/Saryn/SarynBaseSuit",
+    "description": "Saryn's venomous attacks are horrifyingly effective against organic and synthetic enemies, and her ability to 'shed' her skin makes her very elusive.",
+    "longDescription": "",
+    "health": 125,
+    "shield": 100,
+    "armor": 225,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Status Effects inflicted upon enemies last longer.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PoisonAbility",
+      "abilityName": "Spores",
+      "description": "Inflict a target with a pox of <DT_CORROSIVE>Corrosive spores. Spread spores to nearby enemies by destroying them or killing their host. The longer the Spore spreads, its damage will increase."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ShedAbility",
+      "abilityName": "Molt",
+      "description": "Shedding her skin like a snake, Saryn leaves a decoy behind to draw fire from enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/WeaponPoisonAbility",
+      "abilityName": "Toxic Lash",
+      "description": "While active, attacks deal additional <DT_POISON>Toxin Damage; this effect is doubled for Melee Strikes. Instantly burst spores when attacking afflicted enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ExplosiveDissolveAbility",
+      "abilityName": "Miasma",
+      "description": "Release a poisonous miasma that deals <DT_VIRAL>Viral Damage to enemies in range. Foes afflicted by spores are more susceptible to the mist."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Sandman/Sandman",
+    "name": "INAROS",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "Risen from the sands, Inaros commands the desert's fearsome power.",
+    "longDescription": "",
+    "health": 550,
+    "shield": 0,
+    "armor": 200,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "While bleeding-out, Inaros becomes entombed in a protective Sarcophagus. He can revive himself by draining the life-force from nearby enemies and allies.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SandmanBlastAbility",
+      "abilityName": "Desiccation",
+      "description": "Blast enemies with a wave of cursed sand that blinds them and steals their health."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SandmanDevourAbility",
+      "abilityName": "Devour",
+      "description": "Hold power to trap target in quicksand and draw them in for devouring; this steals health and ultimately creates a friendly Sand Shadow."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SandmanStormAbility",
+      "abilityName": "Sandstorm",
+      "description": "Become a whirling spiral of sand that sends enemies flying and devours those trapped in quicksand."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SandmanSwarmAbility",
+      "abilityName": "Scarab Swarm",
+      "description": "Charge to transform Health into hardened Scarab Armor. Discharge to blast enemies with a scarab swarm. Survivors have their Health drained and bestowed on allies."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Rhino/RhinoPrime",
+    "name": "RHINO PRIME",
+    "parentName": "/Lotus/Powersuits/Rhino/RhinoBaseSuit",
+    "description": "Takes Rhino's ground-shaking abilities to the next level with altered mod polarities that offer greater customization.",
+    "longDescription": "Red lights flashing on stark, white walls. Davis is running ahead of me, dropping his notes. We’re running for our lives. The fear gives me a strange perspective - I’m out of my body. I’ve forgotten how I got here. I don’t recognize this place.\r\n\r\nDavis and I slam pinned against a cell door and he shouts at me. I give him a dumb look. I can’t hear him, the sirens, anything, only the muffled throb of terror in my head. I turn away from Davis down the hall and I see it. The hulking mass, flickering red, glinting like steel and fresh blood. Its skin changes, flowing like mercury when I’m blinded by the sudden muzzle-flashes. They do no good. The beast surges forward and the security men become crimson mist and gore.\r\n\r\nI’m a statue, a cornered animal. A gate opens inside me and recognition floods in. I have seen this monster before. I have cut its shell and eviscerated its brothers. I have given it pain and measured its response. I have crafted then rejected countless like it. But I’ve never seen this beast so close, without the shield, without restraints. I have never seen it... free.\r\n\r\nI know I will die so I just watch with curious acceptance. The beast squats down, shovelling a heap of gore into its mouth. It is watching me with vague eyes, a sense of recognition, ancestral memory. It knows who I am and what I’ve done. It rears up like a bear and roars, shattering the lights and casting us into darkness. I can hear it lumbering toward me, its metal fingers rending the walls, but I know I am dead. I close my eyes and stand ready to pay.\r\n\r\nI feel the pull on my arm and realize Davis got the cell open. He tugs me into the cell beyond and I fall on my back. I see Davis standing at the open door, waiting, as the monster tears towards us.\r\n\r\nSuddenly I could live through this so I shout, 'Davis, close the goddamn door!' - But he shakes his head with eyes wide as moons. He shouts, 'Watch!' over the roaring and rending of metal.\r\n\r\nThen silence. Davis is panting, laughing? The beast fills the doorway, inches from him, dripping in blood, but still without violence. It stands there, looking at its hands. Davis whispers, 'No one would have believed me.'\r\n\r\nI crawl up the wall to stand, opposite the door. I’ve never seen this cell, a cold place with an array of shelves. A morgue? 'Where are we, Davis?'\r\n\r\n'This is where they keep them. The ones from Zariman.' I’m thrown, what was the Zariman? The ship that never returned? 'Davis, what’s going on?'\r\n\r\nDavis turns to me a smile forming - 'What's going on is...' he turns back to the beast now silent and calm. '...big, fat promotions.'",
+    "health": 100,
+    "shield": 150,
+    "armor": 275,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Emit a shockwave after landing from a great height.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RhinoChargeAbility",
+      "abilityName": "Rhino Charge",
+      "description": "Rhino charges towards a target, clobbering any in his path and goring his victim."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/IronSkinAbility",
+      "abilityName": "Iron Skin",
+      "description": "Rhino hardens his skin, insulating himself from all damage."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RhinoRoarAbility",
+      "abilityName": "Roar",
+      "description": "Grants all nearby Warframes increased damage for a short duration."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RhinoStompAbility",
+      "abilityName": "Rhino Stomp",
+      "description": "Rhino stomps with force sufficient to disrupt time, tumbling enemies around him in stasis."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Rhino/Rhino",
+    "name": "RHINO",
+    "parentName": "/Lotus/Powersuits/Rhino/RhinoBaseSuit",
+    "description": "Rhino is the heaviest Warframe, combining offensive and defensive capabilities.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 150,
+    "armor": 190,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Emit a shockwave after landing from a great height.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RhinoChargeAbility",
+      "abilityName": "Rhino Charge",
+      "description": "Rhino charges towards a target, clobbering any in his path and goring his victim."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/IronSkinAbility",
+      "abilityName": "Iron Skin",
+      "description": "Rhino hardens his skin, insulating himself from all damage."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RhinoRoarAbility",
+      "abilityName": "Roar",
+      "description": "Grants all nearby Warframes increased damage for a short duration."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RhinoStompAbility",
+      "abilityName": "Rhino Stomp",
+      "description": "Rhino stomps with force sufficient to disrupt time, tumbling enemies around him in stasis."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Revenant/Revenant",
+    "name": "REVENANT",
+    "parentName": "/Lotus/Powersuits/Revenant/RevenantBaseSuit",
+    "description": "Rise from the broken remains of the Eidolon to seduce an army of zealous thralls.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 225,
+    "armor": 105,
+    "stamina": 3,
+    "power": 125,
+    "codexSecret": false,
+    "passiveDescription": "Shield depletion smashes nearby enemies with a knockdown shockwave.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RevenantMarkAbility",
+      "abilityName": "Enthrall",
+      "description": "Convert a target into a zealous thrall. Thralls turn on their allies and enthrall through damage. On death, they disintegrate into a damaging pillar of energy. The thrall horde remains under Revenants spell until this ability runs out."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RevenantSentientAbility",
+      "abilityName": "Mesmer Skin",
+      "description": "Become enveloped in Sentient energy, redirecting damage and stunning all those who dare attack. Stunned enemies can be Enthralled at no energy cost."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RevenantAfflictionAbility",
+      "abilityName": "Reave",
+      "description": "Dash through enemies as a wall of sentient energy, leeching shields and health from any encountered, enhanced for thralls."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RevenantRebornAbility",
+      "abilityName": "Danse Macabre",
+      "description": "Erupt with a multitude of Eidolon energy beams and sweep a circle of death around Revenant. The beams will modify their Damage Type to target select defenses, while incoming damage is redirected back into the beams. Hold fire to boost Status Effects and Damage, at the cost of increased energy consumption. Thralls killed by this ability leave overshield pickups."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Ranger/Ranger",
+    "name": "IVARA",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "With her quiver of tactical arrows, this huntress prowls unseen and strikes without warning.",
+    "longDescription": "",
+    "health": 75,
+    "shield": 100,
+    "armor": 65,
+    "stamina": 3,
+    "power": 175,
+    "codexSecret": false,
+    "passiveDescription": "Senses nearby enemies.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RangerQuiverAbility",
+      "abilityName": "Quiver",
+      "description": "Cycle through and shoot one of four tactical arrows: Cloak, Dashwire, Noise and Sleep. In the Conclave, use the Null-Shield and Slow Arrows."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RangerControlAbility",
+      "abilityName": "Navigator",
+      "description": "Assume control of a projectile and guide it to the target."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RangerStealAbility",
+      "abilityName": "Prowl",
+      "description": "Become invisible and steal loot from unsuspecting enemies or take out prey with deadly headshots."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RangerBowAbility",
+      "abilityName": "Artemis Bow",
+      "description": "Summon a mighty bow and unleash a volley of devastating arrows."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Priest/Priest",
+    "name": "HARROW",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "Always prepared to sacrifice. This monastic Warframe uses the Void to bolster allies’ defenses and amplify their lethality.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 150,
+    "armor": 150,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Overshield cap doubled.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PriestCondemnAbility",
+      "abilityName": "Condemn",
+      "description": "Cast a wave of energy that chains them where they stand. Each enemy held reinforces Harrow’s shields."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PriestPenanceAbility",
+      "abilityName": "Penance",
+      "description": "Sacrifice shields to boost reload, and Fire Rate while converting damage inflicted on enemies into health for Harrow and nearby allies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PriestRavageAbility",
+      "abilityName": "Thurible",
+      "description": "Channel Harrow’s energy into the Thurible to generate a buff. Once finished, kill enemies to bestow nearby allies with bursts of energy. The more energy channeled the greater the reward for each kill. Headshots produce extra energy."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PriestPactAbility",
+      "abilityName": "Covenant",
+      "description": "Protect nearby allies with an energy force that absorbs all damage and converts it to a Critical Chance bonus for all those under the Covenant. Headshots are amplified even further."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Pirate/Pirate",
+    "name": "HYDROID",
+    "parentName": "/Lotus/Powersuits/Pirate/PirateBaseSuit",
+    "description": "Rising from the ocean depths, Hydroid harnesses the power of water to a devastating effect.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 125,
+    "armor": 200,
+    "stamina": 3,
+    "power": 125,
+    "codexSecret": false,
+    "passiveDescription": "Slam Attacks have a chance to summon a tentacle.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/CannonBarrageAbility",
+      "abilityName": "Tempest Barrage",
+      "description": "Target an area and call down a barrage of liquid fury. Charge this attack to increase the lethality of the onslaught."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TidalWaveAbility",
+      "abilityName": "Tidal Surge",
+      "description": "Crash through enemies in a ferocious wall of water."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/LiquifyAbility",
+      "abilityName": "Undertow",
+      "description": "Become a water trap and drown unsuspecting enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/KrakenAbility",
+      "abilityName": "Tentacle Swarm",
+      "description": "Tap to spawn watery tentacles from all nearby surfaces to wreak havoc. Charge to increase the number of tentacles and spawn area. Use while in Undertow to have the tentacles emerge from the pool."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Pirate/HydroidPrime",
+    "name": "HYDROID PRIME",
+    "parentName": "/Lotus/Powersuits/Pirate/PirateBaseSuit",
+    "description": "Command the ocean’s fury with this king of gold and silver. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 175,
+    "armor": 250,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Slam Attacks have a chance to summon a tentacle.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/CannonBarrageAbility",
+      "abilityName": "Tempest Barrage",
+      "description": "Target an area and call down a barrage of liquid fury. Charge this attack to increase the lethality of the onslaught."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TidalWaveAbility",
+      "abilityName": "Tidal Surge",
+      "description": "Crash through enemies in a ferocious wall of water."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/LiquifyAbility",
+      "abilityName": "Undertow",
+      "description": "Become a water trap and drown unsuspecting enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/KrakenAbility",
+      "abilityName": "Tentacle Swarm",
+      "description": "Tap to spawn watery tentacles from all nearby surfaces to wreak havoc. Charge to increase the number of tentacles and spawn area. Use while in Undertow to have the tentacles emerge from the pool."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Paladin/PaladinPrime",
+    "name": "OBERON PRIME",
+    "parentName": "/Lotus/Powersuits/Paladin/PaladinBaseSuit",
+    "description": "Protect the balance with this regal forest guardian. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 125,
+    "shield": 100,
+    "armor": 225,
+    "stamina": 3,
+    "power": 175,
+    "codexSecret": false,
+    "passiveDescription": "Allied pets receive health, armor and shield buffs. In addition, your pet receives an instant revive per mission.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SmiteAbility",
+      "abilityName": "Smite",
+      "description": "Focuses deadly energy within a target and then projects it outwards, damaging both the target and surrounding enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/StairwayToHeavenAbility",
+      "abilityName": "Hallowed Ground",
+      "description": "Sanctifies the ground before Oberon with righteous fire, inflicting damage to any enemy that stands in the flames."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RegenerationAbility",
+      "abilityName": "Renewal",
+      "description": "Healing waves of energy flow outward from Oberon to his allies, regenerating Health over time."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ReckoningAbility",
+      "abilityName": "Reckoning",
+      "description": "Quickly lifts enemies into the air and then hurls them down with conviction. Enemies who succumb to this power have a chance to spawn a Health Orb."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Paladin/Paladin",
+    "name": "OBERON",
+    "parentName": "/Lotus/Powersuits/Paladin/PaladinBaseSuit",
+    "description": "Equally adept at healing friends or striking down the enemy. Oberon embodies the balance Tenno are sworn to uphold.",
+    "longDescription": "",
+    "health": 125,
+    "shield": 100,
+    "armor": 150,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Allied pets receive health, armor and shield buffs. In addition, your pet receives an instant revive per mission.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SmiteAbility",
+      "abilityName": "Smite",
+      "description": "Focuses deadly energy within a target and then projects it outwards, damaging both the target and surrounding enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/StairwayToHeavenAbility",
+      "abilityName": "Hallowed Ground",
+      "description": "Sanctifies the ground before Oberon with righteous fire, inflicting damage to any enemy that stands in the flames."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RegenerationAbility",
+      "abilityName": "Renewal",
+      "description": "Healing waves of energy flow outward from Oberon to his allies, regenerating Health over time."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ReckoningAbility",
+      "abilityName": "Reckoning",
+      "description": "Quickly lifts enemies into the air and then hurls them down with conviction. Enemies who succumb to this power have a chance to spawn a Health Orb."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Pacifist/Pacifist",
+    "name": "BARUUK",
+    "parentName": "/Lotus/Powersuits/Pacifist/PacifistBaseSuit",
+    "description": "Beware the fury of the truly patient. Pushed beyond restraint, a reluctant master unleashes the storm within.",
+    "longDescription": "",
+    "health": 75,
+    "shield": 100,
+    "armor": 150,
+    "stamina": 3,
+    "power": 200,
+    "codexSecret": false,
+    "passiveDescription": "Each projectile dodged, each enemy lulled or disarmed, erodes Baruuk’s restraint and fuels the storm within. As Baruuk’s restraint is diminished he becomes more resistant to damage.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PacifistDodgeAbility",
+      "abilityName": "ELUDE",
+      "description": "Dodge all incoming projectiles, but only while not attacking. Use again to deactivate this ability."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PacifistWaveAbility",
+      "abilityName": "LULL",
+      "description": "A calming wave slows enemies until they fall into a slumber. Enemies woken by damage will be confused and disoriented. Short-term amnesia means all waking enemies forget anything that happened before the lull."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PacifistDisarmAbility",
+      "abilityName": "DESOLATE HANDS",
+      "description": "Summon a bevy of orbiting daggers to seek out enemy guns, destroying them with a small explosion. Combine with Elude to double the range."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PacifistFistAbility",
+      "abilityName": "SERENE STORM",
+      "description": "With his Restraint eroded, Baruuk commands the Desert Wind to deliver powerful radial strikes with his fists and feet. Each moment commanding the storm restores his Restraint."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Ninja/Ninja",
+    "name": "ASH",
+    "parentName": "/Lotus/Powersuits/Ninja/NinjaBaseSuit",
+    "description": "Ash is great for players looking for a stealthier approach to combat. Lethal abilities are complemented by powers of distraction.",
+    "longDescription": "",
+    "health": 150,
+    "shield": 100,
+    "armor": 65,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Bleed effects inflicted on enemies do more damage and last longer.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GlaiveAbility",
+      "abilityName": "Shuriken",
+      "description": "Launches a spinning blade of pain, dealing high damage and impaling enemies to walls."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SmokeScreenAbility",
+      "abilityName": "Smoke Screen",
+      "description": "Drops a smoke bomb that stuns enemies and obscures their vision, rendering Ash invisible for a short time."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TeleportToAbility",
+      "abilityName": "Teleport",
+      "description": "Ash teleports towards the target, bringing him into melee range and making enemies vulnerable to finishers."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/NinjaStormAbility",
+      "abilityName": "Blade Storm",
+      "description": "Project fierce shadow clones of Ash upon groups of distant enemies. Join the fray using Teleport."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Ninja/AshPrime",
+    "name": "ASH PRIME",
+    "parentName": "/Lotus/Powersuits/Ninja/NinjaBaseSuit",
+    "description": "Distraction and subterfuge become lethal weapons with Ash Prime. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 150,
+    "shield": 125,
+    "armor": 150,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Bleed effects inflicted on enemies do more damage and last longer.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GlaiveAbility",
+      "abilityName": "Shuriken",
+      "description": "Launches a spinning blade of pain, dealing high damage and impaling enemies to walls."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SmokeScreenAbility",
+      "abilityName": "Smoke Screen",
+      "description": "Drops a smoke bomb that stuns enemies and obscures their vision, rendering Ash invisible for a short time."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TeleportToAbility",
+      "abilityName": "Teleport",
+      "description": "Ash teleports towards the target, bringing him into melee range and making enemies vulnerable to finishers."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/NinjaStormAbility",
+      "abilityName": "Blade Storm",
+      "description": "Project fierce shadow clones of Ash upon groups of distant enemies. Join the fray using Teleport."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Nezha/Nezha",
+    "name": "NEZHA",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "A petite and playful facade conceals this frame’s immense power.",
+    "longDescription": "",
+    "health": 125,
+    "shield": 50,
+    "armor": 175,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Slide faster and go farther.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/NezhaTrailAbility",
+      "abilityName": "Fire Walker",
+      "description": "Blaze a trail of flames, scorching enemies and cleansing allies. Teleporting blasts the landing area with a ring of fire."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/NezhaRingAbility",
+      "abilityName": "Blazing Chakram",
+      "description": "Hurl a flaming ring that sets enemies ablaze making them vulnerable to any damage. Flaming enemies drop Restorative Orbs on death. Charge to amplify the power of the ring, and reactivate to instantly travel to the ring's location."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/NezhaSashAbility",
+      "abilityName": "Warding Halo",
+      "description": "Create a protective ring of fire, that also stuns and damages enemies who get too close."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/NezhaSpearAbility",
+      "abilityName": "Divine Spears",
+      "description": "Impale nearby enemies on spears that erupt from the below. Activate again to slam surviving enemies back into the ground."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Necro/NekrosPrime",
+    "name": "NEKROS PRIME",
+    "parentName": "/Lotus/Powersuits/Necro/NecroBaseSuit",
+    "description": "Death's new master. Featuring altered mod polarities allow for greater customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 150,
+    "armor": 65,
+    "stamina": 3,
+    "power": 125,
+    "codexSecret": false,
+    "passiveDescription": "Restore a small amount of health with every nearby enemy death.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SoulPunchAbility",
+      "abilityName": "Soul Punch",
+      "description": "A blow so powerful, it turns the enemy's very soul into a deadly projectile, damaging all in its path."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TerrorTotemAbility",
+      "abilityName": "Terrify",
+      "description": "Cast fear into the hearts of nearby enemies, causing them to run away in terror."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SearchTheDeadAbility",
+      "abilityName": "Desecrate",
+      "description": "Forces fallen enemies around you to drop additional loot."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/CloneTheDeadAbility",
+      "abilityName": "Shadows of the Dead",
+      "description": "Summon shadow versions of vanquished enemies to fight alongside you for a short period."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Necro/Necro",
+    "name": "NEKROS",
+    "parentName": "/Lotus/Powersuits/Necro/NecroBaseSuit",
+    "description": "Nekros uses his dark powers to manipulate his enemies, both living and dead.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 90,
+    "armor": 65,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Restore a small amount of health with every nearby enemy death.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SoulPunchAbility",
+      "abilityName": "Soul Punch",
+      "description": "A blow so powerful, it turns the enemy's very soul into a deadly projectile, damaging all in its path."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TerrorTotemAbility",
+      "abilityName": "Terrify",
+      "description": "Cast fear into the hearts of nearby enemies, causing them to run away in terror."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SearchTheDeadAbility",
+      "abilityName": "Desecrate",
+      "description": "Forces fallen enemies around you to drop additional loot."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/CloneTheDeadAbility",
+      "abilityName": "Shadows of the Dead",
+      "description": "Summon shadow versions of vanquished enemies to fight alongside you for a short period."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/MonkeyKing/MonkeyKing",
+    "name": "WUKONG",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "A primal warrior with the heart of a trickster.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 125,
+    "armor": 225,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Increased combo duration.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/MonkeyPokeAbility",
+      "abilityName": "Iron Jab",
+      "description": "Explode the iron staff to its true length, knocking down anything in its path."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/MonkeyDeathAbility",
+      "abilityName": "Defy",
+      "description": "Escape death by receiving a boost of health when killed."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/MonkeyCloudAbility",
+      "abilityName": "Cloud Walker",
+      "description": "Evaporate into a cloud of mist and float through the battlefield."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/MonkeyStaffAbility",
+      "abilityName": "Primal Fury",
+      "description": "Summon the iron staff and unleash fury."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Magician/Magician",
+    "name": "LIMBO",
+    "parentName": "/Lotus/Powersuits/Magician/MagicianBaseSuit",
+    "description": "Limbo manipulates the very planes of existence to divide his enemies and conquer them in the rift.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 75,
+    "armor": 65,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Dodge to enter and exit the Rift. Entering leaves behind a small Rift portal. Energy slowly recharges in the Rift, and each enemy killed in there also gives energy.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BanishAbility",
+      "abilityName": "Banish",
+      "description": "Casts a wave of Rift energy that damages hostiles while pushing enemies and allies out of Limbo’s current plane of existence."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/MagicianStasisAbility",
+      "abilityName": "Stasis",
+      "description": "Freezes Rift-bound enemies. While active, enemy projectiles are arrested in mid-air, resuming its trajectory when stasis ends."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/VolatileAbility",
+      "abilityName": "Rift Surge",
+      "description": "Surges nearby Rift-bound enemies with Rift energy. When killed the Rift Surge is transferred to a nearby enemy outside the rift. Surged enemies that leave the Rift perform a radial Banish."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TearInSpaceAbility",
+      "abilityName": "Cataclysm",
+      "description": "A violent blast of Void energy tears open a pocket of rift plane which can sustain itself for a short period before collapsing in another lethal blast."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Magician/LimboPrime",
+    "name": "LIMBO PRIME",
+    "parentName": "/Lotus/Powersuits/Magician/MagicianBaseSuit",
+    "description": "Dance between realms with this golden rift walker. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 85,
+    "stamina": 3,
+    "power": 175,
+    "codexSecret": false,
+    "passiveDescription": "Dodge to enter and exit the Rift. Entering leaves behind a small Rift portal. Energy slowly recharges in the Rift, and each enemy killed in there also gives energy.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BanishAbility",
+      "abilityName": "Banish",
+      "description": "Casts a wave of Rift energy that damages hostiles while pushing enemies and allies out of Limbo’s current plane of existence."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/MagicianStasisAbility",
+      "abilityName": "Stasis",
+      "description": "Freezes Rift-bound enemies. While active, enemy projectiles are arrested in mid-air, resuming its trajectory when stasis ends."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/VolatileAbility",
+      "abilityName": "Rift Surge",
+      "description": "Surges nearby Rift-bound enemies with Rift energy. When killed the Rift Surge is transferred to a nearby enemy outside the rift. Surged enemies that leave the Rift perform a radial Banish."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/TearInSpaceAbility",
+      "abilityName": "Cataclysm",
+      "description": "A violent blast of Void energy tears open a pocket of rift plane which can sustain itself for a short period before collapsing in another lethal blast."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Mag/MagPrime",
+    "name": "MAG PRIME",
+    "parentName": "/Lotus/Powersuits/Mag/MagBaseSuit",
+    "description": "The exquisite Mag Prime offers the same abilities as Mag but with unique mod polarities for greater customization.",
+    "longDescription": "Warframe Archive - Debrief excerpt:\r\n\r\nWe sat strapped in, safeties off, waiting for the punch. Waiting for death. Through my filthy porthole I saw stars among the outlines of the other Splinter ships queuing for the Solar Rail. It would soon grip us with an incomprehensible power and cast us through the void into the mouth of our enemy.\r\n\r\nI watched the ships one-by-one bending and gone. Each crammed with zero-tech soldiers sucking stale air, white knuckling their percussion rifles. Each filled with a desperation that comes from extinction. Our ship would be the last to cross the gap. Our ship had special cargo.\r\n\r\nIt was essentially empty. Just ten men, like me, strapped in with the best zero-tech suits and weapons the empire could build... and 'it'. 'It' stood in the aisle, a slender and eyeless metal form. A Tenno inside its Warframe. Vaguely human, vaguely feminine. Was this armor or some ornate carapace for the monster that lived inside? I strained against the harness as the ship yawed for final approach. I could see the Tenno standing there freely. Solemn and gold-gleaming, oblivious to the inertial force.\r\n\r\nI had been, until then, a Tenno denier. They were ghosts, propaganda, twisted casualties of the void era. Not possibly real. Yet here it was in the flesh. The Empire, in their desperation, was going to turn the demons loose and hope for the best. Who did we fear more, the enemy or this monster? We had our safeties off, could we trust it? Then it didn’t matter anymore. The punch came - and our windows became blinding. When we could see again our ship was somewhere else, shattered and dead in an instant.\r\n\r\nMy lungs were flattened, eyes full of death. Ship debris glittered like a night snow. The alien blue star was dark and blinding beyond us. The countless articulating worm-ships of our enemy, ringed in glowing discs, undulating and heat-bursting the surviving soldiers like me. This is where I died. I was caught in R-disc, sweeping over my right side and setting my blood on fire. My vision flattened, the hearing muffled and buzzed. I could feel the side of my face going slack and wet.\r\n\r\nI was in a dying dream. I saw a bright spot blurring and weaving toward me. I felt a tug toward it from the metal clasps on my suit. It reached me, rising up - a gleaming metal beast, a plume of golden wings rising and unfolding behind it. An angel. It snatched me from my death. I could feel my lungs fill as it wrapped me in its wings. Its Void Shield shimmered blue, strained under the enemy beams. I felt a sudden tug of acceleration. I closed my eyes and held on like a child.\r\n\r\nI awoke on the floor, the sting of crisping flesh on my face and side. It was standing over me, the wings gone. I heard the cracking of weapons echoing down the corridor. Maybe the mission would be saved, but I was dying and so I waved my hand to send it away. I felt a pistol thrust in my hand as I was heaved to my feet. The angel had saved me, pulled me from hell, but it would not pity me. I was to die on my feet, by its side. I turned my good side toward the gunfire and raised the gun. It nodded, its outstretched metal hand surging and pulsing in ancient shapes as blue shimmered around me. It turned, drawing its blade and together we surged headlong into the hailstorm of death and fire that awaited us.",
+    "health": 100,
+    "shield": 150,
+    "armor": 65,
+    "stamina": 3,
+    "power": 175,
+    "codexSecret": false,
+    "passiveDescription": "Bullet jumping pulls-in nearby items for easy collection.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PullAbility",
+      "abilityName": "Pull",
+      "description": "Magnetic force pulls enemies toward you, stunning them and bringing them into melee range."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BulletAttractorAbility",
+      "abilityName": "Magnetize",
+      "description": "Creates a magnetic field around a target, ensnaring nearby enemies and dealing damage over time. The field reacts to bullets and shards created from Polarize to increase the damage."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ShieldRegenAbility",
+      "abilityName": "Polarize",
+      "description": "Emit an energy pulse that depletes enemy shields and armor, creating shards which become deadly when mixed with Magnetize. Shields of allies touched by the pulse are restored."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/CrushAbility",
+      "abilityName": "Crush",
+      "description": "Magnetizes the bones of nearby enemies, causing them to collapse upon themselves."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Mag/Mag",
+    "name": "MAG",
+    "parentName": "/Lotus/Powersuits/Mag/MagBaseSuit",
+    "description": "With full command of surrounding magnetic energy, Mag is an expert at enemy manipulation.",
+    "longDescription": "",
+    "health": 75,
+    "shield": 150,
+    "armor": 65,
+    "stamina": 3,
+    "power": 125,
+    "codexSecret": false,
+    "passiveDescription": "Bullet jumping pulls-in nearby items for easy collection.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PullAbility",
+      "abilityName": "Pull",
+      "description": "Magnetic force pulls enemies toward you, stunning them and bringing them into melee range."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BulletAttractorAbility",
+      "abilityName": "Magnetize",
+      "description": "Creates a magnetic field around a target, ensnaring nearby enemies and dealing damage over time. The field reacts to bullets and shards created from Polarize to increase the damage."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ShieldRegenAbility",
+      "abilityName": "Polarize",
+      "description": "Emit an energy pulse that depletes enemy shields and armor, creating shards which become deadly when mixed with Magnetize. Shields of allies touched by the pulse are restored."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/CrushAbility",
+      "abilityName": "Crush",
+      "description": "Magnetizes the bones of nearby enemies, causing them to collapse upon themselves."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Loki/LokiPrime",
+    "name": "LOKI PRIME",
+    "parentName": "/Lotus/Powersuits/Loki/LokiBaseSuit",
+    "description": "Confuse, deceive and destroy with Loki Prime. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 75,
+    "shield": 75,
+    "armor": 65,
+    "stamina": 3,
+    "power": 175,
+    "codexSecret": false,
+    "passiveDescription": "Able to hang from walls for extended durations of time.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DecoyAbility",
+      "abilityName": "Decoy",
+      "description": "Loki deploys a holographic copy of himself, drawing enemy fire."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/InvisibilityAbility",
+      "abilityName": "Invisibility",
+      "description": "Loki camouflages himself, becoming invisible to enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SwitchTeleportAbility",
+      "abilityName": "Switch Teleport",
+      "description": "Loki instantaneously swaps positions with a target, confusing the enemy."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RadialDisarmAbility",
+      "abilityName": "Radial Disarm",
+      "description": "Lets forth a wave of energy, disrupting the projectile weapons of enemies in range and forcing them to revert to melee combat."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Loki/Loki",
+    "name": "LOKI",
+    "parentName": "/Lotus/Powersuits/Loki/LokiBaseSuit",
+    "description": "Desired by advanced players, Loki offers a variety of specialized reconfiguring abilities. The creativity of Loki's powers allows players to master the battlefield through manipulation.",
+    "longDescription": "",
+    "health": 75,
+    "shield": 75,
+    "armor": 65,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Able to hang from walls for extended durations of time.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DecoyAbility",
+      "abilityName": "Decoy",
+      "description": "Loki deploys a holographic copy of himself, drawing enemy fire."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/InvisibilityAbility",
+      "abilityName": "Invisibility",
+      "description": "Loki camouflages himself, becoming invisible to enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SwitchTeleportAbility",
+      "abilityName": "Switch Teleport",
+      "description": "Loki instantaneously swaps positions with a target, confusing the enemy."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RadialDisarmAbility",
+      "abilityName": "Radial Disarm",
+      "description": "Lets forth a wave of energy, disrupting the projectile weapons of enemies in range and forcing them to revert to melee combat."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Khora/Khora",
+    "name": "KHORA",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "Tenno and beast, red in whip and claw. Khora and her Kavat companion, Venari, embody lethal versatility. Two bodies, one will.",
+    "longDescription": "",
+    "health": 125,
+    "shield": 100,
+    "armor": 275,
+    "stamina": 3,
+    "power": 125,
+    "codexSecret": false,
+    "passiveDescription": "The ferocious kavat, Venari, fights by Khora’s side and provides her with a speed boost while active. If killed, Venari will reappear after a short time.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/KhoraCrackAbility",
+      "abilityName": "Whipclaw",
+      "description": "Send enemies reeling with a deafening whipcrack."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/KhoraTwirlAbility",
+      "abilityName": "Ensnare",
+      "description": "Bind a hapless target in living metal, entangling others who stray too close. Whipclaw will refresh the trap allowing it to capture more enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/KhoraKavatAbility",
+      "abilityName": "Venari",
+      "description": "Command Venari to focus on a target. Hold to cycle between Attack, Protect, and Heal postures. If Venari is killed, use this ability to revive her instantly."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/KhoraCageAbility",
+      "abilityName": "Strangledome",
+      "description": "Weave a dome of living chain that ensnares and strangles any enemy within, and any foolish enough to approach. Foes outside the trap will try to hasten their comrade's deaths by shooting them. Crack Whipclaw on the dome to further damage any trapped enemies."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Jade/NyxPrime",
+    "name": "NYX PRIME",
+    "parentName": "/Lotus/Powersuits/Jade/JadeBaseSuit",
+    "description": "Infiltrate the minds of your enemies with Nyx Prime. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 125,
+    "armor": 50,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Enemies affected by Nyx Prime’s abilities may suddenly choose to lay down their arms.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/MindControlAbility",
+      "abilityName": "Mind Control",
+      "description": "Nyx invades the psyche of a target, confusing enemies and making them fight for the Tenno cause. Targets then fired upon by Nyx receive a damage multiplier."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DaggerAbility",
+      "abilityName": "Psychic Bolts",
+      "description": "Nyx launches a cluster of force bolts at enemies, using telekinesis to adjust flight paths and seek nearby targets. Hits strip some enemy defenses."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ChaosAbility",
+      "abilityName": "Chaos",
+      "description": "With a powerful psychic blast, Nyx causes mass hysteria on the battlefield by confusing all enemies to attack random factions."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SelfBulletAttractorAbility",
+      "abilityName": "Absorb",
+      "description": "Nyx absorbs all incoming damage and channels that collected energy into an explosive radial discharge."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Jade/Jade",
+    "name": "NYX",
+    "parentName": "/Lotus/Powersuits/Jade/JadeBaseSuit",
+    "description": "Mind control and psychic attacks make Nyx a very dangerous foe. Her ability to reach into enemy consciousness and manipulate their behavior can turn the tide of battle.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 15,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Enemies affected by Nyx’s abilities may suddenly choose to lay down their arms.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/MindControlAbility",
+      "abilityName": "Mind Control",
+      "description": "Nyx invades the psyche of a target, confusing enemies and making them fight for the Tenno cause. Targets then fired upon by Nyx receive a damage multiplier."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DaggerAbility",
+      "abilityName": "Psychic Bolts",
+      "description": "Nyx launches a cluster of force bolts at enemies, using telekinesis to adjust flight paths and seek nearby targets. Hits strip some enemy defenses."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ChaosAbility",
+      "abilityName": "Chaos",
+      "description": "With a powerful psychic blast, Nyx causes mass hysteria on the battlefield by confusing all enemies to attack random factions."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SelfBulletAttractorAbility",
+      "abilityName": "Absorb",
+      "description": "Nyx absorbs all incoming damage and channels that collected energy into an explosive radial discharge."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Infestation/Infestation",
+    "name": "NIDUS",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "Command the Infestation to mutate and grow ever more destructive.",
+    "longDescription": "",
+    "health": 150,
+    "shield": 0,
+    "armor": 300,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "If Nidus is killed with at least 15 stacks of Mutation, those 15 stacks are consumed; this grants 5 seconds of invulnerability and restores health to 50%.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/InfestRuptureAbility",
+      "abilityName": "Virulence",
+      "description": "Rupture the ground with a damaging fungal growth that steals energy from each enemy it strikes. For every five enemies hit, the Infestation mutates, multiplying its destructive force."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/InfestTendrilsAbility",
+      "abilityName": "Larva",
+      "description": "Spawn an Infested pod that erupts with tendrils, latches onto nearby enemies and pulls them in."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/InfestLinkAbility",
+      "abilityName": "Parasitic Link",
+      "description": "Bind to a target with a parasitic link. For allies, both the host and Nidus deal increased damage. Linked enemies take the damage inflicted on Nidus."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/InfestPodsAbility",
+      "abilityName": "Ravenous",
+      "description": "Gluttonous maggots swarm nearby enemies, feasting until they are hit with Virulence and burst with Infestation. The maggots benefit from Mutation and each enemy hit adds to the Mutation stack."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Harlequin/MiragePrime",
+    "name": "MIRAGE PRIME",
+    "parentName": "/Lotus/Powersuits/Harlequin/HarlequinBaseSuit",
+    "description": "Dazzle the opposition with this golden master of illusion and mayhem. Featuring altered mod polarities allow for greater customization.",
+    "longDescription": "",
+    "health": 80,
+    "shield": 110,
+    "armor": 150,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Long-lasting slide and faster acrobatic maneuvers.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/IllusionAbility",
+      "abilityName": "Hall of Mirrors",
+      "description": "Mirage creates an entourage of doppelgangers to confuse and distract the enemy."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/HarlequinObjectChangeAbility",
+      "abilityName": "Sleight of Hand",
+      "description": "Booby trap nearby objects while conjuring an irresistible jewel that bursts with radial blind when touched in darkness, or a radial explosion in light. Conjure multiple smaller jewels with the help of Hall of Mirrors."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/LightAbility",
+      "abilityName": "Eclipse",
+      "description": "Standing in light, Mirage deals heavy damage, while the shadows make Mirage difficult to track and even harder to hurt."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/Prism",
+      "abilityName": "Prism",
+      "description": "Fires an energy prism that shoots lasers in all directions. Activating again detonates the prism, blinding nearby foes."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Harlequin/Harlequin",
+    "name": "MIRAGE",
+    "parentName": "/Lotus/Powersuits/Harlequin/HarlequinBaseSuit",
+    "description": "A master of illusion, Mirage confounds the enemy in a spectacle of style and power.",
+    "longDescription": "",
+    "health": 80,
+    "shield": 80,
+    "armor": 65,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Long-lasting slide and faster acrobatic maneuvers.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/IllusionAbility",
+      "abilityName": "Hall of Mirrors",
+      "description": "Mirage creates an entourage of doppelgangers to confuse and distract the enemy."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/HarlequinObjectChangeAbility",
+      "abilityName": "Sleight of Hand",
+      "description": "Booby trap nearby objects while conjuring an irresistible jewel that bursts with radial blind when touched in darkness, or a radial explosion in light. Conjure multiple smaller jewels with the help of Hall of Mirrors."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/LightAbility",
+      "abilityName": "Eclipse",
+      "description": "Standing in light, Mirage deals heavy damage, while the shadows make Mirage difficult to track and even harder to hurt."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/Prism",
+      "abilityName": "Prism",
+      "description": "Fires an energy prism that shoots lasers in all directions. Activating again detonates the prism, blinding nearby foes."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Glass/Glass",
+    "name": "GARA",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "The battlefield trembles before Gara's crystalline power, her ringing touch transforming opponents to targets of brittle beauty.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 125,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "A chance to create a radial blind when exposed to bright light.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GlassShankAbility",
+      "abilityName": "Shattered Lash",
+      "description": "Lash out with stream of shattered glass, or hold for an arcing strike."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GlassShatterAbility",
+      "abilityName": "Splinter Storm",
+      "description": "Gara’s armor splinters into a maelstrom of shattered glass. Allies who contact the cloud are fortified against damage."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GlassFragmentAbility",
+      "abilityName": "Spectrorage",
+      "description": "Trap enemies in a carousel of mirrors, forcing them to attack visions of their true selves. Destroyed mirrors damage their attackers, as does the collapse of the carousel."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GlassRingAbility",
+      "abilityName": "Mass Vitrify",
+      "description": "Create an expanding ring of molten glass that slowly crystallizes enemies who enter. When the expansion is complete, the ring hardens to block weapons fire. The ring draws extra strength from the health and shields of crystallized enemies. Use Shattered Lash to smash the ring and send razor-sharp glass flying outward."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Garuda/Garuda",
+    "name": "GARUDA",
+    "parentName": "/Lotus/Powersuits/Garuda/GarudaBaseSuit",
+    "description": "Death's crimson maiden, the blood of Garuda's foes imbue her with strength and vitality.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 300,
+    "stamina": 3,
+    "power": 120,
+    "codexSecret": false,
+    "passiveDescription": "As Garuda nears death, her damage increases.\r\nSlashes with her talons if no melee weapon is equipped.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GarudaShieldAbility",
+      "abilityName": "Dread Mirror",
+      "description": "Rip the life force from an enemy and use it as a shield that captures damage, this kills significantly weakened enemies instantly. Charge to channel the captured damage into an explosive projectile."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GarudaSiphonAbility",
+      "abilityName": "Blood Altar",
+      "description": "Impale an enemy on an altar of talons and siphon health for Garuda and her allies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GarudaBloodAbility",
+      "abilityName": "Bloodletting",
+      "description": "Garuda sacrifices her health to generate energy."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GarudaUnstoppableAbility",
+      "abilityName": "Seeking Talons",
+      "description": "Charge to expand the targeting area, release to send Garuda’s talons careening toward each target in area. Surviving enemies are prone to bleeding."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Frost/FrostPrime",
+    "name": "FROST PRIME",
+    "parentName": "/Lotus/Powersuits/Frost/FrostBaseSuit",
+    "description": "Frost Prime has the same chilling abilities as Frost but provides unique mod polarities, allowing for greater customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 175,
+    "armor": 300,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Striking Frost with a melee attack may freeze the attacker.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/IcicleAbility",
+      "abilityName": "Freeze",
+      "description": "A frigid energy blast that freezes targets in their tracks."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/IceSpikeAbility",
+      "abilityName": "Ice Wave",
+      "description": "Sends a wave of razor sharp, crystalized ice toward an enemy, dealing heavy damage."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/IceShieldAbility",
+      "abilityName": "Snow Globe",
+      "description": "Frost deep freezes any vapor and moisture in the area, creating a protective sphere with brief invulnerability to boost its strength."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/AvalancheAbility",
+      "abilityName": "Avalanche",
+      "description": "Summons a treacherous landslide of ice that instantly freezes and shatters all enemies in its radius."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Frost/Frost",
+    "name": "FROST",
+    "parentName": "/Lotus/Powersuits/Frost/FrostBaseSuit",
+    "description": "By channeling moisture and vapor in the surrounding environment, Frost creates formidable defenses and lethal attacks from sub zero conditions.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 150,
+    "armor": 300,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Striking Frost with a melee attack may freeze the attacker.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/IcicleAbility",
+      "abilityName": "Freeze",
+      "description": "A frigid energy blast that freezes targets in their tracks."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/IceSpikeAbility",
+      "abilityName": "Ice Wave",
+      "description": "Sends a wave of razor sharp, crystalized ice toward an enemy, dealing heavy damage."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/IceShieldAbility",
+      "abilityName": "Snow Globe",
+      "description": "Frost deep freezes any vapor and moisture in the area, creating a protective sphere with brief invulnerability to boost its strength."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/AvalancheAbility",
+      "abilityName": "Avalanche",
+      "description": "Summons a treacherous landslide of ice that instantly freezes and shatters all enemies in its radius."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Fairy/Fairy",
+    "name": "TITANIA",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "Take flight with this mischievous pixie.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 65,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Bullet-jump creates a trampoline that enhances bullet-jump maneuvers when used by allies.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/FairyDustAbility",
+      "abilityName": "Spellbind",
+      "description": "Enemies fumble their weapons as they are whisked into the air. Nearby allies become immune to Status Effects."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/FairySoulAbility",
+      "abilityName": "Tribute",
+      "description": "Extract an offering from an enemy in the form of a random Ability Buff. Survivor’s attacks are weakened."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/FairyLightAbility",
+      "abilityName": "Lantern",
+      "description": "Create a swarm of razorflies that transform an enemy into an irresistible floating beacon, attracting witless comrades before exploding on command."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/FairyFlightAbility",
+      "abilityName": "Razorwing",
+      "description": "Shrink down and take flight, while razorflies attack nearby enemies."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Excalibur/ExcaliburUmbra",
+    "name": "EXCALIBUR UMBRA",
+    "parentName": "/Lotus/Powersuits/Excalibur/DarkExcalibur",
+    "description": "From the shadow of the long night emerges a new Excalibur.",
+    "longDescription": "From the shadow of the long night emerges a new Excalibur.",
+    "health": 100,
+    "shield": 100,
+    "armor": 300,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": true,
+    "passiveDescription": "Umbra exhibits sentience in combat without Transference control. Attacks faster and deals more damage while wielding swords.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/UmbraSlashDashNewAbility",
+      "abilityName": "Slash Dash",
+      "description": "Dash between enemies while slashing with the Exalted Blade."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/UmbraRadialRoarAbility",
+      "abilityName": "Radial Howl",
+      "description": "Let out ferocious howl that stuns nearby enemies and causes Sentients to shed any built up resistances."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/UmbraRadialJavelinAbility",
+      "abilityName": "Radial Javelin",
+      "description": "Launches javelins towards enemies, dealing high damage and impaling them to walls."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/UmbraSwordOfDoomAbility",
+      "abilityName": "Exalted Blade",
+      "description": "Summon a sword of pure light and immense power."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Excalibur/ExcaliburPrime",
+    "name": "EXCALIBUR PRIME",
+    "parentName": "/Lotus/Powersuits/Excalibur/ExcaliburBaseSuit",
+    "description": "Excalibur Prime is the epitome of mobility and offense, and features the same abilities as Excalibur, but has unique mod polarities installed allowing for greater customization.",
+    "longDescription": "The Sentients had won. They had turned our weapons, our technology, against us. The more advanced we became, the greater our losses. The war was over unless we found a new way. In our desperation we turned to the Void. The blinding night, the hellspace where our science and reason failed.\r\n\r\nWe took the twisted few that had returned from that place. We built a frame around them, a conduit of their affliction. Gave them the weapons of the old ways. Gun and blade. A new warrior, a new code was born. These rejects, these Tenno, became our saviors. Warrior-Gods cast in steel and fury striking our enemies in a way they could never comprehend.\r\n\r\nExcalibur was the first.\r\n\r\n-Orokin 'Warframe' Archives",
+    "health": 100,
+    "shield": 100,
+    "armor": 300,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": true,
+    "passiveDescription": "Excalibur Prime deals increased damage and attacks faster when wielding swords.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SlashDashNewAbility",
+      "abilityName": "Slash Dash",
+      "description": "Dash between enemies while slashing with the Exalted Blade."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RadialBlindAbility",
+      "abilityName": "Radial Blind",
+      "description": "Emits a bright flash of light, blinding all enemies in a small radius for several seconds."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RadialJavelinAbility",
+      "abilityName": "Radial Javelin",
+      "description": "Launches javelins towards enemies, dealing high damage and impaling them to walls."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SwordOfDoomAbility",
+      "abilityName": "Exalted Blade",
+      "description": "Summon a sword of pure light and immense power."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Excalibur/Excalibur",
+    "name": "EXCALIBUR",
+    "parentName": "/Lotus/Powersuits/Excalibur/ExcaliburBaseSuit",
+    "description": "A perfect balance of mobility and offense, Excalibur is the ideal Warframe for new players.",
+    "longDescription": "The Sentients had won. They had turned our weapons, our technology, against us. The more advanced we became, the greater our losses. The war was over unless we found a new way. In our desperation we turned to the Void. The blinding night, the hellspace where our science and reason failed.\r\n\r\nWe took the twisted few that had returned from that place. We built a frame around them, a conduit of their affliction. Gave them the weapons of the old ways. Gun and blade. A new warrior, a new code was born. These rejects, these Tenno, became our saviors. Warrior-Gods cast in steel and fury striking our enemies in a way they could never comprehend.\r\n\r\nExcalibur was the first.\r\n\r\n-Orokin 'Warframe' Archives",
+    "health": 100,
+    "shield": 100,
+    "armor": 225,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Excalibur deals increased damage and attacks faster when wielding swords.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SlashDashNewAbility",
+      "abilityName": "Slash Dash",
+      "description": "Dash between enemies while slashing with the Exalted Blade."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RadialBlindAbility",
+      "abilityName": "Radial Blind",
+      "description": "Emits a bright flash of light, blinding all enemies in a small radius for several seconds."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RadialJavelinAbility",
+      "abilityName": "Radial Javelin",
+      "description": "Launches javelins towards enemies, dealing high damage and impaling them to walls."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SwordOfDoomAbility",
+      "abilityName": "Exalted Blade",
+      "description": "Summon a sword of pure light and immense power."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Ember/EmberPrime",
+    "name": "EMBER PRIME",
+    "parentName": "/Lotus/Powersuits/Ember/EmberBaseSuit",
+    "description": "Ember Prime offers the same potential for wanton destruction as Ember but provides unique mod polarities, allowing for greater customization.",
+    "longDescription": "Three figures waited behind a simple table. Their attention on a single chair, bathed in light. An old woman’s voice from the shadow: 'Send her in'. Across the room a security officer, stern and plain, opened the door. The outline of a young woman appeared at the door. She hesitated, but only for an instant, then crossed the room and sat.\r\n\r\nThere was a gasp as the light hit her face. Her right eye was bright and blinking, but her left was a greasy slit. Her skin had been burned moon-white. Her mouth was a sagging gash without lips or expression. Her military beret was pulled snug over a scarred and hairless scalp.\r\n\r\nThe old voice: 'Your name is Kaleen.' Kaleen nodded. 'You were the principal investigator of the Zariman?' Kaleen’s voice was a jagged whisper, a rigid face. 'Yes.'\r\n\r\nKaleen coughed, straightened: 'The Zariman was lost making the fold from Saturn to the Outer gates. Mechanical failure. I notified families and filed a report with the inspectors. Nothing ever returns from the fold, so I closed the case.'\r\n\r\n'But you reopened the case, days later.'\r\n\r\n'I didn’t believe it myself until I stepped aboard the ship. It was completely intact, full environmental, as if it had never left.'\r\n\r\n'And the crew was gone.'\r\n\r\n'Not exactly.' Kaleen hesitated. 'We thought it was empty but we began to find...' Her face twitched at remembered pain, 'We began to find children hiding in the ship.'\r\n\r\n'And that is when you violated procedure?'\r\n\r\nKaleen bowed her head, a tear welling in her sightless eye. 'They were children. They were afraid. They needed comfort.'\r\n\r\n'So you broke quarantine and this happened to you.'\r\n\r\nThere was silence as Kaleen touched her face, 'So what have you done with them?'\r\n\r\nThe old woman gestured for the officer to take Kaleen away. The meeting was over. When Kaleen reached the door she twisted out of his grip and shot back, 'Why would you do that? Why would you put children on a military ship?'\r\n\r\n'We didn’t. That would violate procedure.'",
+    "health": 100,
+    "shield": 125,
+    "armor": 125,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Regenerates Energy and deals more damage while on Fire.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/FireBallAbility",
+      "abilityName": "Fireball",
+      "description": "Charge and release a fiery projectile that ignites enemies on contact and leaves behind a treacherous patch of flame."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DrenchTwoAbility",
+      "abilityName": "Accelerant",
+      "description": "Stun nearby enemies with strong accelerant. Increases all fire damage dealt."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/FireBlastAbility",
+      "abilityName": "Fire Blast",
+      "description": "Slam the ground to create a wave of plasma that incinerates nearby enemies and forms a persistent ring of fire. Add <DT_FIRE>Heat Damage to weapons by firing them through the ring."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/WorldOnFireAbility",
+      "abilityName": "World On Fire",
+      "description": "Blast nearby foes with a burst of fire, and follow that up with a barrage of fireballs against any enemy who dares approach. Over time, these fireballs burn hotter as they consume more energy."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Ember/Ember",
+    "name": "EMBER",
+    "parentName": "/Lotus/Powersuits/Ember/EmberBaseSuit",
+    "description": "Ember is a nightmare for light-armored targets. Ember can super-heat the air which opens up surprising crowd-control possibilities.",
+    "longDescription": "Three figures waited behind a simple table. Their attention on a single chair, bathed in light. An old woman’s voice from the shadow: 'Send her in'. Across the room a security officer, stern and plain, opened the door. The outline of a young woman appeared at the door. She hesitated, but only for an instant, then crossed the room and sat.\r\n\r\nThere was a gasp as the light hit her face. Her right eye was bright and blinking, but her left was a greasy slit. Her skin had been burned moon-white. Her mouth was a sagging gash without lips or expression. Her military beret was pulled snug over a scarred and hairless scalp.\r\n\r\nThe old voice: 'Your name is Kaleen.' Kaleen nodded. 'You were the principal investigator of the Zariman?' Kaleen’s voice was a jagged whisper, a rigid face. 'Yes.'\r\n\r\nKaleen coughed, straightened: 'The Zariman was lost making the fold from Saturn to the Outer gates. Mechanical failure. I notified families and filed a report with the inspectors. Nothing ever returns from the fold, so I closed the case.'\r\n\r\n'But you reopened the case, days later.'\r\n\r\n'I didn’t believe it myself until I stepped aboard the ship. It was completely intact, full environmental, as if it had never left.'\r\n\r\n'And the crew was gone.'\r\n\r\n'Not exactly.' Kaleen hesitated. 'We thought it was empty but we began to find...' Her face twitched at remembered pain, 'We began to find children hiding in the ship.'\r\n\r\n'And that is when you violated procedure?'\r\n\r\nKaleen bowed her head, a tear welling in her sightless eye. 'They were children. They were afraid. They needed comfort.'\r\n\r\n'So you broke quarantine and this happened to you.'\r\n\r\nThere was silence as Kaleen touched her face, 'So what have you done with them?'\r\n\r\nThe old woman gestured for the officer to take Kaleen away. The meeting was over. When Kaleen reached the door she twisted out of his grip and shot back, 'Why would you do that? Why would you put children on a military ship?'\r\n\r\n'We didn’t. That would violate procedure.'",
+    "health": 100,
+    "shield": 100,
+    "armor": 100,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Regenerates Energy and deals more damage while on Fire.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/FireBallAbility",
+      "abilityName": "Fireball",
+      "description": "Charge and release a fiery projectile that ignites enemies on contact and leaves behind a treacherous patch of flame."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DrenchTwoAbility",
+      "abilityName": "Accelerant",
+      "description": "Stun nearby enemies with strong accelerant. Increases all fire damage dealt."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/FireBlastAbility",
+      "abilityName": "Fire Blast",
+      "description": "Slam the ground to create a wave of plasma that incinerates nearby enemies and forms a persistent ring of fire. Add <DT_FIRE>Heat Damage to weapons by firing them through the ring."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/WorldOnFireAbility",
+      "abilityName": "World On Fire",
+      "description": "Blast nearby foes with a burst of fire, and follow that up with a barrage of fireballs against any enemy who dares approach. Over time, these fireballs burn hotter as they consume more energy."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Dragon/Dragon",
+    "name": "CHROMA",
+    "parentName": "/Lotus/Powersuits/Dragon/DragonBaseSuit",
+    "description": "A master of the deadly elements, Chroma can alter his damage output by changing his energy color.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 350,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Chosen Energy color dictates the type of Elemental damage dealt by abilities.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonBreathAbility",
+      "abilityName": "Spectral Scream",
+      "description": "Exhale a deep breath of elemental destruction. Chroma's energy color determines the element."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonLuckAbility",
+      "abilityName": "Elemental Ward",
+      "description": "Depending on Chroma's elemental alignment, an offensive area-of-effect is created. Chroma and its nearby allies are imbued with defensive energy."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonScalesAbility",
+      "abilityName": "Vex Armor",
+      "description": "When shields are hit, Chroma's armor grows stronger, when health takes a hit, weapon damage increases."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonPeltAbility",
+      "abilityName": "Effigy",
+      "description": "Chroma turns his pelt into a massive sentry that strengthens nearby allies and engulfs enemies in elemental attacks."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Dragon/ChromaPrime",
+    "name": "CHROMA PRIME",
+    "parentName": "/Lotus/Powersuits/Dragon/DragonBaseSuit",
+    "description": "Bind the elements and unleash untold destruction with Chroma Prime. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 425,
+    "stamina": 3,
+    "power": 200,
+    "codexSecret": false,
+    "passiveDescription": "Chosen Energy color dictates the type of Elemental damage dealt by abilities.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonBreathAbility",
+      "abilityName": "Spectral Scream",
+      "description": "Exhale a deep breath of elemental destruction. Chroma's energy color determines the element."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonLuckAbility",
+      "abilityName": "Elemental Ward",
+      "description": "Depending on Chroma's elemental alignment, an offensive area-of-effect is created. Chroma and its nearby allies are imbued with defensive energy."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonScalesAbility",
+      "abilityName": "Vex Armor",
+      "description": "When shields are hit, Chroma's armor grows stronger, when health takes a hit, weapon damage increases."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/DragonPeltAbility",
+      "abilityName": "Effigy",
+      "description": "Chroma turns his pelt into a massive sentry that strengthens nearby allies and engulfs enemies in elemental attacks."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Cowgirl/MesaPrime",
+    "name": "MESA PRIME",
+    "parentName": "/Lotus/Powersuits/Cowgirl/CowgirlBaseSuit",
+    "description": "Cast a long shadow with this lethal enforcer. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 135,
+    "shield": 75,
+    "armor": 85,
+    "stamina": 3,
+    "power": 125,
+    "codexSecret": false,
+    "passiveDescription": "Shoot dual-wielded sidearms faster and reload single-handed sidearms more rapidly. Gain bonus health when not using Melee Weapons.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BallisticBatteryAbility",
+      "abilityName": "Ballistic Battery",
+      "description": "When activated, this power stores damage caused by guns. When triggered again, that damage is channelled through the next gunshot."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RussianRouletteAbility",
+      "abilityName": "Shooting Gallery",
+      "description": "Gives an ally extra damage while jamming the guns of nearby enemies. This power shifts between team members."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RicochetArmorAbility",
+      "abilityName": "Shatter Shield",
+      "description": "Envelops Mesa in a barrier of energy, reflecting back incoming bullet damage."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GunFuAbility",
+      "abilityName": "Peacemaker",
+      "description": "With intense focus, Mesa draws her Regulator pistols, shooting down her foes in rapid succession."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Cowgirl/Cowgirl",
+    "name": "MESA",
+    "parentName": "/Lotus/Powersuits/Cowgirl/CowgirlBaseSuit",
+    "description": "With a steady hand and quick reflexes, Mesa is a true gunfighter.",
+    "longDescription": "",
+    "health": 125,
+    "shield": 75,
+    "armor": 65,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Shoot dual-wielded sidearms faster and reload single-handed sidearms more rapidly. Gain bonus health when not using Melee Weapons.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BallisticBatteryAbility",
+      "abilityName": "Ballistic Battery",
+      "description": "When activated, this power stores damage caused by guns. When triggered again, that damage is channelled through the next gunshot."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RussianRouletteAbility",
+      "abilityName": "Shooting Gallery",
+      "description": "Gives an ally extra damage while jamming the guns of nearby enemies. This power shifts between team members."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/RicochetArmorAbility",
+      "abilityName": "Shatter Shield",
+      "description": "Envelops Mesa in a barrier of energy, reflecting back incoming bullet damage."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GunFuAbility",
+      "abilityName": "Peacemaker",
+      "description": "With intense focus, Mesa draws her Regulator pistols, shooting down her foes in rapid succession."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Brawler/Brawler",
+    "name": "ATLAS",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "Titan of stone, lord of the earthly elementals.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 450,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Becomes immune to Knockdown effects while on the ground.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BrawlerPunchAbility",
+      "abilityName": "Landslide",
+      "description": "Bash enemies with an explosive sliding punch, and repeat for a devastating combo. Petrified enemies take extra damage, and drop Rubble when destroyed. Rubble can heal Atlas and bolster his armor."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BrawlerBarrierAbility",
+      "abilityName": "Tectonics",
+      "description": "Summon a rock-wall, activate again to send the rocks crashing toward the enemy."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BrawlerGazeAbility",
+      "abilityName": "Petrify",
+      "description": "Atlas' hardened gaze will fossilize foes, heal Rumblers, and create Petrified Bulwarks. When shattered, petrified enemies drop healing Rubble for Atlas."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BrawlerSummonAbility",
+      "abilityName": "Rumblers",
+      "description": "Summon two elemental stone brawlers to the melee. Summoning petrifies enemies in close proximity to Atlas. When finished, Rumblers collapse into a pile of healing Rubble."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Berserker/ValkyrPrime",
+    "name": "VALKYR PRIME",
+    "parentName": "/Lotus/Powersuits/Berserker/BerserkerBaseSuit",
+    "description": "A proud fighter emerges unscarred by time or malice. Featuring altered mod polarities allow for greater customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 50,
+    "armor": 700,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Faster recovery from being knocked down.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GrappleHookAbility",
+      "abilityName": "Rip Line",
+      "description": "Valkyr hurls forth a hook. If it hits an enemy, she pulls them to her. If it hits terrain, she pulls herself to the hook's location."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BerserkerScreamAbility",
+      "abilityName": "Warcry",
+      "description": "Valkyr lets out a rallying cry that bolsters her allies melee speed while slowing down nearby enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ShieldBashAbility",
+      "abilityName": "Paralysis",
+      "description": "Valkyr unleashes her shields, stunning and damaging enemies around her."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/LastStandAbility",
+      "abilityName": "Hysteria",
+      "description": "Valkyr is imbued with energy and becomes a ball of vicious rage, capable of unleashing a torrent of deadly claw attacks on unsuspecting foes."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Berserker/Berserker",
+    "name": "VALKYR",
+    "parentName": "/Lotus/Powersuits/Berserker/BerserkerBaseSuit",
+    "description": "Forged in the labs of the Zanuka project, the original Valkyr was subject to cruel experiments, leaving her scarred, angry and frighteningly adept at killing.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 50,
+    "armor": 600,
+    "stamina": 3,
+    "power": 100,
+    "codexSecret": false,
+    "passiveDescription": "Faster recovery from being knocked down.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/GrappleHookAbility",
+      "abilityName": "Rip Line",
+      "description": "Valkyr hurls forth a hook. If it hits an enemy, she pulls them to her. If it hits terrain, she pulls herself to the hook's location."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BerserkerScreamAbility",
+      "abilityName": "Warcry",
+      "description": "Valkyr lets out a rallying cry that bolsters her allies melee speed while slowing down nearby enemies."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/ShieldBashAbility",
+      "abilityName": "Paralysis",
+      "description": "Valkyr unleashes her shields, stunning and damaging enemies around her."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/LastStandAbility",
+      "abilityName": "Hysteria",
+      "description": "Valkyr is imbued with energy and becomes a ball of vicious rage, capable of unleashing a torrent of deadly claw attacks on unsuspecting foes."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Bard/Bard",
+    "name": "OCTAVIA",
+    "parentName": "/Lotus/Types/Game/PowerSuits/PlayerPowerSuit",
+    "description": "Compose her song and then conduct the mighty Mandachord, turning bass, beat and melody into an anthem of devastation.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 75,
+    "armor": 125,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Briefly replenish energy for Octavia and nearby allies when abilities are activated.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BardMusicAbility",
+      "abilityName": "Mallet",
+      "description": "Rhythmically beats damage into nearby enemies and draws their fire. Damage inflicted on the Mallet increases its lethality."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BardCharmAbility",
+      "abilityName": "Resonator",
+      "description": "Launches a rollerball that charms foes to follow it. Combines with the Mallet to create a roving ball of sonic destruction."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BardJamAbility",
+      "abilityName": "Metronome",
+      "description": "Grants buffs to those who consistently perform actions in time to Octavia’s music. Timed jumps offer the Vivace speed buff. Crouching on the beat grants cloaking with the Nocturne buff. Firing rhythmically bestows Opera multishot buff. Timed melee swings give the Forte damage buff."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/BardAmplifyAbility",
+      "abilityName": "Amp",
+      "description": "Draws power from the decibel level of sound in the area and uses it to amplify a damage buff for Octavia and her allies. It also doubles the damage and range of nearby Mallets."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Banshee/BansheePrime",
+    "name": "BANSHEE PRIME",
+    "parentName": "/Lotus/Powersuits/Banshee/BansheeBaseSuit",
+    "description": "Banshee Prime assails her foes by manipulating sonic forces to deadly effect. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 65,
+    "stamina": 3,
+    "power": 175,
+    "codexSecret": false,
+    "passiveDescription": "Weapon noises are hushed so that enemies cannot hear them.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PushAbility",
+      "abilityName": "Sonic Boom",
+      "description": "Banshee emits a sonic shockwave that pushes targets in range with enough force to incapacitate or kill attackers."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SonarAbility",
+      "abilityName": "Sonar",
+      "description": "Using acoustic location, Banshee's Sonar power finds and tracks enemies, and exposes critical weak spots to everyone in your squad."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SilenceAbility",
+      "abilityName": "Silence",
+      "description": "Using Silence surrounds Banshee in an aura that stuns enemies and will limit their perceptions and tactical response to gunfire and Warframe attacks."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SonicEarthQuakeAbility",
+      "abilityName": "Sound Quake",
+      "description": "Channeling all of her acoustic energy into the environment, Banshee uses ultrasonic reverberations to violently shake the ground."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/Banshee/Banshee",
+    "name": "BANSHEE",
+    "parentName": "/Lotus/Powersuits/Banshee/BansheeBaseSuit",
+    "description": "Using sonic attacks and acoustic target detection, Banshee is well suited for stealth gameplay and is capable of filling both attack and support roles.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 15,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "Weapon noises are hushed so that enemies cannot hear them.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/PushAbility",
+      "abilityName": "Sonic Boom",
+      "description": "Banshee emits a sonic shockwave that pushes targets in range with enough force to incapacitate or kill attackers."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SonarAbility",
+      "abilityName": "Sonar",
+      "description": "Using acoustic location, Banshee's Sonar power finds and tracks enemies, and exposes critical weak spots to everyone in your squad."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SilenceAbility",
+      "abilityName": "Silence",
+      "description": "Using Silence surrounds Banshee in an aura that stuns enemies and will limit their perceptions and tactical response to gunfire and Warframe attacks."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/SonicEarthQuakeAbility",
+      "abilityName": "Sound Quake",
+      "description": "Channeling all of her acoustic energy into the environment, Banshee uses ultrasonic reverberations to violently shake the ground."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/AntiMatter/NovaPrime",
+    "name": "NOVA PRIME",
+    "parentName": "/Lotus/Powersuits/AntiMatter/NovaBaseSuit",
+    "description": "Nova Prime wreaks devastation on her enemies using volatile antimatter. Featuring altered mod polarities for greater customization.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 100,
+    "armor": 65,
+    "stamina": 3,
+    "power": 175,
+    "codexSecret": false,
+    "passiveDescription": "When knocked-over, emit a defensive burst that topples attacking enemies.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/NullStarAbility",
+      "abilityName": "Null Star",
+      "description": "Creates antimatter particles that orbit Nova and seek nearby targets. Each active particle gives +5% damage reduction to Nova's health, stacking up to 90%."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/AntiMatterDrop",
+      "abilityName": "Antimatter Drop",
+      "description": "Launches a contained particle of antimatter that will detonate upon collision with increased deadliness when targeted by weapons."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/WormHoleAbility",
+      "abilityName": "Wormhole",
+      "description": "Creates a wormhole allowing instantaneous travel."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/MolecularPrimeAbility",
+      "abilityName": "Molecular Prime",
+      "description": "Primes all enemies in a radius with volatile antimatter."
+    }]
+  }, {
+    "uniqueName": "/Lotus/Powersuits/AntiMatter/Anti",
+    "name": "NOVA",
+    "parentName": "/Lotus/Powersuits/AntiMatter/NovaBaseSuit",
+    "description": "Nova uses electromagnetic energy to contain and control highly volatile antimatter that fuels her abilities.",
+    "longDescription": "",
+    "health": 100,
+    "shield": 75,
+    "armor": 65,
+    "stamina": 3,
+    "power": 150,
+    "codexSecret": false,
+    "passiveDescription": "When knocked-over, emit a defensive burst that topples attacking enemies.",
+    "abilities": [{
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/NullStarAbility",
+      "abilityName": "Null Star",
+      "description": "Creates antimatter particles that orbit Nova and seek nearby targets. Each active particle gives +5% damage reduction to Nova's health, stacking up to 90%."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/AntiMatterDrop",
+      "abilityName": "Antimatter Drop",
+      "description": "Launches a contained particle of antimatter that will detonate upon collision with increased deadliness when targeted by weapons."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/WormHoleAbility",
+      "abilityName": "Wormhole",
+      "description": "Creates a wormhole allowing instantaneous travel."
+    }, {
+      "abilityUniqueName": "/Lotus/Powersuits/PowersuitAbilities/MolecularPrimeAbility",
+      "abilityName": "Molecular Prime",
+      "description": "Primes all enemies in a radius with volatile antimatter."
+    }]
+  }]
+}

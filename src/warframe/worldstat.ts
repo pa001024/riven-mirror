@@ -420,7 +420,16 @@ export class WorldStat {
    * @param node 节点
    */
   nodeTranslate(node: string) {
-    return node.replace(/(.+) \((.+)\)/, (_, a, b) => `${a.replace(/Relay$/, Translator.getLocText("Relay"))} | ${Translator.getLocText(b)}`);
+    return node.replace(/(.+) \((.+)\)/, (_, a, b) => `${this.nodeNameTranslate(a)} | ${Translator.getLocText(b)}`);
+  }
+
+  nodeNameTranslate(node: string) {
+    node = node.replace(/Relay$/, Translator.getLocText("Relay"));
+    const tranlate = Translator.getLocText(node);
+    if (tranlate.toLowerCase() === node.toLowerCase())
+      return node;
+    else
+      return tranlate;
   }
   /**
    * 突击信息

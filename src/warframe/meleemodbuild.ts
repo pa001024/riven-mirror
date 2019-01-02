@@ -24,37 +24,37 @@ export interface MeleeModBuildOptions {
 export class MeleeModBuild extends ModBuild {
   weapon: MeleeWeapon
   // 属性增幅器
-  private _rangeMul = 1;
-  private _chargeMulMul = 1;
-  private _chargeEffMul = 1;
+  private _rangeMul = 100;
+  private _chargeMulMul = 100;
+  private _chargeEffMul = 100;
   private _comboDurationAdd = 0;
   private _slideCritChanceAdd = 0;
-  private _execDmgMul = 1;
+  private _execDmgMul = 100;
   private _comboCritChanceMul = 0;
   private _comboProcChanceMul = 0;
   private _stealthDamageMul = 0;
-  private _finalSpeedMul = 1;
+  private _finalSpeedMul = 100;
 
   /** 范围增幅倍率 */
-  get rangeMul() { return this._rangeMul; }
+  get rangeMul() { return this._rangeMul / 100; }
   /** 导引倍率增幅倍率 */
-  get chargeMulMul() { return this._chargeMulMul; }
+  get chargeMulMul() { return this._chargeMulMul / 100; }
   /** 导引效率增幅倍率 */
-  get chargeEffMul() { return this._chargeEffMul; }
+  get chargeEffMul() { return this._chargeEffMul / 100; }
   /** 连击时间增值 */
-  get comboDurationAdd() { return this._comboDurationAdd; }
+  get comboDurationAdd() { return this._comboDurationAdd / 100; }
   /** 滑行暴击增值 */
-  get slideCritChanceAdd() { return this._slideCritChanceAdd; }
+  get slideCritChanceAdd() { return this._slideCritChanceAdd / 100; }
   /** 处决伤害增幅倍率 */
-  get execDmgMul() { return this._execDmgMul < 0 ? 0 : this._execDmgMul; }
+  get execDmgMul() { return this._execDmgMul < 0 ? 0 : this._execDmgMul / 100; }
   /** 连击数增加暴击率 */
-  get comboCritChanceMul() { return this.weapon.tags.includes("Exalted") ? 0 : this._comboCritChanceMul; }
+  get comboCritChanceMul() { return this.weapon.tags.includes("Exalted") ? 0 : this._comboCritChanceMul / 100; }
   /** 连击数增加触发率 */
-  get comboProcChanceMul() { return this.weapon.tags.includes("Exalted") ? 0 : this._comboProcChanceMul; }
+  get comboProcChanceMul() { return this.weapon.tags.includes("Exalted") ? 0 : this._comboProcChanceMul / 100; }
   /** 偷袭伤害 */
-  get stealthDamageMul() { return this._stealthDamageMul < 0 ? 0 : this._stealthDamageMul; }
+  get stealthDamageMul() { return this._stealthDamageMul < 0 ? 0 : this._stealthDamageMul / 100; }
   /** 最终攻速(狂战士) */
-  get finalSpeedMul() { return this._finalSpeedMul; }
+  get finalSpeedMul() { return this._finalSpeedMul / 100; }
 
   // 额外参数
   /** 异况触发量 */
@@ -232,7 +232,7 @@ export class MeleeModBuild extends ModBuild {
       case 'bldr': this._comboCritChanceMul += pValue; break;
       case 'sccm': this._comboProcChanceMul += pValue; break;
       case '偷袭伤害': this._stealthDamageMul += pValue; break;
-      case 'bsk': this._finalSpeedMul = hAccMul(this._finalSpeedMul, 1 + pValue); break;
+      case 'bsk': this._finalSpeedMul = hAccMul(this._finalSpeedMul, 100 + pValue) / 10000; break;
       default:
         super.applyProp(mod, pName, pValue); break;
     }

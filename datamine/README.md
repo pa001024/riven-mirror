@@ -27,3 +27,12 @@ http://content.warframe.com/MobileExport/Manifest/ExportGear.json
 http://content.warframe.com/MobileExport/Manifest/ExportRelicArcane.json
 ## 星图节点
 http://content.warframe.com/MobileExport/Manifest/ExportRegions.json
+
+
+使用
+----
+
+```bash
+npm i -g typescript ts-node
+ts-node xxx.ts
+```

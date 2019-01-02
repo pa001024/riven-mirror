@@ -48,10 +48,10 @@ export default class extends Vue {
 
   /** MOD快速选择 */
   fastSelect = {
-    maxStrength: ["transientFortitude", "blindRage", "umbralIntensify", "augurSecrets", "powerDrift", "umbralVitality", "umbralFiber"],
-    maxDuration: [​​​​​"primedContinuity", "narrowMinded", "augurMessage", "constitution"]​​​​,
-    maxEfficiency: [​​​​"streamline", "fleetingExpertise"]​​​​​,
-    maxRange: ["stretch", "overextended", "augurReach", "cunningDrift"]​​​​​,
+    maxStrength: ["Transient Fortitude", "Blind Rage", "Umbral Intensify", "Augur Secrets", "Power Drift", "Umbral Vitality@5", "Umbral Fiber@5"],
+    maxDuration: ["Primed Continuity", "Narrow Minded", "Augur Message", "Constitution"]​​​​,
+    maxEfficiency: ["Streamline", "Fleeting Expertise"],
+    maxRange: ["Stretch", "Overextended", "Augur Reach", "Cunning Drift"],
   };
   get fast() { return _.map(this.fastSelect, (v, i) => ({ name: i, id: v } as any)) }
   get allowedTypes() { return this.type === "Warframe" ? ["Warframe", `${this.build.baseId}`, "Exilus", `${this.build.baseId},Exilus`] : [this.type, `${this.build.baseId},${this.type}`] }
@@ -87,7 +87,11 @@ export default class extends Vue {
     else {
       let selected = _.compact(this.build.allMods);
       let mods = NormalModDatabase.filter(v => this.allowedTypes.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id));
-      let found = id.map(v => mods.find(k => k.id === v)).filter(Boolean);
+      let found = id.map(v => {
+        let name = v.split("@")[0], level = v.split("@")[1];
+        let mod = mods.find(k => k.id === name);
+        return level ? mod.scaleLevel(+level) : mod;
+      }).filter(Boolean);
       this.$emit("command", found);
     }
     this.reload();

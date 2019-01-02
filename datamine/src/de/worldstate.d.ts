@@ -1,4 +1,4 @@
-interface WorldState {
+export declare interface WorldState {
   WorldSeed: string;
   Version: number;
   MobileVersion: string;
@@ -33,21 +33,21 @@ interface WorldState {
   FeaturedGuilds: FeaturedGuild[];
 }
 
-interface FeaturedGuild {
+export declare interface FeaturedGuild {
   _id: Id;
   Name: string;
   Tier: number;
   AllianceId: Id;
 }
 
-interface WeeklyChallenges {
+export declare interface WeeklyChallenges {
   _id: Id;
   Activation: Date2;
   Expiry: Date2;
   Challenges: Challenge[];
 }
 
-interface Challenge {
+export declare interface Challenge {
   Type: string;
   MinimumEnemyLevel: number;
   RequiredCount: number;
@@ -57,13 +57,13 @@ interface Challenge {
   VictimType?: string[];
 }
 
-interface Script {
+export declare interface Script {
   Script: string;
   Function: string;
   _faction: string;
 }
 
-interface PVPChallengeInstance {
+export declare interface PVPChallengeInstance {
   _id: Id;
   challengeTypeRefID: string;
   startDate: Date2;
@@ -75,16 +75,16 @@ interface PVPChallengeInstance {
   Category: string;
 }
 
-interface Param {
+export declare interface Param {
   n: string;
   v: number;
 }
 
-interface LibraryInfo {
+export declare interface LibraryInfo {
   LastCompletedTargetType: string;
 }
 
-interface DailyDeal {
+export declare interface DailyDeal {
   StoreItem: string;
   Activation: Date2;
   Expiry: Date2;
@@ -95,11 +95,11 @@ interface DailyDeal {
   AmountSold: number;
 }
 
-interface PrimeAccessAvailability {
+export declare interface PrimeAccessAvailability {
   State: string;
 }
 
-interface VoidTrader {
+export declare interface VoidTrader {
   _id: Id;
   Activation: Date2;
   Expiry: Date2;
@@ -108,19 +108,19 @@ interface VoidTrader {
   Manifest: Manifest[];
 }
 
-interface Manifest {
+export declare interface Manifest {
   ItemType: string;
   PrimePrice: number;
   RegularPrice: number;
 }
 
-interface BadlandNode {
+export declare interface BadlandNode {
   _id: Id;
   DefenderInfo: DefenderInfo;
   Node: string;
 }
 
-interface DefenderInfo {
+export declare interface DefenderInfo {
   IsAlliance: boolean;
   Id: Id;
   Name: string;
@@ -129,7 +129,7 @@ interface DefenderInfo {
   DeployerClan?: string;
 }
 
-interface NodeOverride {
+export declare interface NodeOverride {
   _id: Id;
   Node: string;
   Hide?: boolean;
@@ -142,7 +142,7 @@ interface NodeOverride {
   Expiry?: Date2;
 }
 
-interface Invasion {
+export declare interface Invasion {
   _id: Id;
   Faction: string;
   Node: string;
@@ -157,22 +157,22 @@ interface Invasion {
   Activation: Date2;
 }
 
-interface DefenderMissionInfo {
+export declare interface DefenderMissionInfo {
   seed: number;
   faction: string;
   missionReward?: any[];
 }
 
-interface AttackerMissionInfo {
+export declare interface AttackerMissionInfo {
   seed: number;
   faction: string;
 }
 
-interface AttackerReward2 {
+export declare interface AttackerReward2 {
   countedItems: CountedItem[];
 }
 
-interface FlashSale {
+export declare interface FlashSale {
   TypeName: string;
   StartDate: Date2;
   EndDate: Date2;
@@ -188,7 +188,7 @@ interface FlashSale {
   ProductExpiryOverride?: Date2;
 }
 
-interface ActiveMission {
+export declare interface ActiveMission {
   _id: Id;
   Region: number;
   Seed: number;
@@ -199,7 +199,7 @@ interface ActiveMission {
   Modifier: string;
 }
 
-interface SyndicateMission {
+export declare interface SyndicateMission {
   _id: Id;
   Activation: Date2;
   Expiry: Date2;
@@ -209,7 +209,7 @@ interface SyndicateMission {
   Jobs?: Job[];
 }
 
-interface Job {
+export declare interface Job {
   jobType: string;
   rewards: string;
   masteryReq: number;
@@ -218,7 +218,7 @@ interface Job {
   xpAmounts: number[];
 }
 
-interface Sorty {
+export declare interface Sorty {
   _id: Id;
   Activation: Date2;
   Expiry: Date2;
@@ -230,21 +230,21 @@ interface Sorty {
   Twitter: boolean;
 }
 
-interface Variant {
+export declare interface Variant {
   missionType: string;
   modifierType: string;
   node: string;
   tileset: string;
 }
 
-interface Alert {
+export declare interface Alert {
   _id: Id;
   Activation: Date2;
   Expiry: Date2;
   MissionInfo: MissionInfo2;
 }
 
-interface MissionInfo2 {
+export declare interface MissionInfo2 {
   missionType: string;
   faction: string;
   location: string;
@@ -258,17 +258,17 @@ interface MissionInfo2 {
   missionReward: MissionReward2;
 }
 
-interface MissionReward2 {
+export declare interface MissionReward2 {
   credits: number;
   countedItems?: CountedItem[];
 }
 
-interface CountedItem {
+export declare interface CountedItem {
   ItemType: string;
   ItemCount: number;
 }
 
-interface Goal {
+export declare interface Goal {
   _id: Id;
   Fomorian: boolean;
   Activation: Date2;
@@ -295,19 +295,19 @@ interface Goal {
   Reward: Reward;
 }
 
-interface Reward {
+export declare interface Reward {
   credits: number;
   items: string[];
 }
 
-interface ContinuousHubEvent {
+export declare interface ContinuousHubEvent {
   Transmission: string;
   Activation: Date2;
   Expiry: Date2;
   RepeatInterval: number;
 }
 
-interface MissionInfo {
+export declare interface MissionInfo {
   missionType: string;
   faction: string;
   location: string;
@@ -327,11 +327,11 @@ interface MissionInfo {
   icon: string;
 }
 
-interface MissionReward {
+export declare interface MissionReward {
   randomizedItems: string;
 }
 
-interface Event {
+export declare interface Event {
   _id: Id;
   Messages: Message[];
   Prop: string;
@@ -344,19 +344,19 @@ interface Event {
   EventLiveUrl?: string;
 }
 
-interface Date2 {
+export declare interface Date2 {
   '$date': Date;
 }
 
-interface Date {
+export declare interface Date {
   '$numberLong': string;
 }
 
-interface Message {
+export declare interface Message {
   LanguageCode: string;
   Message: string;
 }
 
-interface Id {
+export declare interface Id {
   '$oid': string;
 }

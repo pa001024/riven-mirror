@@ -176,8 +176,8 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   get options() {
     return {
       comboLevel: ~~((this.comboMul - 1) * 2),
-      extraBaseDamage: this.extraBaseDamage / 100,
-      extraOverall: this.extraOverall / 100,
+      extraBaseDamage: this.extraBaseDamage,
+      extraOverall: this.extraOverall,
       arcanes: this.arcanes,
     };
   }

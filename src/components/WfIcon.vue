@@ -6,7 +6,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-const PorTrans = {
+const AliasTrans = {
   "o": "koneksi",
   "r": "madurai",
   "-": "naramon",
@@ -15,6 +15,7 @@ const PorTrans = {
   "d": "vazarin",
   "=": "zenurik",
   "w": "umbra",
+  "infestation": "infested",
 }
 
 @Component
@@ -22,7 +23,7 @@ export default class WfIcon extends Vue {
   @Prop() type: string
   @Prop({ type: Boolean }) shadow: string
   get name() {
-    if (this.type in PorTrans) return PorTrans[this.type];
+    if (this.type in AliasTrans) return AliasTrans[this.type];
     return this.type;
   }
 }

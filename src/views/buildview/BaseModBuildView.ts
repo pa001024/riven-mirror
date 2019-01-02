@@ -42,6 +42,7 @@ export abstract class BaseModBuildView extends Vue {
     let weapon = this.weapon;
     let stand = new cls(weapon, this.riven, options);
     let riven = new cls(weapon, this.riven, options);
+    console.log(this.riven.normalMod)
     let best = stand.findBestRiven();
     let bestRiven = new cls(weapon, best, options);
     stand.fill(this.slots, 0);

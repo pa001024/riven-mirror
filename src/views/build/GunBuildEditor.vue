@@ -231,8 +231,8 @@ export default class GunBuildEditor extends BaseBuildEditor {
   get options() {
     return {
       headShotChance: this.headShotChance / 100,
-      extraBaseDamage: this.extraBaseDamage / 100,
-      extraOverall: this.extraOverall / 100,
+      extraBaseDamage: this.extraBaseDamage,
+      extraOverall: this.extraOverall,
       arcanes: this.arcanes,
       amrorReduce: this.amrorReduce / 100,
     };
