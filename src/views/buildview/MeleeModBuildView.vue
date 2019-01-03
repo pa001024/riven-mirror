@@ -130,6 +130,14 @@
         </el-form-item> -->
         <!-- 赋能 -->
         <el-form-item :label="$t('buildview.arcanes')">
+          <!-- 需求范围 -->
+          <el-tooltip effect="dark" :content="$t('buildview.requireRangeTip')" placement="bottom">
+            <el-checkbox v-model="requireRange" @change="debouncedRecalc">{{$t("buildview.requireRange")}}</el-checkbox>
+          </el-tooltip>
+          <!-- 需求连击 -->
+          <el-tooltip effect="dark" :content="$t('buildview.requireComboTip')" placement="bottom">
+            <el-checkbox v-model="requireCombo" @change="debouncedRecalc">{{$t("buildview.requireCombo")}}</el-checkbox>
+          </el-tooltip>
           <el-checkbox-group v-model="arcanes">
             <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="debouncedRecalc">{{$t(`buff.${arcane.name}`)}}</el-checkbox>
           </el-checkbox-group>
@@ -152,13 +160,17 @@ export default class MeleeModBuildView extends BaseModBuildView {
   /** 连击倍率 */
   comboMul = 2
   /** 插槽使用数 */
-  slots = 7
+  slots = 8
   /** 基伤加成 */
   extraBaseDamage = 0;
   /** 总伤加成 */
   extraOverall = 0;
   /** 赋能 */
   arcanes = [];
+  /** 需求范围 */
+  requireRange = true;
+  /** 需求连击 */
+  requireCombo = true;
 
   strikeList = ZawStrikeData;
   gripList = ZawGripData;

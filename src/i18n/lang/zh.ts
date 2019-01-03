@@ -747,6 +747,10 @@ let po = {
     "mechaEmpowered": "机甲 强化",
     "mechaPulse": "机甲 脉冲",
     "mechaOverdrive": "机甲 超载",
+    "strainConsume": "菌株 吸收",
+    "strainInfection": "菌株 感染",
+    "strainFever": "菌株 热毒",
+    "strainEruption": "菌株 爆裂",
 
     "legendaryFusionCore": "传说核心",
 
@@ -2323,6 +2327,10 @@ let po = {
     primedChamber: "金首发",
     acolyteMods: "追随者MOD",
     acolyteModsTip: "如尖刃弹头等需要瞄准的MOD",
+    requireRange: "需要范围",
+    requireRangeTip: "选中时: 如果紫卡没有范围词条，剑风Prime将会被添加到配卡中",
+    requireCombo: "需要连击",
+    requireComboTip: "选中时: 如果紫卡没有连击时间词条，漂移接触将会被添加到配卡中",
     loading: "努力加载中...",
     tobuild: "查看详细",
     components: "部件",

@@ -19,6 +19,8 @@ export interface MeleeModBuildOptions {
   extraOverall?: number
   arcanes?: Arcane[]
   target?: Enemy
+  requireRange?: boolean
+  requireCombo?: boolean
 }
 
 export class MeleeModBuild extends ModBuild {
@@ -59,6 +61,8 @@ export class MeleeModBuild extends ModBuild {
   // 额外参数
   /** 异况触发量 */
   statusCount = 2;
+  requireRange = true;
+  requireCombo = true;
 
   constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null, fast = false) {
     super(riven, fast);
@@ -78,6 +82,8 @@ export class MeleeModBuild extends ModBuild {
     this.extraOverall = typeof options.extraOverall !== "undefined" ? options.extraOverall : this.extraOverall;
     this.arcanes = typeof options.arcanes !== "undefined" ? options.arcanes : this.arcanes;
     this.target = typeof options.target !== "undefined" ? options.target : this.target;
+    this.requireRange = typeof options.requireRange !== "undefined" ? options.requireRange : this.requireRange;
+    this.requireCombo = typeof options.requireCombo !== "undefined" ? options.requireCombo : this.requireCombo;
   }
 
   get options(): MeleeModBuildOptions {
@@ -89,6 +95,8 @@ export class MeleeModBuild extends ModBuild {
       extraOverall: this.extraOverall,
       arcanes: this.arcanes,
       target: this.target,
+      requireRange: this.requireRange,
+      requireCombo: this.requireCombo,
     };
   }
 
@@ -201,16 +209,16 @@ export class MeleeModBuild extends ModBuild {
   /** [overwrite] 重置所有属性增幅器 */
   reset() {
     super.reset();
-    this._rangeMul = 1;
-    this._chargeMulMul = 1;
-    this._chargeEffMul = 1;
+    this._rangeMul = 100;
+    this._chargeMulMul = 100;
+    this._chargeEffMul = 100;
     this._comboDurationAdd = 0;
     this._slideCritChanceAdd = 0;
-    this._execDmgMul = 1;
+    this._execDmgMul = 100;
     this._comboCritChanceMul = 0;
     this._comboProcChanceMul = 0;
     this._stealthDamageMul = 0;
-    this._finalSpeedMul = 1;
+    this._finalSpeedMul = 100;
   }
 
   /**
@@ -231,13 +239,31 @@ export class MeleeModBuild extends ModBuild {
       case 'X': /* 处决伤害 execDmg */ this._execDmgMul += pValue; break;
       case 'bldr': this._comboCritChanceMul += pValue; break;
       case 'sccm': this._comboProcChanceMul += pValue; break;
-      case '偷袭伤害': this._stealthDamageMul += pValue; break;
-      case 'bsk': this._finalSpeedMul = hAccMul(this._finalSpeedMul, 100 + pValue) / 10000; break;
+      case 'ds': this._stealthDamageMul += pValue; break;
+      case 'bsk': this._finalSpeedMul = hAccMul(this._finalSpeedMul, 100 + pValue) / 100; break;
       default:
         super.applyProp(mod, pName, pValue); break;
     }
   }
 
+  /**
+   * [overwrite] 自动按武器属性填充MOD(不移除已有,使用特定卡库,自动添加范围连击卡)
+   *
+   * @param [slots=8] 可用的插槽数
+   * @param [useRiven=0] 是否使用紫卡 0 = 不用 1 = 自动选择 2 = 必须用
+   * @param [lib=this.avaliableMods] 卡库
+   * @param [rivenLimit=0] 紫卡词条数
+   */
+  fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
+    const rangeMod = this.avaliableMods.find(v => v.id === "Primed Reach");
+    const comboMod = this.avaliableMods.find(v => v.id === "Drifting Contact");
+    if (useRiven == 2)
+      this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
+    if (this.requireRange && rangeMod && !this._mods.some(v => v.id === rangeMod.id) && (useRiven === 0 || !this.riven.shortSubfix.includes("T"))) this.applyMod(rangeMod);
+    if (this.requireCombo && comboMod && !this._mods.some(v => v.id === comboMod.id) && (useRiven === 0 || !this.riven.shortSubfix.includes("N"))) this.applyMod(comboMod);
+    super.fillEmpty(slots, 0, lib, rivenLimit);
+  }
+
   /** [overwrite] 最大容量 */
-  get maxCost() { return this.weapon.id === "paracesis" ? 80 : 70; }
+  get maxCost() { return this.weapon.id === "Paracesis" ? 80 : 70; }
 }

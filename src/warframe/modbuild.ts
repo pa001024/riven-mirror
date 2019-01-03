@@ -794,8 +794,11 @@ export abstract class ModBuild {
 
   /**
    * 自动按武器属性填充MOD(不移除已有,使用特定卡库)
-   * @param slots 可用的插槽数
-   * @param useRiven 是否使用紫卡 0 = 不用 1 = 自动选择 2 = 必须用
+   *
+   * @param [slots=8] 可用的插槽数
+   * @param [useRiven=0] 是否使用紫卡 0 = 不用 1 = 自动选择 2 = 必须用
+   * @param [lib=this.avaliableMods] 卡库
+   * @param [rivenLimit=0] 紫卡词条数
    */
   fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
     // 根据武器自动选择所有可安装的MOD
@@ -817,7 +820,7 @@ export abstract class ModBuild {
           v[1] = -2;
         else
           v[1] = this.testMod(v[0]);
-        // v[0].id === "RIVENFAKE" && console.log("测试收益: ", this._mods.map(v => v.name).join(","), v[0].props[0][1], v[0].name, "的收益是", v[1]);
+        v[0].id === "RIVENFAKE" && console.log("测试收益: ", this._mods.map(v => v.name).join(","), v[0].props[0][1], v[0].name, "的收益是", v[1]);
       });
       // 3. 把所有卡按收益排序
       sortableMods.sort((a, b) => b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]);

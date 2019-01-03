@@ -4,29 +4,31 @@
       <el-col :span="24">
         <el-cascader v-if="!weapon" filterable class="weapon-picker" expand-trigger="hover" size="medium" :placeholder="$t('rivenedit.selectWeapon')" :options="nameOptions" :show-all-levels="false" v-model="selectWeapon" @change="handleChange">
         </el-cascader>
-        <div class="prop-picker" v-if="mod" v-for="(prop, index) in props" :key="index">
-          <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
-            <ul>
-              <li class="prop-button" v-if="index === 2">
-                <el-checkbox v-model="is21Negative">{{$t("rivenedit.isNegative")}}</el-checkbox>
-              </li>
-              <li class="prop-button" v-for="vprop in (index === 3 || is21Negative && index === 2 ? allProps.filter(v => !v.onlyPositive) : allProps)" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
-                {{$t("prop.shortName." + vprop.id)}} ({{index === 0 ? vprop.prefix : (index === 1 ? vprop.prefix + " / " + vprop.subfix : vprop.subfix)}})
-              </li>
-            </ul>
-            <el-button class="prop-select" size="medium" slot="reference">
-              {{prop.id && $t("prop.shortName." + prop.id) || $t("rivenedit.selectProp")}}
-              <span class="prop-arrow">
-                <i class="el-icon-arrow-up" :class="{'is-reverse': prop.visable}"></i>
-              </span>
-            </el-button>
-          </el-popover>
-          <el-input-number class="prop-number" @input="handleInput" :disabled="!prop.id" controls-position="right" :placeholder="$t('rivenedit.inputValue')" :precision="1" :step="0.1" :min="-600" :max="600" size="medium" v-model="prop.value">
-          </el-input-number>
-          <button class="prop-remove" @click="removeProp(index)">
-            <i class="el-icon-remove"></i>
-          </button>
-        </div>
+        <template v-if="mod">
+          <div class="prop-picker" v-for="(prop, index) in props" :key="index">
+            <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
+              <ul>
+                <li class="prop-button" v-if="index === 2">
+                  <el-checkbox v-model="is21Negative">{{$t("rivenedit.isNegative")}}</el-checkbox>
+                </li>
+                <li class="prop-button" v-for="vprop in (index === 3 || is21Negative && index === 2 ? allProps.filter(v => !v.onlyPositive) : allProps)" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
+                  {{$t("prop.shortName." + vprop.id)}} ({{index === 0 ? vprop.prefix : (index === 1 ? vprop.prefix + " / " + vprop.subfix : vprop.subfix)}})
+                </li>
+              </ul>
+              <el-button class="prop-select" size="medium" slot="reference">
+                {{prop.id && $t("prop.shortName." + prop.id) || $t("rivenedit.selectProp")}}
+                <span class="prop-arrow">
+                  <i class="el-icon-arrow-up" :class="{'is-reverse': prop.visable}"></i>
+                </span>
+              </el-button>
+            </el-popover>
+            <el-input-number class="prop-number" @input="handleInput" :disabled="!prop.id" controls-position="right" :placeholder="$t('rivenedit.inputValue')" :precision="1" :step="0.1" :min="-600" :max="600" size="medium" v-model="prop.value">
+            </el-input-number>
+            <button class="prop-remove" @click="removeProp(index)">
+              <i class="el-icon-remove"></i>
+            </button>
+          </div>
+        </template>
       </el-col>
     </el-row>
   </div>
@@ -117,10 +119,9 @@ export default class RivenEditor extends Vue {
   }
   // === 生命周期钩子 ===
   beforeMount() {
-    let isZH = this.$i18n.locale.substr(0, 2) === "zh";
     _.forEach(ModTypeTable, (name, id) => {
-      let rWeapons = RivenWeaponDataBase.filter(v => v.mod === id && v.ratio > 0.1).map(v => ({ value: v.id, label: isZH ? v.name : v.id }));
-      this.nameOptions.push({ value: id, label: isZH ? name : id, children: rWeapons });
+      let rWeapons = RivenWeaponDataBase.filter(v => v.mod === id && v.ratio > 0.1).map(v => ({ value: v.id, label: v.name }));
+      this.nameOptions.push({ value: id, label: this.$t(`weaponselector.${name}`) as string, children: rWeapons });
     });
     if (this.weapon) this.handleChange();
   }

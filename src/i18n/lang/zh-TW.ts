@@ -747,6 +747,10 @@ let po = {
     "mechaEmpowered": "機甲 強化",
     "mechaPulse": "機甲 脈衝",
     "mechaOverdrive": "機甲 超載",
+    "strainConsume": "菌株 吸收",
+    "strainInfection": "菌株 感染",
+    "strainFever": "菌株 熱毒",
+    "strainEruption": "菌株 爆裂",
 
     "legendaryFusionCore": "傳說核心",
 
@@ -2322,6 +2326,10 @@ let po = {
     primedChamber: "金首發",
     acolyteMods: "追隨者MOD",
     acolyteModsTip: "如尖刃彈頭等需要瞄準的MOD",
+    requireRange: "需要範圍",
+    requireRangeTip: "選中時: 如果紫卡沒有範圍詞條，劍風Prime將會被添加到配卡中",
+    requireCombo: "需要連擊",
+    requireComboTip: "選中時: 如果紫卡沒有連擊時間詞條，漂移接觸將會被添加到配卡中",
     loading: "努力加載中...",
     tobuild: "查看詳細",
     components: "部件",

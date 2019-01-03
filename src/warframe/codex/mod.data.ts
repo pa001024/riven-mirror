@@ -243,7 +243,7 @@ module.exports = [
   ["C7", "Body Count", [["N", 2]], "Melee", "-", "n", 4],
   ["C8", "Weeping Wounds", [["sccm", 7.5]], "Melee", "r", "c", 4],
   ["C9", "Relentless Combination", [["ccws", 25]], "Melee", "-", "c", 6, 3],
-  ["CA", "Berserker", [["bsk", 5]], "Melee", "r", "r", 4],
+  ["CA", "Berserker", [["!bsk", 75]], "Melee", "r", "r", 4],
   ["CB", "Fury", [["J", 5]], "Melee", "r", "c", 4],
   ["CC", "True Steel", [["0", 10]], "Melee", "r", "n", 4],
   ["CD", "Sacrificial Steel", [["0", 8], ["smd", 3]], "Melee", "w", "l", 6, 10],
