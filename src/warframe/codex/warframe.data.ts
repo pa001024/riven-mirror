@@ -9,7 +9,7 @@ const D = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityDur
 /** 将属性绑定到效率 E(数值, 加数) */
 const E = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityEfficiency, n] as [WarframeProperty, number]] })
 /** 将属性绑定到技能范围 R(数值, 加数) */
-const R = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityStrength, n] as [WarframeProperty, number]] })
+const R = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityRange, n] as [WarframeProperty, number]] })
 
 // data from https://github.com/WFCD/warframe-items
 export const _abilityData: AbilityData[] = [
@@ -1620,7 +1620,7 @@ export const _warframeData: WarframeData[] = [
     introduced: "24",
     polarities: ["-", "d"],
     sex: "Female",
-    lvlUps: [["h", 2], ["e", 1.25], ["s", 2]]
+    lvlUps: [["h", 200], ["e", 125], ["s", 200]]
   }, {
     id: "Harrow",
     // name: "harrow",
@@ -1686,7 +1686,7 @@ export const _warframeData: WarframeData[] = [
     introduced: "18.5",
     polarities: ["d", "d"],
     sex: "Male",
-    lvlUps: [["h", 3], ["e", 0.5]]
+    lvlUps: [["h", 300], ["e", 50]]
   }, {
     id: "Ivara",
     // name: "ivara",
@@ -1937,7 +1937,7 @@ export const _warframeData: WarframeData[] = [
     introduced: "19.5",
     polarities: ["r", "d"],
     sex: "Male",
-    lvlUps: [["h", 3], ["e", 0.5], ["a", 0.5], ["t", 0.15]]
+    lvlUps: [["h", 300], ["e", 50], ["a", 50], ["t", 15]]
   }, {
     id: "Nova",
     // name: "nova",

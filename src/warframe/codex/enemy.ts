@@ -156,7 +156,7 @@ const _enemyList = [
   ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.60, 3],
   ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.60, 3],
   ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.60, 3],
-  ["Teralyst Synovia", "兆力使骨液", 5, 1, 3000, 0, 200, 7, 0, 1, 0.60, 3],
+  ["Teralyst Synovia", "兆力使骨液", 5, 1, 2500, 0, 200, 7, 0, 1, 0.60, 3],
   ["Tusk Firbolg", "巨牙博格", 1, 1, 8000, 0, 600, 7, 0, 1, 0, 1],
   ["Tusk Bolkor", "巨牙博寇", 1, 1, 10000, 0, 600, 7, 0, 1, 0, 1],
   ["Bailiff", "执法员", 1, 1, 600, 0, 500, 1, 0, 0, 0, 0],
@@ -181,7 +181,7 @@ const _enemyList = [
   ["Hyekka Master", "鬣猫驯兽师", 1, 12, 650, 0, 200, 1, 0, 0, 0, 0],
   ["Manic", "狂躁Grineer", 1, 1, 350, 0, 25, 1, 0, 0, 0, 0],
   ["Napalm", "火焰轰击者", 1, 6, 600, 0, 500, 1, 0, 1, 0, 0],
-  ["Nox", "毒化者", 1, 1, 250, 0, 350, 1, 0, 1, 0.75, 0],
+  ["Nox", "毒化者", 1, 1, 250, 0, 350, 1, 0, 1, 0.90, 0],
   ["Ghoul Auger", "钻孔尸鬼", 1, 1, 400, 0, 200, 1, 0, 0, 0, 0],
   ["Ghoul Devourer", "吞噬尸鬼", 1, 1, 600, 0, 250, 1, 0, 0, 0, 0],
   ["Ghoul Expired", "除役尸鬼", 1, 1, 300, 0, 150, 1, 0, 0, 0, 0],
@@ -364,7 +364,7 @@ export class Enemy implements EnemyData {
   // === 计算属性 ===
   /**
    * 当前等级基础生命
-   * 资料: http://warframe.huijiwiki.com/wiki/%E6%95%8C%E6%96%B9%E7%AD%89%E7%BA%A7%E5%8F%98%E5%8C%96%E8%A7%84%E5%BE%8B
+   * 资料: http: //warframe.huijiwiki.com/wiki/%E6%95%8C%E6%96%B9%E7%AD%89%E7%BA%A7%E5%8F%98%E5%8C%96%E8%A7%84%E5%BE%8B
    * = 基础生命 × ( 1 + ( 当前等级 − 基础等级 )^2 × 0.015 )
    */
   get health() { return this.baseHealth * (1 + (this.level - this.baseLevel) ** 2 * 0.015); }
@@ -663,7 +663,7 @@ export class Enemy implements EnemyData {
 
 /**
  * 伤害2.0计算
- * http://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0
+ * http: //warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0
  */
 export class Damage2_0 {
   private dtypeDict: Map<DamageType, DamageTypeData>;

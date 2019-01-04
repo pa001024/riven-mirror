@@ -75,6 +75,33 @@
         </el-tabs>
         <!-- 技能区域 -->
         <el-tabs v-model="currentAbility">
+          <el-tab-pane :key="index" v-for="(abi, index) in build.Abilities" :label="abi.name" :name="String(index)">
+            <el-row class="skill-containor" :gutter="12">
+              <el-col class="skill-tags" :span="24">
+                {{$t("ability.tags")}}
+                <el-tag size="small" :key="index" v-for="(tag, index) in abi.tags">{{tag}}</el-tag>
+              </el-col>
+              <el-col class="skill-effects" :span="24">
+                <div class="skill-effect" :key="index" v-for="([name, effect], index) in abi.props">
+                  <div class="effect-name">{{$t(`ability.effects.${name}`)}}</div>
+                  <ul class="effect-detail">
+                    <li class="effect-prop" :key="vn" v-for="(vv, vn) in effect">
+                      <div class="prop-name">{{$t(`ability.props.${vn}`)}}</div>
+                      <div class="prop-value normal" v-if="Array.isArray(vv)">
+                        <div class="dmg" :key="dname" v-for="([dname, dvalue]) in vv">
+                          <WfIcon :type="dname.toLowerCase()"/>
+                          <span class="value">{{dvalue}}</span>
+                        </div>
+                      </div>
+                      <div class="prop-value damage" v-else>
+                        {{vv}}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
         </el-tabs>
       </el-col>
     </el-row>
@@ -90,6 +117,7 @@ import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import LeveledModSelector from "@/components/LeveledModSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import { NormalMod, Buff, Warframe, WarframeDataBase } from "@/warframe/codex";
+import WfIcon from "@/components/WfIcon.vue";
 
 interface BuildSelectorTab {
   title: string
@@ -101,7 +129,7 @@ interface BuildSelectorTab {
   buffs: Buff[]
 }
 
-@Component({ components: { PropDiff, LeveledModSlot, LeveledModSelector } })
+@Component({ components: { PropDiff, LeveledModSlot, LeveledModSelector, WfIcon } })
 export default class WarframeEditor extends Vue {
   modDialogVisible = false;
 
@@ -110,7 +138,7 @@ export default class WarframeEditor extends Vue {
 
   tabs: BuildSelectorTab[] = [];
   tabValue = "SET A";
-  currentAbility = "";
+  currentAbility = "0";
   private _lastid = "";
   private _core: Warframe = null;
   private selectModIndex: number = 0;
@@ -276,5 +304,33 @@ export default class WarframeEditor extends Vue {
 }
 .diff-cost.error {
   color: @text_error;
+}
+
+.skill-effects {
+  .effect-name {
+    font-size: 18px;
+    margin: 8px 20px;
+  }
+  .effect-detail {
+    .effect-prop {
+      display: inline-block;
+      padding: 8px 16px;
+      margin: 4px;
+      background: #fff;
+      border-radius: 4px;
+      .prop-name {
+        height: 17px;
+        line-height: 17px;
+        color: #606c80;
+        font-size: 12px;
+      }
+      .prop-value {
+        height: 22px;
+        line-height: 22px;
+        color: #202d40;
+        font-size: 16px;
+      }
+    }
+  }
 }
 </style>

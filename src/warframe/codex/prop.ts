@@ -102,6 +102,8 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "wc", }, // Shield Resistance to Ice Levels
   { id: "adr", }, // Reduces damage by |val|% when Airborne.
   { id: "her", }, // EnergyOnHeadshotRifle
+  { id: "ens", }, // Enemy Shield
+  { id: "ena", }, // Enemy Amror
   // 集团
   { id: "vp", }, // 'Purity'
   { id: "vt", }, // 'Truth'
@@ -177,6 +179,9 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "rc", }, // Fire/Charge Rate
   { id: "scan", }, // Fatal strikes against an enemy also perform a Codex Scan
   { id: "ref", }, // % Damage taken is reflected when Blocking attacks while Channeling.
+  { id: "hps", nopercent: true }, // Heal Rate/s
+  { id: "eac", }, // % Hit Chance
+  { id: "esp", }, // % Speed
 ].reduce((a, b) => (a[b.id] = b, a), {});
 
 /**

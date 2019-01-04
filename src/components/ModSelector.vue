@@ -79,7 +79,7 @@ export default class ModSelector extends Vue {
       allStatus: ["High Voltage", "Malignant Force", "Thermite Rounds", "Rime Rounds"]
     },
     Shotgun: {
-      baseDmg: ["Primed Point Blank", "Hells Chamber"],
+      baseDmg: ["Primed Point Blank", "Hell's Chamber"],
       crit: ["Primed Ravage", "Blunderbuss"],
       aimCrit: ["Laser Sight", "Shrapnel Shot"],
       sliverCorrosive: ["Primed Charged Shell", "Contagious Spread"],

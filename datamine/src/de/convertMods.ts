@@ -203,6 +203,9 @@ const propMap = {
   "% Damage for 1.5s": "D",
   "% Spread when Aiming": "spr",
   "% Damage for 3s": "dmg",
+  " Heal Rate/s": "hps",
+  "% Hit Chance": "eac",
+  "% Speed": "esp",
 }
 
 const extPropMap = {

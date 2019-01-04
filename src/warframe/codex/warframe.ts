@@ -2,7 +2,7 @@ import { i18n } from "@/i18n";
 import { _warframeData, _abilityData, WarframeFunction } from "./warframe.data";
 import { AbilityData, WarframeData } from "./warframe.i";
 
-const defaultLvlUps: [string, number][] = [["h", 2], ["e", 0.5], ["s", 2]];
+const defaultLvlUps: [string, number][] = [["h", 200], ["e", 50], ["s", 200]];
 
 /** 战甲 */
 export class Warframe implements WarframeData {

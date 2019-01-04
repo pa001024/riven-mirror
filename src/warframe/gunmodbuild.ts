@@ -335,8 +335,8 @@ export class GunModBuild extends ModBuild {
       case 'ac': /* 暴击时触发切割伤害 slashWhenCrit */ this._slashWhenCrit = hAccSum(this._slashWhenCrit, pValue); break;
       case 'ce': /* 暴击强化 critLevelUpChance */ this._critLevelUpChance = hAccSum(this._critLevelUpChance, pValue); break;
       case 'fsb': /* 第一发子弹伤害加成 firstAmmoMul */ this._firstAmmoMul = hAccSum(this._firstAmmoMul, pValue); break;
-      case 'eed': /* 电击伤害 */ this.weapon.prjSpeed ? this.electricityMul = hAccSum(this.electricityMul, pValue) : this.applyStandaloneElement("Electricity", pValue); break;
-      case 'efd': /* 火焰伤害 */ this.weapon.prjSpeed ? this.heatMul = hAccSum(this.heatMul, pValue) : this.applyStandaloneElement("Heat", pValue); break;
+      case 'eed': /* 电击伤害 */ this.weapon.prjSpeed ? this.electricityMul = hAccSum(this._electricityMul, pValue) : this.applyStandaloneElement("Electricity", pValue / 100); break;
+      case 'efd': /* 火焰伤害 */ this.weapon.prjSpeed ? this.heatMul = hAccSum(this._heatMul, pValue) : this.applyStandaloneElement("Heat", pValue / 100); break;
       default:
         super.applyProp(mod, pName, pValue);
     }

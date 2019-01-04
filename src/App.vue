@@ -4,7 +4,7 @@
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven Mirror
-          <span class="beta">ALPHA 1.3.8</span>
+          <span class="beta">ALPHA 1.3.9</span>
         </h1>
       </router-link>
       <MiniClock class="hidden-xs-only header-watch">
@@ -53,17 +53,19 @@ import { i18n } from "@/i18n";
 })
 export default class App extends Vue {
   menuOpen = false;
-  links = [
-    { title: "navigate.index", path: "/", icon: "el-icon-news", exact: true },
-    { title: "navigate.riven", path: "/riven", icon: "el-icon-view" },
-    { title: "navigate.weapon", path: "/weapon", icon: "el-icon-edit-outline" },
-    { title: "navigate.warframe", path: "/warframe", icon: "el-icon-tickets" },
-    { title: "navigate.simulator", path: "/sim", icon: "el-icon-refresh" },
-    { title: "navigate.huangli", path: "/huangli", icon: "el-icon-date" },
-    // { title: "navigate.about", path: "/about", icon: "el-icon-info" },
-    { title: "navigate.palette", path: "/palette", icon: "el-icon-menu" },
-    { title: "navigate.setting", path: "/setting", icon: "el-icon-setting" },
-  ].filter(v => v.title !== "navigate.huangli" || i18n.locale !== "en");
+  get links() {
+    return [
+      { title: "navigate.index", path: "/", icon: "el-icon-news", exact: true },
+      { title: "navigate.riven", path: "/riven", icon: "el-icon-view" },
+      { title: "navigate.weapon", path: "/weapon", icon: "el-icon-edit-outline" },
+      { title: "navigate.warframe", path: "/warframe", icon: "el-icon-tickets" },
+      { title: "navigate.simulator", path: "/sim", icon: "el-icon-refresh" },
+      { title: "navigate.huangli", path: "/huangli", icon: "el-icon-date" },
+      // { title: "navigate.about", path: "/about", icon: "el-icon-info" },
+      { title: "navigate.palette", path: "/palette", icon: "el-icon-menu" },
+      { title: "navigate.setting", path: "/setting", icon: "el-icon-setting" },
+    ].filter(v => v.title !== "navigate.huangli" || i18n.locale !== "en");
+  }
 
   mounted() {
     RivenDataBase.reload();

@@ -16,6 +16,7 @@ const AliasTrans = {
   "=": "zenurik",
   "w": "umbra",
   "infestation": "infested",
+  "corrupted": "orokin",
 }
 
 @Component

@@ -20,3 +20,4 @@ backend/config.json
 
 # auto deploy files
 deploy.*
+*.cache.json

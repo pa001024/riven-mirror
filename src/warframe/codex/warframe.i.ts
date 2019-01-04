@@ -30,7 +30,7 @@ export interface WarframeData {
 export enum WarframeProperty {
   Health = "h",
   Shield = "s",
-  Amror = "a",
+  Armor = "a",
   Energy = "e",
   Sprint = "f",
   ShieldRecharge = "r",
@@ -88,7 +88,7 @@ export interface AdvancedAbilityPropValue {
 export type AbilityPropValue = number | AdvancedAbilityPropValue
 
 /** 属性类型 */
-namespace AbilityPropTypes {
+export namespace AbilityPropTypes {
   /** 伤害 */
   export interface Damage {
     /** 伤害 */
@@ -167,10 +167,12 @@ namespace AbilityPropTypes {
   }
   /** 减伤 */
   export interface DamageReduce {
+    /** 血量 不填表示没有血量限制 */
+    durability?: AbilityPropValue
     /** 百分比 */
     rate: AbilityPropValue
-    /** 减伤对象 */
-    target: Target
+    /** 减伤对象 不填表示所有 */
+    target?: Target
   }
   /** 反伤 */
   export interface DamageReflect {
@@ -218,7 +220,6 @@ export type AbilityProp = {
   Buff?: AbilityPropTypes.Buff
   Debuff?: AbilityPropTypes.Debuff
   Summon?: AbilityPropTypes.Summon
-  Target?: AbilityPropTypes.Target
   DamageReduce?: AbilityPropTypes.DamageReduce
   DamageReflect?: AbilityPropTypes.DamageReflect
   Control?: AbilityPropTypes.Control
@@ -243,6 +244,7 @@ export interface AbilityEnhance {
   energyCostN?: number
 }
 
+/** 技能基础数据 */
 export interface AbilityData {
   /** ID */
   id: string
@@ -258,7 +260,7 @@ export interface AbilityData {
   energyCost: number
   /** 技能持续蓝耗 不填表示不是开关技能 */
   energyCostPS?: number
-  /** 技能使用蓝耗 (弓妹4) */
+  /** 技能重复使用蓝耗 (弓妹4) */
   energyCostN?: number
   /** 技能强化 (集团卡) */
   enhance?: AbilityEnhance
@@ -268,9 +270,10 @@ export interface AbilityData {
   forms?: AbilityFormData[]
 }
 
+/** 技能形态 */
 export interface AbilityFormData {
   /** ID */
-  id: string
+  formId: string
   /** 技能属性 */
   props?: AbilityProp
   /** 单手动作 */

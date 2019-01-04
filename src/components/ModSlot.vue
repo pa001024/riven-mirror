@@ -114,7 +114,7 @@ export default class ModSlot extends Vue {
     .mod-polarity {
       position: absolute;
       left: 10px;
-      top: 8px;
+      top: 2px;
       font-size: 1rem;
       &.np {
         color: #67c23a;

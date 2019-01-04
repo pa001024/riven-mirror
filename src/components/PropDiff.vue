@@ -1,6 +1,9 @@
 <template>
   <tr class="prop-diff" @click="handleClick">
-    <th>{{name}}</th>
+    <th>
+      <WfIcon v-if="icon" :type="icon"></WfIcon>
+      {{name}}
+    </th>
     <td class="diff diff-ori" :class="activeClass">
       {{displayValue(ori)}}
     </td>
@@ -14,10 +17,14 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import WfIcon from "@/components/WfIcon.vue";
 
-@Component
+@Component({
+  components: { WfIcon }
+})
 export default class extends Vue {
   @Prop() name: string;
+  @Prop() icon: string;
   @Prop() subfix: string;
   @Prop({ type: Number }) ori: number;
   @Prop({ type: Number }) val: number;

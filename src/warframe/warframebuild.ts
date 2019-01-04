@@ -1,10 +1,11 @@
-import { WarframeDataBase, Warframe, Codex } from "./codex";
+import { WarframeDataBase, Warframe, Codex, AbilityData, AbilityEnhance, AbilityProp, AbilityFormData, AbilityType, AdvancedAbilityPropValue, WarframeProperty } from "./codex";
 import { i18n } from "@/i18n";
 import { NormalMod } from "./codex/mod";
 import { hAccSum } from "./util";
 import { Arcane } from "./codex/arcane";
 import { Buff, BuffList } from "./codex/buff";
 import { base62, debase62 } from "./lib/base62";
+import { _abilityData } from "./codex/warframe.data";
 
 export class WarframeBuild {
   data: Warframe;
@@ -96,59 +97,61 @@ export class WarframeBuild {
   // ### 基础属性 ###
 
   /** 生命 */
-  get health() { return this.data.health * this._healthMul }
+  get health() { return this.data.health * this._healthMul / 100 }
   /** 护盾 */
-  get shield() { return this.data.shield * this._shieldMul }
+  get shield() { return this.data.shield * this._shieldMul / 100 }
   /** 护甲 */
-  get armor() { return this.data.armor * this._armorMul + this._armorAdd }
+  get armor() { return this.data.armor * this._armorMul / 100 + this._armorAdd }
   /** 能量 */
-  get energy() { return this.data.energy * this._energyMul }
+  get energy() { return this.data.energy * this._energyMul / 100 }
   /** 冲刺速度 */
-  get sprint() { return this.data.sprint * this._sprintMul }
+  get sprint() { return this.data.sprint * this._sprintMul / 100 }
   /** 护盾回充 */
-  get shieldRecharge() { return this._shieldRecharge }
+  get shieldRecharge() { return this._shieldRecharge / 100 }
   /** 技能强度 */
-  get abilityStrength() { return (1 + this._abilityStrengthAdd) * this._abilityStrengthMul }
+  get abilityStrength() { return (1 + this._abilityStrengthAdd / 100) * this._abilityStrengthMul / 100 }
   /** 技能持续 */
-  get abilityDuration() { return (1 + this._abilityDurationAdd) * this._abilityDurationMul }
+  get abilityDuration() { return (1 + this._abilityDurationAdd / 100) * this._abilityDurationMul / 100 }
+  /** 技能效率(无限制) */
+  get abilityEfficiencyUnlimited() { return (1 + this._abilityEfficiencyAdd / 100) * this._abilityEfficiencyMul / 100 }
   /** 技能效率 */
-  get abilityEfficiency() { return (1 + this._abilityEfficiencyAdd) * this._abilityEfficiencyMul }
+  get abilityEfficiency() { return this.abilityEfficiencyUnlimited > 1.75 ? 1.75 : this.abilityEfficiencyUnlimited }
   /** 技能范围 */
-  get abilityRange() { return (1 + this._abilityRangeAdd) * this._abilityRangeMul }
+  get abilityRange() { return (1 + this._abilityRangeAdd / 100) * this._abilityRangeMul / 100 }
   /** 施放速度 */
-  get castSpeed() { return this._castSpeedMul }
+  get castSpeed() { return this._castSpeedMul / 100 }
   /** 倒地抵抗 */
-  get knockdownResistance() { return this._knockdownResistanceMul }
+  get knockdownResistance() { return this._knockdownResistanceMul / 100 }
   /** 倒地恢复 */
-  get knockdownRecovery() { return this._knockdownRecoveryMul }
+  get knockdownRecovery() { return this._knockdownRecoveryMul / 100 }
   /** 滑行 */
-  get slide() { return this._slideMul }
+  get slide() { return this._slideMul / 100 }
   /** 摩擦力 */
-  get friction() { return this._frictionMul }
+  get friction() { return this._frictionMul / 100 }
   /** 跑酷速度 */
-  get parkourVelocity() { return this._parkourVelocityMul }
+  get parkourVelocity() { return this._parkourVelocityMul / 100 }
   /** 随机应变 */
-  get quickThinking() { return this._quickThinkingAdd }
+  get quickThinking() { return this._quickThinkingAdd / 100 }
   /** 狂暴化 */
-  get rage() { return this._rageAdd }
+  get rage() { return this._rageAdd / 100 }
   /** 生命转换 */
-  get healthConversion() { return this._healthConversionAdd }
+  get healthConversion() { return this._healthConversionAdd / 100 }
   /** 能量转换 */
-  get energyConversion() { return this._energyConversionAdd }
+  get energyConversion() { return this._energyConversionAdd / 100 }
   /** S系抗性 */
-  get tauResist() { return this._tauResistAdd }
+  get tauResist() { return this._tauResistAdd / 100 }
   /** 光环强度 */
-  get auraStrength() { return this._auraStrengthAdd }
+  get auraStrength() { return this._auraStrengthAdd / 100 }
   /** 光环效果 */
-  get auraEffectiveness() { return this._auraEffectivenessAdd }
+  get auraEffectiveness() { return this._auraEffectivenessAdd / 100 }
   /** 飞身瞄准和持续时间 */
-  get aimGlideWallLatchTime() { return this._aimGlideWallLatchTimeAdd }
+  get aimGlideWallLatchTime() { return this._aimGlideWallLatchTimeAdd / 100 }
   /** 敌人雷达 */
-  get enemyRadar() { return this._enemyRadarAdd }
+  get enemyRadar() { return this._enemyRadarAdd / 100 }
   /** 物品雷达 */
-  get lootRadar() { return this._lootRadarAdd }
+  get lootRadar() { return this._lootRadarAdd / 100 }
   /** 切换速度 */
-  get holsterRate() { return this._holsterRateMul }
+  get holsterRate() { return this._holsterRateMul / 100 }
   /** 有效生命 */
   get effectiveHealth() {
     return this.shield + ((this.health + this.energy * this.quickThinking) * (1 + this.armor / 300));
@@ -163,24 +166,24 @@ export class WarframeBuild {
 
   /** 重置属性 */
   reset() {
-    this._healthMul = 1;
-    this._shieldMul = 1;
-    this._armorMul = 1;
+    this._healthMul = 100;
+    this._shieldMul = 100;
+    this._armorMul = 100;
     this._armorAdd = 0;
-    this._energyMul = 1;
-    this._sprintMul = 1;
-    this._abilityStrengthMul = 1;
-    this._abilityDurationMul = 1;
-    this._abilityEfficiencyMul = 1;
-    this._abilityRangeMul = 1;
-    this._shieldRecharge = 1;
-    this._castSpeedMul = 1;
-    this._knockdownResistanceMul = 1;
-    this._knockdownRecoveryMul = 1;
-    this._slideMul = 1;
-    this._frictionMul = 1;
-    this._parkourVelocityMul = 1;
-    this._holsterRateMul = 1;
+    this._energyMul = 100;
+    this._sprintMul = 100;
+    this._abilityStrengthMul = 100;
+    this._abilityDurationMul = 100;
+    this._abilityEfficiencyMul = 100;
+    this._abilityRangeMul = 100;
+    this._shieldRecharge = 100;
+    this._castSpeedMul = 100;
+    this._knockdownResistanceMul = 100;
+    this._knockdownRecoveryMul = 100;
+    this._slideMul = 100;
+    this._frictionMul = 100;
+    this._parkourVelocityMul = 100;
+    this._holsterRateMul = 100;
     this._quickThinkingAdd = 0;
     this._rageAdd = 0;
     this._healthConversionAdd = 0;
@@ -208,34 +211,34 @@ export class WarframeBuild {
    */
   applyProp(mod: NormalMod | Arcane, pName: string, pValue: number = 0) {
     switch (pName) {
-    /** Health */ case "h": this._healthMul = hAccSum(this._healthMul, pValue); break;
-    /** Shield */ case "s": this._shieldMul = hAccSum(this._shieldMul, pValue); break;
-    /** Amror */ case "a": this._armorMul = hAccSum(this._armorMul, pValue); break;
-    /** AmrorAdd */ case "aa": this._armorAdd = hAccSum(this._armorAdd, pValue); break;
-    /** Energy */ case "e": this._energyMul = hAccSum(this._energyMul, pValue); break;
-    /** Sprint */ case "f": this._sprintMul = hAccSum(this._sprintMul, pValue); break;
-    /** ShieldRecharge */ case "r": this._shieldRecharge = hAccSum(this._shieldRecharge, pValue); break;
-    /** AbilityStrength */ case "t": this._abilityStrengthAdd = hAccSum(this._abilityStrengthAdd, pValue); break;
-    /** AbilityDuration */ case "u": this._abilityDurationAdd = hAccSum(this._abilityDurationAdd, pValue); break;
-    /** AbilityEfficiency */ case "x": this._abilityEfficiencyAdd = hAccSum(this._abilityEfficiencyAdd, pValue); break;
-    /** AbilityRange */ case "g": this._abilityRangeAdd = hAccSum(this._abilityRangeAdd, pValue); break;
-    /** CastSpeed */ case "c": this._castSpeedMul = hAccSum(this._castSpeedMul, pValue); break;
-    /** KnockdownResistance */ case "k": this._knockdownResistanceMul = hAccSum(this._knockdownResistanceMul, pValue); break;
-    /** KnockdownRecovery */ case "y": this._knockdownRecoveryMul = hAccSum(this._knockdownRecoveryMul, pValue); break;
-    /** Slide */ case "l": this._slideMul = hAccSum(this._slideMul, pValue); break;
-    /** Friction */ case "i": this._frictionMul = hAccSum(this._frictionMul, pValue); break;
-    /** ParkourVelocity */ case "v": this._parkourVelocityMul = hAccSum(this._parkourVelocityMul, pValue); break;
-    /** QuickThinking */ case "z": this._quickThinkingAdd = hAccSum(this._quickThinkingAdd, pValue); break;
-    /** Rage */ case "rg": this._rageAdd = hAccSum(this._rageAdd, pValue); break;
-    /** HealthConversion */ case "hc": this._healthConversionAdd = hAccSum(this._healthConversionAdd, pValue); break;
-    /** EnergyConversion */ case "ec": this._energyConversionAdd = hAccSum(this._energyConversionAdd, pValue); break;
-    /** TauResist */ case "tr": this._tauResistAdd = hAccSum(this._tauResistAdd, pValue); break;
-    /** AuraStrength */ case "as": this._auraStrengthAdd = hAccSum(this._auraStrengthAdd, pValue); break;
-    /** AuraEffectiveness */ case "ae": this._auraEffectivenessAdd = hAccSum(this._auraEffectivenessAdd, pValue); break;
+    /** Health */                case "h": this._healthMul = hAccSum(this._healthMul, pValue); break;
+    /** Shield */                case "s": this._shieldMul = hAccSum(this._shieldMul, pValue); break;
+    /** Amror */                 case "a": this._armorMul = hAccSum(this._armorMul, pValue); break;
+    /** AmrorAdd */              case "aa": this._armorAdd = hAccSum(this._armorAdd, pValue); break;
+    /** Energy */                case "e": this._energyMul = hAccSum(this._energyMul, pValue); break;
+    /** Sprint */                case "f": this._sprintMul = hAccSum(this._sprintMul, pValue); break;
+    /** ShieldRecharge */        case "r": this._shieldRecharge = hAccSum(this._shieldRecharge, pValue); break;
+    /** AbilityStrength */       case "t": this._abilityStrengthAdd = hAccSum(this._abilityStrengthAdd, pValue); break;
+    /** AbilityDuration */       case "u": this._abilityDurationAdd = hAccSum(this._abilityDurationAdd, pValue); break;
+    /** AbilityEfficiency */     case "x": this._abilityEfficiencyAdd = hAccSum(this._abilityEfficiencyAdd, pValue); break;
+    /** AbilityRange */          case "g": this._abilityRangeAdd = hAccSum(this._abilityRangeAdd, pValue); break;
+    /** CastSpeed */             case "c": this._castSpeedMul = hAccSum(this._castSpeedMul, pValue); break;
+    /** KnockdownResistance */   case "k": this._knockdownResistanceMul = hAccSum(this._knockdownResistanceMul, pValue); break;
+    /** KnockdownRecovery */     case "y": this._knockdownRecoveryMul = hAccSum(this._knockdownRecoveryMul, pValue); break;
+    /** Slide */                 case "l": this._slideMul = hAccSum(this._slideMul, pValue); break;
+    /** Friction */              case "i": this._frictionMul = hAccSum(this._frictionMul, pValue); break;
+    /** ParkourVelocity */       case "v": this._parkourVelocityMul = hAccSum(this._parkourVelocityMul, pValue); break;
+    /** QuickThinking */         case "z": this._quickThinkingAdd = hAccSum(this._quickThinkingAdd, pValue); break;
+    /** Rage */                  case "rg": this._rageAdd = hAccSum(this._rageAdd, pValue); break;
+    /** HealthConversion */      case "hc": this._healthConversionAdd = hAccSum(this._healthConversionAdd, pValue); break;
+    /** EnergyConversion */      case "ec": this._energyConversionAdd = hAccSum(this._energyConversionAdd, pValue); break;
+    /** TauResist */             case "tr": this._tauResistAdd = hAccSum(this._tauResistAdd, pValue); break;
+    /** AuraStrength */          case "as": this._auraStrengthAdd = hAccSum(this._auraStrengthAdd, pValue); break;
+    /** AuraEffectiveness */     case "ae": this._auraEffectivenessAdd = hAccSum(this._auraEffectivenessAdd, pValue); break;
     /** AimGlideWallLatchTime */ case "at": this._aimGlideWallLatchTimeAdd = hAccSum(this._aimGlideWallLatchTimeAdd, pValue); break;
-    /** EnemyRadar */ case "er": this._enemyRadarAdd = hAccSum(this._enemyRadarAdd, pValue); break;
-    /** LootRadar */ case "lr": this._lootRadarAdd = hAccSum(this._lootRadarAdd, pValue); break;
-    /** HolsterRate */ case "hr": this._holsterRateMul = hAccSum(this._holsterRateMul, pValue); break;
+    /** EnemyRadar */            case "er": this._enemyRadarAdd = hAccSum(this._enemyRadarAdd, pValue); break;
+    /** LootRadar */             case "lr": this._lootRadarAdd = hAccSum(this._lootRadarAdd, pValue); break;
+    /** HolsterRate */           case "hr": this._holsterRateMul = hAccSum(this._holsterRateMul, pValue); break;
     }
   }
 
@@ -325,7 +328,7 @@ export class WarframeBuild {
    * @memberof WarframeBuild
    */
   mapRankUpMods(mods: NormalMod[]): NormalMod[] {
-    let umbraSet = { "HP": [1, 1.25, 1.75], "HQ": [1, 1.25, 1.75], "HR": [1, 1.25, 1.5] };
+    let umbraSet = { "Ha": [1, 1.25, 1.75], "Hb": [1, 1.25, 1.75], "Hc": [1, 1.25, 1.5] };
     let umbraSetCount = mods.filter(v => v && v.key in umbraSet).length - 1;
     let rst = mods.map(mod => {
       if (mod && mod.key in umbraSet) {
@@ -410,7 +413,7 @@ export class WarframeBuild {
    * 序列化支持
    * 20位 普通MOD序列 如00001A1B000000000000
    * 等级修饰符@0-A 如00001A@01B000000000000
-   * 不定长buff序列 ![id]:[base62 encoded power]:[layer]
+   * 不定长buff序列 ![id]: [base62 encoded power]: [layer]
    * @type {string}
    * @memberof WarframeBuild
    */
@@ -485,7 +488,7 @@ export class WarframeBuild {
   }
 
   /** 最大容量 */
-  get maxCost() { return 60 + this.getCost(-2); }
+  get maxCost() { return 60 - this.getCost(-2); }
   _formaCount = 0;
   /** 极化次数 */
   get formaCount() { return this._formaCount }
@@ -557,6 +560,148 @@ export class WarframeBuild {
     }
     // console.log(this.allMods, this.allPolarizations)
     return this.allPolarizations;
+  }
+
+  _abilities: RenderedAbilities[];
+  _lastCode: string
+  get Abilities() {
+    if (this._lastCode === this.miniCode) return this._abilities;
+    this._lastCode = this.miniCode;
+    let datas = this.data.abilities.map(v => _abilityData.find(k => k.id === v));
+    this._abilities = datas.filter(Boolean).map(v => new RenderedAbilities(v, this));
+    return this._abilities;
+  }
+}
+
+export class RenderedAbilities {
+  build: WarframeBuild
+  data: AbilityData
+  get id() { return this.data.id }
+  get name() { return i18n.t(`messages.${_.camelCase(this.id)}`) }
+  constructor(data: AbilityData, build: WarframeBuild) {
+    this.data = data;
+    this.build = build;
+  }
+  get oneHand() { return this.data.oneHand }
+  get tags() {
+    return Array(6).fill(1)
+      .map((_, i) => (this.data.tags & 1 << i) && AbilityType[1 << i])
+      .filter(Boolean)
+      .map(v => i18n.t(`ability.types.${_.camelCase(v)}`))
+  }
+  get energyCost() { return this.data.energyCost / this.build.abilityEfficiency }
+  get energyCostPS() { return this.data.energyCostPS / this.build.abilityEfficiencyUnlimited / this.build.abilityDuration }
+  get energyCostN() { return this.data.energyCostN / this.build.abilityEfficiency }
+
+  enhance?: AbilityEnhance;
+  forms?: AbilityFormData[];
+  _props?: AbilityProp;
+
+  get props() {
+    const trans = (o: string | number | object) => {
+      if (typeof o === "object") {// is object
+        if (Array.isArray(o)) {// is array
+          return o.map(trans)
+        } else // object
+          if ("bind" in o) { // is AdvancedAbilityPropValue
+            const aap = o as AdvancedAbilityPropValue
+            let value = aap.value;
+            aap.bind.forEach(([binder, add]) => {
+              switch (binder) {
+                case WarframeProperty.Health:
+                  value = value * this.build.health + add;
+                  break;
+                case WarframeProperty.Shield:
+                  value = value * this.build.shield + add;
+                  break;
+                case WarframeProperty.Armor:
+                  value = value * this.build.armor + add;
+                  break;
+                case WarframeProperty.Energy:
+                  value = value * this.build.energy + add;
+                  break;
+                case WarframeProperty.Sprint:
+                  value = value * this.build.sprint + add;
+                  break;
+                case WarframeProperty.ShieldRecharge:
+                  value = value * this.build.shieldRecharge + add;
+                  break;
+                case WarframeProperty.AbilityStrength:
+                  value = value * this.build.abilityStrength + add;
+                  break;
+                case WarframeProperty.AbilityDuration:
+                  value = value * this.build.abilityDuration + add;
+                  break;
+                case WarframeProperty.AbilityEfficiency:
+                  value = value * this.build.abilityEfficiency + add;
+                  break;
+                case WarframeProperty.AbilityRange:
+                  value = value * this.build.abilityRange + add;
+                  break;
+                case WarframeProperty.CastSpeed:
+                  value = value * this.build.castSpeed + add;
+                  break;
+                case WarframeProperty.KnockdownResistance:
+                  value = value * this.build.knockdownResistance + add;
+                  break;
+                case WarframeProperty.KnockdownRecovery:
+                  value = value * this.build.knockdownRecovery + add;
+                  break;
+                case WarframeProperty.Slide:
+                  value = value * this.build.slide + add;
+                  break;
+                case WarframeProperty.Friction:
+                  value = value * this.build.friction + add;
+                  break;
+                case WarframeProperty.ParkourVelocity:
+                  value = value * this.build.parkourVelocity + add;
+                  break;
+                case WarframeProperty.QuickThinking:
+                  value = value * this.build.quickThinking + add;
+                  break;
+                case WarframeProperty.Rage:
+                  value = value * this.build.rage + add;
+                  break;
+                case WarframeProperty.HealthConversion:
+                  value = value * this.build.healthConversion + add;
+                  break;
+                case WarframeProperty.EnergyConversion:
+                  value = value * this.build.energyConversion + add;
+                  break;
+                case WarframeProperty.TauResist:
+                  value = value * this.build.tauResist + add;
+                  break;
+                case WarframeProperty.AuraStrength:
+                  value = value * this.build.auraStrength + add;
+                  break;
+                case WarframeProperty.AuraEffectiveness:
+                  value = value * this.build.auraEffectiveness + add;
+                  break;
+                case WarframeProperty.AimGlideWallLatchTime:
+                  value = value * this.build.aimGlideWallLatchTime + add;
+                  break;
+                case WarframeProperty.EnemyRadar:
+                  value = value * this.build.enemyRadar + add;
+                  break;
+                case WarframeProperty.LootRadar:
+                  value = value * this.build.lootRadar + add;
+                  break;
+                case WarframeProperty.HolsterRate:
+                  value = value * this.build.holsterRate + add;
+                  break;
+              }
+            })
+            if (aap.minValue) value = Math.max(value, aap.minValue)
+            if (aap.maxValue) value = Math.min(value, aap.maxValue)
+            return +value.toFixed(2)
+          }
+      }
+      return o
+    }
+    return _.map(this.data.props, (v, type) => {
+      let transResult = _.mapValues(v as any, val => trans(val))
+      return [_.camelCase(type), transResult]
+    })
   }
 }
 

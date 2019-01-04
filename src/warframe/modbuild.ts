@@ -1004,10 +1004,10 @@ export abstract class ModBuild {
       case 'fcd': /* 最终暴伤 finalCritMulMul */ this._finalCritMulMul = this._finalCritMulMul * (100 + pValue) / 100; break;
       case 'eca': /* 加法暴击 critChanceAdd */ this._critChanceAdd = hAccSum(this._critChanceAdd, pValue); break;
       case 'dmg': /* 伤害 baseDamageMul */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;
-      case 'erd': /* 辐射伤害 */ this.applyStandaloneElement("Radiation", pValue); break;
-      case 'ecd': /* 腐蚀伤害 */ this.applyStandaloneElement("Corrosive", pValue); break;
-      case 'eed': /* 电击伤害 */ this.electricityMul = hAccSum(this.electricityMul, pValue); break;
-      case 'efd': /* 火焰伤害 */ this.heatMul = hAccSum(this.heatMul, pValue); break;
+      case 'erd': /* 辐射伤害 */ this.applyStandaloneElement("Radiation", pValue / 100); break;
+      case 'ecd': /* 腐蚀伤害 */ this.applyStandaloneElement("Corrosive", pValue / 100); break;
+      case 'eed': /* 电击伤害 */ this.electricityMul = hAccSum(this._electricityMul, pValue); break;
+      case 'efd': /* 火焰伤害 */ this.heatMul = hAccSum(this._heatMul, pValue); break;
       case 'aed': /* 对全种族伤害 allEnemyDmgMul */ this._allEnemyDmgMul = hAccSum(this._allEnemyDmgMul, pValue); break;
       case 'bsc': /* 加法触发几率 */ this._procChanceAdd = hAccSum(this._procChanceAdd, pValue); break;
       default:
