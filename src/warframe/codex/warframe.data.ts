@@ -22,8 +22,8 @@ export const _abilityData: AbilityData[] = [
     energyCost: 25,
     props: {
       Damage: {
-        tick: 2, // Ash投出1 / 1 / 2 / 2个手里剑
         damage: [["Slash", S(500)]],// 每个手里剑造成100 / 250 / 350 / 500 切割伤害
+        amount: 2, // Ash投出1 / 1 / 2 / 2个手里剑
         prjSpeed: 65, // 飞行时间估测
       }
     },
@@ -35,9 +35,13 @@ export const _abilityData: AbilityData[] = [
     tags: AbilityType.Perception,
     energyCost: 50,
     props: {
+      Buff: {
+        effect: [["ivb", 1]],
+        duration: D(8), // 在接下来的2 / 4 / 6 / 8秒内，Ash不会受到敌方的直接攻击
+      },
       Control: {
         range: R(10), // Ash丢出一个能击退10米范围内敌人的烟幕弹
-        duration: D(8), // 在接下来的2 / 4 / 6 / 8秒内，Ash不会受到敌方的直接攻击
+        duration: 1,
       }
     }
   },
@@ -55,11 +59,12 @@ export const _abilityData: AbilityData[] = [
     },
   },
   {
-    id: "Blade Storm", // https://warframe.huijiwiki.com/wiki/Blade_Storm
+    id: "Blade Storm", // 剑刃风暴 https://warframe.huijiwiki.com/wiki/Blade_Storm
     // name: "bladeStorm",
     // description: "Project fierce shadow clones of Ash upon groups of distant enemies. Join the fray using Teleport.",
     tags: AbilityType.Damage,
     energyCost: 0,
+    energyCostN: 12,
     props: {
       Damage: {
         damage: [["True", S(2000)]],// 造成750 / 1000 / 1500 / 2000真实伤害

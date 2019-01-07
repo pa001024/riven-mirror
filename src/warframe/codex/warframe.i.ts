@@ -97,8 +97,10 @@ export namespace AbilityPropTypes {
     rangeDamage?: [string, AbilityPropValue][]
     /** 持续时间 不填表示是瞬间伤害 */
     duration?: AbilityPropValue
-    /** 有持续时间表示总持续时间内伤害次数 没有表示单次伤害攻击数量 */
+    /** 总持续时间内伤害次数 没有表示单次伤害攻击数量 */
     tick?: AbilityPropValue
+    /** 数量 */
+    amount?: AbilityPropValue
     /** 影响角度 不填表示是全向技能 */
     angel?: AbilityPropValue
     /** 影响范围 不填表示是单体技能 */
@@ -114,8 +116,10 @@ export namespace AbilityPropTypes {
   export interface Buff {
     /** 作用对象 常用取值 all / weapon 默认为 all */
     target?: string
+    /** 描述 */
+    desc?: string
     /** 作用 等效MOD */
-    effect: [string, AbilityPropValue][]
+    effect?: [string, AbilityPropValue][]
     /** 持续时间 不填表示是开关技能 */
     duration?: AbilityPropValue
     /** 影响角度 不填表示是全向技能 */
@@ -129,8 +133,10 @@ export namespace AbilityPropTypes {
   export interface Debuff {
     /** 作用对象 默认为 enemy */
     target?: string
+    /** 描述 */
+    desc?: string
     /** 作用 等效MOD */
-    effect: [string, AbilityPropValue][]
+    effect?: [string, AbilityPropValue][]
     /** 持续时间 不填表示是开关技能 */
     duration?: AbilityPropValue
     /** 影响角度 不填表示是全向技能 */
@@ -196,6 +202,7 @@ export namespace AbilityPropTypes {
   }
   /** 特殊 */
   export interface Special {
+    desc: string
     value: AbilityPropValue
   }
   /** 位移 */

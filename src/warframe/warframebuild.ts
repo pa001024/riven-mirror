@@ -1,4 +1,4 @@
-import { WarframeDataBase, Warframe, Codex, AbilityData, AbilityEnhance, AbilityProp, AbilityFormData, AbilityType, AdvancedAbilityPropValue, WarframeProperty } from "./codex";
+import { WarframeDataBase, Warframe, Codex, AbilityData, AbilityEnhance, AbilityProp, AbilityFormData, AbilityType, AdvancedAbilityPropValue, WarframeProperty, AbilityPropTypes } from "./codex";
 import { i18n } from "@/i18n";
 import { NormalMod } from "./codex/mod";
 import { hAccSum } from "./util";
@@ -589,9 +589,9 @@ export class RenderedAbilities {
       .filter(Boolean)
       .map(v => i18n.t(`ability.types.${_.camelCase(v)}`))
   }
-  get energyCost() { return this.data.energyCost / this.build.abilityEfficiency }
-  get energyCostPS() { return this.data.energyCostPS / this.build.abilityEfficiencyUnlimited / this.build.abilityDuration }
-  get energyCostN() { return this.data.energyCostN / this.build.abilityEfficiency }
+  get energyCost() { return this.data.energyCost * (2 - this.build.abilityEfficiency) }
+  get energyCostPS() { return this.data.energyCostPS * (2 - this.build.abilityEfficiencyUnlimited) / this.build.abilityDuration }
+  get energyCostN() { return this.data.energyCostN * (2 - this.build.abilityEfficiency) }
 
   enhance?: AbilityEnhance;
   forms?: AbilityFormData[];
@@ -699,8 +699,28 @@ export class RenderedAbilities {
       return o
     }
     return _.map(this.data.props, (v, type) => {
-      let transResult = _.mapValues(v as any, val => trans(val))
-      return [_.camelCase(type), transResult]
+      let rst = _.mapValues(v as any, val => trans(val)) as typeof v
+      switch (type) {
+        case "Damage":
+          const { ...r } = rst as AbilityPropTypes.Damage;
+          return [_.camelCase(type), {
+            ...r
+          }]
+        case "Buff":
+        case "Debuff":
+        case "Summon":
+        case "DamageReduce":
+        case "DamageReflect":
+        case "Control":
+        case "Special":
+        case "Move":
+        case "ExaltedWeapon":
+          break;
+
+        default:
+          break;
+      }
+      return [_.camelCase(type), rst]
     })
   }
 }

@@ -76,31 +76,61 @@
         <!-- 技能区域 -->
         <el-tabs v-model="currentAbility">
           <el-tab-pane :key="index" v-for="(abi, index) in build.Abilities" :label="abi.name" :name="String(index)">
-            <el-row class="skill-containor" :gutter="12">
-              <el-col class="skill-tags" :span="24">
-                {{$t("ability.tags")}}
-                <el-tag size="small" :key="index" v-for="(tag, index) in abi.tags">{{tag}}</el-tag>
-              </el-col>
-              <el-col class="skill-effects" :span="24">
-                <div class="skill-effect" :key="index" v-for="([name, effect], index) in abi.props">
-                  <div class="effect-name">{{$t(`ability.effects.${name}`)}}</div>
-                  <ul class="effect-detail">
-                    <li class="effect-prop" :key="vn" v-for="(vv, vn) in effect">
-                      <div class="prop-name">{{$t(`ability.props.${vn}`)}}</div>
-                      <div class="prop-value normal" v-if="Array.isArray(vv)">
-                        <div class="dmg" :key="dname" v-for="([dname, dvalue]) in vv">
-                          <WfIcon :type="dname.toLowerCase()"/>
-                          <span class="value">{{dvalue}}</span>
+            <el-card class="skill-containor">
+              <div slot="header">
+                <el-row type="flex" justify="space-between">
+                  <el-col>
+                    <el-row>
+                      <el-col class="skill-name">
+                        <a class="skill-wiki" target="_blank" :href="$t('zh') ? `https://warframe.huijiwiki.com/wiki/${abi.name}` : `https://warframe.fandom.com/wiki/${abi.name}`">{{abi.name}}</a>
+                      </el-col>
+                      <el-col class="skill-tags">
+                        <div class="skill-tag" :key="index" v-for="(tag, index) in abi.tags">{{tag}}</div>
+                      </el-col>
+                    </el-row>
+                  </el-col>
+                  <el-col class="skill-costs">
+                    <div class="skill-cost">
+                      {{$t("ability.energyCost", [+abi.energyCost.toFixed(2)])}}
+                    </div>
+                    <div class="skill-cost" v-if="abi.energyCostPS">
+                      {{$t("ability.energyCostPS", [+abi.energyCostPS.toFixed(2)])}}
+                    </div>
+                    <div class="skill-cost" v-if="abi.energyCostN">
+                      {{$t("ability.energyCostN", [+abi.energyCostN.toFixed(2)])}}
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+              <el-row :gutter="12">
+                <el-col class="skill-effects" :span="24">
+                  <div class="skill-effect" :key="index" v-for="([name, effect], index) in abi.props">
+                    <div class="effect-name">{{$t(`ability.effects.${name}`)}}</div>
+                    <ul class="effect-detail">
+                      <li class="effect-prop" :key="vn" v-for="(vv, vn) in effect">
+                        <div class="prop-name">{{$t(`ability.props.${vn}`)}}</div>
+                        <div class="prop-value normal" v-if="Array.isArray(vv)">
+                          <template v-if="vn === 'damage' || vn === 'rangeDamage'">
+                            <div class="dmg" :key="dname" v-for="([dname, dvalue]) in vv">
+                              <WfIcon :type="dname.toLowerCase()"/>
+                              <span class="value">{{dvalue}}</span>
+                            </div>
+                          </template>
+                          <template v-else>
+                            <div class="prop" :key="pname" v-for="([pname, pvalue]) in vv">
+                              {{renderProps([pname, pvalue]).fullString}}
+                            </div>
+                          </template>
                         </div>
-                      </div>
-                      <div class="prop-value damage" v-else>
-                        {{vv}}
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </el-col>
-            </el-row>
+                        <div class="prop-value damage" v-else>
+                          {{vv}}
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-card>
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -116,7 +146,7 @@ import { WarframeBuild } from "@/warframe/warframebuild";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import LeveledModSelector from "@/components/LeveledModSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
-import { NormalMod, Buff, Warframe, WarframeDataBase } from "@/warframe/codex";
+import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty } from "@/warframe/codex";
 import WfIcon from "@/components/WfIcon.vue";
 
 interface BuildSelectorTab {
@@ -147,6 +177,9 @@ export default class WarframeEditor extends Vue {
   get core() { if (this._lastid !== this.id) this.reload(); return this._core; }
   get coreBuild() { return new WarframeBuild(this.core); }
 
+  renderProps([vn, vv]: [string, number]) {
+    return ValuedProperty.parse([vn, vv])
+  }
   onCodeChange() {
     if (this.code && this.build.miniCode != this.code) {
       this.build.miniCode = this.code;
@@ -306,10 +339,52 @@ export default class WarframeEditor extends Vue {
   color: @text_error;
 }
 
+.skill-containor {
+  .skill-name {
+    font-size: 1.4em;
+    a {
+      color: unset;
+      text-decoration: unset;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .skill-costs {
+    text-align: right;
+    .skill-cost {
+      background: @theme_main;
+      color: #fff;
+      font-size: 1.2em;
+      padding: 8px 16px;
+      display: inline-block;
+      & + .skill-cost {
+        border-left: 1px solid #fff;
+      }
+    }
+    .skill-cost:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+    .skill-cost:last-child {
+      margin-right: -20px;
+    }
+  }
+  .skill-tags {
+    .skill-tag {
+      display: inline-block;
+      margin: 4px 0 0;
+      padding: 2px 10px;
+      border: 1px solid #e3e4ea;
+      border-radius: 2px;
+      box-shadow: 2px 4px 4px #0000000f;
+    }
+  }
+}
+
 .skill-effects {
   .effect-name {
-    font-size: 18px;
-    margin: 8px 20px;
+    font-size: 1.2em;
+    margin: 4px 8px;
   }
   .effect-detail {
     .effect-prop {

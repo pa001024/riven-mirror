@@ -1410,6 +1410,7 @@ let po = {
       hps: "{0} Heal Rate/s",
       eac: "{0} Corpus Hit Chance",
       esp: "{0} Infested Speed",
+      ivb: "Invisible",
 
       onHeadshot: "On Headshot:",
       onHeadshotKill: "On Headshot Kill:",

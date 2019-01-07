@@ -84,6 +84,9 @@ export default class LeveledModSlot extends Vue {
   }
   .mod-level {
     font-size: 14px;
+    .el-input-number--mini {
+      width: auto;
+    }
   }
 }
 </style>

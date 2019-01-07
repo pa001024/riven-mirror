@@ -2174,6 +2174,7 @@ let po = {
       hps: "{0} 每秒生命回复",
       eac: "{0} Corpus敌人射击精准度",
       esp: "{0} Infested移动速度",
+      ivb: "隐身",
 
       onHeadshot: "爆头后:",
       onHeadshotKill: "爆头击杀后:",
@@ -2755,7 +2756,9 @@ let po = {
     arcaneVelocity: "迅速赋能",
   },
   ability: {
-    tags: "标签",
+    energyCost: "能量: {0}",
+    energyCostPS: "+ {0} / 秒",
+    energyCostN: "+ {0} / 次",
     types: {
       damage: "伤害",
       buffDebuff: "附加效果",
@@ -2782,12 +2785,14 @@ let po = {
       rangeDamage: "范围伤害",
       duration: "持续时间",
       tick: "伤害次数",
+      amount: "数量",
       angel: "影响角度",
       range: "影响范围",
       distance: "施放距离",
       prjSpeed: "飞行速度",
       affectBy: "所受MOD影响",
       target: "作用对象",
+      desc: "效果",
       effect: "作用",
       Range: "远程攻击",
       Melee: "近战",
