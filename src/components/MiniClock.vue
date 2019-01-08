@@ -3,15 +3,15 @@
     <el-popover placement="bottom" width="260" trigger="click">
       <div class="reminder-title">{{$t("reminder.title")}}</div>
       <!-- 平原时间提醒模块 -->
-      <ul class="reminder-list">
-        <li v-for="time in cetusFutureTimes" :key="time" @click="addReminder(time)" :class="{active: timeReminder.hasSchedule(time)}">
+      <div class="reminder-list">
+        <div v-for="time in cetusFutureTimes" :key="time" @click="addReminder(time)" :class="{active: timeReminder.hasSchedule(time)}">
           <span class="add">
             <i :class="[timeReminder.hasSchedule(time) ? 'el-icon-check' : 'el-icon-plus']"></i>
           </span>
           <span class="time">{{$d(time, "time")}}</span>
           <span class="phase">{{$t("time.night")}}</span>
-        </li>
-      </ul>
+        </div>
+      </div>
       <div class="reminder-setting">
         {{$t("reminder.settingPrefix")}}
         <input style="width:50px;text-align:center;" class="text-input" @change="saveReminder" autocomplete="off" type="text" v-model="timeReminder.minutesInAdvance">

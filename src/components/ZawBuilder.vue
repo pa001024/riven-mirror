@@ -6,8 +6,8 @@
       <el-step :title="$t('zaw.selectLinks')"></el-step>
     </el-steps>
     <!-- 击打部 -->
-    <ul class="partlist" v-if="part === 0">
-      <li v-for="item in strikeList" :key="item.id">
+    <div class="partlist" v-if="part === 0">
+      <div class="part-box" v-for="item in strikeList" :key="item.id">
         <el-radio class="part" v-model="strike" :label="item" border>
           <div class="snapshot">
             <img :src="`/img/zawStrike${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
@@ -19,11 +19,11 @@
             {{$t(`zaw.${item.oneHand.type}`)}} / {{$t(`zaw.${item.twoHand.type}`)}}
           </div>
         </el-radio>
-      </li>
-    </ul>
+      </div>
+    </div>
     <!-- 握柄部 -->
-    <ul class="partlist" v-if="part === 1">
-      <li v-for="item in gripList" :key="item.id">
+    <div class="partlist" v-if="part === 1">
+      <div class="part-box" v-for="item in gripList" :key="item.id">
         <el-radio class="part" v-model="grip" :label="item" border>
           <div class="snapshot">
             <img :src="`/img/zawGrip${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
@@ -39,11 +39,11 @@
             <span>{{item.dmg >= 0 ? "+" : ""}}{{item.dmg}} {{$t(`zaw.damage`)}}</span>
           </div>
         </el-radio>
-      </li>
-    </ul>
+      </div>
+    </div>
     <!-- 环接部 -->
-    <ul class="partlist" v-if="part === 2">
-      <li v-for="item in linksList" :key="item.id">
+    <div class="partlist" v-if="part === 2">
+      <div class="part-box" v-for="item in linksList" :key="item.id">
         <el-radio class="part" v-model="links" :label="item" border>
           <div class="snapshot">
             <img :src="`/img/zawLink${item.id.replace(/II/g, '2').replace(/ /g, '')}.png`" :alt="item.id" width="100%">
@@ -58,8 +58,8 @@
             <span>{{item.status >= 0 ? "+" : ""}}{{(item.status*100).toFixed()}}% {{$t(`zaw.status`)}}</span>
           </div>
         </el-radio>
-      </li>
-    </ul>
+      </div>
+    </div>
     <!-- 部件 -->
     <div class="parts">
       <div class="part" v-if="strike">{{$t("zaw.strike")}}: {{$t(`messages.${strike.name}`)}}</div><!--
@@ -126,7 +126,7 @@ export default class extends Vue {
     display: flex;
     flex-wrap: wrap;
     // justify-content: space-between;
-    li {
+    .part-box {
       margin: 4px 2px;
     }
     .part {

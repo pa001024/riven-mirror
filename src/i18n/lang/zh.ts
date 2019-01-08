@@ -2567,7 +2567,7 @@ let po = {
     simulator: "洗卡模拟",
     huangli: "WF黄历",
     about: "关于",
-    palette: "配色工具",
+    palette: "选色工具",
     setting: "设置",
   },
   time: {
@@ -2806,7 +2806,7 @@ let po = {
     }
   },
   update: {
-    title: "更新信息:",
+    title: "更新信息",
     confirm: "我知道了"
   }
 };

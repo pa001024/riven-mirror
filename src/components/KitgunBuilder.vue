@@ -6,8 +6,8 @@
       <el-step :title="$t('kitgun.selectLoader')"></el-step>
     </el-steps>
     <!-- 枪膛 -->
-    <ul class="partlist" v-if="part === 0">
-      <li v-for="item in chamberList" :key="item.id">
+    <div class="partlist" v-if="part === 0">
+      <div class="part-box" v-for="item in chamberList" :key="item.id">
         <el-radio class="part" v-model="chamber" :label="item" border>
           <div class="snapshot">
             <img :src="`/img/kitgunChamber${$t(`messages.${item.name}`, 'en')}.png`" :alt="item.name" width="100%">
@@ -19,11 +19,11 @@
             {{$t(`kitgun.type.${item.name}`)}}
           </div>
         </el-radio>
-      </li>
-    </ul>
+      </div>
+    </div>
     <!-- 握把 -->
-    <ul class="partlist" v-if="part === 1">
-      <li v-for="item in gripList" :key="item.id">
+    <div class="partlist" v-if="part === 1">
+      <div class="part-box" v-for="item in gripList" :key="item.id">
         <el-radio class="part" v-model="grip" :label="item" border>
           <div class="snapshot">
             <img :src="`/img/kitgunGrip${$t(`messages.${item.name}`, 'en')}.png`" :alt="item.name" width="100%">
@@ -36,11 +36,11 @@
             <span>{{loadGrip(item).dmgAdd >= 0 ? "+" : ""}}{{loadGrip(item).dmgAdd}} {{$t(`kitgun.damage`)}}</span>
           </div>
         </el-radio>
-      </li>
-    </ul>
+      </div>
+    </div>
     <!-- 填弹器 -->
-    <ul class="partlist" v-if="part === 2">
-      <li v-for="item in loaderList" :key="item.id">
+    <div class="partlist" v-if="part === 2">
+      <div class="part-box" v-for="item in loaderList" :key="item.id">
         <el-radio class="part" v-model="loader" :label="item" border>
           <div class="snapshot">
             <img :src="`/img/kitgunLoader${$t(`messages.${item.name}`, 'en')}.png`" :alt="item.name" width="100%">
@@ -56,8 +56,8 @@
             <span>{{loadLoader(item).magazine}} {{$t(`kitgun.magazine`)}}</span>
           </div>
         </el-radio>
-      </li>
-    </ul>
+      </div>
+    </div>
     <!-- 部件 -->
     <div class="parts">
       <div class="part" v-if="chamber">{{$t("kitgun.chamber")}}: {{$t(`messages.${chamber.name}`)}}</div><!--
@@ -128,7 +128,7 @@ export default class extends Vue {
     display: flex;
     flex-wrap: wrap;
     // justify-content: space-between;
-    li {
+    .part-box {
       margin: 4px 2px;
     }
     .part {

@@ -20,7 +20,7 @@
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 @Component
-export default class Error extends Vue {
+export default class ErrorPage extends Vue {
   goBack(e: MouseEvent) {
     e.preventDefault()
     this.$router.replace('/')
@@ -33,8 +33,8 @@ export default class Error extends Vue {
 a {
   text-decoration: none;
 }
-ul {
-  list-style: initial;
+ul{
+  padding: 0;
 }
 .notfoud-container .img-404 {
   height: 155px;

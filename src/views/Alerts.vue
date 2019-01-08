@@ -309,30 +309,31 @@ export default class Alerts extends Vue {
 }
 </script>
 
-<style>
+<style lang="less">
 .index-card.news li {
   color: #3d5afe;
   transition: 0.4s ease-out;
+  + li {
+    padding-top: 8px;
+  }
+  &:hover {
+    color: #7385ec;
+  }
+  a {
+    margin-left: 8px;
+    text-decoration: none;
+    color: #222;
+    transition: 0.4s;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    &:hover {
+      text-decoration: underline;
+      color: #3d5afe;
+    }
+  }
 }
-.index-card.news li + li {
-  padding-top: 8px;
-}
-.index-card.news li:hover {
-  color: #7385ec;
-}
-.index-card.news li a {
-  margin-left: 8px;
-  text-decoration: none;
-  color: #222;
-  transition: 0.4s;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-.index-card.news li a:hover {
-  text-decoration: underline;
-  color: #3d5afe;
-}
+
 .index-card.fissure .mission {
   font-size: 1em;
   font-weight: normal;
@@ -342,18 +343,23 @@ export default class Alerts extends Vue {
   background: #3d5afe;
   padding: 16px;
 }
-.index-card ul {
-  background: #fff;
-  border-radius: 8px;
-  margin-top: -16px;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-}
-.index-card ul li {
-  padding: 14px 28px;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  width: calc(100% - 56px);
+.index-card {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: #fff;
+    border-radius: 8px;
+    margin-top: -16px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    li {
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      width: calc(100% - 56px);
+    }
+  }
 }
 .index-card .padding {
   flex: 1;

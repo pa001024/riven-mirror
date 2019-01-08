@@ -7,14 +7,14 @@
         <template v-if="mod">
           <div class="prop-picker" v-for="(prop, index) in props" :key="index">
             <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
-              <ul>
-                <li class="prop-button" v-if="index === 2">
+              <div>
+                <div class="prop-button" v-if="index === 2">
                   <el-checkbox v-model="is21Negative">{{$t("rivenedit.isNegative")}}</el-checkbox>
-                </li>
-                <li class="prop-button" v-for="vprop in (index === 3 || is21Negative && index === 2 ? allProps.filter(v => !v.onlyPositive) : allProps)" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
+                </div>
+                <div class="prop-button" v-for="vprop in (index === 3 || is21Negative && index === 2 ? allProps.filter(v => !v.onlyPositive) : allProps)" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
                   {{$t("prop.shortName." + vprop.id)}} ({{index === 0 ? vprop.prefix : (index === 1 ? vprop.prefix + " / " + vprop.subfix : vprop.subfix)}})
-                </li>
-              </ul>
+                </div>
+              </div>
               <el-button class="prop-select" size="medium" slot="reference">
                 {{prop.id && $t("prop.shortName." + prop.id) || $t("rivenedit.selectProp")}}
                 <span class="prop-arrow">

@@ -129,44 +129,44 @@
             <keep-alive>
               <div v-if="enemy" class="enemy-main">
                 <!-- 敌人信息区域 -->
-                <ul class="enemy-info">
-                  <li class="enemy-name">
+                <div class="enemy-info">
+                  <div class="enemy-name">
                     <div class="key">{{$t("enemy.name")}}</div>
                     <div class="value">{{$t("zh") ? enemy.name : enemy.id}}</div>
-                  </li>
-                  <li class="enemy-faction">
+                  </div>
+                  <div class="enemy-faction">
                     <div class="key">{{$t("enemy.faction")}}</div>
                     <div class="value">{{enemy.factionName}}</div>
-                  </li>
-                  <li class="enemy-level">
+                  </div>
+                  <div class="enemy-level">
                     <div class="key">{{$t("enemy.level")}}</div>
                     <div class="value control"><el-input-number size="small" class="enemy-level-edit" controls-position="right" v-model="enemyLevel"></el-input-number></div>
-                  </li>
-                  <li class="enemy-health">
+                  </div>
+                  <div class="enemy-health">
                     <div class="key">{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</div>
                     <div class="value">{{enemy.health.toFixed()}}</div>
-                  </li>
-                  <li v-if="enemy.shield > 0" class="enemy-shield">
+                  </div>
+                  <div v-if="enemy.shield > 0" class="enemy-shield">
                     <div class="key">{{$t(`enemy.shieldType.${enemy.shieldType}`)}}</div>
                     <div class="value">{{enemy.shield.toFixed()}}</div>
-                  </li>
-                  <li v-if="enemy.armor > 0" class="enemy-armor">
+                  </div>
+                  <div v-if="enemy.armor > 0" class="enemy-armor">
                     <div class="key">{{$t(`enemy.armorType.${enemy.armorType}`)}}</div>
                     <div class="value">{{enemy.armor.toFixed()}}</div>
-                  </li>
-                  <li v-if="enemy.resistence > 0" class="enemy-resistence">
+                  </div>
+                  <div v-if="enemy.resistence > 0" class="enemy-resistence">
                     <div class="key">{{$t("enemy.resistence")}}</div>
                     <div class="value">{{enemy.resistenceText}}</div>
-                  </li>
-                  <li class="enemy-amrorreduce">
+                  </div>
+                  <div class="enemy-amrorreduce">
                     <div class="key">{{$t("enemy.amrorReduce")}}</div>
                     <div class="value control"><el-input size="small" class="enemy-amrorreduce-edit" v-model="amrorReduce"></el-input></div>
-                  </li>
-                  <li class="enemy-action">
+                  </div>
+                  <div class="enemy-action">
                     <div class="key">{{$t("enemy.action")}}</div>
                     <div class="value control"><el-button size="small" @click="selectEnemy(null)">{{$t("enemy.reselect")}}</el-button></div>
-                  </li>
-                </ul>
+                  </div>
+                </div>
                 <!-- 伤害显示区域 -->
                 <EnemyTimeline :timeline="build.getTimeline()"></EnemyTimeline>
               </div>

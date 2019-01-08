@@ -3,24 +3,24 @@
     <!-- 快速选择 -->
     <el-tab-pane name="fast" v-if="type === 'Warframe'">
       <span slot="label" class="mod-tablabel">{{$t("modselector.fastSelect")}}</span>
-      <ul class="mod-select">
+      <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in fast" :key="index">
-          <li class="mod-item el-dropdown" @click="handleClick(mod.id)">
+          <div class="mod-item el-dropdown" @click="handleClick(mod.id)">
             {{$t(`modselector.fast.${mod.name}`)}}
-          </li>
+          </div>
         </div>
-      </ul>
+      </div>
     </el-tab-pane>
     <!-- 普通MOD -->
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
       <span slot="label" class="mod-tablabel">{{tab.name}}</span>
-      <ul class="mod-select">
+      <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in tab.mods" :key="index">
-          <li class="mod-item el-dropdown" @click="handleClick(mod.id)">
+          <div class="mod-item el-dropdown" @click="handleClick(mod.id)">
             {{mod.name}}
-          </li>
+          </div>
         </div>
-      </ul>
+      </div>
     </el-tab-pane>
   </el-tabs>
 </template>

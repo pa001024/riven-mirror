@@ -198,9 +198,12 @@ export const RivenPropertyValueBaseDataBase = {
 export class RivenWeapon {
   /** 武器英文名 */
   id: string;
-  protected _name: string;
   /** 武器本地化名称 */
-  get name() { return i18n.t(`messages.${this._name}`) }
+  get name() {
+    const ikey = `messages.${_.camelCase(this.id)}`;
+    const name = i18n.te(ikey) ? i18n.t(ikey) : this.id;
+    return name || "";
+  }
   /** 武器MOD类型 */
   mod: string;
   /** 武器裂罅倾向 */
@@ -218,9 +221,8 @@ export class RivenWeapon {
   /** 武器倾向星数 */
   get star() { return [0.1, 0.7, 0.875, 1.125, 1.305, Infinity].findIndex(v => this.ratio < v); }
   get starText() { return _.repeat("●", this.star) + _.repeat("○", 5 - this.star); }
-  constructor(id: string, name: string, mod: string, ratio: number, price: number = 0) {
+  constructor(id: string,  mod: string, ratio: number, price: number = 0) {
     this.id = id;
-    this._name = name;
     this.mod = mod;
     this.ratio = ratio;
     this.price = price;
@@ -541,7 +543,7 @@ export const ModTypeTable = {
   "Archgun": "archgun",
 };
 
-export const RivenWeaponDataBase = _rivenWeaponDataBase.map(v => new RivenWeapon(v[0], _.camelCase(v[0]), v[1], v[2]));
+export const RivenWeaponDataBase = _rivenWeaponDataBase.map(v => new RivenWeapon(v[0], v[1], v[2]));
 
 /**
  * 主要工具类

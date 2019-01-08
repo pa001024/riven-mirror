@@ -1290,7 +1290,7 @@ let po = {
     arcaneVelocity: "Arcane Velocity",
   },
   update: {
-    title: "Update info:",
+    title: "Update Info",
     confirm: "I know"
   }
 };

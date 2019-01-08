@@ -2,13 +2,13 @@
   <el-tabs class="buff-tabs" v-model="selectTab">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
       <span slot="label" class="buff-tablabel">{{tab.name}}</span>
-      <ul class="buff-select">
+      <div class="buff-select">
         <div class="buff-item-container" v-for="buff in tab.buffs" :key="buff.id">
-          <li class="buff-item el-dropdown" @click="handleClick(buff.id)">
+          <div class="buff-item el-dropdown" @click="handleClick(buff.id)">
             {{$t(`buff.${buff.name}`)}}
-          </li>
+          </div>
         </div>
-      </ul>
+      </div>
     </el-tab-pane>
   </el-tabs>
 </template>

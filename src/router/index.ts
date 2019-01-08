@@ -9,7 +9,8 @@ import BuildEditor from '@/views/BuildEditor.vue'
 import Simulator from '@/views/Simulator.vue'
 import Palette from '@/views/Palette.vue'
 import EULA from '@/views/EULA.vue'
-import ErrorPage from '@/views/Error.vue'
+import ErrorPage from '@/views/ErrorPage.vue'
+import Intro from '@/views/Intro.vue'
 import NewUserWelcome from '@/views/NewUserWelcome.vue'
 import WeaponSelector from '@/components/WeaponSelector.vue'
 import WarframeSelector from '@/components/WarframeSelector.vue'
@@ -20,26 +21,23 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-    { path: '/', name: 'Alerts', component: Alerts },
-    { path: '/news', name: 'News', component: Alerts },
-    { path: '/about', name: 'About', component: About },
-    { path: '/setting', name: 'Setting', component: Setting },
-    { path: '/sim', name: 'Simulator', component: Simulator },
-    { path: '/warframe', name: 'WarframeSelector', component: WarframeSelector },
-    { path: '/warframe/:id', name: 'WarframeEditor', component: WarframeEditor },
-    { path: '/warframe/:id/:code', name: 'WarframeEditorWithCode', component: WarframeEditor },
-    // lazy load
-    // { path: '/warframe', name: 'WarframeSelector', component: () => import(/* webpackChunkName: "team" */ "@/components/WarframeSelector.vue") },
-    // { path: '/warframe/:id', name: 'WarframeEditor', component: () => import(/* webpackChunkName: "team" */ "@/components/WarframeEditor.vue") },
-    // { path: '/warframe/:id/:code', name: 'WarframeEditorWithCode', component: () => import(/* webpackChunkName: "team" */ "@/components/WarframeEditor.vue") },
-    { path: '/weapon', name: 'WeaponSelector', component: WeaponSelector },
-    { path: '/weapon/:id', name: 'BuildEditor', component: BuildEditor },
-    { path: '/weapon/:id/:code', name: 'BuildEditorWithCode', component: BuildEditor },
-    { path: '/huangli', name: 'Huangli', component: Huangli },
-    { path: '/riven', name: 'Mod', component: Mod },
-    { path: '/riven/:source', name: 'ModWithSource', component: Mod, props: true },
-    // { path: '/palette', name: 'Palette', component: () => import(/* webpackChunkName: "palette" */ "@/views/Palette.vue") },
-    { path: '/palette', name: 'Palette', component: Palette },
+    { path: '/', name: 'Intro', component: Intro },
+    { path: '/alerts', name: 'Alerts', component: () => import(/* webpackChunkName: "main" */ "@/views/Alerts.vue") },
+    { path: '/about', name: 'About', component: () => import(/* webpackChunkName: "main" */ "@/views/About.vue") },
+    { path: '/riven', name: 'Mod', component: () => import(/* webpackChunkName: "main" */ "@/views/Mod.vue") },
+    { path: '/riven/:source', name: 'ModWithSource', component: () => import(/* webpackChunkName: "ex" */ "@/views/Mod.vue"), props: true },
+    { path: '/warframe', name: 'WarframeSelector', component: () => import(/* webpackChunkName: "main" */ "@/components/WarframeSelector.vue") },
+    { path: '/warframe/:id', name: 'WarframeEditor', component: () => import(/* webpackChunkName: "main" */ "@/views/team/WarframeEditor.vue") },
+    { path: '/warframe/:id/:code', name: 'WarframeEditorWithCode', component: () => import(/* webpackChunkName: "main" */ "@/views/team/WarframeEditor.vue") },
+    { path: '/setting', name: 'Setting', component: () => import(/* webpackChunkName: "main" */ "@/views/Setting.vue") },
+    { path: '/sim', name: 'Simulator', component: () => import(/* webpackChunkName: "main" */ "@/views/Simulator.vue") },
+    // lazy load version
+    { path: '/weapon', name: 'WeaponSelector', component: () => import(/* webpackChunkName: "team" */ "@/components/WeaponSelector.vue") },
+    { path: '/weapon/:id', name: 'BuildEditor', component: () => import(/* webpackChunkName: "team" */ "@/views/BuildEditor.vue") },
+    { path: '/weapon/:id/:code', name: 'BuildEditorWithCode', component: () => import(/* webpackChunkName: "team" */ "@/views/BuildEditor.vue") },
+    { path: '/huangli', name: 'Huangli', component: () => import(/* webpackChunkName: "ex" */ "@/views/Huangli.vue") },
+    { path: '/palette', name: 'Palette', component: () => import(/* webpackChunkName: "ex" */ "@/views/Palette.vue") },
+    // { path: '/palette', name: 'Palette', component: Palette },
     { path: '/eula', name: 'EULA', component: EULA },
     { path: '/welcome', name: 'NewUserWelcome', component: NewUserWelcome },
     { path: '/*', name: 'Error', component: ErrorPage },

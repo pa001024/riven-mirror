@@ -28,11 +28,11 @@
                   <span>{{mod.name}} {{mod.subfix}}</span>
                   <span class="mod-recycle"><i class="el-icon-refresh"></i>{{mod.recycleTimes}}</span>
                 </h3>
-                <ul>
+                <div>
                   <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
                     {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
                   </div>
-                </ul>
+                </div>
                 <div class="mod-qrcode">
                   <el-popover placement="bottom" trigger="hover">
                     <div style="text-align:center;">

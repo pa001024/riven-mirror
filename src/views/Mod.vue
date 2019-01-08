@@ -69,12 +69,12 @@
               <div class="mod-history-title">
                 {{$t("riven.history")}}
               </div>
-              <ul class="mod-history-list">
-                <li v-for="(hiRiven, index) in modHistoty" :key="index" @click="newBase64Text(hiRiven.qrCodeBase64)" class="mod-history-item">
+              <div class="mod-history-list">
+                <div v-for="(hiRiven, index) in modHistoty" :key="index" @click="newBase64Text(hiRiven.qrCodeBase64)" class="mod-history-item">
                   {{hiRiven.fullName}}
                   <span class="history-delete" @click.stop="removeHistory(hiRiven.qrCode)"><i class="el-icon-close"></i></span>
-                </li>
-              </ul>
+                </div>
+              </div>
             </div>
           </el-col>
         </el-row>

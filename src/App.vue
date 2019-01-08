@@ -7,7 +7,7 @@
           <span class="beta">{{magic}} {{version}}</span>
         </h1>
       </router-link>
-      <MiniClock class="hidden-xs-only header-watch">
+      <MiniClock v-if="isIndexPage" class="hidden-xs-only header-watch">
       </MiniClock>
       <div class="app-nav-pad hidden-sm-and-up">
       </div>
@@ -16,22 +16,22 @@
       </button>
     </el-header>
     <transition name="el-zoom-in-top">
-      <ul class="app-nav-menu" v-if="menuOpen" @click="menuOpen=false">
-        <router-link v-for="link in links" :key="link.title" tag="li" :to="link.path" class="menu-item" :exact="link.exact">
+      <div class="app-nav-menu" v-if="menuOpen" @click="menuOpen=false">
+        <router-link v-for="link in links" :key="link.title" tag="div" :to="link.path" class="menu-item" :exact="link.exact">
           <i :class="link.icon"></i>
           <span class="app-nav-title">{{$t(link.title)}}</span>
         </router-link>
-      </ul>
+      </div>
     </transition>
     <el-container class="body-container">
-      <el-aside width="60px" class="hidden-xs-only">
-        <ul class="aside-nav-menu">
+      <el-aside width="60px" class="hidden-xs-only" v-show="isIndexPage">
+        <div class="aside-nav-menu">
           <el-tooltip v-for="link in links" :key="link.title" :content="$t(link.title)" placement="right" :enterable="false">
-            <router-link tag="li" :to="link.path" class="menu-item" :exact="link.exact">
+            <router-link tag="div" :to="link.path" class="menu-item" :exact="link.exact">
               <i :class="link.icon"></i>
             </router-link>
           </el-tooltip>
-        </ul>
+        </div>
       </el-aside>
       <el-main>
         <keep-alive>
@@ -44,7 +44,7 @@
           :before-close="readUpdate">
           <div class="update-item" :key="i" v-for="(v,i) in updateLogs">
             <div class="title">{{v.version}}</div>
-            <div class="md" v-html="renderMD($t('zh') ? v.md.cn : v.md.en)"></div>
+            <article class="md markdown-body" v-html="renderMD($t('zh') ? v.md.cn : v.md.en)"></article>
           </div>
           <span slot="footer" class="dialog-footer">
             <el-button size="small" type="primary" @click="readUpdate">{{$t('update.confirm')}}</el-button>
@@ -69,12 +69,13 @@ const md = markdown()
 export default class App extends Vue {
   menuOpen = false;
   updateMessageVisible = false;
+  get isIndexPage() { return this.$route.path !== '/' }
   get magic() { return magic }
   get version() { return version }
   get updateLogs() { return updateLogs }
   get links() {
     return [
-      { title: "navigate.index", path: "/", icon: "el-icon-news", exact: true },
+      { title: "navigate.index", path: "/alerts", icon: "el-icon-news", exact: true },
       { title: "navigate.riven", path: "/riven", icon: "el-icon-view" },
       { title: "navigate.weapon", path: "/weapon", icon: "el-icon-edit-outline" },
       { title: "navigate.warframe", path: "/warframe", icon: "el-icon-tickets" },
@@ -108,10 +109,14 @@ export default class App extends Vue {
 
 <style lang="less">
 @import "./less/common.less";
+@import "./less/markdown.less";
 @font_logo: FuturaPT;
 
 /* APP */
 .update-dialog {
+  .el-dialog {
+    min-width: 320px;
+  }
   .el-dialog__body {
     padding: 10px 20px;
   }
@@ -119,6 +124,23 @@ export default class App extends Vue {
 .update-item {
   .title {
     font-size: 1.25rem;
+    margin: 4px 0;
+    &::before {
+      content: "";
+      display: inline-block;
+      height: 1.25rem;
+      width: 4px;
+      border-radius: 4px;
+      background: #6199ff;
+      margin: 0 8px -2px 2px;
+    }
+  }
+  .markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 14px;
   }
 }
 
@@ -139,7 +161,6 @@ export default class App extends Vue {
   background: #3952e0;
   color: @text_light;
   padding: 8px 0;
-  transition: 0.5s;
   position: absolute;
   overflow: hidden;
   z-index: 999;
@@ -239,7 +260,10 @@ export default class App extends Vue {
   .el-main {
     background-color: @theme_mainback;
     color: @text_main;
-    padding: 14px;
+    padding: 0;
+    > * {
+      margin: 14px;
+    }
   }
 }
 .el-header {
@@ -289,12 +313,6 @@ h3 {
 }
 .right {
   float: right;
-}
-ul,
-ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
 }
 @media only screen and (max-width: 767px) {
   #app {

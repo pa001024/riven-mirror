@@ -2563,7 +2563,7 @@ let po = {
     simulator: "洗卡模擬",
     huangli: "WF黃歷",
     about: "關於",
-    palette: "配色工具",
+    palette: "選色工具",
     setting: "設置",
   },
   time: {
@@ -2754,7 +2754,7 @@ let po = {
     arcaneVelocity: "迅速賦能",
   },
   update: {
-    title: "更新信息:",
+    title: "更新信息",
     confirm: "我知道了"
   }
 };

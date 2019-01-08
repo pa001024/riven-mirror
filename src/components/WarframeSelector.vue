@@ -2,21 +2,21 @@
   <el-tabs class="warframe-tabs" v-model="classType">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
       <span slot="label" class="warframe-tablabel">{{$t(`warframeselector.${tab.name}`)}}</span>
-      <ul class="warframe-select">
+      <div class="warframe-select">
         <div v-for="wfClass in tab.warframes" class="warframe-item-container" :key="wfClass.id">
           <el-dropdown v-if="wfClass.warframes.length > 1" trigger="click" @command="handleCommand" placement="bottom-start">
-            <li class="warframe-item">
+            <div class="warframe-item">
               {{wfClass.name}}
-            </li>
+            </div>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item v-for="warframe in wfClass.warframes" :key="warframe.id" :command="warframe.id">{{warframe.name}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <li v-else class="warframe-item el-dropdown" @click="handleClick(wfClass.id)">
+          <div v-else class="warframe-item el-dropdown" @click="handleClick(wfClass.id)">
             {{wfClass.name}}
-          </li>
+          </div>
         </div>
-      </ul>
+      </div>
     </el-tab-pane>
   </el-tabs>
 </template>

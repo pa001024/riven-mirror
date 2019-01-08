@@ -2,26 +2,26 @@
   <el-tabs class="weapon-tabs" v-model="modType">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
       <span slot="label" class="weapon-tablabel">{{$t(`weaponselector.${tab.name}`)}}</span>
-      <ul class="weapon-select">
+      <div class="weapon-select">
         <template v-for="(riven, index) in tab.rivens">
           <div class="weapon-group-header" v-if="!tab.rivens[index-1] || tab.rivens[index-1].star != riven.star" :key="riven.star">
             {{riven.starText}}
           </div>
           <div class="weapon-item-container" :key="riven.id">
             <el-dropdown v-if="riven.weapons.length > 1" trigger="click" @command="handleCommand" placement="bottom-start">
-              <li class="weapon-item">
+              <div class="weapon-item">
                 {{riven.name}} {{riven.ratio}}
-              </li>
+              </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{weapon.displayName}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <li v-else class="weapon-item el-dropdown" @click="handleClick(riven.id)">
+            <div v-else class="weapon-item el-dropdown" @click="handleClick(riven.id)">
               {{riven.name}} {{riven.ratio}}
-            </li>
+            </div>
           </div>
         </template>
-      </ul>
+      </div>
     </el-tab-pane>
     <el-tab-pane name="KITGUN">
       <span slot="label" class="weapon-tablabel">{{$t('kitgun.title')}}</span>

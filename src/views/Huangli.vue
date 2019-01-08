@@ -11,21 +11,21 @@
       <div class="evs">
         <div class="ev good">
           <div class="ev-title">{{$t("huangli.goodfor")}}</div>
-          <ul class="ev-list">
-            <li v-for="good in goods" :key="good.name">
+          <div class="ev-list">
+            <div v-for="good in goods" :key="good.name">
               <div class="ev-name">{{good.name}}</div>
               <div class="ev-desc">{{good.good}}</div>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
         <div class="ev bad">
           <div class="ev-title">{{$t("huangli.badfor")}}</div>
-          <ul class="ev-list">
-            <li v-for="bad in bads" :key="bad.name">
+          <div class="ev-list">
+            <div v-for="bad in bads" :key="bad.name">
               <div class="ev-name">{{bad.name}}</div>
               <div class="ev-desc">{{bad.bad}}</div>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
       </div>
       <div class="line-tip">
@@ -38,9 +38,9 @@
         <strong>{{$t("huangli.lucky")}}</strong><span class="dalao_value">{{dalaoValue}}</span>
       </div>
       <div class="comment">
-        <ul>
-          <li>{{$t("huangli.tip")}}</li>
-        </ul>
+        <div>
+          <div>{{$t("huangli.tip")}}</div>
+        </div>
       </div>
     </div>
   </el-row>

@@ -2,13 +2,13 @@
   <el-tabs class="enemy-tabs" v-model="enemyType">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.name">
       <span slot="label" class="enemy-tablabel">{{tab.name}}</span>
-      <ul class="enemy-select">
+      <div class="enemy-select">
         <div class="enemy-item-container" v-for="enemy in tab.enemys" :key="enemy.id">
-          <li class="enemy-item el-dropdown" @click="handleClick(enemy.id)">
+          <div class="enemy-item el-dropdown" @click="handleClick(enemy.id)">
             {{$t("zh") ? enemy.name : enemy.id}}
-          </li>
+          </div>
         </div>
-      </ul>
+      </div>
     </el-tab-pane>
   </el-tabs>
 </template>

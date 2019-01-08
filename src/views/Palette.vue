@@ -17,9 +17,9 @@
             <div class="color-palette">
               <div class="theme-color" :title="color.hex" :style="{'background-color': color.hex}">
               </div>
-              <ul class="palette-color-list">
-                <li class="palette-color" v-for="(color, idx) in paletteColors" :style="{'background-color': color.toString()}" :key="idx" @click="setColor(color.toString())" :title="color.toString()"></li>
-              </ul>
+              <div class="palette-color-list">
+                <div class="palette-color" v-for="(color, idx) in paletteColors" :style="{'background-color': color.toString()}" :key="idx" @click="setColor(color.toString())" :title="color.toString()"></div>
+              </div>
             </div>
             <!-- 拾色器 -->
             <div class="color-picker">
@@ -34,11 +34,11 @@
           <el-col :md="12" :lg="6" :xl="4" v-for="palette in matchedPalettes" :key="palette.id">
             <el-card class="palette-box" :class="{dark: color.hsl.l < 0.5}">
               <div slot="header" class="palette-name">{{$t(`palette.name.${palette.id}`)}}</div>
-              <ul class="palette-show">
-                <li class="palette-cell" v-for="(color, idx) in palette.colors" :key="idx" @click="setColor(color.toString())" :title="color.toString()" :style="{'background-color': color.toString()}">
+              <div class="palette-show">
+                <div class="palette-cell" v-for="(color, idx) in palette.colors" :key="idx" @click="setColor(color.toString())" :title="color.toString()" :style="{'background-color': color.toString()}">
                   <i v-if="palette.match.includes(idx)" class="el-icon-check"></i>
-                </li>
-              </ul>
+                </div>
+              </div>
             </el-card>
           </el-col>
         </el-row>
