@@ -3,8 +3,8 @@
     <el-header>
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
-        <h1>Riven Mirror
-          <span class="beta">ALPHA 1.3.9</span>
+        <h1>Riven.IM
+          <span class="beta">{{magic}} {{version}}</span>
         </h1>
       </router-link>
       <MiniClock class="hidden-xs-only header-watch">
@@ -37,6 +37,19 @@
         <keep-alive>
           <router-view/>
         </keep-alive>
+        <el-dialog
+          class="update-dialog"
+          :title="$t('update.title')"
+          :visible.sync="updateMessageVisible"
+          :before-close="readUpdate">
+          <div class="update-item" :key="i" v-for="(v,i) in updateLogs">
+            <div class="title">{{v.version}}</div>
+            <div class="md" v-html="renderMD($t('zh') ? v.md.cn : v.md.en)"></div>
+          </div>
+          <span slot="footer" class="dialog-footer">
+            <el-button size="small" type="primary" @click="readUpdate">{{$t('update.confirm')}}</el-button>
+          </span>
+        </el-dialog>
       </el-main>
     </el-container>
   </el-container>
@@ -47,12 +60,18 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import MiniClock from "./components/MiniClock.vue";
 import { RivenDataBase } from "@/warframe/codex";
 import { i18n } from "@/i18n";
+import markdown from "markdown-it";
+import { magic, version, updateLogs } from "@/version";
 
-@Component({
-  components: { MiniClock }
-})
+const md = markdown()
+
+@Component({ components: { MiniClock } })
 export default class App extends Vue {
   menuOpen = false;
+  updateMessageVisible = false;
+  get magic() { return magic }
+  get version() { return version }
+  get updateLogs() { return updateLogs }
   get links() {
     return [
       { title: "navigate.index", path: "/", icon: "el-icon-news", exact: true },
@@ -66,13 +85,23 @@ export default class App extends Vue {
       { title: "navigate.setting", path: "/setting", icon: "el-icon-setting" },
     ].filter(v => v.title !== "navigate.huangli" || i18n.locale !== "en");
   }
-
+  renderMD(text: string) {
+    return md.render(text)
+  }
+  readUpdate() {
+    this.updateMessageVisible = false
+    localStorage.setItem("lastVersion", version)
+  }
   mounted() {
     RivenDataBase.reload();
-    let isNewUser = !localStorage.getItem("0w0");
-    if (this.$route.path === "/" && isNewUser) {
-      this.$router.push("/welcome");
+    const lastVersion = localStorage.getItem("lastVersion") || "0.0.0"
+    if (lastVersion !== version) {
+      this.updateMessageVisible = true
     }
+    // let isNewUser = !localStorage.getItem("0w0");
+    // if (this.$route.path === "/" && isNewUser) {
+    //   this.$router.push("/welcome");
+    // }
   }
 }
 </script>
@@ -82,6 +111,17 @@ export default class App extends Vue {
 @font_logo: FuturaPT;
 
 /* APP */
+.update-dialog {
+  .el-dialog__body {
+    padding: 10px 20px;
+  }
+}
+.update-item {
+  .title {
+    font-size: 1.25rem;
+  }
+}
+
 /* 字体 */
 @font-face {
   font-family: FuturaPT;

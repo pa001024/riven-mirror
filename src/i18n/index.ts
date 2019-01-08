@@ -20,6 +20,10 @@ class I18nProxy {
     if (this._i18n) return this._i18n.t(key, ...value) as string
     return key
   }
+  te(key: string) {
+    if (this._i18n) return this._i18n.te(key)
+    return false
+  }
   a(key: string, ...value: any): any {
     if (this._i18n) return this._i18n.t(key, ...value) as string
     return key

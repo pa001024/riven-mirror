@@ -1,7 +1,8 @@
 let po = {
   zh: "true",
   title: {
-    main: "裂罅之鏡 - Riven Mirror ALPHA"
+    main: "Riven.IM - 極鏡",
+    sub: "{0} - Riven.IM - 極鏡"
   },
   messages: {
     "primedContinuity": "持久力 PRIME",
@@ -680,6 +681,7 @@ let po = {
     "contaminationCasing": "毒染套管",
     "deadlyEfficiency": "致命效率",
     "sabotRounds": "覆殼彈藥",
+    "harkonarScope": "哈庫那瞄準鏡",
 
     "shotgunRivenMod": "霰彈槍裂罅MOD",
     "meleeRivenMod": "近戰裂罅MOD",
@@ -2751,6 +2753,10 @@ let po = {
     arcaneTempo: "節奏賦能",
     arcaneVelocity: "迅速賦能",
   },
+  update: {
+    title: "更新信息:",
+    confirm: "我知道了"
+  }
 };
 
 export default po;

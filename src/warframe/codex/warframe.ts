@@ -34,7 +34,8 @@ export class Warframe implements WarframeData {
   constructor(data: WarframeData) {
     let base = data.className ? _warframeData.find(v => v.id === data.className) : {} as WarframeData;
     this.id = data.id;
-    this.name = i18n.t(`messages.${_.camelCase(data.id)}`) as string;
+    const ikey = `messages.${_.camelCase(data.id)}`;
+    this.name = i18n.te(ikey) ? i18n.t(ikey) : data.id;
     this.tags = data.tags || base.tags || [];
     this.description = data.description;
     this.className = data.className;

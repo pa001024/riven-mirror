@@ -820,7 +820,7 @@ export abstract class ModBuild {
           v[1] = -2;
         else
           v[1] = this.testMod(v[0]);
-        v[0].id === "RIVENFAKE" && console.log("测试收益: ", this._mods.map(v => v.name).join(","), v[0].props[0][1], v[0].name, "的收益是", v[1]);
+        // v[0].id === "RIVENFAKE" && console.log("测试收益: ", this._mods.map(v => v.name).join(","), v[0].props[0][1], v[0].name, "的收益是", v[1]);
       });
       // 3. 把所有卡按收益排序
       sortableMods.sort((a, b) => b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]);
@@ -847,7 +847,7 @@ export abstract class ModBuild {
     let riven1 = this.findBestRivenSub(slots, 1),
       riven2 = this.findBestRivenSub(slots, 2);
     if (riven1.qrCode == riven2.qrCode) return riven1;
-    let score1, score2;
+    let score1: number, score2: number;
     newBuild.riven = riven1;
     newBuild.fill(slots, 2);
     newBuild.calcMods();

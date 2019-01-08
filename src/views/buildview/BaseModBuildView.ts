@@ -30,7 +30,7 @@ export abstract class BaseModBuildView extends Vue {
     "Blast": ["4", "5"],
     "Magnetic": ["5", "7"],
   }
-  activeNames: string[] = [i18n.t("buildview.yourriven").toString()];
+  activeNames: string[] = ["buildview.yourriven"];
 
   _debouncedRecalc: (() => void);
   abstract debouncedRecalc();
@@ -49,9 +49,9 @@ export abstract class BaseModBuildView extends Vue {
     riven.fill(this.slots, 2);
     bestRiven.fill(this.slots, 2);
     this.builds = [];
-    this.builds.push([i18n.t("buildview.normal").toString(), stand]);
-    this.builds.push([i18n.t("buildview.yourriven").toString(), riven]);
-    this.builds.push([i18n.t("buildview.bestriven").toString(), bestRiven]);
+    this.builds.push(["buildview.normal", stand]);
+    this.builds.push(["buildview.yourriven", riven]);
+    this.builds.push(["buildview.bestriven", bestRiven]);
     this.score = Math.round(riven.compareDamage / stand.compareDamage * 100 - 100);
     this.scoreLevel = this.score * 100 / Math.round(bestRiven.compareDamage / stand.compareDamage * 100 - 100);
     console.log(`recalc: ${Date.now() - startTime}ms`);

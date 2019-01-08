@@ -1,7 +1,8 @@
 let po = {
   zh: "true",
   title: {
-    main: "裂罅之镜 - Riven Mirror ALPHA"
+    main: "Riven.IM - 极镜",
+    sub: "{0} - Riven.IM - 极镜"
   },
   messages: {
     "primedContinuity": "持久力 Prime",
@@ -680,6 +681,7 @@ let po = {
     "contaminationCasing": "毒染套管",
     "deadlyEfficiency": "致命效率",
     "sabotRounds": "覆壳弹药",
+    "harkonarScope": "哈库那瞄准镜",
 
     "shotgunRivenMod": "霰弹枪 裂罅MOD",
     "meleeRivenMod": "近战 裂罅MOD",
@@ -2802,6 +2804,10 @@ let po = {
       directive: "指向性",
       weaponName: "显赫武器名称",
     }
+  },
+  update: {
+    title: "更新信息:",
+    confirm: "我知道了"
   }
 };
 

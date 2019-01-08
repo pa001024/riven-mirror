@@ -91,8 +91,9 @@ export class NormalMod implements NormalModData {
   get delta() { return this.baseCost < 0 ? -this.cost : Math.floor(this.cost / 2) }
   get theta() { return this.baseCost < 0 ? Math.ceil(this.cost / 1.25) - this.cost : this.cost - Math.ceil(this.cost * 1.25) }
   get name() {
-    let name = this.customName || i18n.t(`messages.${_.camelCase(this.id)}`) as string;
-    return name || this.id || "";
+    const ikey = `messages.${_.camelCase(this.id)}`;
+    let name = this.customName || (i18n.te(ikey) ? i18n.t(ikey) : this.id);
+    return name || "";
   }
   /** 描述 */
   get desc() {

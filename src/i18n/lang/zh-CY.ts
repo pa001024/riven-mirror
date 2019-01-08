@@ -1,8 +1,4 @@
 let po = {
-  zh: "true",
-  title: {
-    main: "裂罅之镜 - Riven Mirror ALPHA"
-  },
   messages: {
     "primedContinuity": "高阶持久力",
     "primedFlow": "高阶川流不息",
@@ -426,7 +422,7 @@ let po = {
     "caustacyst": "腐蚀寄生者",
     "sigmaOctantis": "西格玛 & 南极座",
     "knux": "雷格之拳",
-    "zaw": "造武",
+    "zaw": "天工造武",
     "dexSybaris": "灵敏远古丧钟",
     "ignis": "爆燃喷射器",
     "ignisWraith": "亡魂爆燃喷射器",

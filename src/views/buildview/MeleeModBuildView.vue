@@ -17,7 +17,7 @@
         <el-collapse-item v-for="build in builds" :key="build[0]" :name="build[0]">
           <template slot="title">
             <div class="build-title">
-              {{build[0]}} &nbsp; - &nbsp; {{build[1].compareDamage.toFixed(1)}} {{selectCompMethodText}}
+              {{$t(build[0])}} &nbsp; - &nbsp; {{build[1].compareDamage.toFixed(1)}} {{selectCompMethodText}}
             </div>
           </template>
           <el-row type="flex" :gutter="12" class="build-item" style="margin:8px;">

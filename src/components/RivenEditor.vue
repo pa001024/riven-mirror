@@ -121,7 +121,8 @@ export default class RivenEditor extends Vue {
   beforeMount() {
     _.forEach(ModTypeTable, (name, id) => {
       let rWeapons = RivenWeaponDataBase.filter(v => v.mod === id && v.ratio > 0.1).map(v => ({ value: v.id, label: v.name }));
-      this.nameOptions.push({ value: id, label: this.$t(`weaponselector.${name}`) as string, children: rWeapons });
+      if (rWeapons.length > 0)
+        this.nameOptions.push({ value: id, label: this.$t(`weaponselector.${name}`) as string, children: rWeapons });
     });
     if (this.weapon) this.handleChange();
   }
