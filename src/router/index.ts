@@ -38,6 +38,7 @@ export default new Router({
     { path: '/huangli', name: 'Huangli', component: Huangli },
     { path: '/riven', name: 'Mod', component: Mod },
     { path: '/riven/:source', name: 'ModWithSource', component: Mod, props: true },
+    // { path: '/palette', name: 'Palette', component: () => import(/* webpackChunkName: "palette" */ "@/views/Palette.vue") },
     { path: '/palette', name: 'Palette', component: Palette },
     { path: '/eula', name: 'EULA', component: EULA },
     { path: '/welcome', name: 'NewUserWelcome', component: NewUserWelcome },
