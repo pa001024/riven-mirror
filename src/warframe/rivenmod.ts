@@ -392,10 +392,10 @@ A段位12023
   }
   /** 网址形式的二维码 */
   get qrCodeURL() {
-    return "https://rm.0-0.at/riven/" + this.qrCodeBase64;
+    return "https://riven.im/riven/" + this.qrCodeBase64;
   }
   set qrCodeURL(value) {
-    this.qrCodeBase64 = value.replace("https://rm.0-0.at/riven/", "");
+    this.qrCodeBase64 = value.replace("https://riven.im/riven/", "");
   }
   /** 返回完整的modText */
   get modText() {

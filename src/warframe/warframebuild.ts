@@ -453,7 +453,7 @@ export class WarframeBuild {
     this.mods = mods;
   }
   get miniCodeURL() {
-    return `https://rm.0-0.at/warframe/${this.data.url}/${this.miniCode}`;
+    return `https://riven.im/warframe/${this.data.url}/${this.miniCode}`;
   }
   get maxHealth() { return 1 }
   get maxShield() { return 1 }

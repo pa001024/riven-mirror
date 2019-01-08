@@ -20,7 +20,7 @@ const isLocalhost = Boolean(
 );
 // The URL constructor is available in all browsers that support SW.
 const publicUrl = new URL(
-  "https://rm.0-0.at/",
+  "https://riven.im/",
   window.location.toString()
 );
 

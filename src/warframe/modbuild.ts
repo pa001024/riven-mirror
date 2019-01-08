@@ -177,7 +177,7 @@ export abstract class ModBuild {
   }
 
   get miniCodeURL() {
-    return `https://rm.0-0.at/weapon/${this.weapon.url}/${this.miniCode}`;
+    return `https://riven.im/weapon/${this.weapon.url}/${this.miniCode}`;
   }
 
   /** 暴击率 */

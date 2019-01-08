@@ -182,7 +182,7 @@ export default class Mod extends Vue {
         this.readQRCode(blob).then(msg => {
           if (msg) {
             console.log("readQRCode=>", msg);
-            this.newBase64Text(msg.replace("https://rm.0-0.at/riven/", ""));
+            this.newBase64Text(msg.replace("https://riven.im/riven/", ""));
           } else this.readOCR(blob);
         }).catch(err => {
           console.log("[handlePaste]", err);
