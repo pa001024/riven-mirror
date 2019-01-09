@@ -1,5 +1,5 @@
 <template>
-  <svg :class="[`wf-icon-`+name, { shadow }]">
+  <svg class="icon" :class="[`wf-icon-`+name, { shadow }]">
     <use :xlink:href="`/fonts/wf.svg#wf-icon-`+name"></use>
   </svg>
 </template>
@@ -22,7 +22,7 @@ const AliasTrans = {
 @Component
 export default class WfIcon extends Vue {
   @Prop() type: string
-  @Prop({ type: Boolean }) shadow: string
+  @Prop({ type: Boolean }) shadow: boolean
   get name() {
     if (this.type in AliasTrans) return AliasTrans[this.type];
     return this.type;
@@ -39,7 +39,7 @@ export default class WfIcon extends Vue {
   stroke-width: 0;
   stroke: currentColor;
   fill: currentColor;
-  transform: translateY(2px);
+  // transform: translateY(2px);
   &.shadow {
     filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.2));
   }

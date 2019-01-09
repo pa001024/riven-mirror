@@ -91,7 +91,7 @@ export class Buff {
 export const BuffList: BuffData[] = [
   // 赋能
   ...[
-    ["aJ", "arcaneAcceleration", [["R", 60]], "Rilfe"],
+    ["aJ", "arcaneAcceleration", [["R", 60]], "Rifle"],
     ["aK", "arcaneAvenger", [["eca", 30]], "Weapon"],
     ["aL", "arcaneAwakening", [["D", 100]], "Secondary"],
     ["aM", "arcaneFury", [["K", 120]], "Melee"],
@@ -125,7 +125,7 @@ export const BuffList: BuffData[] = [
     name: "ballisticBattery", // 女枪1 弹道蓄能 (加数值)
     type: BuffType.BaseDamage,
     target: "Gun",
-    dynamicProps: [["伤害数值", 1600, 0]],
+    dynamicProps: [["apd", 1600, 0]],
     parms: ["power", "%"],
     defaultValue: 2,
   }, {

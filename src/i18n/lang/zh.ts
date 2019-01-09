@@ -2177,6 +2177,7 @@ let po = {
       eac: "{0} Corpus敌人射击精准度",
       esp: "{0} Infested移动速度",
       ivb: "隐身",
+      apd: "{0} 额外弹片基础伤害点数",
 
       onHeadshot: "爆头后:",
       onHeadshotKill: "爆头击杀后:",
@@ -2639,7 +2640,7 @@ let po = {
     Hammers: "锤",
   },
   kitgun: {
-    title: "组装枪",
+    title: "组合枪",
     lastStep: "上一步",
     nextStep: "下一步",
     finish: "完成",
@@ -2808,6 +2809,12 @@ let po = {
   update: {
     title: "更新信息",
     confirm: "我知道了"
+  },
+  app: {
+    login: "登录",
+    loginbtn: "注册 / 登录",
+    loginHint: "请输入电子邮箱",
+    passwordHint: "请输入密码",
   }
 };
 

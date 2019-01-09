@@ -9,16 +9,23 @@
       </router-link>
       <MiniClock v-if="isIndexPage" class="hidden-xs-only header-watch">
       </MiniClock>
-      <div class="app-nav-pad hidden-sm-and-up">
-      </div>
+      <!-- padding -->
+      <div class="app-nav-pad"></div>
+      <!-- PC端用户登录界面 -->
+      <router-link tag="div" to="/login" class="hidden-xs-only app-login">
+        <WfIcon type="fingerprint"/>
+        <span class="app-login-title">{{$t("app.login")}}</span>
+      </router-link>
+      <!-- 移动端菜单按钮 -->
       <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
-        <i class="el-icon-arrow-down"></i>
+        <WfIcon type="menu"></WfIcon>
       </button>
     </el-header>
+    <!-- 移动端弹出菜单 -->
     <transition name="el-zoom-in-top">
-      <div class="app-nav-menu" v-if="menuOpen" @click="menuOpen=false">
+      <div class="app-nav-menu hidden-sm-and-up" v-if="menuOpen" @click="menuOpen=false">
         <router-link v-for="link in links" :key="link.title" tag="div" :to="link.path" class="menu-item" :exact="link.exact">
-          <i :class="link.icon"></i>
+          <WfIcon :type="link.icon"></WfIcon>
           <span class="app-nav-title">{{$t(link.title)}}</span>
         </router-link>
       </div>
@@ -28,7 +35,7 @@
         <div class="aside-nav-menu">
           <el-tooltip v-for="link in links" :key="link.title" :content="$t(link.title)" placement="right" :enterable="false">
             <router-link tag="div" :to="link.path" class="menu-item" :exact="link.exact">
-              <i :class="link.icon"></i>
+              <WfIcon :type="link.icon"></WfIcon>
             </router-link>
           </el-tooltip>
         </div>
@@ -57,7 +64,8 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
-import MiniClock from "./components/MiniClock.vue";
+import MiniClock from "@/components/MiniClock.vue";
+import WfIcon from "@/components/WfIcon.vue";
 import { RivenDataBase } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import markdown from "markdown-it";
@@ -65,7 +73,7 @@ import { magic, version, updateLogs } from "@/version";
 
 const md = markdown()
 
-@Component({ components: { MiniClock } })
+@Component({ components: { MiniClock, WfIcon } })
 export default class App extends Vue {
   menuOpen = false;
   updateMessageVisible = false;
@@ -75,15 +83,15 @@ export default class App extends Vue {
   get updateLogs() { return updateLogs }
   get links() {
     return [
-      { title: "navigate.index", path: "/alerts", icon: "el-icon-news", exact: true },
-      { title: "navigate.riven", path: "/riven", icon: "el-icon-view" },
-      { title: "navigate.weapon", path: "/weapon", icon: "el-icon-edit-outline" },
-      { title: "navigate.warframe", path: "/warframe", icon: "el-icon-tickets" },
-      { title: "navigate.simulator", path: "/sim", icon: "el-icon-refresh" },
-      { title: "navigate.huangli", path: "/huangli", icon: "el-icon-date" },
+      { title: "navigate.index", path: "/alerts", icon: "world", exact: true },
+      { title: "navigate.riven", path: "/riven", icon: "motion" },
+      { title: "navigate.weapon", path: "/weapon", icon: "extension" },
+      { title: "navigate.warframe", path: "/warframe", icon: "people" },
+      { title: "navigate.simulator", path: "/sim", icon: "renew" },
+      { title: "navigate.huangli", path: "/huangli", icon: "date" },
       // { title: "navigate.about", path: "/about", icon: "el-icon-info" },
-      { title: "navigate.palette", path: "/palette", icon: "el-icon-menu" },
-      { title: "navigate.setting", path: "/setting", icon: "el-icon-setting" },
+      { title: "navigate.palette", path: "/palette", icon: "palette" },
+      { title: "navigate.setting", path: "/setting", icon: "settings" },
     ].filter(v => v.title !== "navigate.huangli" || i18n.locale !== "en");
   }
   renderMD(text: string) {
@@ -111,6 +119,31 @@ export default class App extends Vue {
 @import "./less/common.less";
 @import "./less/markdown.less";
 @font_logo: FuturaPT;
+
+.app-login {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  .app-login-title {
+    display: inline-block;
+    margin-left: 4px;
+  }
+  .icon {
+    font-size: 1.5rem;
+    vertical-align: middle;
+    filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.2));
+  }
+  &.router-link-exact-active {
+    background: #304ae0;
+    border: 1px solid #6199ff;
+    border-radius: 4px;
+    text-shadow: none;
+    .icon {
+      filter: none;
+    }
+  }
+}
 
 /* APP */
 .update-dialog {
@@ -175,7 +208,7 @@ export default class App extends Vue {
     &:active {
       background: #707de2;
     }
-    i {
+    svg {
       padding: 20px;
       font-size: 24px;
     }
@@ -212,7 +245,7 @@ export default class App extends Vue {
 }
 .aside-nav-menu {
   .menu-item {
-    i {
+    .icon {
       font-size: 24px;
       padding: 18px;
     }
@@ -221,7 +254,6 @@ export default class App extends Vue {
     overflow: hidden;
     background-color: transparent;
     transition: 0.2s;
-    line-height: 36px;
     display: block;
     color: @theme_main;
     &:hover {

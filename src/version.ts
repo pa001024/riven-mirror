@@ -1,6 +1,21 @@
 export const magic = "ALPHA";
-export const version = "1.4.0";
+export const version = "1.4.1";
 export const updateLogs = [
+  {
+    version: "1.4.1",
+    md: {
+      en: `
++ add Robotic weapons data
++ replace icons
++ add user login
+`,
+      cn: `
++ 新增守护武器数据
++ 更换部分图标
++ 增加用户登录页面
+`
+    }
+  },
   {
     version: "1.4.0",
     md: {

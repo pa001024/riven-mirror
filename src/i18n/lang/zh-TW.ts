@@ -2635,7 +2635,7 @@ let po = {
     Hammers: "錘",
   },
   kitgun: {
-    title: "組裝槍",
+    title: "組合槍",
     lastStep: "上一步",
     nextStep: "下一步",
     finish: "完成",

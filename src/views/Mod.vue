@@ -1,7 +1,7 @@
 <template>
   <div class="mod-container" @paste="handlePaste" v-loading="ocrLoading">
     <el-row :gutter="20">
-      <el-col :sm="24" :md="12" :lg="6">
+      <el-col :xs="24" :sm="12" :md="8" :lg="6">
         <!-- 识别区域 -->
         <el-row>
           <el-col :span="24">
@@ -15,7 +15,7 @@
                 <el-button size="medium" @click="editorVisible = false">{{$t("riven.cancel")}}</el-button>
                 <el-button type="primary" size="medium" @click="newRiven">{{$t("riven.confirm")}}</el-button>
               </div>
-              <el-button slot="reference" class="block btn-addriven" size="medium" v-model="modText" icon="el-icon-plus">{{$t("riven.addriven")}}</el-button>
+              <el-button slot="reference" class="block btn-addriven" size="medium" icon="el-icon-plus">{{$t("riven.addriven")}}</el-button>
             </el-popover>
             <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="https://api.0-0.at/api/ocr">
               <i class="el-icon-upload"></i>
@@ -80,7 +80,7 @@
         </el-row>
       </el-col>
       <!-- BuildView区域 -->
-      <el-col :sm="24" :md="12" :lg="18">
+      <el-col :xs="24" :sm="12" :md="16" :lg="18">
         <el-row>
           <el-col :span="24">
             <component :riven="mod" :is="isGun ? 'GunModBuildView' : 'MeleeModBuildView'"></component>

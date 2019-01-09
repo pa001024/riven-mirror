@@ -1,11 +1,18 @@
 exports = [
-{id:"Imperator Vandal",name:"imperatorVandal",rivenName:"Imperator Vandal",tags:["Gun","Archgun"],dmg:[["Puncture",14],["Slash",10],["Impact",16]],critMul:2,critChance:0.15,fireRate:25,status:0.1,accuracy:25,magazine:300,reload:75},
-{id:"Imperator",name:"imperator",rivenName:"Imperator",tags:["Gun","Archgun"],dmg:[["Puncture",14],["Slash",10],["Impact",16]],critMul:2,critChance:0.1,fireRate:16.7,status:0.05,accuracy:25,magazine:250,reload:50},
-{id:"Fluctus",name:"fluctus",rivenName:"Fluctus",tags:["Gun","Archgun"],dmg:[["Puncture",20],["Slash",140],["Impact",40]],critMul:2,critChance:0.15,fireRate:5,status:0.1,accuracy:100,magazine:25,reload:10},
-{id:"Phaedra",name:"phaedra",rivenName:"Phaedra",tags:["Gun","Archgun"],dmg:[["Puncture",29.25],["Slash",4.5],["Impact",11.25]],critMul:2,critChance:0.1,fireRate:18.75,status:0.25,accuracy:11.8,magazine:250,reload:50},
-{id:"Grattler",name:"grattler",rivenName:"Grattler",tags:["Gun","Archgun"],dmg:[["Puncture",140],["Slash",17.5],["Impact",17.5]],critMul:2,critChance:0.25,fireRate:6.25,status:0.25,accuracy:25,magazine:60,reload:10},
-{id:"Corvas",name:"corvas",rivenName:"Corvas",tags:["Gun","Archgun"],dmg:[["Puncture",42],["Slash",42],["Impact",336]],critMul:2,critChance:0.15,fireRate:2,status:0.1,accuracy:9.1,bullets:12,magazine:25,reload:5},
-{id:"Cyngas",name:"cyngas",rivenName:"Cyngas",tags:["Gun","Archgun"],dmg:[["Puncture",66],["Slash",68],["Impact",66]],critMul:2,critChance:0.05,fireRate:9.09,status:0.3,accuracy:33.3,magazine:30,reload:50},
-{id:"Dual Decurion",name:"dualDecurion",rivenName:"Dual Decurion",tags:["Gun","Archgun"],dmg:[["Puncture",16.5],["Slash",16.5],["Impact",27]],critMul:2,critChance:0.25,fireRate:8.3,status:0.1,accuracy:100,magazine:32,reload:50},
-{id:"Velocitus",name:"velocitus",rivenName:"Velocitus",tags:["Gun","Archgun"],dmg:[["Magnetic",200]],fireRate:5,accuracy:28.6,magazine:100,reload:25}
+{id:"Burst Laser",name:"burstLaser",rivenName:"Burst Laser",tags:["Gun","Robotic","Pistol"],dmg:[["Puncture",6],["Slash",0.3],["Impact",0.7]],critMul:1.3,critChance:0.025,fireRate:1.5,status:0.02,accuracy:100,magazine:15,reload:0},
+{id:"Prisma Burst Laser",name:"prismaBurstLaser",rivenName:"Burst Laser",tags:["Gun","Robotic","Pistol"],dmg:[["Puncture",8.5],["Slash",0.5],["Impact",1]],critMul:2,critChance:0.05,fireRate:1.61,status:0.1,accuracy:100,magazine:15,reload:0},
+{id:"Vulklok",name:"vulklok",rivenName:"Vulklok",tags:["Gun","Robotic","Sniper Rifle"],dmg:[["Electricity",85]],critMul:2.5,critChance:0.35,fireRate:0.15,status:0.25,accuracy:100,magazine:10,reload:2},
+{id:"Artax",name:"artax",rivenName:"Artax",tags:["Gun","Robotic","Rifle"],dmg:[["Cold",5]],critMul:1.5,critChance:0.02,fireRate:1,status:0.03,accuracy:12.5,magazine:100,reload:1.5},
+{id:"Vulcax",name:"vulcax",rivenName:"Vulcax",tags:["Gun","Robotic","Rifle"],dmg:[["Heat",35]],critMul:2.5,critChance:0.2,fireRate:1,status:0.1,accuracy:100,magazine:1,reload:6},
+{id:"Sweeper Prime",name:"sweeperPrime",rivenName:"Sweeper",tags:["Gun","Robotic","Shotgun"],dmg:[["Puncture",3],["Slash",6],["Impact",51]],critMul:2,critChance:0.05,fireRate:1,status:0.15,accuracy:3.3,bullets:6,magazine:20,reload:2},
+{id:"Sweeper",name:"sweeper",rivenName:"Sweeper",tags:["Gun","Robotic","Shotgun"],dmg:[["Puncture",2.1],["Slash",4.2],["Impact",35.7]],critMul:1.5,critChance:0.05,fireRate:1,status:0.14,accuracy:3.3,bullets:6,magazine:10,reload:2.3},
+{id:"Stinger",name:"stinger",rivenName:"Stinger",tags:["Gun","Robotic","Rifle"],dmg:[["Toxin",15]],critMul:1.5,critChance:0.025,fireRate:3.3,status:0.05,accuracy:100,magazine:4,reload:1.2},
+{id:"Prime Laser Rifle",name:"primeLaserRifle",rivenName:"Laser Rifle",tags:["Gun","Robotic","Rifle"],dmg:[["Puncture",8.4],["Slash",2.4],["Impact",1.2]],critMul:1.5,critChance:0.15,fireRate:10,status:0.05,accuracy:100,magazine:5,reload:1.2},
+{id:"Multron",name:"multron",rivenName:"Multron",tags:["Gun","Robotic","Rifle"],dmg:[["Puncture",3.8],["Impact",1.3]],critMul:1.8,critChance:0.125,fireRate:3.33,status:0.05,accuracy:18.2,magazine:60,reload:3},
+{id:"Laser Rifle",name:"laserRifle",rivenName:"Laser Rifle",tags:["Gun","Robotic","Rifle"],dmg:[["Puncture",6.4],["Slash",0.8],["Impact",0.8]],critMul:1.3,critChance:0.025,fireRate:6.7,status:0.02,accuracy:100,magazine:5,reload:1.2},
+{id:"Deconstructor Prime",name:"deconstructorPrime",rivenName:"Deconstructor",tags:["Gun","Robotic","Glaive"],dmg:[["Impact",75]],critChance:0,fireRate:1.33,status:0.25,accuracy:100,magazine:6,reload:3},
+{id:"Deth Machine Rifle",name:"dethMachineRifle",rivenName:"Deth Machine Rifle",tags:["Gun","Robotic","Rifle"],dmg:[["Puncture",0.3],["Slash",4.3],["Impact",0.5]],critMul:2,critChance:0.05,fireRate:8.3,status:0.01,accuracy:100,magazine:100,reload:2},
+{id:"Cryotra",name:"cryotra",rivenName:"Cryotra",tags:["Gun","Robotic","Rifle"],dmg:[["Cold",10]],critMul:2,critChance:0.05,fireRate:1,status:0.35,accuracy:12.5,magazine:80,reload:4},
+{id:"Tazicor",name:"tazicor",rivenName:"Tazicor",tags:["Gun","Robotic","Rifle"],dmg:[["Electricity",6]],critMul:1.5,critChance:0.02,fireRate:8.33,status:0.15,accuracy:25,magazine:4,reload:2.5},
+{id:"Deconstructor",name:"deconstructor",rivenName:"Deconstructor",tags:["Gun","Robotic","Glaive"],dmg:[["Impact",50]],critChance:0,fireRate:1.3,status:0.25,accuracy:100,magazine:6,reload:3}
 ]

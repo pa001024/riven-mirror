@@ -30,6 +30,8 @@ export default class ErrorPage extends Vue {
 
 
 <style lang="less" scoped>
+@import "../less/common.less";
+
 a {
   text-decoration: none;
 }
@@ -47,7 +49,7 @@ ul{
   line-height: 22px;
   font-size: 17px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #f6f6f6;
+  border-bottom: 1px solid #e0e0e0;
   text-align: center;
   color: #262b31;
 }
@@ -73,7 +75,7 @@ ul{
 .notfoud-container .notfound-btn-container .notfound-btn {
   display: inline-block;
   border: 1px solid #ebedef;
-  background-color: #239bf0;
+  background-color: @theme_main;
   color: #fff;
   font-size: 15px;
   border-radius: 5px;

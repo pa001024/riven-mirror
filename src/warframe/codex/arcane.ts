@@ -35,7 +35,7 @@ const _arcaneListSource = [
   ["aG", "arcaneWarmth", [["抵挡冰冻", 80]], "passive", "Warframe", 1, 0],
   ["aH", "arcaneNullifier", [["抵挡磁力", 80]], "passive", "Warframe", 1, 0],
   ["aI", "arcaneConsequence", [["at", 40]], "headshot", "Warframe", 1, 12],
-  ["aJ", "arcaneAcceleration", [["R", 60]], "crithit", "Rilfe", 0.2, 6],
+  ["aJ", "arcaneAcceleration", [["R", 60]], "crithit", "Rifle", 0.2, 6],
   ["aK", "arcaneAvenger", [["eca", 30]], "damaged", "Weapon", 0.14, 8],
   ["aL", "arcaneAwakening", [["D", 100]], "reload", "Secondary", 0.4, 16],
   ["aM", "arcaneFury", [["K", 120]], "crithit", "Melee", 0.4, 12],

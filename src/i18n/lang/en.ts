@@ -711,6 +711,7 @@ let po = {
       eac: "{0} Corpus Hit Chance",
       esp: "{0} Infested Speed",
       ivb: "Invisible",
+      apd: "{0} first Pellet Damage additionally",
 
       onHeadshot: "On Headshot:",
       onHeadshotKill: "On Headshot Kill:",
@@ -1092,15 +1093,15 @@ let po = {
     ar: "ARMOR",
   },
   navigate: {
-    index: "Alerting",
+    index: "In-Game Alerts",
     riven: "Riven Analyzer",
     weapon: "Weapon Builder",
     warframe: "Tactics Builder",
-    simulator: "Simulator",
+    simulator: "Riven Simulator",
     huangli: "WF Huangli",
     palette: "Palette Tools",
     about: "About",
-    setting: "Setting",
+    setting: "Settings",
   },
   time: {
     earth: "Earth",

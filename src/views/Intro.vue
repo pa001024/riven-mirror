@@ -15,55 +15,55 @@
     <div class="section tool white-bg">
       <div class="container">
         <el-row gutter="8">
-          <el-col :span="8" :md="4" class="tool-section">
+          <el-col :xs="12" :sm="8" :md="4" class="tool-section">
             <router-link to="/alerts" tag="div" class="tool-button">
               <router-link to="/alerts">
-                <i class="el-icon-news"></i>
+                <WfIcon type="world"/>
                 <div class="name">{{$t("navigate.index")}}</div>
                 <div class="desc">突击 / 警报 / 裂缝 / 赏金</div>
               </router-link>
             </router-link>
           </el-col>
-          <el-col :span="8" :md="4" class="tool-section">
+          <el-col :xs="12" :sm="8" :md="4" class="tool-section">
             <router-link to="/riven" tag="div" class="tool-button">
               <router-link to="/riven">
-                <i class="el-icon-view"></i>
+                <WfIcon type="motion"/>
                 <div class="name">{{$t("navigate.riven")}}</div>
                 <div class="desc">紫卡评分 / 数值查询 / 配置计算</div>
               </router-link>
             </router-link>
           </el-col>
-          <el-col :span="8" :md="4" class="tool-section">
+          <el-col :xs="12" :sm="8" :md="4" class="tool-section">
             <router-link to="/weapon" tag="div" class="tool-button">
               <router-link to="/weapon">
-                <i class="el-icon-edit"></i>
+                <WfIcon type="extension"/>
                 <div class="name">{{$t("navigate.weapon")}}</div>
                 <div class="desc">收益分析 / 配卡分享 / 幻影装置</div>
               </router-link>
             </router-link>
           </el-col>
-          <el-col :span="8" :md="4" class="tool-section">
+          <el-col :xs="12" :sm="8" :md="4" class="tool-section">
             <router-link to="/warframe" tag="div" class="tool-button">
               <router-link to="/warframe">
-                <i class="el-icon-tickets"></i>
+                <WfIcon type="people"/>
                 <div class="name">{{$t("navigate.warframe")}}</div>
                 <div class="desc">战甲配装 / 技能数值 / 属性计算</div>
               </router-link>
             </router-link>
           </el-col>
-          <el-col :span="8" :md="4" class="tool-section">
+          <el-col :xs="12" :sm="8" :md="4" class="tool-section">
             <router-link to="/sim" tag="div" class="tool-button">
               <router-link to="/sim">
-                <i class="el-icon-refresh"></i>
+                <WfIcon type="renew"/>
                 <div class="name">{{$t("navigate.simulator")}}</div>
                 <div class="desc">模拟开卡 / 模拟洗卡</div>
               </router-link>
             </router-link>
           </el-col>
-          <el-col :span="8" :md="4" class="tool-section">
+          <el-col :xs="12" :sm="8" :md="4" class="tool-section">
             <router-link to="/palette" tag="div" class="tool-button">
               <router-link to="/palette">
-                <i class="el-icon-menu"></i>
+                <WfIcon type="palette"/>
                 <div class="name">{{$t("navigate.palette")}}</div>
                 <div class="desc">图片取色 / 色板找色</div>
               </router-link>
@@ -107,7 +107,7 @@
     </div>
     <div class="section footer white-bg">
       <div class="container">
-        <div class="line">
+        <!-- <div class="line">
           <h3>极镜应用</h3>
           <ul class="clear">
             <li><router-link to="/alerts" v-t="'navigate.index'"></router-link></li>
@@ -118,7 +118,7 @@
             <li><router-link to="/huangli" v-t="'navigate.huangli'"></router-link></li>
             <li><router-link to="/palette" v-t="'navigate.palette'"></router-link></li>
           </ul>
-        </div>
+        </div> -->
         <div class="line">
           <h3>关于和帮助</h3>
           <ul class="clear">
@@ -128,8 +128,14 @@
             <li>
               <a href="https://www.bilibili.com/video/av31311040/" target="_blank">视频教程</a>
             </li>
+            <!-- <li>
+              <router-link to="/eula">用户协议</router-link>
+            </li>
             <li>
-              <a href="/eula" target="_blank">用户协议</a>
+              <router-link to="/about">关于</router-link>
+            </li> -->
+            <li>
+              <a href="https://afdian.net/@rivenmirror" target="_blank">打赏</a>
             </li>
           </ul>
         </div>
@@ -143,7 +149,7 @@
         </div>
         <div class="line copyright">
           <p>
-            <span>Created by pa001024 2018 ~ 2019</span>&nbsp;
+            <span>Created by pa001024 &nbsp; 2018 ~ 2019</span>&nbsp;
             <s>上海アリス幻樂団</s>
           </p>
         </div>
@@ -153,8 +159,9 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import WfIcon from "@/components/WfIcon.vue";
 
-@Component
+@Component({ components: { WfIcon } })
 export default class extends Vue {
   touse(e: MouseEvent) {
     e.preventDefault();
@@ -192,11 +199,11 @@ export default class extends Vue {
         height: 2rem;
         word-break: keep-all;
       }
-      i {
+      .icon {
         color: #3a88fd;
         display: block;
         font-size: 3rem;
-        margin: 0 0 12px;
+        margin: 0 auto 12px;
       }
     }
   }

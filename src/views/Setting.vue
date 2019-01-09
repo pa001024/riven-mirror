@@ -18,7 +18,7 @@ import { i18n } from "@/i18n";
 import { changeLocale } from "@/i18n/plugin";
 
 @Component
-export default class extends Vue {
+export default class Setting extends Vue {
   setlang(lang: string) {
     changeLocale(lang || navigator.language)
     // location.reload();

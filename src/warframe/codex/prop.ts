@@ -104,6 +104,10 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "her", }, // EnergyOnHeadshotRifle
   { id: "ens", }, // Enemy Shield
   { id: "ena", }, // Enemy Amror
+  { id: "ref", }, // % Damage taken is reflected when Blocking attacks while Channeling.
+  { id: "hps", nopercent: true }, // Heal Rate/s
+  { id: "eac", }, // % Hit Chance
+  { id: "esp", }, // % Speed
   // 集团
   { id: "vp", }, // 'Purity'
   { id: "vt", }, // 'Truth'
@@ -178,10 +182,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "si", nopercent: true }, // Impact damage reduces enemy armor by 1.
   { id: "rc", }, // Fire/Charge Rate
   { id: "scan", }, // Fatal strikes against an enemy also perform a Codex Scan
-  { id: "ref", }, // % Damage taken is reflected when Blocking attacks while Channeling.
-  { id: "hps", nopercent: true }, // Heal Rate/s
-  { id: "eac", }, // % Hit Chance
-  { id: "esp", }, // % Speed
+  { id: "apd", }, // first Pellet Damage additionally
 ].reduce((a, b) => (a[b.id] = b, a), {});
 
 /**

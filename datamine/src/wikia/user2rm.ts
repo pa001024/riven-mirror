@@ -32,22 +32,23 @@ export interface GunWeaponData extends WeaponData {
   rangeLimit?: number;
 }
 
-let rmw = userWeapons.filter(uw => uw.Type === "Arch-Gun").map(uw => {
-  let rivenName = uw.Name.replace(" (Atmosphere)", "");
+let rmw = userWeapons.filter(uw => uw.Type === "Robotic").map(uw => {
+  let rivenName = uw.Family || uw.Name;
+  let atk = uw.NormalAttack || uw.ChargeAttack
   return {
     id: uw.Name,
-    name: _.camelCase(rivenName),
+    name: _.camelCase(uw.Name),
     // mode: "atmosphere",
     rivenName,
-    tags: ["Gun", "Archgun"],
-    dmg: _.map(uw.NormalAttack.Damage, (v, i) => [i, v]),
-    critMul: uw.NormalAttack.CritMultiplier,
-    critChance: uw.NormalAttack.CritChance,
-    fireRate: uw.NormalAttack.FireRate,
-    status: uw.NormalAttack.StatusChance,
+    tags: ["Gun", "Robotic", uw.Class],
+    dmg: _.map(atk.Damage, (v, i) => [i, v]),
+    critMul: atk.CritMultiplier,
+    critChance: atk.CritChance,
+    fireRate: atk.FireRate,
+    status: atk.StatusChance,
 
     accuracy: uw.Accuracy,
-    bullets: uw.NormalAttack.PelletCount,
+    bullets: atk.PelletCount,
     magazine: uw.Magazine,
     reload: uw.Reload,
     ammo: uw.MaxAmmo,

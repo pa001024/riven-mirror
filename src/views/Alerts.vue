@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" ref="wrapper" :class="{disable: !scrollEnable}">
+  <div class="wrapper alerts-containor" ref="wrapper" :class="{disable: !scrollEnable}">
     <div class="content" ref="content" :style="{ width: scrollWidth ? scrollWidth + 'px' : '100%' }">
       <el-row :gutter="20" class="index" type="flex">
         <!-- 时间 -->
@@ -310,6 +310,9 @@ export default class Alerts extends Vue {
 </script>
 
 <style lang="less">
+.alerts-containor {
+  margin: 0 !important;
+}
 .index-card.news li {
   color: #3d5afe;
   transition: 0.4s ease-out;
@@ -353,16 +356,19 @@ export default class Alerts extends Vue {
     margin-top: -16px;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
     li {
-      padding: 14px 28px;
+      padding: 1rem 1.6rem;
       display: flex;
       align-items: center;
       white-space: nowrap;
-      width: calc(100% - 56px);
+      width: calc(100% - 3.2rem);
     }
   }
-}
-.index-card .padding {
-  flex: 1;
+  .padding {
+    flex: 1;
+  }
+  svg {
+    vertical-align: text-top;
+  }
 }
 .index-card.info ul li {
   white-space: normal;
@@ -404,9 +410,12 @@ export default class Alerts extends Vue {
   border: 1px solid #3d5afe;
   color: #3d5afe;
   display: inline-block;
-  padding: 8px 16px;
+  // padding: 8px 16px;
   border-radius: 4px;
-  margin: 16px 0 0 24px;
+  // margin: 16px 0 0 24px;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin: 1rem 0 0 1.6rem;
 }
 @media only screen and (max-width: 444px) {
   .index-card.sortie .sortie-info {
@@ -460,6 +469,8 @@ export default class Alerts extends Vue {
 .content {
   height: 100%;
   width: 1920px;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 .index {
   flex-flow: column wrap;
@@ -542,6 +553,9 @@ export default class Alerts extends Vue {
   }
   .wrapper {
     overflow: hidden;
+  }
+  .content {
+    box-sizing: initial;
   }
   .index {
     height: 100%;
