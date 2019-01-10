@@ -14,7 +14,7 @@
     </div>
     <div class="section tool white-bg">
       <div class="container">
-        <el-row gutter="8">
+        <el-row :gutter="8">
           <el-col :xs="12" :sm="8" :md="4" class="tool-section">
             <router-link to="/alerts" tag="div" class="tool-button">
               <router-link to="/alerts">
@@ -166,6 +166,10 @@ export default class extends Vue {
   touse(e: MouseEvent) {
     e.preventDefault();
     this.$router.push("/alerts")
+  }
+
+  mounted() {
+    localStorage.setItem("0w0", "yes")
   }
 }
 </script>

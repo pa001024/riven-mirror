@@ -38,7 +38,6 @@ export interface GunModBuildOptions {
 export class GunModBuild extends ModBuild {
   weapon: GunWeapon
   // 属性增幅器
-  private _multishotMul = 100;
   private _magazineMul = 100;
   private _reloadSpeedMul = 100;
   private _maxAmmoMul = 100;
@@ -286,7 +285,6 @@ export class GunModBuild extends ModBuild {
   /** 重置所有属性增幅器 */
   reset() {
     super.reset();
-    this._multishotMul = 100;
     this._fireRateMul = 100;
     this._magazineMul = 100;
     this._reloadSpeedMul = 100;

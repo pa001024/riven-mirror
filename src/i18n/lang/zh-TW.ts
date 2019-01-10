@@ -1137,8 +1137,12 @@ let po = {
     "kreska": "直鎬",
     "plinx": "漫射者",
     "exergis": "晶能放射器",
-    "galvacord": "電鍍絞線鞭",
+    "galvacord": "電流刺索",
     "cobraCrane": "眼鏡蛇 & 鶴",
+    "vulcax": "金工火舌",
+    "multron": "多連穿甲槍",
+    "cryotra": "急凍噴槍",
+    "tazicor": "泰瑟步槍",
 
     "none": "無",
     "balla": "寶拉",

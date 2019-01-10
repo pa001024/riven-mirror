@@ -1,15 +1,21 @@
 <template>
   <div class="login-containor">
     <div class="login-bg"></div>
-    <div class="login-box">
-      <el-input :placeholder="$t('app.loginHint')" type="email" v-model="userLogin">
-        <WfIcon slot="prefix" type="mail" class="input-icon"/>
-      </el-input>
-      <el-input :placeholder="$t('app.passwordHint')" type="password" v-model="userLogin">
-        <WfIcon slot="prefix" type="lock" class="input-icon"/>
-      </el-input>
-      <el-button class="block btn-login" size="large">{{$t("app.loginbtn")}}</el-button>
-    </div>
+    <el-form :rules="rules" ref="loginForm" :model="user" class="login-box">
+      <el-form-item prop="login">
+        <el-input :placeholder="$t('app.loginHint')" type="email" v-model="user.login">
+          <WfIcon slot="prefix" type="mail" class="input-icon"/>
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="pass">
+        <el-input :placeholder="$t('app.passwordHint')" type="password" v-model="user.pass">
+          <WfIcon slot="prefix" type="lock" class="input-icon"/>
+        </el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button class="block btn-login" size="large" @click="onSubmit">{{$t("app.loginbtn")}}</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 <script lang="ts">
@@ -18,7 +24,33 @@ import WfIcon from "@/components/WfIcon.vue";
 
 @Component({ components: { WfIcon } })
 export default class Login extends Vue {
+  user = {
+    login: "",
+    pass: ""
+  }
 
+  get rules() {
+    return {
+      login: [
+        { type: 'email', message: this.$t("app.emailcheck"), trigger: 'blur' },
+      ],
+      pass: [
+        { required: true, message: this.$t("app.passmiss"), trigger: 'change' },
+        { min: 6, max: 32, message: this.$t("app.passcheck"), trigger: 'change' }
+      ],
+    }
+
+  }
+  onSubmit(formName) {
+    (this.$refs[formName] as any).validate((valid) => {
+      if (valid) {
+        alert(JSON.stringify(this.user))
+      } else {
+        console.log('error submit!!');
+        return false;
+      }
+    });
+  }
 }
 </script>
 <style lang="less">
@@ -40,7 +72,7 @@ export default class Login extends Vue {
     box-sizing: border-box;
     box-shadow: 5px 5px 20px 8px rgba(61, 90, 254, 0.11);
     .el-input {
-      margin: 8px auto;
+      margin: 4px auto;
       .el-input__inner {
         border: none;
         border-bottom: 1px solid #e8e8e8;
@@ -59,7 +91,7 @@ export default class Login extends Vue {
     border-radius: 100px;
     border: 0;
     box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
-    margin-top: 24px;
+    margin-top: 18px;
   }
 }
 .input-icon {

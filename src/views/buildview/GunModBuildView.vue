@@ -287,8 +287,8 @@ export default class GunModBuildView extends BaseModBuildView {
       useHunterMunitions: this.useHunterMunitions ? this.notMustUseHunterMunitions ? 1 : 2 : 0,
       headShotChance: this.headShotChance / 100,
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
-      extraBaseDamage: this.extraBaseDamage / 100,
-      extraOverall: this.extraOverall / 100,
+      extraBaseDamage: +this.extraBaseDamage,
+      extraOverall: +this.extraOverall,
       arcanes: this.arcanes
     };
     super.recalc(GunModBuild, options);

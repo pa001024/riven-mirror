@@ -1,7 +1,7 @@
 type Polarity = "r" | "-" | "d" | "=" | "w"
 type Rarity = "n" | "c" | "r" | "l" | "x"
 
-module.exports = [
+module.exports = <[string, string, [string, number][], string, Polarity, Rarity, number, number][]>[
   // 00 为空槽 01 为紫卡
   // 主要武器 00 ~ 0z
   ["02", "Hunter Munitions", [["ac", 5]], "Primary", "r", "c", 4],
@@ -623,4 +623,4 @@ module.exports = [
   ["VC", "Astral Slash", [["A", 15]], "Archmelee", "-", "r", 2],
   ["VD", "Nebula Bore", [["9", 15]], "Archmelee", "-", "r", 2],
   ["VE", "Meteor Crash", [["8", 15]], "Archmelee", "-", "r", 2],
-] as [string, string, [string, number][], string, Polarity, Rarity, number, number][];
+];

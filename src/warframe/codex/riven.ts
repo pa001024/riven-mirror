@@ -221,7 +221,7 @@ export class RivenWeapon {
   /** 武器倾向星数 */
   get star() { return [0.1, 0.7, 0.875, 1.125, 1.305, Infinity].findIndex(v => this.ratio < v); }
   get starText() { return _.repeat("●", this.star) + _.repeat("○", 5 - this.star); }
-  constructor(id: string,  mod: string, ratio: number, price: number = 0) {
+  constructor(id: string, mod: string, ratio: number, price: number = 0) {
     this.id = id;
     this.mod = mod;
     this.ratio = ratio;
@@ -279,6 +279,10 @@ const _rivenWeaponDataBase = [
   ["Quanta", "Rifle", 1],
   ["Nagantaka", "Rifle", 1],
   ["Battacor", "Rifle", 1],
+  ["Vulcax", "Rifle", 1],
+  ["Multron", "Rifle", 1],
+  ["Cryotra", "Rifle", 1],
+  ["Tazicor", "Rifle", 1],
   ["Zarr", "Rifle", 1.08],
   ["Tenora", "Rifle", 1.05],
   ["Paris", "Rifle", 1.05],

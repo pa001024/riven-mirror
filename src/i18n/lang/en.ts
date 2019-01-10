@@ -433,6 +433,10 @@ let po = {
     "exergis": "Exergis",
     "galvacord": "Galvacord",
     "cobraCrane": "Cobra & Crane",
+    "vulcax": "Vulcax",
+    "multron": "Multron",
+    "cryotra": "Cryotra",
+    "tazicor": "Tazicor",
 
     "none": "None",
     "balla": "Balla",

@@ -253,8 +253,8 @@ export default class MeleeModBuildView extends BaseModBuildView {
       compareMode: this.selectCompMethod,
       comboLevel: ~~((this.comboMul - 1) * 2),
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
-      extraBaseDamage: this.extraBaseDamage / 100,
-      extraOverall: this.extraOverall / 100,
+      extraBaseDamage: +this.extraBaseDamage,
+      extraOverall: +this.extraOverall,
       arcanes: this.arcanes
     };
     super.recalc(MeleeModBuild, options);

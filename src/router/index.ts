@@ -15,7 +15,7 @@ import NewUserWelcome from '@/views/NewUserWelcome.vue'
 import Login from '@/views/Login.vue'
 import WeaponSelector from '@/components/WeaponSelector.vue'
 import WarframeSelector from '@/components/WarframeSelector.vue'
-import WarframeEditor from '@/views/team/WarframeEditor.vue'
+import WarframeEditor from '@/views/WarframeEditor.vue'
 
 Vue.use(Router)
 
@@ -31,8 +31,8 @@ export default new Router({
     { path: '/riven', name: 'Mod', component: () => import(/* webpackChunkName: "main" */ "@/views/Mod.vue") },
     { path: '/riven/:source', name: 'ModWithSource', component: () => import(/* webpackChunkName: "main" */ "@/views/Mod.vue"), props: true },
     { path: '/warframe', name: 'WarframeSelector', component: () => import(/* webpackChunkName: "main" */ "@/components/WarframeSelector.vue") },
-    { path: '/warframe/:id', name: 'WarframeEditor', component: () => import(/* webpackChunkName: "main" */ "@/views/team/WarframeEditor.vue") },
-    { path: '/warframe/:id/:code', name: 'WarframeEditorWithCode', component: () => import(/* webpackChunkName: "main" */ "@/views/team/WarframeEditor.vue") },
+    { path: '/warframe/:id', name: 'WarframeEditor', component: () => import(/* webpackChunkName: "main" */ "@/views/WarframeEditor.vue") },
+    { path: '/warframe/:id/:code', name: 'WarframeEditorWithCode', component: () => import(/* webpackChunkName: "main" */ "@/views/WarframeEditor.vue") },
     { path: '/setting', name: 'Setting', component: () => import(/* webpackChunkName: "main" */ "@/views/Setting.vue") },
     { path: '/sim', name: 'Simulator', component: () => import(/* webpackChunkName: "main" */ "@/views/Simulator.vue") },
     { path: '/weapon', name: 'WeaponSelector', component: () => import(/* webpackChunkName: "main" */ "@/components/WeaponSelector.vue") },

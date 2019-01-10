@@ -1137,8 +1137,12 @@ let po = {
     "kreska": "直镐",
     "plinx": "漫射者",
     "exergis": "晶能放射器",
-    "galvacord": "电镀绞线鞭",
+    "galvacord": "电流刺索",
     "cobraCrane": "眼镜蛇 & 鹤",
+    "vulcax": "金工火舌",
+    "multron": "多连穿甲枪",
+    "cryotra": "急冻喷枪",
+    "tazicor": "泰瑟步枪",
 
     "none": "无",
     "balla": "宝拉",
@@ -2178,6 +2182,14 @@ let po = {
       esp: "{0} Infested移动速度",
       ivb: "隐身",
       apd: "{0} 额外弹片基础伤害点数",
+      m: "{0} Movement Speed when Aiming",
+      her: "{0} Energy On Headshot",
+      vp: "'Purity'",
+      vt: "'Truth'",
+      ve: "'Entropy'",
+      vs: "'Sequence'",
+      vj: "'Justice'",
+      vb: "'Blight'",
 
       onHeadshot: "爆头后:",
       onHeadshotKill: "爆头击杀后:",
@@ -2815,6 +2827,9 @@ let po = {
     loginbtn: "注册 / 登录",
     loginHint: "请输入电子邮箱",
     passwordHint: "请输入密码",
+    emailcheck: "请输入正确的电子邮件",
+    passmiss: "请输入密码",
+    passcheck: "密码长度 6 到 32 个字符"
   }
 };
 

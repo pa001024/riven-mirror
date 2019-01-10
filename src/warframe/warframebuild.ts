@@ -1,6 +1,6 @@
 import { WarframeDataBase, Warframe, Codex, AbilityData, AbilityEnhance, AbilityProp, AbilityFormData, AbilityType, AdvancedAbilityPropValue, WarframeProperty, AbilityPropTypes } from "./codex";
 import { i18n } from "@/i18n";
-import { NormalMod } from "./codex/mod";
+import { NormalMod, NormalModDatabase } from "./codex/mod";
 import { hAccSum } from "./util";
 import { Arcane } from "./codex/arcane";
 import { Buff, BuffList } from "./codex/buff";
@@ -15,6 +15,9 @@ export class WarframeBuild {
   protected _buffs: Buff[] = [];
   protected _aura: NormalMod = null;
   protected _exilus: NormalMod = null;
+
+  /** 所有适用的MOD */
+  protected avaliableMods: NormalMod[] = []
 
   /** 光环 */
   get aura() { return this._aura }
@@ -160,7 +163,9 @@ export class WarframeBuild {
   constructor(data: Warframe | string) {
     if (typeof data === "string") data = WarframeDataBase.getWarframeById(data);
     if (!data) return;
-    this.data = data;
+    if (this.data = data) {
+      this.avaliableMods = NormalModDatabase.filter(v => this.data.tags.concat(["Warframe", "Exilus", this.baseId, this.baseId + ",Exilus"]).includes(v.type));
+    }
     this.reset();
   }
 
@@ -362,13 +367,78 @@ export class WarframeBuild {
   }
 
   /**
+   * 自动填充MOD
+   * @param slots 可用的插槽数
+   * @param useRiven 是否使用紫卡 0 = 不用 1 = 自动选择 2 = 必须用
+   */
+  fill(slots = 8, useRiven = 0) {
+    // 初始化
+    this.clear();
+    this.fillEmpty(slots, useRiven);
+  }
+  /**
    * MOD自动填充V1
    *
    * @description 根据所需的属性计算最大化或最小化以填充空白
    * @memberof WarframeBuild
    */
-  fillEmpty() {
+  fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
+    let mods = this._mods = _.compact(this._mods);
+    let othermods = lib.filter(v => !mods.some(k => v.id === k.id && (v.id === "RIVENFAKE" ? v.props[0][0] === k.props[0][0] : true) || v.id === k.primed));
+    let sortableMods = othermods.map(v => [v, 0] as [NormalMod, number]);
+    let rivenCount = mods.reduce((a, b) => a + (b.id === "RIVENFAKE" ? 1 : 0), 0), rivenSlots = rivenLimit ? slots + rivenLimit - 1 : slots;
+    if (useRiven > 0) {
+      // if (useRiven == 2)
+      //   this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
+      // else
+      //   othermods.push(this.riven.normalMod); // 1. 将紫卡作为一张普卡进行计算
+    }
+    while (mods.length < rivenSlots && sortableMods.length > (rivenSlots - mods.length)) {
+      // 2. 计算收益
+      // console.log("开始计算收益: ", this._mods.length)
+      sortableMods.forEach(v => {
+        if (v[0].id === "RIVENFAKE" ? rivenCount >= rivenLimit : mods.length - rivenCount >= rivenSlots - rivenLimit)
+          v[1] = -2;
+        else
+          v[1] = this.testMod(v[0]);
+        // v[0].id === "RIVENFAKE" && console.log("测试收益: ", this._mods.map(v => v.name).join(","), v[0].props[0][1], v[0].name, "的收益是", v[1]);
+      });
+      // 3. 把所有卡按收益排序
+      sortableMods.sort((a, b) => b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]);
+      if (sortableMods.length > 0) {
+        // console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
+        // 4. 将收益最高的一项插入并移出数组
+        let expMod = sortableMods.shift()[0];
+        if (expMod.id === "RIVENFAKE") rivenCount++;
+        this.applyMod(expMod);
+        // 5. 重复以上步骤直到卡槽充满
+      }
+    }
+    this.recalcPolarizations();
+  }
 
+  /**
+   * 返回MOD增幅数值
+   * @param mod NormalMod
+   * @return MOD增幅数值
+   */
+  testMod(mod: NormalMod) {
+    // MOD查重
+    if (!this.isValidMod(mod)) return -1;
+    // 效率优化
+    if (mod.props.length == 1) {
+      let oriDmg: [string, number];
+      switch (mod.props[0][0]) {
+      }
+    }
+    // 通用方法
+    let oldVal = this.effectiveHealth;
+    this._mods.push(mod);
+    this.calcMods();
+    let newVal = this.effectiveHealth;
+    this._mods.pop();
+    this.calcMods();
+    return newVal / oldVal - 1;
   }
 
   /**

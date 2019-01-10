@@ -83,6 +83,7 @@ export class NormalMod implements NormalModData {
         fullName: vp.fullString,
         shortName: vp.shortString,
         value: vp.value,
+        dmg: vp.prop.dmg
       }
     })
   }

@@ -142,6 +142,7 @@ import { BaseBuildEditor } from "./BaseBuildEditor";
 import { ModBuild } from "@/warframe/modbuild";
 import { NormalMod, MeleeWeapon, RivenWeapon, Codex } from "@/warframe/codex";
 import { MeleeModBuild } from "@/warframe/meleemodbuild";
+import "@/less/builder.less";
 
 declare interface BuildSelectorTab {
   title: string
@@ -176,8 +177,8 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   get options() {
     return {
       comboLevel: ~~((this.comboMul - 1) * 2),
-      extraBaseDamage: this.extraBaseDamage,
-      extraOverall: this.extraOverall,
+      extraBaseDamage: +this.extraBaseDamage,
+      extraOverall: +this.extraOverall,
       arcanes: this.arcanes,
     };
   }

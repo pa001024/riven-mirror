@@ -1,5 +1,5 @@
 <template>
-  <div class="team-editor-main">
+  <div class="editor-main team-editor-main">
     <el-row :gutter="20">
       <el-col :xs="24" :sm="12" :lg="6">
         <!-- 基础信息区域 -->
@@ -48,6 +48,14 @@
                 <PropDiff :name="$t('build.abilityRange')" :ori="coreBuild.abilityRange" :val="build.abilityRange" percent :preci="0"></PropDiff>
               </tbody>
             </table>
+          </el-card>
+          <!-- 选项区域 -->
+          <el-card class="build-tools">
+            <el-button-group class="build-tools-action">
+              <el-button type="primary" size="small" @click="fill()">{{$t("build.fill")}}</el-button>
+              <el-button type="primary" size="small" @click="fillEmpty()">{{$t("build.fillEmpty")}}</el-button>
+              <el-button type="primary" size="small" @click="clear()">{{$t("build.clear")}}</el-button>
+            </el-button-group>
           </el-card>
         </div>
       </el-col>
@@ -148,6 +156,7 @@ import LeveledModSelector from "@/components/LeveledModSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty } from "@/warframe/codex";
 import WfIcon from "@/components/WfIcon.vue";
+import "@/less/builder.less";
 
 interface BuildSelectorTab {
   title: string
@@ -298,11 +307,31 @@ export default class WarframeEditor extends Vue {
       this.tabs = tabs.filter(tab => tab.name !== targetName);
     }
   }
+  fill() {
+    this.build.fill(8,0);
+    this.currentTab.mods = this.build.mods;
+    this.reloadSelector();
+    this.$router.push({ name: 'WarframeEditorWithCode', params: { code: this.build.miniCode } });
+  }
+  fillEmpty() {
+    this.build.fillEmpty(8,0);
+    this.currentTab.mods = this.build.mods;
+    this.reloadSelector();
+    this.$router.push({ name: 'WarframeEditorWithCode', params: { code: this.build.miniCode } });
+  }
+  clear() {
+    let rivenIdx = this.currentTab.mods.findIndex(v => v && v.rarity === "x"), riven = this.currentTab.mods[rivenIdx];
+    this.currentTab.mods = Array(8);
+    // 不清除紫卡
+    if (riven) this.currentTab.mods[rivenIdx] = riven;
+    this.refleshMods();
+    this.reloadSelector();
+  }
 }
 </script>
 
 <style lang="less">
-@import "../../less/common.less";
+@import "../less/common.less";
 
 .team-editor-main {
   .warframe-props {

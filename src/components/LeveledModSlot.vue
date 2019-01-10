@@ -1,12 +1,12 @@
 <template>
-  <div class="mod-slot leveled" :class="[mod && mod.rarity, { active: !mod }]" @click="mod || $emit('change')">
+  <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod , leveled }]" @click="mod || $emit('change')">
     <div v-if="icon" class="mod-header-icon">
       <WfIcon :type="icon"/>
     </div>
     <template v-if="mod">
       <div class="mod-title">
         <div class="mod-polarity" :class="costClass"><WfIcon :type="mod.polarity"/>{{cost}}</div>
-        <div class="mod-name leveled" @click="$emit('change')">{{mod.name}}</div>
+        <div class="mod-name" @click="$emit('change')">{{mod.name}}</div>
         <div class="mod-level"><el-input-number size="mini" @change="$emit('level')" v-model="mod.level" :min="0" :max="mod.maxLevel"></el-input-number></div>
       </div>
       <div class="mod-detail" @click.stop="$emit('remove')">
@@ -21,12 +21,13 @@
         </div>
       </div>
     </template>
-    <i v-else class="el-icon-plus"></i>
+    <i v-else class="icon-plus-btn el-icon-plus"></i>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { WarframeBuild } from "@/warframe/warframebuild";
+import "./ModSlot.vue";
 import { NormalMod } from "@/warframe/codex";
 
 @Component
@@ -34,6 +35,7 @@ export default class LeveledModSlot extends Vue {
   @Prop() mod: NormalMod
   @Prop() build: WarframeBuild
   @Prop() polarization: string
+  @Prop({ type: Boolean }) leveled: boolean
   @Prop() icon: string
 
   get modValue() {
@@ -79,14 +81,15 @@ export default class LeveledModSlot extends Vue {
 }
 
 .mod-title {
-  .mod-name.leveled {
-    font-size: 16px;
-  }
   .mod-level {
     font-size: 14px;
     .el-input-number--mini {
       width: auto;
     }
   }
+}
+
+.mod-slot.leveled .mod-name {
+  font-size: 16px;
 }
 </style>

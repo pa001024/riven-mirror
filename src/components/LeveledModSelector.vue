@@ -30,6 +30,7 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { WarframeBuild } from "@/warframe/warframebuild";
 import { NormalMod, NormalModDatabase, Codex } from "@/warframe/codex";
+import "./ModSelector.vue";
 
 interface ModSelectorTab {
   id: string
@@ -38,7 +39,7 @@ interface ModSelectorTab {
 }
 
 @Component({ components: {} })
-export default class extends Vue {
+export default class LeveledModSelector extends Vue {
   @Prop() build: WarframeBuild;
   @Prop({ type: String, default: "Warframe" }) type: "Warframe" | "Aura" | "Exilus";
 

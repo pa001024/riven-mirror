@@ -48,6 +48,7 @@ export abstract class ModBuild {
   protected _overallMul = 100;
   protected _finalCritMulMul = 100;
   protected _allEnemyDmgMul = 0;
+  protected _multishotMul = 100;
 
   protected _extraProcChance: [string, number][] = [];
   protected _statusInfo: { [key: string]: SpecialStatusInfo } = null;
@@ -656,6 +657,7 @@ export abstract class ModBuild {
     this._overallMul = 100 + this.extraOverall;
     this._finalCritMulMul = 100;
     this._allEnemyDmgMul = 0;
+    this._multishotMul = 100;
     this.standaloneElements = [];
     this.recalcElements();
   }
@@ -735,40 +737,47 @@ export abstract class ModBuild {
     // MOD查重
     if (!this.isValidMod(mod)) return -1;
     // 效率优化
-    if (mod.props.length == 1) {
+    let props = mod.vProps ? mod.vProps.filter(v => v.dmg) : [null, null];
+    if (props.length === 0) return -1;
+    if (props.length === 1) {
       let oriDmg: [string, number];
-      switch (mod.props[0][0]) {
+      switch (props[0].id) {
         case 'D':   // 伤害 baseDmg
         case 'K':   // 近战伤害 baseDmg
-          return mod.props[0][1] / this._baseDamageMul;
+          return props[0].value / this._baseDamageMul;
+        case 'da': // 正中红心 overallMul
+        case 'oad': // 总伤害 overallMul
+          return props[0].value / 100;
+        case 'S': // 多重射击 multiShot
+          return props[0].value / this._multishotMul;
         case '4':   // 火焰伤害 heatDmg
         case '5':   // 冰冻伤害 coldDmg
         case '6':   // 毒素伤害 toxiDmg
         case '7':   // 电击伤害 elecDmg
-          return mod.props[0][1] / this._extraDmgMul;
+          return props[0].value / this._extraDmgMul;
         case '8':   // 冲击伤害 impaDmg
           oriDmg = this.weapon.dmg.find(v => v[0] == "Impact");
           if (oriDmg)
-            return mod.props[0][1] * oriDmg[1] / this.originalDamage / this._extraDmgMul;
+            return props[0].value * oriDmg[1] / this.originalDamage / this._extraDmgMul;
           break;
         case '9':   // 穿刺伤害 puncDmg
           oriDmg = this.weapon.dmg.find(v => v[0] == "Puncture");
           if (oriDmg)
-            return mod.props[0][1] * oriDmg[1] / this.originalDamage / this._extraDmgMul;
+            return props[0].value * oriDmg[1] / this.originalDamage / this._extraDmgMul;
           break;
         case 'A':   // 切割伤害 slasDmg
           oriDmg = this.weapon.dmg.find(v => v[0] == "Slash");
           if (oriDmg)
-            return mod.props[0][1] * oriDmg[1] / this.originalDamage / this._extraDmgMul;
+            return props[0].value * oriDmg[1] / this.originalDamage / this._extraDmgMul;
           break;
         case 'G':     // 对Grineer伤害 grinDmg
-          return this.enemyDmgType === "G" ? mod.props[0][1] / this._enemyDmgMul[0] : 0;
+          return this.enemyDmgType === "G" ? props[0].value / this._enemyDmgMul[0] : 0;
         case 'C':     // 对Corpus伤害 corpDmg
-          return this.enemyDmgType === "C" ? mod.props[0][1] / this._enemyDmgMul[1] : 0;
+          return this.enemyDmgType === "C" ? props[0].value / this._enemyDmgMul[1] : 0;
         case 'I':     // 对Infested伤害 infeDmg
-          return this.enemyDmgType === "I" ? mod.props[0][1] / this._enemyDmgMul[2] : 0;
+          return this.enemyDmgType === "I" ? props[0].value / this._enemyDmgMul[2] : 0;
         case 'od':     // 对堕落者伤害
-          return this.enemyDmgType === "O" ? mod.props[0][1] / this._enemyDmgMul[3] : 0;
+          return this.enemyDmgType === "O" ? props[0].value / this._enemyDmgMul[3] : 0;
       }
     }
     // 通用方法
@@ -833,6 +842,7 @@ export abstract class ModBuild {
         // 5. 重复以上步骤直到卡槽充满
       }
     }
+    if (!this.fastMode) this.recalcPolarizations();
   }
   /**
    * 自动按武器属性生成最佳紫卡

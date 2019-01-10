@@ -15,8 +15,8 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   // 基础
   { id: "0", dmg: true }, // 暴击率 Critical Chance
   { id: "1", dmg: true }, // 暴击伤害 Critical Damage
-  { id: "2", dmg: true }, // 触发率
-  { id: "3", dmg: true }, // 触发时间
+  { id: "2" }, // 触发率
+  { id: "3" }, // 触发时间
   { id: "4", dmg: true }, // 火伤 Heat
   { id: "5", dmg: true }, // 冰伤 Cold
   { id: "6", dmg: true }, // 毒伤 Toxin
@@ -197,7 +197,7 @@ export class ValuedProperty {
     return {
       id: vn,
       displayValue: String(vv),
-      get fullString() { return i18n.t("prop.fullName." + _.camelCase(vn)) || vn },
+      get fullString() { return vn },
       shortString: vn,
       value: vv,
       prop: { id: vn }
@@ -226,13 +226,13 @@ export class ValuedProperty {
    * 完整属性显示
    */
   get fullString() {
-    return i18n.t("prop.fullName." + this.prop.id, [this.displayValue])
+    return i18n.te("prop.fullName." + this.prop.id) && i18n.t("prop.fullName." + this.prop.id, [this.displayValue]) || this.prop.id
   }
   /**
    * 属性简称
    */
   get shortString() {
-    return i18n.t("prop.shortName." + this.prop.id)
+    return i18n.te("prop.shortName." + this.prop.id) && i18n.t("prop.shortName." + this.prop.id) || this.prop.id
   }
 
 }

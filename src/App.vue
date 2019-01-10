@@ -31,6 +31,7 @@
       </div>
     </transition>
     <el-container class="body-container">
+      <!-- 桌面端侧边菜单 -->
       <el-aside width="60px" class="hidden-xs-only" v-show="isIndexPage">
         <div class="aside-nav-menu">
           <el-tooltip v-for="link in links" :key="link.title" :content="$t(link.title)" placement="right" :enterable="false">
@@ -107,10 +108,11 @@ export default class App extends Vue {
     if (lastVersion !== version) {
       this.updateMessageVisible = true
     }
-    // let isNewUser = !localStorage.getItem("0w0");
-    // if (this.$route.path === "/" && isNewUser) {
-    //   this.$router.push("/welcome");
-    // }
+    let isNewUser = !localStorage.getItem("0w0");
+    let isMobile = document.body.clientWidth <= 567;
+    if (this.$route.name === "Intro" && !isNewUser && isMobile) {
+      this.$router.replace("/alerts");
+    }
   }
 }
 </script>
@@ -250,6 +252,7 @@ export default class App extends Vue {
       padding: 18px;
     }
     width: 100%;
+    height: 60px;
     cursor: pointer;
     overflow: hidden;
     background-color: transparent;
