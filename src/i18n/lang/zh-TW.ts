@@ -1831,6 +1831,7 @@ let po = {
     "hydroidImmortalSkin": "Hydroid 不朽外觀",
     "lisetPrismaSkin": "LISET 棱晶外觀",
     "kiteerAtmosDiadem": "KI'TEER 大氣頭飾",
+    "kiteerCornuDiadem": "KI'TEER 角型頭盔",
     "kiteerRazzaSynadana": "KI'TEER 類種披飾",
     "photoboothTileOrokinExtraction": "OROKIN堡壘撤離點場景",
     "quantaAufeisSkin": "量子切割器 積冰外觀",
@@ -1883,6 +1884,7 @@ let po = {
     "prismaRostamKubrowArmor": "棱晶 洛斯塔姆庫狛護甲",
     "mirageImmortalSkin": "Mirage 不朽外觀",
     "taxonDesertCamoSkin": "塔克桑 沙漠迷彩外觀",
+    "infestedMeleeDangle": "Coccyst Sugatra",
 
     "captainVor": "VOR 上尉",
     "councilorVayHek": "Vay Hek 委員",

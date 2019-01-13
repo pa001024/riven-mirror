@@ -13,6 +13,7 @@ import ErrorPage from '@/views/ErrorPage.vue'
 import Intro from '@/views/Intro.vue'
 import NewUserWelcome from '@/views/NewUserWelcome.vue'
 import Login from '@/views/Login.vue'
+import ForgetPass from '@/views/ForgetPass.vue'
 import WeaponSelector from '@/components/WeaponSelector.vue'
 import WarframeSelector from '@/components/WarframeSelector.vue'
 import WarframeEditor from '@/views/WarframeEditor.vue'
@@ -25,6 +26,7 @@ export default new Router({
     { path: '/', name: 'Intro', component: Intro },
     { path: '/eula', name: 'EULA', component: EULA },
     { path: '/login', name: 'Login', component: Login },
+    { path: '/forgetpass', name: 'ForgetPass', component: ForgetPass },
     { path: '/welcome', name: 'NewUserWelcome', component: NewUserWelcome },
     { path: '/alerts', name: 'Alerts', component: () => import(/* webpackChunkName: "main" */ "@/views/Alerts.vue") },
     { path: '/about', name: 'About', component: () => import(/* webpackChunkName: "main" */ "@/views/About.vue") },

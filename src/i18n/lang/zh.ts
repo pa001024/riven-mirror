@@ -1650,7 +1650,7 @@ let po = {
     "baroKiteerNoggle": "BARO KI'TEER 摇头娃娃",
     "dayAffinityBooster": "天经验加成",
     "dayCreditBooster": "天现金加成",
-    "dayResourceAmountBooster": "天资源数量加成",
+    "dayResourceBooster": "天资源数量加成",
     "grustragThreeBeacon": "三霸信标",
     "stalkerBeacon": "STALKER信标",
     "zanukaHunterBeacon": "ZANUKA信标",
@@ -1831,6 +1831,7 @@ let po = {
     "hydroidImmortalSkin": "Hydroid 不朽外观",
     "lisetPrismaSkin": "LISET 棱晶外观",
     "kiteerAtmosDiadem": "KI'TEER 大气头饰",
+    "kiteerCornuDiadem": "KI'TEER 角型头盔",
     "kiteerRazzaSynadana": "KI'TEER 类种披饰",
     "photoboothTileOrokinExtraction": "OROKIN堡垒撤离点场景",
     "quantaAufeisSkin": "量子切割器 积冰外观",
@@ -1883,6 +1884,7 @@ let po = {
     "prismaRostamKubrowArmor": "棱晶 洛斯塔姆库狛护甲",
     "mirageImmortalSkin": "Mirage 不朽外观",
     "taxonDesertCamoSkin": "塔克桑 沙漠迷彩外观",
+    "infestedMeleeDangle": "Coccyst Sugatra",
 
     "captainVor": "VOR 上尉",
     "councilorVayHek": "Vay Hek 委员",
@@ -2829,7 +2831,9 @@ let po = {
     passwordHint: "请输入密码",
     emailcheck: "请输入正确的电子邮件",
     passmiss: "请输入密码",
-    passcheck: "密码长度 6 到 32 个字符"
+    passcheck: "密码长度 6 到 32 个字符",
+    loginforget: "忘记密码",
+    sendreset: "重置密码",
   }
 };
 

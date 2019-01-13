@@ -11,11 +11,11 @@
       </MiniClock>
       <!-- padding -->
       <div class="app-nav-pad"></div>
-      <!-- PC端用户登录界面 -->
+      <!-- PC端用户登录界面
       <router-link tag="div" to="/login" class="hidden-xs-only app-login">
         <WfIcon type="fingerprint"/>
         <span class="app-login-title">{{$t("app.login")}}</span>
-      </router-link>
+      </router-link>-->
       <!-- 移动端菜单按钮 -->
       <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
         <WfIcon type="menu"></WfIcon>

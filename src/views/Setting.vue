@@ -3,7 +3,7 @@
     <el-card class="setting">
       <span slot="header">{{$t("setting.lang")}}</span>
       <div class="switch-lang">
-        <span class="lang" @click="setlang('')">{{$t("setting.default")}}</span>
+        <span class="lang" @click="setDefaultLang()">{{$t("setting.default")}}</span>
         <span class="lang" @click="setlang('en')">English</span>
         <span class="lang" @click="setlang('zh-CN')">简体中文</span>
         <span class="lang" @click="setlang('zh-TW')">繁體中文</span>
@@ -22,6 +22,9 @@ export default class Setting extends Vue {
   setlang(lang: string) {
     changeLocale(lang || navigator.language)
     // location.reload();
+  }
+  setDefaultLang() {
+    changeLocale(null)
   }
 }
 </script>

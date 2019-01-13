@@ -63,8 +63,12 @@ export const vi18n = new VueI18n({
 export async function changeLocale(locale: string) {
   if (vi18n.locale !== locale) {
     console.log("Change locale to", locale)
-    vi18n.locale = locale;
-    localStorage.setItem("lang", locale);
+    if (locale) {
+      vi18n.locale = locale;
+      localStorage.setItem("lang", locale);
+    }
+    else
+      localStorage.removeItem("lang");
   }
   switch (locale) {
     case 'zh-CN':

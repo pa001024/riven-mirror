@@ -153,10 +153,10 @@ export interface EnemyData {
 }
 
 const _enemyList = [
-  ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.60, 3],
-  ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.60, 3],
-  ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.60, 3],
-  ["Teralyst Synovia", "兆力使骨液", 5, 1, 2500, 0, 200, 7, 0, 1, 0.60, 3],
+  ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.6, 3],
+  ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.6, 3],
+  ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.6, 3],
+  ["Teralyst Synovia", "兆力使骨液", 5, 1, 2500, 0, 200, 7, 0, 1, 0.6, 3],
   ["Tusk Firbolg", "巨牙博格", 1, 1, 8000, 0, 600, 7, 0, 1, 0, 1],
   ["Tusk Bolkor", "巨牙博寇", 1, 1, 10000, 0, 600, 7, 0, 1, 0, 1],
   ["Bailiff", "执法员", 1, 1, 600, 0, 500, 1, 0, 0, 0, 0],
@@ -241,6 +241,13 @@ const _enemyList = [
   ["Corrupted MOA", "堕落恐鸟", 4, 1, 250, 250, 0, 7, 0, 0, 0, 0],
   ["Corrupted Nullifier", "堕落虚能者", 4, 15, 60, 150, 0, 0, 1, 0, 0, 0]
 ] as [string, string, number, number, number, number, number, number, number, number, number, number][];
+
+/** 伤害模型 */
+export class SimpleDamageModel {
+  name: string
+  fleshType: FleshType | ShieldType;
+  armorType: ArmorType;
+}
 
 /** 敌人列表 */
 export const EnemyList = _enemyList.map(v => ({

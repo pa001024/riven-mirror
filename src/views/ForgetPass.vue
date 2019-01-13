@@ -7,14 +7,8 @@
           <WfIcon slot="prefix" type="mail" class="input-icon"/>
         </el-input>
       </el-form-item>
-      <el-form-item prop="pass">
-        <el-input :placeholder="$t('app.passwordHint')" type="password" v-model="user.pass">
-          <WfIcon slot="prefix" type="lock" class="input-icon"/>
-        </el-input>
-      </el-form-item>
       <el-form-item>
-        <input type="submit" class="block btn-login" :value="$t('app.loginbtn')">
-        <router-link class="link-btn" to="/forgetpass" v-t="'app.loginforget'"></router-link>
+        <input type="submit" class="block btn-login" :value="$t('app.sendreset')">
       </el-form-item>
     </el-form>
   </div>
@@ -24,20 +18,15 @@ import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import WfIcon from "@/components/WfIcon.vue";
 
 @Component({ components: { WfIcon } })
-export default class Login extends Vue {
+export default class ForgetPass extends Vue {
   user = {
     login: "",
-    pass: ""
   }
 
   get rules() {
     return {
       login: [
         { type: 'email', message: this.$t("app.emailcheck"), trigger: 'blur' },
-      ],
-      pass: [
-        { required: true, message: this.$t("app.passmiss"), trigger: 'change' },
-        { min: 6, max: 32, message: this.$t("app.passcheck"), trigger: 'change' }
       ],
     }
 

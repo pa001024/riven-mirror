@@ -139,7 +139,7 @@ export class NormalMod implements NormalModData {
   }
 }
 
-const _normalModSource = require("./mod.data")
+import _normalModSource from "./mod.data"
 /**
  * 普通MOD信息
  */
