@@ -1,4 +1,5 @@
 import { hAccSum } from "../util";
+import { i18n } from "@/i18n";
 
 /** 伤害类型 */
 export enum DamageType {
@@ -90,18 +91,6 @@ export enum FleshType {
   Object,
 }
 
-const _fleshTypeName = [
-  "肉体",
-  "复制肉体",
-  "化石",
-  "感染",
-  "感染肉体",
-  "感染肌腱",
-  "机械",
-  "机器",
-  "物件",
-];
-
 export enum ShieldType {
   /** 护盾 */
   Shield,
@@ -109,22 +98,12 @@ export enum ShieldType {
   ProtoShield,
 }
 
-const _shieldTypeName = [
-  "护盾",
-  "原型护盾",
-];
-
 export enum ArmorType {
   /** 铁制装甲 */
   FerriteArmor,
   /** 合金装甲 */
   AlloyArmor,
 }
-
-const _armorTypeName = [
-  "铁制装甲",
-  "合金装甲",
-];
 
 /** 敌人派系 */
 export enum EnemyFaction {
@@ -137,9 +116,8 @@ export enum EnemyFaction {
   Wild,
 }
 
-export interface EnemyData {
+export interface IEnemyData {
   id: string;
-  name: string;
   faction: EnemyFaction;
   baseLevel: number;
   baseHealth: number;
@@ -151,120 +129,312 @@ export interface EnemyData {
   resistence: number;
   ignoreProc: number; // 1免疫DoT 2免疫所有 3为夜灵 影响伤害算法
 }
-
-const _enemyList = [
-  ["Eidolon Teralyst", "夜灵兆力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.6, 3],
-  ["Eidolon Gantulyst", "夜灵巨力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.6, 3],
-  ["Eidolon Hydrolyst", "夜灵水力使", 5, 1, 15000, 0, 200, 7, 0, 1, 0.6, 3],
-  ["Teralyst Synovia", "兆力使骨液", 5, 1, 2500, 0, 200, 7, 0, 1, 0.6, 3],
-  ["Tusk Firbolg", "巨牙博格", 1, 1, 8000, 0, 600, 7, 0, 1, 0, 1],
-  ["Tusk Bolkor", "巨牙博寇", 1, 1, 10000, 0, 600, 7, 0, 1, 0, 1],
-  ["Bailiff", "执法员", 1, 1, 600, 0, 500, 1, 0, 0, 0, 0],
-  ["Butcher", "屠夫", 1, 1, 50, 0, 5, 1, 0, 0, 0, 0],
-  ["Flameblade", "烈焰刀客", 1, 1, 50, 0, 5, 1, 0, 0, 0, 0],
-  ["Fire Prosecutor", "禁卫军", 1, 1, 1500, 0, 5, 1, 0, 0, 0, 0],
-  ["Powerfist", "重击手", 1, 1, 100, 0, 5, 1, 0, 0, 0, 0],
-  ["Scorpion", "天蝎", 1, 1, 150, 0, 150, 1, 0, 0, 0, 0],
-  ["Shield Lancer", "盾枪兵", 1, 1, 100, 0, 5, 1, 0, 0, 0, 0],
-  ["Ballista", "弩炮", 1, 1, 100, 0, 100, 1, 0, 0, 0, 0],
-  ["Eviscerator", "开膛者", 1, 1, 150, 0, 200, 1, 0, 0, 0, 0],
-  ["Hellion", "恶徒", 1, 1, 100, 0, 100, 1, 0, 0, 0, 0],
-  ["Lancer", "枪兵", 1, 1, 100, 0, 100, 1, 0, 0, 0, 0],
-  ["Elite Lancer", "精英枪兵", 1, 15, 150, 0, 200, 1, 0, 1, 0, 0],
-  ["Scorch", "怒焚者", 1, 1, 120, 0, 100, 1, 0, 0, 0, 0],
-  ["Seeker", "追踪者", 1, 1, 100, 0, 200, 1, 0, 0, 0, 0],
-  ["Trooper", "骑兵", 1, 1, 120, 0, 150, 1, 0, 0, 0, 0],
-  ["Bombard", "轰击者", 1, 1, 300, 0, 500, 1, 0, 1, 0, 0],
-  ["Commander", "指挥官", 1, 3, 500, 0, 95, 1, 0, 1, 0, 0],
-  ["Drahk Master", "爪喀驯兽师", 1, 12, 500, 0, 200, 1, 0, 0, 0, 0],
-  ["Heavy Gunner", "重型机枪手", 1, 8, 300, 0, 500, 1, 0, 0, 0, 0],
-  ["Hyekka Master", "鬣猫驯兽师", 1, 12, 650, 0, 200, 1, 0, 0, 0, 0],
-  ["Manic", "狂躁Grineer", 1, 1, 350, 0, 25, 1, 0, 0, 0, 0],
-  ["Napalm", "火焰轰击者", 1, 6, 600, 0, 500, 1, 0, 1, 0, 0],
-  ["Nox", "毒化者", 1, 1, 250, 0, 350, 1, 0, 1, 0.90, 0],
-  ["Ghoul Auger", "钻孔尸鬼", 1, 1, 400, 0, 200, 1, 0, 0, 0, 0],
-  ["Ghoul Devourer", "吞噬尸鬼", 1, 1, 600, 0, 250, 1, 0, 0, 0, 0],
-  ["Ghoul Expired", "除役尸鬼", 1, 1, 300, 0, 150, 1, 0, 0, 0, 0],
-  ["Ghoul Rictus", "裂嘴尸鬼", 1, 1, 400, 0, 200, 1, 0, 0, 0, 0],
-  ["Grineer Warden", "Grineer典狱长", 1, 1, 600, 0, 500, 1, 0, 0, 0, 0],
-  ["Sensor Regulator", "感应调整者", 1, 1, 100, 0, 300, 6, 0, 0, 0, 0],
-  ["Crewman", "船员", 2, 1, 60, 150, 0, 0, 0, 0, 0, 0],
-  ["Detron Crewman", "德特昂船员", 2, 1, 60, 150, 0, 0, 0, 0, 0, 0],
-  ["Elite Crewman", "精英船员", 2, 15, 100, 200, 0, 0, 0, 0, 0, 0],
-  ["Nullifier Crewman", "虚能船员", 2, 1, 60, 150, 0, 0, 1, 0, 0, 0],
-  ["Prod Crewman", "监工船员", 2, 1, 100, 50, 0, 0, 0, 0, 0, 0],
-  ["Sniper Crewman", "狙击手船员", 2, 15, 60, 150, 0, 0, 1, 0, 0, 0],
-  ["Corpus Tech", "Corpus技师", 2, 15, 700, 250, 0, 0, 1, 0, 0, 0],
-  ["Comba", "驱逐员", 2, 15, 1100, 400, 0, 0, 0, 0, 0, 0],
-  ["Scrambus", "扰敌员", 2, 15, 1100, 400, 0, 0, 0, 0, 0, 0],
-  ["Anti MOA", "逆进恐鸟", 2, 5, 50, 500, 0, 7, 0, 0, 0, 0],
-  ["Denial Bursa", "守护金流恐鸟", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
-  ["Drover Bursa", "驱引金流恐鸟", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
-  ["Fusion MOA", "熔岩恐鸟", 2, 10, 250, 250, 0, 7, 0, 0, 0, 0],
-  ["Isolator Bursa", "隔离金流恐鸟", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
-  ["MOA", "恐鸟", 2, 1, 60, 150, 0, 7, 0, 0, 0, 0],
-  ["Railgun MOA", "磁轨炮恐鸟", 2, 1, 60, 150, 0, 7, 0, 0, 0, 0],
-  ["Shockwave MOA", "震荡恐鸟", 2, 15, 60, 150, 0, 7, 0, 0, 0, 0],
-  ["Drone", "无人机", 2, 1, 250, 75, 0, 7, 0, 0, 0, 0],
-  ["Leech Osprey", "吸血鱼鹰", 2, 1, 100, 50, 0, 7, 0, 0, 0, 0],
-  ["Lynx Osprey", "山猫鱼鹰", 2, 1, 35, 50, 0, 7, 0, 0, 0, 0],
-  ["Mine Osprey", "地雷鱼鹰", 2, 10, 100, 50, 0, 7, 0, 0, 0, 0],
-  ["Oxium Osprey", "奥席金属鱼鹰", 2, "-", 750, 150, 40, 7, 0, 0, 0, 0],
-  ["Scavanger Osprey", "清道夫无人机", 2, 1, 100, 50, 0, 7, 0, 0, 0, 0],
-  ["Sapping Osprey", "基蚀鱼鹰", 2, 1, 200, 50, 0, 7, 0, 0, 0, 0],
-  ["Shield Osprey", "护盾鱼鹰", 2, 1, 35, 50, 0, 7, 0, 0, 0, 0],
-  ["Charger", "疾冲者", 3, 1, 80, 0, 0, 3, 0, 0, 0, 0],
-  ["Leaper", "奔跳者", 3, 1, 100, 0, 0, 3, 0, 0, 0, 0],
-  ["Runner", "狂奔者", 3, 1, 100, 0, 0, 3, 0, 0, 0, 0],
-  ["Volatile Runner", "爆炸奔跑者", 3, 1, 80, 0, 0, 3, 0, 0, 0, 0],
-  ["Crawler", "爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
-  ["Electric Crawler", "电击爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
-  ["Lobber Crawler", "喷吐爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
-  ["Nauseous Crawler", "呕心爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
-  ["Toxic Crawler", "剧毒爬行者", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
-  ["Mutalist Osprey", "剧毒无人机", 3, 1, 200, 0, 0, 4, 0, 0, 0, 0],
-  ["Swarm Mutalist MOA", "异融胞群恐鸟", 3, 12, 350, 0, 0, 2, 0, 0, 0, 0],
-  ["Tar-Mutalist MOA", "异融焦油恐鸟", 3, 12, 350, 0, 0, 2, 0, 0, 0, 0],
-  ["Ancient Disrupter", "远古干扰者", 3, 1, 400, 0, 0, 2, 0, 0, 0, 0],
-  ["Ancient Healer", "远古治愈者", 3, 1, 400, 0, 0, 2, 0, 0, 0, 0],
-  ["Boiler", "痈裂者", 3, 12, 1200, 0, 0, 2, 0, 0, 0, 0],
-  ["Brood Mother", "病变虫母", 3, 12, 700, 0, 0, 2, 0, 0, 0, 0],
-  ["Toxic Ancient", "远古剧毒者", 3, 1, 400, 0, 0, 2, 0, 0, 0, 0],
-  ["Hemocyte", "免疫血胞体", 3, 1, 2200, 0, 175, 2, 0, 0, 0, 3],
-  ["Corrupted Ancient", "远古堕落者", 4, 1, 400, 0, 0, 2, 0, 0, 0, 0],
-  ["Corrupted Butcher", "堕落屠夫", 4, 1, 100, 0, 5, 1, 0, 0, 0, 0],
-  ["Corrupted Bombard", "堕落轰击者", 4, 4, 300, 0, 500, 1, 0, 1, 0, 0],
-  ["Corrupted Heavy Gunner", "堕落重型机枪手", 4, 8, 700, 0, 500, 1, 0, 0, 0, 0],
-  ["Corrupted Lancer", "堕落枪兵", 4, 1, 60, 0, 200, 1, 0, 1, 0, 0],
-  ["Orokin Drone", "Orokin无人机", 4, 1, 35, 50, 0, 7, 0, 0, 0, 0],
-  ["Corrupted Crewman", "堕落船员", 4, 1, 60, 150, 0, 0, 0, 0, 0, 0],
-  ["Corrupted MOA", "堕落恐鸟", 4, 1, 250, 250, 0, 7, 0, 0, 0, 0],
-  ["Corrupted Nullifier", "堕落虚能者", 4, 15, 60, 150, 0, 0, 1, 0, 0, 0]
-] as [string, string, number, number, number, number, number, number, number, number, number, number][];
-
-/** 伤害模型 */
-export class SimpleDamageModel {
-  name: string
-  fleshType: FleshType | ShieldType;
+export class EnemyData implements IEnemyData {
+  id: string;
+  get name() {
+    const key = `enemy.names.${_.camelCase(this.id)}`;
+    return i18n.te(key) ? i18n.t(key) : this.id;
+  }
+  faction: EnemyFaction;
+  baseLevel: number;
+  baseHealth: number;
+  baseShield: number;
+  baseArmor: number;
+  fleshType: FleshType;
+  shieldType: ShieldType;
   armorType: ArmorType;
+  resistence: number;
+  ignoreProc: number; // 1免疫DoT 2免疫所有 3为夜灵 影响伤害算法
+  constructor({ id, faction, baseLevel, baseHealth, baseShield, baseArmor, fleshType, shieldType, armorType, resistence, ignoreProc }: IEnemyData) {
+    [this.id, this.faction] = [id, faction];
+    [this.baseLevel, this.baseHealth, this.baseShield, this.baseArmor] = [baseLevel, baseHealth, baseShield, baseArmor];
+    [this.fleshType, this.shieldType, this.armorType] = [fleshType, shieldType, armorType];
+    this.resistence = resistence;
+    this.ignoreProc = ignoreProc;
+  }
 }
 
-/** 敌人列表 */
-export const EnemyList = _enemyList.map(v => ({
-  id: v[0],
-  name: v[1],
-  faction: v[2],
-  baseLevel: v[3],
-  baseHealth: v[4],
-  baseShield: v[5],
-  baseArmor: v[6],
-  fleshType: v[7],
-  shieldType: v[8],
-  armorType: v[9],
-  resistence: v[10],
-  ignoreProc: v[11],
-})) as EnemyData[];
+const _enemyList = [
+  ["Eidolon Teralyst", 5, 1, 15000, 0, 200, 7, 0, 1, 0.6, 3],
+  ["Eidolon Gantulyst", 5, 1, 15000, 0, 200, 7, 0, 1, 0.6, 3],
+  ["Eidolon Hydrolyst", 5, 1, 15000, 0, 200, 7, 0, 1, 0.6, 3],
+  ["Teralyst Synovia", 5, 1, 2500, 0, 200, 7, 0, 1, 0.6, 3],
+  ["Tusk Firbolg", 1, 1, 8000, 0, 600, 7, 0, 1, 0, 1],
+  ["Tusk Bolkor", 1, 1, 10000, 0, 600, 7, 0, 1, 0, 1],
+  ["Bailiff", 1, 1, 600, 0, 500, 1, 0, 0, 0, 0],
+  ["Butcher", 1, 1, 50, 0, 5, 1, 0, 0, 0, 0],
+  ["Flameblade", 1, 1, 50, 0, 5, 1, 0, 0, 0, 0],
+  ["Fire Prosecutor", 1, 1, 1500, 0, 5, 1, 0, 0, 0, 0],
+  ["Powerfist", 1, 1, 100, 0, 5, 1, 0, 0, 0, 0],
+  ["Scorpion", 1, 1, 150, 0, 150, 1, 0, 0, 0, 0],
+  ["Shield Lancer", 1, 1, 100, 0, 5, 1, 0, 0, 0, 0],
+  ["Ballista", 1, 1, 100, 0, 100, 1, 0, 0, 0, 0],
+  ["Eviscerator", 1, 1, 150, 0, 200, 1, 0, 0, 0, 0],
+  ["Hellion", 1, 1, 100, 0, 100, 1, 0, 0, 0, 0],
+  ["Lancer", 1, 1, 100, 0, 100, 1, 0, 0, 0, 0],
+  ["Elite Lancer", 1, 15, 150, 0, 200, 1, 0, 1, 0, 0],
+  ["Scorch", 1, 1, 120, 0, 100, 1, 0, 0, 0, 0],
+  ["Seeker", 1, 1, 100, 0, 200, 1, 0, 0, 0, 0],
+  ["Trooper", 1, 1, 120, 0, 150, 1, 0, 0, 0, 0],
+  ["Bombard", 1, 1, 300, 0, 500, 1, 0, 1, 0, 0],
+  ["Commander", 1, 3, 500, 0, 95, 1, 0, 1, 0, 0],
+  ["Drahk Master", 1, 12, 500, 0, 200, 1, 0, 0, 0, 0],
+  ["Heavy Gunner", 1, 8, 300, 0, 500, 1, 0, 0, 0, 0],
+  ["Hyekka Master", 1, 12, 650, 0, 200, 1, 0, 0, 0, 0],
+  ["Manic", 1, 1, 350, 0, 25, 1, 0, 0, 0, 0],
+  ["Napalm", 1, 6, 600, 0, 500, 1, 0, 1, 0, 0],
+  ["Nox", 1, 1, 250, 0, 350, 1, 0, 1, 0.9, 0],
+  ["Ghoul Auger", 1, 1, 400, 0, 200, 1, 0, 0, 0, 0],
+  ["Ghoul Devourer", 1, 1, 600, 0, 250, 1, 0, 0, 0, 0],
+  ["Ghoul Expired", 1, 1, 300, 0, 150, 1, 0, 0, 0, 0],
+  ["Ghoul Rictus", 1, 1, 400, 0, 200, 1, 0, 0, 0, 0],
+  ["Grineer Warden", 1, 1, 600, 0, 500, 1, 0, 0, 0, 0],
+  ["Sensor Regulator", 1, 1, 100, 0, 300, 6, 0, 0, 0, 0],
+  ["Crewman", 2, 1, 60, 150, 0, 0, 0, 0, 0, 0],
+  ["Detron Crewman", 2, 1, 60, 150, 0, 0, 0, 0, 0, 0],
+  ["Elite Crewman", 2, 15, 100, 200, 0, 0, 0, 0, 0, 0],
+  ["Nullifier Crewman", 2, 1, 60, 150, 0, 0, 1, 0, 0, 0],
+  ["Prod Crewman", 2, 1, 100, 50, 0, 0, 0, 0, 0, 0],
+  ["Sniper Crewman", 2, 15, 60, 150, 0, 0, 1, 0, 0, 0],
+  ["Corpus Tech", 2, 15, 700, 250, 0, 0, 1, 0, 0, 0],
+  ["Comba", 2, 15, 1100, 400, 0, 0, 0, 0, 0, 0],
+  ["Scrambus", 2, 15, 1100, 400, 0, 0, 0, 0, 0, 0],
+  ["Anti MOA", 2, 5, 50, 500, 0, 7, 0, 0, 0, 0],
+  ["Denial Bursa", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
+  ["Drover Bursa", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
+  ["Fusion MOA", 2, 10, 250, 250, 0, 7, 0, 0, 0, 0],
+  ["Isolator Bursa", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
+  ["MOA", 2, 1, 60, 150, 0, 7, 0, 0, 0, 0],
+  ["Railgun MOA", 2, 1, 60, 150, 0, 7, 0, 0, 0, 0],
+  ["Shockwave MOA", 2, 15, 60, 150, 0, 7, 0, 0, 0, 0],
+  ["Drone", 2, 1, 250, 75, 0, 7, 0, 0, 0, 0],
+  ["Leech Osprey", 2, 1, 100, 50, 0, 7, 0, 0, 0, 0],
+  ["Lynx Osprey", 2, 1, 35, 50, 0, 7, 0, 0, 0, 0],
+  ["Mine Osprey", 2, 10, 100, 50, 0, 7, 0, 0, 0, 0],
+  ["Oxium Osprey", 2, "-", 750, 150, 40, 7, 0, 0, 0, 0],
+  ["Scavanger Osprey", 2, 1, 100, 50, 0, 7, 0, 0, 0, 0],
+  ["Sapping Osprey", 2, 1, 200, 50, 0, 7, 0, 0, 0, 0],
+  ["Shield Osprey", 2, 1, 35, 50, 0, 7, 0, 0, 0, 0],
+  ["Charger", 3, 1, 80, 0, 0, 3, 0, 0, 0, 0],
+  ["Leaper", 3, 1, 100, 0, 0, 3, 0, 0, 0, 0],
+  ["Runner", 3, 1, 100, 0, 0, 3, 0, 0, 0, 0],
+  ["Volatile Runner", 3, 1, 80, 0, 0, 3, 0, 0, 0, 0],
+  ["Crawler", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
+  ["Electric Crawler", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
+  ["Lobber Crawler", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
+  ["Nauseous Crawler", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
+  ["Toxic Crawler", 3, 1, 50, 0, 0, 4, 0, 0, 0, 0],
+  ["Mutalist Osprey", 3, 1, 200, 0, 0, 4, 0, 0, 0, 0],
+  ["Swarm Mutalist MOA", 3, 12, 350, 0, 0, 2, 0, 0, 0, 0],
+  ["Tar-Mutalist MOA", 3, 12, 350, 0, 0, 2, 0, 0, 0, 0],
+  ["Ancient Disrupter", 3, 1, 400, 0, 0, 2, 0, 0, 0, 0],
+  ["Ancient Healer", 3, 1, 400, 0, 0, 2, 0, 0, 0, 0],
+  ["Boiler", 3, 12, 1200, 0, 0, 2, 0, 0, 0, 0],
+  ["Brood Mother", 3, 12, 700, 0, 0, 2, 0, 0, 0, 0],
+  ["Toxic Ancient", 3, 1, 400, 0, 0, 2, 0, 0, 0, 0],
+  ["Hemocyte", 3, 1, 2200, 0, 175, 2, 0, 0, 0, 3],
+  ["Corrupted Ancient", 4, 1, 400, 0, 0, 2, 0, 0, 0, 0],
+  ["Corrupted Butcher", 4, 1, 100, 0, 5, 1, 0, 0, 0, 0],
+  ["Corrupted Bombard", 4, 4, 300, 0, 500, 1, 0, 1, 0, 0],
+  ["Corrupted Heavy Gunner", 4, 8, 700, 0, 500, 1, 0, 0, 0, 0],
+  ["Corrupted Lancer", 4, 1, 60, 0, 200, 1, 0, 1, 0, 0],
+  ["Orokin Drone", 4, 1, 35, 50, 0, 7, 0, 0, 0, 0],
+  ["Corrupted Crewman", 4, 1, 60, 150, 0, 0, 0, 0, 0, 0],
+  ["Corrupted MOA", 4, 1, 250, 250, 0, 7, 0, 0, 0, 0],
+  ["Corrupted Nullifier", 4, 15, 60, 150, 0, 0, 1, 0, 0, 0]
+] as [string, number, number, number, number, number, number, number, number, number, number][];
 
+
+
+/** 敌人列表 */
+export const EnemyList = _enemyList.map(v => new EnemyData({
+  id: v[0],
+  faction: v[1],
+  baseLevel: v[2],
+  baseHealth: v[3],
+  baseShield: v[4],
+  baseArmor: v[5],
+  fleshType: v[6],
+  shieldType: v[7],
+  armorType: v[8],
+  resistence: v[9],
+  ignoreProc: v[10],
+}));
+
+/** 伤害模型序列 [id, faction, flesh, shield, armor, resistence, ignoreProc] */
+type DamageModelDataArray = [string, number, number, number, number, number, number]
+
+const _damageModelList = [
+  ["None", , , , , 0, 0],
+  ["Eidolon", 5, 6, , 1, 0.6, 3],
+  ["Eidolon Unarmored", 5, 6, , , 0.6, 3],
+  ["Grineer", 1, 1, , 0, 0, 0],
+  ["Grineer Unarmored", 1, 1, , , 0, 0],
+  ["Grineer Elite", 1, 1, , 1, 0, 0],
+  ["Corpus", 2, 0, , , 0, 0],
+  ["Corpus Shield", 2, , 0, , 0, 0],
+  ["Corpus Elite", 2, 0, , 1, 0, 0],
+  ["Corpus Elite Unarmored", 2, 0, , , 0, 0],
+  ["Corpus Elite Shield", 2, , 1, , 0, 0],
+  ["Infested", 3, 3, , , 0, 0],
+  ["Infested Elite", 3, 2, , , 0, 0],
+  ["Tenno", 0, 0, , 0, 0, 0],
+] as DamageModelDataArray[];
+
+export interface IDamageModelData {
+  /** 模型ID */
+  id: string
+  /** 模型本地化名称 */
+  name: string
+  /** 派系 */
+  faction?: EnemyFaction;
+  /** 血肉类型 */
+  fleshType?: FleshType;
+  /** 护盾类型 */
+  shieldType?: ShieldType;
+  /** 护甲模型 */
+  armorType?: ArmorType;
+  /** 伤害抗性 */
+  resistence?: number;
+  /** 计算模式 夜灵=3 */
+  ignoreProc?: number;
+}
+
+/** 伤害模型数据 */
+export class DamageModelData implements IDamageModelData {
+  id: string
+  get name() {
+    const key = `enemy.models.${_.camelCase(this.id)}`;
+    return i18n.te(key) ? i18n.t(key) : this.id;
+  }
+  faction?: EnemyFaction;
+  fleshType?: FleshType;
+  shieldType?: ShieldType;
+  armorType?: ArmorType;
+  resistence?: number;
+  ignoreProc?: number;
+  constructor(data: IDamageModelData | DamageModelDataArray) {
+    if (Array.isArray(data)) {
+      [this.id, this.faction, this.fleshType, this.shieldType, this.armorType, this.resistence, this.ignoreProc] = data;
+    } else {
+      const { id, faction, fleshType, shieldType, armorType, resistence, ignoreProc } = data;
+      [this.id, this.faction, this.fleshType, this.shieldType, this.armorType, this.resistence, this.ignoreProc] = [id, faction, fleshType, shieldType, armorType, resistence, ignoreProc];
+    }
+  }
+}
+
+export const DamageModelList = _damageModelList.map(v => new DamageModelData(v));
+
+/** 简单伤害模型 */
+export class SimpleDamageModel extends DamageModelData {
+  currentArmor: number = 0;
+  constructor(data: DamageModelData, currentArmor: number) {
+    super(data);
+    this.currentArmor = currentArmor;
+  }
+
+  /**
+   * 根据克制修正系数计算伤害模型
+   *
+   * @param {[string, number][]} dmgs
+   * @param critChance 暴击几率
+   * @param threshold 阈值
+   * @returns 映射后的伤害数值
+   * @memberof Enemy
+   */
+  mapDamage(dmgs: [string, number][], critChance: number = 0, threshold = 300) {
+    if (this.ignoreProc === 3)
+      return this.mapEidolonDmg(dmgs, critChance, threshold);
+    else
+      return this.mapDamageNormal(dmgs)
+  }
+
+  /**
+   * 根据克制修正系数计算伤害模型
+   *
+   * @param {[string, number][]} dmgs
+   * @returns 映射后的伤害数值
+   * @memberof Enemy
+   */
+  mapDamageNormal(dmgs: [string, number][]) {
+    if (typeof this.shieldType === "number") return this.mapDamageShield(dmgs);
+    if (typeof this.armorType === "number") return this.mapDamageArmor(dmgs);
+    if (typeof this.fleshType === "number") return this.mapDamageHealth(dmgs);
+    return dmgs;
+  }
+
+  /**
+   * 根据克制修正系数计算护盾伤害模型
+   *
+   * @param {[string, number][]} dmgs
+   * @returns 映射后的伤害数值
+   * @memberof Enemy
+   */
+  mapDamageShield(dmgs: [string, number][]) {
+    return dmgs.map(([id, dmg]) => {
+      let dtype = Damage2_0.getDamageType(id as DamageType);
+      if (!dtype) return [id, dmg];
+      let SM = dtype.dmgMul[9 + this.shieldType];
+      // 毒素伤害直接穿透护盾对血量进行打击, 不计算对护盾的伤害
+      let DM = isNaN(SM) ? 0 : 1 + SM;
+      return [id, dmg * DM * (1 - this.resistence)];
+    }) as [string, number][];
+  }
+
+  /**
+   * 根据克制修正系数计算护甲伤害模型
+   *
+   * @param {[string, number][]} dmgs
+   * @returns 映射后的伤害数值
+   * @memberof Enemy
+   */
+  mapDamageArmor(dmgs: [string, number][]) {
+    return dmgs.map(([id, dmg]) => {
+      let dtype = Damage2_0.getDamageType(id as DamageType);
+      if (!dtype) return [id, dmg];
+      let HM = dtype.dmgMul[this.fleshType];
+      let AM = dtype.dmgMul[11 + this.armorType];
+      let DM = (1 + HM) * (1 + AM) / (1 + this.currentArmor * (1 - AM) / 300);
+      return [id, dmg * DM * (1 - this.resistence)];
+    }) as [string, number][];
+  }
+
+  /**
+   * 根据克制修正系数计算血肉伤害模型
+   *
+   * @param {[string, number][]} dmgs
+   * @returns 映射后的伤害数值
+   * @memberof Enemy
+   */
+  mapDamageHealth(dmgs: [string, number][]) {
+    return dmgs.map(([id, dmg]) => {
+      let dtype = Damage2_0.getDamageType(id as DamageType);
+      if (!dtype) return [id, dmg];
+      let HM = dtype.dmgMul[this.fleshType];
+      let DM = 1 + HM;
+      return [id, dmg * DM * (1 - this.resistence)];
+    }) as [string, number][];
+  }
+
+  /**
+   * 应用伤害(夜灵)
+   *
+   * @param {[string, number][]} dmgs 伤害表
+   * @param critChance 暴击率
+   * @param threshold 阈值
+   * @returns 映射后的伤害数值
+   * @memberof Enemy
+   */
+  mapEidolonDmg(dmgs: [string, number][], critChance: number, threshold = 300) {
+    let mapped = this.mapDamageNormal(dmgs);
+    let totalDmg = mapped.reduce((a, b) => a + b[1], 0);
+
+    let eidolonCritDmg = totalDmg + totalDmg * (critChance > 1 ? 1 : critChance);
+    // 目标夜灵 无视护盾
+    let eidolonDmg = eidolonCritDmg > threshold ? threshold + (eidolonCritDmg) / 10 : eidolonCritDmg;
+    return mapped.map(([vn, vv]) => [vn, vv / totalDmg * eidolonDmg]);;
+  }
+}
 export class Procs {
   // [伤害, 剩余时间]
   Slash: [number, number][] = [];
@@ -333,28 +503,16 @@ export interface EnemyTimelineState {
   isDoT: boolean;
 }
 
-export class Enemy implements EnemyData {
+export class Enemy extends EnemyData {
   // === 静态属性 ===
-  id: string;
-  name: string;
-  faction: EnemyFaction;
   get factionName() { return EnemyFaction[this.faction]; }
-  baseLevel: number;
-  baseHealth: number;
-  baseShield: number;
-  baseArmor: number;
-  fleshType: FleshType;
-  shieldType: ShieldType;
-  armorType: ArmorType;
   get fleshTypeId() { return FleshType[this.fleshType]; }
   get shieldTypeId() { return ShieldType[this.shieldType]; }
   get armorTypeId() { return ArmorType[this.armorType]; }
-  get fleshTypeName() { return _fleshTypeName[this.fleshType]; }
-  get shieldTypeName() { return _shieldTypeName[this.shieldType]; }
-  get armorTypeName() { return _armorTypeName[this.armorType]; }
-  resistence: number;
+  get fleshTypeName() { return i18n.t("enemy.fleshType")[this.fleshType]; }
+  get shieldTypeName() { return i18n.t("enemy.shieldType")[this.shieldType]; }
+  get armorTypeName() { return i18n.t("enemy.armorType")[this.armorType]; }
   get resistenceText() { return this.resistence && (this.resistence * 100).toFixed() + "%"; }
-  ignoreProc: number;
   // === 动态属性 ===
   private _level: number;
   public get level(): number { return this._level; }
@@ -404,12 +562,8 @@ export class Enemy implements EnemyData {
    * @param {EnemyData} obj 参数对象
    * @param level 等级
    */
-  constructor({ id, name, faction, baseLevel, baseHealth, baseShield, baseArmor, fleshType, shieldType, armorType, resistence, ignoreProc }: EnemyData, level: number) {
-    [this.id, this.name, this.faction] = [id, name, faction];
-    [this.baseLevel, this.baseHealth, this.baseShield, this.baseArmor] = [baseLevel, baseHealth, baseShield, baseArmor];
-    [this.fleshType, this.shieldType, this.armorType] = [fleshType, shieldType, armorType];
-    this.resistence = resistence;
-    this.ignoreProc = ignoreProc;
+  constructor(data: IEnemyData, level: number) {
+    super(data);
     this.level = level;
   }
 

@@ -120,6 +120,10 @@
           <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
             <StatusInfoDisplay :info="build.statusInfo" :common="build.commonStatusInfo" />
           </el-tab-pane>
+          <!-- 幻影装置-->
+          <el-tab-pane class="enemy-sim" :label="$t('build.simulacrum')" name="simulacrum">
+            <h2>unsupport!</h2>
+          </el-tab-pane>
         </el-tabs>
       </el-col>
     </el-row>

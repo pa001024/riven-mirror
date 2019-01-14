@@ -4,7 +4,6 @@
 @theme_leaf: #89b2fd;
 @half_grey : #777;
 @text_info : #67c23a;
-
 .weapon-display {
   .share-icon {
     float: right;
@@ -16,10 +15,12 @@
     }
   }
 }
+
 .right-side {
   width: 50%;
   float: right;
 }
+
 .enemy-info {
   position: relative;
   overflow: hidden;
@@ -27,9 +28,9 @@
   max-width: 100%;
   font-size: 14px;
   color: @text_grey;
-  li {
+  .item {
     display: inline-block;
-    & > div {
+    &>div {
       display: inline-block;
       padding: 4px 8px;
       margin-right: 8px;
@@ -61,23 +62,29 @@
     padding-left: 8px;
   }
 }
+
 .list-complete-item {
   transition: all 0.5s;
 }
+
 .list-complete-enter {
   opacity: 0;
 }
+
 .list-complete-leave-active {
   opacity: 0;
 }
+
 .enemy-sim-body {
-  > .el-form-item {
+  >.el-form-item {
     margin: 0;
   }
 }
+
 .enemy-sim {
   margin-top: 8px;
 }
+
 .build-form-editor {
   .el-form-item {
     margin-bottom: 8px;
@@ -86,6 +93,7 @@
     }
   }
 }
+
 .build-tools {
   margin-top: 16px;
   .el-form-item__label,
@@ -100,14 +108,16 @@
     justify-content: center;
     flex-wrap: wrap;
     margin-bottom: 12px;
-    > * {
+    >* {
       flex: 1;
     }
   }
 }
+
 .weapon-name {
   font-size: 1.1rem;
 }
+
 .weapon-props {
   width: 100%;
   border-spacing: 0;
@@ -119,12 +129,14 @@
     text-align: left;
   }
 }
+
 .select-cpmode {
   cursor: pointer;
   &:hover {
     background: #ebf2ff;
   }
 }
+
 .select-cpmode.active {
   background: #89b2fd;
   color: @theme_back;
@@ -132,7 +144,7 @@
   th {
     color: @theme_back;
   }
-  > * {
+  >* {
     border-top: 4px solid #d9e6ff;
     border-bottom: 4px solid #d9e6ff;
     border-left: 0;
@@ -147,11 +159,13 @@
     }
   }
 }
-.editor-main > .el-dialog__wrapper {
+
+.editor-main>.el-dialog__wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .mod-slot-containor {
   flex-wrap: wrap;
 }
@@ -160,11 +174,13 @@
   max-height: 64vh;
   overflow: auto;
 }
+
 // BUFF
 .buff-head {
   color: #6199ff;
   margin: 8px 0;
 }
+
 .buff-slot {
   border-left: 4px solid transparent;
   text-align: center;
@@ -177,12 +193,12 @@
   justify-content: center;
   align-items: center;
   border-left-color: #ffd6d6;
-  > .el-icon-plus {
+  >.el-icon-plus {
     font-size: 40px;
     color: @theme_leaf;
     padding: 20px;
   }
-  &:hover > .el-icon-plus,
+  &:hover>.el-icon-plus,
   .el-icon-close {
     color: @theme_main;
   }
@@ -217,6 +233,7 @@
     font-size: 14px;
   }
 }
+
 .buff-detail {
   align-self: stretch;
   display: flex;
@@ -235,9 +252,11 @@
     }
   }
 }
+
 .buff-action {
   display: none;
 }
+
 .buff-slot-remove {
   background: 0 0;
   border: none;
@@ -245,6 +264,7 @@
   cursor: pointer;
   font-size: 36px;
 }
+
 .buff-stat {
   .buff-prop {
     font-size: 9pt;
@@ -252,15 +272,17 @@
   }
   display: initial;
 }
+
 .buff-sum {
   font-size: 11pt;
   color: @text_info;
 }
+
 .buff-parm {
   .el-input-number {
     .el-input-number__decrease,
     .el-input-number__increase,
-    .el-input > input {
+    .el-input>input {
       background: none;
       border: 0;
     }
@@ -268,17 +290,19 @@
 }
 
 @media only screen and (max-width: 1366px) {
-  .editor-main > .el-dialog__wrapper > .el-dialog {
+  .editor-main>.el-dialog__wrapper>.el-dialog {
     width: 70%;
     margin: 0 !important;
   }
 }
+
 @media only screen and (max-width: 992px) {
-  .editor-main > .el-dialog__wrapper > .el-dialog {
+  .editor-main>.el-dialog__wrapper>.el-dialog {
     width: 90%;
     margin: 0 !important;
   }
 }
+
 @media only screen and (max-width: 1200px) {
   .mod-slot {
     margin: 4px 0;

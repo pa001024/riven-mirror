@@ -40,23 +40,24 @@ export default class Login extends Vue {
         { min: 6, max: 32, message: this.$t("app.passcheck"), trigger: 'change' }
       ],
     }
-
   }
+
   mounted() {
-    // console.log(this.$refs.loginForm);
     if (this.$refs.loginForm)
       (this.$refs.loginForm as any).$el.onsubmit = this.onSubmit
   }
 
   onSubmit(e: MouseEvent) {
     e.preventDefault();
-    (this.$refs.loginForm as any).validate((valid) => {
-      if (valid) {
-        console.log(this.user)
-      } else {
-        console.log('error submit!!');
-      }
-    });
+    if (this.$refs.loginForm)
+      (this.$refs.loginForm as any).validate((valid) => {
+        if (valid) {
+          console.log(this.user)
+        } else {
+          // do nothing
+          console.error('error submit', this.user);
+        }
+      });
     return false;
   }
 }

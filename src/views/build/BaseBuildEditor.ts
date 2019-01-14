@@ -1,6 +1,6 @@
 import { Vue, Watch } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
-import { NormalMod, Buff, Weapon, RivenWeapon, BuffData } from "@/warframe/codex";
+import { NormalMod, Buff, Weapon, RivenWeapon, BuffData, DamageModelList, SimpleDamageModel } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 
 declare interface BuildSelectorTab {
@@ -19,9 +19,23 @@ export abstract class BaseBuildEditor extends Vue {
   tabValue = "SET A";
   selectModIndex = 0;
   selectBuffIndex = 0;
+  get modelArmor() { return this.build.modelArmor; }
+  set modelArmor(value) { this.build.modelArmor = value; }
+  protected _selectDamageModel = "None";
+  get selectDamageModel() { return this._selectDamageModel; }
+  set selectDamageModel(value) {
+    let model = DamageModelList.find(v => v.id === value);
+    if (model) {
+      this._selectDamageModel = value;
+      this.build.damageModel = new SimpleDamageModel(model, 0);
+      this.modelArmor = 0;
+    }
+  }
   dialogVisible = false;
   buffDialogVisible = false;
   abstract newBuild(...parms): ModBuild;
+  /** 伤害模型列表 */
+  get dmgModels() { return DamageModelList }
 
   @Watch("code")
   onCodeChange() {

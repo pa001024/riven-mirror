@@ -2,7 +2,7 @@
 import { choose, hAccMul, hAccSum } from "./util";
 import { base62, debase62 } from "./lib/base62";
 import { procDurationMap, SpecialStatusInfo } from "./status";
-import { Weapon, NormalMod, RivenDataBase, Arcane, Buff, Enemy, EnemyTimelineState, BuffList, Codex, CombElementMap, Damage2_0, DamageType, ExtraDmgSet, NormalCardDependTable, RivenPropertyDataBase } from "./codex";
+import { Weapon, NormalMod, RivenDataBase, Arcane, Buff, Enemy, EnemyTimelineState, BuffList, Codex, CombElementMap, Damage2_0, DamageType, ExtraDmgSet, NormalCardDependTable, RivenPropertyDataBase, SimpleDamageModel } from "./codex";
 import { RivenMod, toUpLevel, toNegaUpLevel, ValuedRivenProperty } from "./rivenmod";
 
 // 基础类
@@ -360,10 +360,6 @@ export abstract class ModBuild {
   get totalDmg() {
     return this.baseDmg.map(([i, v]) => [i, v * this.totalDamage / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
   }
-  /** 所有伤害类型面板 */
-  get dmg() {
-    return this.baseDmg.map(([i, v]) => [i, v * this.panelBaseDamage]).filter(v => v[1] > 0) as [string, number][];
-  }
   /**
    * 所有伤害类型(基础)
    *
@@ -378,6 +374,27 @@ export abstract class ModBuild {
       else rst[targetElement] = dpart;
     });
     return _.map(rst, (v, i) => [i, +v]) as [string, number][];
+  }
+
+  /** 模型护甲数值 */
+  public get modelArmor() { return this._damageModel ? this._damageModel.currentArmor : 0; }
+  public set modelArmor(value) {
+    if (this._damageModel)
+      this._damageModel.currentArmor = value;
+  }
+  protected _damageModel: SimpleDamageModel = null; // new SimpleDamageModel(DamageModelList[0], this.modelArmor)
+  /** 伤害模型 */
+  public get damageModel() { return this._damageModel }
+  public set damageModel(value) { this._damageModel = value }
+  /** 所有伤害类型面板 */
+  get dmgRaw() {
+    return this.baseDmg.map(([i, v]) => [i, v * this.panelBaseDamage]).filter(v => v[1] > 0) as [string, number][];
+  }
+  /** 真实伤害模型映射输出 */
+  public get dmg() {
+    if (this.damageModel)
+      return this.damageModel.mapDamage(this.dmgRaw, this.critChance, this.weapon.tags.includes("Sniper") ? 300 : 300 / this.fireRate) as [string, number][];
+    return this.dmgRaw;
   }
 
   // ### 额外参数 ###

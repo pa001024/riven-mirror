@@ -43,6 +43,14 @@
                 <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
                 <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
                 <br>
+                <tr class="prop-diff">
+                  <th>伤害模型</th>
+                  <td colspan="3" style="float:right">
+                    <el-select size="mini" v-model="selectDamageModel" placeholder="请选择">
+                      <el-option v-for="item in dmgModels" :key="item.id" :label="item.name" :value="item.id" />
+                    </el-select>
+                  </td>
+                </tr>
                 <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :icon="dname.toLowerCase()" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>
                 <br>
                 <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
@@ -130,39 +138,39 @@
               <div v-if="enemy" class="enemy-main">
                 <!-- 敌人信息区域 -->
                 <div class="enemy-info">
-                  <div class="enemy-name">
+                  <div class="item enemy-name">
                     <div class="key">{{$t("enemy.name")}}</div>
-                    <div class="value">{{$t("zh") ? enemy.name : enemy.id}}</div>
+                    <div class="value">{{enemy.name}}</div>
                   </div>
-                  <div class="enemy-faction">
+                  <div class="item enemy-faction">
                     <div class="key">{{$t("enemy.faction")}}</div>
                     <div class="value">{{enemy.factionName}}</div>
                   </div>
-                  <div class="enemy-level">
+                  <div class="item enemy-level">
                     <div class="key">{{$t("enemy.level")}}</div>
                     <div class="value control"><el-input-number size="small" class="enemy-level-edit" controls-position="right" v-model="enemyLevel"></el-input-number></div>
                   </div>
-                  <div class="enemy-health">
+                  <div class="item enemy-health">
                     <div class="key">{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</div>
                     <div class="value">{{enemy.health.toFixed()}}</div>
                   </div>
-                  <div v-if="enemy.shield > 0" class="enemy-shield">
+                  <div v-if="enemy.shield > 0" class="item enemy-shield">
                     <div class="key">{{$t(`enemy.shieldType.${enemy.shieldType}`)}}</div>
                     <div class="value">{{enemy.shield.toFixed()}}</div>
                   </div>
-                  <div v-if="enemy.armor > 0" class="enemy-armor">
+                  <div v-if="enemy.armor > 0" class="item enemy-armor">
                     <div class="key">{{$t(`enemy.armorType.${enemy.armorType}`)}}</div>
                     <div class="value">{{enemy.armor.toFixed()}}</div>
                   </div>
-                  <div v-if="enemy.resistence > 0" class="enemy-resistence">
+                  <div v-if="enemy.resistence > 0" class="item enemy-resistence">
                     <div class="key">{{$t("enemy.resistence")}}</div>
                     <div class="value">{{enemy.resistenceText}}</div>
                   </div>
-                  <div class="enemy-amrorreduce">
+                  <div class="item enemy-amrorreduce">
                     <div class="key">{{$t("enemy.amrorReduce")}}</div>
                     <div class="value control"><el-input size="small" class="enemy-amrorreduce-edit" v-model="amrorReduce"></el-input></div>
                   </div>
-                  <div class="enemy-action">
+                  <div class="item enemy-action">
                     <div class="key">{{$t("enemy.action")}}</div>
                     <div class="value control"><el-button size="small" @click="selectEnemy(null)">{{$t("enemy.reselect")}}</el-button></div>
                   </div>
