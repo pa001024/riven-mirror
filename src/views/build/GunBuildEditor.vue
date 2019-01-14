@@ -19,51 +19,54 @@
               </el-popover>
             </div>
             <div class="weapon-capacity"></div>
-            <table class="weapon-props">
-              <tbody>
-                <tr class="prop-diff cost-show">
-                  <th>{{$t('build.cost')}}</th>
-                  <td class="diff diff-ori">
-                    {{build.maxCost - build.totalCost}}
-                  </td>
-                  <template v-if="build.totalCost > 0">
-                    <td class="diff diff-arrow">/</td>
-                    <td class="diff diff-val">
-                      {{build.maxCost}}
-                    </td>
-                  </template>
-                </tr>
-                <PropDiff :name="$t('build.magazine')" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
-                <PropDiff :name="$t('build.prjSpeed')" v-if="weapon.prjSpeed" :ori="weapon.prjSpeed" :val="build.prjSpeed" subfix=" m/s" :preci="1"></PropDiff>
-                <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="3"></PropDiff>
-                <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
-                <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
-                <PropDiff :name="$t('build.bullets')" v-if="weapon.bullets != 1 || build.bullets != 1" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
-                <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
-                <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
-                <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
-                <br>
-                <tr class="prop-diff">
-                  <th>伤害模型</th>
-                  <td colspan="3" style="float:right">
-                    <el-select size="mini" v-model="selectDamageModel" placeholder="请选择">
-                      <el-option v-for="item in dmgModels" :key="item.id" :label="item.name" :value="item.id" />
-                    </el-select>
-                  </td>
-                </tr>
-                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :icon="dname.toLowerCase()" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>
-                <br>
-                <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
-                <PropDiff :name="$t('build.totalDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
-                   class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
-                <PropDiff v-if="weapon.tags.includes('Sniper')" :name="$t('build.firstAmmoDamage')" :ori="build.oriTotalDamage" :val="build.firstAmmoDamage"
-                   class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
-                <PropDiff :name="$t('build.burstDamage')" :ori="build.oriBurstDamage" :val="build.burstDamage"
-                   class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
-                <PropDiff :name="$t('build.sustainedDamage')" :ori="build.oriSustainedDamage" :val="build.sustainedDamage"
-                   class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
-              </tbody>
-            </table>
+            <div class="weapon-props">
+              <el-row :gutter="4" class="prop-diff cost-show">
+                <el-col :span="8" class="title">{{$t('build.cost')}}</el-col>
+                <el-col :span="7" class="diff diff-ori">
+                  {{build.maxCost - build.totalCost}}
+                </el-col>
+                <template v-if="build.totalCost > 0">
+                  <el-col :span="2" class="diff diff-arrow">/</el-col>
+                  <el-col :span="7" class="diff diff-val">
+                    {{build.maxCost}}
+                  </el-col>
+                </template>
+              </el-row>
+              <PropDiff :name="$t('build.magazine')" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
+              <PropDiff :name="$t('build.prjSpeed')" v-if="weapon.prjSpeed" :ori="weapon.prjSpeed" :val="build.prjSpeed" subfix=" m/s" :preci="1"></PropDiff>
+              <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="3"></PropDiff>
+              <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
+              <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
+              <PropDiff :name="$t('build.bullets')" v-if="weapon.bullets != 1 || build.bullets != 1" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
+              <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
+              <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
+              <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
+              <br>
+              <el-row class="model-selector">
+                <el-col :span="6">
+                  伤害模型
+                </el-col>
+                <el-col :span="12">
+                  <el-select size="mini" class="model-name" v-model="selectDamageModel" placeholder="请选择">
+                    <el-option v-for="item in dmgModels" :key="item.id" :label="item.name" :value="item.id" />
+                  </el-select>
+                </el-col>
+                <el-col :span="6">
+                  <el-input size="mini" class="armor-value" v-model="modelArmor" controls-position="right" :min="0" />
+                </el-col>
+              </el-row>
+              <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :icon="dname.toLowerCase()" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>
+              <br>
+              <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
+              <PropDiff :name="$t('build.totalDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
+                  class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
+              <PropDiff v-if="weapon.tags.includes('Sniper')" :name="$t('build.firstAmmoDamage')" :ori="build.oriTotalDamage" :val="build.firstAmmoDamage"
+                  class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
+              <PropDiff :name="$t('build.burstDamage')" :ori="build.oriBurstDamage" :val="build.burstDamage"
+                  class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
+              <PropDiff :name="$t('build.sustainedDamage')" :ori="build.oriSustainedDamage" :val="build.sustainedDamage"
+                  class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
+            </div>
           </el-card>
           <!-- 选项区域 -->
           <el-card class="build-tools">

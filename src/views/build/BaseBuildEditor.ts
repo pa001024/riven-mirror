@@ -20,7 +20,7 @@ export abstract class BaseBuildEditor extends Vue {
   selectModIndex = 0;
   selectBuffIndex = 0;
   get modelArmor() { return this.build.modelArmor; }
-  set modelArmor(value) { this.build.modelArmor = value; }
+  set modelArmor(value) { this.build.modelArmor = +value; }
   protected _selectDamageModel = "None";
   get selectDamageModel() { return this._selectDamageModel; }
   set selectDamageModel(value) {

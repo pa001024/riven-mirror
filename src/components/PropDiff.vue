@@ -1,19 +1,19 @@
 <template>
-  <tr class="prop-diff" @click="handleClick">
-    <th>
+  <el-row :gutter="4" class="prop-diff" @click="handleClick">
+    <el-col :span="8" class="title">
       <WfIcon v-if="icon" :type="icon"></WfIcon>
       {{name}}
-    </th>
-    <td class="diff diff-ori" :class="activeClass">
+    </el-col>
+    <el-col :span="7" class="diff diff-ori" :class="activeClass">
       {{displayValue(ori)}}
-    </td>
+    </el-col>
     <template v-if="Num(percent ? ori * 100 : ori, preci) !== Num(percent ? val * 100 : val, preci)">
-      <td class="diff diff-arrow" :class="activeClass"><i class="el-icon-arrow-right"></i></td>
-      <td class="diff diff-val" :class="activeClass">
+      <el-col :span="2" class="diff diff-arrow" :class="activeClass"><i class="el-icon-arrow-right"></i></el-col>
+      <el-col :span="7" class="diff diff-val" :class="activeClass">
         {{displayValue(val)}}
-      </td>
+      </el-col>
     </template>
-  </tr>
+  </el-row>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
@@ -52,16 +52,15 @@ export default class extends Vue {
 }
 </script>
 <style>
-.prop-diff > th,
-.prop-diff > td {
+.prop-diff > * {
   margin: 0;
   padding: 4px 0;
   border: 4px solid transparent;
 }
-.prop-diff > th {
+.prop-diff .title {
   padding-left: 4px;
 }
-.prop-diff > td:last-child {
+.prop-diff > .diff:last-child {
   padding-right: 4px;
 }
 .prop-diff {
