@@ -1059,6 +1059,7 @@ let po = {
     "vasto": "瓦斯托",
     "vastoPrime": "瓦斯托 Prime",
     "akvasto": "瓦斯托双枪",
+    "akvastoPrime": "瓦斯托双枪 Prime",
     "furis": "盗贼",
     "afuris": "盗贼双枪",
     "telosAkbolto": "终极 螺钉双枪",
@@ -1214,7 +1215,7 @@ let po = {
 
     "valkyrTalons": "Valkyr之爪",
     "ironStaff": "定海神針",
-    "regulators": "監察者雙槍",
+    "regulators": "监察者双枪",
     "diwata": "仙女",
     "dexPixia": "Dex 妖精",
 
@@ -2420,6 +2421,9 @@ let po = {
     abilityEfficiency: "技能效率",
     abilityRange: "技能范围",
     formaCount: " [ {0}极化 ]",
+    damageModel: "伤害模型",
+    damageModelTip: "请选择伤害模型",
+    armorValueTip: "请输入护甲数值",
   },
   enemy: {
     name: "敌人",
@@ -2449,7 +2453,6 @@ let po = {
       1: "合金装甲",
     },
     models: {
-      none: "标准靶",
       eidolon: "夜灵",
       eidolonUnarmored: "夜灵无护甲",
       grineer: "Grineer",

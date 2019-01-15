@@ -1059,6 +1059,7 @@ let po = {
     "vasto": "瓦斯托",
     "vastoPrime": "瓦斯托 PRIME",
     "akvasto": "瓦斯托雙槍",
+    "akvastoPrime": "瓦斯托雙槍 PRIME",
     "furis": "盜賊",
     "afuris": "盜賊雙槍",
     "telosAkbolto": "終極 螺釘雙槍",
@@ -2409,6 +2410,9 @@ let po = {
     abilityEfficiency: "技能效率",
     abilityRange: "技能範圍",
     formaCount: " [ {0}極化 ]",
+    damageModel: "傷害模型",
+    damageModelTip: "請選擇傷害模型",
+    armorValueTip: "請輸入護甲數值",
   },
   enemy: {
     name: "敵人",
@@ -2438,7 +2442,6 @@ let po = {
       1: "合金裝甲",
     },
     models: {
-      none: "標準靶",
       eidolon: "夜靈",
       eidolonUnarmored: "夜靈無護甲",
       grineer: "Grineer",

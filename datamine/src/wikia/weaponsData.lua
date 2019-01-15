@@ -14,7 +14,7 @@ local WeaponData =
 --Special list of things to be ignored when counting
 --Currently just for Dark Split-Sword & Rampart, but may be needed again later
 --Pretty much used to avoid screwing up the Mastery Rank list
-["IgnoreInCount"] = {"Rampart", "Dark Split-Sword (Heavy Blade)", "Cadus", "Carmine Penta", "Prisma Machete", "Dargyn", "Artemis Bow (Weapon)", "Dex Pixia", "Regulators (Weapon)", "Diwata", "Exalted Blade (Weapon)", "Umbra Exalted Blade (Weapon)", "Iron Staff", "Valkyr Talons", "Garuda's Talons", "Desert Wind", "Corvas (Atmosphere)", "Cyngas (Atmosphere)", "Dual Decurion (Atmosphere)", "Fluctus (Atmosphere)", "Grattler (Atmosphere)", "Imperator (Atmosphere)", "Imperator Vandal (Atmosphere)", "Phaedra (Atmosphere)", "Velocitus (Atmosphere)"},
+["IgnoreInCount"] = {"Rampart", "Dark Split-Sword (Heavy Blade)", "Cadus", "Carmine Penta", "Prisma Machete", "Dargyn", "Artemis Bow (Weapon)", "Dex Pixia", "Regulators (Weapon)", "Regulators Prime", "Diwata", "Exalted Blade (Weapon)", "Umbra Exalted Blade (Weapon)", "Iron Staff", "Valkyr Talons", "Garuda's Talons", "Desert Wind", "Corvas (Atmosphere)", "Cyngas (Atmosphere)", "Dual Decurion (Atmosphere)", "Fluctus (Atmosphere)", "Grattler (Atmosphere)", "Imperator (Atmosphere)", "Imperator Vandal (Atmosphere)", "Phaedra (Atmosphere)", "Velocitus (Atmosphere)"},
 ["Weapons"] = {
     ["Ack & Brunt"] = {
         Name = "Ack & Brunt",
@@ -4485,6 +4485,7 @@ local WeaponData =
 		ChargeAttack = {--needs confirmation
 			Damage = {
 				["Blast"] = 300,},
+			CritChance = 0,
 			PelletCount = 10,
 		},
 		Class = "Gunblade",
@@ -9824,7 +9825,7 @@ local WeaponData =
 			StatusChance = 0.18,
 			FireRate = 3.57,
 			BurstCount = 2,
-			ShotType = "Hit-Scan",
+			ShotType = "Projectile",
 		},
 		SecondaryAttack = {
 		    Accuracy = 100,
@@ -14257,9 +14258,11 @@ local WeaponData =
 	    	PelletCount = 3,
 		    PunchThrough = 0.5,
 	    	FireRate = 3.33,
-	    	ShotType = "Hit-Scan",
+		--	ShotSpeed = 100,
+	    	ShotType = "Projectile",
+
 			Falloff = {StartRange = 30,EndRange = 60,Reduction = 0.508,},
-		    },
+	    },
         NoiseLevel = "Alarming",
 		Reload = 1.6,
 		Trigger = "Semi",

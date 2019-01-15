@@ -1,19 +1,21 @@
 <template>
-  <el-row :gutter="4" class="prop-diff" @click="handleClick">
-    <el-col :span="8" class="title">
-      <WfIcon v-if="icon" :type="icon"></WfIcon>
-      {{name}}
-    </el-col>
-    <el-col :span="7" class="diff diff-ori" :class="activeClass">
-      {{displayValue(ori)}}
-    </el-col>
-    <template v-if="Num(percent ? ori * 100 : ori, preci) !== Num(percent ? val * 100 : val, preci)">
-      <el-col :span="2" class="diff diff-arrow" :class="activeClass"><i class="el-icon-arrow-right"></i></el-col>
-      <el-col :span="7" class="diff diff-val" :class="activeClass">
-        {{displayValue(val)}}
+  <div @click="handleClick">
+    <el-row :gutter="4" class="prop-diff">
+      <el-col :span="8" class="title">
+        <WfIcon v-if="icon" :type="icon"></WfIcon>
+        {{name}}
       </el-col>
-    </template>
-  </el-row>
+      <el-col :span="7" class="diff diff-ori" :class="activeClass">
+        {{displayValue(ori)}}
+      </el-col>
+      <template v-if="Num(percent ? ori * 100 : ori, preci) !== Num(percent ? val * 100 : val, preci)">
+        <el-col :span="2" class="diff diff-arrow" :class="activeClass"><i class="el-icon-arrow-right"></i></el-col>
+        <el-col :span="7" class="diff diff-val" :class="activeClass">
+          {{displayValue(val)}}
+        </el-col>
+      </template>
+    </el-row>
+  </div>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
@@ -51,47 +53,63 @@ export default class extends Vue {
   }
 }
 </script>
-<style>
-.prop-diff > * {
+<style lang="less">
+@import "../less/common.less";
+
+.prop-diff {
   margin: 0;
   padding: 4px 0;
   border: 4px solid transparent;
-}
-.prop-diff .title {
-  padding-left: 4px;
-}
-.prop-diff > .diff:last-child {
-  padding-right: 4px;
-}
-.prop-diff {
   transition: 0.4s;
   padding: 4px;
   border-radius: 4px;
+  .title {
+    padding-left: 4px;
+  }
+  > .diff:last-child {
+    padding-right: 4px;
+  }
+  &:hover {
+    background: #fafafa;
+  }
+  > .diff-val.positive {
+    color: #67c23a;
+    text-shadow: 1px 1px 1px rgba(70, 255, 70, 0.1);
+  }
+  &.active > .diff-val.positive {
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(70, 255, 70, 0.4);
+  }
+  > .diff-val.negative {
+    color: #f56c6c;
+    text-shadow: 1px 1px 1px rgba(255, 70, 70, 0.1);
+  }
+  &.active > .diff-val.negative {
+    color: #fff;
+    text-shadow: 1px 1px 1px rgba(255, 70, 70, 0.4);
+  }
+  .diff-arrow {
+    text-align: center;
+  }
+  .diff-ori,
+  .diff-val {
+    text-align: right;
+  }
 }
-.prop-diff:hover {
-  background: #fafafa;
-}
-.prop-diff > .diff-val.positive {
-  color: #67c23a;
-  text-shadow: 1px 1px 1px rgba(70, 255, 70, 0.1);
-}
-.prop-diff.active > .diff-val.positive {
-  color: #fff;
-  text-shadow: 1px 1px 1px rgba(70, 255, 70, 0.4);
-}
-.prop-diff > .diff-val.negative {
-  color: #f56c6c;
-  text-shadow: 1px 1px 1px rgba(255, 70, 70, 0.1);
-}
-.prop-diff.active > .diff-val.negative {
-  color: #fff;
-  text-shadow: 1px 1px 1px rgba(255, 70, 70, 0.4);
-}
-.diff-arrow {
-  text-align: center;
-}
-.diff-ori,
-.diff-val {
-  text-align: right;
+
+.select-cpmode {
+  cursor: pointer;
+  &:hover {
+    background: #ebf2ff;
+  }
+  &.active .prop-diff {
+    background: #89b2fd;
+    color: @theme_back;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+    border: 4px solid #d9e6ff;
+    .title {
+      color: @theme_back;
+    }
+  }
 }
 </style>

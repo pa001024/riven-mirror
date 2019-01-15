@@ -377,21 +377,24 @@ export abstract class ModBuild {
   }
 
   /** 模型护甲数值 */
-  public get modelArmor() { return this._damageModel ? this._damageModel.currentArmor : 0; }
-  public set modelArmor(value) {
+  get modelArmor() { return this._damageModel ? this._damageModel.currentArmor : 0; }
+  set modelArmor(value) {
     if (this._damageModel)
       this._damageModel.currentArmor = value;
   }
   protected _damageModel: SimpleDamageModel = null; // new SimpleDamageModel(DamageModelList[0], this.modelArmor)
   /** 伤害模型 */
-  public get damageModel() { return this._damageModel }
-  public set damageModel(value) { this._damageModel = value }
+  get damageModel() { return this._damageModel }
+  set damageModel(value) {
+    this._damageModel = value;
+    this.enemyDmgType = value && value.faction ? "TGCIOS"[value.faction] : this.enemyDmgType;
+  }
   /** 所有伤害类型面板 */
   get dmgRaw() {
     return this.baseDmg.map(([i, v]) => [i, v * this.panelBaseDamage]).filter(v => v[1] > 0) as [string, number][];
   }
   /** 真实伤害模型映射输出 */
-  public get dmg() {
+  get dmg() {
     if (this.damageModel)
       return this.damageModel.mapDamage(this.dmgRaw, this.critChance, this.weapon.tags.includes("Sniper") ? 300 : 300 / this.fireRate) as [string, number][];
     return this.dmgRaw;
@@ -404,7 +407,7 @@ export abstract class ModBuild {
   /** 连击层数 */
   comboLevel = 0;
   /** 设置连击数 */
-  set comboCount(value) {
+  set comboCount(value: number) {
     this.comboLevel = value > 4 ? ~~(Math.log(value / 5) / Math.log(3)) + 1 : 0;
   }
 
@@ -537,11 +540,19 @@ export abstract class ModBuild {
   /** 面板基础伤害 */
   get panelBaseDamage() { return hAccMul(this.originalDamage, this.panelBaseDamageMul); }
   /** 面板伤害 */
-  get panelDamage() { return hAccMul(this.originalDamage, this.panelDamageMul); }
+  get panelDamage() {
+    if (this.damageModel)
+      return this.dmg.reduce((r, [_, vv]) => (r += vv, r), 0);
+    return this.panelDamageRaw;
+  }
+  /** 无模型面板伤害 */
+  get panelDamageRaw() {
+    return hAccMul(this.originalDamage, this.panelDamageMul);
+  }
   /** 总伤增幅倍率 */
-  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.headShotDmgMul, this.overallMul, this.enemyDmgMul); }
+  get totalDamageMul() { return hAccMul(this.critDamageMul, this.headShotDmgMul, this.overallMul, this.enemyDmgMul); }
   /** 总伤害 */
-  get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul); }
+  get totalDamage() { return hAccMul(this.panelDamage, this.totalDamageMul); }
   /** 原总伤害 */
   get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul, this.headShotDmgMul); }
   /** 基伤 触发计算中的基伤概念 包含多重暴击等 */
@@ -689,7 +700,7 @@ export abstract class ModBuild {
   isValidMod(mod: NormalMod) {
     let mods = _.compact(this._mods);
     // 如果相应的P卡已经存在则不使用
-    if (mods.some(v => v.id === mod.primed || (mod.primed && v.primed === mod.primed)))
+    if (mods.some(v => v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed)))
       return false;
     // 只允许选择的元素
     if (this.allowElementTypes)
@@ -719,6 +730,8 @@ export abstract class ModBuild {
     let nb = new (this.constructor as any)(this.weapon, this.riven, this.options);
     nb._mods = this.mods;
     nb._buffs = this.buffs;
+    nb._damageModel = this.damageModel;
+    nb.modelArmor = this.modelArmor;
     nb._mods.splice(index, 1);
     let oldVal = this.compareDamage;
     nb.calcMods();
@@ -738,6 +751,8 @@ export abstract class ModBuild {
     let nb = new (this.constructor as any)(this.weapon, this.riven, this.options);
     nb._mods = this.mods;
     nb._buffs = this.buffs;
+    nb._damageModel = this.damageModel;
+    nb.modelArmor = this.modelArmor;
     nb._buffs.splice(index, 1);
     let oldVal = this.compareDamage;
     nb.calcMods();

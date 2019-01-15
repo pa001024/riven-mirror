@@ -18,40 +18,50 @@
                 <i slot="reference" class="el-icon-share share-icon"></i>
               </el-popover>
             </div>
-            <table class="weapon-props">
-              <tbody>
-                <tr class="prop-diff cost-show">
-                  <th>{{$t('build.cost')}}</th>
-                  <td class="diff diff-ori">
-                    {{build.maxCost - build.totalCost}}
-                  </td>
-                  <template v-if="build.totalCost > 0">
-                    <td class="diff diff-arrow">/</td>
-                    <td class="diff diff-val">
-                      {{build.maxCost}}
-                    </td>
-                  </template>
-                </tr>
-                <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="3"></PropDiff>
-                <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
-                <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
-                <PropDiff :name="$t('build.slideDmg')" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
-                <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
-                <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
-                <br>
-                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :icon="dname.toLowerCase()" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>
-                <br>
-                <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
-                <PropDiff :name="$t('build.attackDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
-                   class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
-                <PropDiff :name="$t('build.slideDamage')" :ori="build.oriSlideDamage" :val="build.slideDamage"
-                   class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
-                <PropDiff :name="$t('build.attackDamagePS')" :ori="build.oriTotalDamagePS" :val="build.totalDamagePS"
-                   class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
-                <PropDiff :name="$t('build.slideDamagePS')" :ori="build.oriSlideDamagePS" :val="build.slideDamagePS"
-                   class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
-              </tbody>
-            </table>
+            <div class="weapon-capacity"></div>
+            <div class="weapon-props">
+              <el-row :gutter="4" class="prop-diff cost-show">
+                <el-col :span="8" class="title">{{$t('build.cost')}}</el-col>
+                <el-col :span="7" class="diff diff-ori">
+                  {{build.maxCost - build.totalCost}}
+                </el-col>
+                <template v-if="build.totalCost > 0">
+                  <el-col :span="2" class="diff diff-arrow">/</el-col>
+                  <el-col :span="7" class="diff diff-val">
+                    {{build.maxCost}}
+                  </el-col>
+                </template>
+              </el-row>
+              <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="3"></PropDiff>
+              <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
+              <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
+              <PropDiff :name="$t('build.slideDmg')" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
+              <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
+              <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
+              <!-- 伤害模型 -->
+              <el-row :gutter="4" class="prop-diff model-selector">
+                <el-col :span="8" class="title" v-t="'build.damageModel'"></el-col>
+                <el-col :span="7">
+                  <el-select size="mini" class="model-name" v-model="selectDamageModel" clearable :placeholder="$t('build.damageModelTip')">
+                    <el-option v-for="item in dmgModels" :key="item.id" :label="item.name" :value="item.id" />
+                  </el-select>
+                </el-col>
+                <el-col :span="7" :offset="2">
+                  <el-input size="mini" class="armor-value" v-model="modelArmor" clearable :placeholder="$t('build.armorValueTip')"/>
+                </el-col>
+              </el-row>
+              <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :icon="dname.toLowerCase()" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>
+              <br>
+              <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
+              <PropDiff :name="$t('build.attackDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
+                  class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
+              <PropDiff :name="$t('build.slideDamage')" :ori="build.oriSlideDamage" :val="build.slideDamage"
+                  class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
+              <PropDiff :name="$t('build.attackDamagePS')" :ori="build.oriTotalDamagePS" :val="build.totalDamagePS"
+                  class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
+              <PropDiff :name="$t('build.slideDamagePS')" :ori="build.oriSlideDamagePS" :val="build.slideDamagePS"
+                  class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
+            </div>
           </el-card>
           <!-- 选项区域 -->
           <el-card class="build-tools">

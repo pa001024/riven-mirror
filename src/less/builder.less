@@ -130,36 +130,6 @@
   }
 }
 
-.select-cpmode {
-  cursor: pointer;
-  &:hover {
-    background: #ebf2ff;
-  }
-}
-
-.select-cpmode.active {
-  background: #89b2fd;
-  color: @theme_back;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-  th {
-    color: @theme_back;
-  }
-  >* {
-    border-top: 4px solid #d9e6ff;
-    border-bottom: 4px solid #d9e6ff;
-    border-left: 0;
-    border-right: 0;
-    &:first-child {
-      border-left: 4px solid #d9e6ff;
-      border-radius: 4px 0 0 4px;
-    }
-    &:last-child {
-      border-right: 4px solid #d9e6ff;
-      border-radius: 0 4px 4px 0;
-    }
-  }
-}
-
 .editor-main>.el-dialog__wrapper {
   display: flex;
   justify-content: center;
@@ -177,11 +147,17 @@
 
 // MODEL
 .model-selector {
-  .model-name {
-    width: 100%;
+  .title {
+    line-height: 28px;
   }
+  .model-name,
   .armor-value {
-    width: 100%;
+    display: block;
+    .el-input__inner {
+      border: 0;
+      text-align: right;
+      background: none;
+    }
   }
 }
 

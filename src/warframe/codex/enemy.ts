@@ -265,7 +265,6 @@ export const EnemyList = _enemyList.map(v => new EnemyData({
 type DamageModelDataArray = [string, number, number, number, number, number, number]
 
 const _damageModelList = [
-  ["None", , , , , 0, 0],
   ["Eidolon", 5, 6, , 1, 0.6, 3],
   ["Eidolon Unarmored", 5, 6, , , 0.6, 3],
   ["Grineer", 1, 1, , 0, 0, 0],

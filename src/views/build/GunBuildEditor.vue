@@ -41,18 +41,16 @@
               <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
               <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
               <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
-              <br>
-              <el-row class="model-selector">
-                <el-col :span="6">
-                  伤害模型
-                </el-col>
-                <el-col :span="12">
-                  <el-select size="mini" class="model-name" v-model="selectDamageModel" placeholder="请选择">
+              <!-- 伤害模型 -->
+              <el-row :gutter="4" class="prop-diff model-selector">
+                <el-col :span="8" class="title" v-t="'build.damageModel'"></el-col>
+                <el-col :span="7">
+                  <el-select size="mini" class="model-name" v-model="selectDamageModel" clearable :placeholder="$t('build.damageModelTip')">
                     <el-option v-for="item in dmgModels" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
                 </el-col>
-                <el-col :span="6">
-                  <el-input size="mini" class="armor-value" v-model="modelArmor" controls-position="right" :min="0" />
+                <el-col :span="7" :offset="2">
+                  <el-input size="mini" class="armor-value" v-model="modelArmor" clearable :placeholder="$t('build.armorValueTip')"/>
                 </el-col>
               </el-row>
               <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :icon="dname.toLowerCase()" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>

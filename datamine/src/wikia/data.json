@@ -890,7 +890,7 @@
       "Trigger": "Auto Burst",
       "Type": "Primary",
       "NormalAttack": {
-        "ShotType": "Hit-Scan",
+        "ShotType": "Projectile",
         "CritChance": 0.32,
         "FireRate": 3.57,
         "Accuracy": 25,
@@ -5003,12 +5003,13 @@
       "NormalAttack": {
         "CritChance": 0.08,
         "Falloff": {
+          "EndRange": 60,
           "StartRange": 30,
-          "EndRange": 60
+          "Reduction": 0.508
         },
         "FireRate": 3.33,
         "PelletCount": 3,
-        "ShotType": "Hit-Scan",
+        "ShotType": "Projectile",
         "PunchThrough": 0.5,
         "StatusChance": 0.36,
         "CritMultiplier": 1.4,
@@ -9586,7 +9587,7 @@
       },
       "Class": "Dual Pistols",
       "ChargeAttack": {
-        "Radius": 8,
+        "Radius": 2,
         "AttackName": "Uncharged Explosion",
         "ShotType": "Projectile",
         "ShotSpeed": "???",
@@ -11357,7 +11358,7 @@
       "NormalAttack": {
         "CritChance": 0.06,
         "ShotType": "Hit-Scan",
-        "FireRate": 8.33,
+        "FireRate": 16.67,
         "BurstCount": 2,
         "StatusChance": 0.28,
         "CritMultiplier": 2,
@@ -17866,6 +17867,7 @@
       "Class": "Gunblade",
       "BlockResist": 0.6,
       "ChargeAttack": {
+        "CritChance": 0,
         "PelletCount": 10,
         "Damage": {
           "Blast": 300
@@ -18112,10 +18114,9 @@
           "Name": "Argon Crystal",
           "Count": 2
         }, {
-          "1": 375,
           "Type": "Resource",
           "Name": "Alloy Plate",
-          "Count": 4
+          "Count": 4375
         }, {
           "Type": "Resource",
           "Name": "Cryotic",
@@ -21231,5 +21232,5 @@
     "Name": "Hunter's Bonesaw",
     "Category": "Arena"
   }],
-  "IgnoreInCount": ["Rampart", "Dark Split-Sword (Heavy Blade)", "Cadus", "Carmine Penta", "Prisma Machete", "Dargyn", "Artemis Bow (Weapon)", "Dex Pixia", "Regulators (Weapon)", "Diwata", "Exalted Blade (Weapon)", "Umbra Exalted Blade (Weapon)", "Iron Staff", "Valkyr Talons", "Garuda's Talons", "Desert Wind", "Corvas (Atmosphere)", "Cyngas (Atmosphere)", "Dual Decurion (Atmosphere)", "Fluctus (Atmosphere)", "Grattler (Atmosphere)", "Imperator (Atmosphere)", "Imperator Vandal (Atmosphere)", "Phaedra (Atmosphere)", "Velocitus (Atmosphere)"]
+  "IgnoreInCount": ["Rampart", "Dark Split-Sword (Heavy Blade)", "Cadus", "Carmine Penta", "Prisma Machete", "Dargyn", "Artemis Bow (Weapon)", "Dex Pixia", "Regulators (Weapon)", "Regulators Prime", "Diwata", "Exalted Blade (Weapon)", "Umbra Exalted Blade (Weapon)", "Iron Staff", "Valkyr Talons", "Garuda's Talons", "Desert Wind", "Corvas (Atmosphere)", "Cyngas (Atmosphere)", "Dual Decurion (Atmosphere)", "Fluctus (Atmosphere)", "Grattler (Atmosphere)", "Imperator (Atmosphere)", "Imperator Vandal (Atmosphere)", "Phaedra (Atmosphere)", "Velocitus (Atmosphere)"]
 }

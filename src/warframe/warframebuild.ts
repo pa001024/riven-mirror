@@ -320,7 +320,7 @@ export class WarframeBuild {
   isValidMod(mod: NormalMod): boolean {
     let mods = _.compact(this._mods);
     // 如果相应的P卡已经存在则不使用
-    if (mods.some(v => v.id === mod.primed || (mod.primed && v.primed === mod.primed)))
+    if (mods.some(v => v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed)))
       return false;
     return true;
   }

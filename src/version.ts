@@ -1,6 +1,19 @@
 export const magic = "ALPHA";
-export const version = "1.4.1";
+export const version = "1.4.2";
 export const updateLogs = [
+  {
+    version: "1.4.2",
+    md: {
+      en: `
++ fix weapon data
++ add damage model (test)
+`,
+      cn: `
++ 修复部分武器数据错误
++ 新增 **伤害模型** 功能 (试行)
+`
+    }
+  },
   {
     version: "1.4.1",
     md: {
@@ -31,11 +44,11 @@ export const updateLogs = [
 `
     }
   },
-  {
-    version: "1.3.9",
-    md: {
-      en: `+ **[Riven Analyze]** Add configureable melee range & combo support`,
-      cn: `+ **[紫卡分析]** 添加了对近战紫卡范围和连击属性的支持，评分更加有参考价值，如果不需要可以在选项中设置`
-    }
-  }
+  // {
+  //   version: "1.3.9",
+  //   md: {
+  //     en: `+ **[Riven Analyze]** Add configureable melee range & combo support`,
+  //     cn: `+ **[紫卡分析]** 添加了对近战紫卡范围和连击属性的支持，评分更加有参考价值，如果不需要可以在选项中设置`
+  //   }
+  // }
 ];

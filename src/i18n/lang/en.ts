@@ -353,6 +353,7 @@ let po = {
     "vasto": "Vasto",
     "vastoPrime": "Vasto Prime",
     "akvasto": "Akvasto",
+    "akvastoPrime": "Akvasto Prime",
     "furis": "Furis",
     "afuris": "Afuris",
     "telosAkbolto": "Telos Akbolto",
@@ -944,6 +945,9 @@ let po = {
     abilityEfficiency: "ABILITY EFFICIENCY",
     abilityRange: "ABILITY RANGE",
     formaCount: " [ {0} FORMA ]",
+    damageModel: "Damage Model",
+    damageModelTip: "Select Damage Model",
+    armorValueTip: "Input Armor Number",
   },
   enemy: {
     name: "Enemy",

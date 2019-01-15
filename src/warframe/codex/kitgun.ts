@@ -146,7 +146,7 @@ export class Kitgun implements GunWeapon {
 
   bullets: number = 1;
   ammo: number = 210;
-  ammoMode?: number;
+  ammoCost?: number;
   prjSpeed?: number;
   rangeLimit?: number;
 
