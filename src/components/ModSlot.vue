@@ -65,12 +65,12 @@ export default class ModSlot extends Vue {
   justify-content: center;
   align-items: center;
   position: relative;
-  > .el-icon-plus {
+  > .icon-plus-btn {
     font-size: 40px;
     color: @theme_leaf;
     padding: 20px;
   }
-  &:hover > .el-icon-plus,
+  &:hover > .icon-plus-btn,
   > .el-icon-close {
     color: @theme_main;
   }

@@ -21,7 +21,10 @@
         </div>
       </div>
     </template>
-    <i v-else class="icon-plus-btn el-icon-plus"></i>
+    <template v-else>
+      <WfIcon v-if="polarization" class="icon-plus-btn" :type="polarization"/>
+      <i v-else class="icon-plus-btn el-icon-plus"></i>
+    </template>
   </div>
 </template>
 <script lang="ts">

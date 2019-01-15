@@ -1,6 +1,17 @@
 export const magic = "ALPHA";
-export const version = "1.4.2";
+export const version = "1.4.3";
 export const updateLogs = [
+  {
+    version: "1.4.3",
+    md: {
+      en: `
++ warframe pol visible
+`,
+      cn: `
++ 战甲槽位极性可视化
+`
+    }
+  },
   {
     version: "1.4.2",
     md: {

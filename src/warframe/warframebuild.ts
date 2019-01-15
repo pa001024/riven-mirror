@@ -204,6 +204,7 @@ export class WarframeBuild {
     this._abilityEfficiencyAdd = 0;
     this._abilityRangeAdd = 0;
     this.data.lvlUps.map(v => this.applyProp(null, v[0], v[1]));
+    this.recalcPolarizations();
   }
 
   /**
@@ -588,12 +589,23 @@ export class WarframeBuild {
     while (defaultPolarities.length > 0) {
       const pol = defaultPolarities.pop();
       let mod = thetaSeq.pop();
-      // 跳过已经极化的槽位
-      if (mod && !this._polarizations[mod[0]]) {
-        this._polarizations[mod[0]] = pol;
-        thetaMod.push(mod[0]);
+      if (mod) {
+        // 跳过已经极化的槽位
+        if (!this._polarizations[mod[0]]) {
+          this._polarizations[mod[0]] = pol;
+          thetaMod.push(mod[0]);
+        }
+      } else {
+        this._polarizations.some((v, i) => {
+          if (!v) {
+            this._polarizations[i] = pol;
+            return true;
+          }
+          return false
+        });
       }
     }
+
     // 按容量需求量排序
     const mods = this.allMods;
     const delta = mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1]);

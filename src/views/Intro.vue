@@ -128,6 +128,12 @@
             <li>
               <a href="https://www.bilibili.com/video/av31311040/" target="_blank">视频教程</a>
             </li>
+            <li>
+              <a href="https://jq.qq.com/?_wv=1027&k=5ErGtmX" target="_blank">内测交流群 (165371868)</a>
+            </li>
+            <li>
+              <a href="https://discord.gg/m8pGvfP" target="_blank">Discord</a>
+            </li>
             <!-- <li>
               <router-link to="/eula">用户协议</router-link>
             </li>

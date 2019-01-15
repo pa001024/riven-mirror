@@ -129,28 +129,32 @@ export default class RivenEditor extends Vue {
 }
 </script>
 
-<style>
+<style lang="less">
+@import "../less/common.less";
+
 .weapon-picker {
   width: 100%;
   margin: 8px 0;
 }
-
 .prop-picker {
   display: flex;
   margin-bottom: 8px;
-}
-.prop-picker .prop-number {
-  flex: 1;
-  margin-left: 8px;
+  .prop-number {
+    flex: 1;
+    margin-left: 8px;
+  }
+  .el-popover {
+    max-width: calc(100vw - 35px);
+  }
 }
 .prop-button {
   display: inline-block;
   cursor: pointer;
   margin: 4px 4px;
   padding: 7px 0;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border-radius: 999px;
-  width: calc(50% - 8px);
+  width: calc(42px);
   text-align: center;
   background: #fefefe;
   user-select: none;
@@ -158,8 +162,8 @@ export default class RivenEditor extends Vue {
   transition: 0.3s;
 }
 .prop-button:hover {
-  color: #6199ff;
-  border-color: #6199ff;
+  color: @theme_main;
+  border-color: @theme_main;
 }
 .prop-arrow .el-icon-arrow-up {
   transition: 0.3s;
@@ -170,7 +174,7 @@ export default class RivenEditor extends Vue {
 }
 .prop-remove {
   -webkit-appearance: none;
-  color: #f56c6c;
+  color: @text_error;
   border: none;
   background: none;
   font-size: 20px;
@@ -183,9 +187,5 @@ export default class RivenEditor extends Vue {
 .prop-remove:focus {
   box-shadow: none;
   outline: none;
-}
-
-.el-popover {
-  max-width: calc(100vw - 35px);
 }
 </style>

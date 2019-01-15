@@ -114,8 +114,8 @@
                 <el-col class="skill-effects" :span="24">
                   <div class="skill-effect" :key="index" v-for="([name, effect], index) in abi.props">
                     <div class="effect-name">{{$t(`ability.effects.${name}`)}}</div>
-                    <ul class="effect-detail">
-                      <li class="effect-prop" :key="vn" v-for="(vv, vn) in effect">
+                    <div class="effect-detail">
+                      <div class="effect-prop" :key="vn" v-for="(vv, vn) in effect">
                         <div class="prop-name">{{$t(`ability.props.${vn}`)}}</div>
                         <div class="prop-value normal" v-if="Array.isArray(vv)">
                           <template v-if="vn === 'damage' || vn === 'rangeDamage'">
@@ -133,8 +133,8 @@
                         <div class="prop-value damage" v-else>
                           {{vv}}
                         </div>
-                      </li>
-                    </ul>
+                      </div>
+                    </div>
                   </div>
                 </el-col>
               </el-row>
@@ -240,6 +240,7 @@ export default class WarframeEditor extends Vue {
     this.build.exilus = exilus;
     this.build.buffs = buffs;
     this.currentTab.mods = this.build.mods;
+    this.build.recalcPolarizations();
     this.$router.push({ name: 'WarframeEditorWithCode', params: { code: this.build.miniCode } });
   }
 
@@ -308,13 +309,13 @@ export default class WarframeEditor extends Vue {
     }
   }
   fill() {
-    this.build.fill(8,0);
+    this.build.fill(8, 0);
     this.currentTab.mods = this.build.mods;
     this.reloadSelector();
     this.$router.push({ name: 'WarframeEditorWithCode', params: { code: this.build.miniCode } });
   }
   fillEmpty() {
-    this.build.fillEmpty(8,0);
+    this.build.fillEmpty(8, 0);
     this.currentTab.mods = this.build.mods;
     this.reloadSelector();
     this.$router.push({ name: 'WarframeEditorWithCode', params: { code: this.build.miniCode } });
@@ -401,7 +402,7 @@ export default class WarframeEditor extends Vue {
   .skill-tags {
     .skill-tag {
       display: inline-block;
-      margin: 4px 0 0;
+      margin: 4px 4px 0 0;
       padding: 2px 10px;
       border: 1px solid #e3e4ea;
       border-radius: 2px;
@@ -414,6 +415,16 @@ export default class WarframeEditor extends Vue {
   .effect-name {
     font-size: 1.2em;
     margin: 4px 8px;
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 24px;
+      background: #6199ff;
+      vertical-align: bottom;
+      border-radius: 4px;
+      margin-right: 8px;
+    }
   }
   .effect-detail {
     .effect-prop {

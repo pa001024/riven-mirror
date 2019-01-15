@@ -1,6 +1,5 @@
 <template>
-  <svg class="icon" :class="[`wf-icon-`+name, { shadow }]">
-    <use :xlink:href="`/fonts/wf.svg#wf-icon-`+name"></use>
+  <svg class="icon" :class="[`wf-icon-`+name, { shadow }]" v-html="use">
   </svg>
 </template>
 <script lang="ts">
@@ -26,6 +25,9 @@ export default class WfIcon extends Vue {
   get name() {
     if (this.type in AliasTrans) return AliasTrans[this.type];
     return this.type;
+  }
+  get use() {
+    return `<use xlink:href="/fonts/wf.svg#wf-icon-${this.name}"></use>`
   }
 }
 </script>
