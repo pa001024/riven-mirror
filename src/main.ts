@@ -34,6 +34,7 @@ import App from './App.vue'
 
 // load extra i18n file
 changeLocale(vi18n.locale).then(() => {
+  if (location.hostname === "rm.0-0.at") location.href = "https://riven.im" + location.pathname;
   console.log("using lang", navigator.language)
   i18n.inject(vi18n);
   store.dispatch("load")
