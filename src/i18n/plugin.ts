@@ -67,8 +67,10 @@ export async function changeLocale(locale: string) {
       vi18n.locale = locale;
       localStorage.setItem("lang", locale);
     }
-    else
+    else {
+      vi18n.locale = navigator.language;
       localStorage.removeItem("lang");
+    }
   }
   switch (locale) {
     case 'zh-CN':

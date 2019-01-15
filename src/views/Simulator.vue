@@ -87,6 +87,8 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import qrcode from "@/components/QRCode";
 import { RivenMod } from "@/warframe/rivenmod";
+import "../less/alert.less";
+import "../less/mod.less";
 
 /** 倒计时 */
 function countDown(sec = 3, tickCallback: (sec: number) => void) {
