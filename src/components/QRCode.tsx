@@ -1,31 +1,33 @@
-import QRious from 'qrious';
+import QRious from "qrious";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 
-@Component({ name: 'qrcode' })
+@Component({ name: "qrcode" })
 export default class qrcode extends Vue {
   /**
    * The options for the QR code generator.
    * {@link https://github.com/neocotic/qrious#api}
    */
-  @Prop() options: {}
+  @Prop() options: {};
 
   /**
    * The tag of the component root element.
    */
   @Prop({
     type: String,
-    default: 'canvas',
-  }) tag: string
+    default: "canvas"
+  })
+  tag: string;
 
   /**
    * The value of the QR code.
    */
   @Prop({
     type: String,
-    default: '',
-  }) value: string
+    default: ""
+  })
+  value: string;
 
-  render(createElement) {
+  render(createElement: typeof Vue.prototype.$createElement) {
     return createElement(this.tag, this.$slots.default);
   }
 
@@ -36,7 +38,7 @@ export default class qrcode extends Vue {
       new QRious({
         element: this.$el,
         value: String(this.value),
-        ...this.options,
+        ...this.options
       });
     }
   }
@@ -44,4 +46,4 @@ export default class qrcode extends Vue {
   mounted() {
     this.generate();
   }
-};
+}

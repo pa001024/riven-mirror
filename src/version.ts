@@ -1,14 +1,18 @@
 export const magic = "ALPHA";
-export const version = "1.4.3";
+export const version = "1.4.3.2";
 export const updateLogs = [
   {
     version: "1.4.3",
     md: {
       en: `
 + warframe pol visible
++ add probability visualization
++ melee builder now show slide crit chance in slide mode
 `,
       cn: `
 + 战甲槽位极性可视化
++ 概率可视化
++ 近战现在在滑行攻击模式下显示滑行暴击几率了
 `
     }
   },

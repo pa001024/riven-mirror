@@ -29,6 +29,9 @@ export abstract class BaseBuildEditor extends Vue {
     this.build.damageModel = model ? new SimpleDamageModel(model, 0) : null;
     this.modelArmor = 0;
   }
+  get isArmorDamageModel() {
+    return ["Eidolon", "Grineer", "Grineer Elite", "Corpus Elite", "Tenno"].includes(this.selectDamageModel);
+  }
   dialogVisible = false;
   buffDialogVisible = false;
   abstract newBuild(...parms): ModBuild;

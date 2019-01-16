@@ -99,7 +99,7 @@ export default class App extends Vue {
     return md.render(text)
   }
   readUpdate() {
-    this.updateMessageVisible = false
+    this.updateMessageVisible = false;
     localStorage.setItem("lastVersion", version)
   }
   mounted() {

@@ -541,8 +541,9 @@ export abstract class ModBuild {
   get panelBaseDamage() { return hAccMul(this.originalDamage, this.panelBaseDamageMul); }
   /** 面板伤害 */
   get panelDamage() {
-    if (this.damageModel)
-      return this.dmg.reduce((r, [_, vv]) => (r += vv, r), 0);
+    if (this.damageModel) {
+      return this.dmg.reduce((r, [_, v]) => r + v, 0);
+    }
     return this.panelDamageRaw;
   }
   /** 无模型面板伤害 */
@@ -590,14 +591,14 @@ export abstract class ModBuild {
   get enemyDmgType() {
     return this._enemyDmgType;
   }
-  get enemyDmgTypeIndex() {
-    return "GCIOS".indexOf(this._enemyDmgType);
-  }
-  /** 设置歧视伤害类型 */
   set enemyDmgType(value) {
     if (this._enemyDmgType !== value && "GCIOS".includes(value)) {
       this._enemyDmgType = value;
     }
+  }
+  /** 歧视伤害类型索引 */
+  get enemyDmgTypeIndex() {
+    return "GCIOS".indexOf(this._enemyDmgType);
   }
 
   /**
@@ -730,7 +731,7 @@ export abstract class ModBuild {
     let nb = new (this.constructor as any)(this.weapon, this.riven, this.options);
     nb._mods = this.mods;
     nb._buffs = this.buffs;
-    nb._damageModel = this.damageModel;
+    nb.damageModel = this.damageModel;
     nb.modelArmor = this.modelArmor;
     nb._mods.splice(index, 1);
     let oldVal = this.compareDamage;
@@ -751,7 +752,7 @@ export abstract class ModBuild {
     let nb = new (this.constructor as any)(this.weapon, this.riven, this.options);
     nb._mods = this.mods;
     nb._buffs = this.buffs;
-    nb._damageModel = this.damageModel;
+    nb.damageModel = this.damageModel;
     nb.modelArmor = this.modelArmor;
     nb._buffs.splice(index, 1);
     let oldVal = this.compareDamage;

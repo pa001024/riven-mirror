@@ -17,7 +17,7 @@
         </div>
       </div>
     </template>
-    <i v-else class="el-icon-plus"></i>
+    <i v-else class="icon-plus-btn el-icon-plus"></i>
   </div>
 </template>
 <script lang="ts">

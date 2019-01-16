@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper alerts-containor" ref="wrapper" :class="{disable: !scrollEnable}">
+  <div class="wrapper alerts-container" ref="wrapper" :class="{disable: !scrollEnable}">
     <div class="content" ref="content" :style="{ width: scrollWidth ? scrollWidth + 'px' : '100%' }">
       <el-row :gutter="20" class="index" type="flex">
         <!-- 时间 -->

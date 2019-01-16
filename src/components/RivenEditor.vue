@@ -154,7 +154,7 @@ export default class RivenEditor extends Vue {
   padding: 7px 0;
   border: 1px solid #cccccc;
   border-radius: 999px;
-  width: calc(42px);
+  width: calc(50% - 8px);
   text-align: center;
   background: #fefefe;
   user-select: none;

@@ -113,6 +113,9 @@ export class MeleeModBuild extends ModBuild {
   }
 
   // ### 计算属性 ###
+  get slideMode() { return this.compareMode === MeleeCompareMode.SlideDamage || this.compareMode === MeleeCompareMode.SlideDamagePS; }
+  /** 滑行攻击倍率 */
+  get slideAttackMul() { return this.weapon.slideDmg / this.originalDamage; }
 
   /** 连击倍率 */
   get comboMul() {
@@ -126,9 +129,12 @@ export class MeleeModBuild extends ModBuild {
   /** 连击数增加触发率 */
   get comboProcChance() { return this.comboMul > 1 ? 1 + hAccMul(this.comboMul, this.comboProcChanceMul) : 1; }
   /** [overwrite] 暴击率 */
-  get critChance() { return hAccMul(hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd), this.comboCritChance); }
+  get critChance() { return this.slideMode ? this.slideCritChance : this.normalCritChance; }
+  /** 平砍暴击率 */
+  get normalCritChance() { return hAccMul(hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd), this.comboCritChance); }
   /** 滑行暴击率 */
-  get slideCritDamage() { return hAccMul(hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd), this.comboCritChance); }
+  get slideCritChance() { return hAccMul(hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd), this.comboCritChance); }
+
   /** [overwrite] 触发几率 */
   get procChance() {
     let s = hAccMul(hAccSum(hAccMul(this.weapon.status, this.procChanceMul), this.procChanceAdd), this.comboProcChance);
@@ -142,38 +148,49 @@ export class MeleeModBuild extends ModBuild {
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }
+
   /** [overwrite] 平均暴击区增幅倍率 */
-  get critDamageMul() { return this.calcCritDamage(this.critChance, this.critMul, 0, 2, this.stealthDamageMul); }
+  get critDamageMul() { return this.slideMode ? this.slideCritDamageMul : this.normalCritDamageMul; }
+  /** 平砍平均暴击区增幅倍率 */
+  get normalCritDamageMul() { return this.calcCritDamage(this.normalCritChance, this.critMul, 0, 2, this.stealthDamageMul); }
   /** 滑行平均暴击区增幅倍率 */
-  get slideCritDamageMul() { return this.calcCritDamage(this.slideCritDamage, this.critMul, 0, 2, this.stealthDamageMul); }
+  get slideCritDamageMul() { return this.calcCritDamage(this.slideCritChance, this.critMul, 0, 2, this.stealthDamageMul); }
+
   /** [overwrite] 总伤增幅倍率 */
-  get totalDamageMul() { return hAccMul(this.panelDamageMul, this.critDamageMul, this.overallMul, this.comboMul); }
-  /** [overwrite] 总伤害 */
-  get totalDamage() { return hAccMul(this.originalDamage, this.totalDamageMul); }
+  get totalDamageMul() { return hAccMul(this.critDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul); }
+  /** 平砍总伤增幅倍率 */
+  get normalTotalDamageMul() { return hAccMul(this.normalCritDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul); }
+  /** 滑行总伤增幅倍率 */
+  get slideTotalDamageMul() { return hAccMul(this.slideCritDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul); }
+
   /** 每秒总伤害 */
   get totalDamagePS() { return hAccMul(this.totalDamage, this.fireRate); }
-  /** [overwrite] 原总伤害 */
-  get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul); }
   /** 原每秒总伤害 */
   get oriTotalDamagePS() { return hAccMul(this.oriTotalDamage, this.weapon.fireRate); }
-  /** 滑行攻击伤害增幅倍率 */
-  get slideDamageMul() { return hAccMul(this.panelDamageMul, this.slideCritDamageMul, this.overallMul, this.comboMul); }
+
   /** 原滑行攻击伤害 */
-  get oriSlideDamage() { return hAccMul(this.weapon.slideDmg, this.oriCritDamageMul); }
-  /** 滑行攻击伤害 */
-  get slideDamage() { return hAccMul(this.weapon.slideDmg, this.slideDamageMul); }
+  get oriSlideDamage() { return hAccMul(this.oriTotalDamage, this.slideAttackMul); }
   /** 原每秒滑行攻击伤害 */
   get oriSlideDamagePS() { return hAccMul(this.oriSlideDamage, this.weapon.fireRate); }
+
+  /** 攻击伤害 */
+  get normalDamage() { return hAccMul(this.panelDamage, this.normalTotalDamageMul); }
+  /** 每秒攻击伤害 */
+  get normalDamagePS() { return hAccMul(this.normalDamage, this.fireRate); }
+  /** 滑行攻击伤害 */
+  get slideDamage() { return hAccMul(this.panelDamage, this.slideAttackMul, this.slideTotalDamageMul); }
   /** 每秒滑行攻击伤害 */
   get slideDamagePS() { return hAccMul(this.slideDamage, this.fireRate); }
+
   /** 面板滑行伤害 */
-  get panelSlideDamage() { return hAccMul(this.weapon.slideDmg, this.panelDamageMul); }
+  get panelSlideDamage() { return hAccMul(this.panelDamage, this.slideAttackMul); }
+
   /** [overwrite] 用于比较的伤害 */
   get compareDamage() {
     switch (this.compareMode) {
-      case MeleeCompareMode.TotalDamage: return this.totalDamage;
+      case MeleeCompareMode.TotalDamage: return this.normalDamage;
       case MeleeCompareMode.SlideDamage: return this.slideDamage;
-      default: case MeleeCompareMode.TotalDamagePS: return this.totalDamagePS;
+      default: case MeleeCompareMode.TotalDamagePS: return this.normalDamagePS;
       case MeleeCompareMode.SlideDamagePS: return this.slideDamagePS;
     }
   }

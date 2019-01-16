@@ -72,21 +72,13 @@ export default class extends Vue {
   &:hover {
     background: #fafafa;
   }
-  > .diff-val.positive {
+  .diff-val.positive {
     color: #67c23a;
     text-shadow: 1px 1px 1px rgba(70, 255, 70, 0.1);
   }
-  &.active > .diff-val.positive {
-    color: #fff;
-    text-shadow: 1px 1px 1px rgba(70, 255, 70, 0.4);
-  }
-  > .diff-val.negative {
+  .diff-val.negative {
     color: #f56c6c;
     text-shadow: 1px 1px 1px rgba(255, 70, 70, 0.1);
-  }
-  &.active > .diff-val.negative {
-    color: #fff;
-    text-shadow: 1px 1px 1px rgba(255, 70, 70, 0.4);
   }
   .diff-arrow {
     text-align: center;
@@ -109,6 +101,14 @@ export default class extends Vue {
     border: 4px solid #d9e6ff;
     .title {
       color: @theme_back;
+    }
+    .diff-val.positive {
+      color: #fff;
+      text-shadow: 1px 1px 1px rgba(70, 255, 70, 0.4);
+    }
+    .diff-val.negative {
+      color: #fff;
+      text-shadow: 1px 1px 1px rgba(255, 70, 70, 0.4);
     }
   }
 }

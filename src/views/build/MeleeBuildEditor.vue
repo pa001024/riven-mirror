@@ -41,23 +41,26 @@
               <!-- 伤害模型 -->
               <el-row :gutter="4" class="prop-diff model-selector">
                 <el-col :span="8" class="title" v-t="'build.damageModel'"></el-col>
-                <el-col :span="7">
+                <el-col :span="16">
                   <el-select size="mini" class="model-name" v-model="selectDamageModel" clearable :placeholder="$t('build.damageModelTip')">
                     <el-option v-for="item in dmgModels" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
                 </el-col>
-                <el-col :span="7" :offset="2">
+              </el-row>
+              <el-row :gutter="4" class="prop-diff model-selector model-selector-armor" v-if="isArmorDamageModel">
+                <el-col :span="8" class="title" v-t="'build.damageModelArmor'"></el-col>
+                <el-col :span="16">
                   <el-input size="mini" class="armor-value" v-model="modelArmor" clearable :placeholder="$t('build.armorValueTip')"/>
                 </el-col>
               </el-row>
               <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :icon="dname.toLowerCase()" :name="$t(`elements.${dname}`).toUpperCase()" :ori="ori" :val="val"></PropDiff>
               <br>
               <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
-              <PropDiff :name="$t('build.attackDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
+              <PropDiff :name="$t('build.attackDamage')" :ori="build.oriTotalDamage" :val="build.normalDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
               <PropDiff :name="$t('build.slideDamage')" :ori="build.oriSlideDamage" :val="build.slideDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
-              <PropDiff :name="$t('build.attackDamagePS')" :ori="build.oriTotalDamagePS" :val="build.totalDamagePS"
+              <PropDiff :name="$t('build.attackDamagePS')" :ori="build.oriTotalDamagePS" :val="build.normalDamagePS"
                   class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
               <PropDiff :name="$t('build.slideDamagePS')" :ori="build.oriSlideDamagePS" :val="build.slideDamagePS"
                   class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
@@ -86,7 +89,7 @@
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
             <!-- MOD区域 -->
-            <el-row type="flex" class="mod-slot-containor" :gutter="12">
+            <el-row type="flex" class="mod-slot-container" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
                   <ModSlot @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
@@ -95,7 +98,7 @@
             </el-row>
             <div class="buff-head">{{$t('build.buff')}}</div>
             <!-- Buff区域 -->
-            <el-row type="flex" class="buff-slot-containor" :gutter="12">
+            <el-row type="flex" class="buff-slot-container" :gutter="12">
               <div class="block">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(buff, index) in item.buffs" :key="index">
                   <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)">
@@ -134,6 +137,10 @@
           <el-tab-pane class="enemy-sim" :label="$t('build.simulacrum')" name="simulacrum">
             <h2>unsupport!</h2>
           </el-tab-pane>
+          <!-- 概率可视化 -->
+          <el-tab-pane class="provis" :label="$t('build.provis')" name="provis">
+            <ProbabilityVisualization :criti="build.critChance" :critMul="build.critMul" :multi="build.bullets" :totalDamage="build.totalDamage"/>
+          </el-tab-pane>
         </el-tabs>
       </el-col>
     </el-row>
@@ -151,6 +158,7 @@ import PropDiff from "@/components/PropDiff.vue";
 import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
+import ProbabilityVisualization from "@/components/ProbabilityVisualization.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 import { ModBuild } from "@/warframe/modbuild";
@@ -166,7 +174,7 @@ declare interface BuildSelectorTab {
 }
 
 @Component({
-  components: { ModSelector, PropDiff, BuffSelector, StatusInfoDisplay, ModSlot }
+  components: { ModSelector, PropDiff, BuffSelector, StatusInfoDisplay, ModSlot, ProbabilityVisualization }
 })
 export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: MeleeWeapon;

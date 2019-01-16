@@ -1,5 +1,5 @@
 <template>
-  <div class="login-containor">
+  <div class="login-container">
     <div class="login-bg"></div>
     <el-form :rules="rules" ref="loginForm" :model="user" class="login-box">
       <el-form-item prop="login">
@@ -65,7 +65,7 @@ export default class Login extends Vue {
 <style lang="less">
 @import "../less/common.less";
 
-.login-containor {
+.login-container {
   margin: 0 !important;
   .link-btn {
     color: @theme_main;
@@ -130,7 +130,7 @@ export default class Login extends Vue {
 }
 
 @media only screen and (max-width: 767px) {
-  .login-containor .login-box {
+  .login-container .login-box {
     width: calc(100vw - 40px);
   }
 }

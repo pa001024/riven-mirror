@@ -64,7 +64,7 @@
         <!-- MOD区域 -->
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
-            <el-row type="flex" class="mod-slot-containor" :gutter="12">
+            <el-row type="flex" class="mod-slot-container" :gutter="12">
               <el-col class="list-complete-item" :sm="12" :md="12" :lg="6">
                 <LeveledModSlot icon="aura" @level="refleshMods()" @change="slotClick(-2)" @remove="slotRemove(-2)" :mod="item.aura" :build="item.build" :polarization="item.build.auraPol"/>
               </el-col>
@@ -72,7 +72,7 @@
                 <LeveledModSlot icon="exilus" @level="refleshMods()" @change="slotClick(-1)" @remove="slotRemove(-1)" :mod="item.exilus" :build="item.build" :polarization="item.build.exilusPol"/>
               </el-col>
             </el-row>
-            <el-row type="flex" class="mod-slot-containor" :gutter="12">
+            <el-row type="flex" class="mod-slot-container" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
                   <LeveledModSlot @level="refleshMods()" @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
@@ -84,7 +84,7 @@
         <!-- 技能区域 -->
         <el-tabs v-model="currentAbility">
           <el-tab-pane :key="index" v-for="(abi, index) in build.Abilities" :label="abi.name" :name="String(index)">
-            <el-card class="skill-containor">
+            <el-card class="skill-container">
               <div slot="header">
                 <el-row type="flex" justify="space-between">
                   <el-col>
@@ -361,7 +361,7 @@ export default class WarframeEditor extends Vue {
       opacity: 0.7;
     }
   }
-  .mod-slot-containor {
+  .mod-slot-container {
     justify-content: center;
   }
 }
@@ -369,7 +369,7 @@ export default class WarframeEditor extends Vue {
   color: @text_error;
 }
 
-.skill-containor {
+.skill-container {
   .skill-name {
     font-size: 1.4em;
     a {
