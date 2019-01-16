@@ -1,13 +1,13 @@
 <template>
   <div class="provis-container">
     <div class="lower-level multishot" v-if="lowerMultiWidth > 0" :style="{ height: 100 * lowerMultiWidth + '%' }">
-      <div class="lower-level critshot" :class="{ big: lowerCritiWidth > 0.2 }" :style="{ width: 'calc(' + 100 * lowerCritiWidth + '% - 4px)' }">
+      <div class="lower-level critshot" :class="{ big: lowerCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * lowerCritiWidth + '% - 4px)' }">
         <div class="ganta">
           <div class="title">{{$t("build.provislabel", [lowerMulti, lowerCriti])}}</div>
           <div class="value">{{lowerMultiLowerCritiDamage}}</div>
         </div>
       </div>
-      <div class="higher-level critshot" :class="{ big: higherCritiWidth > 0.2 }" :style="{ width: 'calc(' + 100 * higherCritiWidth + '% - 4px)' }">
+      <div class="higher-level critshot" :class="{ big: higherCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * higherCritiWidth + '% - 4px)' }">
         <div class="ganta">
           <div class="title">{{$t("build.provislabel", [lowerMulti, higherCriti])}}</div>
           <div class="value">{{lowerMultiHigherCritiDamage}}</div>
@@ -15,13 +15,13 @@
       </div>
     </div>
     <div class="higher-level multishot" :style="{ height: 100 * higherMultiWidth + '%' }">
-      <div class="lower-level critshot" :class="{ big: lowerCritiWidth > 0.2 }" :style="{ width: 'calc(' + 100 * lowerCritiWidth + '% - 4px)' }">
+      <div class="lower-level critshot" :class="{ big: lowerCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * lowerCritiWidth + '% - 4px)' }">
         <div class="ganta">
           <div class="title">{{lowerMultiWidth > 0 ? $t("build.provislabel", [higherMulti, lowerCriti]) : $t("build.provislabel0", [lowerCriti])}}</div>
           <div class="value">{{higherMultiLowerCritiDamage}}</div>
         </div>
       </div>
-      <div class="higher-level critshot" :class="{ big: higherCritiWidth > 0.2 }" :style="{ width: 'calc(' + 100 * higherCritiWidth + '% - 4px)' }">
+      <div class="higher-level critshot" :class="{ big: higherCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * higherCritiWidth + '% - 4px)' }">
         <div class="ganta">
           <div class="title">{{lowerMultiWidth > 0 ? $t("build.provislabel", [higherMulti, higherCriti]) : $t("build.provislabel0", [higherCriti])}}</div>
           <div class="value">{{higherMultiHigherCritiDamage}}</div>
@@ -144,6 +144,7 @@ export default class ProbabilityVisualization extends Vue {
       height: 17px;
       color: #606c80;
       font-size: 0.85rem;
+      white-space: nowrap;
     }
     .value {
       font-size: 1.8rem;

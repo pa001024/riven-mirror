@@ -1,6 +1,6 @@
 <template>
   <el-container id="app">
-    <el-header>
+    <el-header v-if="!isFullPage">
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven.IM
@@ -32,7 +32,7 @@
     </transition>
     <el-container class="body-container">
       <!-- 桌面端侧边菜单 -->
-      <el-aside width="60px" class="hidden-xs-only" v-show="isIndexPage">
+      <el-aside width="60px" class="hidden-xs-only" v-show="!isIndexPage">
         <div class="aside-nav-menu">
           <el-tooltip v-for="link in links" :key="link.title" :content="$t(link.title)" placement="right" :enterable="false">
             <router-link tag="div" :to="link.path" class="menu-item" :exact="link.exact">
@@ -78,7 +78,8 @@ const md = markdown()
 export default class App extends Vue {
   menuOpen = false;
   updateMessageVisible = false;
-  get isIndexPage() { return this.$route.path !== '/' }
+  get isIndexPage() { return this.isFullPage || ["Intro", "Login"].includes(this.$route.name) }
+  get isFullPage() { return ["VisualSkillEditor"].includes(this.$route.name) }
   get magic() { return magic }
   get version() { return version }
   get updateLogs() { return updateLogs }
@@ -105,9 +106,9 @@ export default class App extends Vue {
   mounted() {
     RivenDataBase.reload();
     const lastVersion = localStorage.getItem("lastVersion") || "0.0.0"
-    if (lastVersion !== version) {
-      this.updateMessageVisible = true
-    }
+    if (lastVersion !== version)
+      this.updateMessageVisible = true;
+
     let isNewUser = !localStorage.getItem("0w0");
     let isMobile = document.body.clientWidth <= 567;
     if (this.$route.name === "Intro" && !isNewUser && isMobile) {

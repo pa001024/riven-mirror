@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Mod from '@/views/Mod.vue'
 import Huangli from '@/views/Huangli.vue'
-import About from '@/views/About.vue'
+// import About from '@/views/About.vue'
 import Setting from '@/views/Setting.vue'
 import Alerts from '@/views/Alerts.vue'
 import BuildEditor from '@/views/BuildEditor.vue'
@@ -28,8 +28,11 @@ export default new Router({
     { path: '/login', name: 'Login', component: Login },
     { path: '/forgetpass', name: 'ForgetPass', component: ForgetPass },
     { path: '/welcome', name: 'NewUserWelcome', component: NewUserWelcome },
+    // ! 技能编辑器
+    { path: '/vse', name: 'VisualSkillEditor', component: () => import(/* webpackChunkName: "vse" */ "@/views/VisualSkillEditor.vue") },
+    // 动态加载
     { path: '/alerts', name: 'Alerts', component: () => import(/* webpackChunkName: "main" */ "@/views/Alerts.vue") },
-    { path: '/about', name: 'About', component: () => import(/* webpackChunkName: "main" */ "@/views/About.vue") },
+    // { path: '/about', name: 'About', component: () => import(/* webpackChunkName: "main" */ "@/views/About.vue") },
     { path: '/riven', name: 'Mod', component: () => import(/* webpackChunkName: "main" */ "@/views/Mod.vue") },
     { path: '/riven/:source', name: 'ModWithSource', component: () => import(/* webpackChunkName: "main" */ "@/views/Mod.vue"), props: true },
     { path: '/warframe', name: 'WarframeSelector', component: () => import(/* webpackChunkName: "main" */ "@/components/WarframeSelector.vue") },

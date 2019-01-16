@@ -2889,6 +2889,9 @@ let po = {
     energyCost: "能量: {0}",
     energyCostPS: "+ {0} / 秒",
     energyCostN: "+ {0} / 次",
+    base: "基础",
+    oneHand: "单手动作",
+    type: "标签",
     types: {
       damage: "伤害",
       buffDebuff: "附加效果",

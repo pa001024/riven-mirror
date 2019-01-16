@@ -659,7 +659,10 @@ export class RenderedAbilities {
   build: WarframeBuild
   data: AbilityData
   get id() { return this.data.id }
-  get name() { return i18n.t(`messages.${_.camelCase(this.id)}`) }
+  get name() {
+    const key = `messages.${_.camelCase(this.id)}`;
+    return i18n.te(key) ? i18n.t(key) : this.id;
+  }
   constructor(data: AbilityData, build: WarframeBuild) {
     this.data = data;
     this.build = build;
