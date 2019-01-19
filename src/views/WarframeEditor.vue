@@ -117,7 +117,7 @@
                     <div class="effect-detail">
                       <div class="effect-prop" :key="vn" v-for="(vv, vn) in effect">
                         <div class="prop-name">{{$t(`ability.props.${vn}`)}}</div>
-                        <div class="prop-value normal" v-if="Array.isArray(vv)">
+                        <div class="prop-value damage" v-if="Array.isArray(vv)">
                           <template v-if="vn === 'damage' || vn === 'rangeDamage'">
                             <div class="dmg" :key="dname" v-for="([dname, dvalue]) in vv">
                               <WfIcon :type="dname.toLowerCase()"/>
@@ -130,7 +130,7 @@
                             </div>
                           </template>
                         </div>
-                        <div class="prop-value damage" v-else>
+                        <div class="prop-value normal" v-else>
                           {{vv}}
                         </div>
                       </div>
@@ -155,8 +155,8 @@ import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import LeveledModSelector from "@/components/LeveledModSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty } from "@/warframe/codex";
-import WfIcon from "@/components/WfIcon.vue";
 import "@/less/builder.less";
+import { i18n } from "@/i18n";
 
 interface BuildSelectorTab {
   title: string
@@ -168,7 +168,17 @@ interface BuildSelectorTab {
   buffs: Buff[]
 }
 
-@Component({ components: { PropDiff, LeveledModSlot, LeveledModSelector, WfIcon } })
+@Component({
+  components: { PropDiff, LeveledModSlot, LeveledModSelector },
+  beforeRouteEnter(to, from, next) {
+    const core = WarframeDataBase.getWarframeById(to.params.id.replace(/_/g, " "));
+    if (core) {
+      document.title = i18n.t("title.sub", [i18n.t("title.weapon", [core.name])]);
+      next();
+    }
+    else next("/WarframeNotFound")
+  }
+})
 export default class WarframeEditor extends Vue {
   modDialogVisible = false;
 

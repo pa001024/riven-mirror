@@ -256,9 +256,10 @@ export class GunModBuild extends ModBuild {
 
   /** [overwrite] 额外触发几率 */
   get extraProcChance() {
+    let epc = this._extraProcChance;
     if (this.slashWhenCrit)
-      return this._extraProcChance.concat([["Slash", (this.critChance > 1 ? 1 : this.critChance) * this.slashWhenCrit]]).map(v => [v[0], v[1] / 100] as [string, number]);
-    return this._extraProcChance.map(v => [v[0], v[1] / 100] as [string, number]);
+      epc = epc.concat([["Slash", (this.critChance > 1 ? 1 : this.critChance) * this._slashWhenCrit]]);
+    return epc.map(v => [v[0], v[1] / 100] as [string, number]);
   }
 
   // ### 基类方法 ###

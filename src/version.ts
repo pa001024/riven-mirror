@@ -1,18 +1,31 @@
 export const magic = "ALPHA";
-export const version = "1.4.3.2";
+export const version = "1.4.4";
 export const updateLogs = [
+  {
+    version: "1.4.4",
+    md: {
+      en: `
++ title will change when page loaded
++ fix "Slash When Crit" props effect in status calc
+`,
+      cn: `
++ 标题会随不同页面更新了
++ 修复猎人战备类MOD在触发计算中数据错误
+`
+    }
+  },
   {
     version: "1.4.3",
     md: {
       en: `
 + warframe pol visible
 + add probability visualization
-+ melee builder now show slide crit chance in slide mode
++ melee builder now show **slide crit chance** in slide mode
 `,
       cn: `
 + 战甲槽位极性可视化
 + 概率可视化
-+ 近战现在在滑行攻击模式下显示滑行暴击几率了
++ 近战现在在滑行攻击模式下显示 **滑行暴击几率** 了
 `
     }
   },
@@ -44,21 +57,21 @@ export const updateLogs = [
 `
     }
   },
-  {
-    version: "1.4.0",
-    md: {
-      en: `
-+ fix some bugs
-+ new domain **[Riven.IM]** active
-+ new index page
-`,
-      cn: `
-+ 修复了一些bug
-+ 启用新域名 **「Riven.IM」**
-+ 新版首页
-`
-    }
-  },
+  //   {
+  //     version: "1.4.0",
+  //     md: {
+  //       en: `
+  // + fix some bugs
+  // + new domain **[Riven.IM]** active
+  // + new index page
+  // `,
+  //       cn: `
+  // + 修复了一些bug
+  // + 启用新域名 **「Riven.IM」**
+  // + 新版首页
+  // `
+  //     }
+  //   },
   // {
   //   version: "1.3.9",
   //   md: {

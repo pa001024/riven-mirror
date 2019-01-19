@@ -15,9 +15,8 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import WfIcon from "@/components/WfIcon.vue";
 
-@Component({ components: { WfIcon } })
+@Component({ components: { } })
 export default class ForgetPass extends Vue {
   user = {
     login: "",

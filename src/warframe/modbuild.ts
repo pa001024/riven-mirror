@@ -295,7 +295,7 @@ export abstract class ModBuild {
   /** 重新计算触发信息 */
   recalcStatusInfo() {
     let dotMap = new Map(this.dotBaseDamageMap as [string, number][]);
-    let pwMap = new Map(this.procWeights);
+    let pwAll = this.procChanceMap.reduce((a, b) => a + b[1], 0);
     this._statusInfo = {};
     let { bullets, fireRate, dutyCycle } = this;
     this.procChanceMap.forEach(([vn, vv]) => {
@@ -303,7 +303,7 @@ export abstract class ModBuild {
       let durTick = Math.max(0, ~~dur) + 1;
       let cor = Math.min(1, Math.max(vv * bullets * this.fireRate * dur, 0));
       this._statusInfo[vn] = {
-        proportion: pwMap.get(vn),
+        proportion: vv / pwAll,
         duration: dur,
         coverage: cor
       };

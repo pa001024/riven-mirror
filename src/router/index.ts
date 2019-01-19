@@ -17,10 +17,11 @@ import ForgetPass from '@/views/ForgetPass.vue'
 import WeaponSelector from '@/components/WeaponSelector.vue'
 import WarframeSelector from '@/components/WarframeSelector.vue'
 import WarframeEditor from '@/views/WarframeEditor.vue'
+import { i18n } from '@/i18n';
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     { path: '/', name: 'Intro', component: Intro },
@@ -48,3 +49,50 @@ export default new Router({
     { path: '/*', name: 'Error', component: ErrorPage },
   ]
 })
+
+// 标题router
+router.afterEach((to) => {
+  switch (to.name) {
+    case "VisualSkillEditor":
+      document.title = i18n.t("title.sub", ["Skill Editor"]);
+      break;
+    case "Alerts":
+      document.title = i18n.t("title.sub", [i18n.t("navigate.index")]);
+      break;
+    case "Setting":
+      document.title = i18n.t("title.sub", [i18n.t("navigate.setting")]);
+      break;
+    case "Palette":
+      document.title = i18n.t("title.sub", [i18n.t("navigate.palette")]);
+      break;
+    case "Huangli":
+      document.title = i18n.t("title.sub", [i18n.t("navigate.huangli")]);
+      break;
+    case "Simulator":
+      document.title = i18n.t("title.sub", [i18n.t("navigate.simulator")]);
+      break;
+    case "WarframeSelector":
+      document.title = i18n.t("title.sub", [i18n.t("navigate.warframe")]);
+      break;
+    case "WarframeEditor":
+    case "WarframeEditorWithCode":
+      // 交给组件处理
+      break;
+    case "WeaponSelector":
+      document.title = i18n.t("title.sub", [i18n.t("navigate.weapon")]);
+      break;
+    case "BuildEditor":
+    case "BuildEditorWithCode":
+      // 交给组件处理
+      break
+    case "Mod":
+    case "ModWithSource":
+      document.title = i18n.t("title.sub", [i18n.t("navigate.riven")]);
+      break;
+    default:
+      document.title = i18n.t("title.main");
+      break;
+  }
+})
+
+export default router

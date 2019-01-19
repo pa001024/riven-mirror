@@ -1,3 +1,4 @@
+@import "./common.less";
 .mod-display .share-icon {
   float: right;
   line-height: 23px;
@@ -10,8 +11,8 @@
 }
 
 .mod-history {
-  background-color: #3d5afe;
-  background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
+  background-color: @theme_primary;
+  background-image: linear-gradient(90deg, @theme_primary 0%, #508aff 100%);
   color: #ffffff;
   margin: 12px 0;
   border-radius: 20px;
@@ -21,7 +22,7 @@
 .mod-history-title {
   padding: 8px 20px;
   background-color: #ffffff;
-  color: #3d5afe;
+  color: @theme_primary;
   border-radius: 20px;
 }
 
@@ -37,8 +38,8 @@
     color: #ffffff;
   }
   .mod-display .mod-name {
-    background-color: #3d5afe;
-    background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
+    background-color: @theme_primary;
+    background-image: linear-gradient(90deg, @theme_primary 0%, #508aff 100%);
     color: #ffffff;
     border-radius: 100px;
     padding: 8px 20px;
@@ -47,8 +48,8 @@
     box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
   }
   .btn-addriven {
-    background-color: #3d5afe;
-    background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
+    background-color: @theme_primary;
+    background-image: linear-gradient(90deg, @theme_primary 0%, #508aff 100%);
     color: #ffffff;
     border-radius: 100px;
     border: 0;

@@ -177,12 +177,24 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "sds", }, // Status Duration on Self
   { id: "but", }, // Shots now bounce up to 1x and travel 5% further.
   { id: "el", }, // Grenades tether up to 2 enemies from 4m away.
-  { id: "ify", }, // if the target is over 45m away.
   { id: "sb", }, // Self-damage
   { id: "si", nopercent: true }, // Impact damage reduces enemy armor by 1.
   { id: "rc", }, // Fire/Charge Rate
   { id: "scan", }, // Fatal strikes against an enemy also perform a Codex Scan
   { id: "apd", }, // first Pellet Damage additionally
+
+  // 条件
+  { id: "ify", }, // if the target is over 45m away.
+  { id: "onHeadshot", },
+  { id: "onHeadshotKill", },
+  { id: "onKill", },
+  { id: "onReload", },
+  { id: "onHit", },
+  { id: "onAbilityCast", },
+  { id: "onMeleeChannelKill", },
+  { id: "onReloadFromEmpty", },
+  { id: "onDodge", },
+  { id: "onEquip", },
 ].reduce((a, b) => (a[b.id] = b, a), {});
 
 /**

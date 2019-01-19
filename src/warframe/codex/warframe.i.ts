@@ -114,7 +114,7 @@ export namespace AbilityPropTypes {
   }
   /** Buff */
   export interface Buff {
-    /** 作用对象 常用取值 all / weapon 默认为 all */
+    /** 作用对象 常用取值 all / weapon / ali 默认为 all */
     target?: string
     /** 描述 */
     desc?: string
