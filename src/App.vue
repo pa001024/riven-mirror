@@ -4,39 +4,18 @@
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven Mirror
-          <span class="beta">ALPHA 1.3.10</span>
+          <span class="beta">ALPHA -.-.-</span>
         </h1>
       </router-link>
-      <MiniClock class="hidden-xs-only header-watch">
-      </MiniClock>
-      <div class="app-nav-pad hidden-sm-and-up">
-      </div>
-      <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
-        <i class="el-icon-arrow-down"></i>
-      </button>
     </el-header>
-    <transition name="el-zoom-in-top">
-      <ul class="app-nav-menu" v-if="menuOpen" @click="menuOpen=false">
-        <router-link v-for="link in links" :key="link.title" tag="li" :to="link.path" class="menu-item" :exact="link.exact">
-          <i :class="link.icon"></i>
-          <span class="app-nav-title">{{$t(link.title)}}</span>
-        </router-link>
-      </ul>
-    </transition>
     <el-container class="body-container">
-      <el-aside width="60px" class="hidden-xs-only">
-        <ul class="aside-nav-menu">
-          <el-tooltip v-for="link in links" :key="link.title" :content="$t(link.title)" placement="right" :enterable="false">
-            <router-link tag="li" :to="link.path" class="menu-item" :exact="link.exact">
-              <i :class="link.icon"></i>
-            </router-link>
-          </el-tooltip>
-        </ul>
-      </el-aside>
       <el-main>
-        <keep-alive>
-          <router-view/>
-        </keep-alive>
+        <div class="dead-site">
+          <h2>本测试站已经终止服务</h2>
+          <h2>This alpha site has terminated the service</h2>
+          <h3>请前往<a href="https://riven.im">正式版网站(Riven.IM)</a> 并重新安装PWA应用</h3>
+          <h3>Go to the <a href="https://riven.im">official website (Riven.IM)</a> and reinstall the PWA app</h3>
+        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -45,8 +24,6 @@
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import MiniClock from "./components/MiniClock.vue";
-import { RivenDataBase } from "@/warframe/codex";
-import { i18n } from "@/i18n";
 
 @Component({
   components: { MiniClock }
@@ -64,15 +41,10 @@ export default class App extends Vue {
       // { title: "navigate.about", path: "/about", icon: "el-icon-info" },
       { title: "navigate.palette", path: "/palette", icon: "el-icon-menu" },
       { title: "navigate.setting", path: "/setting", icon: "el-icon-setting" },
-    ].filter(v => v.title !== "navigate.huangli" || i18n.locale !== "en");
+    ];
   }
 
   mounted() {
-    RivenDataBase.reload();
-    let isNewUser = !localStorage.getItem("0w0");
-    if (this.$route.path === "/" && isNewUser) {
-      this.$router.push("/welcome");
-    }
   }
 }
 </script>
