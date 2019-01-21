@@ -534,6 +534,7 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Sarpa", name: "sarpa", tags: ["Melee", "Gunblade"], dmg: [["Puncture", 14], ["Slash", 49], ["Impact", 7]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 210, status: 0.1 },
   { id: "War", name: "war", tags: ["Melee", "HeavyBlade"], dmg: [["Puncture", 3.5], ["Slash", 24.5], ["Impact", 112]], critMul: 2, critChance: 0.2, fireRate: 0.917, slideDmg: 280, status: 0.2 },
   { id: "Zenistar", name: "zenistar", tags: ["Melee", "HeavyBlade"], dmg: [["Heat", 130]], critMul: 2, critChance: 0.05, fireRate: 0.833, slideDmg: 260, status: 0.25 },
+  { id: "Zenistar (aura)", name: "zenistar", mode: "aura", rivenName: "Zenistar", tags: ["Melee", "HeavyBlade"], dmg: [["Heat", 50]], critMul: 2, critChance: 0.05, fireRate: 0.833, slideDmg: 0, status: 0.5 },
   { id: "Volnus", name: "volnus", tags: ["Melee", "Hammer"], dmg: [["Puncture", 32], ["Slash", 46], ["Impact", 22]], critMul: 1.6, critChance: 0.18, fireRate: 1.2, slideDmg: 200, status: 0.3 },
   { id: "Jat Kusar", name: "jatKusar", tags: ["Melee", "BladeAndWhip"], dmg: [["Heat", 80]], critMul: 2.5, critChance: 0.35, fireRate: 0.833, slideDmg: 171, status: 0.05 },
   { id: "Orvius", name: "orvius", tags: ["Melee", "Glaive"], dmg: [["Puncture", 3.5], ["Slash", 52.5], ["Impact", 14]], critMul: 2, critChance: 0.15, fireRate: 0.75, slideDmg: 350, status: 0.15, fltSpeed: 30 },

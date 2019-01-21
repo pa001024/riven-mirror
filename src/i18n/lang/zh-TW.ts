@@ -2063,6 +2063,7 @@ let po = {
     heavyBlade: "巨刃",
     dualSwords: "雙劍",
     atmosphere: "大氣層",
+    aura: "光環",
   },
   alerting: {
     sortie: "突襲",

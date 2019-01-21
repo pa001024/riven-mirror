@@ -2064,6 +2064,7 @@ let po = {
     heavyBlade: "巨刃",
     dualSwords: "双剑",
     atmosphere: "大气层",
+    aura: "光环",
   },
   alerting: {
     sortie: "突击",

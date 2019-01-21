@@ -595,6 +595,7 @@ let po = {
     heavyBlade: "Heavy Blade",
     dualSwords: "Dual Swords",
     atmosphere: "Atmosphere",
+    aura: "aura",
   },
   alerting: {
     sortie: "Sortie",
