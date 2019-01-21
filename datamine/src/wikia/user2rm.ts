@@ -31,54 +31,65 @@ export interface GunWeaponData extends WeaponData {
   prjSpeed?: number;
   rangeLimit?: number;
 }
+let rmw: any[];
+if (false) {
+  rmw = [].concat(...userWeapons.sort((a, b) => (a.Family || a.Name).localeCompare(b.Family || b.Name)).filter(uw => uw.Type === "Secondary" || uw.Type === "Primary").map(uw => {
+    let rivenName = uw.Family || uw.Name;
+    let atk = uw.NormalAttack
+    let rst = [] as GunWeaponData[]
+    let acc = typeof uw.Accuracy === "string" ? +uw.Accuracy.split(" ")[0] : uw.Accuracy;
+    let tp = uw.Type === "Secondary" ? ["Gun", "Secondary"] : ["Gun", "Primary", uw.Class];
+    if (uw.NormalAttack) {
+      atk = uw.NormalAttack
+      rst.push({
+        id: uw.Name,
+        name: _.camelCase(uw.Name),
+        // mode: "charge",
+        rivenName: uw.Name !== rivenName ? rivenName : undefined,
+        tags: tp,
+        dmg: atk.Damage && _.map(atk.Damage, (v, i) => [i, v]),
+        accuracy: acc,
+        bullets: atk.PelletCount,
+        fireRate: atk.FireRate,
+        critChance: atk.CritChance,
+        critMul: atk.CritMultiplier,
+        status: atk.StatusChance,
+        magazine: uw.Magazine,
+        reload: uw.Reload,
+        ammo: uw.MaxAmmo,
+      } as GunWeaponData);
+    }
+    if (uw.ChargeAttack) {
+      atk = uw.ChargeAttack
+      rst.push({
+        id: uw.Name + " (charged)",
+        name: _.camelCase(uw.Name),
+        rivenName,
+        mode: "charged",
+        tags: tp,
+        dmg: atk.Damage && _.map(atk.Damage, (v, i) => [i, v]),
+        accuracy: acc,
+        bullets: atk.PelletCount,
+        fireRate: atk.FireRate,
+        critChance: atk.CritChance,
+        critMul: atk.CritMultiplier,
+        status: atk.StatusChance,
+        magazine: uw.Magazine,
+        reload: uw.Reload,
+        ammo: uw.MaxAmmo,
+      } as GunWeaponData);
+    }
+    return rst
+  }))
+}
 
-let rmw = [].concat(...userWeapons.sort((a, b) => (a.Family || a.Name).localeCompare(b.Family || b.Name)).filter(uw => uw.Type === "Secondary" || uw.Type === "Primary").map(uw => {
-  let rivenName = uw.Family || uw.Name;
-  let atk = uw.NormalAttack
-  let rst = [] as GunWeaponData[]
-  let acc = typeof uw.Accuracy === "string" ? +uw.Accuracy.split(" ")[0] : uw.Accuracy;
-  let tp = uw.Type === "Secondary" ? ["Gun", "Secondary"] : ["Gun", "Primary", uw.Class];
-  if (uw.NormalAttack) {
-    atk = uw.NormalAttack
-    rst.push({
-      id: uw.Name,
-      name: _.camelCase(uw.Name),
-      // mode: "charge",
-      rivenName: uw.Name !== rivenName ? rivenName : undefined,
-      tags: tp,
-      dmg: atk.Damage && _.map(atk.Damage, (v, i) => [i, v]),
-      accuracy: acc,
-      bullets: atk.PelletCount,
-      fireRate: atk.FireRate,
-      critChance: atk.CritChance,
-      critMul: atk.CritMultiplier,
-      status: atk.StatusChance,
-      magazine: uw.Magazine,
-      reload: uw.Reload,
-      ammo: uw.MaxAmmo,
-    } as GunWeaponData);
-  }
-  if (uw.ChargeAttack) {
-    atk = uw.ChargeAttack
-    rst.push({
-      id: uw.Name + " (charged)",
-      name: _.camelCase(uw.Name),
-      rivenName,
-      mode: "charged",
-      tags: tp,
-      dmg: atk.Damage && _.map(atk.Damage, (v, i) => [i, v]),
-      accuracy: acc,
-      bullets: atk.PelletCount,
-      fireRate: atk.FireRate,
-      critChance: atk.CritChance,
-      critMul: atk.CritMultiplier,
-      status: atk.StatusChance,
-      magazine: uw.Magazine,
-      reload: uw.Reload,
-      ammo: uw.MaxAmmo,
-    } as GunWeaponData);
-  }
-  return rst
-}))
+if (true) {
+  rmw = userWeapons.sort((a, b) => (a.Family || a.Name).localeCompare(b.Family || b.Name) || ((b.Family || b.Name).length - (a.Family || a.Name).length))
+    .filter(uw => (uw.Type === "Secondary" || uw.Type === "Primary") && (uw.NormalAttack || uw.ChargeAttack))
+    .map(v => ({
+      id: v.Name,
+      rangeLimit: (v.NormalAttack || v.ChargeAttack).Range
+    }))
+}
 
 fs.writeFileSync("rmw.js", "exports = [\n" + JSON.stringify(rmw).replace(/},{/g, "},\n{").replace(/"(\w+)":/g, (_, v) => v + ":").replace(/^\[|\]$/g, v => "") + "\n]")

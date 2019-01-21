@@ -300,6 +300,7 @@ export default class Alerts extends Vue {
       this.ostrons = this.stat.ostrons;
       this.solarisUnited = this.stat.solarisUnited;
       this.voidTrader = this.stat.voidTrader;
+      CetusTime.calibration(this.stat.cetusCycle.expiry, this.stat.cetusCycle.isDay);
     }).catch(() => setTimeout(() => this.updateStat(), 1e3));
   }
   updateTime() {

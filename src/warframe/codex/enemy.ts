@@ -17,12 +17,13 @@ export enum DamageType {
   /** 辐射 */ Radiation = "Radiation",
   /** 病毒 */ Viral = "Viral",
   /** 真实 */ True = "True",
+  /** 虚空 */ Void = "Void",
 }
 
 export interface DamageTypeData {
   id: DamageType
   name: string
-  type: "Physical" | "Elemental" | "Combined"
+  type: "Physical" | "Elemental" | "Combined" | "Standalone"
   desc: string
   // ["肉体", "复制肉体", "化石", "感染", "感染肉体", "感染肌腱", "机械", "机器", "物件", "护盾", "原型护盾", "铁制装甲", "合金装甲"],
   dmgMul: number[]
@@ -43,6 +44,7 @@ const _damageTypeDatabase = [
   [DamageType.Magnetic, "磁力", "Combined", "Cold+Electricity", "降低最大护盾值", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0.75, 0.75, 0, -0.5]],
   [DamageType.Radiation, "辐射", "Combined", "Electricity+Heat", "降低精度 向队友开火", [0, 0, -0.75, -0.5, 0, 0.5, 0, 0.25, 0, -0.25, 0, 0, 0.75]],
   [DamageType.Viral, "病毒", "Combined", "Cold+Toxin", "降低最大生命值", [0.5, 0.75, 0, -0.5, 0, 0, -0.25, 0, 0, 0, 0, 0, 0]],
+  [DamageType.Void, "虚空", "Standalone", null, "吸引子弹", [0, -0.5, 0, 0, 0, 0, -0.5, 0, 0, 0, 0, 0, 0]],
 ] as [string, string, string, string, string, number[]][];
 
 /**
@@ -159,6 +161,8 @@ const _enemyList = [
   ["Eidolon Gantulyst", 5, 1, 15000, 0, 200, 7, 0, 1, 0.6, 3],
   ["Eidolon Hydrolyst", 5, 1, 15000, 0, 200, 7, 0, 1, 0.6, 3],
   ["Teralyst Synovia", 5, 1, 2500, 0, 200, 7, 0, 1, 0.6, 3],
+  ["Profit-Taker Orb", 2, 50, 7000, 30000, 150, 7, 0, 1, 0, 1],
+  ["Condor Dropship", 2, 1, 1000, 0, 100, 7, 0, 0, 0, 1],
   ["Tusk Firbolg", 1, 1, 8000, 0, 600, 7, 0, 1, 0, 1],
   ["Tusk Bolkor", 1, 1, 10000, 0, 600, 7, 0, 1, 0, 1],
   ["Bailiff", 1, 1, 600, 0, 500, 1, 0, 0, 0, 0],
@@ -190,6 +194,8 @@ const _enemyList = [
   ["Ghoul Rictus", 1, 1, 400, 0, 200, 1, 0, 0, 0, 0],
   ["Grineer Warden", 1, 1, 600, 0, 500, 1, 0, 0, 0, 0],
   ["Sensor Regulator", 1, 1, 100, 0, 300, 6, 0, 0, 0, 0],
+  ["Human of Anyo Corp", 2, 1, 150, 100, 200, 0, 0, 1, 0, 0],
+  ["Robotic of Anyo Corp", 2, 1, 150, 100, 200, 7, 0, 1, 0, 0],
   ["Crewman", 2, 1, 60, 150, 0, 0, 0, 0, 0, 0],
   ["Detron Crewman", 2, 1, 60, 150, 0, 0, 0, 0, 0, 0],
   ["Elite Crewman", 2, 15, 100, 200, 0, 0, 0, 0, 0, 0],
@@ -199,19 +205,19 @@ const _enemyList = [
   ["Corpus Tech", 2, 15, 700, 250, 0, 0, 1, 0, 0, 0],
   ["Comba", 2, 15, 1100, 400, 0, 0, 0, 0, 0, 0],
   ["Scrambus", 2, 15, 1100, 400, 0, 0, 0, 0, 0, 0],
-  ["Anti MOA", 2, 5, 50, 500, 0, 7, 0, 0, 0, 0],
-  ["Denial Bursa", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
-  ["Drover Bursa", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
-  ["Fusion MOA", 2, 10, 250, 250, 0, 7, 0, 0, 0, 0],
-  ["Isolator Bursa", 2, 1, 1200, 700, 400, 7, 0, 0, 0, 0],
+  ["Denial Bursa", 2, 1, 1200, 700, 200, 7, 0, 1, 0, 0],
+  ["Drover Bursa", 2, 1, 1200, 700, 200, 7, 0, 1, 0, 0],
+  ["Isolator Bursa", 2, 1, 1200, 700, 200, 7, 0, 1, 0, 0],
   ["MOA", 2, 1, 60, 150, 0, 7, 0, 0, 0, 0],
+  ["Anti MOA", 2, 5, 50, 500, 0, 7, 0, 0, 0, 0],
+  ["Fusion MOA", 2, 10, 250, 250, 0, 7, 0, 0, 0, 0],
   ["Railgun MOA", 2, 1, 60, 150, 0, 7, 0, 0, 0, 0],
   ["Shockwave MOA", 2, 15, 60, 150, 0, 7, 0, 0, 0, 0],
   ["Drone", 2, 1, 250, 75, 0, 7, 0, 0, 0, 0],
   ["Leech Osprey", 2, 1, 100, 50, 0, 7, 0, 0, 0, 0],
   ["Lynx Osprey", 2, 1, 35, 50, 0, 7, 0, 0, 0, 0],
   ["Mine Osprey", 2, 10, 100, 50, 0, 7, 0, 0, 0, 0],
-  ["Oxium Osprey", 2, "-", 750, 150, 40, 7, 0, 0, 0, 0],
+  ["Oxium Osprey", 2, 1, 750, 150, 40, 7, 0, 0, 0, 0],
   ["Scavanger Osprey", 2, 1, 100, 50, 0, 7, 0, 0, 0, 0],
   ["Sapping Osprey", 2, 1, 200, 50, 0, 7, 0, 0, 0, 0],
   ["Shield Osprey", 2, 1, 35, 50, 0, 7, 0, 0, 0, 0],
@@ -343,7 +349,7 @@ export class SimpleDamageModel extends DamageModelData {
    */
   mapDamage(dmgs: [string, number][], critChance: number = 0, threshold = 300) {
     if (this.ignoreProc === 3)
-      return this.mapEidolonDmg(dmgs, critChance, threshold);
+      return this.mapEidolonDmg(dmgs, critChance, threshold > 300 ? 300 : threshold);
     else
       return this.mapDamageNormal(dmgs)
   }

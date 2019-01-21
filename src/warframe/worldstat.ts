@@ -544,4 +544,11 @@ export class WorldStat {
     if (!data) return null;
     return this.deepTranslate(data);
   }
+
+  /**
+   * 希图斯时间
+   */
+  get cetusCycle() {
+    return this.data.cetusCycle;
+  }
 }

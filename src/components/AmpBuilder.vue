@@ -1,0 +1,169 @@
+<template>
+  <div class="ampbuilder">
+    <!-- 棱镜 -->
+    <div class="parthead">{{$t("amp.selectPrism")}}</div>
+    <div class="partlist">
+      <div class="part-box" v-for="item in prismList" :key="item.id">
+        <el-radio class="part" v-model="prism" :label="item" border @change="scaffold = null">
+          <div class="snapshot">
+            <img :src="`/img/${item.name}.png`" :alt="item.name" height="100%">
+          </div>
+          <div class="name">
+            {{$t(`messages.${item.name}`)}}
+          </div>
+          <div class="type">
+            {{$t(`amp.type.${item.name}`)}}
+          </div>
+        </el-radio>
+      </div>
+    </div>
+    <!-- 支架 -->
+    <div class="parthead">{{$t("amp.selectScaffold")}}</div>
+    <div class="partlist">
+      <div class="part-box" v-for="item in scaffoldList" :key="item.id">
+        <el-radio class="part" v-model="scaffold" :label="item" border @change="prism = null">
+          <div class="snapshot">
+            <img :src="`/img/${item.name}.png`" :alt="item.name" height="100%">
+          </div>
+          <div class="name">
+            {{$t(`messages.${item.name}`)}}
+          </div>
+          <div class="type">
+            {{$t(`amp.type.${item.name}`)}}
+          </div>
+        </el-radio>
+      </div>
+    </div>
+    <!-- 曲柄 -->
+    <div class="parthead">{{$t("amp.selectBrace")}}</div>
+    <div class="partlist">
+      <div class="part-box" v-for="item in braceList" :key="item.id">
+        <el-radio class="part" v-model="brace" :label="item" border>
+          <div class="snapshot">
+            <img :src="`/img/${item.name}.png`" :alt="item.name" height="100%">
+          </div>
+          <div class="name">
+            {{$t(`messages.${item.name}`)}}
+          </div>
+          <div class="prop">
+            <span v-if="item.critChance">{{item.critChance >= 0 ? "+" : ""}}{{(item.critChance*100).toFixed()}}% {{$t(`build.critChance`)}}</span>
+            <span v-if="item.procChance">{{item.procChance >= 0 ? "+" : ""}}{{(item.procChance*100).toFixed()}}% {{$t(`build.status`)}}</span>
+            <span v-if="item.magazine">{{item.magazine >= 0 ? "+" : ""}}{{item.magazine}} {{$t(`build.magazine`)}}</span>
+            <span v-if="item.reloadDelay">{{item.reloadDelay >= 0 ? "+" : ""}}{{item.reloadDelay}}s {{$t(`amp.reloadDelay`)}}</span>
+            <span v-if="item.reloadSpeed">{{item.reloadSpeed >= 0 ? "+" : ""}}{{item.reloadSpeed}} {{$t(`amp.reloadSpeed`)}}</span>
+          </div>
+        </el-radio>
+      </div>
+    </div>
+    <!-- 部件 -->
+    <div class="parts">
+      <div class="part" v-if="finished">{{$t("amp.buildName")}}: {{amp.buildName}}</div><!--
+   --><div class="part" v-if="prism">{{$t("amp.prism")}}: {{$t(`messages.${prism.name}`)}}</div><!--
+   --><div class="part" v-if="scaffold">{{$t("amp.scaffold")}}: {{$t(`messages.${scaffold.name}`)}}</div><!--
+   --><div class="part" v-if="brace">{{$t("amp.brace")}}: {{$t(`messages.${brace.name}`)}}</div>
+    </div>
+    <!-- 预览 -->
+    <div class="preview" v-if="prism || scaffold">
+      <div class="prop" v-for="dmg in amp.dmg" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
+   --><div class="prop">{{$t("build.fireRate")}}: {{amp.fireRate}}</div><!--
+   --><div class="prop">{{$t("build.critMul")}}: {{amp.critMul}}x</div><!--
+   --><div class="prop">{{$t("build.critChance")}}: {{(amp.critChance*100).toFixed()}}%</div><!--
+   --><div class="prop">{{$t("build.status")}}: {{(amp.status*100).toFixed()}}%</div><!--
+   --><div class="prop">{{$t("build.magazine")}}: {{amp.magazine}}</div><!--
+   --><div class="prop">{{$t("amp.reloadSpeed")}}: {{amp.reloadSpeed}}</div><!--
+   --><div class="prop">{{$t("amp.reloadDelay")}}: {{amp.reloadDelay}}</div><!--
+   --><div class="prop">{{$t("build.rangeLimit")}}: {{amp.rangeLimit}}</div>
+    </div>
+    <el-button class="stepctl" :disabled="!(finished)" @click="finish">{{$t("kitgun.finish")}}</el-button>
+  </div>
+</template>
+<script lang="ts">
+import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { AmpPrismData, AmpScaffoldData, AmpBraceData, AmpPrism, AmpScaffold, AmpBrace, Amp } from "@/warframe/codex";
+
+@Component
+export default class extends Vue {
+  get prismList() { return AmpPrismData }
+  get scaffoldList() { return AmpScaffoldData }
+  get braceList() { return AmpBraceData }
+  prism: AmpPrism = null;
+  scaffold: AmpScaffold = null;
+  brace: AmpBrace = null;
+
+  get amp() { return new Amp(this.prism, this.scaffold, this.brace); }
+  get finished() { return (this.prism || this.scaffold) && this.brace }
+  finish() {
+    this.$emit("finish", this.amp);
+  }
+}
+
+</script>
+
+<style lang="less">
+.preview .prop,
+.parts .part {
+  display: inline-block;
+  margin: 8px 4px 4px;
+  padding: 4px 8px;
+  border: 1px solid #6199ff;
+  border-radius: 4px;
+  color: #6199ff;
+  font-size: 0.9em;
+}
+.ampbuilder {
+  .el-steps.el-steps--horizontal {
+    margin: 8px 16px;
+  }
+  .stepctl {
+    margin-top: 12px;
+  }
+  .parthead {
+    font-size: 1.4rem;
+    margin: 4px 8px;
+    color: #6199ff;
+    border-left: 4px solid;
+    padding: 4px 8px;
+    line-height: 1;
+  }
+  .partlist {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    // justify-content: space-between;
+    .part-box {
+      margin: 4px 2px;
+    }
+    .part {
+      padding: 8px 16px;
+    }
+    .el-radio {
+      height: auto;
+      width: 144px;
+    }
+    .el-radio__label {
+      padding: 0;
+    }
+    .snapshot {
+      width: 110px;
+      height: 80px;
+    }
+    .name {
+      font-size: 1.1em;
+    }
+    .type {
+      margin-top: 8px;
+      color: #aaa;
+    }
+    .prop {
+      margin-top: 8px;
+      span {
+        display: block;
+        margin-top: 4px;
+      }
+    }
+    .is-checked .type {
+      color: #9cbfff;
+    }
+  }
+}
+</style>

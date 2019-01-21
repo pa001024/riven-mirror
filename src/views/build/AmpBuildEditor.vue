@@ -39,7 +39,6 @@
               <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
               <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
               <PropDiff :name="$t('build.bullets')" v-if="weapon.bullets != 1 || build.bullets != 1" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
-              <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
               <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
               <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
               <!-- 伤害模型 -->
@@ -92,15 +91,6 @@
       <el-col :sm="24" :md="12" :lg="18">
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
-            <!-- MOD区域 -->
-            <el-row type="flex" class="mod-slot-container" :gutter="12">
-              <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
-                <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
-                  <ModSlot @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
-                </el-col>
-              </draggable>
-            </el-row>
-            <div class="buff-head">{{$t('build.buff')}}</div>
             <!-- Buff区域 -->
             <el-row type="flex" class="buff-slot-container" :gutter="12">
               <div class="block">
@@ -219,7 +209,7 @@ import "@/less/builder.less";
 @Component({
   components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, ProbabilityVisualization }
 })
-export default class GunBuildEditor extends BaseBuildEditor {
+export default class AmpBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;
   @Prop() rWeapon: RivenWeapon;
 

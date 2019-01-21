@@ -71,7 +71,7 @@ const meleeProperty: RivenProperty[] = [
 
 export const RivenPropertyDataBase: { [key: string]: RivenProperty[] } = {
   Rifle: baseProperty.concat(gunProperty.map(v => v.id === "R" ? { id: 'R', sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v)),
-  Shotgun: baseProperty.concat(gunProperty.map(v => v.id === "R" ? { id: 'R', sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v)),
+  Shotgun: baseProperty.concat(gunProperty.filter(v => v.id != 'H').map(v => v.id === "R" ? { id: 'R', sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v)),
   Pistol: baseProperty.concat(gunProperty),
   Archgun: baseProperty.concat(gunProperty),
   Melee: baseProperty.concat(meleeProperty),
@@ -186,7 +186,7 @@ export const RivenPropertyValueBaseDataBase = {
     J: 5.5, // 攻击速度
     B: 15,  // 导引伤害
     U: 9,   // 导引效率
-    N: 80,  // 连击持续时间
+    N: 81,  // 连击持续时间
     E: 9,   // 滑行攻击造成暴击几率
     X: 12,  // 处决伤害
   }
@@ -538,6 +538,9 @@ const _rivenWeaponDataBase = [
   ["Grattler", "Archgun", 0],
   ["Cyngas", "Archgun", 0],
   ["Corvas", "Archgun", 0],
+
+  // Amp
+  ["Amp", "Amp", 0],
 ] as [string, string, number][];
 export const ModTypeTable = {
   "Rifle": "rifle",

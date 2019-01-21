@@ -280,7 +280,20 @@ A段位12023
    * 随机化所有
    */
   random(stype: string = "") {
-    let db = RivenWeaponDataBase.filter(v => v.ratio > 0 && v.id !== "Artax");
+    const robList = [
+      "Burst Laser",
+      "Vulklok",
+      "Artax",
+      "Vulcax",
+      "Sweeper",
+      "Stinger",
+      "Multron",
+      "Laser Rifle",
+      "Deth Machine",
+      "Cryotra",
+      "Tazicor",
+    ];
+    let db = RivenWeaponDataBase.filter(v => v.ratio > 0 && !robList.includes(v.id));
     let data = stype ? db.filter(v => v.mod === stype) : db;
     let { id, name, mod } = data[~~(Math.random() * data.length)];
     let rank = ~~(Math.random() * 8) + 9;

@@ -1,28 +1,29 @@
 <template>
-  <component :is="rWeapon.mod !== 'Melee' ? 'GunBuildEditor' : 'MeleeBuildEditor'" :weapon="weapon" :rWeapon="rWeapon"/>
+  <component :is="rWeapon.mod === 'Amp' ? 'AmpBuildEditor' : (rWeapon.mod !== 'Melee' ? 'GunBuildEditor' : 'MeleeBuildEditor')" :weapon="weapon" :rWeapon="rWeapon"/>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import GunBuildEditor from "@/views/build/GunBuildEditor.vue";
 import MeleeBuildEditor from "@/views/build/MeleeBuildEditor.vue";
-import { Weapon, RivenWeapon, RivenDataBase, Zaw, Kitgun } from "@/warframe/codex";
+import AmpBuildEditor from "@/views/build/AmpBuildEditor.vue";
+import { Weapon, RivenWeapon, RivenDataBase, Zaw, Kitgun, Amp } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 
 
 function loadWeapon(id: string) {
   if (id.startsWith("ZAW-")) {
-    let zaw = new Zaw(id);
-    return zaw;
+    return new Zaw(id);
   } else if (id.startsWith("KITGUN-")) {
-    let kitgun = new Kitgun(id);
-    return kitgun;
+    return new Kitgun(id);
+  } else if (id.startsWith("AMP-")) {
+    return new Amp(id);
   } else {
     return RivenDataBase.getNormalWeaponsByName(id.replace(/_/g, " "));
   }
 }
 @Component({
-  components: { GunBuildEditor, MeleeBuildEditor },
+  components: { GunBuildEditor, MeleeBuildEditor, AmpBuildEditor },
   beforeRouteEnter(to, from, next) {
     const weapon = loadWeapon(to.params.id)
     if (weapon) {
@@ -46,20 +47,8 @@ export default class BuildEditor extends Vue {
   reload() {
     if (!this.id || this._lastid === this.id || (this.$route.name !== "BuildEditorWithCode" && this.$route.name !== "BuildEditor")) return;
     this._lastid = this.id;
-    // ZAW
-    if (this.id.startsWith("ZAW-")) {
-      let zaw = new Zaw(this.id);
-      this._weapon = zaw;
-      this._rWeapon = RivenDataBase.getRivenWeaponByName(zaw.strike.id);
-    } else if (this.id.startsWith("KITGUN-")) {
-      let kitgun = new Kitgun(this.id);
-      this._weapon = kitgun;
-      this._rWeapon = RivenDataBase.getRivenWeaponByName(_.startCase(kitgun.chamber.name));
-    } else {
-      // 普通武器
-      this._weapon = RivenDataBase.getNormalWeaponsByName(this.id.replace(/_/g, " "));
-      this._rWeapon = RivenDataBase.getRivenWeaponByName(this.weapon.rivenName || this.weapon.id);
-    }
+    this._weapon = loadWeapon(this.id);
+    this._rWeapon = RivenDataBase.getRivenWeaponByName(this._weapon.rivenName || this._weapon.id);
   }
   // === 生命周期钩子 ===
 }

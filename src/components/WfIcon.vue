@@ -16,6 +16,7 @@ const AliasTrans = {
   "w": "umbra",
   "infestation": "infested",
   "corrupted": "orokin",
+  "fissure": "void",
 }
 
 @Component

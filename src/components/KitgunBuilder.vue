@@ -32,8 +32,8 @@
             {{$t(`messages.${item.name}`)}}
           </div>
           <div class="prop">
-            <span>{{loadGrip(item).fireRate}} {{$t(`kitgun.fireRate`)}}</span>
-            <span>{{loadGrip(item).dmgAdd >= 0 ? "+" : ""}}{{loadGrip(item).dmgAdd}} {{$t(`kitgun.damage`)}}</span>
+            <span>{{loadGrip(item).fireRate}} {{$t(`build.fireRate`)}}</span>
+            <span>{{loadGrip(item).dmgAdd >= 0 ? "+" : ""}}{{loadGrip(item).dmgAdd}} {{$t(`build.damage`)}}</span>
           </div>
         </el-radio>
       </div>
@@ -49,11 +49,11 @@
             {{$t(`messages.${item.name}`)}}
           </div>
           <div class="prop">
-            <span>{{loadLoader(item).critDamage+2}}x {{$t(`kitgun.critDamage`)}}</span>
-            <span>{{loadLoader(item).critChance >= 0 ? "+" : ""}}{{(loadLoader(item).critChance*100).toFixed()}}% {{$t(`kitgun.critChance`)}}</span>
-            <span>{{loadLoader(item).procChance >= 0 ? "+" : ""}}{{(loadLoader(item).procChance*100).toFixed()}}% {{$t(`kitgun.status`)}}</span>
-            <span>{{loadLoader(item).reload >= 0 ? "+" : ""}}{{loadLoader(item).reload}}s {{$t(`kitgun.reload`)}}</span>
-            <span>{{loadLoader(item).magazine}} {{$t(`kitgun.magazine`)}}</span>
+            <span>{{loadLoader(item).critDamage+2}}x {{$t(`build.critMul`)}}</span>
+            <span>{{loadLoader(item).critChance >= 0 ? "+" : ""}}{{(loadLoader(item).critChance*100).toFixed()}}% {{$t(`build.critChance`)}}</span>
+            <span>{{loadLoader(item).procChance >= 0 ? "+" : ""}}{{(loadLoader(item).procChance*100).toFixed()}}% {{$t(`build.status`)}}</span>
+            <span>{{loadLoader(item).reload >= 0 ? "+" : ""}}{{loadLoader(item).reload}}s {{$t(`build.reload`)}}</span>
+            <span>{{loadLoader(item).magazine}} {{$t(`build.magazine`)}}</span>
           </div>
         </el-radio>
       </div>
@@ -66,14 +66,15 @@
     </div>
     <!-- 预览 -->
     <div class="preview" v-if="chamber">
-      <div class="prop">{{$t("kitgun.damage")}}: {{+kitgun.panelDamage.toFixed(1)}}</div><!--
-   --><div class="prop" v-for="dmg in kitgun.dmg" :key="dmg[0]">{{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
-   --><div class="prop">{{$t("kitgun.fireRate")}}: {{kitgun.fireRate}}</div><!--
-   --><div class="prop">{{$t("kitgun.status")}}: {{(kitgun.status*100).toFixed()}}%</div><!--
-   --><div class="prop">{{$t("kitgun.critDamage")}}: {{kitgun.critMul}}x</div><!--
-   --><div class="prop">{{$t("kitgun.critChance")}}: {{(kitgun.critChance*100).toFixed()}}%</div><!--
-   --><div class="prop">{{$t("kitgun.magazine")}}: {{kitgun.magazine}}</div><!--
-   --><div class="prop">{{$t("kitgun.reload")}}: {{kitgun.reload}}</div>
+      <div class="prop">{{$t("build.panelDamage")}}: {{+kitgun.panelDamage.toFixed(1)}}</div><!--
+   --><div class="prop" v-for="dmg in kitgun.dmg" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
+   --><div class="prop" v-if="kitgun.rangeLimit">{{$t("build.rangeLimit")}}: {{kitgun.rangeLimit}} m</div><!--
+   --><div class="prop">{{$t("build.fireRate")}}: {{kitgun.fireRate}}</div><!--
+   --><div class="prop">{{$t("build.status")}}: {{(kitgun.status*100).toFixed()}}%</div><!--
+   --><div class="prop">{{$t("build.critMul")}}: {{kitgun.critMul}}x</div><!--
+   --><div class="prop">{{$t("build.critChance")}}: {{(kitgun.critChance*100).toFixed()}}%</div><!--
+   --><div class="prop">{{$t("build.magazine")}}: {{kitgun.magazine}}</div><!--
+   --><div class="prop">{{$t("build.reload")}}: {{kitgun.reload}}</div>
     </div>
     <el-button class="stepctl" :disabled="part === 0" @click="part = part > 0 ? part - 1 : 0">{{$t("kitgun.lastStep")}}</el-button>
     <el-button class="stepctl" :disabled="part === 0 && !chamber || part === 1 && !grip || part === 2 && !loader" @click="part = part < 2 ? part + 1 : (finish(),2)">{{part === 2 ? $t("kitgun.finish") : $t("kitgun.nextStep")}}</el-button>

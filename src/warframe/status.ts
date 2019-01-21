@@ -13,6 +13,7 @@ export const procDurationMap = {
   Magnetic: 4,
   Radiation: 12,
   Viral: 6,
+  Void: 4,
 };
 
 /** 其他触发参数 */

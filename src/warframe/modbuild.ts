@@ -187,6 +187,10 @@ export abstract class ModBuild {
   get critMul() { return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul); }
   /** 平均暴击区增幅倍率 */
   get critDamageMul() { return this.calcCritDamage(this.critChance, this.critMul); }
+  /** 平均暴击区增幅倍率(暴击向下取整) */
+  get critDamageMulFloor() { return this.calcCritDamage(Math.floor(this.critChance), this.critMul); }
+  /** 平均暴击区增幅倍率(暴击向上取整) */
+  get critDamageMulCeil() { return this.calcCritDamage(Math.ceil(this.critChance), this.critMul); }
 
   /** 元素顺序 */
   elementsOrder: string[] = [];
@@ -360,6 +364,10 @@ export abstract class ModBuild {
   get totalDmg() {
     return this.baseDmg.map(([i, v]) => [i, v * this.totalDamage / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
   }
+  /** 无模型所有伤害 */
+  get totalDmgRaw() {
+    return this.baseDmg.map(([i, v]) => [i, v * this.totalDamageRaw / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
+  }
   /**
    * 所有伤害类型(基础)
    *
@@ -397,6 +405,18 @@ export abstract class ModBuild {
   get dmg() {
     if (this.damageModel)
       return this.damageModel.mapDamage(this.dmgRaw, this.critChance, this.weapon.tags.includes("Sniper") ? 300 : 300 / this.fireRate) as [string, number][];
+    return this.dmgRaw;
+  }
+  /** 真实伤害模型映射输出(暴击向下取整) */
+  get dmgFloor() {
+    if (this.damageModel)
+      return this.damageModel.mapDamage(this.dmgRaw, Math.floor(this.critChance), this.weapon.tags.includes("Sniper") ? 300 : 300 / this.fireRate) as [string, number][];
+    return this.dmgRaw;
+  }
+  /** 真实伤害模型映射输出(暴击向上取整) */
+  get dmgCeil() {
+    if (this.damageModel)
+      return this.damageModel.mapDamage(this.dmgRaw, Math.ceil(this.critChance), this.weapon.tags.includes("Sniper") ? 300 : 300 / this.fireRate) as [string, number][];
     return this.dmgRaw;
   }
 
@@ -546,14 +566,38 @@ export abstract class ModBuild {
     }
     return this.panelDamageRaw;
   }
+  /** 面板伤害(暴击向下取整) */
+  get panelDamageFloor() {
+    if (this.damageModel) {
+      return this.dmgFloor.reduce((r, [_, v]) => r + v, 0);
+    }
+    return this.panelDamageRaw;
+  }
+  /** 面板伤害(暴击向上取整) */
+  get panelDamageCeil() {
+    if (this.damageModel) {
+      return this.dmgCeil.reduce((r, [_, v]) => r + v, 0);
+    }
+    return this.panelDamageRaw;
+  }
   /** 无模型面板伤害 */
   get panelDamageRaw() {
     return hAccMul(this.originalDamage, this.panelDamageMul);
   }
   /** 总伤增幅倍率 */
   get totalDamageMul() { return hAccMul(this.critDamageMul, this.headShotDmgMul, this.overallMul, this.enemyDmgMul); }
+  /** 总伤增幅倍率(暴击向下取整) */
+  get totalDamageMulFloor() { return hAccMul(this.critDamageMulFloor, this.headShotDmgMul, this.overallMul, this.enemyDmgMul); }
+  /** 总伤增幅倍率(暴击向上取整) */
+  get totalDamageMulCeil() { return hAccMul(this.critDamageMulCeil, this.headShotDmgMul, this.overallMul, this.enemyDmgMul); }
   /** 总伤害 */
   get totalDamage() { return hAccMul(this.panelDamage, this.totalDamageMul); }
+  /** 总伤害(暴击向下取整) */
+  get totalDamageFloor() { return hAccMul(this.panelDamageFloor, this.totalDamageMulFloor); }
+  /** 总伤害(暴击向上取整) */
+  get totalDamageCeil() { return hAccMul(this.panelDamageCeil, this.totalDamageMulCeil); }
+  /** 无模型总伤害 */
+  get totalDamageRaw() { return hAccMul(this.panelDamageRaw, this.totalDamageMul); }
   /** 原总伤害 */
   get oriTotalDamage() { return hAccMul(this.originalDamage, this.oriCritDamageMul, this.headShotDmgMul); }
   /** 基伤 触发计算中的基伤概念 包含多重暴击等 */

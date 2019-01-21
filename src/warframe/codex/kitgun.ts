@@ -14,6 +14,7 @@ export interface KitgunChamber {
   procChance: number;
   magazine: number[];
   accuracy: number;
+  rangeLimit?: number[];
 }
 
 /**
@@ -212,6 +213,7 @@ export class Kitgun implements GunWeapon {
     switch (this.id) {
       case "Catchmoon": this.prjSpeed = 70; this.rangeLimit = 40; break;
       case "Tombfinger": this.prjSpeed = 200; break;
+      case "Gaze": this.rangeLimit = [41, 38, 25, 22][this.grip.index]; break;
     }
   }
   get displayName() {

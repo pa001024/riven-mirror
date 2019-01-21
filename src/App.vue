@@ -7,8 +7,7 @@
           <span class="beta">{{magic}} {{version}}</span>
         </h1>
       </router-link>
-      <MiniClock v-if="isIndexPage" class="hidden-xs-only header-watch">
-      </MiniClock>
+      <MiniClock v-if="!isIndexPage" class="hidden-xs-only header-watch"/>
       <!-- padding -->
       <div class="app-nav-pad"></div>
       <!-- PC端用户登录界面

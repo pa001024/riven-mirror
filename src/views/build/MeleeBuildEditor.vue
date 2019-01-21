@@ -139,7 +139,7 @@
           </el-tab-pane>
           <!-- 概率可视化 -->
           <el-tab-pane class="provis" :label="$t('build.provis')" name="provis">
-            <ProbabilityVisualization :criti="build.critChance" :critMul="build.critMul" :multi="build.bullets" :totalDamage="build.totalDamage"/>
+            <ProbabilityVisualization :criti="build.critChance" :critMul="build.critMul" :multi="build.bullets" :totalDamageFloor="build.totalDamageFloor" :totalDamageCeil="build.totalDamageCeil"/>
           </el-tab-pane>
         </el-tabs>
       </el-col>

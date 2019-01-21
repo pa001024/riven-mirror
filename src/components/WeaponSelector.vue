@@ -33,6 +33,11 @@
       <ZawBuilder @finish="newZAW">
       </ZawBuilder>
     </el-tab-pane>
+    <el-tab-pane name="AMP">
+      <span slot="label" class="weapon-tablabel">{{$t('amp.title')}}</span>
+      <AmpBuilder @finish="newAMP">
+      </AmpBuilder>
+    </el-tab-pane>
   </el-tabs>
 </template>
 
@@ -40,7 +45,8 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import ZawBuilder from '@/components/ZawBuilder.vue'
 import KitgunBuilder from '@/components/KitgunBuilder.vue'
-import { ModTypeTable, RivenWeapon, RivenWeaponDataBase, RivenDataBase, Zaw, Kitgun } from "@/warframe/codex";
+import AmpBuilder from '@/components/AmpBuilder.vue'
+import { ModTypeTable, RivenWeapon, RivenWeaponDataBase, RivenDataBase, Zaw, Kitgun, Amp } from "@/warframe/codex";
 
 declare interface WeaponSelectorTab {
   id: string
@@ -49,9 +55,9 @@ declare interface WeaponSelectorTab {
   weapons: string[][]
 }
 
-const AllTabs = Object.assign({}, ModTypeTable, { KITGUN: "KITGUN", ZAW: "ZAW" });
+const AllTabs = Object.assign({}, ModTypeTable, { KITGUN: "KITGUN", ZAW: "ZAW", AMP: "AMP" });
 
-@Component({ components: { ZawBuilder, KitgunBuilder } })
+@Component({ components: { ZawBuilder, KitgunBuilder, AmpBuilder } })
 export default class WeaponSelector extends Vue {
   // modType = "Rifle";
   get modType() {
@@ -83,6 +89,10 @@ export default class WeaponSelector extends Vue {
   newKITGUN(kitgun: Kitgun) {
     console.log("newKITGUN->", kitgun.url);
     this.$router.push({ name: 'BuildEditor', params: { id: kitgun.url } });
+  }
+  newAMP(amp: Amp) {
+    console.log("newAMP->", amp.url);
+    this.$router.push({ name: 'BuildEditor', params: { id: amp.url } });
   }
 }
 </script>

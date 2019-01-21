@@ -1,6 +1,25 @@
 export const magic = "ALPHA";
-export const version = "1.4.4";
+export const version = "1.4.5.1";
 export const updateLogs = [
+  {
+    version: "1.4.5",
+    md: {
+      en: `
++ add amp builer / build editor
++ fix some enemy data / add new enemy
++ fix 'Simulacrum' duplicate calc enemy health type when use 'Damage Model'
++ fix 'Probability Visualization' when use Eidolon Damage Model
++ add range limit in build
+`,
+      cn: `
++ 新增增幅器模拟装配 / 伤害模拟
++ 修复部分敌人数据问题 / 添加金星飞机和圆蛛
++ 修复伤害模型和幻影装置重复计算敌人血质的问题
++ 修复夜灵模型下概率可视化显示不正确的问题
++ 新增射程限制显示
+`
+    }
+  },
   {
     version: "1.4.4",
     md: {
@@ -18,9 +37,9 @@ export const updateLogs = [
     version: "1.4.3",
     md: {
       en: `
-+ warframe pol visible
-+ add probability visualization
-+ melee builder now show **slide crit chance** in slide mode
++ Warframe Pol Visualization
++ add Probability-Visualization
++ MeleeBuildEditor now show **slide crit chance** in slide mode
 `,
       cn: `
 + 战甲槽位极性可视化
@@ -42,21 +61,21 @@ export const updateLogs = [
 `
     }
   },
-  {
-    version: "1.4.1",
-    md: {
-      en: `
-+ add Robotic weapons data
-+ replace icons
-+ add user login
-`,
-      cn: `
-+ 新增守护武器数据
-+ 更换部分图标
-+ 增加用户登录页面
-`
-    }
-  },
+  //   {
+  //     version: "1.4.1",
+  //     md: {
+  //       en: `
+  // + add Robotic weapons data
+  // + replace icons
+  // + add user login
+  // `,
+  //       cn: `
+  // + 新增守护武器数据
+  // + 更换部分图标
+  // + 增加用户登录页面
+  // `
+  //     }
+  //   },
   //   {
   //     version: "1.4.0",
   //     md: {

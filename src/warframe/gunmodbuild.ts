@@ -48,6 +48,7 @@ export class GunModBuild extends ModBuild {
   private _critLevelUpChance = 0;
   private _firstAmmoMul = 100;
   private _slashWhenCrit = 0;
+  private _rangeLimitAdd = 0;
 
   /** 多重增幅倍率 */
   get multishotMul() { return this._multishotMul / 100; }
@@ -72,7 +73,14 @@ export class GunModBuild extends ModBuild {
   /** 猎人 战备 */
   get slashWhenCrit() { return this._slashWhenCrit / 100; }
   /** 子弹消耗速度 */
-  get ammoCost() { return this.weapon.ammoCost || this.weapon.tags.includes("Continuous") ? 0.5 : 1; }
+  get ammoCost() { return this.weapon.ammoCost || (this.weapon.tags.includes("Continuous") ? 0.5 : 1); }
+  /** 距离限制 */
+  get rangeLimit() {
+    let raw = this.weapon.rangeLimit ? this.weapon.rangeLimit + this._rangeLimitAdd : 0;
+    if (this.weapon.prjSpeed)
+      return this.prjSpeed / this.weapon.prjSpeed * raw
+    return raw;
+  }
 
   // 额外参数
 
@@ -147,7 +155,7 @@ export class GunModBuild extends ModBuild {
       // 伤害
       while (nextDmgTick <= nextDoTTick && enemy.currentHealth > 0) {
         enemy.tickCount = nextDmgTick;
-        enemy.applyHit(remaingMag === this.magazineSize ? this.totalDmgFirst : this.totalDmg,
+        enemy.applyHit(remaingMag === this.magazineSize ? this.totalDmgFirstRaw : this.totalDmgRaw,
           this.procChanceMap, this.dotDamageMap, this.bullets, this.procDurationMul,
           this.critChance, this.weapon.tags.includes("Sniper") ? 750 : 750 / this.fireRate);
         nextDmgTick += (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : (remaingMag = this.magazineSize, reloadTicks || ticks);
@@ -212,7 +220,7 @@ export class GunModBuild extends ModBuild {
     return this.calcCritDamage(this.critChance + upLvlChance, this.critMul, this.headShotChance, this.headShotMul);
   }
   /** 每个弹片触发几率 */
-  get realProcChance() { return 1 - (1 - this.procChance) ** (1 / this.weapon.bullets); }
+  get realProcChance() { return hAccSum(1, -((1 - this.procChance) ** (1 / this.weapon.bullets))); }
   /** 平均射速增幅倍率  */
   get sustainedFireRateMul() { return (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate; }
   /** [overwrite] 射速 */
@@ -222,9 +230,22 @@ export class GunModBuild extends ModBuild {
     return fr < 0.05 ? 0.05 : fr;
   }
   /** 原平均射速=1/(1/射速+装填/弹匣) */
-  get oriSustainedFireRate() { return 1 / (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine); }
-  /** 平均射速=1/(1/射速+装填/弹匣) */
-  get sustainedFireRate() { return 1 / (1 / this.fireRate + this.reloadTime / this.magazineSize); }
+  get oriSustainedFireRate() {
+    const { fireRate: f, reload: r, magazine } = this.weapon;
+    const m = ~~(magazine / this.ammoCost);
+    return m * f / (m - 1 + Math.max(1, r * f));
+  }
+
+  /** 有效弹匣容量 */
+  get effectiveMagazineSize() { return ~~(this.magazineSize / this.ammoCost); }
+  /** 平均射速
+   * <version1> = 1/(1/射速+装填/弹匣)
+   * <version2> = mf/(m-1+max(1,rf))
+   */
+  get sustainedFireRate() {
+    const { fireRate: f, reloadTime: r, effectiveMagazineSize: m } = this;
+    return m * f / (m - 1 + Math.max(1, r * f));
+  }
   /** 持续伤害增幅倍率  */
   get sustainedDamageMul() { return hAccMul(this.totalDamageMul, this.sustainedFireRateMul); }
   /** 原爆发伤害 */
@@ -233,10 +254,14 @@ export class GunModBuild extends ModBuild {
   // 首发相关
   /** 第一发子弹伤害 */
   get firstAmmoDamage() { return hAccMul(this.totalDamage, this.firstAmmoMul); }
+  /** 无模型第一发子弹伤害 */
+  get firstAmmoDamageRaw() { return hAccMul(this.totalDamageRaw, this.firstAmmoMul); }
   /** 持续输出首发增幅 = 1 + 首发 / 弹匣 */
   get sustainedfirstAmmoMul() { return 1 + (this.firstAmmoMul - 1) / this.magazineSize; }
   /** 所有伤害(首发) */
   get totalDmgFirst() { return this.baseDmg.map(([i, v]) => [i, v * this.firstAmmoDamage / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][]; }
+  /** 无模型所有伤害(首发) */
+  get totalDmgFirstRaw() { return this.baseDmg.map(([i, v]) => [i, v * this.firstAmmoDamageRaw / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][]; }
   /** 计算首发的总伤害 */
   get totalDamageAvg() { return hAccMul(this.totalDamage, this.sustainedfirstAmmoMul); }
 
@@ -336,6 +361,7 @@ export class GunModBuild extends ModBuild {
       case 'fsb': /* 第一发子弹伤害加成 firstAmmoMul */ this._firstAmmoMul = hAccSum(this._firstAmmoMul, pValue); break;
       case 'eed': /* 电击伤害 */ this.weapon.prjSpeed ? this.electricityMul = hAccSum(this._electricityMul, pValue) : this.applyStandaloneElement("Electricity", pValue / 100); break;
       case 'efd': /* 火焰伤害 */ this.weapon.prjSpeed ? this.heatMul = hAccSum(this._heatMul, pValue) : this.applyStandaloneElement("Heat", pValue / 100); break;
+      case 'ar': /* + Range (nopercent) */ this._rangeLimitAdd = hAccSum(this._rangeLimitAdd, pValue); break;
       default:
         super.applyProp(mod, pName, pValue);
     }

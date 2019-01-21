@@ -141,10 +141,11 @@ export default class MiniClock extends Vue {
     this.updateTime();
     this.timerID = setInterval(this.updateTime, 1000);
 
-    Axios.get("https://api.warframestat.us/pc/cetusCycle", { timeout: 30e3 })
-      .then(data => {
-        CetusTime.calibration(data.data.expiry, data.data.isDay);
-      });
+    if (this.$route.name != "Alerts")
+      Axios.get("https://api.warframestat.us/pc/cetusCycle", { timeout: 30e3 })
+        .then(data => {
+          CetusTime.calibration(data.data.expiry, data.data.isDay);
+        });
   }
   beforeDestroy() {
     clearInterval(this.timerID);
