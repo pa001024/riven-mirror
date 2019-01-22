@@ -5,9 +5,9 @@ const data = [
   // 00 为空槽 01 为紫卡
   // 主要武器 00 ~ 0z
   ["02", "Hunter Munitions", [["ac", 5]], "Primary", "r", "c", 4],
-  ["03", "Vigilante Armaments", [["S", 10], ["ce", 0.05]], "Primary", "-", "n", 4],
-  ["04", "Vigilante Fervor", [["R", 7.5], ["ce", 0.05]], "Primary", "r", "c", 4],
-  ["05", "Vigilante Offense", [["P", 0.3], ["ce", 0.05]], "Primary", "-", "r", 4],
+  ["03", "Vigilante Armaments", [["S", 10], ["!ce", 5]], "Primary", "-", "n", 4],
+  ["04", "Vigilante Fervor", [["R", 7.5], ["!ce", 5]], "Primary", "r", "c", 4],
+  ["05", "Vigilante Offense", [["P", 0.3], ["!ce", 5]], "Primary", "-", "r", 4],
   ["06", "Hunter Track", [["3", 5]], "Primary", "r", "r", 4],
   ["07", "Vigilante Supplies", [["am", 30]], "Primary", "-", "r", 4],
 
@@ -150,7 +150,7 @@ const data = [
   ["5k", "Critical Deceleration", [["0", 8], ["R", -5]], "Shotgun", "r", "r", 4],
   ["5l", "Laser Sight", [["onHeadshot"], ["0", 20]], "Shotgun", "r", "c", 4],
   ["5m", "Blunderbuss", [["0", 15]], "Shotgun", "r", "n", 4],
-  // ["5n","Primed Blunderbuss", [["0", 1.65]], "增加暴击几率", "Shotgun", "r", "l", 14],
+  // ["5n","Primed Blunderbuss", [["0", 1.65]], "Shotgun", "r", "l", 4, 10],
   ["5o", "Ammo Stock", [["L", 10]], "Shotgun", "-", "c", 2],
   ["5p", "Shotgun Ammo Mutation", [["am", 37.5]], "Shotgun", "-", "r", 4],
   ["5q", "Primed Shotgun Ammo Mutation", [["am", 68.75]], "Shotgun", "-", "l", 4, 10],

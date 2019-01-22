@@ -6,7 +6,7 @@
       <div class="part-box" v-for="item in prismList" :key="item.id">
         <el-radio class="part" v-model="prism" :label="item" border @change="scaffold = null">
           <div class="snapshot">
-            <img :src="`/img/${item.name}.png`" :alt="item.name" height="100%">
+            <img :src="`https://cdn.riven.im/img/${item.name}.png`" :alt="item.name" height="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
@@ -23,7 +23,7 @@
       <div class="part-box" v-for="item in scaffoldList" :key="item.id">
         <el-radio class="part" v-model="scaffold" :label="item" border @change="prism = null">
           <div class="snapshot">
-            <img :src="`/img/${item.name}.png`" :alt="item.name" height="100%">
+            <img :src="`https://cdn.riven.im/img/${item.name}.png`" :alt="item.name" height="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
@@ -40,17 +40,17 @@
       <div class="part-box" v-for="item in braceList" :key="item.id">
         <el-radio class="part" v-model="brace" :label="item" border>
           <div class="snapshot">
-            <img :src="`/img/${item.name}.png`" :alt="item.name" height="100%">
+            <img :src="`https://cdn.riven.im/img/${item.name}.png`" :alt="item.name" height="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
           </div>
           <div class="prop">
-            <span v-if="item.critChance">{{item.critChance >= 0 ? "+" : ""}}{{(item.critChance*100).toFixed()}}% {{$t(`build.critChance`)}}</span>
-            <span v-if="item.procChance">{{item.procChance >= 0 ? "+" : ""}}{{(item.procChance*100).toFixed()}}% {{$t(`build.status`)}}</span>
-            <span v-if="item.magazine">{{item.magazine >= 0 ? "+" : ""}}{{item.magazine}} {{$t(`build.magazine`)}}</span>
-            <span v-if="item.reloadDelay">{{item.reloadDelay >= 0 ? "+" : ""}}{{item.reloadDelay}}s {{$t(`amp.reloadDelay`)}}</span>
-            <span v-if="item.reloadSpeed">{{item.reloadSpeed >= 0 ? "+" : ""}}{{item.reloadSpeed}} {{$t(`amp.reloadSpeed`)}}</span>
+            <span v-if="item.critChance">{{item.critChance >= 0 ? "+" : ""}}{{(item.critChance*100).toFixed()}}% {{$t(`modular.critChance`)}}</span>
+            <span v-if="item.procChance">{{item.procChance >= 0 ? "+" : ""}}{{(item.procChance*100).toFixed()}}% {{$t(`modular.status`)}}</span>
+            <span v-if="item.magazine">{{item.magazine >= 0 ? "+" : ""}}{{item.magazine}} {{$t(`modular.magazine`)}}</span>
+            <span v-if="item.reloadDelay">{{item.reloadDelay >= 0 ? "+" : ""}}{{item.reloadDelay}}s {{$t(`modular.reloadDelay`)}}</span>
+            <span v-if="item.reloadSpeed">{{item.reloadSpeed >= 0 ? "+" : ""}}{{item.reloadSpeed}} {{$t(`modular.reloadSpeed`)}}</span>
           </div>
         </el-radio>
       </div>
@@ -65,16 +65,16 @@
     <!-- 预览 -->
     <div class="preview" v-if="prism || scaffold">
       <div class="prop" v-for="dmg in amp.dmg" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
-   --><div class="prop">{{$t("build.fireRate")}}: {{amp.fireRate}}</div><!--
-   --><div class="prop">{{$t("build.critMul")}}: {{amp.critMul}}x</div><!--
-   --><div class="prop">{{$t("build.critChance")}}: {{(amp.critChance*100).toFixed()}}%</div><!--
-   --><div class="prop">{{$t("build.status")}}: {{(amp.status*100).toFixed()}}%</div><!--
-   --><div class="prop">{{$t("build.magazine")}}: {{amp.magazine}}</div><!--
-   --><div class="prop">{{$t("amp.reloadSpeed")}}: {{amp.reloadSpeed}}</div><!--
-   --><div class="prop">{{$t("amp.reloadDelay")}}: {{amp.reloadDelay}}</div><!--
-   --><div class="prop">{{$t("build.rangeLimit")}}: {{amp.rangeLimit}}</div>
+   --><div class="prop">{{$t("modular.fireRate")}}: {{amp.fireRate}}</div><!--
+   --><div class="prop">{{$t("modular.critDamage")}}: {{amp.critMul}}x</div><!--
+   --><div class="prop">{{$t("modular.critChance")}}: {{(amp.critChance*100).toFixed()}}%</div><!--
+   --><div class="prop">{{$t("modular.status")}}: {{(amp.status*100).toFixed()}}%</div><!--
+   --><div class="prop">{{$t("modular.magazine")}}: {{amp.magazine}}</div><!--
+   --><div class="prop">{{$t("modular.reloadSpeed")}}: {{amp.reloadSpeed}}</div><!--
+   --><div class="prop">{{$t("modular.reloadDelay")}}: {{amp.reloadDelay}}</div><!--
+   --><div class="prop" v-if="amp.rangeLimit">{{$t("modular.rangeLimit")}}: {{amp.rangeLimit}}</div>
     </div>
-    <el-button class="stepctl" :disabled="!(finished)" @click="finish">{{$t("kitgun.finish")}}</el-button>
+    <el-button class="stepctl" :disabled="!(finished)" @click="finish">{{$t("modular.finish")}}</el-button>
   </div>
 </template>
 <script lang="ts">
@@ -153,6 +153,7 @@ export default class extends Vue {
     .type {
       margin-top: 8px;
       color: #aaa;
+      white-space: normal;
     }
     .prop {
       margin-top: 8px;

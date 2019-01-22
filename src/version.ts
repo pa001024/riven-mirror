@@ -1,22 +1,35 @@
 export const magic = "ALPHA";
-export const version = "1.4.5.1";
+export const version = "1.4.6";
 export const updateLogs = [
+  {
+    version: "1.4.6",
+    md: {
+      en: `
+- fix shotgun riven analyze
+- use CDN for images
+`,
+cn: `
+- 修复霰弹枪紫卡分析
+- 转移图片到CDN
+`
+    }
+  },
   {
     version: "1.4.5",
     md: {
       en: `
-+ add amp builer / build editor
-+ fix some enemy data / add new enemy
-+ fix 'Simulacrum' duplicate calc enemy health type when use 'Damage Model'
-+ fix 'Probability Visualization' when use Eidolon Damage Model
-+ add range limit in build
+- add amp builer / build editor
+- fix some enemy data / add new enemy
+- fix 'Simulacrum' duplicate calc enemy health type when use 'Damage Model'
+- fix 'Probability Visualization' when use Eidolon Damage Model
+- add range limit in build
 `,
       cn: `
-+ 新增增幅器模拟装配 / 伤害模拟
-+ 修复部分敌人数据问题 / 添加金星飞机和圆蛛
-+ 修复伤害模型和幻影装置重复计算敌人血质的问题
-+ 修复夜灵模型下概率可视化显示不正确的问题
-+ 新增射程限制显示
+- 新增增幅器模拟装配 / 伤害模拟
+- 修复部分敌人数据问题 / 添加金星飞机和圆蛛
+- 修复伤害模型和幻影装置重复计算敌人血质的问题
+- 修复夜灵模型下概率可视化显示不正确的问题
+- 新增射程限制显示
 `
     }
   },
@@ -24,12 +37,12 @@ export const updateLogs = [
     version: "1.4.4",
     md: {
       en: `
-+ title will change when page loaded
-+ fix "Slash When Crit" props effect in status calc
+- title will change when page loaded
+- fix "Slash When Crit" props effect in status calc
 `,
       cn: `
-+ 标题会随不同页面更新了
-+ 修复猎人战备类MOD在触发计算中数据错误
+- 标题会随不同页面更新了
+- 修复猎人战备类MOD在触发计算中数据错误
 `
     }
   },
@@ -37,30 +50,30 @@ export const updateLogs = [
     version: "1.4.3",
     md: {
       en: `
-+ Warframe Pol Visualization
-+ add Probability-Visualization
-+ MeleeBuildEditor now show **slide crit chance** in slide mode
+- Warframe Pol Visualization
+- add Probability-Visualization
+- MeleeBuildEditor now show **slide crit chance** in slide mode
 `,
       cn: `
-+ 战甲槽位极性可视化
-+ 概率可视化
-+ 近战现在在滑行攻击模式下显示 **滑行暴击几率** 了
+- 战甲槽位极性可视化
+- 概率可视化
+- 近战现在在滑行攻击模式下显示 **滑行暴击几率** 了
 `
     }
   },
-  {
-    version: "1.4.2",
-    md: {
-      en: `
-+ fix weapon data
-+ add damage model (test)
-`,
-      cn: `
-+ 修复部分武器数据错误
-+ 新增 **伤害模型** 功能 (试行)
-`
-    }
-  },
+  //   {
+  //     version: "1.4.2",
+  //     md: {
+  //       en: `
+  // + fix weapon data
+  // + add damage model (test)
+  // `,
+  //       cn: `
+  // + 修复部分武器数据错误
+  // + 新增 **伤害模型** 功能 (试行)
+  // `
+  //     }
+  //   },
   //   {
   //     version: "1.4.1",
   //     md: {

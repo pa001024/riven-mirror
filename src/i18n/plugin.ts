@@ -72,7 +72,7 @@ export async function changeLocale(locale: string) {
       localStorage.removeItem("lang");
     }
   }
-  switch (locale) {
+  switch (vi18n.locale) {
     case 'zh-CN':
     case 'zh-SG':
       let { default: zh } = await import(/* webpackChunkName: "lang-zh" */ './lang/zh')

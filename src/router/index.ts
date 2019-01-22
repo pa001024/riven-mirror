@@ -1,22 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Mod from '@/views/Mod.vue'
-import Huangli from '@/views/Huangli.vue'
-// import About from '@/views/About.vue'
-import Setting from '@/views/Setting.vue'
-import Alerts from '@/views/Alerts.vue'
-import BuildEditor from '@/views/BuildEditor.vue'
-import Simulator from '@/views/Simulator.vue'
-import Palette from '@/views/Palette.vue'
 import EULA from '@/views/EULA.vue'
 import ErrorPage from '@/views/ErrorPage.vue'
 import Intro from '@/views/Intro.vue'
 import NewUserWelcome from '@/views/NewUserWelcome.vue'
 import Login from '@/views/Login.vue'
 import ForgetPass from '@/views/ForgetPass.vue'
-import WeaponSelector from '@/components/WeaponSelector.vue'
-import WarframeSelector from '@/components/WarframeSelector.vue'
-import WarframeEditor from '@/views/WarframeEditor.vue'
 import { i18n } from '@/i18n';
 
 Vue.use(Router)

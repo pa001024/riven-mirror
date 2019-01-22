@@ -2,7 +2,8 @@ let po = {
   zh: "true",
   title: {
     main: "Riven.IM - 極鏡",
-    sub: "{0} - Riven.IM - 極鏡"
+    sub: "{0} - Riven.IM - 極鏡",
+    weapon: "{0} 配裝"
   },
   messages: {
     "primedContinuity": "持久力 PRIME",
@@ -2798,11 +2799,23 @@ let po = {
     lang: "語言設定",
     default: "默認",
   },
-  zaw: {
-    title: "ZAW",
+  modular: {
+    damage: "傷害",
+    fireRate: "攻速",
+    status: "觸發",
+    critDamage: "暴擊倍率",
+    critChance: "暴擊機率",
+    magazine: "彈匣",
+    reload: "裝填",
+    reloadSpeed: "充能速度",
+    reloadDelay: "充能延遲",
+    rangeLimit: "射程",
     lastStep: "上一步",
     nextStep: "下一步",
     finish: "完成",
+  },
+  zaw: {
+    title: "ZAW",
     selectStrike: "選擇擊打部",
     selectGrip: "選擇握柄部",
     selectLinks: "選擇環接部",
@@ -2822,9 +2835,6 @@ let po = {
   },
   kitgun: {
     title: "組合槍",
-    lastStep: "上一步",
-    nextStep: "下一步",
-    finish: "完成",
     selectChamber: "選擇槍膛",
     selectGrip: "選擇握把",
     selectLoader: "選擇填彈器",
@@ -2832,7 +2842,7 @@ let po = {
     grip: "握把",
     loader: "填彈器",
     type: {
-      catchmoon: "能量霰彈",
+      catchmoon: "能量穿透彈",
       gaze: "射線",
       rattleguts: "全自動",
       tombfinger: "小型榴彈",
@@ -2841,17 +2851,14 @@ let po = {
   amp: {
     title: "增幅器",
     buildName: "配置簡稱",
-    finish: "完成",
     selectPrism: "選擇棱鏡",
     selectScaffold: "選擇支架",
     selectBrace: "選擇曲柄",
-    reloadSpeed: "充能速度",
-    reloadDelay: "充能延遲",
     prism: "棱鏡",
     scaffold: "支架",
     brace: "曲柄",
     type: {
-      raplakPrism: "半自動",
+      raplakPrism: "半自動激光",
       shwaakPrism: "短程穿透彈",
       granmuPrism: "三點射榴彈",
       rahnPrism: "全自動連射",

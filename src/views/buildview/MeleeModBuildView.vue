@@ -153,6 +153,7 @@ import { BaseModBuildView } from "./BaseModBuildView";
 import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
 import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDataBase, Codex, MeleeWeapon } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
+import "@/less/buildview.less";
 
 @Component
 export default class MeleeModBuildView extends BaseModBuildView {
@@ -262,5 +263,3 @@ export default class MeleeModBuildView extends BaseModBuildView {
 
 }
 </script>
-<style>
-</style>

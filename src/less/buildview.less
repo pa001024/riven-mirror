@@ -1,0 +1,255 @@
+@import "./common.less";
+.rank-final {
+  font-size: 38px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  background-color: @theme_primary;
+  background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
+  color: #fff;
+  display: inline-block;
+  text-align: center;
+  border-radius: 30px;
+  padding: 8px;
+  margin: -20px 10px -20px -48px;
+}
+
+.build-container {
+  .setting {
+    background: #fff;
+    padding: 8px 20px 0;
+    margin: 16px 0;
+    border-radius: 20px;
+    border-left: 4px solid #3e5dfe;
+    border-right: 4px solid #508aff;
+  }
+  .el-collapse {
+    border: 0;
+  }
+  .el-collapse-item__wrap {
+    overflow: visible;
+  }
+  .el-collapse-item {
+    &:last-child {
+      .el-collapse-item__wrap {
+        border: 0;
+      }
+      .el-collapse-item__header {
+        border: 0;
+      }
+    }
+  }
+  padding: 8px;
+  >.el-card__body {
+    padding: 8px;
+  }
+}
+
+.build-item {
+  .el-tag {
+    background: #fff;
+    border-radius: 20px;
+  }
+  flex-wrap: wrap;
+}
+
+.build-list {
+  .loading {
+    padding: 10px 20px;
+  }
+  .el-collapse-item {
+    &+.el-collapse-item {
+      .el-collapse-item__header {
+        padding-top: 0;
+      }
+    }
+  }
+  .el-collapse-item__header {
+    background: unset;
+    border: 0;
+    margin: 8px 8px 0;
+    height: auto;
+    min-height: 40px;
+    border-radius: 20px;
+    background-color: @theme_primary;
+    background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
+  }
+  .el-collapse-item__wrap {
+    background: unset;
+    border: 0;
+  }
+  background-color: #fff;
+  color: #222;
+  border-radius: 20px;
+  border-left: 4px solid #3e5dfe;
+  border-right: 4px solid #508aff;
+  margin-top: 8px;
+  padding-bottom: 8px;
+  .el-collapse-item__arrow {
+    line-height: 40px;
+    margin-right: 16px;
+    color: @text_light;
+  }
+  .build-container {
+    overflow: visible;
+    padding: 0;
+  }
+  .el-collapse-item__content {
+    padding-bottom: 14px;
+  }
+}
+
+.build-title {
+  font-size: 1rem;
+  line-height: 40px;
+  padding: 0px 16px;
+  color: @text_light;
+}
+
+.build-card-header {
+  padding: 10px 0px;
+  border: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: #fff;
+  margin: 8px;
+  border-radius: 20px;
+  color: @text_grey;
+  text-shadow: none;
+}
+
+.build-result {
+  font-size: 1em;
+  margin: 0 10px;
+  padding: 10px;
+  .rank-progress {
+    width: 140px;
+    display: inline-block;
+  }
+  .rank-progress-text {
+    display: inline-block;
+    font-size: 14px;
+    color: @text_grey;
+    vertical-align: middle;
+    margin: 0 6px;
+    line-height: 1;
+  }
+}
+
+.build-price {
+  font-size: 16px;
+  color: @text_light;
+}
+
+.price-tip {
+  font-size: 11px;
+}
+
+.chroma-dmg {
+  .el-input-group__append {
+    padding: 0 10px;
+  }
+}
+
+.build-form-inline {
+  .el-form-item {
+    margin: 4px;
+  }
+}
+
+.build-card-body {
+  padding: 10px;
+}
+
+.build-card {
+  height: 56px;
+  margin-bottom: 12px;
+}
+
+.score-text {
+  color: @text_error;
+}
+
+.build-card-box {
+  overflow: hidden;
+  transition: max-height 0.4s ease-in;
+  max-height: 56px;
+  margin-bottom: 8px;
+  position: absolute;
+  width: calc(100% - 12px);
+  z-index: 8;
+  text-align: center;
+  cursor: pointer;
+  color: @text_light;
+  font-size: 1em;
+  text-shadow: rgba(0, 0, 0, 0.9) 0px 1px 2px;
+  border-radius: 27px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.12), transparent);
+  &:hover {
+    max-height: 300px;
+    z-index: 9;
+  }
+}
+
+.build-card-box.n {
+  background-color: @mod_n;
+}
+
+.build-card-box.c {
+  background-color: @mod_c;
+}
+
+.build-card-box.r {
+  background-color: @mod_r;
+}
+
+.build-card-box.l {
+  background-color: @mod_l;
+}
+
+.build-card-box.x {
+  background-color: @mod_x;
+}
+
+.build-header {
+  font-size: 16pt;
+  padding: 8px 0;
+}
+
+.build-card-name {
+  font-size: 11pt;
+  line-height: 20px;
+}
+
+.build-card-prop {
+  font-size: 9pt;
+}
+
+@media only screen and (max-width: 482px) {
+  .build-result {
+    .rank-progress {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .build-card-box {
+    width: calc(50% - 12px);
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .build-card-box {
+    width: calc(25% - 12px);
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .build-card-box {
+    width: calc(12.5% - 12px);
+  }
+}

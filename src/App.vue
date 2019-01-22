@@ -10,11 +10,13 @@
       <MiniClock v-if="!isIndexPage" class="hidden-xs-only header-watch"/>
       <!-- padding -->
       <div class="app-nav-pad"></div>
-      <!-- PC端用户登录界面
-      <router-link tag="div" to="/login" class="hidden-xs-only app-login">
-        <WfIcon type="fingerprint"/>
-        <span class="app-login-title">{{$t("app.login")}}</span>
-      </router-link>-->
+      <!-- PC端用户登录界面 -->
+      <router-link to="/login" class="app-login-container">
+        <div class="hidden-xs-only app-login">
+          <WfIcon type="fingerprint"/>
+          <span class="app-login-title">{{$t("app.login")}}</span>
+        </div>
+      </router-link>
       <!-- 移动端菜单按钮 -->
       <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
         <WfIcon type="menu"></WfIcon>
@@ -77,7 +79,7 @@ const md = markdown()
 export default class App extends Vue {
   menuOpen = false;
   updateMessageVisible = false;
-  get isIndexPage() { return this.isFullPage || ["Intro", "Login"].includes(this.$route.name) }
+  get isIndexPage() { return this.isFullPage || ["Intro", "Login", "ForgetPass", "EULA"].includes(this.$route.name) }
   get isFullPage() { return ["VisualSkillEditor"].includes(this.$route.name) }
   get magic() { return magic }
   get version() { return version }
@@ -122,6 +124,9 @@ export default class App extends Vue {
 @import "./less/markdown.less";
 @font_logo: FuturaPT;
 
+.app-login-container {
+  color: unset;
+}
 .app-login {
   cursor: pointer;
   display: inline-block;
@@ -136,14 +141,14 @@ export default class App extends Vue {
     vertical-align: middle;
     filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.2));
   }
-  &.router-link-exact-active {
-    background: #304ae0;
-    border: 1px solid #6199ff;
-    border-radius: 4px;
-    text-shadow: none;
-    .icon {
-      filter: none;
-    }
+}
+.router-link-exact-active .app-login {
+  background: #304ae0;
+  border: 1px solid #6199ff;
+  border-radius: 4px;
+  text-shadow: none;
+  .icon {
+    filter: none;
   }
 }
 

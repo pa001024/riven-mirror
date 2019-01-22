@@ -10,7 +10,7 @@
       <div class="part-box" v-for="item in strikeList" :key="item.id">
         <el-radio class="part" v-model="strike" :label="item" border>
           <div class="snapshot">
-            <img :src="`/img/zawStrike${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
+            <img :src="`https://cdn.riven.im/img/zawStrike${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
@@ -26,7 +26,7 @@
       <div class="part-box" v-for="item in gripList" :key="item.id">
         <el-radio class="part" v-model="grip" :label="item" border>
           <div class="snapshot">
-            <img :src="`/img/zawGrip${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
+            <img :src="`https://cdn.riven.im/img/zawGrip${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
@@ -35,8 +35,8 @@
             {{$t(`zaw.${strike[item.twoHand ? 'twoHand' : 'oneHand'].type}`)}}
           </div>
           <div class="prop">
-            <span>{{item.speed >= 1 ? "+" : ""}}{{+(item.speed - 1).toFixed(3)}} {{$t(`build.fireRate`)}}</span>
-            <span>{{item.dmg >= 0 ? "+" : ""}}{{item.dmg}} {{$t(`build.damage`)}}</span>
+            <span>{{item.speed >= 1 ? "+" : ""}}{{+(item.speed - 1).toFixed(3)}} {{$t(`modular.fireRate`)}}</span>
+            <span>{{item.dmg >= 0 ? "+" : ""}}{{item.dmg}} {{$t(`modular.damage`)}}</span>
           </div>
         </el-radio>
       </div>
@@ -46,16 +46,16 @@
       <div class="part-box" v-for="item in linksList" :key="item.id">
         <el-radio class="part" v-model="links" :label="item" border>
           <div class="snapshot">
-            <img :src="`/img/zawLink${item.id.replace(/II/g, '2').replace(/ /g, '')}.png`" :alt="item.id" width="100%">
+            <img :src="`https://cdn.riven.im/img/zawLink${item.id.replace(/II/g, '2').replace(/ /g, '')}.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
           </div>
           <div class="prop">
-            <span>{{item.speed >= 0 ? "+" : ""}}{{item.speed}} {{$t(`build.fireRate`)}}</span>
-            <span>{{item.dmg >= 0 ? "+" : ""}}{{item.dmg}} {{$t(`build.damage`)}}</span>
-            <span>{{item.crit >= 0 ? "+" : ""}}{{(item.crit*100).toFixed()}}% {{$t(`build.critChance`)}}</span>
-            <span>{{item.status >= 0 ? "+" : ""}}{{(item.status*100).toFixed()}}% {{$t(`build.status`)}}</span>
+            <span>{{item.speed >= 0 ? "+" : ""}}{{item.speed}} {{$t(`modular.fireRate`)}}</span>
+            <span>{{item.dmg >= 0 ? "+" : ""}}{{item.dmg}} {{$t(`modular.damage`)}}</span>
+            <span>{{item.crit >= 0 ? "+" : ""}}{{(item.crit*100).toFixed()}}% {{$t(`modular.critChance`)}}</span>
+            <span>{{item.status >= 0 ? "+" : ""}}{{(item.status*100).toFixed()}}% {{$t(`modular.status`)}}</span>
           </div>
         </el-radio>
       </div>
@@ -68,16 +68,16 @@
     </div>
     <!-- 预览 -->
     <div class="preview" v-if="strike">
-      <div class="prop">{{$t("build.damage")}}: {{+zaw.panelDamage.toFixed(1)}}</div><!--
-   --><div class="prop">{{$t("build.slideDamage")}}: {{+zaw.slideDmg.toFixed(1)}}</div><!--
+      <div class="prop">{{$t("modular.damage")}}: {{+zaw.panelDamage.toFixed(1)}}</div><!--
+   --><div class="prop">{{$t("modular.slideDamage")}}: {{+zaw.slideDmg.toFixed(1)}}</div><!--
    --><div class="prop" v-for="dmg in zaw.dmg" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
-   --><div class="prop">{{$t("build.fireRate")}}: {{zaw.fireRate}}</div><!--
-   --><div class="prop">{{$t("build.critMul")}}: {{zaw.critMul}}x</div><!--
-   --><div class="prop">{{$t("build.critChance")}}: {{(zaw.critChance*100).toFixed()}}%</div><!--
-   --><div class="prop">{{$t("build.status")}}: {{(zaw.status*100).toFixed()}}%</div>
+   --><div class="prop">{{$t("modular.fireRate")}}: {{zaw.fireRate}}</div><!--
+   --><div class="prop">{{$t("modular.critDamage")}}: {{zaw.critMul}}x</div><!--
+   --><div class="prop">{{$t("modular.critChance")}}: {{(zaw.critChance*100).toFixed()}}%</div><!--
+   --><div class="prop">{{$t("modular.status")}}: {{(zaw.status*100).toFixed()}}%</div>
     </div>
-    <el-button class="stepctl" :disabled="part === 0" @click="part = part > 0 ? part - 1 : 0">{{$t("zaw.lastStep")}}</el-button>
-    <el-button class="stepctl" :disabled="part === 0 && !strike || part === 1 && !grip || part === 2 && !links" @click="part = part < 2 ? part + 1 : (finish(),2)">{{part === 2 ? $t("zaw.finish") : $t("zaw.nextStep")}}</el-button>
+    <el-button class="stepctl" :disabled="part === 0" @click="part = part > 0 ? part - 1 : 0">{{$t("modular.lastStep")}}</el-button>
+    <el-button class="stepctl" :disabled="part === 0 && !strike || part === 1 && !grip || part === 2 && !links" @click="part = part < 2 ? part + 1 : (finish(),2)">{{part === 2 ? $t("modular.finish") : $t("modular.nextStep")}}</el-button>
   </div>
 </template>
 <script lang="ts">

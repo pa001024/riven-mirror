@@ -965,7 +965,7 @@ export abstract class ModBuild {
       return new ValuedRivenProperty(v, base, base, upLevel);
     });
     // 负面属性
-    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.weapon.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
+    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.weapon.id === "Vectis Prime" ? "L" : "H") || v.id === "U" || (this.riven.mod === "Shotgun" && v.id === "Z"));
     let valuedNegativeProp = new ValuedRivenProperty(negativeProp,
       this.weapon.id === "Vectis Prime" ? -28 : RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id) * -negaUpLevel,
       RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id), upLevel);
