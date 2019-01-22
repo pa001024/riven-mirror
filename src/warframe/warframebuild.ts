@@ -795,7 +795,6 @@ export class RenderedAbilities {
         case "Debuff":
         case "Summon":
         case "DamageReduce":
-        case "DamageReflect":
         case "Control":
         case "Special":
         case "Move":

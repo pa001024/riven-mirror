@@ -1,7 +1,7 @@
 <template>
   <div class="damage-editor">
     <div class="damage-item" :key="index" v-for="(dmg, index) in dmgs">
-      <el-select v-model="dmgs[index][0]" placeholder="请选择">
+      <el-select class="damage-type" v-model="dmgs[index][0]" placeholder="请选择">
         <el-option
           :key="DT_TYPE" v-for="DT_TYPE in DT_TYPES"
           :label="$t(`elements.${DT_TYPE}`)"
@@ -11,7 +11,7 @@
         </el-option>
       </el-select>
       <AbilityPropValueEditor v-model="dmgs[index][1]" />
-      <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="dmgs.splice(index, 1)"></el-button>
+      <el-button type="danger" icon="el-icon-delete" circle @click="dmgs.splice(index, 1)"></el-button>
     </div>
     <div class="new-damage-item">
       <el-button type="primary" icon="el-icon-plus" @click="addnewdamage">添加新伤害类型</el-button>
@@ -27,10 +27,10 @@ import AbilityPropValueEditor from "@/components/vse/AbilityPropValueEditor.vue"
 export default class DamageEditor extends Vue {
   @Model() dmgs: [string, AbilityPropValue][]
   get DT_TYPES() {
-    return ["Impact", "Puncture", "Slash", "Cold", "Electricity", "Heat", "Toxin", "Blast", "Corrosive", "Gas", "Magnetic", "Radiation", "Viral", "True",]
+    return ["Impact", "Puncture", "Slash", "Cold", "Electricity", "Heat", "Toxin", "Blast", "Corrosive", "Gas", "Magnetic", "Radiation", "Viral", "True", "Void",]
   }
   addnewdamage() {
-    this.dmgs.push(["Impact", 0])
+    this.dmgs.push(["Impact", { value: 0 }])
   }
 }
 
@@ -38,11 +38,16 @@ export default class DamageEditor extends Vue {
 
 <style lang="less" scoped>
 .damage-item {
-  display: flex;
+  display: inline-block;
   margin-bottom: 8px;
+  margin-right: 12px;
+  .damage-type,
   .ability-prop-value-editor {
-    margin-left: 12px;
+    margin-right: 8px;
   }
+}
+.new-damage-item {
+  display: inline-block;
 }
 </style>
 

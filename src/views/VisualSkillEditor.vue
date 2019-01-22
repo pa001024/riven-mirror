@@ -39,7 +39,12 @@ export default class VisualSkillEditor extends Vue {
     return skills
   }
   save() {
-    console.log(this.skills)
+    console.log(this.skills);
+    let blob = new Blob([JSON.stringify(this.skills)], { type: "application/json" });
+    let a = document.createElement("a");
+    a.download = "skills.json";
+    a.href = URL.createObjectURL(blob);
+    a.click();
   }
   // === 生命周期钩子 ===
   beforeMount() {

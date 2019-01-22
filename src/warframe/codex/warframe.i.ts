@@ -180,15 +180,6 @@ export namespace AbilityPropTypes {
     /** 减伤对象 不填表示所有 */
     target?: Target
   }
-  /** 反伤 */
-  export interface DamageReflect {
-    /** 倍率 */
-    rate: AbilityPropValue
-    /** 反伤对象 */
-    target: Target
-    /** 反伤范围 不填表示无限距离 */
-    range?: AbilityPropValue
-  }
   /** 控制 */
   export interface Control {
     /** 持续时间 不填表示是瞬间控制类技能(如牵引) */
@@ -228,7 +219,6 @@ export type AbilityProp = {
   Debuff?: AbilityPropTypes.Debuff
   Summon?: AbilityPropTypes.Summon
   DamageReduce?: AbilityPropTypes.DamageReduce
-  DamageReflect?: AbilityPropTypes.DamageReflect
   Control?: AbilityPropTypes.Control
   Special?: AbilityPropTypes.Special
   Move?: AbilityPropTypes.Move

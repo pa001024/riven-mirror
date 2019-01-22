@@ -1,7 +1,7 @@
 <template>
   <div class="effect-editor">
     <div class="effect-item" :key="index" v-for="(effect, index) in effects">
-      <el-select v-model="effects[index][0]" placeholder="请选择">
+      <el-select class="effect-type" v-model="effects[index][0]" placeholder="请选择">
         <el-option
           :key="effectType" v-for="effectType in effectTypes"
           :label="$t(`prop.shortName.${effectType}`)"
@@ -37,10 +37,12 @@ export default class EffectEditor extends Vue {
 
 <style lang="less" scoped>
 .effect-item {
-  display: flex;
+  display: inline-block;
   margin-bottom: 8px;
+  margin-right: 12px;
+  .effect-type,
   .ability-prop-value-editor {
-    margin-left: 12px;
+    margin-right: 8px;
   }
 }
 </style>

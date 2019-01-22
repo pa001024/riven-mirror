@@ -24,135 +24,87 @@
       </el-form>
     </div>
     <div class="props">
+      <!-- damage -->
       <el-checkbox border size="large" class="prop-header" v-model="hasDamage" :label="$t('ability.effects.damage')"/>
       <el-form v-if="hasDamage" class="prop damage" label-width="80px" size="small">
-        <el-form-item :label="$t('ability.props.damage')">
-          <DamageEditor v-model="damage.damage" />
-        </el-form-item>
-        <el-form-item :label="$t('ability.props.rangeDamage')">
-          <template v-if="typeof damage.rangeDamage !== 'undefined'">
-            <DamageEditor v-if="damage.rangeDamage" v-model="damage.rangeDamage" />
-            <el-button type="danger" icon="el-icon-delete" @click="$delete(damage, 'rangeDamage')">删除属性</el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(damage, 'rangeDamage', [])">新增属性</el-button>
-        </el-form-item>
-        <el-form-item :label="$t('ability.props.duration')">
-          <template v-if="typeof damage.duration !== 'undefined'">
-            <AbilityPropValueEditor v-model="damage.duration" />
-            <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="$delete(damage, 'duration')"></el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(damage, 'duration', {value:0})">新增属性</el-button>
-        </el-form-item>
-        <el-form-item :label="$t('ability.props.tick')">
-          <template v-if="typeof damage.tick !== 'undefined'">
-            <AbilityPropValueEditor v-model="damage.tick" />
-            <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="$delete(damage, 'tick')"></el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(damage, 'tick', {value:0})">新增属性</el-button>
-        </el-form-item>
-        <el-form-item :label="$t('ability.props.amount')">
-          <template v-if="typeof damage.amount !== 'undefined'">
-            <AbilityPropValueEditor v-model="damage.amount" />
-            <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="$delete(damage, 'amount')"></el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(damage, 'amount', {value:0})">新增属性</el-button>
-        </el-form-item>
-        <el-form-item :label="$t('ability.props.angel')">
-          <template v-if="typeof damage.angel !== 'undefined'">
-            <AbilityPropValueEditor v-model="damage.angel" />
-            <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="$delete(damage, 'angel')"></el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(damage, 'angel', {value:0})">新增属性</el-button>
-        </el-form-item>
-        <el-form-item :label="$t('ability.props.distance')">
-          <template v-if="typeof damage.distance !== 'undefined'">
-            <AbilityPropValueEditor v-model="damage.distance" />
-            <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="$delete(damage, 'distance')"></el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(damage, 'distance', {value:0})">新增属性</el-button>
-        </el-form-item>
-        <el-form-item :label="$t('ability.props.prjSpeed')">
-          <template v-if="typeof damage.prjSpeed !== 'undefined'">
-            <AbilityPropValueEditor v-model="damage.prjSpeed" />
-            <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="$delete(damage, 'prjSpeed')"></el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(damage, 'prjSpeed', {value:0})">新增属性</el-button>
-        </el-form-item>
-        <el-form-item :label="$t('ability.props.affectBy')">
-          <template v-if="typeof damage.affectBy !== 'undefined'">
-            <AbilityPropValueEditor v-model="damage.affectBy" />
-            <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="$delete(damage, 'affectBy')"></el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(damage, 'affectBy', {value:0})">新增属性</el-button>
-        </el-form-item>
+        <DamageItem :bind="damage" keyName="damage"/>
+        <DamageItem :bind="damage" keyName="rangeDamage"/>
+        <NumberItem :bind="damage" keyName="duration"/>
+        <NumberItem :bind="damage" keyName="tick"/>
+        <NumberItem :bind="damage" keyName="amount"/>
+        <NumberItem :bind="damage" keyName="angel"/>
+        <NumberItem :bind="damage" keyName="distance"/>
+        <NumberItem :bind="damage" keyName="prjSpeed"/>
+        <NumberItem :bind="damage" keyName="affectBy"/>
       </el-form>
+      <!-- buff -->
       <el-checkbox border size="large" class="prop-header" v-model="hasBuff" :label="$t('ability.effects.buff')"/>
       <el-form v-if="hasBuff" class="prop buff" label-width="80px" size="small">
-        <!-- target -->
-        <el-form-item :label="$t('ability.props.target')">
-          <template v-if="typeof buff.target !== 'undefined'">
-            <el-input v-model="buff.target" placeholder="请输入描述"></el-input>
-            <el-button type="danger" icon="el-icon-delete" @click="$delete(buff, 'target')">删除属性</el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(buff, 'target', 'all')">新增属性</el-button>
-        </el-form-item>
-        <!-- desc -->
-        <el-form-item :label="$t('ability.props.desc')">
-          <template v-if="typeof buff.desc !== 'undefined'">
-            <el-input v-model="buff.desc" placeholder="请输入描述"></el-input>
-            <el-button type="danger" icon="el-icon-delete" @click="$delete(buff, 'desc')">删除属性</el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(buff, 'desc', '')">新增属性</el-button>
-        </el-form-item>
-        <!-- effect -->
-        <el-form-item :label="$t('ability.props.effect')">
-          <template v-if="typeof buff.effect !== 'undefined'">
-            <EffectEditor v-if="buff.effect" v-model="buff.effect" />
-            <el-button type="danger" icon="el-icon-delete" @click="$delete(buff, 'effect')">删除属性</el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(buff, 'effect', [])">新增属性</el-button>
-        </el-form-item>
-        <!-- duration -->
-        <el-form-item :label="$t('ability.props.duration')">
-          <template v-if="typeof buff.duration !== 'undefined'">
-            <AbilityPropValueEditor v-model="buff.duration" />
-            <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="$delete(buff, 'duration')"></el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(buff, 'duration', {value:0})">新增属性</el-button>
-        </el-form-item>
-        <!-- angel -->
-        <el-form-item :label="$t('ability.props.angel')">
-          <template v-if="typeof buff.angel !== 'undefined'">
-            <AbilityPropValueEditor v-model="buff.angel" />
-            <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="$delete(buff, 'angel')"></el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(buff, 'angel', {value:0})">新增属性</el-button>
-        </el-form-item>
-        <!-- range -->
-        <el-form-item :label="$t('ability.props.range')">
-          <template v-if="typeof buff.range !== 'undefined'">
-            <AbilityPropValueEditor v-model="buff.range" />
-            <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="$delete(buff, 'range')"></el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(buff, 'range', {value:0})">新增属性</el-button>
-        </el-form-item>
-        <!-- distance -->
-        <el-form-item :label="$t('ability.props.distance')">
-          <template v-if="typeof buff.distance !== 'undefined'">
-            <AbilityPropValueEditor v-model="buff.distance" />
-            <el-button type="danger" icon="el-icon-delete" style="margin-left: 8px" circle @click="$delete(buff, 'distance')"></el-button>
-          </template>
-          <el-button v-else type="primary" icon="el-icon-edit" @click="$set(buff, 'distance', {value:0})">新增属性</el-button>
-        </el-form-item>
+        <TargetItem :bind="buff" keyName="target"/>
+        <TextItem   :bind="buff" keyName="desc"/>
+        <EffectItem :bind="buff" keyName="effect"/>
+        <NumberItem :bind="buff" keyName="duration"/>
+        <NumberItem :bind="buff" keyName="angel"/>
+        <NumberItem :bind="buff" keyName="range"/>
+        <NumberItem :bind="buff" keyName="distance"/>
       </el-form>
+      <!-- debuff -->
       <el-checkbox border size="large" class="prop-header" v-model="hasDebuff" :label="$t('ability.effects.debuff')"/>
+      <el-form v-if="hasDebuff" class="prop debuff" label-width="80px" size="small">
+        <TargetItem :bind="debuff" keyName="target"/>
+        <TextItem   :bind="debuff" keyName="desc"/>
+        <EffectItem :bind="debuff" keyName="effect"/>
+        <NumberItem :bind="debuff" keyName="duration"/>
+        <NumberItem :bind="debuff" keyName="angel"/>
+        <NumberItem :bind="debuff" keyName="range"/>
+        <NumberItem :bind="debuff" keyName="distance"/>
+      </el-form>
+      <!-- summon -->
       <el-checkbox border size="large" class="prop-header" v-model="hasSummon" :label="$t('ability.effects.summon')"/>
+      <el-form v-if="hasSummon" class="prop summon" label-width="80px" size="small">
+        <NumberItem :bind="summon" keyName="health"/>
+        <NumberItem :bind="summon" keyName="duration"/>
+        <NumberItem :bind="summon" keyName="distance"/>
+        <NumberItem :bind="summon" keyName="range"/>
+        <DamageItem :bind="summon" keyName="damage"/>
+        <DamageItem :bind="summon" keyName="rangeDamage"/>
+      </el-form>
+      <!-- damageReduce -->
       <el-checkbox border size="large" class="prop-header" v-model="hasDamageReduce" :label="$t('ability.effects.damageReduce')"/>
-      <el-checkbox border size="large" class="prop-header" v-model="hasDamageReflect" :label="$t('ability.effects.damageReflect')"/>
+      <el-form v-if="hasDamageReduce" class="prop damageReduce" label-width="80px" size="small">
+        <NumberItem :bind="damageReduce" keyName="durability"/>
+        <NumberItem :bind="damageReduce" keyName="rate"/>
+        <TargetItem :bind="damageReduce" keyName="target"/>
+      </el-form>
+      <!-- control -->
       <el-checkbox border size="large" class="prop-header" v-model="hasControl" :label="$t('ability.effects.control')"/>
+      <el-form v-if="hasControl" class="prop control" label-width="80px" size="small">
+        <NumberItem :bind="control" keyName="duration"/>
+        <NumberItem :bind="control" keyName="angel"/>
+        <NumberItem :bind="control" keyName="range"/>
+        <NumberItem :bind="control" keyName="distance"/>
+      </el-form>
       <el-checkbox border size="large" class="prop-header" v-model="hasSpecial" :label="$t('ability.effects.special')"/>
+      <el-form v-if="hasSpecial" class="prop special" label-width="80px" size="small">
+        <TextItem   :bind="special" keyName="desc"/>
+        <NumberItem :bind="special" keyName="value"/>
+      </el-form>
       <el-checkbox border size="large" class="prop-header" v-model="hasMove" :label="$t('ability.effects.move')"/>
+      <el-form v-if="hasMove" class="prop move" label-width="80px" size="small">
+        <CommonItem :bind="move" keyName="directive">
+          <el-select v-model="move.directive" placeholder="请选择">
+            <el-option label="非指向性" :value="0"/>
+            <el-option label="非强制指向" :value="1"/>
+            <el-option label="强制指向" :value="2"/>
+          </el-select>
+        </CommonItem>
+        <NumberItem :bind="move" keyName="distance"/>
+      </el-form>
       <el-checkbox border size="large" class="prop-header" v-model="hasExaltedWeapon" :label="$t('ability.effects.exaltedWeapon')"/>
+      <el-form v-if="hasExaltedWeapon" class="prop exaltedWeapon" label-width="80px" size="small">
+        <TextItem   :bind="exaltedWeapon" keyName="weaponName"/>
+        <EffectItem :bind="exaltedWeapon" keyName="effect"/>
+      </el-form>
     </div>
   </div>
 </template>
@@ -162,9 +114,15 @@ import { AbilityProp, AbilityData, AbilityEnhance, AbilityFormData, AdvancedAbil
 import AbilityPropValueEditor from "@/components/vse/AbilityPropValueEditor.vue";
 import DamageEditor from "@/components/vse/DamageEditor.vue";
 import EffectEditor from "@/components/vse/EffectEditor.vue";
+import CommonItem from "@/components/vse/CommonItem.vue";
+import NumberItem from "@/components/vse/NumberItem.vue";
+import DamageItem from "@/components/vse/DamageItem.vue";
+import EffectItem from "@/components/vse/EffectItem.vue";
+import TargetItem from "@/components/vse/TargetItem.vue";
+import TextItem from "@/components/vse/TextItem.vue";
 import { i18n } from "@/i18n";
 
-@Component({ components: { AbilityPropValueEditor, DamageEditor, EffectEditor } })
+@Component({ components: { AbilityPropValueEditor, DamageEditor, EffectEditor, CommonItem, NumberItem, DamageItem, EffectItem, TargetItem, TextItem } })
 export default class VisualSkill extends Vue {
   @Model() abilityData: AbilityData
 
@@ -291,18 +249,6 @@ export default class VisualSkill extends Vue {
       Vue.set(this.abilityData.props, "DamageReduce", {})
   }
 
-  get hasDamageReflect() {
-    return this.abilityData.props && !!this.abilityData.props.DamageReflect;
-  }
-  set hasDamageReflect(value) {
-    if (!this.abilityData.props)
-      this.abilityData.props = {};
-    if (!value)
-      Vue.delete(this.abilityData.props, "DamageReflect");
-    else if (!this.abilityData.props.DamageReflect)
-      Vue.set(this.abilityData.props, "DamageReflect", {})
-  }
-
   get hasControl() {
     return this.abilityData.props && !!this.abilityData.props.Control;
   }
@@ -366,9 +312,6 @@ export default class VisualSkill extends Vue {
   }
   get damageReduce() {
     return this.abilityData.props.DamageReduce;
-  }
-  get damageReflect() {
-    return this.abilityData.props.DamageReflect;
   }
   get control() {
     return this.abilityData.props.Control;
