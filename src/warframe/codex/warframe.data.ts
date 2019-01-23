@@ -1,1346 +1,822 @@
-import { WarframeData, WarframeProperty, AbilityType, AbilityData } from "./warframe.i";
+import { WarframeData, WarframeProperty, AbilityData } from "./warframe.i";
 
 // 一些工具函数
 
 /** 将属性绑定到技能强度 S(数值, 加数) */
-const S = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityStrength, n] as [WarframeProperty, number]] })
+const S = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityStrength, n] as [string, number]] })
 /** 将属性绑定到技能持续 D(数值, 加数) */
-const D = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityDuration, n] as [WarframeProperty, number]] })
+const D = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityDuration, n] as [string, number]] })
 /** 将属性绑定到效率 E(数值, 加数) */
-const E = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityEfficiency, n] as [WarframeProperty, number]] })
+const E = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityEfficiency, n] as [string, number]] })
 /** 将属性绑定到技能范围 R(数值, 加数) */
-const R = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityRange, n] as [WarframeProperty, number]] })
+const R = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityRange, n] as [string, number]] })
 
 // data from https://github.com/WFCD/warframe-items
-export const _abilityData: AbilityData[] = [
+export let _abilityData: AbilityData[] = [
   {
-    id: "Shuriken", // https://warframe.huijiwiki.com/wiki/Shuriken
-    // name: "shuriken",
-    // description: "Launches a spinning blade of pain, dealing high damage and impaling enemies to walls.",
+    id: "Shuriken",
     oneHand: true,
-    tags: AbilityType.Damage,
+    tags: 1,
     energyCost: 25,
-    props: {
-      Damage: {
-        damage: [["Slash", S(500)]],// 每个手里剑造成100 / 250 / 350 / 500 切割伤害
-        amount: 2, // Ash投出1 / 1 / 2 / 2个手里剑
-        prjSpeed: 65, // 飞行时间估测
-      }
-    },
+    props: { Damage: { damage: [["Slash", S(500)]], amount: 2, prjSpeed: 65 } }
   },
   {
-    id: "Smoke Screen", // https://warframe.huijiwiki.com/wiki/Smoke_Screen
-    // name: "smokeScreen",
-    // description: "Drops a smoke bomb that stuns enemies and obscures their vision, rendering Ash invisible for a short time.",
-    tags: AbilityType.Perception,
+    id: "Smoke Screen",
+    tags: 8,
     energyCost: 50,
     props: {
-      Buff: {
-        effect: [["ivb", 1]],
-        duration: D(8), // 在接下来的2 / 4 / 6 / 8秒内，Ash不会受到敌方的直接攻击
-      },
-      Control: {
-        range: R(10), // Ash丢出一个能击退10米范围内敌人的烟幕弹
-        duration: 1,
-      }
+      Buff: { effect: [["ivb", 1]], duration: D(8) },
+      Control: { range: R(10), duration: 1 }
     }
   },
   {
-    id: "Teleport", // https://warframe.huijiwiki.com/wiki/Teleport
-    // name: "teleport",
-    // description: "Ash teleports towards the target, bringing him into melee range and making enemies vulnerable to finishers.",
-    tags: AbilityType.Mobility,
+    id: "Teleport",
+    tags: 4,
     energyCost: 25,
-    props: {
-      Move: {
-        directive: 2,
-        distance: R(60)//瞬移至20 / 45 / 45 / 60米范围
-      }
-    },
+    props: { Move: { directive: 2, distance: R(60) } }
   },
   {
-    id: "Blade Storm", // 剑刃风暴 https://warframe.huijiwiki.com/wiki/Blade_Storm
-    // name: "bladeStorm",
-    // description: "Project fierce shadow clones of Ash upon groups of distant enemies. Join the fray using Teleport.",
-    tags: AbilityType.Damage,
+    id: "Blade Storm",
+    tags: 1,
     energyCost: 0,
     energyCostN: 12,
-    props: {
-      Damage: {
-        damage: [["True", S(2000)]],// 造成750 / 1000 / 1500 / 2000真实伤害
-        distance: R(50), // 50米范围
-      }
-    },
+    props: { Damage: { damage: [["True", S(2000)]], distance: R(50) } }
   },
   {
-    id: "Landslide", // https://warframe.huijiwiki.com/wiki/Landslide
-    // name: "landslide",
-    // description: "Bash enemies with an explosive sliding punch, and repeat for a devastating combo. Petrified enemies take extra damage, and drop Rubble when destroyed. Rubble can heal Atlas and bolster his armor.",
-    tags: AbilityType.Damage | AbilityType.Mobility,
+    id: "Landslide",
+    tags: 5,
     energyCost: 25,
     props: {
-      Damage: {
-        damage: [["Impact", S(350)]],  // 造成100 / 200 / 300 / 350 点Impact b.png 冲击基础伤害
-        distance: R(15),// 距离自身8 / 10 / 12 / 15米处的敌人
-      },
-      Move: {
-        directive: 2,
-        distance: R(15),// 距离自身8 / 10 / 12 / 15米处的敌人
-      },
-    },
+      Damage: { damage: [["Impact", S(350)]], distance: R(15) },
+      Move: { directive: 2, distance: R(15) }
+    }
   },
+  { id: "Tectonics", tags: 32, energyCost: 50, props: {} },
   {
-    id: "Tectonics", // https://warframe.huijiwiki.com/wiki/Tectonics
-    // name: "tectonics",
-    // description: "Summon a rock-wall, activate again to send the rocks crashing toward the enemy.",
-    tags: AbilityType.Summon,
-    energyCost: 50,
-  },
-  {
-    id: "Petrify", // https://warframe.huijiwiki.com/wiki/Petrify
-    // name: "petrify",
-    // description: "Atlas' hardened gaze will fossilize foes, heal Rumblers, and create Petrified Bulwarks. When shattered, petrified enemies drop healing Rubble for Atlas.",
-    tags: AbilityType.Control,
+    id: "Petrify",
+    tags: 16,
     energyCost: 75,
     props: {
-      Control: {
-        range: R(14), // Atlas放出石化射线，射线覆盖其前方半径10 / 11 / 12 / 14米
-        angel: 60, // 60度角的扇形区域
-        duration: D(20), // 并且在5 / 10 / 15 / 20秒内无法行动
-      },
-      Buff: {
-        effect: [["oad", 0.5]]// 被石化的敌人受到的所有来源的伤害都会+50%
-      }
-    },
+      Control: { range: R(14), angel: 60, duration: D(20) },
+      Buff: { effect: [["oad", 0.5]] }
+    }
   },
+  { id: "Rumblers", tags: 32, energyCost: 100, props: {} },
   {
-    id: "Rumblers", // https://warframe.huijiwiki.com/wiki/Rumblers
-    // name: "rumblers",
-    // description: "Summon two elemental stone brawlers to the melee. Summoning petrifies enemies in close proximity to Atlas. When finished, Rumblers collapse into a pile of healing Rubble.",
-    tags: AbilityType.Summon,
-    energyCost: 100,
-  },
-  {
-    id: "Sonic Boom", // https://warframe.huijiwiki.com/wiki/Sonic_Boom
-    // name: "sonicBoom",
-    // description: "Banshee emits a sonic shockwave that pushes targets in range with enough force to incapacitate or kill attackers.",
-    tags: AbilityType.Damage | AbilityType.Control,
+    id: "Sonic Boom",
+    tags: 17,
     energyCost: 25,
     props: {
-      Damage: {
-        angel: 180, // 空气中以180度传播
-        damage: [["Impact", S(50)]], // 时造成25 / 35 / 40 / 50的Impact b.png 冲击伤害
-        distance: R(15), // 这个冲击波会传递10 / 12 / 13 / 15米。
-      }
-    },
+      Damage: { angel: 180, damage: [["Impact", S(50)]], distance: R(15) }
+    }
   },
   {
-    id: "Sonar", // https://warframe.huijiwiki.com/wiki/Sonar
-    // name: "sonar",
-    // description: "Using acoustic location, Banshee's Sonar power finds and tracks enemies, and exposes critical weak spots to everyone in your squad.",
-    tags: AbilityType.BuffDebuff,
+    id: "Sonar",
+    tags: 2,
     energyCost: 50,
-    props: {
-      Buff: {
-        effect: [["oad", S(5)]], // 伤害将提升200% / 300% / 400% / 500%。
-        range: R(35),// 在20 / 25 / 30 / 35的技能范围内
-        duration: D(30),  // 持续10 / 15 / 20 / 30秒
-      }
-    },
+    props: { Buff: { effect: [["oad", S(5)]], range: R(35), duration: D(30) } }
   },
   {
-    id: "Silence", // https://warframe.huijiwiki.com/wiki/Silence
-    // name: "silence",
-    // description: "Using Silence surrounds Banshee in an aura that stuns enemies and will limit their perceptions and tactical response to gunfire and Warframe attacks.",
-    tags: 0,
+    id: "Silence",
+    tags: 1,
     energyCost: 75,
+    props: { Control: { range: R(20), duration: D(30) } }
   },
   {
-    id: "Sound Quake", // https://warframe.huijiwiki.com/wiki/Sound_Quake
-    // name: "soundQuake",
-    // description: "Channeling all of her acoustic energy into the environment, Banshee uses ultrasonic reverberations to violently shake the ground.",
+    id: "Sound Quake",
     tags: 0,
     energyCost: 25,
     energyCostPS: 12,
-    props: {
-      Damage: {
-        range: R(20),// 12 / 15 / 18 / 20米范围内的敌人
-        damage: [["Blast", S(200)]], // 每秒受到125 / 150 / 175 / 200点Blast b.png 爆炸
-      }
-    },
+    props: { Damage: { range: R(20), damage: [["Blast", S(200)]] } },
     enhance: {
       modName: "Ji",
       energyCost: 100,
-      props: {
-        Damage: {
-          range: R(35), // 额外增加15m的基础范围
-          damage: [["Blast", S(4000)]],
-        },
-      }
-    },
+      props: { Damage: { range: R(35), damage: [["Blast", S(4000)]] } }
+    }
   },
   {
     id: "Spectral Scream",
-    // name: "spectralScream",
-    // description: "Exhale a deep breath of elemental destruction. Chroma's energy color determines the element.",
-    tags: AbilityType.Damage,
+    tags: 1,
     energyCost: 25,
-    props: {
-      Damage: {
-        // 喷射扇形区域长度受技能范围影响。计算公式为：10 × (1 + 技能范围)^1/3
-        range: R(10), // Chroma向前持续喷出元素能量，对面前4 / 5 / 6.5 / 10米扇形范围内敌人每秒造成100 / 125 / 150 / 200点Heat b.png 火焰, Electricity b.png 电击, Toxin b.png 毒素, 或Cold b.png 冰冻伤害，并附带40% / 45% / 50% / 60%几率触发异常。
-        damage: [["Heat", S(200)]],
-      },
-    }
+    props: { Damage: { range: R(10), damage: [["Heat", S(200)]] } }
   },
   {
     id: "Elemental Ward",
-    // name: "elementalWard",
-    // description: "Depending on Chroma's elemental alignment, an offensive area-of-effect is created. Chroma and its nearby allies are imbued with defensive energy.",
-    tags: AbilityType.BuffDebuff,
+    tags: 2,
     energyCost: 50,
-    props: {
-      Buff: {
-        // Chroma释放出光环效果，为6 / 8 / 10 / 12米半径内的友军和自身提供进攻和防御加成。该效果持续10 / 15 / 20 / 25秒。
-        effect: [["h", S(2)]], // 基础生命值50% / 75% / 100% / 200%的数量加成
-      },
-    }
+    props: { Buff: { effect: [["h", S(2)]] } }
   },
   {
-    id: "Vex Armor", // 怨怒护甲
-    // name: "vexArmor",
-    // description: "When shields are hit, Chroma's armor grows stronger, when health takes a hit, weapon damage increases.",
-    tags: AbilityType.BuffDebuff,
+    id: "Vex Armor",
+    tags: 2,
     energyCost: 75,
-    props: {
-      Buff: {
-        // 蔑视，每损伤1点护盾就会增加Chroma 0.5% / 0.625% / 0.75% / 0.875% 的护甲，最大加成可以提高至200% / 250% / 300% / 350%。
-        // 盛怒，每损伤1点生命值就会增加Chroma 2% / 2.25% / 2.75% 的额外武器伤害，最大加成可以提高至 200% / 225% / 250% / 275% 。
-        effect: [
-          ["a", S(3.5)],
-          ["dmg", S(2.75)]
-        ],
-      },
-    }
+    props: { Buff: { effect: [["a", S(3.5)], ["dmg", S(2.75)]] } }
   },
   {
     id: "Effigy",
-    // name: "effigy",
-    // description: "Chroma turns his pelt into a massive sentry that strengthens nearby allies and engulfs enemies in elemental attacks.",
-    tags: AbilityType.Summon,
+    tags: 32,
     energyCost: 50,
     energyCostPS: 10,
     props: {
-      Summon: {
-        // Chroma与其外甲分离，并赋予它元素力量，使它成为一个悬浮于空中的哨兵。哨兵的生命值为1000 / 2000 / 4000 / 8000。哨兵会使用能量喷射攻击20米范围内的敌人，
-        // 单次攻击造成100 / 200 / 300 / 400 Heat b.png 火焰, Electricity b.png 电击, Toxin b.png 毒素, 或Cold b.png 冰冻伤害。
-        // 哨兵还可以对5米范围内的敌人造成200点Heat b.png 火焰, Electricity b.png 电击, Toxin b.png 毒素, 或Cold b.png 冰冻范围伤害。
-        // 另外，哨兵还可以进行怒吼并暂时眩晕30米范围内的敌人。
-        health: S(8000),
-        range: R(20),
-        damage: [["Heat", S(200)]]
-      },
+      Summon: { health: S(8000), range: R(20), damage: [["Heat", S(200)]] }
     }
   },
   {
-    id: "Fireball", // 火球
-    // name: "fireball",
-    // description: "Charge and release a fiery projectile that ignites enemies on contact and leaves behind a treacherous patch of flame.",
-    tags: AbilityType.Damage,
+    id: "Fireball",
+    tags: 1,
     oneHand: true,
     energyCost: 25,
     props: {
       Damage: {
-        // 与敌人接触时造成150 / 275 / 300 / 400Heat b.png 火焰伤害并且100%触发异常状态。
-        // 火球还会产生50 / 100 / 125 / 150Heat b.png 火焰范围伤害，有50% 的异常状态触发几率。5米的爆炸范围不受技能范围影响
         damage: [["Heat", S(400)]],
         rangeDamage: [["Heat", S(150)]],
         range: 5,
-        prjSpeed: 50,
+        prjSpeed: 50
       }
     }
   },
   {
-    id: "Accelerant", // 助燃
-    // name: "accelerant",
-    // description: "Stun nearby enemies with strong accelerant. Increases all fire damage dealt.",
-    tags: AbilityType.BuffDebuff,
+    id: "Accelerant",
+    tags: 2,
     energyCost: 50,
     props: {
-      Control: {
-        range: R(20),
-      },
-      Buff: {
-        // Ember施放出一波助燃剂，暂时击晕 8 / 12 / 15 / 20米范围内的所有敌人。而Ember自身的技能施放速度也会得到50%的加成，助燃的效果会持续30秒。
-        effect: [["c", S(0.5)]],
-        duration: D(30),
-      },
-      Debuff: {
-        // 所有中招的敌人会在7 / 10 / 12 / 15秒内对受到的Heat b.png 火焰伤害有150% / 175% / 200% / 250%加成。
-        duration: D(15),
-        effect: [["fed", S(2.5)]],
-      }
+      Control: { range: R(20) },
+      Buff: { effect: [["c", S(0.5)]], duration: D(30) },
+      Debuff: { duration: D(15), effect: [["fed", S(2.5)]] }
     }
   },
   {
     id: "Fire Blast",
-    // name: "fireBlast",
-    // description: "Slam the ground to create a wave of plasma that incinerates nearby enemies and forms a persistent ring of fire. Add <DT_FIRE>Heat Damage to weapons by firing them through the ring.",
-    tags: AbilityType.Damage | AbilityType.BuffDebuff,
+    tags: 3,
     energyCost: 75,
     props: {
-      // Ember对地面重击，产生出一个向外扩散至半径5 / 10 / 12 / 15米的爆炎，造成66 / 100 / 141 / 200 Heat b.png 火焰伤害，接触到爆炎的敌人会100%陷入火焰异常，并且会被击退。
-      // 之后地面上会形成一个半径4米、粗1米的水平放置的火圈。火圈持续时间为9 / 12 / 15 / 20秒。进入与火圈接触的敌人每秒会受到37 / 112 / 150 / 225Heat b.png 火焰伤害。
-      Damage: {
-        range: R(15),
-        damage: [["Heat", S(200)]]
-      },
-      Buff: {
-        range: R(4),
-        effect: [["efd", 0.5]]
-      }
+      Damage: { range: R(15), damage: [["Heat", S(200)]] },
+      Buff: { range: R(4), effect: [["efd", 0.5]] }
     }
   },
   {
     id: "World On Fire",
-    // name: "worldOnFire",
-    // description: "Blast nearby foes with a burst of fire, and follow that up with a barrage of fireballs against any enemy who dares approach. Over time, these fireballs burn hotter as they consume more energy.",
-    tags: AbilityType.Damage,
+    tags: 1,
     energyCost: 25,
     energyCostPS: 5,
     props: {
       Damage: {
-        // Ember用手重击地面，对7 / 10 / 12 / 15米范围内最多5个敌人造成250 / 300 / 350 / 400Heat b.png 火焰伤害，并引发一系列的爆炸。
-        // 每次爆炸造成250 / 300 / 350 / 400Heat b.png 火焰伤害。每秒大约会出2到4.5次爆炸。所有技能伤害都有10% / 20% / 25% / 35%的异常触发几率。
         range: R(15),
         damage: [["Heat", S(400)]],
-        rangeDamage: [["Heat", S(400)]],
+        rangeDamage: [["Heat", S(400)]]
       }
     }
   },
   {
-    id: "Metamorphosis", // 昼夜交替
-    // name: "metamorphosis",
-    // description: "Switch forms, temporarily gaining bonus Shields and Armor in Night-Form, or bonus Damage and Speed in Day-Form.",
-    tags: AbilityType.BuffDebuff,
+    id: "Metamorphosis",
+    tags: 2,
     energyCost: 25,
-    props: {
-      Buff: {
-        // Equinox在白昼和黑夜形态之间转换，每种形态都有其特有的能力。每次转化需要1秒左右。转化完成后，Equinox会得到一些暂时属性加成，这些加成会在之后的10 / 15 / 20 / 25秒内逐渐消退。
-        duration: D(25),
-        // 在切换至黑夜形态后，Equinox会在随后的10 / 15 / 20 / 25秒内得到100 / 150 / 200 / 250的护甲和50 / 75 / 100 / 150的护盾容量加成
-        effect: [["a", 2.5], ["s", 1.5]]
-      }
-    }
+    props: { Buff: { duration: D(25), effect: [["a", 2.5], ["s", 1.5]] } }
   },
+  { id: "Rest & Rage", tags: 16, energyCost: 50, props: {} },
+  { id: "Pacify & Provoke", tags: 0, energyCost: 75, props: {} },
+  { id: "Mend & Maim", tags: 0, energyCost: 100, props: {} },
   {
-    id: "Rest & Rage", // 暂息-怒气
-    // name: "restRage",
-    // description: "In Night Form, targets are put to sleep. In Day Form, targets become more vulnerable to damage.",
-    tags: AbilityType.Control,
-    energyCost: 50,
-    props: {
-
-    }
-  },
-  {
-    id: "Pacify & Provoke",
-    // name: "pacifyProvoke",
-    // description: "In Night Form, reduces damage inflicted by nearby enemies. In Day Form, increases Ability Strength of nearby allies.",
-    tags: 0,
-    energyCost: 75,
-  },
-  {
-    id: "Mend & Maim",
-    // name: "mend&Maim",
-    // description: "In Night Form, allies are healed with each nearby enemy killed. In Day Form, nearby enemies are bled and then subjected to a wave of slashing force.",
-    tags: 0,
-    energyCost: 100,
-  },
-  {
-    id: "Slash Dash", // 咖喱
-    // name: "slashDash",
-    // description: "Dash between enemies while slashing with the Exalted Blade.",
-    tags: AbilityType.Damage | AbilityType.Mobility,
+    id: "Slash Dash",
+    tags: 5,
     energyCost: 25,
     props: {
       Damage: {
-        damage: [["Impact", S(37.5)], ["Puncture", S(37.5)], ["Slash", S(175)]], // 250点基础 15%的Impact b.png 冲击、15%的Puncture b.png 穿刺和70%Slash b.png 切割
-        affectBy: "melee",
+        damage: [["Impact", S(37.5)], ["Puncture", S(37.5)], ["Slash", S(175)]],
+        affectBy: "melee"
       },
-      Move: {
-        directive: 1,
-        distance: R(12),// 对前方6 / 8 / 10 / 12米半径
-      },
-    },
+      Move: { directive: 1, distance: R(12) }
+    }
   },
   {
     id: "Radial Blind",
-    // name: "radialBlind",
-    // description: "Emits a bright flash of light, blinding all enemies in a small radius for several seconds.",
-    tags: AbilityType.Control,
+    tags: 16,
     energyCost: 50,
-    props: {
-      Control: {
-        // 使8 / 12 / 15 / 25米范围的敌人失明7 / 10 / 12 / 15秒。
-        range: R(25),
-        duration: D(15),
-      },
-    },
+    props: { Control: { range: R(25), duration: D(15) } }
   },
   {
     id: "Radial Javelin",
-    // name: "radialJavelin",
-    // description: "Launches javelins towards enemies, dealing high damage and impaling them to walls.",
     tags: 0,
     energyCost: 75,
     props: {
-      // 在15 / 18 / 22 / 25米范围内的 5 / 7 / 10 / 12 个敌人
-      // 1000总伤害 3伤害数值均等
       Damage: {
         range: R(25),
-        damage: [["Impact", S(333.3)], ["Puncture", S(333.3)], ["Slash", S(333.3)]],
-      },
-    },
+        damage: [
+          ["Impact", S(333.3)],
+          ["Puncture", S(333.3)],
+          ["Slash", S(333.3)]
+        ]
+      }
+    }
   },
   {
     id: "Exalted Blade",
-    // name: "exaltedBlade",
-    // description: "Summon a sword of pure light and immense power.",
     tags: 0,
     energyCost: 100,
     props: {
       ExaltedWeapon: {
         weaponName: "Exalted Blade",
-        effect: [["oad", S(1, -1)]],
+        effect: [["oad", { value: 1, bind: [["t", -1]] }]]
       }
-    },
+    }
   },
-  {
-    id: "Radial Howl",
-    // name: "radialHowl",
-    // description: "Let out ferocious howl that stuns nearby enemies and causes Sentients to shed any built up resistances.",
-    tags: 0,
-    energyCost: 25,
-  },
+  { id: "Radial Howl", tags: 0, energyCost: 25, props: {} },
   {
     id: "Freeze",
-    // name: "freeze",
-    // description: "A frigid energy blast that freezes targets in their tracks.",
-    tags: 0,
+    tags: 17,
     energyCost: 50,
+    props: {
+      Damage: { damage: [["Cold", S(350)]], rangeDamage: [["Cold", S(150)]] },
+      Control: { duration: D(15) },
+      Debuff: {}
+    },
+    oneHand: true
   },
   {
     id: "Ice Wave",
-    // name: "iceWave",
-    // description: "Sends a wave of razor sharp, crystalized ice toward an enemy, dealing heavy damage.",
-    tags: 0,
+    tags: 17,
     energyCost: 75,
+    props: {
+      Damage: { damage: [["Cold", S(700)]], angel: R(45), distance: R(20) }
+    }
   },
   {
     id: "Snow Globe",
-    // name: "snowGlobe",
-    // description: "Frost deep freezes any vapor and moisture in the area, creating a protective sphere with brief invulnerability to boost its strength.",
-    tags: AbilityType.Damage | AbilityType.Control,
+    tags: 49,
     energyCost: 100,
+    props: {
+      Summon: { health: S(5000) },
+      Damage: { damage: [["Blast", S(150)]] }
+    }
   },
   {
     id: "Avalanche",
-    // name: "avalanche",
-    // description: "Summons a treacherous landslide of ice that instantly freezes and shatters all enemies in its radius.",
-    tags: 0,
+    tags: 17,
     energyCost: 25,
+    props: {
+      Damage: {
+        damage: [["Cold", S(1500)]],
+        rangeDamage: [["Cold", S(400)]],
+        distance: R(15)
+      },
+      Control: { duration: D(8), range: R(15) }
+    }
   },
   {
     id: "Shattered Lash",
-    // name: "shatteredLash",
-    // description: "Lash out with stream of shattered glass, or hold for an arcing strike.",
-    tags: 0,
+    tags: 1,
     energyCost: 50,
+    props: {
+      Damage: {
+        damage: [["Puncture", S(800)]],
+        rangeDamage: [["Slash", S(800)]]
+      }
+    }
   },
   {
     id: "Splinter Storm",
-    // name: "splinterStorm",
-    // description: "Gara’s armor splinters into a maelstrom of shattered glass. Allies who contact the cloud are fortified against damage.",
-    tags: 0,
+    tags: 2,
     energyCost: 50,
+    props: {
+      DamageReduce: { rate: { value: 70, bind: [["t", 0]], maxValue: 90 } },
+      Damage: {
+        damage: [["Slash", S(83.3)], ["Impact", S(83.3)], ["Puncture", S(83.3)]]
+      }
+    }
   },
   {
     id: "Spectrorage",
-    // name: "spectrorage",
-    // description: "Trap enemies in a carousel of mirrors, forcing them to attack visions of their true selves. Destroyed mirrors damage their attackers, as does the collapse of the carousel.",
-    tags: 0,
+    tags: 16,
     energyCost: 75,
+    props: {
+      Summon: {
+        damage: [["Impact", S(500)], ["Puncture", S(500)], ["Slash", S(500)]],
+        distance: R(100),
+        health: 800
+      }
+    }
   },
   {
     id: "Mass Vitrify",
-    // name: "massVitrify",
-    // description: "Create an expanding ring of molten glass that slowly crystallizes enemies who enter. When the expansion is complete, the ring hardens to block weapons fire. The ring draws extra strength from the health and shields of crystallized enemies. Use Shattered Lash to smash the ring and send razor-sharp glass flying outward.",
-    tags: 0,
+    tags: 49,
     energyCost: 100,
+    props: {
+      Summon: {
+        health: S(2225),
+        rangeDamage: [["Puncture", S(600)]],
+        range: R(8),
+        distance: R(11),
+        duration: D(3)
+      }
+    }
   },
   {
     id: "Dread Mirror",
-    // name: "dreadMirror",
-    // description: "Rip the life force from an enemy and use it as a shield that captures damage, this kills significantly weakened enemies instantly. Charge to channel the captured damage into an explosive projectile.",
-    tags: AbilityType.Damage,
+    tags: 5,
     energyCost: 25,
+    props: {
+      Move: { distance: R(30) },
+      Damage: { damage: [["Impact", 100]], distance: R(30) }
+    }
   },
-  {
-    id: "Blood Altar",
-    // name: "bloodAltar",
-    // description: "Impale an enemy on an altar of talons and siphon health for Garuda and her allies.",
-    tags: 0,
-    energyCost: 50,
-  },
+  { id: "Blood Altar", tags: 0, energyCost: 50, props: {} },
   {
     id: "Bloodletting",
-    // name: "bloodletting",
-    // description: "Garuda sacrifices her health to generate energy.",
     tags: 0,
     energyCost: 0,
+    props: { Special: { desc: "能量值获得", value: E(25) } }
   },
   {
     id: "Seeking Talons",
-    // name: "seekingTalons",
-    // description: "Charge to expand the targeting area, release to send Garuda’s talons careening toward each target in area. Surviving enemies are prone to bleeding.",
-    tags: 0,
+    tags: 3,
     energyCost: 100,
+    props: {
+      Damage: {
+        damage: [["Slash", S(150)]],
+        angel: 95,
+        distance: 60,
+        prjSpeed: 80,
+        amount: 8
+      },
+      Buff: { desc: "造成额外切割" }
+    }
   },
   {
     id: "Condemn",
-    // name: "condemn",
-    // description: "Cast a wave of energy that chains them where they stand. Each enemy held reinforces Harrow’s shields.",
-    tags: 0,
+    tags: 16,
     energyCost: 25,
+    props: {
+      Control: { duration: D(6), range: 20, angel: 15 },
+      Special: { desc: "回复护盾", value: S(150) }
+    }
   },
   {
     id: "Penance",
-    // name: "penance",
-    // description: "Sacrifice shields to boost reload, and Fire Rate while converting damage inflicted on enemies into health for Harrow and nearby allies.",
-    tags: 0,
+    tags: 2,
     energyCost: 50,
+    props: { Buff: { effect: [["R", S(35)], ["F", S(70)]], duration: D(4) } }
   },
   {
     id: "Thurible",
-    // name: "thurible",
-    // description: "Channel Harrow’s energy into the Thurible to generate a buff. Once finished, kill enemies to bestow nearby allies with bursts of energy. The more energy channeled the greater the reward for each kill. Headshots produce extra energy.",
-    tags: 0,
+    tags: 2,
     energyCost: 75,
+    props: { Buff: { desc: "爆头回蓝", effect: [] } }
   },
   {
     id: "Covenant",
-    // name: "covenant",
-    // description: "Protect nearby allies with an energy force that absorbs all damage and converts it to a Critical Chance bonus for all those under the Covenant. Headshots are amplified even further.",
-    tags: 0,
+    tags: 2,
     energyCost: 10,
+    props: { Buff: { effect: [["eca", 50]], duration: D(6) } }
   },
   {
     id: "Tempest Barrage",
-    // name: "tempestBarrage",
-    // description: "Target an area and call down a barrage of liquid fury. Charge this attack to increase the lethality of the onslaught.",
-    tags: 0,
+    tags: 1,
     energyCost: 25,
+    props: {
+      Damage: { damage: [["Impact", 150]], range: R(10), duration: D(5) }
+    },
+    oneHand: true
   },
   {
     id: "Tidal Surge",
-    // name: "tidalSurge",
-    // description: "Crash through enemies in a ferocious wall of water.",
-    tags: 0,
+    tags: 5,
     energyCost: 50,
+    props: {
+      Move: { directive: 0, distance: D(30) },
+      Damage: { damage: [["Slash", S(300)]] }
+    }
   },
   {
     id: "Undertow",
-    // name: "undertow",
-    // description: "Become a water trap and drown unsuspecting enemies.",
-    tags: 0,
+    tags: 17,
     energyCost: 75,
+    props: {
+      Damage: { damage: [["Impact", S(25)]], range: R(4) },
+      Control: { range: R(4) }
+    }
   },
   {
-    id: "Tentacle Swarm", // 水男4
-    // name: "tentacleSwarm",
-    // description: "Tap to spawn watery tentacles from all nearby surfaces to wreak havoc. Charge to increase the number of tentacles and spawn area. Use while in Undertow to have the tentacles emerge from the pool.",
-    tags: 0,
+    id: "Tentacle Swarm",
+    tags: 1,
     energyCost: 100,
+    props: {
+      Damage: {
+        damage: [["Magnetic", S(300)], ["True", S(200)]],
+        duration: D(20),
+        range: R(5),
+        amount: 8
+      }
+    }
   },
   {
-    id: "Desiccation", // 沙甲
-    // name: "desiccation",
-    // description: "Blast enemies with a wave of cursed sand that blinds them and steals their health.",
-    tags: 0,
+    id: "Desiccation",
+    tags: 16,
     energyCost: 25,
+    props: {
+      Damage: {
+        damage: [["Slash", S(150)]],
+        duration: D(8),
+        angel: 75,
+        range: R(15)
+      }
+    }
   },
   {
     id: "Devour",
-    // name: "devour",
-    // description: "Hold power to trap target in quicksand and draw them in for devouring; this steals health and ultimately creates a friendly Sand Shadow.",
-    tags: 0,
+    tags: 17,
     energyCost: 50,
+    props: { Control: { distance: R(50), duration: D(30) } }
   },
   {
     id: "Sandstorm",
-    // name: "sandstorm",
-    // description: "Become a whirling spiral of sand that sends enemies flying and devours those trapped in quicksand.",
-    tags: AbilityType.Damage | AbilityType.Control,
+    tags: 17,
     energyCost: 75,
     energyCostPS: 10,
+    props: { Damage: { damage: [["Slash", S(500)]], range: R(7.5) } }
   },
   {
     id: "Scarab Swarm",
-    // name: "scarabSwarm",
-    // description: "Charge to transform Health into hardened Scarab Armor. Discharge to blast enemies with a scarab swarm. Survivors have their Health drained and bestowed on allies.",
-    tags: 0,
+    tags: 3,
     energyCost: 25,
+    props: {
+      Buff: { effect: [["a", 100]] },
+      Damage: { damage: [["Slash", S(200)]], distance: R(30) }
+    },
+    oneHand: true
   },
   {
-    id: "Quiver", // 弓
-    // name: "quiver",
-    // description: "Cycle through and shoot one of four tactical arrows: Cloak, Dashwire, Noise and Sleep. In the Conclave, use the Null-Shield and Slow Arrows.",
-    tags: 0,
+    id: "Quiver",
+    tags: 16,
     energyCost: 25,
+    props: {
+      Control: { range: R(6), duration: D(10) },
+      Buff: { effect: [["ivb", 1]], duration: D(12), range: R(2.5) }
+    }
   },
   {
     id: "Navigator",
-    // name: "navigator",
-    // description: "Assume control of a projectile and guide it to the target.",
-    tags: AbilityType.BuffDebuff,
+    tags: 2,
     energyCost: 25,
-    energyCostPS: 3,// 能量消耗： (3 + 2 × 控制时长) 点/秒
+    energyCostPS: 3,
+    props: { Buff: { target: 1, effect: [["oad", S(500)]] } }
   },
   {
     id: "Prowl",
-    // name: "prowl",
-    // description: "Become invisible and steal loot from unsuspecting enemies or take out prey with deadly headshots.",
-    tags: 0,
+    tags: 10,
     energyCost: 25,
+    props: { Buff: { effect: [["ivb", 1]] } }
   },
   {
     id: "Artemis Bow",
-    // name: "artemisBow",
-    // description: "Summon a mighty bow and unleash a volley of devastating arrows.",
-    tags: AbilityType.BuffDebuff,
+    tags: 2,
     energyCost: 25,
     props: {
       ExaltedWeapon: {
         weaponName: "Artemis Bow",
-        effect: [["oad", S(1, -1)]],
+        effect: [["oad", { value: 1, bind: [["t", -1]] }]]
       }
     }
   },
   {
-    id: "Whipclaw", // 猫
-    // name: "whipclaw",
-    // description: "Send enemies reeling with a deafening whipcrack.",
+    id: "Whipclaw",
     tags: 0,
     energyCost: 25,
+    props: {
+      ExaltedWeapon: { weaponName: "Whipclaw", effect: [["oad", S(100)]] },
+      Damage: {
+        damage: [["Impact", S(80)], ["Puncture", S(80)], ["Slash", S(120)]],
+        range: R(5),
+        distance: R(10)
+      }
+    },
+    oneHand: true
   },
   {
     id: "Ensnare",
-    // name: "ensnare",
-    // description: "Bind a hapless target in living metal, entangling others who stray too close. Whipclaw will refresh the trap allowing it to capture more enemies.",
-    tags: AbilityType.Control,
+    tags: 16,
     energyCost: 50,
-    props: {
-      // 15 / 20 / 25 / 30米内
-      // 困于活动的金属10 / 12 / 13 / 15秒
-      Control: {
-        distance: R(30),
-        duration: D(15),
-      },
-    },
+    props: { Control: { distance: R(30), duration: D(15) } }
   },
   {
     id: "Venari",
-    // name: "venari",
-    // description: "Command Venari to focus on a target. Hold to cycle between Attack, Protect, and Heal postures. If Venari is killed, use this ability to revive her instantly.",
-    tags: AbilityType.Summon,
+    tags: 32,
     energyCost: 0,
+    props: { Summon: { damage: [["Slash", 350]] } }
   },
   {
     id: "Strangledome",
-    // name: "strangledome",
-    // description: "Weave a dome of living chain that ensnares and strangles any enemy within, and any foolish enough to approach. Foes outside the trap will try to hasten their comrade's deaths by shooting them. Crack Whipclaw on the dome to further damage any trapped enemies.",
-    tags: AbilityType.Damage | AbilityType.Control,
+    tags: 17,
     energyCost: 100,
     props: {
-      // 持续5 / 10 / 15 / 20秒
       Damage: {
-        // 250 333分布
         damage: [["Impact", S(80)], ["Puncture", S(80)], ["Slash", S(90)]],
-        // 5 m (穹顶半径)
-        // 5 / 5 / 6 / 10 米 (抓取半径)
         distance: R(5),
         range: R(10),
-        duration: D(20),
+        duration: D(20)
       },
-      Control: {
-        distance: R(5),
-        range: R(10),
-        duration: D(20),
-      },
-    },
-  },
-  {
-    id: "Banish", // 小明
-    // name: "banish",
-    // description: "Casts a wave of Rift energy that damages hostiles while pushing enemies and allies out of Limbo’s current plane of existence.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Stasis",
-    // name: "stasis",
-    // description: "Freezes Rift-bound enemies. While active, enemy projectiles are arrested in mid-air, resuming its trajectory when stasis ends.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Rift Surge",
-    // name: "riftSurge",
-    // description: "Surges nearby Rift-bound enemies with Rift energy. When killed the Rift Surge is transferred to a nearby enemy outside the rift. Surged enemies that leave the Rift perform a radial Banish.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Cataclysm",
-    // name: "cataclysm",
-    // description: "A violent blast of Void energy tears open a pocket of rift plane which can sustain itself for a short period before collapsing in another lethal blast.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Decoy",
-    // name: "decoy",
-    // description: "Loki deploys a holographic copy of himself, drawing enemy fire.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Invisibility",
-    // name: "invisibility",
-    // description: "Loki camouflages himself, becoming invisible to enemies.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Switch Teleport",
-    // name: "switchTeleport",
-    // description: "Loki instantaneously swaps positions with a target, confusing the enemy.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Radial Disarm",
-    // name: "radialDisarm",
-    // description: "Lets forth a wave of energy, disrupting the projectile weapons of enemies in range and forcing them to revert to melee combat.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Pull",
-    // name: "pull",
-    // description: "Magnetic force pulls enemies toward you, stunning them and bringing them into melee range.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Magnetize",
-    // name: "magnetize",
-    // description: "Creates a magnetic field around a target, ensnaring nearby enemies and dealing damage over time. The field reacts to bullets and shards created from Polarize to increase the damage.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Polarize",
-    // name: "polarize",
-    // description: "Emit an energy pulse that depletes enemy shields and armor, creating shards which become deadly when mixed with Magnetize. Shields of allies touched by the pulse are restored.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Crush",
-    // name: "crush",
-    // description: "Magnetizes the bones of nearby enemies, causing them to collapse upon themselves.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Ballistic Battery",
-    // name: "ballisticBattery",
-    // description: "When activated, this power stores damage caused by guns. When triggered again, that damage is channelled through the next gunshot.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Shooting Gallery",
-    // name: "shootingGallery",
-    // description: "Gives an ally extra damage while jamming the guns of nearby enemies. This power shifts between team members.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Shatter Shield",
-    // name: "shatterShield",
-    // description: "Envelops Mesa in a barrier of energy, reflecting back incoming bullet damage.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Peacemaker",
-    // name: "peacemaker",
-    // description: "With intense focus, Mesa draws her Regulator pistols, shooting down her foes in rapid succession.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Hall Of Mirrors",
-    // name: "hallOfMirrors",
-    // description: "Mirage creates an entourage of doppelgangers to confuse and distract the enemy.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Sleight Of Hand",
-    // name: "sleightOfHand",
-    // description: "Booby trap nearby objects while conjuring an irresistible jewel that bursts with radial blind when touched in darkness, or a radial explosion in light. Conjure multiple smaller jewels with the help of Hall of Mirrors.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Eclipse",
-    // name: "eclipse",
-    // description: "Standing in light, Mirage deals heavy damage, while the shadows make Mirage difficult to track and even harder to hurt.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Prism",
-    // name: "prism",
-    // description: "Fires an energy prism that shoots lasers in all directions. Activating again detonates the prism, blinding nearby foes.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Soul Punch",
-    // name: "soulPunch",
-    // description: "A blow so powerful, it turns the enemy's very soul into a deadly projectile, damaging all in its path.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Terrify",
-    // name: "terrify",
-    // description: "Cast fear into the hearts of nearby enemies, causing them to run away in terror.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Desecrate",
-    // name: "desecrate",
-    // description: "Forces fallen enemies around you to drop additional loot.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Shadows Of The Dead",
-    // name: "shadowsOfTheDead",
-    // description: "Summon shadow versions of vanquished enemies to fight alongside you for a short period.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Fire Walker",
-    // name: "fireWalker",
-    // description: "Blaze a trail of flames, scorching enemies and cleansing allies. Teleporting blasts the landing area with a ring of fire.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Blazing Chakram",
-    // name: "blazingChakram",
-    // description: "Hurl a flaming ring that sets enemies ablaze making them vulnerable to any damage. Flaming enemies drop Restorative Orbs on death. Charge to amplify the power of the ring, and reactivate to instantly travel to the ring's location.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Warding Halo", // 混天火绫
-    // name: "wardingHalo",
-    // description: "Create a protective ring of fire, that also stuns and damages enemies who get too close.",
-    tags: AbilityType.BuffDebuff,
-    energyCost: 75,
-    props: {
+      Control: { distance: R(5), range: R(10), duration: D(20) }
     }
   },
   {
-    id: "Divine Spears", // 圣火尖枪
-    // name: "divineSpears",
-    // description: "Impale nearby enemies on spears that erupt from the below. Activate again to slam surviving enemies back into the ground.",
-    tags: AbilityType.Damage | AbilityType.Control,
-    energyCost: 100,
+    id: "Banish",
+    tags: 1,
+    energyCost: 25,
     props: {
       Damage: {
-        // 光枪从地面爆发，刺穿半径10 / 13 / 16 / 19米内的敌人
-        // 并造成150 / 300 / 450 / 600点Puncture b.png 穿刺伤害。
-        // 在技能持续时间结束或玩家手动解除技能（默认4）后，被刺穿的敌人会被砸到地面并受到 150 / 300 / 450 / 600点Impact b.png 冲击 伤害。
-        damage: [["Puncture", S(600)]],
-        range: R(19),
+        damage: [["Impact", S(250)]],
+        range: R(35),
+        rangeDamage: [["Impact", 300]],
+        angel: 75
+      },
+      Special: { desc: "放逐" }
+    }
+  },
+  {
+    id: "Stasis",
+    tags: 16,
+    energyCost: 50,
+    props: { Control: { duration: D(15) } }
+  },
+  {
+    id: "Rift Surge",
+    tags: 17,
+    energyCost: 75,
+    props: {
+      Damage: {
+        damage: [["Impact", S(250)]],
+        rangeDamage: [["Impact", 300]],
+        range: R(25),
+        duration: D(18)
+      }
+    }
+  },
+  { id: "Cataclysm", tags: 0, energyCost: 100, props: {} },
+  {
+    id: "Decoy",
+    tags: 32,
+    energyCost: 25,
+    props: { Summon: { health: 200, duration: D(25) } }
+  },
+  {
+    id: "Invisibility",
+    tags: 2,
+    energyCost: 50,
+    props: { Buff: { effect: [["ivb", 1]], duration: D(12) } }
+  },
+  {
+    id: "Switch Teleport",
+    tags: 4,
+    energyCost: 25,
+    props: { Move: { directive: 2, distance: R(75) } }
+  },
+  {
+    id: "Radial Disarm",
+    tags: 16,
+    energyCost: 100,
+    props: { Special: { desc: "缴械" }, Control: { range: R(20) } }
+  },
+  {
+    id: "Pull",
+    tags: 17,
+    energyCost: 25,
+    props: {
+      Damage: { damage: [["Magnetic", S(300)]], range: R(25), angel: 85 },
+      Special: { desc: "牵引" }
+    }
+  },
+  {
+    id: "Magnetize",
+    tags: 17,
+    energyCost: 50,
+    props: {
+      Damage: { damage: [["Blast", S(300)]], duration: D(15), range: R(4) },
+      Special: { desc: "吸引子弹" }
+    },
+    oneHand: true
+  },
+  {
+    id: "Polarize",
+    tags: 0,
+    energyCost: 75,
+    props: {
+      Damage: { damage: [["Impact", S(400)]], range: R(8), duration: D(5) },
+      Special: { desc: "回复护盾" }
+    }
+  },
+  {
+    id: "Crush",
+    tags: 1,
+    energyCost: 100,
+    props: { Damage: { damage: [["Magnetic", S(1500)]], range: R(18) } }
+  },
+  { id: "Ballistic Battery", tags: 0, energyCost: 25, props: {} },
+  { id: "Shooting Gallery", tags: 0, energyCost: 50, props: {} },
+  { id: "Shatter Shield", tags: 0, energyCost: 75, props: {} },
+  { id: "Peacemaker", tags: 0, energyCost: 100, props: {} },
+  { id: "Hall Of Mirrors", tags: 0, energyCost: 25, props: {} },
+  { id: "Sleight Of Hand", tags: 0, energyCost: 50, props: {} },
+  { id: "Eclipse", tags: 0, energyCost: 75, props: {} },
+  { id: "Prism", tags: 0, energyCost: 100, props: {} },
+  { id: "Soul Punch", tags: 0, energyCost: 25, props: {} },
+  { id: "Terrify", tags: 0, energyCost: 50, props: {} },
+  { id: "Desecrate", tags: 0, energyCost: 75, props: {} },
+  { id: "Shadows Of The Dead", tags: 0, energyCost: 100, props: {} },
+  { id: "Fire Walker", tags: 0, energyCost: 25, props: {} },
+  { id: "Blazing Chakram", tags: 0, energyCost: 25, props: {} },
+  { id: "Warding Halo", tags: 2, energyCost: 75, props: {} },
+  {
+    id: "Divine Spears",
+    tags: 17,
+    energyCost: 100,
+    props: {
+      Damage: { damage: [["Puncture", S(600)]], range: R(19) },
+      Control: { duration: D(12), range: R(19) }
+    }
+  },
+  { id: "Virulence", tags: 0, energyCost: 25, props: {} },
+  { id: "Larva", tags: 0, energyCost: 50, props: {} },
+  { id: "Parasitic Link", tags: 0, energyCost: 75, props: {} },
+  { id: "Ravenous", tags: 0, energyCost: 100, props: {} },
+  { id: "Null Star", tags: 0, energyCost: 25, props: {} },
+  { id: "Antimatter Drop", tags: 0, energyCost: 50, props: {} },
+  { id: "Worm Hole", tags: 0, energyCost: 75, props: {} },
+  { id: "Molecular Prime", tags: 0, energyCost: 100, props: {} },
+  { id: "Mind Control", tags: 0, energyCost: 25, props: {} },
+  { id: "Psychic Bolts", tags: 0, energyCost: 50, props: {} },
+  { id: "Chaos", tags: 0, energyCost: 75, props: {} },
+  { id: "Absorb", tags: 0, energyCost: 100, props: {} },
+  { id: "Smite", tags: 0, energyCost: 25, props: {} },
+  { id: "Hallowed Ground", tags: 0, energyCost: 50, props: {} },
+  { id: "Renewal", tags: 0, energyCost: 75, props: {} },
+  { id: "Reckoning", tags: 0, energyCost: 100, props: {} },
+  { id: "Mallet", tags: 0, energyCost: 25, props: {} },
+  { id: "Resonator", tags: 0, energyCost: 50, props: {} },
+  { id: "Metronome", tags: 0, energyCost: 75, props: {} },
+  { id: "Amp", tags: 0, energyCost: 100, props: {} },
+  { id: "Enthrall", tags: 0, energyCost: 25, props: {} },
+  { id: "Mesmer Skin", tags: 0, energyCost: 50, props: {} },
+  { id: "Reave", tags: 0, energyCost: 75, props: {} },
+  { id: "Danse Macabre", tags: 0, energyCost: 100, props: {} },
+  { id: "Rhino Charge", tags: 0, energyCost: 25, props: {} },
+  { id: "Iron Skin", tags: 0, energyCost: 50, props: {} },
+  { id: "Roar", tags: 0, energyCost: 75, props: {} },
+  { id: "Rhino Stomp", tags: 0, energyCost: 100, props: {} },
+  { id: "Spores", tags: 0, energyCost: 25, props: {} },
+  { id: "Molt", tags: 0, energyCost: 50, props: {} },
+  { id: "Toxic Lash", tags: 0, energyCost: 75, props: {} },
+  { id: "Miasma", tags: 0, energyCost: 100, props: {} },
+  { id: "Spellbind", tags: 0, energyCost: 25, props: {} },
+  { id: "Tribute", tags: 0, energyCost: 50, props: {} },
+  { id: "Lantern", tags: 0, energyCost: 75, props: {} },
+  { id: "Razorwing", tags: 0, energyCost: 100, props: {} },
+  { id: "Well Of Life", tags: 0, energyCost: 25, props: {} },
+  { id: "Energy Vampire", tags: 0, energyCost: 50, props: {} },
+  { id: "Link", tags: 0, energyCost: 75, props: {} },
+  { id: "Blessing", tags: 0, energyCost: 100, props: {} },
+  { id: "Rip Line", tags: 0, energyCost: 25, props: {} },
+  { id: "Warcry", tags: 0, energyCost: 50, props: {} },
+  { id: "Paralysis", tags: 0, energyCost: 75, props: {} },
+  { id: "Hysteria", tags: 0, energyCost: 100, props: {} },
+  { id: "Tesla", tags: 0, energyCost: 25, props: {} },
+  { id: "Minelayer", tags: 0, energyCost: 50, props: {} },
+  { id: "Bastille", tags: 0, energyCost: 75, props: {} },
+  { id: "Vortex", tags: 0, energyCost: 100, props: {} },
+  { id: "Shock", tags: 0, energyCost: 25, props: {} },
+  { id: "Speed", tags: 0, energyCost: 50, props: {} },
+  { id: "Electric Shield", tags: 0, energyCost: 75, props: {} },
+  { id: "Discharge", tags: 0, energyCost: 100, props: {} },
+  {
+    id: "Iron Jab",
+    tags: 1,
+    energyCost: 25,
+    props: {
+      Damage: {
+        damage: [
+          ["Impact", S(800)]
+        ],
+        range: 10
       },
       Control: {
-        // 并将其钉在原地6 / 8 / 10 / 12秒。在此期间，敌人无法移动或攻击。
-        duration: D(12),
-        range: R(19),
+        range: R(2)
+      }
+    }
+  }, {
+    id: "Defy",
+    tags: 2,
+    energyCost: 50,
+    props: {
+      Special: {
+        desc: "濒死时回血，并无敌数秒"
+      },
+      Buff: {
+        desc: "无敌",
+        duration: D(5)
+      }
+    }
+  }, {
+    id: "Cloud Walker",
+    tags: 4,
+    energyCost: 75,
+    props: {
+      Control: {
+        range: R(8)
+      },
+      Special: {
+        desc: "使玩家向任意方向移动，激活时无敌"
+      }
+    }
+  }, {
+    id: "Primal Fury",
+    tags: 0,
+    energyCost: 0,
+    energyCostPS: 3,
+    props: {
+      ExaltedWeapon: {
+        weaponName: "Iron Staff",
+        effect: [["oad", S(100)]]
       }
     }
   },
   {
-    id: "Virulence",
-    // name: "virulence",
-    // description: "Rupture the ground with a damaging fungal growth that steals energy from each enemy it strikes. For every five enemies hit, the Infestation mutates, multiplying its destructive force.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Larva",
-    // name: "larva",
-    // description: "Spawn an Infested pod that erupts with tendrils, latches onto nearby enemies and pulls them in.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Parasitic Link",
-    // name: "parasiticLink",
-    // description: "Bind to a target with a parasitic link. For allies, both the host and Nidus deal increased damage. Linked enemies take the damage inflicted on Nidus.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Ravenous",
-    // name: "ravenous",
-    // description: "Gluttonous maggots swarm nearby enemies, feasting until they are hit with Virulence and burst with Infestation. The maggots benefit from Mutation and each enemy hit adds to the Mutation stack.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Null Star",
-    // name: "nullStar",
-    // description: "Creates antimatter particles that orbit Nova and seek nearby targets. Each active particle gives +5% damage reduction to Nova's health, stacking up to 90%.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Antimatter Drop",
-    // name: "antimatterDrop",
-    // description: "Launches a contained particle of antimatter that will detonate upon collision with increased deadliness when targeted by weapons.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Worm Hole",
-    // name: "wormHole",
-    // description: "Creates a wormhole allowing instantaneous travel.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Molecular Prime",
-    // name: "molecularPrime",
-    // description: "Primes all enemies in a radius with volatile antimatter.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Mind Control",
-    // name: "mindControl",
-    // description: "Nyx invades the psyche of a target, confusing enemies and making them fight for the Tenno cause.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Psychic Bolts",
-    // name: "psychicBolts",
-    // description: "Nyx launches a cluster of force bolts at enemies, using telekinesis to adjust flight paths and seek nearby targets.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Chaos",
-    // name: "chaos",
-    // description: "With a powerful psychic blast, Nyx causes mass hysteria on the battlefield by confusing all enemies to attack random factions.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Absorb",
-    // name: "absorb",
-    // description: "Nyx absorbs all incoming damage and channels that collected energy into an explosive radial discharge.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Smite",
-    // name: "smite",
-    // description: "Focuses deadly energy within a target and then projects it outwards, damaging both the target and surrounding enemies.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Hallowed Ground",
-    // name: "hallowedGround",
-    // description: "Sanctifies the ground before Oberon with righteous fire, inflicting damage to any enemy that stands in the flames.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Renewal",
-    // name: "renewal",
-    // description: "Healing waves of energy flow outward from Oberon to his allies, regenerating Health over time.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Reckoning",
-    // name: "reckoning",
-    // description: "Quickly lifts enemies into the air and then hurls them down with conviction. Enemies who succumb to this power have a chance to spawn a Health Sphere.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Mallet",
-    // name: "mallet",
-    // description: "Rhythmically beats damage into nearby enemies and draws their fire. Damage inflicted on the Mallet increases its lethality.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Resonator",
-    // name: "resonator",
-    // description: "Launches a rollerball that charms foes to follow it. Combines with the Mallet to create a roving ball of sonic destruction.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Metronome",
-    // name: "metronome",
-    // description: "Grants buffs to those who consistently perform actions in time to Octavia’s music. Timed jumps offer the Vivace speed buff. Crouching on the beat grants cloaking with the Nocturne buff. Firing rhythmically bestows Opera multishot buff. Timed melee swings give the Forte damage buff.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Amp",
-    // name: "amp",
-    // description: "Draws power from the decibel level of sound in the area and uses it to amplify a damage buff for Octavia and her allies. It also doubles the damage and range of nearby Mallets.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Enthrall",
-    // name: "enthrall",
-    // description: "Convert a target into a zealous thrall. Thralls turn on their allies and enthrall through damage. On death, they disintegrate into a damaging pillar of energy. The thrall horde remains under Revenants spell until this ability runs out.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Mesmer Skin",
-    // name: "mesmerSkin",
-    // description: "Become enveloped in Sentient energy, redirecting damage and stunning all those who dare attack. Stunned enemies can be Enthralled at no energy cost.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Reave",
-    // name: "reave",
-    // description: "Dash through enemies as a wall of sentient energy, leeching shields and health from any encountered, enhanced for thralls.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Danse Macabre",
-    // name: "danseMacabre",
-    // description: "Erupt with a multitude of Eidolon energy beams and sweep a circle of death around Revenant. The beams will modify their Damage Type to target select defenses, while incoming damage is redirected back into the beams. Hold fire to boost Status Effects and Damage, at the cost of increased energy consumption. Thralls killed by this ability leave overshield pickups.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Rhino Charge",
-    // name: "rhinoCharge",
-    // description: "Rhino charges towards a target, clobbering any in his path and goring his victim.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Iron Skin",
-    // name: "ironSkin",
-    // description: "Rhino hardens his skin, insulating himself from all damage.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Roar",
-    // name: "roar",
-    // description: "Grants all nearby Warframes increased damage for a short duration.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Rhino Stomp",
-    // name: "rhinoStomp",
-    // description: "Rhino stomps with force sufficient to disrupt time, tumbling enemies around him in stasis.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Spores",
-    // name: "spores",
-    // description: "Inflict a target with a pox of <DT_CORROSIVE>Corrosive spores. Spread spores to nearby enemies by destroying them or killing their host. The longer the Spore spreads, its damage will increase.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Molt",
-    // name: "molt",
-    // description: "Shedding her skin like a snake, Saryn leaves a decoy behind to draw fire from enemies.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Toxic Lash",
-    // name: "toxicLash",
-    // description: "While active, attacks deal additional <DT_POISON>Toxin Damage; this effect is doubled for Melee Strikes. Instantly burst spores when attacking afflicted enemies.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Miasma",
-    // name: "miasma",
-    // description: "Release a poisonous miasma that deals <DT_VIRAL>Viral Damage to enemies in range. Foes afflicted by spores are more susceptible to the mist.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Spellbind",
-    // name: "spellbind",
-    // description: "Enemies fumble their weapons as they are whisked into the air. Nearby allies become immune to Status Effects.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Tribute",
-    // name: "tribute",
-    // description: "Extract an offering from an enemy in the form of a random Ability Buff. Survivor’s attacks are weakened.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Lantern",
-    // name: "lantern",
-    // description: "Create a swarm of razorflies that transform an enemy into an irresistible floating beacon, attracting witless comrades and finally exploding.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Razorwing",
-    // name: "razorwing",
-    // description: "Shrink down and take flight, while razorflies attack nearby enemies.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Well Of Life",
-    // name: "wellOfLife",
-    // description: "Create a well of life on an enemy. Allies will gain health when damaging the target.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Energy Vampire",
-    // name: "energyVampire",
-    // description: "Allies will gain energy over time when enemies are marked with Energy Vampire.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Link",
-    // name: "link",
-    // description: "Any damage taken while Link is active will be channeled to a nearby enemy.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Blessing",
-    // name: "blessing",
-    // description: "Restore the health and shields of allies within Trinity's affinity aura while giving them some damage resistance.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Rip Line",
-    // name: "ripLine",
-    // description: "Valkyr hurls forth a hook. If it hits an enemy, she pulls them to her. If it hits terrain, she pulls herself to the hook's location.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Warcry",
-    // name: "warcry",
-    // description: "Valkyr lets out a rallying cry that bolsters her allies melee speed while slowing down nearby enemies.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Paralysis",
-    // name: "paralysis",
-    // description: "Valkyr unleashes her shields, stunning and damaging enemies around her.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Hysteria",
-    // name: "hysteria",
-    // description: "Valkyr is imbued with energy and becomes a ball of vicious rage, capable of unleashing a torrent of deadly claw attacks on unsuspecting foes.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Tesla",
-    // name: "tesla",
-    // description: "Launches a grenade that holds an electrical charge, zapping enemies that come within range.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Minelayer",
-    // name: "minelayer",
-    // description: "Cycle through four deployable trap mines: Bounce, Trip Laser, Shred and Concuss.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Bastille",
-    // name: "bastille",
-    // description: "Creates an energy-based containment field in which captives are held suspended in stasis.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Vortex",
-    // name: "vortex",
-    // description: "Creates a whirling mass of energy that violently attracts nearby enemies, crushing their atoms into a tiny spec of matter.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Shock",
-    // name: "shock",
-    // description: "Launches a shocking projectile. It stuns and deals high damage to a single target and chains damage to nearby enemies.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Speed",
-    // name: "speed",
-    // description: "Gain a brief boost of Movement Speed which affects all allies in range.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Electric Shield",
-    // name: "electricShield",
-    // description: "Volt deploys an obstacle of energy, providing cover in any situation.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Discharge",
-    // name: "discharge",
-    // description: "Paralyze nearby hostiles with a damaging electric charge, this also shocks approaching enemies.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Iron Jab",
-    // name: "ironJab",
-    // description: "Explode the iron staff to its true length, knocking down anything in its path.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Defy",
-    // name: "defy",
-    // description: "Escape death by receiving a boost of health when killed.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Cloud Walker",
-    // name: "cloudWalker",
-    // description: "Evaporate into a cloud of mist and float through the battlefield.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Primal Fury",
-    // name: "primalFury",
-    // description: "Summon the iron staff and unleash fury.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
     id: "Tail Wind",
-    // name: "tailWind",
-    // description: "From the ground, charge and release to launch Zephyr into an airborne hover. From the air, tap to dash forward, or aim down to dive bomb enemies below.",
-    tags: 0,
+    tags: 5,
     energyCost: 25,
-  },
-  {
+    props: {
+      Damage: {
+        damage: [
+          ["Slash", S(500)]
+        ],
+        range: R(2)
+      },
+      Move: {
+        directive: 1,
+        distance: R(30)
+      },
+      Control: {
+        range: R(2)
+      }
+    }
+  }, {
     id: "Airburst",
-    // name: "airburst",
-    // description: "Generate a burst of massively dense air that explodes on contact and sends enemies flying. Launch Airbursts into Tornadoes to make them grow.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Turbulence",
-    // name: "turbulence",
-    // description: "Creates a wind shield around Zephyr, redirecting all incoming projectiles.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Tornado",
-    // name: "tornado",
-    // description: "Create deadly tornadoes that seek out and engulf enemies. Tornadoes deal the elemental Damage Type they absorb the most. Shoot enemies engulfed in Tornadoes to do additional damage.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Elude",
-    // name: "elude",
-    // description: "Dodge all incoming projectiles, but only while not attacking. Use again to deactivate this ability.",
-    tags: 0,
-    energyCost: 25,
-  },
-  {
-    id: "Lull",
-    // name: "lull",
-    // description: "A calming wave slows enemies until they fall into a slumber. Enemies woken by damage will be confused and disoriented. Short-term amnesia means all waking enemies forget anything that happened before the lull.",
-    tags: 0,
+    tags: 1,
     energyCost: 50,
-  },
-  {
-    id: "Desolate Hands",
-    // name: "desolateHands",
-    // description: "Summon a bevy of orbiting daggers to seek out enemy guns, destroying them with a small explosion. Combine with Elude to double the range.",
-    tags: 0,
+    props: {
+      Special: {
+        desc: "对龙卷云风使用可使其强化"
+      },
+      Damage: {
+        damage: [
+          ["Slash", S(500)]
+        ],
+        range: R(8),
+        distance: 100
+      }
+    },
+    oneHand: true
+  }, {
+    id: "Turbulence",
+    tags: 2,
     energyCost: 75,
+    props: {
+      Buff: {
+        desc: "偏转子弹",
+        duration: D(20),
+        target: 1,
+        range: R(6)
+      }
+    }
+  }, {
+    id: "Tornado",
+    tags: 49,
+    energyCost: 100,
+    props: {
+      Damage: {
+        amount: 4,
+        duration: D(20),
+        damage: [
+          ["Impact", S(120)]
+        ],
+        range: R(25)
+      },
+      Special: {
+        desc: "玩家可以通过攻击龙卷风改变伤害类型"
+      },
+      Control: {
+        duration: D(20),
+        range: 5
+      }
+    }
   },
-  {
-    id: "Serene Storm",
-    // name: "sereneStorm",
-    // description: "With his Restraint eroded, Baruuk commands the Desert Wind to deliver powerful radial strikes with his fists and feet. Each moment commanding the storm restores his Restraint.",
-    tags: 0,
-    energyCost: 0,
-  }
+  { id: "Elude", tags: 0, energyCost: 25, props: {} },
+  { id: "Lull", tags: 0, energyCost: 50, props: {} },
+  { id: "Desolate Hands", tags: 0, energyCost: 75, props: {} },
+  { id: "Serene Storm", tags: 0, energyCost: 100, props: {} },
 ];
+
+export function registerAbilityData(newData: AbilityData[]) {
+  _abilityData = newData;
+}
+
 export const _warframeData: WarframeData[] = [
   {
     id: "Ash",

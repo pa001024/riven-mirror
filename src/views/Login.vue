@@ -13,7 +13,7 @@
         </el-input>
       </el-form-item>
       <el-form-item>
-        <input type="submit" class="block btn-login" :value="$t('app.loginbtn')">
+        <input type="submit" class="block btn-login" :value="isLogin ? $t('app.loginbtn') : $t('app.registerbtn')">
         <router-link class="link-btn" to="/forgetpass" v-t="'app.loginforget'"></router-link>
       </el-form-item>
     </el-form>
@@ -28,6 +28,8 @@ export default class Login extends Vue {
     login: "",
     pass: ""
   }
+
+  isLogin = true
 
   get rules() {
     return {

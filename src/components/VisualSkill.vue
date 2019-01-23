@@ -2,6 +2,7 @@
   <div class="visual-skill-container">
     <div class="name">
       <a :href="id !== name ? huijiURL : wikiaURL" target="_blank" rel="noopener noreferrer">{{name}}</a>
+      <a style="margin-left: 8px;font-size: 9pt;" :href="huijiURLraw" target="wiki">[raw]</a>
     </div>
     <div class="id">
       <a :href="wikiaURL" target="_blank" rel="noopener noreferrer">{{id}}</a>
@@ -33,6 +34,7 @@
         <NumberItem :bind="damage" keyName="tick"/>
         <NumberItem :bind="damage" keyName="amount"/>
         <NumberItem :bind="damage" keyName="angel"/>
+        <NumberItem :bind="damage" keyName="range"/>
         <NumberItem :bind="damage" keyName="distance"/>
         <NumberItem :bind="damage" keyName="prjSpeed"/>
         <NumberItem :bind="damage" keyName="affectBy"/>
@@ -91,7 +93,7 @@
       </el-form>
       <el-checkbox border size="large" class="prop-header" v-model="hasMove" :label="$t('ability.effects.move')"/>
       <el-form v-if="hasMove" class="prop move" label-width="80px" size="small">
-        <CommonItem :bind="move" keyName="directive">
+        <CommonItem :bind="move" keyName="directive" :defaultValue="0">
           <el-select v-model="move.directive" placeholder="请选择">
             <el-option label="非指向性" :value="0"/>
             <el-option label="非强制指向" :value="1"/>
@@ -133,6 +135,7 @@ export default class VisualSkill extends Vue {
   }
   get wikiaURL() { return "https://warframe.fandom.com/wiki/" + this.id.replace(/ /g, "_"); }
   get huijiURL() { return "https://warframe.huijiwiki.com/wiki/" + this.name; }
+  get huijiURLraw() { return "https://warframe.huijiwiki.com/index.php?action=raw&title=" + this.name; }
 
   get oneHand() { return this.abilityData.oneHand }
   set oneHand(value) {

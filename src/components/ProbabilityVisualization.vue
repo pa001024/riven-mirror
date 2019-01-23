@@ -78,7 +78,7 @@ export default class ProbabilityVisualization extends Vue {
 @hmhc-color: #ffbbbb;
 
 .provis-container {
-  height: 400px;
+  height: 320px;
   .lower-level {
     .lower-level {
       background-color: @lmlc-color;

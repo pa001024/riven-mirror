@@ -75,7 +75,7 @@ export enum AbilityType {
 /** 高级数值 */
 export interface AdvancedAbilityPropValue {
   /** 与基础属性的关联性 [属性名, 加数] 不填即为固定 */
-  bind?: [WarframeProperty, number][]
+  bind?: [string, number][]
   /** 基础值 */
   value?: number
   /** 下限 */
@@ -114,8 +114,8 @@ export namespace AbilityPropTypes {
   }
   /** Buff */
   export interface Buff {
-    /** 作用对象 常用取值 all / weapon / ali 默认为 all */
-    target?: string
+    /** 作用对象 常用取值 all=0 / weapon=1 / melee=2 默认为 all */
+    target?: number
     /** 描述 */
     desc?: string
     /** 作用 等效MOD */
@@ -194,7 +194,7 @@ export namespace AbilityPropTypes {
   /** 特殊 */
   export interface Special {
     desc: string
-    value: AbilityPropValue
+    value?: AbilityPropValue
   }
   /** 位移 */
   export interface Move {

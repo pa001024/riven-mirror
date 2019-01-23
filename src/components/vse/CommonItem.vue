@@ -17,7 +17,7 @@ import AbilityPropValueEditor from "@/components/vse/AbilityPropValueEditor.vue"
 export default class CommonItem extends Vue {
   @Model() bind
   @Prop() keyName: string;
-  @Prop() defaultValue: string;
+  @Prop() defaultValue: any;
 }
 
 </script>

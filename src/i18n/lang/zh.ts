@@ -1552,7 +1552,7 @@ let po = {
     "riftSurge": "裂隙涌流",
     "cataclysm": "灾变",
     "decoy": "诱饵",
-    "invisibility": "隐形",
+    "invisibility": "隐身",
     "switchTeleport": "移形换位",
     "radialDisarm": "解除武装",
     "pull": "吸引",
@@ -2768,6 +2768,8 @@ let po = {
     about: "关于",
     palette: "选色工具",
     setting: "设置",
+    login: "用户登录",
+    register: "用户注册",
   },
   time: {
     earth: "地球",
@@ -2987,7 +2989,7 @@ let po = {
     magusReplenish: "魔导充盈",
     magusElevate: "魔导振奋",
     magusNourish: "魔导滋养",
-    magusOverload: "魔导过载",
+    magusOverload: "魔导超载",
     magusGlitch: "魔导干扰",
     magusRevert: "魔导复位",
     magusFirewall: "魔导防火墙",
@@ -3056,6 +3058,8 @@ let po = {
       rate: "百分比",
       directive: "指向性",
       weaponName: "显赫武器名称",
+      health: "生命值",
+      value: "值",
     },
     target: "对象",
     targets: {
@@ -3072,6 +3076,7 @@ let po = {
   app: {
     login: "登录",
     loginbtn: "登录",
+    register: "注册",
     registerbtn: "注册",
     loginHint: "请输入电子邮箱",
     passwordHint: "请输入密码",
