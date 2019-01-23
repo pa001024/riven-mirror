@@ -41,8 +41,9 @@ export default class extends Vue {
 
   @Watch("build.weapon")
   reload() {
+    const isAmp = this.build.weapon.tags.includes("Amp");
     let buffList = BuffList.filter(v => v.target === "Ranged" ? !this.build.weapon.tags.includes("Melee") :
-      (v.target === "All" || v.target === "Weapon" || this.build.weapon.tags.includes(v.target)));
+      (v.target === "All" || (!isAmp && v.target === "Weapon") || this.build.weapon.tags.includes(v.target)));
     this.tabs = [
       { id: "arcane", name: this.$t("buff.types.arcane") as string, buffs: buffList.filter(k => k.type === BuffType.Arcane) },
       { id: "baseDamage", name: this.$t("buff.types.baseDamage") as string, buffs: buffList.filter(k => k.type === BuffType.BaseDamage) },
@@ -51,8 +52,8 @@ export default class extends Vue {
       { id: "critDamage", name: this.$t("buff.types.critDamage") as string, buffs: buffList.filter(k => k.type === BuffType.CritDamage) },
       { id: "speed", name: this.$t("buff.types.speed") as string, buffs: buffList.filter(k => k.type === BuffType.Speed) },
       { id: "other", name: this.$t("buff.types.other") as string, buffs: buffList.filter(k => k.type === BuffType.Other) },
-    ];
-    this.selectTab = "baseDamage";
+    ].filter(v => v.buffs.length > 0);
+    this.selectTab = isAmp ? "arcane" : "baseDamage";
   }
 }
 </script>

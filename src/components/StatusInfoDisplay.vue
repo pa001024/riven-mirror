@@ -11,6 +11,7 @@
     </div>
     <div class="info-block" v-for="(elValue, elType) in elementTypes" :key="elType">
       <div class="info-element-title">
+        <WfIcon :type="elType.toLowerCase()"/>
         {{$t(`elements.${elType}`)}}
       </div>
       <div class="info-inline-element" v-for="(valContent, valKey) in elValue" :key="valKey">

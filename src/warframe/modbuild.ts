@@ -49,6 +49,7 @@ export abstract class ModBuild {
   protected _finalCritMulMul = 100;
   protected _allEnemyDmgMul = 0;
   protected _multishotMul = 100;
+  protected _voidConvs: [string, number][] = [];
 
   protected _extraProcChance: [string, number][] = [];
   protected _statusInfo: { [key: string]: SpecialStatusInfo } = null;
@@ -149,10 +150,14 @@ export abstract class ModBuild {
     let normal = mods.map(v => v && v.key || "00").join("");
     let buffseq = this.buffs.map(v => `!${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 100) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
     if (this.riven && mods.some(v => v && v.key === "01") && this.riven.properties.length > 1) return normal + this.riven.qrCodeBase64 + buffseq;
-    return normal + buffseq;
+    if (normal === "0000000000000000")
+      return buffseq;
+    else
+      return normal + buffseq;
   }
 
   set miniCode(code: string) {
+    if (code.startsWith("!")) code = "0000000000000000" + code;
     let normal = code.substr(0, 16);
     let subPart = code.substr(16);
     let buffIdx = subPart.indexOf("!");
@@ -253,8 +258,29 @@ export abstract class ModBuild {
   recalcElements() {
     this._extraDmgMul = hAccSum(this._heatMul, this._coldMul, this._toxinMul, this._electricityMul);
     let eleOrder = _.clone(this.elementsOrder), otherOrder = [], eleMul = this.elementsMul;
+    let oridmg = this.weapon.dmg;
+    if (this._voidConvs.length > 0) {
+      let extraDmg = [];
+      oridmg = oridmg.map(([vn, vv]) => {
+        if (vn === "Void") {
+          this._voidConvs.forEach(([cn, cv]) => {
+            extraDmg.push([cn, vv * cv / 100]);
+            vv = vv * (100 - cv) / 100
+          });
+        }
+        return [vn, vv] as [string, number];
+      });
+      extraDmg.forEach(([vn, vv]) => {
+        let i = oridmg.findIndex(v => v[0] === vn);
+        if (i >= 0)
+          oridmg[i][1] += vv;
+        else
+          oridmg.push([vn, vv]);
+      });
+      oridmg = oridmg.filter(v => v[1]);
+    }
     // 计算武器原本属性
-    this.weapon.dmg.forEach(([vn, vv]) => {
+    oridmg.forEach(([vn, vv]) => {
       let eMul = vn in eleMul ? eleMul[vn] + 1 : 1; // 1是复合属性
       let totalMul = vv / this.originalDamage;
       switch (vn) {
@@ -732,6 +758,7 @@ export abstract class ModBuild {
     this._allEnemyDmgMul = 0;
     this._multishotMul = 100;
     this.standaloneElements = [];
+    this._voidConvs = [];
     this.recalcElements();
   }
 

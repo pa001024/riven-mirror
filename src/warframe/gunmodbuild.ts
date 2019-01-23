@@ -362,6 +362,10 @@ export class GunModBuild extends ModBuild {
       case 'eed': /* 电击伤害 */ this.weapon.prjSpeed ? this.electricityMul = hAccSum(this._electricityMul, pValue) : this.applyStandaloneElement("Electricity", pValue / 100); break;
       case 'efd': /* 火焰伤害 */ this.weapon.prjSpeed ? this.heatMul = hAccSum(this._heatMul, pValue) : this.applyStandaloneElement("Heat", pValue / 100); break;
       case 'ar': /* + Range (nopercent) */ this._rangeLimitAdd = hAccSum(this._rangeLimitAdd, pValue); break;
+      case 'vte': /* 虚空转换电击 voidConvs */ this._voidConvs.push(["Electricity", pValue]); break;
+      case 'vtv': /* 虚空转换病毒 voidConvs */ this._voidConvs.push(["Viral", pValue]); break;
+      case 'vtp': /* 虚空转换穿刺 voidConvs */ this._voidConvs.push(["Puncture", pValue]); break;
+      case 'vth': /* 虚空转换火焰 voidConvs */ this._voidConvs.push(["Heat", pValue]); break;
       default:
         super.applyProp(mod, pName, pValue);
     }

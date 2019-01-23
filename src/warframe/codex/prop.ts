@@ -109,12 +109,12 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "eac", }, // % Hit Chance
   { id: "esp", }, // % Speed
   // 集团
-  { id: "vp", }, // 'Purity'
-  { id: "vt", }, // 'Truth'
-  { id: "ve", }, // 'Entropy'
-  { id: "vs", }, // 'Sequence'
-  { id: "vj", }, // 'Justice'
-  { id: "vb", }, // 'Blight'
+  { id: "vp", nopercent: true }, // 'Purity'
+  { id: "vt", nopercent: true }, // 'Truth'
+  { id: "ve", nopercent: true }, // 'Entropy'
+  { id: "vs", nopercent: true }, // 'Sequence'
+  { id: "vj", nopercent: true }, // 'Justice'
+  { id: "vb", nopercent: true }, // 'Blight'
 
   // 其他
   { id: "acc" }, // 精准
@@ -182,6 +182,12 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "rc", }, // Fire/Charge Rate
   { id: "scan", }, // Fatal strikes against an enemy also perform a Codex Scan
   { id: "apd", }, // first Pellet Damage additionally
+
+  // Amp damage convert
+  { id: "vte", dmg: true },
+  { id: "vtv", dmg: true },
+  { id: "vtp", dmg: true },
+  { id: "vth", dmg: true },
 
   // 条件
   { id: "ify", }, // if the target is over 45m away.

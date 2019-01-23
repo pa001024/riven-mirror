@@ -111,6 +111,46 @@ export const BuffList: BuffData[] = [
       stackableProps: v[2],
     },
   } as BuffData)),
+  ...[
+    ["vA", "virtuosNull", [["能量回复", 5]], "Amp"],
+    ["vB", "virtuosTempo", [["R", 15]], "Amp"],
+    ["vC", "virtuosFury", [["D", 7.5]], "Amp"],
+    ["vD", "virtuosStrike", [["1", 15]], "Amp"],
+    ["vE", "virtuosShadow", [["0", 15]], "Amp"],
+    ["vF", "virtuosGhost", [["2", 15]], "Amp"],
+    ["vH", "virtuosSurge", [["vte", 25]], "Amp"],
+    ["vG", "virtuosTrojan", [["vtv", 25]], "Amp"],
+    ["vI", "virtuosSpike", [["vtp", 25]], "Amp"],
+    ["vJ", "virtuosForge", [["vth", 25]], "Amp"],
+    // ["mA", "magusVigor", [[]], "Operator"],
+    // ["mB", "magusHusk", [[]], "Operator"],
+    // ["mC", "magusCloud", [[]], "Operator"],
+    // ["mD", "magusCadence", [[]], "Operator"],
+    // ["mE", "magusReplenish", [[]], "Operator"],
+    // ["mF", "magusElevate", [[]], "Operator"],
+    // ["mG", "magusNourish", [[]], "Operator"],
+    // ["mH", "magusOverload", [[]], "Operator"],
+    // ["mI", "magusGlitch", [[]], "Operator"],
+    // ["mJ", "magusRevert", [[]], "Operator"],
+    // ["mK", "magusFirewall", [[]], "Operator"],
+    // ["mL", "magusDrive", [[]], "Operator"],
+    // ["mM", "magusLockdown", [[]], "Operator"],
+    // ["mN", "magusDestruct", [[]], "Operator"],
+    // ["mO", "magusAnomaly", [[]], "Operator"],
+    ["mP", "magusMelt", [["4", 25]], "Amp"],
+    // ["mQ", "magusAccelerant", [[]], "Operator"],
+    // ["mR", "magusRepair", [[]], "Operator"],
+  ].map(v => ({
+    id: v[0],
+    name: v[1],
+    type: BuffType.Arcane,
+    target: v[3],
+    defaultLayer: v[4] || 4,
+    multiLayer: {
+      maxStack: v[4] || 4,
+      stackableProps: v[2],
+    },
+  } as BuffData)),
   // 加法基伤类
   // 死亡之眼光环等
   {
@@ -132,7 +172,7 @@ export const BuffList: BuffData[] = [
     id: "G",
     name: "shootingGallery", // 女枪2 靶场
     type: BuffType.BaseDamage,
-    target: "Weapon",
+    target: "All",
     dynamicProps: [["dmg", 50, 0]],
     parms: ["power", "%"],
     defaultValue: 2,
@@ -198,7 +238,7 @@ export const BuffList: BuffData[] = [
     id: "R",
     name: "roar", // 牛吼
     type: BuffType.TotalDamage,
-    target: "All",
+    target: "Weapon",
     dynamicProps: [["aed", 50, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
@@ -214,7 +254,7 @@ export const BuffList: BuffData[] = [
     id: "M",
     name: "voidStrike", // M蹲 虚空重击
     type: BuffType.TotalDamage,
-    target: "Weapon",
+    target: "All",
     dynamicProps: [["oad", 12, 0]],
     parms: ["time", "s"],
     defaultValue: 30,
@@ -340,7 +380,7 @@ export const BuffList: BuffData[] = [
     id: "t",
     name: "critChance", // 通用暴击
     type: BuffType.CritDamage,
-    target: "Weapon",
+    target: "All",
     dynamicProps: [["eca", 100, 0]],
     parms: ["power", "%"],
     defaultValue: 0.6,
@@ -348,7 +388,7 @@ export const BuffList: BuffData[] = [
     id: "I",
     name: "empoweredQuiver", // 弓妹集团1踩线
     type: BuffType.CritDamage,
-    target: "Weapon",
+    target: "All",
     dynamicProps: [["1", 100, 0]],
     parms: ["power", "%"],
     defaultValue: 3.48,
@@ -358,6 +398,15 @@ export const BuffList: BuffData[] = [
     type: BuffType.CritDamage,
     target: "Weapon",
     props: [["eca", 50], ["cwh", 150]],
+  }, {
+    id: "l",
+    name: "gladiator", // 角斗士组合效果
+    type: BuffType.CritDamage,
+    target: "Melee",
+    multiLayer: {
+      maxStack: 6,
+      stackableProps: [["bldr", 15]],
+    },
   },
   // 复合类
   {

@@ -1,6 +1,17 @@
 export const magic = "ALPHA";
-export const version = "1.4.6";
+export const version = "1.4.7";
 export const updateLogs = [
+  {
+    version: "1.4.7",
+    md: {
+      en: `
+- add Amp Arcanes
+`,
+      cn: `
+- 添加增幅器赋能
+`
+    }
+  },
   {
     version: "1.4.6",
     md: {
@@ -8,7 +19,7 @@ export const updateLogs = [
 - fix shotgun riven analyze
 - use CDN for images
 `,
-cn: `
+      cn: `
 - 修复霰弹枪紫卡分析
 - 转移图片到CDN
 `
@@ -46,21 +57,21 @@ cn: `
 `
     }
   },
-  {
-    version: "1.4.3",
-    md: {
-      en: `
-- Warframe Pol Visualization
-- add Probability-Visualization
-- MeleeBuildEditor now show **slide crit chance** in slide mode
-`,
-      cn: `
-- 战甲槽位极性可视化
-- 概率可视化
-- 近战现在在滑行攻击模式下显示 **滑行暴击几率** 了
-`
-    }
-  },
+  //   {
+  //     version: "1.4.3",
+  //     md: {
+  //       en: `
+  // - Warframe Pol Visualization
+  // - add Probability-Visualization
+  // - MeleeBuildEditor now show **slide crit chance** in slide mode
+  // `,
+  //       cn: `
+  // - 战甲槽位极性可视化
+  // - 概率可视化
+  // - 近战现在在滑行攻击模式下显示 **滑行暴击几率** 了
+  // `
+  //     }
+  //   },
   //   {
   //     version: "1.4.2",
   //     md: {

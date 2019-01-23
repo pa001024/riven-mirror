@@ -16,7 +16,8 @@ export interface AmpPrism {
   fireRate: number;
   accuracy: number;
   ammoCost: number;
-  rangeLimit?: number
+  rangeLimit?: number;
+  prjSpeed?: number;
 }
 
 /**
@@ -33,7 +34,8 @@ export interface AmpScaffold {
   fireRate: number;
   accuracy: number;
   ammoCost: number;
-  rangeLimit?: number
+  rangeLimit?: number;
+  prjSpeed?: number;
 }
 
 /**
@@ -53,24 +55,24 @@ export interface AmpBrace {
 const _ampPrism = [
   // index, id, dmgs, critChance, critDamage, procChance, fireRate, accuracy, ammoCost, rangeLimit
   [1, "Raplak Prism", [["Void", 3000]], 0.38, 2.6, 0.1, 2, 32, 5, 100],
-  [2, "Shwaak Prism", [["Void", 3500]], 0.1, 1.6, 0.2, 1.33, 9.1, 10, 30],
-  [3, "Granmu Prism", [["Void", 2400]], 0.26, 2, 0.12, 2.07, 100, 15, 70],
+  [2, "Shwaak Prism", [["Void", 3500]], 0.1, 1.6, 0.2, 1.33, 9.1, 10, 30, /* prjSpeed */ 100],
+  [3, "Granmu Prism", [["Void", 2400]], 0.26, 2, 0.12, 2.07, 100, 15, 70, /* prjSpeed */ 80],
   [4, "Rahn Prism", [["Void", 1000]], 0.3, 2, 0.04, 5.67, 32, 2, 100],
   [5, "Cantic Prism", [["Void", 1460]], 0.34, 2.2, 0.1, 4.88, 32, 3, 100],
   [6, "Lega Prism", [["Void", 600]], 0.08, 1.6, 0.34, 7.5, 100, 60, 28],
   [7, "Klamora Prism", [["Void", 600]], 0.38, 2.4, 0.1, 12, 100, 25, 13],
-] as [number, string, [string, number][], number, number, number, number, number, number, number][];
+] as [number, string, [string, number][], number, number, number, number, number, number, number, number?][];
 
 const _ampScaffold = [
   // index, id, dmgs, critChance, critDamage, procChance, fireRate, accuracy, ammoCost, rangeLimit
   [1, "Pencha Scaffold", [["Void", 9000]], 0.14, 1.6, 0.18, 1.25, 100, 10, 41],
-  [2, "Shraksun Scaffold", [["Void", 7500]], 0.2, 2.5, 0.2, 1.33, 9.1, 10, 15],
+  [2, "Shraksun Scaffold", [["Void", 7500]], 0.2, 2.5, 0.2, 1.33, 9.1, 10, 15, /* prjSpeed */ 40],
   [3, "Klebrik Scaffold", [["Void", 3500]], 0.18, 1.6, 0.16, 12, 100, 1.5, 25],
-  [4, "Phahd Scaffold", [["Void", 6100]], 0.34, 2.6, 0.12, 1.33, 9.1, 20, 300],
-  [5, "Exard Scaffold", [/*["Impact", 200], */["Void", 2600]], 0.17, 1.9, 0.33, 8.26, 10, 20, 40],
-  [6, "Dissic Scaffold", [/*["Impact", 15], */["Void", 6600]], 0.03, 1.5, 0.37, 1, 100, 50],
-  [7, "Propa Scaffold", [["Void", 9000]], 0.3, 2, 0, 2, 9.1, 50, 10],
-] as [number, string, [string, number][], number, number, number, number, number, number, number][];
+  [4, "Phahd Scaffold", [["Void", 6100]], 0.34, 2.6, 0.12, 1.33, 9.1, 20, 300, /* prjSpeed */ 100],
+  [5, "Exard Scaffold", [/*["Impact", 200], */["Void", 2600]], 0.17, 1.9, 0.33, 8.26, 10, 20, 40, /* prjSpeed */ 100],
+  [6, "Dissic Scaffold", [/*["Impact", 15], */["Void", 6600]], 0.03, 1.5, 0.37, 1, 100, 50, /* prjSpeed */ 100],
+  [7, "Propa Scaffold", [["Void", 9000]], 0.3, 2, 0, 2, 9.1, 50, 10, /* prjSpeed */ 40],
+] as [number, string, [string, number][], number, number, number, number, number, number, number, number?][];
 
 const _ampBrace = [
   // index, id, critChance, procChance, magazine, reloadDelay, reloadSpeed
@@ -107,6 +109,7 @@ export const AmpPrismData: AmpPrism[] = _ampPrism.map(v => ({
   accuracy: v[7],
   ammoCost: v[8],
   rangeLimit: v[9],
+  prjSpeed: v[10],
 }));
 
 /** 支架数据 */
@@ -122,6 +125,7 @@ export const AmpScaffoldData: AmpScaffold[] = _ampScaffold.map(v => ({
   accuracy: v[7],
   ammoCost: v[8],
   rangeLimit: v[9],
+  prjSpeed: v[10],
 }));
 
 /** 曲柄数据 */
@@ -208,6 +212,7 @@ export class Amp implements GunWeapon {
     this.ammoCost = mainPart.ammoCost;
     this.accuracy = mainPart.accuracy;
     this.rangeLimit = mainPart.rangeLimit;
+    this.prjSpeed = mainPart.prjSpeed;
   }
   get displayName() {
     if (this.prism || this.scaffold)
