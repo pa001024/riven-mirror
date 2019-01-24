@@ -45,6 +45,9 @@ router.afterEach((to) => {
     case "VisualSkillEditor":
       document.title = i18n.t("title.sub", ["Skill Editor"]);
       break;
+    case "Login":
+      document.title = i18n.t("title.sub", [i18n.t("navigate.login")]);
+      break;
     case "Alerts":
       document.title = i18n.t("title.sub", [i18n.t("navigate.index")]);
       break;

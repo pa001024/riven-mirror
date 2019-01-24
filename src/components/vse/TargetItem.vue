@@ -1,5 +1,5 @@
 <template>
-  <CommonItem :bind="bind" :keyName="keyName" :defaultValue="0">
+  <CommonItem :bind="bind" :keyName="keyName" :defaultValue="0" :required="required">
     <el-select v-model="bind[keyName]" placeholder="请选择">
       <el-option label="所有" :value="0"/>
       <el-option label="远程攻击" :value="1"/>
@@ -16,6 +16,7 @@ import CommonItem from "@/components/vse/CommonItem.vue";
 export default class TargetItem extends Vue {
   @Model() bind
   @Prop() keyName: string;
+  @Prop({ type: Boolean }) required: boolean;
 }
 
 </script>

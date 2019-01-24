@@ -324,7 +324,7 @@ export let _abilityData: AbilityData[] = [
     id: "Bloodletting",
     tags: 0,
     energyCost: 0,
-    props: { Special: { desc: "能量值获得", value: E(25) } }
+    props: { Special: [{ desc: "能量值获得", value: E(25) }] }
   },
   {
     id: "Seeking Talons",
@@ -347,7 +347,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 25,
     props: {
       Control: { duration: D(6), range: 20, angel: 15 },
-      Special: { desc: "回复护盾", value: S(150) }
+      Special: [{ desc: "回复护盾", value: S(150) }]
     }
   },
   {
@@ -528,7 +528,7 @@ export let _abilityData: AbilityData[] = [
         rangeDamage: [["Impact", 300]],
         angel: 75
       },
-      Special: { desc: "放逐" }
+      Special: [{ desc: "放逐" }]
     }
   },
   {
@@ -573,7 +573,7 @@ export let _abilityData: AbilityData[] = [
     id: "Radial Disarm",
     tags: 16,
     energyCost: 100,
-    props: { Special: { desc: "缴械" }, Control: { range: R(20) } }
+    props: { Special: [{ desc: "缴械" }], Control: { range: R(20) } }
   },
   {
     id: "Pull",
@@ -581,7 +581,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 25,
     props: {
       Damage: { damage: [["Magnetic", S(300)]], range: R(25), angel: 85 },
-      Special: { desc: "牵引" }
+      Special: [{ desc: "牵引" }]
     }
   },
   {
@@ -590,7 +590,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 50,
     props: {
       Damage: { damage: [["Blast", S(300)]], duration: D(15), range: R(4) },
-      Special: { desc: "吸引子弹" }
+      Special: [{ desc: "吸引子弹" }]
     },
     oneHand: true
   },
@@ -600,7 +600,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 75,
     props: {
       Damage: { damage: [["Impact", S(400)]], range: R(8), duration: D(5) },
-      Special: { desc: "回复护盾" }
+      Special: [{ desc: "回复护盾" }]
     }
   },
   {
@@ -705,9 +705,9 @@ export let _abilityData: AbilityData[] = [
     tags: 2,
     energyCost: 50,
     props: {
-      Special: {
+      Special: [{
         desc: "濒死时回血，并无敌数秒"
-      },
+      }],
       Buff: {
         desc: "无敌",
         duration: D(5)
@@ -721,9 +721,9 @@ export let _abilityData: AbilityData[] = [
       Control: {
         range: R(8)
       },
-      Special: {
+      Special: [{
         desc: "使玩家向任意方向移动，激活时无敌"
-      }
+      }]
     }
   }, {
     id: "Primal Fury",
@@ -761,9 +761,9 @@ export let _abilityData: AbilityData[] = [
     tags: 1,
     energyCost: 50,
     props: {
-      Special: {
+      Special: [{
         desc: "对龙卷云风使用可使其强化"
-      },
+      }],
       Damage: {
         damage: [
           ["Slash", S(500)]
@@ -798,9 +798,9 @@ export let _abilityData: AbilityData[] = [
         ],
         range: R(25)
       },
-      Special: {
-        desc: "玩家可以通过攻击龙卷风改变伤害类型"
-      },
+      Special: [{
+        desc: "可以通过攻击龙卷风改变伤害类型"
+      }],
       Control: {
         duration: D(20),
         range: 5

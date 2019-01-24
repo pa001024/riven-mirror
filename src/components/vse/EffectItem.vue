@@ -1,5 +1,5 @@
 <template>
-  <CommonItem :bind="bind" :keyName="keyName" :defaultValue="[]">
+  <CommonItem :bind="bind" :keyName="keyName" :defaultValue="[]" :required="required">
     <EffectEditor v-model="bind[keyName]" />
   </CommonItem>
 </template>
@@ -12,6 +12,7 @@ import CommonItem from "@/components/vse/CommonItem.vue";
 export default class DamageItem extends Vue {
   @Model() bind
   @Prop() keyName: string;
+  @Prop({ type: Boolean }) required: boolean;
 }
 
 </script>

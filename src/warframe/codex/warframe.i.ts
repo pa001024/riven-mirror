@@ -220,7 +220,7 @@ export type AbilityProp = {
   Summon?: AbilityPropTypes.Summon
   DamageReduce?: AbilityPropTypes.DamageReduce
   Control?: AbilityPropTypes.Control
-  Special?: AbilityPropTypes.Special
+  Special?: AbilityPropTypes.Special[]
   Move?: AbilityPropTypes.Move
   ExaltedWeapon?: AbilityPropTypes.ExaltedWeapon
 }

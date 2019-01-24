@@ -1,5 +1,5 @@
 <template>
-  <el-form-item :label="$t('ability.props.'+keyName)">
+  <el-form-item :label="$t('ability.props.'+keyName)" :required="required">
     <template v-if="typeof bind[keyName] !== 'undefined'">
       <div class="common-item-body">
         <slot></slot>
@@ -18,6 +18,7 @@ export default class CommonItem extends Vue {
   @Model() bind
   @Prop() keyName: string;
   @Prop() defaultValue: any;
+  @Prop({ type: Boolean }) required: boolean;
 }
 
 </script>

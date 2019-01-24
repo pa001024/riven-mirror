@@ -53,6 +53,7 @@
           :before-close="readUpdate">
           <div class="update-item" :key="i" v-for="(v,i) in updateLogs">
             <div class="title">{{v.version}}</div>
+            <div class="date">{{$d(new Date(v.date), 'short')}}</div>
             <article class="md markdown-body" v-html="renderMD($t('zh') ? v.md.cn : v.md.en)"></article>
           </div>
           <span slot="footer" class="dialog-footer">
@@ -174,6 +175,12 @@ export default class App extends Vue {
       background: #6199ff;
       margin: 0 8px -2px 2px;
     }
+  }
+  .date {
+    text-align: right;
+    margin-top: -1.6rem;
+    font-size: 0.9rem;
+    color: @text_grey;
   }
   .markdown-body {
     box-sizing: border-box;

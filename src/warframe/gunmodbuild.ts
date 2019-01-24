@@ -178,7 +178,14 @@ export class GunModBuild extends ModBuild {
   /** [overwrite] 弹片数 */
   get bullets() { return hAccMul(this.weapon.bullets, this.multishotMul); }
   /** 换弹时间 */
-  get reloadTime() { return hAccDiv(this.weapon.reload, this.reloadSpeedMul); }
+  get reloadTime() {
+    // 一发发装的武器随弹匣变化
+    const perReloadWeapons = ["Zarr", "Corinth", "Strun"];
+    if (perReloadWeapons.includes(this.weapon.rivenName || this.weapon.id)) {
+      return hAccMul(this.magazineSize / this.weapon.magazine, hAccDiv(this.weapon.reload, this.reloadSpeedMul));
+    }
+    return hAccDiv(this.weapon.reload, this.reloadSpeedMul);
+  }
   /** 弹夹容量 */
   get magazineSize() { let s = Math.round(this.weapon.magazine * this.magazineMul); return s <= 1 ? 1 : s; }
   /** 最大弹药 */

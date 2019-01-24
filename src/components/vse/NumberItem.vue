@@ -1,5 +1,5 @@
 <template>
-  <CommonItem :bind="bind" :keyName="keyName" :defaultValue="{value:0}">
+  <CommonItem :bind="bind" :keyName="keyName" :defaultValue="{value:0}" :required="required">
     <AbilityPropValueEditor v-model="bind[keyName]" />
   </CommonItem>
 </template>
@@ -12,6 +12,7 @@ import CommonItem from "@/components/vse/CommonItem.vue";
 export default class NumberItem extends Vue {
   @Model() bind
   @Prop() keyName: string;
+  @Prop({ type: Boolean }) required: boolean;
 }
 
 </script>

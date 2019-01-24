@@ -28,7 +28,7 @@
       <!-- damage -->
       <el-checkbox border size="large" class="prop-header" v-model="hasDamage" :label="$t('ability.effects.damage')"/>
       <el-form v-if="hasDamage" class="prop damage" label-width="80px" size="small">
-        <DamageItem :bind="damage" keyName="damage"/>
+        <DamageItem :bind="damage" keyName="damage" required/>
         <DamageItem :bind="damage" keyName="rangeDamage"/>
         <NumberItem :bind="damage" keyName="duration"/>
         <NumberItem :bind="damage" keyName="tick"/>
@@ -37,7 +37,13 @@
         <NumberItem :bind="damage" keyName="range"/>
         <NumberItem :bind="damage" keyName="distance"/>
         <NumberItem :bind="damage" keyName="prjSpeed"/>
-        <NumberItem :bind="damage" keyName="affectBy"/>
+        <CommonItem :bind="damage" keyName="affectBy" :defaultValue="0">
+          <el-select v-model="damage.affectBy" placeholder="请选择">
+            <el-option label="主武器" :value="0"/>
+            <el-option label="副武器" :value="1"/>
+            <el-option label="近战" :value="2"/>
+          </el-select>
+        </CommonItem>
       </el-form>
       <!-- buff -->
       <el-checkbox border size="large" class="prop-header" v-model="hasBuff" :label="$t('ability.effects.buff')"/>
@@ -75,7 +81,7 @@
       <el-checkbox border size="large" class="prop-header" v-model="hasDamageReduce" :label="$t('ability.effects.damageReduce')"/>
       <el-form v-if="hasDamageReduce" class="prop damageReduce" label-width="80px" size="small">
         <NumberItem :bind="damageReduce" keyName="durability"/>
-        <NumberItem :bind="damageReduce" keyName="rate"/>
+        <NumberItem :bind="damageReduce" keyName="rate" required/>
         <TargetItem :bind="damageReduce" keyName="target"/>
       </el-form>
       <!-- control -->
@@ -86,11 +92,17 @@
         <NumberItem :bind="control" keyName="range"/>
         <NumberItem :bind="control" keyName="distance"/>
       </el-form>
+      <!-- special -->
       <el-checkbox border size="large" class="prop-header" v-model="hasSpecial" :label="$t('ability.effects.special')"/>
       <el-form v-if="hasSpecial" class="prop special" label-width="80px" size="small">
-        <TextItem   :bind="special" keyName="desc"/>
-        <NumberItem :bind="special" keyName="value"/>
+        <div class="special-list" v-for="(_, i) in special" :key="i">
+          <TextItem   :bind="special[i]" keyName="desc" required/>
+          <NumberItem :bind="special[i]" keyName="value"/>
+          <el-button size="small" style="margin-bottom:8px" class="" type="danger" icon="el-icon-delete" @click="special.splice(i,1)">删除效果</el-button>
+        </div>
+        <el-button size="small" style="margin-bottom:8px" type="primary" icon="el-icon-edit" @click="special.push({desc:''})">新增效果</el-button>
       </el-form>
+      <!-- move -->
       <el-checkbox border size="large" class="prop-header" v-model="hasMove" :label="$t('ability.effects.move')"/>
       <el-form v-if="hasMove" class="prop move" label-width="80px" size="small">
         <CommonItem :bind="move" keyName="directive" :defaultValue="0">
@@ -100,11 +112,12 @@
             <el-option label="强制指向" :value="2"/>
           </el-select>
         </CommonItem>
-        <NumberItem :bind="move" keyName="distance"/>
+        <NumberItem :bind="move" keyName="distance" required/>
       </el-form>
+      <!-- exaltedWeapon -->
       <el-checkbox border size="large" class="prop-header" v-model="hasExaltedWeapon" :label="$t('ability.effects.exaltedWeapon')"/>
       <el-form v-if="hasExaltedWeapon" class="prop exaltedWeapon" label-width="80px" size="small">
-        <TextItem   :bind="exaltedWeapon" keyName="weaponName"/>
+        <TextItem   :bind="exaltedWeapon" keyName="weaponName" required/>
         <EffectItem :bind="exaltedWeapon" keyName="effect"/>
       </el-form>
     </div>
@@ -273,7 +286,7 @@ export default class VisualSkill extends Vue {
     if (!value)
       Vue.delete(this.abilityData.props, "Special");
     else if (!this.abilityData.props.Special)
-      Vue.set(this.abilityData.props, "Special", {})
+      Vue.set(this.abilityData.props, "Special", [{ desc: '' }])
   }
 
   get hasMove() {

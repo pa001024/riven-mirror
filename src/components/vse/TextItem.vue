@@ -1,5 +1,5 @@
 <template>
-  <CommonItem :bind="bind" :keyName="keyName" :defaultValue="''">
+  <CommonItem :bind="bind" :keyName="keyName" :defaultValue="''" :required="required">
     <el-input v-model="bind[keyName]" placeholder="请输入描述"></el-input>
   </CommonItem>
 </template>
@@ -11,6 +11,7 @@ import CommonItem from "@/components/vse/CommonItem.vue";
 export default class TextItem extends Vue {
   @Model() bind
   @Prop() keyName: string;
+  @Prop({ type: Boolean }) required: boolean;
 }
 
 </script>
