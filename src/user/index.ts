@@ -10,7 +10,11 @@ export class User {
   data: { [key: string]: string }
 }
 
-const API_BASE = "https://riven.im/api/";
+export interface LoginResult {
+
+}
+
+const API_BASE = "https://api.riven.im/";
 
 export class UserSession {
   userQuery: string
@@ -18,7 +22,13 @@ export class UserSession {
   constructor(userQuery: string, sessionPass: string) {
     [this.userQuery, this.sessionPass] = [userQuery, sessionPass]
   }
-  access() {
-    axios.get(API_BASE + "")
+  async api(api: string) {
+    return axios.get(API_BASE + api)
+  }
+  async login() {
+    let rst = await this.api("login"), data: LoginResult
+    if (data = rst.data) {
+
+    }
   }
 }

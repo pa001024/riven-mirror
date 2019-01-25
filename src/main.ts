@@ -21,7 +21,8 @@ Vue.component("WfIcon", WfIcon);
 
 // Element UI
 import Element from 'element-ui'
-import './element-variables.scss'
+import './less/ele/index.css'
+import './less/ele/display.css'
 
 import { i18n } from './i18n/';
 Vue.use(Element, { i18n: (key, value) => i18n.t(key, value) })

@@ -16,7 +16,7 @@
     "experimentalDecorators": true,
     "allowJs": true,
     "module": "esnext",
-    "target": "es6",
+    "target": "es2015",
     "moduleResolution": "node",
     "isolatedModules": false,
     "lib": [
