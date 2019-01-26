@@ -10,7 +10,7 @@
       <div class="part-box" v-for="item in chamberList" :key="item.id">
         <el-radio class="part" v-model="chamber" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunChamber${$t(`messages.${item.name}`, 'en')}.png`" :alt="item.name" width="100%">
+            <img :src="`https://cdn.riven.im/img/kitgunChamber${$t(`messages.${item.name}`, 'en')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
@@ -26,7 +26,7 @@
       <div class="part-box" v-for="item in gripList" :key="item.id">
         <el-radio class="part" v-model="grip" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunGrip${$t(`messages.${item.name}`, 'en')}.png`" :alt="item.name" width="100%">
+            <img :src="`https://cdn.riven.im/img/kitgunGrip${$t(`messages.${item.name}`, 'en')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
@@ -43,7 +43,7 @@
       <div class="part-box" v-for="item in loaderList" :key="item.id">
         <el-radio class="part" v-model="loader" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunLoader${$t(`messages.${item.name}`, 'en')}.png`" :alt="item.name" width="100%">
+            <img :src="`https://cdn.riven.im/img/kitgunLoader${$t(`messages.${item.name}`, 'en')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}

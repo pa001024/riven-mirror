@@ -1251,6 +1251,7 @@ let po = {
   },
   modular: {
     damage: "Damage",
+    slideDamage: "Slide Damage",
     fireRate: "Firerate",
     status: "Status",
     critDamage: "Crit damage",

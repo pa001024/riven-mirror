@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.4.8";
+export const version = "1.4.9";
 export const updateLogs = [
+  {
+    version: "1.4.9",
+    date: "2019/1/26",
+    md: {
+      en: `- Optimize image loading speed`,
+      cn: `- 优化图片加载速度`
+    }
+  },
   {
     version: "1.4.8",
     date: "2019/1/24",
@@ -29,6 +37,7 @@ export const updateLogs = [
 - 转移图片到CDN`
     }
   },
+  /*
   {
     version: "1.4.5",
     date: "2019/1/21",
@@ -47,7 +56,6 @@ export const updateLogs = [
 `
     }
   },
-  /*
   {
     version: "1.4.4",
     md: {

@@ -10,7 +10,7 @@
       <div class="part-box" v-for="item in strikeList" :key="item.id">
         <el-radio class="part" v-model="strike" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/zawStrike${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
+            <img :src="`https://cdn.riven.im/img/zawStrike${item.id.replace(/ /g, '')}.m.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
@@ -26,7 +26,7 @@
       <div class="part-box" v-for="item in gripList" :key="item.id">
         <el-radio class="part" v-model="grip" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/zawGrip${item.id.replace(/ /g, '')}.png`" :alt="item.id" width="100%">
+            <img :src="`https://cdn.riven.im/img/zawGrip${item.id.replace(/ /g, '')}.m.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}
@@ -46,7 +46,7 @@
       <div class="part-box" v-for="item in linksList" :key="item.id">
         <el-radio class="part" v-model="links" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/zawLink${item.id.replace(/II/g, '2').replace(/ /g, '')}.png`" :alt="item.id" width="100%">
+            <img :src="`https://cdn.riven.im/img/zawLink${item.id.replace(/II/g, '2').replace(/ /g, '')}.m.png`" :alt="item.id" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.name}`)}}

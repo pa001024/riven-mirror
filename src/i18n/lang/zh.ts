@@ -2816,6 +2816,7 @@ let po = {
   },
   modular: {
     damage: "伤害",
+    slideDamage: "滑行攻击",
     fireRate: "攻速",
     status: "触发",
     critDamage: "暴击倍率",
