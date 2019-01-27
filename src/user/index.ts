@@ -11,7 +11,8 @@ export class User {
 }
 
 export interface LoginResult {
-
+  code: number
+  error: string
 }
 
 const API_BASE = "https://api.riven.im/";
@@ -26,9 +27,9 @@ export class UserSession {
     return axios.get(API_BASE + api)
   }
   async login() {
-    let rst = await this.api("login"), data: LoginResult
-    if (data = rst.data) {
-
+    let rst = await this.api("login"), data = rst.data as LoginResult
+    if (data && data.code === 200) {
+      axios.defaults.headers.common['Authorization'] = rst.headers["Authorization"]
     }
   }
 }

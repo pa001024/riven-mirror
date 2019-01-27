@@ -15,6 +15,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import "@/less/login.less";
 
 @Component({ components: { } })
 export default class ForgetPass extends Vue {
@@ -49,76 +50,3 @@ export default class ForgetPass extends Vue {
   }
 }
 </script>
-<style lang="less">
-@import "../less/common.less";
-
-.login-container {
-  margin: 0 !important;
-  .link-btn {
-    color: @theme_main;
-    &:hover {
-      color: lighten(@theme_main, 10%);
-    }
-  }
-  .login-bg {
-    height: calc(50vh - 160px);
-    background: #7084f9;
-    background-image: linear-gradient(135deg, #7084f9 0%, #3d5afe 100%);
-  }
-  .login-box {
-    width: 440px;
-    margin: -50px auto 0;
-    background: #fff;
-    padding: 55px;
-    border-radius: 8px;
-    box-sizing: border-box;
-    box-shadow: 5px 5px 20px 8px rgba(61, 90, 254, 0.11);
-    .el-form-item {
-      margin-bottom: 16px;
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-    .el-input {
-      .el-input__inner {
-        border: none;
-        border-bottom: 1px solid #e8e8e8;
-        border-radius: 0;
-        padding-left: 40px;
-        &:focus {
-          border-color: @theme_main;
-        }
-      }
-    }
-  }
-  .btn-login {
-    white-space: nowrap;
-    cursor: pointer;
-    padding: 12px 20px;
-    font-size: 14px;
-    box-sizing: border-box;
-    line-height: 1;
-    background-color: #7a94ff;
-    background-image: linear-gradient(90deg, #7090ff 0%, #5d8bff 100%);
-    color: #fff;
-    border-radius: 100px;
-    border: 0;
-    box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
-    margin-top: 18px;
-  }
-}
-.input-icon {
-  height: 100%;
-  text-align: center;
-  transition: all 0.3s;
-  line-height: 40px;
-  font-size: 16px;
-  padding: 0 4px;
-}
-
-@media only screen and (max-width: 767px) {
-  .login-container .login-box {
-    width: calc(100vw - 40px);
-  }
-}
-</style>

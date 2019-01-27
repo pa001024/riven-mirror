@@ -1,5 +1,5 @@
 export const magic = "ALPHA";
-export const version = "1.4.9";
+export const version = "1.4.9.1";
 export const updateLogs = [
   {
     version: "1.4.9",

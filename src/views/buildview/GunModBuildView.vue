@@ -35,7 +35,7 @@
               </div>
             </el-col>
           </el-row>
-          <el-row type="flex" :gutter="12" class="build-item" style="margin:0 8px;">
+          <el-row class="build-prop">
             <el-button size="small" type="primary" round style="margin-left: 8px;" @click="toBuild(build[1])">{{$t("buildview.tobuild")}}</el-button>
             <el-tag style="margin-left: 8px;">{{$t("buildview.panelDamage")}} {{build[1].panelDamage.toFixed(1)}} </el-tag>
             <el-tag style="margin-left: 8px;">{{$t("buildview.critChance")}} {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
@@ -209,14 +209,14 @@ export default class GunModBuildView extends BaseModBuildView {
 
   /**
    * 计算默认模式
-   * if 弹匣 / 射速 < 1.5 * 换弹时间 默认为持续伤害
+   * if 弹匣 / 射速 < 1.8 * 换弹时间 (手枪再乘1.6) 默认为持续伤害
    * if 射速 > 2 默认为爆发伤害
    * else 默认为单发伤害
    */
   get defalutMode() {
     let gun = this.weapon as GunWeapon;
     if (gun.tags.includes("Sniper") && gun.magazine <= 2) return GunCompareMode.FirstAmmoDamage;
-    if (gun.magazine / gun.fireRate < gun.reload * 1.5) return GunCompareMode.SustainedDamage;
+    if (gun.magazine / (gun.tags.includes("Secondary") ? gun.fireRate * 1.6 : gun.fireRate) < gun.reload * 1.8) return GunCompareMode.SustainedDamage;
     if (gun.fireRate > 2) return GunCompareMode.BurstDamage;
     return GunCompareMode.TotalDamage;
   }

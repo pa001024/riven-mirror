@@ -3088,6 +3088,7 @@ let po = {
     passcheck: "密码长度 6 到 32 个字符",
     loginforget: "忘记密码",
     sendreset: "重置密码",
+    updateTip: "新版本已就绪 点击确定自动更新",
   }
 };
 

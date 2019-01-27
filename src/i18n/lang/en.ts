@@ -1424,6 +1424,20 @@ let po = {
   update: {
     title: "Update Info",
     confirm: "I know"
+  },
+  app: {
+    login: "Login",
+    loginbtn: "Login",
+    register: "Sign up",
+    registerbtn: "Sign up",
+    loginHint: "Please enter email",
+    passwordHint: "Please enter password",
+    emailcheck: "Invalid email",
+    passmiss: "Password required",
+    passcheck: "Invalid password",
+    loginforget: "Forget password",
+    sendreset: "Reset password",
+    updateTip: "New version available, click OK to update",
   }
 };
 

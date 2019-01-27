@@ -688,6 +688,11 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
+"@types/animejs@^2.0.1":
+  version "2.0.1"
+  resolved "http://registry.npm.taobao.org/@types/animejs/download/@types/animejs-2.0.1.tgz#f8088e8a0db301ffd4211bebe920d7896aab254c"
+  integrity sha1-+AiOig2zAf/UIRvr6SDXiWqrJUw=
+
 "@types/lodash@^4.14.116":
   version "4.14.120"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.120.tgz#cf265d06f6c7a710db087ed07523ab8c1a24047b"
@@ -1136,6 +1141,11 @@ alphanum-sort@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
+
+animejs@^3.0.1:
+  version "3.0.1"
+  resolved "http://registry.npm.taobao.org/animejs/download/animejs-3.0.1.tgz#8b808bad575e3b6106489d8b04b92bc4062166fe"
+  integrity sha1-i4CLrVdeO2EGSJ2LBLkrxAYhZv4=
 
 ansi-colors@^3.0.0:
   version "3.2.3"

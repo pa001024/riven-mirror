@@ -9,6 +9,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "animejs": "^3.0.1",
     "axios": "^0.18.0",
     "better-scroll": "^1.12.6",
     "color-thief-browser": "^2.0.2",
@@ -30,6 +31,7 @@
     "vuex-class": "^0.3.0"
   },
   "devDependencies": {
+    "@types/animejs": "^2.0.1",
     "@types/lodash": "^4.14.116",
     "@vue/cli-plugin-babel": "^3.0.5",
     "@vue/cli-plugin-pwa": "^3.0.5",

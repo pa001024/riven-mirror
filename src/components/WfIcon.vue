@@ -37,6 +37,7 @@ export default class WfIcon extends Vue {
 [class^="wf-icon-"],
 [class*=" wf-icon-"] {
   display: inline-block;
+  vertical-align: text-top;
   width: 1em;
   height: 1em;
   stroke-width: 0;
