@@ -20,13 +20,14 @@
             </div>
             <div class="weapon-capacity"></div>
             <div class="weapon-props">
+              <!-- 容量 -->
               <el-row :gutter="4" class="prop-diff cost-show">
                 <el-col :span="8" class="title">{{$t('build.cost')}}</el-col>
-                <el-col :span="7" class="diff diff-ori">
+                <el-col :span="7" class="diff diff-ori" :class="{error: build.maxCost < build.totalCost}">
                   {{build.maxCost - build.totalCost}}
                 </el-col>
                 <template v-if="build.totalCost > 0">
-                  <el-col :span="2" class="diff diff-arrow">/</el-col>
+                  <el-col :span="2" class="diff-arrow">/</el-col>
                   <el-col :span="7" class="diff diff-val">
                     {{build.maxCost}}
                   </el-col>
@@ -177,13 +178,16 @@
                   </div>
                   <div class="item enemy-action">
                     <div class="key">{{$t("enemy.action")}}</div>
+                    <div class="value control">
+                      <el-checkbox v-model="perBullet">{{$t('enemy.perBullet')}}</el-checkbox>
+                    </div>
                     <div class="value control"><el-button size="small" @click="selectEnemy(null)">{{$t("enemy.reselect")}}</el-button></div>
                   </div>
                 </div>
                 <!-- 伤害显示区域 -->
-                <EnemyTimeline :timeline="build.getTimeline()"></EnemyTimeline>
+                <EnemyTimeline :perBullet="perBullet" :timeline="build.getTimeline()"/>
               </div>
-              <EnemySelector v-else @select="selectEnemy"></EnemySelector>
+              <EnemySelector v-else @select="selectEnemy"/>
             </keep-alive>
           </el-tab-pane>
           <!-- 概率可视化 -->
@@ -235,6 +239,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   enemyData: EnemyData = null;
   enemy: Enemy = null;
   enemyLevel = 160;
+  perBullet = false;
 
   @Watch("weapon")
   reload() {

@@ -7,6 +7,21 @@ import { Buff, BuffList } from "./codex/buff";
 import { base62, debase62 } from "./lib/base62";
 import { _abilityData } from "./codex/warframe.data";
 
+export enum WarframeCompareMode {
+  EffectiveHealth, // 有效血量
+  Health, // 血量
+  Armor, // 护甲
+  Shield, // 护盾
+  Strength, // 强度
+  Duration, // 持续
+  Range, // 范围
+}
+export interface WarframeBuildOptions {
+  compareMode?: WarframeCompareMode
+  usrEnergyConversion?: boolean
+  arcanes?: Arcane[]
+}
+
 export class WarframeBuild {
   data: Warframe;
   protected _rawmods: NormalMod[] = [];
@@ -97,6 +112,12 @@ export class WarframeBuild {
   protected _enemyRadarAdd: number;
   protected _lootRadarAdd: number;
 
+  // ### 参数 ###
+
+  /** 是否计算能量转换 */
+  usrEnergyConversion = true
+  compareMode = WarframeCompareMode.EffectiveHealth
+
   // ### 基础属性 ###
 
   /** 生命 */
@@ -112,7 +133,7 @@ export class WarframeBuild {
   /** 护盾回充 */
   get shieldRecharge() { return this._shieldRecharge / 100 }
   /** 技能强度 */
-  get abilityStrength() { return (1 + this._abilityStrengthAdd / 100) * this._abilityStrengthMul / 100 }
+  get abilityStrength() { return (this.usrEnergyConversion ? this.energyConversion : 0) + (1 + this._abilityStrengthAdd / 100) * this._abilityStrengthMul / 100 }
   /** 技能持续 */
   get abilityDuration() { return (1 + this._abilityDurationAdd / 100) * this._abilityDurationMul / 100 }
   /** 技能效率(无限制) */
@@ -159,14 +180,50 @@ export class WarframeBuild {
   get effectiveHealth() {
     return this.shield + ((this.health + this.energy * this.quickThinking) * (1 + this.armor / 300));
   }
+  /** 对比参数 */
+  get compareValue() {
+    switch (this.compareMode) {
+      default:
+      case WarframeCompareMode.EffectiveHealth:
+        return this.effectiveHealth
+      case WarframeCompareMode.Health:
+        return this.health
+      case WarframeCompareMode.Armor:
+        return this.armor
+      case WarframeCompareMode.Shield:
+        return this.shield
+      case WarframeCompareMode.Strength:
+        return this.abilityStrength
+      case WarframeCompareMode.Duration:
+        return this.abilityDuration
+      case WarframeCompareMode.Range:
+        return this.abilityRange
+    }
+  }
 
-  constructor(data: Warframe | string) {
+  constructor(data: Warframe | string, options: WarframeBuildOptions = null) {
     if (typeof data === "string") data = WarframeDataBase.getWarframeById(data);
     if (!data) return;
     if (this.data = data) {
       this.avaliableMods = NormalModDatabase.filter(v => this.data.tags.concat(["Warframe", "Exilus", this.baseId, this.baseId + ",Exilus"]).includes(v.type));
     }
+    if (options) {
+      this.options = options;
+    }
     this.reset();
+  }
+
+  set options(options: WarframeBuildOptions) {
+    this.compareMode = typeof options.compareMode !== "undefined" ? options.compareMode : this.compareMode;
+    this.usrEnergyConversion = typeof options.usrEnergyConversion !== "undefined" ? options.usrEnergyConversion : this.usrEnergyConversion;
+    this.arcanes = typeof options.arcanes !== "undefined" ? options.arcanes : this.arcanes;
+  }
+  get options(): WarframeBuildOptions {
+    return {
+      compareMode: this.compareMode,
+      usrEnergyConversion: this.usrEnergyConversion,
+      arcanes: this.arcanes,
+    }
   }
 
   /** 重置属性 */
@@ -361,9 +418,9 @@ export class WarframeBuild {
     nb._mods = this.mods;
     nb._buffs = this.buffs;
     nb._mods.splice(index, 1);
-    let oldVal = this.effectiveHealth;
+    let oldVal = this.compareValue;
     nb.calcMods();
-    let newVal = nb.effectiveHealth;
+    let newVal = nb.compareValue;
     return oldVal / newVal - 1;
   }
 
@@ -385,36 +442,26 @@ export class WarframeBuild {
    */
   fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
     let mods = this._mods = _.compact(this._mods);
-    let othermods = lib.filter(v => !mods.some(k => v.id === k.id && (v.id === "RIVENFAKE" ? v.props[0][0] === k.props[0][0] : true) || v.id === k.primed));
-    let sortableMods = othermods.map(v => [v, 0] as [NormalMod, number]);
-    let rivenCount = mods.reduce((a, b) => a + (b.id === "RIVENFAKE" ? 1 : 0), 0), rivenSlots = rivenLimit ? slots + rivenLimit - 1 : slots;
-    if (useRiven > 0) {
-      // if (useRiven == 2)
-      //   this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
-      // else
-      //   othermods.push(this.riven.normalMod); // 1. 将紫卡作为一张普卡进行计算
-    }
-    while (mods.length < rivenSlots && sortableMods.length > (rivenSlots - mods.length)) {
+    let othermods = lib.filter(v => !mods.some(k => v.id === k.id || v.id === k.primed || v.primed === k.id));
+    let sortableMods = othermods.map(v => [v, this.testMod(v)] as [NormalMod, number]).filter(v => v[1] > 0);
+    console.log(sortableMods, mods.length, sortableMods.length, slots - mods.length)
+    while (mods.length < slots && sortableMods.length > 0) {
       // 2. 计算收益
       // console.log("开始计算收益: ", this._mods.length)
       sortableMods.forEach(v => {
-        if (v[0].id === "RIVENFAKE" ? rivenCount >= rivenLimit : mods.length - rivenCount >= rivenSlots - rivenLimit)
-          v[1] = -2;
-        else
-          v[1] = this.testMod(v[0]);
-        // v[0].id === "RIVENFAKE" && console.log("测试收益: ", this._mods.map(v => v.name).join(","), v[0].props[0][1], v[0].name, "的收益是", v[1]);
-      });
+        v[1] = this.testMod(v[0]);
+      })
       // 3. 把所有卡按收益排序
       sortableMods.sort((a, b) => b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]);
       if (sortableMods.length > 0) {
         // console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
         // 4. 将收益最高的一项插入并移出数组
         let expMod = sortableMods.shift()[0];
-        if (expMod.id === "RIVENFAKE") rivenCount++;
         this.applyMod(expMod);
         // 5. 重复以上步骤直到卡槽充满
       }
     }
+    this._mods.length = 8;
     this.recalcPolarizations();
   }
 
@@ -433,10 +480,10 @@ export class WarframeBuild {
       }
     }
     // 通用方法
-    let oldVal = this.effectiveHealth;
+    let oldVal = this.compareValue;
     this._mods.push(mod);
     this.calcMods();
-    let newVal = this.effectiveHealth;
+    let newVal = this.compareValue;
     this._mods.pop();
     this.calcMods();
     return newVal / oldVal - 1;
@@ -680,7 +727,6 @@ export class RenderedAbilities {
 
   enhance?: AbilityEnhance;
   forms?: AbilityFormData[];
-  _props?: AbilityProp;
 
   get props() {
     const trans = (o: string | number | object) => {

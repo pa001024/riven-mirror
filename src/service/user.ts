@@ -10,7 +10,7 @@ export class User {
   data: { [key: string]: string }
 }
 
-export interface LoginResult {
+export interface BasicResult {
   code: number
   error: string
 }
@@ -23,13 +23,23 @@ export class UserSession {
   constructor(userQuery: string, sessionPass: string) {
     [this.userQuery, this.sessionPass] = [userQuery, sessionPass]
   }
-  async api(api: string) {
+  api(api: string) {
     return axios.get(API_BASE + api)
   }
   async login() {
-    let rst = await this.api("login"), data = rst.data as LoginResult
+    let rst = await this.api("login"), data = rst.data as BasicResult
     if (data && data.code === 200) {
-      axios.defaults.headers.common['Authorization'] = rst.headers["Authorization"]
-    }
+      axios.defaults.headers.common["Authorization"] = rst.headers["Authorization"];
+      return true
+    } else
+      return false
+  }
+  async forgetPassword() {
+    let rst = await this.api("forget_password"), data = rst.data as BasicResult
+    if (data && data.code === 200) {
+      axios.defaults.headers.common["Authorization"] = rst.headers["Authorization"];
+      return true
+    } else
+      return false
   }
 }

@@ -9,7 +9,7 @@
         {{displayValue(ori)}}
       </el-col>
       <template v-if="Num(percent ? ori * 100 : ori, preci) !== Num(percent ? val * 100 : val, preci)">
-        <el-col :span="2" class="diff diff-arrow" :class="activeClass"><i class="el-icon-arrow-right"></i></el-col>
+        <el-col :span="2" class="diff-arrow" :class="activeClass"><i class="el-icon-arrow-right"></i></el-col>
         <el-col :span="7" class="diff diff-val" :class="activeClass">
           {{displayValue(val)}}
         </el-col>
@@ -86,6 +86,9 @@ export default class extends Vue {
   .diff-ori,
   .diff-val {
     text-align: right;
+  }
+  .diff.error {
+    color: @text_error;
   }
 }
 

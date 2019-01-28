@@ -1,5 +1,5 @@
 <template>
-  <div class="mod-slot" :class="[mod && mod.rarity, { active: !mod , leveled }]" @click="mod || $emit('change')">
+  <div class="mod-slot leveled" :class="[mod && mod.rarity, { active: !mod , leveled }]" @click="mod || $emit('change')">
     <div v-if="icon" class="mod-header-icon">
       <WfIcon :type="icon"/>
     </div>

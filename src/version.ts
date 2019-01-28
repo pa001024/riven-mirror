@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.4.9.1";
+export const version = "1.4.10";
 export const updateLogs = [
+  {
+    version: "1.4.10",
+    date: "2019/1/28",
+    md: {
+      en: `- Add warframe auto-fill options
+- Add Round Mode in **Simulacrum**`,
+      cn: `- 增加战甲自动填充选项
+- **幻影装置** 增加逐发模式`
+    }
+  },
   {
     version: "1.4.9",
     date: "2019/1/26",

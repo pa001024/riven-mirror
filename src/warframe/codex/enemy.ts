@@ -279,7 +279,6 @@ const _damageModelList = [
   ["Corpus", 2, 0, , , 0, 0],
   ["Corpus Shield", 2, , 0, , 0, 0],
   ["Corpus Elite", 2, 0, , 1, 0, 0],
-  ["Corpus Elite Unarmored", 2, 0, , , 0, 0],
   ["Corpus Elite Shield", 2, , 1, , 0, 0],
   ["Infested", 3, 3, , , 0, 0],
   ["Infested Elite", 3, 2, , , 0, 0],

@@ -157,7 +157,7 @@ export class GunModBuild extends ModBuild {
         enemy.tickCount = nextDmgTick;
         enemy.applyHit(remaingMag === this.magazineSize ? this.totalDmgFirstRaw : this.totalDmgRaw,
           this.procChanceMap, this.dotDamageMap, this.bullets, this.procDurationMul,
-          this.critChance, this.weapon.tags.includes("Sniper") ? 750 : 750 / this.fireRate);
+          this.critChance, this.weapon.tags.includes("Sniper") ? 750 : 750 / (this.fireRate < 1 ? 1 : this.fireRate));
         nextDmgTick += (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : (remaingMag = this.magazineSize, reloadTicks || ticks);
       }
       // DoT

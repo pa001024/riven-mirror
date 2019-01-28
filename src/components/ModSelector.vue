@@ -143,7 +143,7 @@ export default class ModSelector extends Vue {
     let mods = NormalModDatabase.filter(v =>
       (isVisual && VisualMeleeMods.includes(v.key)) || // 虚拟技能武器接受所有mod
       this.build.weapon.tags.concat([this.build.rivenWeapon.id]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id));
-    let benefits = mods.filter(v => v.props.some(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) >= 0))
+    let benefits = mods.filter(v => v.props.some(k => v.id === "Berserker" || "01DSKEGICO456789ARLFJ".indexOf(k[0]) >= 0))
       .map(v => [v, this.build.testMod(v)] as [NormalMod, number]).sort((a, b) => b[1] - a[1]).map(([v]) => v);
     this.tabs = [
       // { id: "Fast", name: this.$t("modselector.fastSelect") as string, mods: _.map(this.fastSelect[this.build.rivenWeapon.mod], (v, i) => ({ name: i, id: v } as any)) },

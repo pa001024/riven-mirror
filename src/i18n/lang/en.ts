@@ -1039,6 +1039,7 @@ let po = {
     amrorReduce: "Armor Reduce%",
     action: "Action",
     reselect: "Reselect",
+    perBullet: "Round Mode",
     fleshType: {
       0: "Flesh",
       1: "Cloned Flesh",
@@ -1112,7 +1113,7 @@ let po = {
     panelDamage: "Panel damage:",
     critChance: "Crit Chance:",
     critMul: "Crit Multiply:",
-    fireRate: "Fire Rate:",
+    fireRate: "Attack Speed:",
     magazine: "Magazine:",
     reload: "Reload:",
     status: "Status Chance(per bullet):",

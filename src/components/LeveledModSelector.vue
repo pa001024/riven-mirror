@@ -49,7 +49,7 @@ export default class LeveledModSelector extends Vue {
 
   /** MOD快速选择 */
   fastSelect = {
-    maxStrength: ["Transient Fortitude", "Blind Rage", "Umbral Intensify", "Augur Secrets", "Power Drift", "Umbral Vitality@5", "Umbral Fiber@5"],
+    maxStrength: ["Transient Fortitude", "Blind Rage", "Umbral Intensify", "Augur Secrets", "Energy Conversion", "Power Drift", "Umbral Vitality@5", "Umbral Fiber@5"],
     maxDuration: ["Primed Continuity", "Narrow Minded", "Augur Message", "Constitution"]​​​​,
     maxEfficiency: ["Streamline", "Fleeting Expertise"],
     maxRange: ["Stretch", "Overextended", "Augur Reach", "Cunning Drift"],
@@ -74,7 +74,7 @@ export default class LeveledModSelector extends Vue {
         { id: "ability", name: this.$t("modselector.ability") as string, mods: mods.filter(v => v.props.some(k => "tuxge".indexOf(k[0]) >= 0 || ["ec"].includes(k[0]))) },
         { id: "tank", name: this.$t("modselector.tank") as string, mods: mods.filter(v => v.props.some(k => "hsaz".indexOf(k[0]) >= 0 || ["hc"].includes(k[0]))) },
         { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.props.some(k => "fcliv".indexOf(k[0]) >= 0)) },
-        { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.props.every(k => "tuxgehsazefcliv".indexOf(k[0]) < 0)) },
+        { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.props.every(k => "tuxgehsazefcliv".indexOf(k[0]) < 0 && "ec" !== k[0])) },
       ];
       this.selectTab = this.type === "Warframe" ? "fast" : "ability";
     }

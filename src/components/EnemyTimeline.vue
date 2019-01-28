@@ -16,12 +16,12 @@
           <div class="hp">{{$t("timeline.hp")}}</div>
           <div class="ar" v-if="hasArmorChange">{{$t("timeline.ar")}}</div>
         </div>
-        <div class="item" v-for="(text, sec) in timelineText" :key="sec">
-          <div class="time">{{text.time / 1e3}}s</div>
-          <div class="hit">{{text.ammo ? `${(text.hit/text.ammo).toFixed()} x ${text.ammo}` : $t("timeline.reload")}}</div>
-          <div class="dot" v-if="hasDoT">{{text.dot}}</div>
-          <div class="hp">{{text.hp}}</div>
-          <div class="ar" v-if="hasArmorChange">{{text.ar}}</div>
+        <div class="item" v-for="(text, sec) in timelineTable" :key="sec">
+          <div class="time" v-text="text.time"></div>
+          <div class="hit" v-text="text.hit"></div>
+          <div class="dot" v-text="text.dot" v-if="hasDoT"></div>
+          <div class="hp" v-text="text.hp"></div>
+          <div class="ar" v-text="text.ar" v-if="hasArmorChange"></div>
         </div>
       </div>
     </el-tab-pane>
@@ -44,9 +44,11 @@ import { EnemyTimelineState } from "@/warframe/codex";
 @Component
 export default class EnemyTimeline extends Vue {
   @Prop() timeline: EnemyTimelineState[];
+  @Prop({ type: Boolean }) perBullet: boolean;
   visType = "chart";
   hasDoT = false;
   hasArmorChange = false;
+  useTable = false;
 
   get timelineText() {
     let rst = [];
@@ -69,18 +71,28 @@ export default class EnemyTimeline extends Vue {
         if (dot > 0) this.hasDoT = true;
         lastHitHead = i;
         ammo = 0;
-      } else if (i === this.timeline.length - 1) {
+      } else if (this.perBullet || i === this.timeline.length - 1) {
         rst.push({
           time: v.ms,
           hit: ~~(this.timeline[lastHitHead].health - v.health),
           ammo,
           dot: 0,
-          hp: 0,
-          ar: 0,
+          hp: ~~v.health,
+          ar: ~~v.armor,
         });
       }
     });
-    return rst;
+    return rst
+  }
+
+  get timelineTable() {
+    return this.timelineText.map(v => ({
+      time: `${+(v.time / 1e3).toFixed(1)}s`,
+      hit: v.ammo ? `${(v.hit / v.ammo).toFixed()} x ${v.ammo}` : this.$t("timeline.reload"),
+      dot: v.dot,
+      hp: v.hp,
+      ar: v.ar,
+    }));
   }
 
   get chart() { return this.$refs.chart as Element; }
@@ -91,14 +103,19 @@ export default class EnemyTimeline extends Vue {
     this.hasDoT = this.hasArmorChange = false;
     this.timeline.forEach((v, i) => {
       ammo += v.ammo;
-      if (v.isDoT) {
-        let hit = this.timeline[i - 1];
-        let dot = ~~(hit.health - v.health);
+      if (v.isDoT || this.perBullet) {
+        let lastHealth = this.timeline[i - 1] ? this.timeline[i - 1].health : v.health;
+        let dot = ~~(lastHealth - v.health);
         tm.push(v.ms / 1e3 + "s");
         hp.push(~~v.health);
         ar.push(~~(v.armor));
-        dd.push(~~(this.timeline[lastHitHead].health - hit.health) || '-');
-        pd.push(dot || '-');
+        if (v.isDoT) {
+          dd.push(~~(this.timeline[lastHitHead].health - lastHealth) || '-');
+          pd.push(dot || '-');
+        } else {
+          dd.push(dot || '-');
+          pd.push('-');
+        }
         if (v.armor != this.timeline[0].armor) this.hasArmorChange = true;
         if (dot > 0) this.hasDoT = true;
         lastHitHead = i;
@@ -200,7 +217,7 @@ export default class EnemyTimeline extends Vue {
 
 </script>
 
-<style>
+<style lang="less">
 .timeline-chart {
   height: 360px;
   width: 100%;
@@ -208,28 +225,42 @@ export default class EnemyTimeline extends Vue {
 .timeline-text {
   display: flex;
   flex-wrap: wrap;
-  background: #fff;
-  padding: 0 2px;
-}
-.timeline-text .item {
-  flex: 1;
-}
-.timeline-text .item:hover {
-  background: #ebf1fc;
-  transition: all 0.4s;
-}
-.timeline-text .item:first-child > * {
-  background: #d9e6ff;
-}
-.timeline-text .item > * {
-  height: 1.5em;
-  padding: 4px;
-  margin: 2px 0;
-  font-size: 1em;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #89b2fd;
+  border-radius: 2px;
   overflow: hidden;
-  white-space: nowrap;
+  .item {
+    flex: 1;
+  }
+  .item:hover {
+    background: #ebf1fc;
+    transition: all 0.4s;
+  }
+  .item:first-child > * {
+    background: #d9e6ff;
+  }
+  .item > * {
+    height: 1.5em;
+    padding: 4px;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #89b2fd;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .timeline-text {
+    display: block;
+    .item {
+      display: flex;
+      .time {
+        width: 40px;
+      }
+    }
+    .item > *:not(:first-child) {
+      flex: 1;
+    }
+  }
 }
 </style>

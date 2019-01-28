@@ -77,12 +77,12 @@ const _zawGrip = [
   ["2", "Plague Akwin", "plagueAkwin", 0, -2, 0.95],
   ["3", "Laka", "laka", 0, 0, 0.917],
   ["4", "Kwath", "kwath", 0, 14, 0.850],
-  ["0", "Korb", "korb", 0, 28, 0.783],
+  ["0", "Korb", "korb", 0, 28, 0.784],
   ["6", "Seekalla", "seekalla", 1, -4, 1],
   ["8", "Jayap", "jayap", 1, 0, 0.917],
   ["5", "Plague Bokwin", "plagueBokwin", 1, 7, 0.883],
   ["9", "Kroostra", "kroostra", 1, 14, 0.85],
-  ["7", "Shtung", "shtung", 1, 28, 0.783],
+  ["7", "Shtung", "shtung", 1, 28, 0.784],
 ] as [string, string, string, number, number, number][];
 
 export interface ZawGrip {
@@ -179,7 +179,7 @@ export class Zaw implements MeleeWeapon {
   get panelDamage() { return this.dmg.reduce((a, b) => a + b[1], 0); }
   get slideDmg() { return this.panelDamage * (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide; }
   get tags() { return ["Melee", "ZAW", this.stance]; }
-  get critMul() { return this.strike.id === "A" ? 2.2 : 2; }
+  get critMul() { return this.strike.idx === "A" ? 2.2 : 2; }
   get url() { return `ZAW-${this.strike.idx}-${this.grip.idx}-${this.links.idx}`; }
   set url(value) {
     let parts = value.split("-");

@@ -20,13 +20,14 @@
             </div>
             <div class="weapon-capacity"></div>
             <div class="weapon-props">
+              <!-- 容量 -->
               <el-row :gutter="4" class="prop-diff cost-show">
                 <el-col :span="8" class="title">{{$t('build.cost')}}</el-col>
-                <el-col :span="7" class="diff diff-ori">
+                <el-col :span="7" class="diff diff-ori" :class="{error: build.maxCost < build.totalCost}">
                   {{build.maxCost - build.totalCost}}
                 </el-col>
                 <template v-if="build.totalCost > 0">
-                  <el-col :span="2" class="diff diff-arrow">/</el-col>
+                  <el-col :span="2" class="diff-arrow">/</el-col>
                   <el-col :span="7" class="diff diff-val">
                     {{build.maxCost}}
                   </el-col>

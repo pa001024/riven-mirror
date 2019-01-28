@@ -20,34 +20,39 @@
                 <i slot="reference" class="el-icon-share share-icon"></i>
               </el-popover>
             </div>
-            <table class="warframe-props">
-              <tbody>
-                <!-- 容量 -->
-                <tr class="prop-diff cost-show">
-                  <th>{{$t('build.cost')}}</th>
-                  <td class="diff diff-ori diff-cost" :class="{error: build.maxCost < build.totalCost}">
-                    {{build.maxCost - build.totalCost}}
-                  </td>
-                  <template v-if="build.totalCost > 0">
-                    <td class="diff diff-arrow">/</td>
-                    <td class="diff diff-val">
-                      {{build.maxCost}}
-                    </td>
-                  </template>
-                </tr>
-                <PropDiff :name="$t('build.health')" :ori="coreBuild.health" :val="build.health"></PropDiff>
-                <PropDiff :name="$t('build.shield')" :ori="coreBuild.shield" :val="build.shield"></PropDiff>
-                <PropDiff :name="$t('build.armor')" :ori="coreBuild.armor" :val="build.armor"></PropDiff>
-                <PropDiff :name="$t('build.energy')" :ori="coreBuild.energy" :val="build.energy"></PropDiff>
-                <PropDiff :name="$t('build.sprint')" :ori="coreBuild.sprint" :val="build.sprint" :preci="2"></PropDiff>
-                <PropDiff :name="$t('build.effectiveHealth')" :ori="coreBuild.effectiveHealth" :val="build.effectiveHealth" :preci="0"></PropDiff>
-                <br>
-                <PropDiff :name="$t('build.abilityStrength')" :ori="coreBuild.abilityStrength" :val="build.abilityStrength" percent :preci="0"></PropDiff>
-                <PropDiff :name="$t('build.abilityDuration')" :ori="coreBuild.abilityDuration" :val="build.abilityDuration" percent :preci="0"></PropDiff>
-                <PropDiff :name="$t('build.abilityEfficiency')" :ori="coreBuild.abilityEfficiency" :val="build.abilityEfficiency" percent :preci="0"></PropDiff>
-                <PropDiff :name="$t('build.abilityRange')" :ori="coreBuild.abilityRange" :val="build.abilityRange" percent :preci="0"></PropDiff>
-              </tbody>
-            </table>
+            <div class="warframe-props">
+              <!-- 容量 -->
+              <el-row :gutter="4" class="prop-diff cost-show">
+                <el-col :span="8" class="title">{{$t('build.cost')}}</el-col>
+                <el-col :span="7" class="diff diff-ori" :class="{error: build.maxCost < build.totalCost}">
+                  {{build.maxCost - build.totalCost}}
+                </el-col>
+                <template v-if="build.totalCost > 0">
+                  <el-col :span="2" class="diff-arrow">/</el-col>
+                  <el-col :span="7" class="diff diff-val">
+                    {{build.maxCost}}
+                  </el-col>
+                </template>
+              </el-row>
+              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"
+                :name="$t('build.health')" :ori="coreBuild.health" :val="build.health"></PropDiff>
+              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"
+                :name="$t('build.shield')" :ori="coreBuild.shield" :val="build.shield"></PropDiff>
+              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"
+                :name="$t('build.armor')" :ori="coreBuild.armor" :val="build.armor"></PropDiff>
+              <PropDiff :name="$t('build.energy')" :ori="coreBuild.energy" :val="build.energy"></PropDiff>
+              <PropDiff :name="$t('build.sprint')" :ori="coreBuild.sprint" :val="build.sprint" :preci="2"></PropDiff>
+              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"
+                :name="$t('build.effectiveHealth')" :ori="coreBuild.effectiveHealth" :val="build.effectiveHealth" :preci="0"></PropDiff>
+              <br>
+              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 4}" @click="changeMode(4)"
+                :name="$t('build.abilityStrength')" :ori="coreBuild.abilityStrength" :val="build.abilityStrength" percent :preci="0"></PropDiff>
+              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 5}" @click="changeMode(5)"
+                :name="$t('build.abilityDuration')" :ori="coreBuild.abilityDuration" :val="build.abilityDuration" percent :preci="0"></PropDiff>
+              <PropDiff :name="$t('build.abilityEfficiency')" :ori="coreBuild.abilityEfficiency" :val="build.abilityEfficiency" percent :preci="0"></PropDiff>
+              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 6}" @click="changeMode(6)"
+                :name="$t('build.abilityRange')" :ori="coreBuild.abilityRange" :val="build.abilityRange" percent :preci="0"></PropDiff>
+            </div>
           </el-card>
           <!-- 选项区域 -->
           <el-card class="build-tools">
@@ -199,6 +204,10 @@ export default class WarframeEditor extends Vue {
   renderProps([vn, vv]: [string, number]) {
     return ValuedProperty.parse([vn, vv])
   }
+  changeMode(mode: number) {
+    this.build.compareMode = mode;
+    this.reloadSelector();
+  }
   onCodeChange() {
     if (this.code && this.build.miniCode != this.code) {
       this.build.miniCode = this.code;
@@ -284,8 +293,8 @@ export default class WarframeEditor extends Vue {
       else
         this.currentTab.mods[this.selectModIndex] = mod;
     }
-    this.refleshMods();
     this.modDialogVisible = false;
+    this.refleshMods();
   }
   handleTabsEdit(targetName, action: "add" | "remove") {
     if (action === 'add') {
@@ -374,9 +383,6 @@ export default class WarframeEditor extends Vue {
   .mod-slot-container {
     justify-content: center;
   }
-}
-.diff-cost.error {
-  color: @text_error;
 }
 
 .skill-container {

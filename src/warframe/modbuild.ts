@@ -925,7 +925,7 @@ export abstract class ModBuild {
         othermods.push(this.riven.normalMod); // 1. 将紫卡作为一张普卡进行计算
     }
     let sortableMods = othermods.map(v => [v, 0] as [NormalMod, number]);
-    while (mods.length < rivenSlots && sortableMods.length > (rivenSlots - mods.length)) {
+    while (mods.length < rivenSlots && sortableMods.length > 0) {
       // 2. 计算收益
       // console.log("开始计算收益: ", this._mods.length)
       sortableMods.forEach(v => {
@@ -946,6 +946,7 @@ export abstract class ModBuild {
         // 5. 重复以上步骤直到卡槽充满
       }
     }
+    if (this._mods.length < 8) this._mods.length = 8;
     if (!this.fastMode) this.recalcPolarizations();
   }
   /**
