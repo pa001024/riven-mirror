@@ -97,7 +97,7 @@
       <el-form v-if="hasSpecial" class="prop special" label-width="80px" size="small">
         <div class="special-list" v-for="(_, i) in special" :key="i">
           <TextItem   :bind="special[i]" keyName="desc" required/>
-          <NumberItem :bind="special[i]" keyName="value"/>
+          <NumberItem :bind="special[i]" keyName="val"/>
           <el-button size="small" style="margin-bottom:8px" class="" type="danger" icon="el-icon-delete" @click="special.splice(i,1)">删除效果</el-button>
         </div>
         <el-button size="small" style="margin-bottom:8px" type="primary" icon="el-icon-edit" @click="special.push({desc:''})">新增效果</el-button>
@@ -105,11 +105,11 @@
       <!-- move -->
       <el-checkbox border size="large" class="prop-header" v-model="hasMove" :label="$t('ability.effects.move')"/>
       <el-form v-if="hasMove" class="prop move" label-width="80px" size="small">
-        <CommonItem :bind="move" keyName="directive" :defaultValue="0">
+        <CommonItem :bind="move" keyName="directive" defaultValue="0">
           <el-select v-model="move.directive" placeholder="请选择">
-            <el-option label="非指向性" :value="0"/>
-            <el-option label="非强制指向" :value="1"/>
-            <el-option label="强制指向" :value="2"/>
+            <el-option label="非指向性" value="0"/>
+            <el-option label="非强制指向" value="1"/>
+            <el-option label="强制指向" value="2"/>
           </el-select>
         </CommonItem>
         <NumberItem :bind="move" keyName="distance" required/>

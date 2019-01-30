@@ -82,6 +82,8 @@ export interface AdvancedAbilityPropValue {
   minValue?: number
   /** 上限 */
   maxValue?: number
+  /** 后缀 */
+  subfix?: string
 }
 
 /** 数值 */
@@ -194,12 +196,12 @@ export namespace AbilityPropTypes {
   /** 特殊 */
   export interface Special {
     desc: string
-    value?: AbilityPropValue
+    val?: AbilityPropValue
   }
   /** 位移 */
   export interface Move {
     /** 指向性 0为非指向性 1为非强制指向(如咖喱1技能) 2为强制指向 */
-    directive?: 0 | 1 | 2
+    directive?: "0" | "1" | "2"
     /** 距离 */
     distance: AbilityPropValue
   }

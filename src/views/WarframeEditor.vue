@@ -120,25 +120,33 @@
                   <div class="skill-effect" :key="index" v-for="([name, effect], index) in abi.props">
                     <div class="effect-name">{{$t(`ability.effects.${name}`)}}</div>
                     <div class="effect-detail">
-                      <div class="effect-prop" :key="vn" v-for="(vv, vn) in effect">
-                        <div class="prop-name">{{$t(`ability.props.${vn}`)}}</div>
-                        <div class="prop-value damage" v-if="Array.isArray(vv)">
-                          <template v-if="vn === 'damage' || vn === 'rangeDamage'">
-                            <div class="dmg" :key="dname" v-for="([dname, dvalue]) in vv">
-                              <WfIcon :type="dname.toLowerCase()"/>
-                              <span class="value">{{dvalue}}</span>
-                            </div>
-                          </template>
-                          <template v-else>
-                            <div class="prop" :key="pname" v-for="([pname, pvalue]) in vv">
-                              {{renderProps([pname, pvalue]).fullString}}
-                            </div>
-                          </template>
+                      <template v-if="effect[0]">
+                        <div class="effect-prop special" :key="vn" v-for="(vv, vn) in effect">
+                          <div class="prop-name">{{$t(`ability.props.${vv.desc}`)}}</div>
+                          <div class="prop-value normal">{{vv.val}}</div>
                         </div>
-                        <div class="prop-value normal" v-else>
-                          {{vv}}
+                      </template>
+                      <template v-else>
+                        <div class="effect-prop" :key="vn" v-for="(vv, vn) in effect">
+                          <div class="prop-name">{{$t(`ability.props.${vn}`)}}</div>
+                          <div class="prop-value damage" v-if="Array.isArray(vv)">
+                            <template v-if="vn === 'damage' || vn === 'rangeDamage'">
+                              <div class="dmg" :key="dname" v-for="([dname, dvalue]) in vv">
+                                <WfIcon :type="dname.toLowerCase()"/>
+                                <span class="value">{{dvalue}}</span>
+                              </div>
+                            </template>
+                            <template v-else>
+                              <div class="prop" :key="pname" v-for="([pname, pvalue]) in vv">
+                                {{renderProps([pname, pvalue]).fullString}}
+                              </div>
+                            </template>
+                          </div>
+                          <div class="prop-value normal" v-else>
+                            {{vv}}
+                          </div>
                         </div>
-                      </div>
+                      </template>
                     </div>
                   </div>
                 </el-col>

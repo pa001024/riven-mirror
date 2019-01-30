@@ -826,6 +826,8 @@ export class RenderedAbilities {
             if (aap.minValue) value = Math.max(value, aap.minValue)
             if (aap.maxValue) value = Math.min(value, aap.maxValue)
             return +value.toFixed(2)
+          } else { // speical
+            return _.mapValues(o as any, val => trans(val)) as typeof o
           }
       }
       return o

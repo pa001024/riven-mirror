@@ -82,11 +82,18 @@ export default class VisualSkillEditor extends Vue {
     this.skills = _abilityData.map(v => {
       let a = _.cloneDeep(v);
       a.props = _.mapValues(a.props, prop => {
-        return _.mapValues(prop, (pv: any) => {
-          if (Array.isArray(pv))
-            return pv.map(([vn, vv]) => typeof vv === "number" ? [vn, { value: vv }] : [vn, vv])
-          return typeof pv === "number" ? { value: pv } : pv
-        })
+        if (Array.isArray(prop))
+          return prop.map(prop => _.mapValues(prop, (pv: any) => {
+            if (Array.isArray(pv))
+              return pv.map(([vn, vv]) => typeof vv === "number" ? [vn, { value: vv }] : [vn, vv])
+            return typeof pv === "number" ? { value: pv } : pv
+          }))
+        else
+          return _.mapValues(prop, (pv: any) => {
+            if (Array.isArray(pv))
+              return pv.map(([vn, vv]) => typeof vv === "number" ? [vn, { value: vv }] : [vn, vv])
+            return typeof pv === "number" ? { value: pv } : pv
+          })
       })
       return a
     })

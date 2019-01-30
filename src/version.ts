@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.4.10";
+export const version = "1.4.11";
 export const updateLogs = [
+  {
+    version: "1.4.11",
+    date: "2019/1/30",
+    md: {
+      en: `- Add warframe ability data`,
+      cn: `- 增加战甲技能数据`
+    }
+  },
   {
     version: "1.4.10",
     date: "2019/1/28",
@@ -29,6 +37,7 @@ export const updateLogs = [
 - 修正沙皇、科林斯和斯特朗的装填算法`
     }
   },
+  /*
   {
     version: "1.4.7",
     date: "2019/1/23",
@@ -47,7 +56,6 @@ export const updateLogs = [
 - 转移图片到CDN`
     }
   },
-  /*
   {
     version: "1.4.5",
     date: "2019/1/21",
