@@ -54,9 +54,9 @@ const actions = {
 };
 
 const getters = {
-  rivenModText: state => state.mod && state.mod.modText,
-  mod: state => state.mod,
-  modHistoty: state => state.history
+  rivenModText: (state: State) => state.mod && state.mod.modText,
+  mod: (state: State) => state.mod,
+  modHistoty: (state: State) => state.history
 }
 
 export default {

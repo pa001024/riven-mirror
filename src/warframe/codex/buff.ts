@@ -1,5 +1,4 @@
 import { ValuedProperty } from "./prop";
-import { ArcaneList } from "./arcane";
 
 /**
  * 加成
@@ -218,7 +217,25 @@ export const BuffList: BuffData[] = [
     },
     defaultLayer: 11,
   },
+  {
+    id: "z",
+    name: "strength",   // 强度
+    type: BuffType.BaseDamage,
+    target: "Regulators",
+    dynamicProps: [["dmg", 1.5, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100,
+  },
   // 乘法总伤类
+  {
+    id: "Z",
+    name: "strength",   // 强度
+    type: BuffType.TotalDamage,
+    target: "Exalted",
+    dynamicProps: [["oad", 1, -100]],
+    parms: ["power", "%"],
+    defaultValue: 100,
+  },
   {
     id: "c",
     name: "combo", // 连击
@@ -407,6 +424,12 @@ export const BuffList: BuffData[] = [
       maxStack: 6,
       stackableProps: [["bldr", 15]],
     },
+  }, {
+    id: "r",
+    name: "charm", // 招福
+    type: BuffType.CritDamage,
+    target: "Weapon",
+    props: [["ccl", 200]],
   },
   // 复合类
   {

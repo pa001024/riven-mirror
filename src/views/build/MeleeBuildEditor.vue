@@ -36,8 +36,8 @@
               <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="3"></PropDiff>
               <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
               <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
-              <PropDiff :name="$t('build.slideDmg')" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
-              <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
+              <PropDiff :name="$t('build.slideDmg')" v-if="weapon.slideDmg" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
+              <PropDiff :name="$t('build.ratio')" v-if="rWeapon.ratio" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
               <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
               <!-- 伤害模型 -->
               <el-row :gutter="4" class="prop-diff model-selector">
@@ -59,11 +59,11 @@
               <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
               <PropDiff :name="$t('build.attackDamage')" :ori="build.oriTotalDamage" :val="build.normalDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
-              <PropDiff :name="$t('build.slideDamage')" :ori="build.oriSlideDamage" :val="build.slideDamage"
+              <PropDiff :name="$t('build.slideDamage')" v-if="weapon.slideDmg" :ori="build.oriSlideDamage" :val="build.slideDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
               <PropDiff :name="$t('build.attackDamagePS')" :ori="build.oriTotalDamagePS" :val="build.normalDamagePS"
                   class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
-              <PropDiff :name="$t('build.slideDamagePS')" :ori="build.oriSlideDamagePS" :val="build.slideDamagePS"
+              <PropDiff :name="$t('build.slideDamagePS')" v-if="weapon.slideDmg" :ori="build.oriSlideDamagePS" :val="build.slideDamagePS"
                   class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
             </div>
           </el-card>
@@ -142,6 +142,10 @@
           <el-tab-pane class="provis" :label="$t('build.provis')" name="provis">
             <ProbabilityVisualization :criti="build.critChance" :critMul="build.critMul" :multi="build.bullets" :totalDamageFloor="build.totalDamageFloor" :totalDamageCeil="build.totalDamageCeil"/>
           </el-tab-pane>
+          <!-- 其他信息 -->
+          <el-tab-pane class="otherinfo" :label="$t('build.otherinfo')" name="otherinfo">
+            <OtherInfoDisplay :build="build"/>
+          </el-tab-pane>
         </el-tabs>
       </el-col>
     </el-row>
@@ -160,6 +164,7 @@ import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
 import ProbabilityVisualization from "@/components/ProbabilityVisualization.vue";
+import OtherInfoDisplay from "@/components/OtherInfoDisplay.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 import { ModBuild } from "@/warframe/modbuild";
@@ -175,7 +180,7 @@ declare interface BuildSelectorTab {
 }
 
 @Component({
-  components: { ModSelector, PropDiff, BuffSelector, StatusInfoDisplay, ModSlot, ProbabilityVisualization }
+  components: { ModSelector, PropDiff, BuffSelector, StatusInfoDisplay, ModSlot, ProbabilityVisualization, OtherInfoDisplay }
 })
 export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: MeleeWeapon;

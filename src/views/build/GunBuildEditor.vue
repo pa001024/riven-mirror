@@ -40,7 +40,7 @@
               <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
               <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
               <PropDiff :name="$t('build.bullets')" v-if="weapon.bullets != 1 || build.bullets != 1" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
-              <PropDiff :name="$t('build.ratio')" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
+              <PropDiff :name="$t('build.ratio')" v-if="rWeapon.ratio" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
               <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
               <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
               <!-- 伤害模型 -->
@@ -194,6 +194,10 @@
           <el-tab-pane class="provis" :label="$t('build.provis')" name="provis">
             <ProbabilityVisualization :criti="build.critChance" :critMul="build.critMul" :multi="build.bullets" :totalDamageFloor="build.totalDamageFloor" :totalDamageCeil="build.totalDamageCeil"/>
           </el-tab-pane>
+          <!-- 其他信息 -->
+          <el-tab-pane class="otherinfo" :label="$t('build.otherinfo')" name="otherinfo">
+            <OtherInfoDisplay :build="build"/>
+          </el-tab-pane>
         </el-tabs>
       </el-col>
     </el-row>
@@ -214,6 +218,7 @@ import EnemySelector from "@/components/EnemySelector.vue";
 import EnemyTimeline from "@/components/EnemyTimeline.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
 import ProbabilityVisualization from "@/components/ProbabilityVisualization.vue";
+import OtherInfoDisplay from "@/components/OtherInfoDisplay.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 import { GunWeapon, RivenWeapon, EnemyData, Codex, Enemy } from "@/warframe/codex";
@@ -221,7 +226,7 @@ import { GunModBuild } from "@/warframe/gunmodbuild";
 import "@/less/builder.less";
 
 @Component({
-  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, ProbabilityVisualization }
+  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, ProbabilityVisualization, OtherInfoDisplay }
 })
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;

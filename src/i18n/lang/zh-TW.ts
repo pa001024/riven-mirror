@@ -2224,6 +2224,7 @@ let po = {
       vtv: "{0} 虛空轉換病毒",
       vtp: "{0} 虛空轉換穿刺",
       vth: "{0} 虛空轉換火焰",
+      ccl: "鎖定基礎暴擊率 {0}",
 
       ify: "如果目標距離 {0} 米外",
       onHeadshot: "爆頭後:",
@@ -2381,6 +2382,7 @@ let po = {
       vtv: "虛空轉換病毒",
       vtp: "虛空轉換穿刺",
       vth: "虛空轉換火焰",
+      ccl: "鎖定基礎暴擊率",
     },
   },
   elements: {
@@ -2497,7 +2499,8 @@ let po = {
     armorValueTip: "請輸入護甲數值",
     provis: "概率可視化",
     provislabel: "{0} 彈片 {1} 暴擊等級",
-    provislabel0: "{0} 暴擊等級"
+    provislabel0: "{0} 暴擊等級",
+    otherinfo: "其他信息",
   },
   enemy: {
     name: "敵人",
@@ -3010,6 +3013,8 @@ let po = {
     virtuosSurge: "正直突波",
     virtuosSpike: "正直尖刺",
     virtuosForge: "正直熔爐",
+    strength: "技能強度",
+    charm: "招福",
   },
   ability: {
     energyCost: "能量: {0}",
@@ -3096,6 +3101,15 @@ let po = {
     loginforget: "忘記密碼",
     sendreset: "重置密碼",
     updateTip: "新版本已就緒 點擊確定自動更新",
+  },
+  otherinfo: {
+    wiki: "WIKI",
+    wikiurl: "https://warframe.huijiwiki.com/wiki/{0}",
+    mod: "MOD",
+    wm: "warframe.market",
+    wmurl: "https://warframe.market/items/{0}",
+    rm: "riven.market",
+    rmurl: "riven.market",
   }
 };
 

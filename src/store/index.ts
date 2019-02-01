@@ -11,7 +11,8 @@ interface State {
 
 const store = new Vuex.Store<State>({
   modules: {
-    mod, user
+    mod,
+    user,
   }
 })
 

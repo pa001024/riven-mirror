@@ -23,7 +23,7 @@
       </div>
     </el-tab-pane>
     <!-- 紫卡 -->
-    <el-tab-pane name="riven">
+    <el-tab-pane name="riven" v-if="isVirtual || !isExalted">
       <span slot="label" class="mod-tablabel">{{$t("modselector.rivenMod")}}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(hiRiven, index) in modHistoty" :key="index">
@@ -33,7 +33,7 @@
         </div>
       </div>
       <div style="margin: 8px;">{{$t("modselector.createRiven")}}</div>
-      <RivenEditor style="margin: 8px;" v-model="editorRivenCode" :weapon="build.rivenWeapon"></RivenEditor>
+      <RivenEditor style="margin: 8px;" v-model="editorRivenCode" :weapon="!isVirtual && build.rivenWeapon"></RivenEditor>
       <div style="text-align: right; margin: 0">
         <el-button type="primary" size="medium" @click="newRiven()">{{$t("modselector.ok")}}</el-button>
       </div>
@@ -46,7 +46,7 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import RivenEditor from "@/components/RivenEditor.vue";
 import { Getter } from "vuex-class";
-import { NormalMod, NormalModDatabase, VisualMeleeMods, Codex } from "@/warframe/codex";
+import { NormalMod, NormalModDatabase, VirtualMeleeMods, Codex } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import { ModBuild } from "@/warframe/modbuild";
 
@@ -64,6 +64,8 @@ export default class ModSelector extends Vue {
   tabs: ModSelectorTab[] = [];
   selectTab = "fast";
   editorRivenCode = "";
+  get isExalted() { return this.build.weapon.tags.includes("Exalted") }
+  get isVirtual() { return this.build.weapon.tags.includes("Virtual") }
 
   /** MOD快速选择 */
   fastSelect = {
@@ -128,20 +130,20 @@ export default class ModSelector extends Vue {
   newRiven(code?: string) {
     let riven = new RivenMod();
     riven.qrCodeBase64 = code || this.editorRivenCode;
-    if (riven.id !== this.build.rivenWeapon.id)
+    if (!this.isVirtual && riven.id !== this.build.rivenWeapon.id)
       this.$confirm(this.$t("modselector.weaponWarnTip") as string, this.$t("modselector.weaponWarn") as string, { type: 'warning' }).then(() => {
         this.$emit("command", riven.normalMod);
       });
     else
       this.$emit("command", riven.normalMod);
   }
+
   @Watch("build")
   reload() {
     let selected = _.compact(this.build.mods);
     // 是否虚拟技能武器
-    let isVisual = this.build.weapon.id === "Whipclaw" || this.build.weapon.id === "Shattered Lash";
     let mods = NormalModDatabase.filter(v =>
-      (isVisual && VisualMeleeMods.includes(v.key)) || // 虚拟技能武器接受所有mod
+      (this.isVirtual && VirtualMeleeMods.includes(v.key)) || // 虚拟技能武器接受所有mod
       this.build.weapon.tags.concat([this.build.rivenWeapon.id]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id));
     let benefits = mods.filter(v => v.props.some(k => v.id === "Berserker" || "01DSKEGICO456789ARLFJ".indexOf(k[0]) >= 0))
       .map(v => [v, this.build.testMod(v)] as [NormalMod, number]).sort((a, b) => b[1] - a[1]).map(([v]) => v);

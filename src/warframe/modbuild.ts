@@ -50,6 +50,7 @@ export abstract class ModBuild {
   protected _allEnemyDmgMul = 0;
   protected _multishotMul = 100;
   protected _voidConvs: [string, number][] = [];
+  protected _critChanceLock = -100;
 
   protected _extraProcChance: [string, number][] = [];
   protected _statusInfo: { [key: string]: SpecialStatusInfo } = null;
@@ -186,8 +187,9 @@ export abstract class ModBuild {
     return `https://riven.im/weapon/${this.weapon.url}/${this.miniCode}`;
   }
 
+  get critChanceLock() { return this._critChanceLock / 100 }
   /** 暴击率 */
-  get critChance() { return hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd); }
+  get critChance() { return this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd); }
   /** 暴击倍率 */
   get critMul() { return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul); }
   /** 平均暴击区增幅倍率 */
@@ -757,6 +759,7 @@ export abstract class ModBuild {
     this._finalCritMulMul = 100;
     this._allEnemyDmgMul = 0;
     this._multishotMul = 100;
+    this._critChanceLock = -100;
     this.standaloneElements = [];
     this._voidConvs = [];
     this.recalcElements();
@@ -1125,6 +1128,7 @@ export abstract class ModBuild {
       case 'efd': /* 火焰伤害 */ this.heatMul = hAccSum(this._heatMul, pValue); break;
       case 'aed': /* 对全种族伤害 allEnemyDmgMul */ this._allEnemyDmgMul = hAccSum(this._allEnemyDmgMul, pValue); break;
       case 'bsc': /* 加法触发几率 */ this._procChanceAdd = hAccSum(this._procChanceAdd, pValue); break;
+      case 'ccl': /* 暴击率锁定 */ this._critChanceLock = pValue; break;
       default:
     }
   }

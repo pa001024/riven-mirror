@@ -182,6 +182,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "rc", }, // Fire/Charge Rate
   { id: "scan", }, // Fatal strikes against an enemy also perform a Codex Scan
   { id: "apd", }, // first Pellet Damage additionally
+  { id: "ccl", noplus: true }, // crit chance lock
 
   // Amp damage convert
   { id: "vte", dmg: true },

@@ -50,9 +50,9 @@ export class MeleeModBuild extends ModBuild {
   /** 处决伤害增幅倍率 */
   get execDmgMul() { return this._execDmgMul < 0 ? 0 : this._execDmgMul / 100; }
   /** 连击数增加暴击率 */
-  get comboCritChanceMul() { return this.weapon.tags.includes("Exalted") ? 0 : this._comboCritChanceMul / 100; }
+  get comboCritChanceMul() { return this._comboCritChanceMul / 100; }
   /** 连击数增加触发率 */
-  get comboProcChanceMul() { return this.weapon.tags.includes("Exalted") ? 0 : this._comboProcChanceMul / 100; }
+  get comboProcChanceMul() { return this._comboProcChanceMul / 100; }
   /** 偷袭伤害 */
   get stealthDamageMul() { return this._stealthDamageMul < 0 ? 0 : this._stealthDamageMul / 100; }
   /** 最终攻速(狂战士) */
@@ -131,9 +131,9 @@ export class MeleeModBuild extends ModBuild {
   /** [overwrite] 暴击率 */
   get critChance() { return this.slideMode ? this.slideCritChance : this.normalCritChance; }
   /** 平砍暴击率 */
-  get normalCritChance() { return hAccMul(hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd), this.comboCritChance); }
+  get normalCritChance() { return hAccMul(this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd), this.comboCritChance); }
   /** 滑行暴击率 */
-  get slideCritChance() { return hAccMul(hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd), this.comboCritChance); }
+  get slideCritChance() { return hAccMul(this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd), this.comboCritChance); }
 
   /** [overwrite] 触发几率 */
   get procChance() {
@@ -220,6 +220,9 @@ export class MeleeModBuild extends ModBuild {
     if ("sacrificialPressure" === mod.id && this._mods.some(v => v && v.id === "primedPressurePoint")
       || "primedPressurePoint" === mod.id && this._mods.some(v => v && v.id === "sacrificialPressure"))
       return false;
+    if (this.weapon.tags.includes("Exalted")) {
+      return !["Weeping Wounds", "Blood Rush", "Maiming Strike", "Focused Defense"].includes(mod.id)
+    }
     return true;
   }
 

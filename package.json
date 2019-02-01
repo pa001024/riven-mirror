@@ -15,6 +15,7 @@
     "color-thief-browser": "^2.0.2",
     "echarts": "^4.1.0",
     "element-ui": "^2.4.6",
+    "fastclick": "^1.0.6",
     "lodash": "^4.17.4",
     "markdown-it": "^8.4.2",
     "qrious": "^4.0.2",

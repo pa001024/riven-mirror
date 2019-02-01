@@ -177,4 +177,4 @@ export const AcolyteModsList: string[] = [
   "Embedded Catalyzer", "Pressurized Magazine", "Targeting Subsystem", "Sharpened Bullets", "Hydraulic Crosshairs", // "内置触媒", "增压弹匣", "定位辅助", "尖锐子弹", "液压准心",
 ];
 
-export const VisualMeleeMods = ["D3", "D4", "D5", "D6"];
+export const VirtualMeleeMods = ["D3", "D4", "D5", "D6"];

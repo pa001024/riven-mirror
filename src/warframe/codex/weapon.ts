@@ -557,8 +557,8 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Valkyr Talons", name: "valkyrTalons", tags: ["Melee", "Exalted"], dmg: [["Puncture", 83.3], ["Slash", 83.3], ["Impact", 83.3]], critMul: 2, critChance: 0.5, fireRate: 1.5, slideDmg: 750, status: 0.1 },
   { id: "Exalted Blade", name: "exaltedBlade", tags: ["Melee", "Exalted"], dmg: [["Puncture", 37.5], ["Slash", 175], ["Impact", 37.5]], critMul: 2, critChance: 0.15, fireRate: 0.833, slideDmg: 536, status: 0.1 },
   // 虚拟技能武器
-  { id: "Whipclaw", name: "whipclaw", tags: ["Melee", "Exalted"], dmg: [["Puncture", 90], ["Slash", 120], ["Impact", 90]], critMul: 2, critChance: 0.25, fireRate: 1, slideDmg: 0, status: 0.2 },
-  { id: "Shattered Lash", name: "shatteredLash", tags: ["Melee", "Exalted"], dmg: [["Puncture", 800]], critMul: 1, critChance: 0, fireRate: 1, slideDmg: 0, status: 0 },
+  { id: "Whipclaw", name: "whipclaw", tags: ["Melee", "Exalted", "Virtual"], dmg: [["Puncture", 90], ["Slash", 120], ["Impact", 90]], critMul: 2, critChance: 0.25, fireRate: 1, slideDmg: 0, status: 0.2 },
+  { id: "Shattered Lash", name: "shatteredLash", tags: ["Melee", "Exalted", "Virtual"], dmg: [["Puncture", 800]], critMul: 1, critChance: 0, fireRate: 1, slideDmg: 0, status: 0 },
   // 守护武器
   { id: "Deconstructor", name: "deconstructor", rivenName: "Deconstructor", tags: ["Melee", "Robotic", "Glaive"], dmg: [["Impact", 50]], critChance: 0, fireRate: 1.3, status: 0.25 },
   { id: "Deconstructor Prime", name: "deconstructorPrime", rivenName: "Deconstructor", tags: ["Melee", "Robotic", "Glaive"], dmg: [["Impact", 75]], critChance: 0, fireRate: 1.33, status: 0.25 },

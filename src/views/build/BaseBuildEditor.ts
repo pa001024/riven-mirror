@@ -1,6 +1,6 @@
 import { Vue, Watch } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
-import { NormalMod, Buff, Weapon, RivenWeapon, BuffData, DamageModelList, SimpleDamageModel } from "@/warframe/codex";
+import { NormalMod, Buff, Weapon, RivenWeapon, BuffData, DamageModelList, SimpleDamageModel, BuffList } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 
 declare interface BuildSelectorTab {
@@ -53,16 +53,26 @@ export abstract class BaseBuildEditor extends Vue {
   }
   reload() {
     if (this.weapon) {
+      let buffs = [null]
+      if (this.weapon.tags.includes("Exalted")) {
+        if (this.weapon.id === "Regulators") {
+          buffs = [new Buff(BuffList.find(v => v.id === "z")), null]
+        } else {
+          buffs = [new Buff(BuffList.find(v => v.id === "Z")), null]
+        }
+      }
       this.tabs = "ABC".split("").map(v => ({
         title: this.$t("zh") ? `配置${v}` : `SET ${v}`,
         name: `SET ${v}`,
         build: this.newBuild(this.weapon),
         mods: Array(8),
-        buffs: [null],
+        buffs,
       }));
       this.tabValue = "SET A";
       if (this.code) {
         this.onCodeChange();
+      } else if (buffs.length > 1) {
+        this.refleshMods();
       }
     }
   }
@@ -83,17 +93,24 @@ export abstract class BaseBuildEditor extends Vue {
     let emp = _.map(rst, (v, i) => [i, ...v]) as [string, number, number][];
     return emp;
   }
+  pushState() {
+    let code = this.build.miniCode;
+    if (code)
+      this.$router.push({ name: 'BuildEditorWithCode', params: { code } });
+    else
+      this.$router.push({ name: 'BuildEditor' });
+  }
   fill() {
     this.build.fill(8, 0);
     this.currentTab.mods = this.build.mods;
     this.reloadSelector();
-    this.$router.push({ name: 'BuildEditorWithCode', params: { code: this.build.miniCode } });
+    this.pushState();
   }
   fillEmpty() {
     this.build.fillEmpty(8, 0);
     this.currentTab.mods = this.build.mods;
     this.reloadSelector();
-    this.$router.push({ name: 'BuildEditorWithCode', params: { code: this.build.miniCode } });
+    this.pushState();
   }
   clear() {
     let rivenIdx = this.currentTab.mods.findIndex(v => v && v.rarity === "x"), riven = this.currentTab.mods[rivenIdx];
@@ -102,6 +119,7 @@ export abstract class BaseBuildEditor extends Vue {
     if (riven) this.currentTab.mods[rivenIdx] = riven;
     this.refleshMods();
     this.reloadSelector();
+    this.pushState();
   }
   changeMode(mode: number) {
     this.build.compareMode = mode;
@@ -125,7 +143,7 @@ export abstract class BaseBuildEditor extends Vue {
     let buffs = _.compact(this.currentTab.buffs);
     this.build.mods = mods;
     this.build.buffs = buffs;
-    this.$router.push({ name: 'BuildEditorWithCode', params: { code: this.build.miniCode } });
+    this.pushState();
   }
   // === 事件处理 ===
   modSelect(mod: NormalMod | NormalMod[]) {

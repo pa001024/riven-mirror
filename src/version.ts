@@ -1,6 +1,18 @@
 export const magic = "ALPHA";
-export const version = "1.4.11";
+export const version = "1.4.12";
 export const updateLogs = [
+  {
+    version: "1.4.12",
+    date: "2019/2/1",
+    md: {
+      en: `- Add Exalted Weapon strength buff
+- Remove riven in Exalted Weapon (except for virtual weapons: Whipclaw and Shattered Lash)
+- Add other info for WIKI/WM`,
+      cn: `- 增加技能武器的基础强度buff
+- 移除了显赫武器的裂罅选项 (虚拟技能武器裂罅保留并增加武器选择)
+- 增加其他信息 WIKI/WM 相关`
+    }
+  },
   {
     version: "1.4.11",
     date: "2019/1/30",
@@ -27,6 +39,7 @@ export const updateLogs = [
       cn: `- 优化图片加载速度`
     }
   },
+  /*
   {
     version: "1.4.8",
     date: "2019/1/24",
@@ -37,7 +50,6 @@ export const updateLogs = [
 - 修正沙皇、科林斯和斯特朗的装填算法`
     }
   },
-  /*
   {
     version: "1.4.7",
     date: "2019/1/23",

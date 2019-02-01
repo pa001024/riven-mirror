@@ -60,3 +60,7 @@ changeLocale(vi18n.locale).then(() => {
 // ServiceWorker
 import register from './registerServiceWorker';
 register()
+
+// FastClick
+import FastClick from "fastclick";
+FastClick.attach(document.body)
