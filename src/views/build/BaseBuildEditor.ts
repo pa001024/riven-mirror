@@ -43,8 +43,7 @@ export abstract class BaseBuildEditor extends Vue {
     if (this.$route.name !== "BuildEditorWithCode" && this.$route.name !== "BuildEditor") return;
     if (this.code && this.build.miniCode != this.code) {
       this.build.miniCode = this.code;
-      let mods = this.build.mods;
-      let buffs = this.build.buffs;
+      let { mods, buffs } = this.build;
       while (mods.length < 8) mods.push(null);
       buffs.push(null);
       this.currentTab.mods = mods;
@@ -143,6 +142,7 @@ export abstract class BaseBuildEditor extends Vue {
     let buffs = _.compact(this.currentTab.buffs);
     this.build.mods = mods;
     this.build.buffs = buffs;
+    this.currentTab.mods = this.build.mods;
     this.pushState();
   }
   // === 事件处理 ===

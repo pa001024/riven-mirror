@@ -15,15 +15,21 @@ export abstract class ModBuild {
 
   /** 所有适用的MOD */
   protected avaliableMods: NormalMod[] = []
+  protected _rawmods: NormalMod[] = [];
   protected _mods: NormalMod[] = [];
   protected _arcanes: Arcane[] = [];
   protected _buffs: Buff[] = [];
+
+  /** 原型MOD列表 */
+  get rawMods() { return this._rawmods; }
   /** MOD列表 */
   get mods() { return _.cloneDeep(this._mods); }
   set mods(value) {
-    this._mods = _.cloneDeep(value);
+    this._rawmods = _.cloneDeep(value);
+    this._mods = this.mapRankUpMods(value);
     this.calcMods();
     this.fastMode || this.recalcPolarizations();
+    console.log("mapped.setMul", this._mods)
   }
   /** 赋能列表 */
   get arcanes() { return _.cloneDeep(this._arcanes); }
@@ -375,6 +381,7 @@ export abstract class ModBuild {
       }
     });
   }
+
   /** 显示各触发参数 */
   get statusInfo() { return this._statusInfo; }
 
@@ -791,6 +798,26 @@ export abstract class ModBuild {
       }
     }
     return true;
+  }
+
+  /**
+   * [纯函数] 映射组合MOD加成
+   *
+   * @param {NormalMod[]} mods
+   * @returns {NormalMod[]}
+   */
+  mapRankUpMods(mods: NormalMod[]): NormalMod[] {
+    let umbraSet = { "CD": [1, 1.25], "DD": [1, 1.25] };
+    let umbraSetCount = mods.filter(v => v && v.key in umbraSet).length - 1;
+    let rst = mods.map(mod => {
+      if (mod && mod.key in umbraSet) {
+        let mapped = _.clone(mod);
+        mapped.setMul = umbraSet[mod.key][umbraSetCount];
+        return mapped;
+      }
+      return mod;
+    });
+    return rst;
   }
 
   /**

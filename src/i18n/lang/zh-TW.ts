@@ -2225,6 +2225,7 @@ let po = {
       vtp: "{0} 虛空轉換穿刺",
       vth: "{0} 虛空轉換火焰",
       ccl: "鎖定基礎暴擊率 {0}",
+      erc: "{0} 能量回复",
 
       ify: "如果目標距離 {0} 米外",
       onHeadshot: "爆頭後:",
@@ -2383,6 +2384,7 @@ let po = {
       vtp: "虛空轉換穿刺",
       vth: "虛空轉換火焰",
       ccl: "鎖定基礎暴擊率",
+      erc: "能量回复",
     },
   },
   elements: {
@@ -3015,6 +3017,7 @@ let po = {
     virtuosForge: "正直熔爐",
     strength: "技能強度",
     charm: "招福",
+    unairu: "UNAIRU 虛靈",
   },
   ability: {
     energyCost: "能量: {0}",
@@ -3103,10 +3106,10 @@ let po = {
     updateTip: "新版本已就緒 點擊確定自動更新",
   },
   otherinfo: {
-    wiki: "WIKI",
+    wiki: "維基",
     wikiurl: "https://warframe.huijiwiki.com/wiki/{0}",
     mod: "MOD",
-    wm: "warframe.market",
+    wm: "WM市場",
     wmurl: "https://warframe.market/items/{0}",
     rm: "riven.market",
     rmurl: "riven.market",

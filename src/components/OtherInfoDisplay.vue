@@ -13,6 +13,7 @@
             {{$t("otherinfo.wm")}}
           </el-button>
         </a>
+        <code>{{`\{\{Weapon|${build.weapon.id}\}\}`}}</code>
       </div>
     </section>
     <section class="mod" v-for="(mod, i) in mods" :key="i">
@@ -28,6 +29,7 @@
             {{$t("otherinfo.wm")}}
           </el-button>
         </a>
+        <code>{{`\{\{M|${mod.id}\}\}`}}</code>
       </div>
     </section>
   </div>
@@ -50,6 +52,7 @@ export default class OtherInfoDisplay extends Vue {
 
   get mods() {
     return this.build.mods.filter(Boolean).map(v => ({
+      id: v.id,
       name: v.name,
       wiki: this.$t("otherinfo.wikiurl", [v.id.replace(/ /g, "_")]),
       wm: this.$t("otherinfo.wmurl", [_.kebabCase(v.id).replace(/-/g, "_")])

@@ -756,6 +756,7 @@ let po = {
       vtp: "{0} Void to Puncture",
       vth: "{0} Void to Heat",
       ccl: "Lock Crit chance to {0}",
+      erc: "{0} Amp Energy Regen",
 
       ify: "if the target is over {0}m away",
       onHeadshot: "On Headshot:",
@@ -914,6 +915,7 @@ let po = {
       vtp: "Void to Puncture",
       vth: "Void to Heat",
       ccl: "Lock Crit chance",
+      erc: "Amp Energy Regen",
     },
   },
   elements: {
@@ -1454,6 +1456,7 @@ let po = {
     virtuosForge: "Virtuos Forge",
     strength: "Ability Strength",
     charm: "Charm",
+    unairu: "Unairu Wisp",
   },
   ability: {
     energyCost: "ENERGY: {0}",

@@ -178,7 +178,7 @@ export class Kitgun implements GunWeapon {
     } as KitgunLoaderDisplay;
   }
   get panelDamage() { return this.dmg.reduce((a, b) => a + b[1], 0); }
-  get tags() { return ["Gun", "Secondary", "KITGUN"]; }
+  get tags() { return this.id === "Gaze" ? ["Gun", "Secondary", "KITGUN", "Continuous"] : ["Gun", "Secondary", "KITGUN"]; }
   get url() { return `KITGUN-${this.chamber.id}-${this.grip.id}-${this.loader.id}`; }
   set url(value) {
     let parts = value.split("-");

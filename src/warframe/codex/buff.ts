@@ -111,7 +111,7 @@ export const BuffList: BuffData[] = [
     },
   } as BuffData)),
   ...[
-    ["vA", "virtuosNull", [["能量回复", 5]], "Amp"],
+    ["vA", "virtuosNull", [["erc", 5]], "Amp"],
     ["vB", "virtuosTempo", [["R", 15]], "Amp"],
     ["vC", "virtuosFury", [["D", 7.5]], "Amp"],
     ["vD", "virtuosStrike", [["1", 15]], "Amp"],
@@ -275,6 +275,16 @@ export const BuffList: BuffData[] = [
     dynamicProps: [["oad", 12, 0]],
     parms: ["time", "s"],
     defaultValue: 30,
+  }, {
+    id: "U",
+    name: "unairu", // UNAIRU 虚灵
+    type: BuffType.TotalDamage,
+    target: "Amp",
+    multiLayer: {
+      maxStack: 4,
+      stackableProps: [["oad", 25]],
+    },
+    defaultLayer: 4,
   }, {
     id: "N",
     name: "molecularPrime", // nova4 分子填充

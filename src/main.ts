@@ -26,6 +26,12 @@ import './less/ele/display.css'
 
 import { i18n } from './i18n/';
 Vue.use(Element, { i18n: (key, value) => i18n.t(key, value) })
+
+// clipboard
+
+// import VueClipboard from 'vue-clipboard2';
+// Vue.use(VueClipboard)
+
 // i18n
 import { changeLocale, vi18n } from './i18n/plugin';
 
