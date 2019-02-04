@@ -1544,6 +1544,9 @@ let po = {
     loginforget: "Forget password",
     sendreset: "Reset password",
     updateTip: "New version available, click OK to update",
+    copy: "COPY",
+    tip: "TIP",
+    copySuccess: "URL COPIED",
   },
   otherinfo: {
     wiki: "WIKI",

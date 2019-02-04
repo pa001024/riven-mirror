@@ -27,11 +27,6 @@ import './less/ele/display.css'
 import { i18n } from './i18n/';
 Vue.use(Element, { i18n: (key, value) => i18n.t(key, value) })
 
-// clipboard
-
-// import VueClipboard from 'vue-clipboard2';
-// Vue.use(VueClipboard)
-
 // i18n
 import { changeLocale, vi18n } from './i18n/plugin';
 
@@ -39,21 +34,26 @@ import router from '@/router'
 import store from '@/store'
 import App from './App.vue'
 
-// load extra i18n file
-changeLocale(vi18n.locale).then(() => {
-  console.log("using lang", navigator.language)
-  i18n.inject(vi18n);
-  store.dispatch("load")
-  /* eslint-disable no-new */
-  new Vue({
-    el: '#app',
-    i18n: vi18n,
-    router,
-    store,
-    render: h => h(App)
-  })
-});
+// crossdomain check
 
+import { HH, LH } from "@/var";
+
+if ([HH, LH].includes(location.host)) {
+  // load extra i18n file
+  changeLocale(vi18n.locale).then(() => {
+    console.log("using lang", navigator.language)
+    i18n.inject(vi18n);
+    store.dispatch("load")
+    /* eslint-disable no-new */
+    new Vue({
+      el: '#app',
+      i18n: vi18n,
+      router,
+      store,
+      render: h => h(App)
+    })
+  });
+}
 // import Worker from "worker-loader!./worker/main";
 
 // const worker = new Worker();

@@ -6,6 +6,7 @@ import { Arcane } from "./codex/arcane";
 import { Buff, BuffList } from "./codex/buff";
 import { base62, debase62 } from "./lib/base62";
 import { _abilityData } from "./codex/warframe.data";
+import { HH } from "@/var";
 
 export enum WarframeCompareMode {
   EffectiveHealth, // 有效血量
@@ -540,10 +541,14 @@ export class WarframeBuild {
     while (mods.length < 10) mods.push(null);
     let normal = mods.map(v => v && (v.key + (v.level !== v.maxLevel ? "@" + base62(v.level) : "")) || "00").join("");
     let buffseq = this.buffs.map(v => `!${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 100) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
-    return normal + buffseq;
+    if (normal === "00000000000000000000")
+      return buffseq;
+    else
+      return normal + buffseq;
   }
 
   set miniCode(code: string) {
+    if (code.startsWith("!")) code = "00000000000000000000" + code;
     let normal = code.match(/..(?:@.)?/g).slice(0, 10);
     let subPart = code.substr(normal.join("").length);
     let buffIdx = subPart.indexOf("!");
@@ -571,7 +576,7 @@ export class WarframeBuild {
     this.mods = mods;
   }
   get miniCodeURL() {
-    return `https://riven.im/warframe/${this.data.url}/${this.miniCode}`;
+    return this.miniCode ? `https://${HH}/warframe/${this.data.url}/${this.miniCode}` : `https://${HH}/warframe/${this.data.url}`;
   }
   get maxHealth() { return 1 }
   get maxShield() { return 1 }

@@ -9,16 +9,7 @@
             <div slot="header" class="core-name">
               <span class="title">{{core.name}}</span>
               <span class="forma">{{$t("build.formaCount", [build.formaCount])}}</span>
-              <el-popover placement="bottom" trigger="click">
-                <el-input :value="build.miniCodeURL" size="small" ref="miniCodeURL" @focus="$refs.miniCodeURL.select()"></el-input>
-                <div style="text-align:center;">
-                  <qrcode :value="build.miniCodeURL" :options="{ size: 150, foreground: '#333' }"></qrcode>
-                </div>
-                <div style="text-align:center;">
-                  {{$t("riven.sharetip")}}
-                </div>
-                <i slot="reference" class="el-icon-share share-icon"></i>
-              </el-popover>
+              <ShareQR :url="build.miniCodeURL"/>
             </div>
             <div class="warframe-props">
               <!-- 容量 -->
@@ -167,6 +158,7 @@ import { WarframeBuild } from "@/warframe/warframebuild";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import LeveledModSelector from "@/components/LeveledModSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
+import ShareQR from "@/components/ShareQR.vue";
 import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty } from "@/warframe/codex";
 import "@/less/builder.less";
 import { i18n } from "@/i18n";
@@ -182,7 +174,7 @@ interface BuildSelectorTab {
 }
 
 @Component({
-  components: { PropDiff, LeveledModSlot, LeveledModSelector },
+  components: { PropDiff, LeveledModSlot, LeveledModSelector, ShareQR },
   beforeRouteEnter(to, from, next) {
     const core = WarframeDataBase.getWarframeById(to.params.id.replace(/_/g, " "));
     if (core) {

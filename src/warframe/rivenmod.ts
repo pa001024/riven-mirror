@@ -1,6 +1,7 @@
 import { Base64, randomNormalDistribution, strSimilarity } from "./util";
 import { base62, debase62 } from "./lib/base62";
 import { Polarity, RivenProperty, RivenDataBase, MeleeWeaponDataBase, GunWeaponDataBase, RivenPropertyDataBase, RivenWeaponDataBase, NormalMod } from "./codex";
+import { HH } from "@/var";
 
 export class ValuedRivenProperty {
   /** 属性原型 */
@@ -405,10 +406,10 @@ A段位12023
   }
   /** 网址形式的二维码 */
   get qrCodeURL() {
-    return "https://riven.im/riven/" + this.qrCodeBase64;
+    return `https://${HH}/riven/` + this.qrCodeBase64;
   }
   set qrCodeURL(value) {
-    this.qrCodeBase64 = value.replace("https://riven.im/riven/", "");
+    this.qrCodeBase64 = value.replace(`https://${HH}/riven/`, "");
   }
   /** 返回完整的modText */
   get modText() {

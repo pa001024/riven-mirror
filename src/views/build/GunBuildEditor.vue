@@ -7,16 +7,7 @@
           <el-card class="weapon-box">
             <div slot="header" class="weapon-name">
               <span>{{weapon.displayName}}</span>
-              <el-popover placement="bottom" trigger="click">
-                <el-input :value="build.miniCodeURL" size="small" ref="miniCodeURL" @focus="$refs.miniCodeURL.select()"></el-input>
-                <div style="text-align:center;">
-                  <qrcode :value="build.miniCodeURL" :options="{ size: 150, foreground: '#333' }"></qrcode>
-                </div>
-                <div style="text-align:center;">
-                  {{$t("riven.sharetip")}}
-                </div>
-                <i slot="reference" class="el-icon-share share-icon"></i>
-              </el-popover>
+              <ShareQR :url="build.miniCodeURL"/>
             </div>
             <div class="weapon-capacity"></div>
             <div class="weapon-props">
@@ -219,6 +210,7 @@ import EnemyTimeline from "@/components/EnemyTimeline.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
 import ProbabilityVisualization from "@/components/ProbabilityVisualization.vue";
 import OtherInfoDisplay from "@/components/OtherInfoDisplay.vue";
+import ShareQR from "@/components/ShareQR.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 import { GunWeapon, RivenWeapon, EnemyData, Codex, Enemy } from "@/warframe/codex";
@@ -226,7 +218,7 @@ import { GunModBuild } from "@/warframe/gunmodbuild";
 import "@/less/builder.less";
 
 @Component({
-  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, ProbabilityVisualization, OtherInfoDisplay }
+  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR }
 })
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;

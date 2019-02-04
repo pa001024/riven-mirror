@@ -31,15 +31,7 @@
               <div class="mod-props-box">
                 <div class="mod-name">
                   <span>{{mod.name}} {{mod.subfix}}</span>
-                  <el-popover placement="bottom" trigger="hover">
-                    <div style="text-align:center;">
-                      <qrcode :value="mod.qrCodeURL" :options="{ size: 150, foreground: '#333' }"></qrcode>
-                    </div>
-                    <div style="text-align:center;">
-                      {{$t("riven.sharetip")}}
-                    </div>
-                    <i slot="reference" class="el-icon-share share-icon"></i>
-                  </el-popover>
+                  <ShareQR :url="mod.qrCodeURL"/>
                 </div>
                 <div class="mod-props">
                   <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
@@ -96,7 +88,9 @@ import axios from 'axios';
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import GunModBuildView from "@/views/buildview/GunModBuildView.vue";
 import MeleeModBuildView from "@/views/buildview/MeleeModBuildView.vue";
+import ShareQR from "@/components/ShareQR.vue";
 import { Getter, Action } from "vuex-class";
+import { HH } from "@/var";
 import "../less/mod.less";
 
 // import jsQR from "jsqr";
@@ -109,7 +103,7 @@ interface OCRResult {
   success: number
 }
 @Component({
-  components: { GunModBuildView, MeleeModBuildView, RivenEditor }
+  components: { GunModBuildView, MeleeModBuildView, RivenEditor, ShareQR }
 })
 export default class Mod extends Vue {
   // prop
@@ -184,7 +178,7 @@ export default class Mod extends Vue {
         this.readQRCode(blob).then(msg => {
           if (msg) {
             console.log("readQRCode=>", msg);
-            this.newBase64Text(msg.replace("https://riven.im/riven/", ""));
+            this.newBase64Text(msg.replace(`https://${HH}/riven/`, ""));
           } else this.readOCR(blob);
         }).catch(err => {
           console.log("[handlePaste]", err);

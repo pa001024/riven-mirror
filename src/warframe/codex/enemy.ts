@@ -798,7 +798,7 @@ export class Enemy extends EnemyData {
 
   // === 时间线系统 ===
 
-  TICKCYCLE = 1200;
+  TICKCYCLE = 60;
   tickCount = 0;
   stateHistory: EnemyTimelineState[] = [];
   /**
@@ -816,7 +816,7 @@ export class Enemy extends EnemyData {
    */
   pushState(isDoT = false, ammo = 0) {
     this.stateHistory.push({
-      ms: ~~(this.tickCount * 1e3 / this.TICKCYCLE),
+      ms: Math.ceil(this.tickCount * 1e3 / this.TICKCYCLE),
       ammo,
       health: this.currentHealth,
       shield: this.currentShield,

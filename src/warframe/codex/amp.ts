@@ -1,5 +1,5 @@
 import { hAccSum } from "@/warframe/util";
-import { GunWeapon } from "@/warframe/codex/weapon";
+import { GunWeapon, Weapon } from "@/warframe/codex/weapon";
 import { i18n } from "@/i18n";
 
 /**
@@ -220,4 +220,10 @@ export class Amp implements GunWeapon {
     else
       return "Amp";
   }
+  /** 真实ID */
+  get realID() { return this.id.replace(/ \(.+?\)$/g, "") }
+  /** 真实URL */
+  get realURL() { return this.realID.replace(/ /g, "_") }
+  /** WM URL */
+  get wmurl() { return this.realID.toLowerCase().replace(/ /g, "-") }
 }

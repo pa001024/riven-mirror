@@ -219,4 +219,10 @@ export class Kitgun implements GunWeapon {
   get displayName() {
     return `${i18n.t(`messages.${this.chamber.name}`)}-${i18n.t(`messages.${this.grip.name}`)}-${i18n.t(`messages.${this.loader.name}`)}` as string;
   }
+  /** 真实ID */
+  get realID() { return this.id.replace(/ \(.+?\)$/g, "") }
+  /** 真实URL */
+  get realURL() { return this.realID.replace(/ /g, "_") }
+  /** WM URL */
+  get wmurl() { return this.realID.toLowerCase().replace(/ /g, "-") }
 }

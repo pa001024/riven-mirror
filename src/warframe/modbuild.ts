@@ -4,6 +4,7 @@ import { base62, debase62 } from "./lib/base62";
 import { procDurationMap, SpecialStatusInfo } from "./status";
 import { Weapon, NormalMod, RivenDataBase, Arcane, Buff, Enemy, EnemyTimelineState, BuffList, Codex, CombElementMap, Damage2_0, DamageType, ExtraDmgSet, NormalCardDependTable, RivenPropertyDataBase, SimpleDamageModel } from "./codex";
 import { RivenMod, toUpLevel, toNegaUpLevel, ValuedRivenProperty } from "./rivenmod";
+import { HH } from "@/var";
 
 // 基础类
 export abstract class ModBuild {
@@ -29,7 +30,6 @@ export abstract class ModBuild {
     this._mods = this.mapRankUpMods(value);
     this.calcMods();
     this.fastMode || this.recalcPolarizations();
-    console.log("mapped.setMul", this._mods)
   }
   /** 赋能列表 */
   get arcanes() { return _.cloneDeep(this._arcanes); }
@@ -190,7 +190,7 @@ export abstract class ModBuild {
   }
 
   get miniCodeURL() {
-    return `https://riven.im/weapon/${this.weapon.url}/${this.miniCode}`;
+    return this.miniCode ? `https://${HH}/weapon/${this.weapon.url}/${this.miniCode}` : `https://${HH}/weapon/${this.weapon.url}`;
   }
 
   get critChanceLock() { return this._critChanceLock / 100 }

@@ -7,16 +7,7 @@
           <el-card class="weapon-box">
             <div slot="header" class="weapon-name">
               <span>{{weapon.displayName}}</span>
-              <el-popover placement="bottom" trigger="click">
-                <el-input :value="build.miniCodeURL" size="small" ref="miniCodeURL" @focus="$refs.miniCodeURL.select()"></el-input>
-                <div style="text-align:center;">
-                  <qrcode :value="build.miniCodeURL" :options="{ size: 150, foreground: '#333' }"></qrcode>
-                </div>
-                <div style="text-align:center;">
-                  {{$t("riven.sharetip")}}
-                </div>
-                <i slot="reference" class="el-icon-share share-icon"></i>
-              </el-popover>
+              <ShareQR :url="build.miniCodeURL"/>
             </div>
             <div class="weapon-capacity"></div>
             <div class="weapon-props">
@@ -165,6 +156,7 @@ import BuffSelector from "@/components/BuffSelector.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
 import ProbabilityVisualization from "@/components/ProbabilityVisualization.vue";
 import OtherInfoDisplay from "@/components/OtherInfoDisplay.vue";
+import ShareQR from "@/components/ShareQR.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 import { ModBuild } from "@/warframe/modbuild";
@@ -180,7 +172,7 @@ declare interface BuildSelectorTab {
 }
 
 @Component({
-  components: { ModSelector, PropDiff, BuffSelector, StatusInfoDisplay, ModSlot, ProbabilityVisualization, OtherInfoDisplay }
+  components: { ModSelector, PropDiff, BuffSelector, StatusInfoDisplay, ModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR }
 })
 export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: MeleeWeapon;

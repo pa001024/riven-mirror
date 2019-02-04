@@ -211,4 +211,10 @@ export class Zaw implements MeleeWeapon {
   get displayName() {
     return `${i18n.t(`messages.${this.strike.name}`)}-${i18n.t(`messages.${this.grip.name}`)}-${i18n.t(`messages.${this.links.name}`)}` as string;
   }
+  /** 真实ID */
+  get realID() { return this.id.replace(/ \(.+?\)$/g, "") }
+  /** 真实URL */
+  get realURL() { return this.realID.replace(/ /g, "_") }
+  /** WM URL */
+  get wmurl() { return this.realID.toLowerCase().replace(/ /g, "-") }
 }

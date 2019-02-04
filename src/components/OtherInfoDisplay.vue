@@ -13,7 +13,7 @@
             {{$t("otherinfo.wm")}}
           </el-button>
         </a>
-        <code>{{`\{\{Weapon|${build.weapon.id}\}\}`}}</code>
+        <code>{{`\{\{Weapon|${build.weapon.realID}\}\}`}}</code>
       </div>
     </section>
     <section class="mod" v-for="(mod, i) in mods" :key="i">
@@ -44,10 +44,10 @@ export default class OtherInfoDisplay extends Vue {
   @Prop() build: ModBuild;
 
   get weaponWiki() {
-    return this.$t("otherinfo.wikiurl", [this.build.weapon.id.replace(/ /g, "_")])
+    return this.$t("otherinfo.wikiurl", [this.build.weapon.realURL])
   }
   get weaponWM() {
-    return this.$t("otherinfo.wmurl", [_.kebabCase(this.build.weapon.id).replace(/-/g, "_")])
+    return this.$t("otherinfo.wmurl", [this.build.weapon.wmurl])
   }
 
   get mods() {

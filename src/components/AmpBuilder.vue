@@ -1,5 +1,5 @@
 <template>
-  <div class="ampbuilder">
+  <div class="modularbuilder amp">
     <!-- 棱镜 -->
     <div class="parthead">{{$t("amp.selectPrism")}}</div>
     <div class="partlist">
@@ -80,6 +80,7 @@
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { AmpPrismData, AmpScaffoldData, AmpBraceData, AmpPrism, AmpScaffold, AmpBrace, Amp } from "@/warframe/codex";
+import "@/less/modular.less";
 
 @Component
 export default class extends Vue {
@@ -98,73 +99,3 @@ export default class extends Vue {
 }
 
 </script>
-
-<style lang="less">
-.preview .prop,
-.parts .part {
-  display: inline-block;
-  margin: 8px 4px 4px;
-  padding: 4px 8px;
-  border: 1px solid #6199ff;
-  border-radius: 4px;
-  color: #6199ff;
-  font-size: 0.9em;
-}
-.ampbuilder {
-  .el-steps.el-steps--horizontal {
-    margin: 8px 16px;
-  }
-  .stepctl {
-    margin-top: 12px;
-  }
-  .parthead {
-    font-size: 1.4rem;
-    margin: 4px 8px;
-    color: #6199ff;
-    border-left: 4px solid;
-    padding: 4px 8px;
-    line-height: 1;
-  }
-  .partlist {
-    text-align: center;
-    display: flex;
-    flex-wrap: wrap;
-    // justify-content: space-between;
-    .part-box {
-      margin: 4px 2px;
-    }
-    .part {
-      padding: 8px 16px;
-    }
-    .el-radio {
-      height: auto;
-      width: 144px;
-    }
-    .el-radio__label {
-      padding: 0;
-    }
-    .snapshot {
-      width: 110px;
-      height: 80px;
-    }
-    .name {
-      font-size: 1.1em;
-    }
-    .type {
-      margin-top: 8px;
-      color: #aaa;
-      white-space: normal;
-    }
-    .prop {
-      margin-top: 8px;
-      span {
-        display: block;
-        margin-top: 4px;
-      }
-    }
-    .is-checked .type {
-      color: #9cbfff;
-    }
-  }
-}
-</style>

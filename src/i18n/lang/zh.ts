@@ -3110,6 +3110,9 @@ let po = {
     loginforget: "忘记密码",
     sendreset: "重置密码",
     updateTip: "新版本已就绪 点击确定自动更新",
+    copy: "复制",
+    tip: "提示",
+    copySuccess: "地址已复制",
   },
   otherinfo: {
     wiki: "维基",

@@ -1,5 +1,5 @@
 <template>
-  <div class="zawbuilder">
+  <div class="modularbuilder zaw">
     <el-steps :active="part" finish-status="success">
       <el-step :title="$t('zaw.selectStrike')"></el-step>
       <el-step :title="$t('zaw.selectGrip')"></el-step>
@@ -83,6 +83,7 @@
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw } from "@/warframe/codex";
+import "@/less/modular.less";
 
 @Component
 export default class extends Vue {
@@ -103,63 +104,3 @@ export default class extends Vue {
 }
 
 </script>
-
-<style lang="less">
-.preview .prop,
-.parts .part {
-  display: inline-block;
-  margin: 8px 4px 4px;
-  padding: 4px 8px;
-  border: 1px solid #6199ff;
-  border-radius: 4px;
-  color: #6199ff;
-  font-size: 0.9em;
-}
-.zawbuilder {
-  .el-steps.el-steps--horizontal {
-    margin: 8px 16px;
-  }
-  .stepctl {
-    margin-top: 12px;
-  }
-  .partlist {
-    text-align: center;
-    display: flex;
-    flex-wrap: wrap;
-    // justify-content: space-between;
-    .part-box {
-      margin: 4px 2px;
-    }
-    .part {
-      padding: 8px 16px;
-    }
-    .el-radio {
-      height: auto;
-    }
-    .el-radio__label {
-      padding: 0;
-    }
-    .snapshot {
-      width: 110px;
-      height: 80px;
-    }
-    .name {
-      font-size: 1.1em;
-    }
-    .type {
-      margin-top: 8px;
-      color: #aaa;
-    }
-    .prop {
-      margin-top: 8px;
-      span {
-        display: block;
-        margin-top: 4px;
-      }
-    }
-    .is-checked .type {
-      color: #9cbfff;
-    }
-  }
-}
-</style>

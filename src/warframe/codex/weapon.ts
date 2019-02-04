@@ -71,9 +71,14 @@ export class Weapon implements WeaponData {
     this.status = data.status;
     this.defaultMode = data.defaultMode;
   }
-  get url() {
-    return this.id.replace(/ /g, "_");
-  }
+  /** URL */
+  get url() { return this.id.replace(/ /g, "_") }
+  /** 真实ID */
+  get realID() { return this.id.replace(/ \(.+?\)$/g, "") }
+  /** 真实URL */
+  get realURL() { return this.realID.replace(/ /g, "_") }
+  /** WM URL */
+  get wmurl() { return this.realID.toLowerCase().replace(/ /g, "-") }
   get displayName() {
     let name = i18n.t(`messages.${this.name}`) as string;
     if (!this.mode) return name;
