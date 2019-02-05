@@ -144,8 +144,8 @@ export class GunModBuild extends ModBuild {
     let enemy = new Enemy(this.target.data, this.target.level);
     enemy.amrorReduce = this.amrorReduce;
     enemy.reset();
-    let ticks = Math.round(enemy.TICKCYCLE / this.fireRate); // 1200tick/s 整合射速和秒DoT
-    let reloadTicks = Math.round(enemy.TICKCYCLE * this.reloadTime); // 装填需要的tick数
+    let ticks = Math.ceil(enemy.TICKCYCLE / this.fireRate); // 1200tick/s 整合射速和秒DoT
+    let reloadTicks = Math.ceil(enemy.TICKCYCLE * this.reloadTime); // 装填需要的tick数
     let remaingMag = this.magazineSize; // 剩余子弹数
     let shotAmmoCost = this.ammoCost; // 射击消耗子弹数
     let nextDoTTick = enemy.TICKCYCLE;

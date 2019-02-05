@@ -67,7 +67,7 @@ const _ampScaffold = [
   // index, id, dmgs, critChance, critDamage, procChance, fireRate, accuracy, ammoCost, rangeLimit
   [1, "Pencha Scaffold", [["Void", 9000]], 0.14, 1.6, 0.18, 1.25, 100, 10, 41],
   [2, "Shraksun Scaffold", [["Void", 7500]], 0.2, 2.5, 0.2, 1.33, 9.1, 10, 15, /* prjSpeed */ 40],
-  [3, "Klebrik Scaffold", [["Void", 3500]], 0.18, 1.6, 0.16, 12, 100, 1.5, 25],
+  [3, "Klebrik Scaffold", [["Void", 320]], 0.16, 1.6, 0.14, 12, 100, 3, 25],
   [4, "Phahd Scaffold", [["Void", 6100]], 0.34, 2.6, 0.12, 1.33, 9.1, 20, 300, /* prjSpeed */ 100],
   [5, "Exard Scaffold", [/*["Impact", 200], */["Void", 2600]], 0.17, 1.9, 0.33, 8.26, 10, 20, 40, /* prjSpeed */ 100],
   [6, "Dissic Scaffold", [/*["Impact", 15], */["Void", 6600]], 0.03, 1.5, 0.37, 1, 100, 50, /* prjSpeed */ 100],
@@ -172,7 +172,7 @@ export class Amp implements GunWeapon {
   get isPrism() { return !!this.prism }
 
   get panelDamage() { return this.dmg.reduce((a, b) => a + b[1], 0); }
-  get tags() { return ["Amp"]; }
+  get tags() { return (this.scaffold && this.scaffold.id === "Klebrik Scaffold") ? ["Amp", "Continuous"] : ["Amp"]; }
   get url() { return `AMP-${this.buildName}`; }
   set url(value) {
     try {

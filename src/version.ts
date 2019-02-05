@@ -1,5 +1,5 @@
 export const magic = "ALPHA";
-export const version = "1.4.12.1";
+export const version = "1.4.12.2";
 export const updateLogs = [
   {
     version: "1.4.12",
@@ -7,10 +7,12 @@ export const updateLogs = [
     md: {
       en: `- Add Exalted Weapon strength buff
 - Remove riven in Exalted Weapon (except for virtual weapons: Whipclaw and Shattered Lash)
-- Add other info for WIKI/WM`,
+- Add other info for WIKI/WM
+- fix bugs (1.4.12.x)`,
       cn: `- 增加技能武器的基础强度buff
 - 移除了显赫武器的裂罅选项 (虚拟技能武器裂罅保留并增加武器选择)
-- 增加其他信息 WIKI/WM 相关`
+- 增加其他信息 WIKI/WM 相关
+- 修复各种BUG (1.4.12.x)`
     }
   },
   {

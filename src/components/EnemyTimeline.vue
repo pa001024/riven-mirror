@@ -59,27 +59,34 @@ export default class EnemyTimeline extends Vue {
       if (v.isDoT) {
         let hit = this.timeline[i - 1];
         let dot = ~~(hit.health - v.health);
-        rst.push({
-          time: v.ms,
-          hit: ~~(this.timeline[lastHitHead].health - hit.health),
-          ammo,
-          dot,
-          hp: ~~v.health,
-          ar: ~~v.armor,
-        });
+        if (!this.perBullet || dot) {
+          rst.push({
+            time: v.ms,
+            hit: this.perBullet ? 0 : ~~(this.timeline[lastHitHead].health - hit.health),
+            ammo: this.perBullet ? 0 : ammo,
+            dot,
+            hp: ~~v.health,
+            ar: ~~v.armor,
+          });
+        }
         if (v.armor != this.timeline[0].armor) this.hasArmorChange = true;
         if (dot > 0) this.hasDoT = true;
         lastHitHead = i;
         ammo = 0;
+        console.log("dot", hit, dot)
       } else if (this.perBullet || i === this.timeline.length - 1) {
-        rst.push({
-          time: v.ms,
-          hit: ~~(this.timeline[lastHitHead].health - v.health),
-          ammo,
-          dot: 0,
-          hp: ~~v.health,
-          ar: ~~v.armor,
-        });
+        let hit = ~~(this.timeline[this.perBullet ? Math.max(i - 1, 0) : lastHitHead].health - v.health);
+        if (hit) {
+          rst.push({
+            time: v.ms,
+            hit,
+            ammo: this.perBullet ? 1 : ammo,
+            dot: 0,
+            hp: ~~v.health,
+            ar: ~~v.armor,
+          });
+          console.log("HIT", hit)
+        }
       }
     });
     return rst
