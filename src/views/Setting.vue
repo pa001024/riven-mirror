@@ -16,12 +16,13 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { i18n } from "@/i18n";
 import { changeLocale } from "@/i18n/plugin";
+import { HMT } from "@/service/HMT";
 
 @Component
 export default class Setting extends Vue {
   setlang(lang: string) {
     changeLocale(lang || navigator.language)
-    // location.reload();
+    HMT.langSelect(lang || navigator.language)
   }
   setDefaultLang() {
     changeLocale(null)

@@ -62,17 +62,16 @@ export const vi18n = new VueI18n({
 
 export async function changeLocale(locale: string) {
   if (vi18n.locale !== locale) {
-    console.log("Change locale to", locale)
+    console.log("Change locale to", locale || ("(default)" + navigator.language))
     if (locale) {
       vi18n.locale = locale;
       localStorage.setItem("lang", locale);
-    }
-    else {
-      vi18n.locale = navigator.language;
+    } else {
+      locale = vi18n.locale = navigator.language;
       localStorage.removeItem("lang");
     }
   }
-  switch (vi18n.locale) {
+  switch (locale) {
     case 'zh-CN':
     case 'zh-SG':
       let { default: zh } = await import(/* webpackChunkName: "lang-zh" */ './lang/zh')

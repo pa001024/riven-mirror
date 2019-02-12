@@ -35,6 +35,7 @@ export abstract class BaseBuildEditor extends Vue {
   dialogVisible = false;
   buffDialogVisible = false;
   abstract newBuild(...parms): ModBuild;
+  abstract get defalutMode(): number;
   /** 伤害模型列表 */
   get dmgModels() { return DamageModelList }
 
@@ -222,5 +223,27 @@ export abstract class BaseBuildEditor extends Vue {
       this.tabValue = activeName;
       this.tabs = tabs.filter(tab => tab.name !== targetName);
     }
+  }
+
+  // tour
+
+  get steps() {
+    let data = this.$t("tour.builde");
+    return Array(data.length).fill(0).map((_, i) => (
+      {
+        target: '[data-v-step="' + (i + 1) + '"]',
+        content: data[i],
+        params: {
+          placement: 'top'
+        }
+      }
+    ))
+  }
+  onTourStop() {
+    localStorage.setItem("tour.builde", "1.4")
+  }
+  onMounted() {
+    if (localStorage.getItem("tour.builde") != "1.4")
+      this.$tours["baseTour"].start()
   }
 }

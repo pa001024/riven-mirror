@@ -15,13 +15,19 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Getter, Action } from "vuex-class";
+import anime from "animejs";
 import "@/less/login.less";
 
-@Component({ components: { } })
+@Component({ components: {} })
 export default class ForgetPass extends Vue {
   user = {
     login: "",
   }
+
+  isLogin = true
+  @Getter("loginLoading") loading: boolean;
+  @Action("resetpassword") resetpassword: (user: { login: string }) => void;
 
   get rules() {
     return {
@@ -32,21 +38,34 @@ export default class ForgetPass extends Vue {
 
   }
   mounted() {
-    // console.log(this.$refs.loginForm);
     if (this.$refs.loginForm)
       (this.$refs.loginForm as any).$el.onsubmit = this.onSubmit
   }
 
   onSubmit(e: MouseEvent) {
     e.preventDefault();
-    (this.$refs.loginForm as any).validate((valid) => {
-      if (valid) {
-        console.log(this.user)
-      } else {
-        console.log('error submit!!');
-      }
-    });
-    return false;
+    if (this.$refs.loginForm) {
+      (this.$refs.loginForm as any).validate((valid) => {
+        if (valid) {
+          this.resetpassword(this.user);
+        } else {
+          anime({
+            targets: ".login-box",
+            keyframes: [
+              { translateX: -8 },
+              { translateX: 8 },
+              { translateX: 0 },
+            ],
+            loop: 5,
+            duration: 40,
+            direction: "alternate",
+            easing: "easeInOutSine"
+          })
+          // console.error('error submit', this.user);
+        }
+      });
+      return false;
+    }
   }
 }
 </script>

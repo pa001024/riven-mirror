@@ -13,7 +13,9 @@
             {{$t("otherinfo.wm")}}
           </el-button>
         </a>
-        <code>{{`\{\{Weapon|${build.weapon.realID}\}\}`}}</code>
+        <div class="wikitmpl">
+          <CopyText :text="`\{\{Weapon|${build.weapon.realID}\}\}`" size="mini"/>
+        </div>
       </div>
     </section>
     <section class="mod" v-for="(mod, i) in mods" :key="i">
@@ -29,7 +31,9 @@
             {{$t("otherinfo.wm")}}
           </el-button>
         </a>
-        <code>{{`\{\{M|${mod.id}\}\}`}}</code>
+        <div class="wikitmpl">
+          <CopyText :text="`\{\{M|${mod.id}\}\}`" size="mini"/>
+        </div>
       </div>
     </section>
   </div>
@@ -38,8 +42,9 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
+import CopyText from "@/components/CopyText.vue";
 
-@Component
+@Component({ components: { CopyText } })
 export default class OtherInfoDisplay extends Vue {
   @Prop() build: ModBuild;
 
@@ -72,6 +77,10 @@ export default class OtherInfoDisplay extends Vue {
   }
   .links > *:not(:last-child) {
     margin-right: 8px;
+  }
+  .wikitmpl {
+    display: inline-block;
+    width: 280px;
   }
 }
 </style>

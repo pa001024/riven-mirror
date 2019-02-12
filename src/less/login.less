@@ -51,7 +51,11 @@
     border-radius: 100px;
     border: 0;
     box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
-    margin-top: 18px;
+    &.is-disabled {
+      color: #fff;
+      background: #b0bfff;
+      cursor: not-allowed;
+    }
   }
 }
 
@@ -65,5 +69,6 @@
 @media only screen and (max-width: 767px) {
   .login-container .login-box {
     width: calc(100vw - 40px);
+    padding: 50px 40px;
   }
 }

@@ -239,7 +239,7 @@ const data = [
   // 近战 C0 ~ Fz
   ["C0", "Pressure Point", [["K", 20]], "Melee", "r", "n", 4],
   ["C1", "Primed Pressure Point", [["K", 15]], "Melee", "r", "l", 4, 10],
-  ["C2", "Spoiled Strike", [["D", 25], ["J", -5]], "Melee", "r", "r", 4, 3],
+  ["C2", "Spoiled Strike", [["K", 25], ["J", -5]], "Melee", "r", "r", 4, 3],
   ["C3", "Reach", [["T", 15]], "Melee", "r", "n", 4, 3],
   ["C4", "Primed Reach", [["T", 15]], "Melee", "r", "l", 4, 10],
   ["C5", "Maiming Strike", [["E", 15]], "Melee", "r", "r", 2],

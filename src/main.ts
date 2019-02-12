@@ -5,17 +5,14 @@ import Vue from 'vue'
 // 全局引入lodash
 import "lodash";
 
-// 设置echarts主题
-import "@/echart.theme";
-
 Vue.config.productionTip = false;
+Vue.config.performance = true;
 
 // 全局组件
 import draggable from 'vuedraggable';
 Vue.component("draggable", draggable);
 import qrcode from "@/components/QRCode";
 Vue.component("qrcode", qrcode);
-
 import WfIcon from "./components/WfIcon.vue";
 Vue.component("WfIcon", WfIcon);
 
@@ -23,12 +20,18 @@ Vue.component("WfIcon", WfIcon);
 import Element from 'element-ui'
 import './less/ele/index.css'
 import './less/ele/display.css'
+import './less/app.less'
 
 import { i18n } from './i18n/';
 Vue.use(Element, { i18n: (key, value) => i18n.t(key, value) })
 
 // i18n
 import { changeLocale, vi18n } from './i18n/plugin';
+
+// tour
+import VueTour from 'vue-tour'
+import 'vue-tour/dist/vue-tour.css'
+Vue.use(VueTour)
 
 import router from '@/router'
 import store from '@/store'

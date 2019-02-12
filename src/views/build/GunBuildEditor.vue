@@ -33,7 +33,7 @@
               <PropDiff :name="$t('build.bullets')" v-if="weapon.bullets != 1 || build.bullets != 1" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
               <PropDiff :name="$t('build.ratio')" v-if="rWeapon.ratio" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
               <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
-              <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
+              <PropDiff data-v-step="1" :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
               <!-- 伤害模型 -->
               <el-row :gutter="4" class="prop-diff model-selector">
                 <el-col :span="8" class="title" v-t="'build.damageModel'"></el-col>
@@ -56,7 +56,7 @@
                   class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
               <PropDiff v-if="weapon.tags.includes('Sniper')" :name="$t('build.firstAmmoDamage')" :ori="build.oriTotalDamage" :val="build.firstAmmoDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
-              <PropDiff :name="$t('build.burstDamage')" :ori="build.oriBurstDamage" :val="build.burstDamage"
+              <PropDiff data-v-step="2" :name="$t('build.burstDamage')" :ori="build.oriBurstDamage" :val="build.burstDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
               <PropDiff :name="$t('build.sustainedDamage')" :ori="build.oriSustainedDamage" :val="build.sustainedDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
@@ -97,7 +97,7 @@
             <el-row type="flex" class="buff-slot-container" :gutter="12">
               <div class="block">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(buff, index) in item.buffs" :key="index">
-                  <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)">
+                  <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)" :data-v-step="index===0&&'3'">
                     <template v-if="buff">
                       <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">
                         <div class="buff-name">{{$t(`buff.${buff.name}`)}}</div>
@@ -124,7 +124,7 @@
           </el-tab-pane>
         </el-tabs>
         <!-- 扩展功能区 -->
-        <el-tabs value="statusinfo" class="external-area">
+        <el-tabs value="statusinfo" class="external-area" data-v-step="4">
           <!-- 触发计算 -->
           <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
             <StatusInfoDisplay :info="build.statusInfo" :common="build.commonStatusInfo" />
@@ -198,6 +198,7 @@
     <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
       <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
     </el-dialog>
+    <v-tour name="baseTour" :steps="steps" :options="{labels:$t('tour.labels')}" :callbacks="{onStop:onTourStop}"></v-tour>
   </div>
 </template>
 <script lang="ts">
@@ -214,7 +215,7 @@ import ShareQR from "@/components/ShareQR.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 import { GunWeapon, RivenWeapon, EnemyData, Codex, Enemy } from "@/warframe/codex";
-import { GunModBuild } from "@/warframe/gunmodbuild";
+import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
 import "@/less/builder.less";
 
 @Component({
@@ -258,9 +259,19 @@ export default class GunBuildEditor extends BaseBuildEditor {
       amrorReduce: this.amrorReduce / 100,
     };
   }
+
+  get defalutMode() {
+    let gun = this.weapon as GunWeapon;
+    if (gun.tags.includes("Sniper") && gun.magazine <= 2) return GunCompareMode.FirstAmmoDamage;
+    if (gun.magazine / (gun.tags.includes("Secondary") ? gun.fireRate * 1.6 : gun.fireRate) < gun.reload * 1.8) return GunCompareMode.SustainedDamage;
+    if (gun.fireRate > 2) return GunCompareMode.BurstDamage;
+    return GunCompareMode.TotalDamage;
+  }
+
   newBuild(weapon: GunWeapon) {
     let b = new GunModBuild(weapon, null, this.options);
     b.fastMode = false;
+    b.compareMode = this.defalutMode;
     return b;
   }
   // === 事件处理 ===
@@ -298,5 +309,6 @@ export default class GunBuildEditor extends BaseBuildEditor {
   handleTabsEdit(targetName, action: "add" | "remove") { super.handleTabsEdit(targetName, action); }
   // === 生命周期钩子 ===
   beforeMount() { this.reload(); }
+  mounted() { super.onMounted() }
 }
 </script>

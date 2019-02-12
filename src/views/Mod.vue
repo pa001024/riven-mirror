@@ -92,6 +92,7 @@ import ShareQR from "@/components/ShareQR.vue";
 import { Getter, Action } from "vuex-class";
 import { HH } from "@/var";
 import "../less/mod.less";
+import { HMT } from "@/service/HMT";
 
 // import jsQR from "jsqr";
 import RivenEditor from "@/components/RivenEditor.vue";
@@ -149,13 +150,14 @@ export default class Mod extends Vue {
     let formData = new FormData();
     formData.append('file', file);
     this.ocrLoading = true;
-    axios.post("https://api.0-0.at/ocr", formData, { timeout: 6e3, headers: { 'Content-Type': 'multipart/form-data' } })
+    axios.post("https://api.riven.im/ocr", formData, { timeout: 6e3, headers: { 'Content-Type': 'multipart/form-data' } })
       .then(response => {
         this.ocrLoading = false;
         let rst = response.data as OCRResult;
         if (rst) {
           console.log("readOCR=>", rst);
           this.modText = rst.result.map(v => v.trim()).join("\n");
+          HMT.newModOCR(this.mod.fullId)
         }
       })
       .catch(error => {
@@ -167,6 +169,7 @@ export default class Mod extends Vue {
   newRiven() {
     this.editorVisible = false;
     this.newBase64Text(this.editorRivenCode);
+    HMT.newMod(this.mod.fullId);
   }
   handlePaste(ev: ClipboardEvent) {
     let items = ev.clipboardData.items;

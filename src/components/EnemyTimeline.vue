@@ -41,6 +41,9 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/grid';
 import { EnemyTimelineState } from "@/warframe/codex";
 
+// 设置echarts主题
+import "@/echart.theme";
+
 @Component
 export default class EnemyTimeline extends Vue {
   @Prop() timeline: EnemyTimelineState[];

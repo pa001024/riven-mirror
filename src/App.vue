@@ -25,6 +25,10 @@
     <!-- 移动端弹出菜单 -->
     <transition name="el-zoom-in-top">
       <div class="app-nav-menu hidden-sm-and-up" v-if="menuOpen" @click="menuOpen=false">
+        <router-link tag="div" to="/login" class="menu-item">
+          <WfIcon type="fingerprint"></WfIcon>
+          <span class="app-login-title">{{$t("app.login")}}</span>
+        </router-link>
         <router-link v-for="link in links" :key="link.title" tag="div" :to="link.path" class="menu-item" :exact="link.exact">
           <WfIcon :type="link.icon"></WfIcon>
           <span class="app-nav-title">{{$t(link.title)}}</span>
@@ -110,12 +114,6 @@ export default class App extends Vue {
     const lastVersion = localStorage.getItem("lastVersion") || "0.0.0"
     if (lastVersion !== version)
       this.updateMessageVisible = true;
-
-    let isNewUser = !localStorage.getItem("0w0");
-    let isMobile = document.body.clientWidth <= 567;
-    if (this.$route.name === "Intro" && !isNewUser && isMobile) {
-      this.$router.replace("/alerts");
-    }
   }
 }
 </script>

@@ -3,12 +3,12 @@
     <div class="section">
       <div class="container">
         <div class="intro">
-          <h1>全新一站式工具应用</h1>
-          <p>极镜(Riven.IM)是先进的Warframe工具应用，为紫卡分析，配卡模拟等提供技术解决方案。</p>
+          <h1 v-t="'intro.ti1'"></h1>
+          <p v-t="'intro.ti2'"></p>
         </div>
         <div class="action">
-          <a class="btn" href="https://warframe.huijiwiki.com/wiki/blog:RivenMirror" target="_blank">查看文档</a>
-          <router-link class="btn solid" to="/alerts">立即使用</router-link>
+          <a class="btn" href="https://warframe.huijiwiki.com/wiki/blog:RivenMirror" target="_blank" v-t="'intro.a1'"></a>
+          <router-link class="btn solid" to="/alerts" v-t="'intro.a2'"></router-link>
         </div>
       </div>
     </div>
@@ -20,7 +20,7 @@
               <router-link to="/alerts">
                 <WfIcon type="world"/>
                 <div class="name">{{$t("navigate.index")}}</div>
-                <div class="desc">突击 / 警报 / 裂缝 / 赏金</div>
+                <div class="desc" v-t="'intro.d1'"></div>
               </router-link>
             </router-link>
           </el-col>
@@ -29,7 +29,7 @@
               <router-link to="/riven">
                 <WfIcon type="motion"/>
                 <div class="name">{{$t("navigate.riven")}}</div>
-                <div class="desc">紫卡评分 / 数值查询 / 配置计算</div>
+                <div class="desc" v-t="'intro.d2'"></div>
               </router-link>
             </router-link>
           </el-col>
@@ -38,7 +38,7 @@
               <router-link to="/weapon">
                 <WfIcon type="extension"/>
                 <div class="name">{{$t("navigate.weapon")}}</div>
-                <div class="desc">收益分析 / 配卡分享 / 幻影装置</div>
+                <div class="desc" v-t="'intro.d3'"></div>
               </router-link>
             </router-link>
           </el-col>
@@ -47,7 +47,7 @@
               <router-link to="/warframe">
                 <WfIcon type="people"/>
                 <div class="name">{{$t("navigate.warframe")}}</div>
-                <div class="desc">战甲配装 / 技能数值 / 属性计算</div>
+                <div class="desc" v-t="'intro.d4'"></div>
               </router-link>
             </router-link>
           </el-col>
@@ -56,7 +56,7 @@
               <router-link to="/sim">
                 <WfIcon type="renew"/>
                 <div class="name">{{$t("navigate.simulator")}}</div>
-                <div class="desc">模拟开卡 / 模拟洗卡</div>
+                <div class="desc" v-t="'intro.d5'"></div>
               </router-link>
             </router-link>
           </el-col>
@@ -65,7 +65,7 @@
               <router-link to="/palette">
                 <WfIcon type="palette"/>
                 <div class="name">{{$t("navigate.palette")}}</div>
-                <div class="desc">图片取色 / 色板找色</div>
+                <div class="desc" v-t="'intro.d6'"></div>
               </router-link>
             </router-link>
           </el-col>
@@ -74,32 +74,30 @@
     </div>
     <div class="section why">
       <div class="container">
-        <h1 class="title">
-          为什么选择极镜
-        </h1>
+        <h1 class="title" v-t="'intro.why'"></h1>
         <el-row>
           <el-col :sm="24" :md="8" class="why-section">
-            <h2>更高效</h2>
+            <h2 v-t="'intro.wh1'"></h2>
             <ul>
-              <li>支持OCR，快速识别<strong>紫卡截图</strong></li>
-              <li>一键生成<strong>最佳配卡</strong>，根据情况自动适应</li>
-              <li>根据与最佳紫卡对比快速计算<strong>紫卡评分</strong></li>
+              <li v-html="$t('intro.w11')"></li>
+              <li v-html="$t('intro.w12')"></li>
+              <li v-html="$t('intro.w13')"></li>
             </ul>
           </el-col>
           <el-col :sm="24" :md="8" class="why-section">
-            <h2>更专业</h2>
+            <h2 v-t="'intro.wh2'"></h2>
             <ul>
-              <li><strong>幻影装置</strong>对应真实伤害模型</li>
-              <li><strong>夜灵</strong>独有算法完美支持</li>
-              <li>各种<strong>加成效果</strong>高度集成</li>
+              <li v-html="$t('intro.w21')"></li>
+              <li v-html="$t('intro.w22')"></li>
+              <li v-html="$t('intro.w23')"></li>
             </ul>
           </el-col>
           <el-col :sm="24" :md="8" class="why-section">
-            <h2>更丰富</h2>
+            <h2 v-t="'intro.wh3'"></h2>
             <ul>
-              <li>平原时间警报通知一步到位</li>
-              <li>数百种颜色百里挑一：<strong>选色工具</strong></li>
-              <li><strong>配装分享</strong>收获更多粉丝</li>
+              <li v-html="$t('intro.w31')"></li>
+              <li v-html="$t('intro.w32')"></li>
+              <li v-html="$t('intro.w33')"></li>
             </ul>
           </el-col>
         </el-row>
@@ -107,50 +105,37 @@
     </div>
     <div class="section footer white-bg">
       <div class="container">
-        <!-- <div class="line">
-          <h3>极镜应用</h3>
-          <ul class="clear">
-            <li><router-link to="/alerts" v-t="'navigate.index'"></router-link></li>
-            <li><router-link to="/riven" v-t="'navigate.riven'"></router-link></li>
-            <li><router-link to="/weapon" v-t="'navigate.weapon'"></router-link></li>
-            <li><router-link to="/warframe" v-t="'navigate.warframe'"></router-link></li>
-            <li><router-link to="/sim" v-t="'navigate.simulator'"></router-link></li>
-            <li><router-link to="/huangli" v-t="'navigate.huangli'"></router-link></li>
-            <li><router-link to="/palette" v-t="'navigate.palette'"></router-link></li>
-          </ul>
-        </div> -->
         <div class="line">
-          <h3>关于和帮助</h3>
+          <h3 v-t="'intro.fh1'"></h3>
           <ul class="clear">
             <li>
-              <a href="https://warframe.huijiwiki.com/wiki/blog:RivenMirror" target="_blank">使用文档</a>
+              <a href="https://warframe.huijiwiki.com/wiki/blog:RivenMirror" target="_blank" v-t="'intro.fw1'"></a>
             </li>
             <li>
-              <a href="https://www.bilibili.com/video/av31311040/" target="_blank">视频教程</a>
+              <a href="https://www.bilibili.com/video/av31311040/" target="_blank" v-t="'intro.fw2'"></a>
             </li>
             <li>
-              <a href="https://jq.qq.com/?_wv=1027&k=5ErGtmX" target="_blank">内测交流群 (165371868)</a>
+              <a href="https://jq.qq.com/?_wv=1027&k=5ErGtmX" target="_blank" v-t="'intro.fw3'"></a>
             </li>
             <li>
-              <a href="https://discord.gg/m8pGvfP" target="_blank">Discord</a>
-            </li>
-            <!-- <li>
-              <router-link to="/eula">用户协议</router-link>
+              <a href="https://discord.gg/m8pGvfP" target="_blank" v-t="'intro.fw4'"></a>
             </li>
             <li>
-              <router-link to="/about">关于</router-link>
-            </li> -->
+              <router-link to="/eula" v-t="'intro.fw5'"></router-link>
+            </li>
             <li>
-              <a href="https://afdian.net/@rivenmirror" target="_blank">打赏</a>
+              <a href="https://afdian.net/@rivenmirror" target="_blank" v-t="'intro.fw6'"></a>
             </li>
           </ul>
         </div>
         <div class="line">
-          <h3>友情链接</h3>
+          <h3 v-t="'intro.fav'"></h3>
           <ul class="clear">
-            <li><a href="https://www.warframe.com/">游戏官网</a></li>
-            <li><a href="https://warframe.love/">中文论坛</a></li>
-            <li><a href="https://warframe.huijiwiki.com/">中文维基</a></li>
+            <li><a href="https://www.warframe.com/" target="_blank" v-t="'intro.fav1'"></a></li>
+            <li><a href="https://warframe.huijiwiki.com/" target="_blank" v-t="'intro.fav2'"></a></li>
+            <li><a href="https://warframe.love/" target="_blank" v-t="'intro.fav3'"></a></li>
+            <li><a href="https://warframe.fandom.com/" target="_blank" v-t="'intro.fav4'"></a></li>
+            <li><a href="https://wfa.richasy.cn/" target="_blank" v-t="'intro.fav5'"></a></li>
           </ul>
         </div>
         <div class="line copyright">

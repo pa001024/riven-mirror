@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.4.12.2";
+export const version = "1.4.13";
 export const updateLogs = [
+  {
+    version: "1.4.13",
+    date: "2019/2/12",
+    md: {
+      en: `- Add tour `,
+      cn: `- 添加使用提示`
+    }
+  },
   {
     version: "1.4.12",
     date: "2019/2/1",
@@ -33,6 +41,7 @@ export const updateLogs = [
 - **幻影装置** 增加逐发模式`
     }
   },
+  /*
   {
     version: "1.4.9",
     date: "2019/1/26",
@@ -41,7 +50,6 @@ export const updateLogs = [
       cn: `- 优化图片加载速度`
     }
   },
-  /*
   {
     version: "1.4.8",
     date: "2019/1/24",

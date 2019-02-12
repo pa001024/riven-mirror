@@ -1,10 +1,6 @@
 <template>
   <el-popover placement="bottom" trigger="click">
-    <el-input class="shareqr-input" :value="url" size="mini" ref="miniCodeURL" @focus="$refs.miniCodeURL.select()" style="margin-bottom: 8px;">
-      <el-button slot="append" @click="doCopy">
-        <WfIcon type="copy" />{{$t("app.copy")}}
-      </el-button>
-    </el-input>
+    <CopyText :text="url" size="mini" style="margin-bottom: 8px;"/>
     <div style="text-align:center;">
       <qrcode :value="url" :options="{ size: 150, foreground: '#333' }"></qrcode>
     </div>
@@ -16,22 +12,10 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
-import copy from "copy-text-to-clipboard";
+import CopyText from "./CopyText.vue";
 
-@Component
+@Component({ components: { CopyText } })
 export default class ShareQR extends Vue {
   @Prop() url: string;
-  doCopy() {
-    copy(this.url);
-    (this.$refs.miniCodeURL as any).select();
-    this.$notify.success(this.$t("app.copySuccess") as string);
-  }
 }
 </script>
-<style lang="less">
-.shareqr-input {
-  .el-input-group__append {
-    padding: 0 8px;
-  }
-}
-</style>

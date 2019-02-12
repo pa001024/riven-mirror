@@ -1,46 +1,49 @@
 module.exports = {
   chainWebpack: config => {
     config.module
-      .rule('ts')
-      .use('ts-loader')
-      .loader('ts-loader')
+      .rule("ts")
+      .use("ts-loader")
+      .loader("ts-loader")
       .tap(options => {
-        options.transpileOnly = true
-        return options
-      })
+        options.transpileOnly = true;
+        return options;
+      });
   },
   configureWebpack: {
-    devtool: 'inline-source-map',
+    devtool: "inline-source-map",
     module: {
-      rules: [{
-        test: /\.worker\.js$/,
-        use: {
-          loader: 'worker-loader'
-        },
-        exclude: /(node_modules)/
-      }]
+      rules: [
+        {
+          test: /\.worker\.js$/,
+          use: {
+            loader: "worker-loader"
+          },
+          exclude: /(node_modules)/
+        }
+      ]
     }
   },
   productionSourceMap: false,
   pwa: {
-    name: 'Riven Mirror',
-    themeColor: '#3d5afe',
-    msTileColor: '#000000',
+    name: "Riven Mirror",
+    themeColor: "#3d5afe",
+    msTileColor: "#000000",
+    start_url: "/alerts",
     appleMobileWebAppCapable: true,
-    appleMobileWebAppStatusBarStyle: 'black',
+    appleMobileWebAppStatusBarStyle: "black",
     iconPaths: {
-      favicon32: 'favicon.ico',
-      favicon16: 'favicon.ico',
-      appleTouchIcon: 'img/icons/apple-icon-152x152.png',
-      msTileImage: 'img/icons/icon-144x144.png'
+      favicon32: "favicon.ico",
+      favicon16: "favicon.ico",
+      appleTouchIcon: "img/icons/apple-icon-152x152.png",
+      msTileImage: "img/icons/icon-144x144.png"
     },
-    workboxPluginMode: 'InjectManifest',
+    workboxPluginMode: "InjectManifest",
     workboxOptions: {
-      importWorkboxFrom: 'local',
-      importsDirectory: 'wb',
-      precacheManifestFilename: 'cache.[manifestHash].js',
-      swSrc: './sw.js',
-      swDest: './sw.js',
-    },
-  },
-}
+      importWorkboxFrom: "local",
+      importsDirectory: "wb",
+      precacheManifestFilename: "cache.[manifestHash].js",
+      swSrc: "./sw.js",
+      swDest: "./sw.js"
+    }
+  }
+};

@@ -11,7 +11,7 @@
   "dependencies": {
     "animejs": "^3.0.1",
     "axios": "^0.18.0",
-    "better-scroll": "^1.12.6",
+    "better-scroll": "^1.14.1",
     "color-thief-browser": "^2.0.2",
     "copy-text-to-clipboard": "^1.0.4",
     "echarts": "^4.1.0",
@@ -21,6 +21,7 @@
     "markdown-it": "^8.4.2",
     "qrious": "^4.0.2",
     "register-service-worker": "^1.0.0",
+    "sha.js": "^2.4.11",
     "tinycolor2": "^1.4.1",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
@@ -28,6 +29,7 @@
     "vue-i18n": "^8.0.0",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
+    "vue-tour": "^1.1.0",
     "vuedraggable": "^2.16.0",
     "vuex": "^3.0.1",
     "vuex-class": "^0.3.0"
@@ -53,7 +55,7 @@
     "not ie <= 8"
   ],
   "engines": {
-    "node": ">= 4.0.0",
+    "node": ">= 8.0.0",
     "npm": ">= 3.0.0"
   }
 }

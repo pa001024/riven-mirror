@@ -86,7 +86,7 @@
             <el-row type="flex" class="buff-slot-container" :gutter="12">
               <div class="block">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(buff, index) in item.buffs" :key="index">
-                  <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)">
+                  <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)" :data-v-step="index===0&&'3'">
                     <template v-if="buff">
                       <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">
                         <div class="buff-name">{{$t(`buff.${buff.name}`)}}</div>
@@ -113,7 +113,7 @@
           </el-tab-pane>
         </el-tabs>
         <!-- 扩展功能区 -->
-        <el-tabs value="statusinfo" class="external-area">
+        <el-tabs value="statusinfo" class="external-area" data-v-step="4">
           <!-- 触发计算 -->
           <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
             <StatusInfoDisplay :info="build.statusInfo" :common="build.commonStatusInfo" />
@@ -180,6 +180,7 @@
     <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
       <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
     </el-dialog>
+    <v-tour name="baseTour" :steps="steps" :options="{labels:$t('tour.labels')}" :callbacks="{onStop:onTourStop}"></v-tour>
   </div>
 </template>
 <script lang="ts">
@@ -195,7 +196,7 @@ import ModSlot from "@/components/ModSlot.vue";
 import ShareQR from "@/components/ShareQR.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 import { GunWeapon, RivenWeapon, EnemyData, Codex, Enemy } from "@/warframe/codex";
-import { GunModBuild } from "@/warframe/gunmodbuild";
+import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
 import "@/less/builder.less";
 
 @Component({
@@ -238,6 +239,11 @@ export default class AmpBuildEditor extends BaseBuildEditor {
       amrorReduce: this.amrorReduce / 100,
     };
   }
+
+  get defalutMode() {
+    return GunCompareMode.TotalDamage;
+  }
+
   newBuild(weapon: GunWeapon) {
     let b = new GunModBuild(weapon, null, this.options);
     b.fastMode = false;
@@ -278,5 +284,6 @@ export default class AmpBuildEditor extends BaseBuildEditor {
   handleTabsEdit(targetName, action: "add" | "remove") { super.handleTabsEdit(targetName, action); }
   // === 生命周期钩子 ===
   beforeMount() { this.reload(); }
+  mounted() { super.onMounted() }
 }
 </script>

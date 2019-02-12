@@ -29,7 +29,7 @@
               <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
               <PropDiff :name="$t('build.slideDmg')" v-if="weapon.slideDmg" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
               <PropDiff :name="$t('build.ratio')" v-if="rWeapon.ratio" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
-              <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
+              <PropDiff :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent data-v-step="1"></PropDiff>
               <!-- 伤害模型 -->
               <el-row :gutter="4" class="prop-diff model-selector">
                 <el-col :span="8" class="title" v-t="'build.damageModel'"></el-col>
@@ -50,7 +50,7 @@
               <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
               <PropDiff :name="$t('build.attackDamage')" :ori="build.oriTotalDamage" :val="build.normalDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
-              <PropDiff :name="$t('build.slideDamage')" v-if="weapon.slideDmg" :ori="build.oriSlideDamage" :val="build.slideDamage"
+              <PropDiff data-v-step="2" :name="$t('build.slideDamage')" v-if="weapon.slideDmg" :ori="build.oriSlideDamage" :val="build.slideDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
               <PropDiff :name="$t('build.attackDamagePS')" :ori="build.oriTotalDamagePS" :val="build.normalDamagePS"
                   class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
@@ -93,7 +93,7 @@
             <el-row type="flex" class="buff-slot-container" :gutter="12">
               <div class="block">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(buff, index) in item.buffs" :key="index">
-                  <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)">
+                  <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)" :data-v-step="index===0&&'3'">
                     <template v-if="buff">
                       <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">
                         <div class="buff-name">{{$t(`buff.${buff.name}`)}}</div>
@@ -120,14 +120,14 @@
           </el-tab-pane>
         </el-tabs>
         <!-- 扩展功能区 -->
-        <el-tabs value="statusinfo" class="external-area">
+        <el-tabs value="statusinfo" class="external-area" data-v-step="4">
           <!-- 触发计算 -->
           <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
             <StatusInfoDisplay :info="build.statusInfo" :common="build.commonStatusInfo" />
           </el-tab-pane>
           <!-- 幻影装置-->
           <el-tab-pane class="enemy-sim" :label="$t('build.simulacrum')" name="simulacrum">
-            <h2>unsupport!</h2>
+            <h2>melee is unsupport!</h2>
           </el-tab-pane>
           <!-- 概率可视化 -->
           <el-tab-pane class="provis" :label="$t('build.provis')" name="provis">
@@ -146,6 +146,7 @@
     <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
       <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
     </el-dialog>
+    <v-tour name="baseTour" :steps="steps" :options="{labels:$t('tour.labels')}" :callbacks="{onStop:onTourStop}"></v-tour>
   </div>
 </template>
 <script lang="ts">
@@ -161,7 +162,7 @@ import ModSlot from "@/components/ModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 import { ModBuild } from "@/warframe/modbuild";
 import { NormalMod, MeleeWeapon, RivenWeapon, Codex } from "@/warframe/codex";
-import { MeleeModBuild } from "@/warframe/meleemodbuild";
+import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
 import "@/less/builder.less";
 
 declare interface BuildSelectorTab {
@@ -202,9 +203,19 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
       arcanes: this.arcanes,
     };
   }
+
+  get defalutMode() {
+    let melee = this.weapon as MeleeWeapon;
+    let slideList = ["Whip", "Polearm", "Staff"];
+    if (melee.tags.some(v => slideList.includes(v))) return MeleeCompareMode.SlideDamagePS;
+    return melee.tags.includes("Virtual") ? MeleeCompareMode.TotalDamage : MeleeCompareMode.TotalDamagePS;
+  }
+
   newBuild(weapon: MeleeWeapon) {
+    if (weapon.tags.includes("Vistual")) this.comboMul = 1;
     let b = new MeleeModBuild(weapon, null, this.options);
     b.fastMode = false;
+    b.compareMode = this.defalutMode;
     return b;
   }
   // === 事件处理 ===
@@ -220,5 +231,6 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   handleTabsEdit(targetName, action: "add" | "remove") { super.handleTabsEdit(targetName, action); }
   // === 生命周期钩子 ===
   beforeMount() { this.reload(); }
+  mounted() { super.onMounted() }
 }
 </script>

@@ -7,6 +7,7 @@ import NewUserWelcome from '@/views/NewUserWelcome.vue'
 import Login from '@/views/Login.vue'
 import ForgetPass from '@/views/ForgetPass.vue'
 import { i18n } from '@/i18n';
+import { HMT } from "@/service/HMT";
 
 Vue.use(Router)
 
@@ -17,7 +18,6 @@ const router = new Router({
     { path: '/eula', name: 'EULA', component: EULA },
     { path: '/login', name: 'Login', component: Login },
     { path: '/forgetpass', name: 'ForgetPass', component: ForgetPass },
-    { path: '/welcome', name: 'NewUserWelcome', component: NewUserWelcome },
     // ! 技能编辑器
     { path: '/vse', name: 'VisualSkillEditor', component: () => import(/* webpackChunkName: "vse" */ "@/views/VisualSkillEditor.vue") },
     // 动态加载
@@ -67,16 +67,18 @@ router.afterEach((to) => {
       document.title = i18n.t("title.sub", [i18n.t("navigate.warframe")]);
       break;
     case "WarframeEditor":
+      break;
     case "WarframeEditorWithCode":
       // 交给组件处理
-      break;
+      return;
     case "WeaponSelector":
       document.title = i18n.t("title.sub", [i18n.t("navigate.weapon")]);
       break;
     case "BuildEditor":
+      break;
     case "BuildEditorWithCode":
       // 交给组件处理
-      break
+      return;
     case "Mod":
     case "ModWithSource":
       document.title = i18n.t("title.sub", [i18n.t("navigate.riven")]);
@@ -85,6 +87,7 @@ router.afterEach((to) => {
       document.title = i18n.t("title.main");
       break;
   }
+  HMT.pageViewed(to.fullPath)
 })
 
 export default router

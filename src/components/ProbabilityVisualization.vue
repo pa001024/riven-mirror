@@ -1,29 +1,29 @@
 <template>
   <div class="provis-container">
-    <div class="lower-level multishot" v-if="lowerMultiWidth > 0" :style="{ height: 100 * lowerMultiWidth + '%' }">
-      <div class="lower-level critshot" :class="{ big: lowerCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * lowerCritiWidth + '% - 4px)' }">
+    <div class="lower-level multishot" v-show="!lowerCriti && lowerMultiWidth > 0" :style="{ height: 100 * lowerMultiWidth + '%' }">
+      <div class="lower-level critshot" v-show="lowerCritiWidth > 0.005" :class="{ big: lowerCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * lowerCritiWidth + '% - 4px)' }">
         <div class="ganta">
-          <div class="title">{{$t("build.provislabel", [lowerMulti, lowerCriti]) + ` ( ${+(lowerMultiWidth*lowerCritiWidth*100).toFixed(1)}% )`}}</div>
+          <div class="title">{{multi > 1 ? $t("build.provislabel", [higherMulti, lowerCriti]) + ` ( ${+(lowerMultiWidth*lowerCritiWidth*100).toFixed(1)}% )` : $t("build.provislabel0", [lowerCriti]) + ` ( ${+(lowerCritiWidth*100).toFixed(1)}% )`}}</div>
           <div class="value">{{lowerMultiLowerCritiDamage}}</div>
         </div>
       </div>
-      <div class="higher-level critshot" :class="{ big: higherCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * higherCritiWidth + '% - 4px)' }">
+      <div class="higher-level critshot" v-show="higherCritiWidth > 0.005" :class="{ big: higherCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * higherCritiWidth + '% - 4px)' }">
         <div class="ganta">
-          <div class="title">{{$t("build.provislabel", [lowerMulti, higherCriti]) + ` ( ${+(lowerMultiWidth*higherCritiWidth*100).toFixed(1)}% )`}}</div>
+          <div class="title">{{multi > 1 ? $t("build.provislabel", [higherMulti, higherCriti]) + ` ( ${+(lowerMultiWidth*higherCritiWidth*100).toFixed(1)}% )` : $t("build.provislabel0", [higherCriti]) + ` ( ${+(higherCritiWidth*100).toFixed(1)}% )`}}</div>
           <div class="value">{{lowerMultiHigherCritiDamage}}</div>
         </div>
       </div>
     </div>
-    <div class="higher-level multishot" :style="{ height: 100 * higherMultiWidth + '%' }">
-      <div class="lower-level critshot" :class="{ big: lowerCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * lowerCritiWidth + '% - 4px)' }">
+    <div class="higher-level multishot" v-show="lowerCriti || higherMultiWidth > 0" :style="{ height: 100 * (multi > 1 ? higherMultiWidth : 1) + '%' }">
+      <div class="lower-level critshot" v-show="lowerCritiWidth > 0.005" :class="{ big: lowerCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * lowerCritiWidth + '% - 4px)' }">
         <div class="ganta">
-          <div class="title">{{lowerMultiWidth > 0 ? $t("build.provislabel", [higherMulti, lowerCriti]) + ` ( ${+(higherMultiWidth*lowerCritiWidth*100).toFixed(1)}% )` : $t("build.provislabel0", [lowerCriti]) + ` ( ${+(lowerCritiWidth*100).toFixed(1)}% )`}}</div>
+          <div class="title">{{multi > 1 ? $t("build.provislabel", [higherMulti, lowerCriti]) + ` ( ${+(higherMultiWidth*lowerCritiWidth*100).toFixed(1)}% )` : $t("build.provislabel0", [lowerCriti]) + ` ( ${+(lowerCritiWidth*100).toFixed(1)}% )`}}</div>
           <div class="value">{{higherMultiLowerCritiDamage}}</div>
         </div>
       </div>
-      <div class="higher-level critshot" :class="{ big: higherCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * higherCritiWidth + '% - 4px)' }">
+      <div class="higher-level critshot" v-show="higherCritiWidth > 0.005" :class="{ big: higherCritiWidth > 0.1 }" :style="{ width: 'calc(' + 100 * higherCritiWidth + '% - 4px)' }">
         <div class="ganta">
-          <div class="title">{{lowerMultiWidth > 0 ? $t("build.provislabel", [higherMulti, higherCriti]) + ` ( ${+(higherMultiWidth*higherCritiWidth*100).toFixed(1)}% )` : $t("build.provislabel0", [higherCriti]) + ` ( ${+(higherCritiWidth*100).toFixed(1)}% )`}}</div>
+          <div class="title">{{multi > 1 ? $t("build.provislabel", [higherMulti, higherCriti]) + ` ( ${+(higherMultiWidth*higherCritiWidth*100).toFixed(1)}% )` : $t("build.provislabel0", [higherCriti]) + ` ( ${+(higherCritiWidth*100).toFixed(1)}% )`}}</div>
           <div class="value">{{higherMultiHigherCritiDamage}}</div>
         </div>
       </div>
@@ -38,14 +38,14 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 export default class ProbabilityVisualization extends Vue {
   @Prop({ type: Number }) criti: number;
   @Prop({ type: Number }) critMul: number;
-  @Prop({ type: Number, default: 0 }) multi: number;
+  @Prop({ type: Number, default: 1 }) multi: number;
   @Prop({ type: Number }) totalDamageFloor: number;
   @Prop({ type: Number }) totalDamageCeil: number;
 
   get lowerMulti() { return Math.floor(this.multi); }
-  get higherMulti() { return Math.ceil(this.multi); }
+  get higherMulti() { return Math.floor(this.multi) + 1; }
   get lowerCriti() { return Math.floor(this.criti); }
-  get higherCriti() { return Math.ceil(this.criti); }
+  get higherCriti() { return Math.floor(this.criti) + 1; }
 
   get lowerMultiWidth() { return this.higherMulti - this.multi; }
   get higherMultiWidth() { return 1 - this.lowerMultiWidth; }
