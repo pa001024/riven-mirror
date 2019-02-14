@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
   chainWebpack: config => {
     config.module
@@ -8,27 +10,23 @@ module.exports = {
         options.transpileOnly = true;
         return options;
       });
+    config.module
+      .rule("worker")
+      .test(/\.worker\.js$/)
+      .use("worker-loader")
+      .loader("worker-loader")
+      .options({
+        exclude: /(node_modules)/
+      });
   },
   configureWebpack: {
-    devtool: "inline-source-map",
-    module: {
-      rules: [
-        {
-          test: /\.worker\.js$/,
-          use: {
-            loader: "worker-loader"
-          },
-          exclude: /(node_modules)/
-        }
-      ]
-    }
+    devtool: "inline-source-map"
   },
   productionSourceMap: false,
   pwa: {
     name: "Riven Mirror",
     themeColor: "#3d5afe",
     msTileColor: "#000000",
-    start_url: "/alerts",
     appleMobileWebAppCapable: true,
     appleMobileWebAppStatusBarStyle: "black",
     iconPaths: {

@@ -1,12 +1,11 @@
 <template>
-  <component :is="rWeapon.mod === 'Amp' ? 'AmpBuildEditor' : (rWeapon.mod !== 'Melee' ? 'GunBuildEditor' : 'MeleeBuildEditor')" :weapon="weapon" :rWeapon="rWeapon"/>
+  <component :is="rWeapon.mod !== 'Melee' ? 'GunBuildEditor' : 'MeleeBuildEditor'" :weapon="weapon" :rWeapon="rWeapon"/>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import GunBuildEditor from "@/views/build/GunBuildEditor.vue";
 import MeleeBuildEditor from "@/views/build/MeleeBuildEditor.vue";
-import AmpBuildEditor from "@/views/build/AmpBuildEditor.vue";
 import { Weapon, RivenWeapon, RivenDataBase, Zaw, Kitgun, Amp } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 
@@ -23,7 +22,7 @@ function loadWeapon(id: string) {
   }
 }
 @Component({
-  components: { GunBuildEditor, MeleeBuildEditor, AmpBuildEditor },
+  components: { GunBuildEditor, MeleeBuildEditor },
   beforeRouteEnter(to, from, next) {
     const weapon = loadWeapon(to.params.id)
     if (weapon) {

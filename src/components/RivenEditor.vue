@@ -34,6 +34,7 @@
   </div>
 </template>
 <script lang="ts">
+import _ from "lodash";
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
 import { RivenWeapon, RivenProperty, RivenPropertyDataBase, RivenDataBase, ModTypeTable, RivenWeaponDataBase } from "@/warframe/codex";
 import { RivenMod, toNegaUpLevel, toUpLevel } from "@/warframe/rivenmod";

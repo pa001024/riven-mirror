@@ -153,6 +153,7 @@
   </div>
 </template>
 <script lang="ts">
+import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { WarframeBuild } from "@/warframe/warframebuild";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
@@ -398,6 +399,7 @@ export default class WarframeEditor extends Vue {
   }
   .skill-costs {
     text-align: right;
+    white-space: nowrap;
     .skill-cost {
       background: @theme_main;
       color: #fff;

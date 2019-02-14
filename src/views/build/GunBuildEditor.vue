@@ -85,7 +85,7 @@
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
             <!-- MOD区域 -->
-            <el-row type="flex" class="mod-slot-container" :gutter="12">
+            <el-row type="flex" class="mod-slot-container" :gutter="12" v-if="!isAMP">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
                   <ModSlot @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
@@ -248,6 +248,10 @@ export default class GunBuildEditor extends BaseBuildEditor {
   reloadSelector() {
     this.$refs.selector && (this.$refs.selector as any).reload();
     this.$refs.buffselector && (this.$refs.buffselector as any).reload();
+  }
+
+  get isAMP() {
+    return this.weapon.tags.includes("Amp");
   }
 
   get options() {

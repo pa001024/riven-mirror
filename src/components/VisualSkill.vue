@@ -124,6 +124,7 @@
   </div>
 </template>
 <script lang="ts">
+import _ from "lodash";
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
 import { AbilityProp, AbilityData, AbilityEnhance, AbilityFormData, AdvancedAbilityPropValue, AbilityType, WarframeProperty, AbilityPropTypes } from "@/warframe/codex";
 import AbilityPropValueEditor from "@/components/vse/AbilityPropValueEditor.vue";

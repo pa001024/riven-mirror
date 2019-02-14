@@ -15,6 +15,7 @@
 
 <script lang="ts">
 
+import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { EnemyFaction, EnemyData, EnemyList, Codex } from "@/warframe/codex";
 

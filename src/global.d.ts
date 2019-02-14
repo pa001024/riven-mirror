@@ -6,7 +6,7 @@ declare interface HMTStatic {
   push: (param: any[]) => void
 }
 declare global {
-  const _: _.LoDashStatic;
+  // const _: _.LoDashStatic;
   const _hmt: HMTStatic;
 }
 declare module 'vue/types/vue' {

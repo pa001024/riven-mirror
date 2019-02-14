@@ -84,6 +84,7 @@
 </template>
 
 <script lang="ts">
+import _ from "lodash";
 import axios from 'axios';
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import GunModBuildView from "@/views/buildview/GunModBuildView.vue";
@@ -93,6 +94,7 @@ import { Getter, Action } from "vuex-class";
 import { HH } from "@/var";
 import "../less/mod.less";
 import { HMT } from "@/service/HMT";
+import localStorage from "universal-localstorage";
 
 // import jsQR from "jsqr";
 import RivenEditor from "@/components/RivenEditor.vue";

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { GunWeaponDataBase, MeleeWeaponDataBase, Weapon } from ".";
 import { strSimilarity } from "../util";
 import { i18n } from "@/i18n";

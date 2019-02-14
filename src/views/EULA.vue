@@ -1,13 +1,13 @@
 <template>
   <div class="eula-container">
     <el-card class="eula">
-      <span slot="header">最终用户许可协议</span>
+      <span slot="header">最终用户许可协议(EULA)</span>
       <div class="content">
-        使用该软件(网站)，即表明您同意接受本协议的全部条款。
-        1. 用户可以以个人名义随意使用本软件(网站)，但不得用于商业用途<br>
+        使用该软件(网站)，即表明您同意接受本协议的全部条款。<br>
+        1. 用户可以以个人名义使用本软件(网站)，但不得用于商业用途<br>
         2. 用户因滥用或错误应用导致的直接或间接损失本软件(网站)概不负责<br>
         2. 用户不得对本软件(网站)代码进行反编译、修改、创建衍生作品或二次发布<br>
-        4. 任何违反最终用户许可协议（EULA）的用户无权使用本软件(网站)<br>
+        4. 任何违反最终用户许可协议（EULA）的用户无权使用本软件(网站)
       </div>
     </el-card>
     <br>
@@ -25,7 +25,7 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 
 @Component
-export default class extends Vue {
+export default class EULA extends Vue {
 
 }
 </script>

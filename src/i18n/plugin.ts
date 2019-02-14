@@ -1,4 +1,4 @@
-
+import _ from "lodash";
 import Vue from 'vue'
 import VueI18n from 'vue-i18n';
 
@@ -7,6 +7,7 @@ import lang_en from './lang/en';
 import elLang_en from 'element-ui/lib/locale/lang/en'
 import elLang_zh from 'element-ui/lib/locale/lang/zh-CN'
 import elLang_zhTW from 'element-ui/lib/locale/lang/zh-TW'
+import localStorage from "universal-localstorage";
 
 Vue.use(VueI18n);
 
@@ -55,7 +56,7 @@ const en = _.assign(elLang_en, lang_en);
 
 export const vi18n = new VueI18n({
   dateTimeFormats,
-  locale: localStorage.getItem("lang") || navigator && navigator.language || 'en',
+  locale: 'en',
   fallbackLocale: 'en',
   messages: { en },
 });

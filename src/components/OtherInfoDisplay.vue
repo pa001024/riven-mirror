@@ -40,6 +40,7 @@
 </template>
 
 <script lang="ts">
+import _ from "lodash";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import CopyText from "@/components/CopyText.vue";

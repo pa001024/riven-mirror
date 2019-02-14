@@ -152,12 +152,14 @@
 </template>
 
 <script lang="ts">
+import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { BaseModBuildView } from "./BaseModBuildView";
 import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
 import { KitgunChamberData, KitgunGripData, KitgunLoaderData, KitgunChamber, KitgunGrip, KitgunLoader, Kitgun, RivenDataBase, Codex, GunWeapon } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import "@/less/buildview.less";
+import localStorage from "universal-localstorage";
 
 @Component
 export default class GunModBuildView extends BaseModBuildView {

@@ -51,7 +51,12 @@ export let _abilityData: AbilityData[] = [
       Move: { directive: "2", distance: R(15) }
     }
   },
-  { id: "Tectonics", tags: 32, energyCost: 50, props: {} },
+  {
+    id: "Tectonics",
+    tags: 32,
+    energyCost: 50,
+    props: { Summon: { health: S(3750), range: R(5), distance: R(15) } }
+  },
   {
     id: "Petrify",
     tags: 16,
@@ -202,9 +207,7 @@ export let _abilityData: AbilityData[] = [
       Damage: {
         range: R(25),
         damage: [
-          ["Impact", S(333.3)],
-          ["Puncture", S(333.3)],
-          ["Slash", S(333.3)]
+          ["Physical", S(1000)],
         ]
       }
     }
@@ -216,7 +219,7 @@ export let _abilityData: AbilityData[] = [
     props: {
       ExaltedWeapon: {
         weaponName: "Exalted Blade",
-        effect: [["oad", { value: 1, bind: [["t", -1]] }]]
+        effect: [["oad", S(100, -100)]]
       }
     }
   },
@@ -280,7 +283,7 @@ export let _abilityData: AbilityData[] = [
     props: {
       DamageReduce: { rate: { value: 70, bind: [["t", 0]], maxValue: 90 } },
       Damage: {
-        damage: [["Slash", S(83.3)], ["Impact", S(83.3)], ["Puncture", S(83.3)]]
+        damage: [["Physical", S(250)]]
       }
     }
   },
@@ -290,7 +293,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 75,
     props: {
       Summon: {
-        damage: [["Impact", S(500)], ["Puncture", S(500)], ["Slash", S(500)]],
+        damage: [["Physical", S(1500)]],
         distance: R(100),
         health: 800
       }
@@ -473,7 +476,7 @@ export let _abilityData: AbilityData[] = [
     props: {
       ExaltedWeapon: {
         weaponName: "Artemis Bow",
-        effect: [["oad", { value: 1, bind: [["t", -1]] }]]
+        effect: [["oad", S(100, -100)]]
       }
     }
   },
@@ -482,9 +485,9 @@ export let _abilityData: AbilityData[] = [
     tags: 0,
     energyCost: 25,
     props: {
-      ExaltedWeapon: { weaponName: "Whipclaw", effect: [["oad", S(100)]] },
+      ExaltedWeapon: { weaponName: "Whipclaw", effect: [["oad", S(100, -100)]] },
       Damage: {
-        damage: [["Impact", S(80)], ["Puncture", S(80)], ["Slash", S(120)]],
+        damage: [["Physical", S(300)]],
         range: R(5),
         distance: R(10)
       }
@@ -509,7 +512,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 100,
     props: {
       Damage: {
-        damage: [["Impact", S(80)], ["Puncture", S(80)], ["Slash", S(90)]],
+        damage: [["Physical", S(250)]],
         distance: R(5),
         range: R(10),
         duration: D(20)
@@ -647,7 +650,6 @@ export let _abilityData: AbilityData[] = [
       ExaltedWeapon: { weaponName: "Regulators", effect: [["D", S(150)]] }
     }
   },
-
   {
     id: "Hall Of Mirrors",
     tags: 32,
@@ -1082,7 +1084,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 25,
     energyCostPS: 4,
     props: {
-      ExaltedWeapon: { weaponName: "Dex Pixia", effect: [["oad", S(100)]] }
+      ExaltedWeapon: { weaponName: "Dex Pixia", effect: [["oad", S(100, -100)]] }
     }
   },
   {
@@ -1154,7 +1156,7 @@ export let _abilityData: AbilityData[] = [
     tags: 1,
     energyCost: 100,
     props: {
-      ExaltedWeapon: { weaponName: "Valkyr Talons", effect: [["oad", S(100)]] }
+      ExaltedWeapon: { weaponName: "Valkyr Talons", effect: [["oad", S(100, -100)]] }
     }
   },
   {
@@ -1271,7 +1273,7 @@ export let _abilityData: AbilityData[] = [
     props: {
       ExaltedWeapon: {
         weaponName: "Iron Staff",
-        effect: [["oad", S(100)]]
+        effect: [["oad", S(100, -100)]]
       }
     }
   },
@@ -1345,10 +1347,42 @@ export let _abilityData: AbilityData[] = [
       }
     }
   },
-  { id: "Elude", tags: 0, energyCost: 25, props: {} },
-  { id: "Lull", tags: 0, energyCost: 50, props: {} },
-  { id: "Desolate Hands", tags: 0, energyCost: 75, props: {} },
-  { id: "Serene Storm", tags: 0, energyCost: 100, props: {} },
+  {
+    id: "Elude",
+    tags: 2,
+    energyCost: 25,
+    energyCostPS: 2.5,
+    props: {
+      Buff: {
+        angel: { value: 180, bind: [["g", 0]], maxValue: 360 },
+        desc: "闪避",
+        target: 1
+      }
+    }
+  },
+  {
+    id: "Lull",
+    tags: 16,
+    energyCost: 50,
+    props: { Control: { duration: D(20), angel: 30, distance: R(25) } }
+  },
+  {
+    id: "Desolate Hands",
+    tags: 0,
+    energyCost: 75,
+    props: {
+      Damage: { damage: [["Puncture", S(250)]], amount: S(8) },
+      Debuff: { effect: [["D", { value: -80 }]] }
+    }
+  },
+  {
+    id: "Serene Storm",
+    tags: 0,
+    energyCost: 0,
+    props: {
+      ExaltedWeapon: { weaponName: "Desert Wind", effect: [["oad", S(100, -100)]] }
+    }
+  }
 ];
 
 export function registerAbilityData(newData: AbilityData[]) {

@@ -1,4 +1,5 @@
 
+import _ from "lodash";
 import { choose, hAccMul, hAccSum } from "./util";
 import { base62, debase62 } from "./lib/base62";
 import { procDurationMap, SpecialStatusInfo } from "./status";
@@ -1125,6 +1126,8 @@ export abstract class ModBuild {
   applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
     let oriDmg: [string, number];
     switch (pName) {
+      case 'K': /* 近战伤害 baseDmg */
+      case 'D': /* 伤害 baseDmg */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;
       case '0': /* 暴击率 critChance */ this._critChanceMul = hAccSum(this._critChanceMul, pValue); break;
       case '1': /* 暴击伤害 critMul */ this._critMulMul = hAccSum(this._critMulMul, pValue); break;
       case 'cd': /* 暴击率/暴击伤害 critChance/critMul */ this._critChanceMul = hAccSum(this._critChanceMul, pValue); this._critMulMul = hAccSum(this._critMulMul, pValue); break;

@@ -9,11 +9,13 @@ Vue.use(Vuex)
 interface State {
 }
 
-const store = new Vuex.Store<State>({
-  modules: {
-    mod,
-    user,
-  }
-})
+export function createStore() {
+  const store = new Vuex.Store<State>({
+    modules: {
+      mod,
+      user,
+    }
+  })
 
-export default store
+  return store
+}

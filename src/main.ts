@@ -2,9 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 
-// 全局引入lodash
-import "lodash";
-
 Vue.config.productionTip = false;
 Vue.config.performance = true;
 
@@ -33,30 +30,10 @@ import VueTour from 'vue-tour'
 import 'vue-tour/dist/vue-tour.css'
 Vue.use(VueTour)
 
-import router from '@/router'
-import store from '@/store'
+import { createRouter } from './router'
+import { createStore } from './store'
 import App from './App.vue'
 
-// crossdomain check
-
-import { HH, LH } from "@/var";
-
-if ([HH, LH].includes(location.host)) {
-  // load extra i18n file
-  changeLocale(vi18n.locale).then(() => {
-    console.log("using lang", navigator.language)
-    i18n.inject(vi18n);
-    store.dispatch("load")
-    /* eslint-disable no-new */
-    new Vue({
-      el: '#app',
-      i18n: vi18n,
-      router,
-      store,
-      render: h => h(App)
-    })
-  });
-}
 // import Worker from "worker-loader!./worker/main";
 
 // const worker = new Worker();
@@ -66,10 +43,58 @@ if ([HH, LH].includes(location.host)) {
 
 // worker.addEventListener("message", (event) => { });
 
+export async function createApp({
+  beforeApp = () => { },
+  afterApp = () => { },
+  locale
+}: any = {}) {
+  const store = createStore()
+  const router = createRouter()
+  // load extra i18n file
+  await changeLocale(locale);
+  if (!locale) console.log("using lang", locale || vi18n.locale);
+  i18n.inject(vi18n);
+  store.dispatch("load");
+
+  await beforeApp({
+    router,
+    store,
+  })
+
+  let app = new Vue({
+    i18n: vi18n,
+    router,
+    store,
+    render: h => h(App)
+  });
+
+  const result = {
+    app,
+    router,
+    store,
+  }
+
+  await afterApp(result)
+
+  return result
+}
+
 // ServiceWorker
-import register from './registerServiceWorker';
-register()
+import './registerServiceWorker';
 
 // FastClick
 import FastClick from "fastclick";
-FastClick.attach(document.body)
+FastClick.attach(document.body);
+
+import localStorage from "universal-localstorage";
+
+createApp({
+  async beforeApp({ router }) {
+    // await loadAsyncComponents({ router });
+  },
+
+  afterApp({ app, store }) {
+    app.$mount("#app");
+  },
+  locale: localStorage.getItem("lang")
+});

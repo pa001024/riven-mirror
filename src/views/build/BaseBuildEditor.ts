@@ -1,7 +1,9 @@
+import _ from "lodash";
 import { Vue, Watch } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import { NormalMod, Buff, Weapon, RivenWeapon, BuffData, DamageModelList, SimpleDamageModel, BuffList } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
+import localStorage from "universal-localstorage";
 
 declare interface BuildSelectorTab {
   title: string

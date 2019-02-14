@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { ValuedProperty } from "./prop";
 import { i18n } from "@/i18n";
 

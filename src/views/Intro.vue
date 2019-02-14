@@ -150,6 +150,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import localStorage from "universal-localstorage";
 
 @Component({ components: {} })
 export default class extends Vue {

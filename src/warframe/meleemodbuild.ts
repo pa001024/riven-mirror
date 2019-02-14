@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { hAccMul, hAccSum } from "@/warframe/util";
 import { Arcane, Enemy, MeleeWeapon, NormalModDatabase, NormalMod } from "./codex";
 import { ModBuild } from "./modbuild";
@@ -148,9 +149,12 @@ export class MeleeModBuild extends ModBuild {
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }
-
   /** [overwrite] 平均暴击区增幅倍率 */
   get critDamageMul() { return this.slideMode ? this.slideCritDamageMul : this.normalCritDamageMul; }
+  /** [overwrite] 平均暴击区增幅倍率(暴击向下取整) */
+  get critDamageMulFloor() { return this.slideMode ? this.calcCritDamage(Math.floor(this.slideCritChance), this.critMul, 0, 2, this.stealthDamageMul) : this.calcCritDamage(Math.floor(this.normalCritChance), this.critMul, 0, 2, this.stealthDamageMul); }
+  /** [overwrite] 平均暴击区增幅倍率(暴击向上取整) */
+  get critDamageMulCeil() { return this.slideMode ? this.calcCritDamage(Math.ceil(this.slideCritChance), this.critMul, 0, 2, this.stealthDamageMul) : this.calcCritDamage(Math.ceil(this.normalCritChance), this.critMul, 0, 2, this.stealthDamageMul); }
   /** 平砍平均暴击区增幅倍率 */
   get normalCritDamageMul() { return this.calcCritDamage(this.normalCritChance, this.critMul, 0, 2, this.stealthDamageMul); }
   /** 滑行平均暴击区增幅倍率 */
@@ -158,6 +162,10 @@ export class MeleeModBuild extends ModBuild {
 
   /** [overwrite] 总伤增幅倍率 */
   get totalDamageMul() { return hAccMul(this.critDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul); }
+  /** [overwrite] 总伤增幅倍率(暴击向下取整) */
+  get totalDamageMulFloor() { return hAccMul(this.critDamageMulFloor, this.overallMul, this.comboMul, this.enemyDmgMul); }
+  /** [overwrite] 总伤增幅倍率(暴击向上取整) */
+  get totalDamageMulCeil() { return hAccMul(this.critDamageMulCeil, this.overallMul, this.comboMul, this.enemyDmgMul); }
   /** 平砍总伤增幅倍率 */
   get normalTotalDamageMul() { return hAccMul(this.normalCritDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul); }
   /** 滑行总伤增幅倍率 */
@@ -249,7 +257,6 @@ export class MeleeModBuild extends ModBuild {
    */
   applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
     switch (pName) {
-      case 'K': /* 近战伤害 baseDmg */ this._baseDamageMul += pValue; break;
       case 'T': /* 攻击范围 range */ this._rangeMul += pValue; break;
       case 'J': /* 攻击速度 attackSpeed */ this._fireRateMul += pValue; break;
       case 'B': /* 导引伤害 chargeMul */ this._chargeMulMul += pValue; break;

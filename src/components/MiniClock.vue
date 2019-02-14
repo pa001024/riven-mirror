@@ -50,6 +50,7 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import { i18n } from "@/i18n";
 import Axios from "axios";
 import { CetusTime, EarthTime, FortunaTime } from "@/warframe/gametime";
+import localStorage from "universal-localstorage";
 
 interface WarframeTime {
   phase: string

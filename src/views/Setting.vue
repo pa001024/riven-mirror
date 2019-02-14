@@ -21,8 +21,8 @@ import { HMT } from "@/service/HMT";
 @Component
 export default class Setting extends Vue {
   setlang(lang: string) {
-    changeLocale(lang || navigator.language)
-    HMT.langSelect(lang || navigator.language)
+    changeLocale(lang)
+    HMT.langSelect(lang)
   }
   setDefaultLang() {
     changeLocale(null)

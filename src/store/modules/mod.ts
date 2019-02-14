@@ -1,5 +1,6 @@
 import { ActionContext } from "vuex";
 import { RivenMod } from "@/warframe/rivenmod";
+import localStorage from "universal-localstorage";
 
 interface State {
   mod: RivenMod

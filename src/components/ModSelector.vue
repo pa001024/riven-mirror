@@ -43,6 +43,7 @@
 
 <script lang="ts">
 
+import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import RivenEditor from "@/components/RivenEditor.vue";
 import { Getter } from "vuex-class";

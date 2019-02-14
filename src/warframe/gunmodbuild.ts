@@ -348,7 +348,6 @@ export class GunModBuild extends ModBuild {
   */
   applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
     switch (pName) {
-      case 'D': /* 伤害 baseDmg */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue); break;
       case 'S': /* 多重射击 multiShot */
         if (this.isLaser)
           this._overallMul = this._overallMul * (100 + pValue) / 100;

@@ -23,6 +23,7 @@
     "register-service-worker": "^1.0.0",
     "sha.js": "^2.4.11",
     "tinycolor2": "^1.4.1",
+    "universal-localstorage": "^1.0.2",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
     "vue-color": "^2.6.0",

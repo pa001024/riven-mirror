@@ -27,10 +27,10 @@ import AbilityPropValueEditor from "@/components/vse/AbilityPropValueEditor.vue"
 export default class DamageEditor extends Vue {
   @Model() dmgs: [string, AbilityPropValue][]
   get DT_TYPES() {
-    return ["Impact", "Puncture", "Slash", "Cold", "Electricity", "Heat", "Toxin", "Blast", "Corrosive", "Gas", "Magnetic", "Radiation", "Viral", "True", "Void",]
+    return ["Physical", "Impact", "Puncture", "Slash", "Cold", "Electricity", "Heat", "Toxin", "Blast", "Corrosive", "Gas", "Magnetic", "Radiation", "Viral", "True", "Void",]
   }
   addnewdamage() {
-    this.dmgs.push(["Impact", { value: 0 }])
+    this.dmgs.push(["Physical", { value: 0 }])
   }
 }
 

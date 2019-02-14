@@ -42,6 +42,7 @@
 </template>
 
 <script lang="ts">
+import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import ZawBuilder from '@/components/ZawBuilder.vue'
 import KitgunBuilder from '@/components/KitgunBuilder.vue'

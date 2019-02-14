@@ -77,6 +77,7 @@ import { RivenDataBase } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import markdown from "markdown-it";
 import { magic, version, updateLogs } from "@/version";
+import localStorage from "universal-localstorage";
 
 const md = markdown()
 

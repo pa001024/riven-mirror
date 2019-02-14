@@ -148,12 +148,14 @@
 </template>
 
 <script lang="ts">
+import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { BaseModBuildView } from "./BaseModBuildView";
 import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
 import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDataBase, Codex, MeleeWeapon } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import "@/less/buildview.less";
+import localStorage from "universal-localstorage";
 
 @Component
 export default class MeleeModBuildView extends BaseModBuildView {
@@ -202,7 +204,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
   /**
    * 计算默认模式
    * if 类型 = 鞭子|长柄|杖 滑砍伤害
-   * else 平砍伤害
+   * else 攻击伤害
    */
   get defalutMode() {
     let melee = this.weapon as MeleeWeapon;

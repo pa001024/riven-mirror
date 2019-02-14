@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { hAccSum } from "@/warframe/util";
 import { GunWeapon, Weapon } from "@/warframe/codex/weapon";
 import { i18n } from "@/i18n";
@@ -172,7 +173,7 @@ export class Amp implements GunWeapon {
   get isPrism() { return !!this.prism }
 
   get panelDamage() { return this.dmg.reduce((a, b) => a + b[1], 0); }
-  get tags() { return (this.scaffold && this.scaffold.id === "Klebrik Scaffold") ? ["Amp", "Continuous"] : ["Amp"]; }
+  get tags() { return (this.scaffold && this.scaffold.id === "Klebrik Scaffold" || this.prism && this.prism.id === "Klamora Prism") ? ["Amp", "Continuous"] : ["Amp"]; }
   get url() { return `AMP-${this.buildName}`; }
   set url(value) {
     try {

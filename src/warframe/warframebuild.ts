@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { WarframeDataBase, Warframe, Codex, AbilityData, AbilityEnhance, AbilityProp, AbilityFormData, AbilityType, AdvancedAbilityPropValue, WarframeProperty, AbilityPropTypes } from "./codex";
 import { i18n } from "@/i18n";
 import { NormalMod, NormalModDatabase } from "./codex/mod";

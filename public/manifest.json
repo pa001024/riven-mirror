@@ -1,8 +1,8 @@
 {
   "name": "RivenMirror™ ALPHA",
   "short_name": "RivenMirror",
-  "lang": "cn",
-  "start_url": "/",
+  "lang": "zh-CN",
+  "start_url": "/alerts",
   "display": "standalone",
   "theme_color": "#3d5afe",
   "background_color": "#f5f5f5",

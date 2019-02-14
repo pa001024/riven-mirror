@@ -12,6 +12,10 @@ export class User {
   data: { [key: string]: string }
 }
 
+export interface UserMeta {
+
+}
+
 export interface BasicResult {
   code: number
   error: string

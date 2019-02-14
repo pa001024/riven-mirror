@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { Base64, randomNormalDistribution, strSimilarity } from "./util";
 import { base62, debase62 } from "./lib/base62";
 import { Polarity, RivenProperty, RivenDataBase, MeleeWeaponDataBase, GunWeaponDataBase, RivenPropertyDataBase, RivenWeaponDataBase, NormalMod } from "./codex";
