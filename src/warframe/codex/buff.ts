@@ -298,21 +298,7 @@ export const BuffList: BuffData[] = [
     target: "Melee",
     multiLayer: {
       maxStack: 13,
-      unstackableProps: [
-        [["oad", 60]],
-        [["oad", 156]],
-        [["oad", 309.6]],
-        [["oad", 555.36]],
-        [["oad", 948.576]],
-        [["oad", 1577.7216]],
-        [["oad", 2584.35456]],
-        [["oad", 4194.967296]],
-        [["oad", 6771.947674]],
-        [["oad", 10895.11628]],
-        [["oad", 17492.18604]],
-        [["oad", 28047.49767]],
-        [["oad", 44935.99627]],
-      ],
+      stackableProps: [["esc", 1]],
     },
     defaultLayer: 2,
   }, {

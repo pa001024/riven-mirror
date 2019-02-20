@@ -149,7 +149,7 @@ export const NormalModDatabase = _normalModSource.map(v => {
     v[1] === "Sacrificial Pressure" ? ["C1", "Primed Pressure Point"] :
       v[1] === "True Steel" ? ["CD", "Sacrificial Steel"] :
         v[1] === "Vitality" ? ["Ha", "Umbral Vitality"] :
-          v[1] === "SteelFiber" ? ["Hb", "Umbral Fiber"] :
+          v[1] === "Steel Fiber" ? ["Hb", "Umbral Fiber"] :
             v[1] === "Intensify" ? ["Hc", "Umbral Intensify"] :
               _normalModSource.find(k => k[1] === "Primed " + v[1]);
   return new NormalMod({

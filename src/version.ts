@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.4.13.1";
+export const version = "1.4.14";
 export const updateLogs = [
+  {
+    version: "1.4.14",
+    date: "2019/2/18",
+    md: {
+      en: `- Fixing the firing rate calculation problem of "charged" weapons (via 鸦夜星河)
+- Add Condition Overload's quantitative calculation (automatically use the current "Average Proc QE", can be manually disabled)`,
+      cn: `- 修复蓄力武器的持续射速计算的问题 (via 鸦夜星河)
+- 添加异况超量的量化计算(自动带入当前的"状态量期望进行计算" 可手动禁用)`
+    }
+  },
   {
     version: "1.4.13",
     date: "2019/2/12",
@@ -31,6 +41,7 @@ export const updateLogs = [
       cn: `- 增加战甲技能数据`
     }
   },
+  /*
   {
     version: "1.4.10",
     date: "2019/1/28",
@@ -41,7 +52,6 @@ export const updateLogs = [
 - **幻影装置** 增加逐发模式`
     }
   },
-  /*
   {
     version: "1.4.9",
     date: "2019/1/26",

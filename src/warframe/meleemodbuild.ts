@@ -22,6 +22,7 @@ export interface MeleeModBuildOptions {
   target?: Enemy
   requireRange?: boolean
   requireCombo?: boolean
+  calcCondiOver?: boolean
 }
 
 export class MeleeModBuild extends ModBuild {
@@ -37,6 +38,8 @@ export class MeleeModBuild extends ModBuild {
   private _comboProcChanceMul = 0;
   private _stealthDamageMul = 0;
   private _finalSpeedMul = 100;
+  private _damagePerStatus = 0;
+  private _extraStatusCount = 0;
 
   /** 范围增幅倍率 */
   get rangeMul() { return this._rangeMul / 100; }
@@ -58,12 +61,18 @@ export class MeleeModBuild extends ModBuild {
   get stealthDamageMul() { return this._stealthDamageMul < 0 ? 0 : this._stealthDamageMul / 100; }
   /** 最终攻速(狂战士) */
   get finalSpeedMul() { return this._finalSpeedMul / 100; }
+  /** 每个状态额外伤害(异况量化) */
+  get damagePerStatus() { return this._damagePerStatus / 100; }
 
   // 额外参数
   /** 异况触发量 */
   statusCount = 2;
+  /** 自动加载范围卡 */
   requireRange = true;
+  /** 自动加载连击卡 */
   requireCombo = true;
+  /** 属性期望套用到异况加成 */
+  calcCondiOver = true;
 
   constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null, fast = false) {
     super(riven, fast);
@@ -85,6 +94,7 @@ export class MeleeModBuild extends ModBuild {
     this.target = typeof options.target !== "undefined" ? options.target : this.target;
     this.requireRange = typeof options.requireRange !== "undefined" ? options.requireRange : this.requireRange;
     this.requireCombo = typeof options.requireCombo !== "undefined" ? options.requireCombo : this.requireCombo;
+    this.calcCondiOver = typeof options.calcCondiOver !== "undefined" ? options.calcCondiOver : this.calcCondiOver;
   }
 
   get options(): MeleeModBuildOptions {
@@ -98,6 +108,7 @@ export class MeleeModBuild extends ModBuild {
       target: this.target,
       requireRange: this.requireRange,
       requireCombo: this.requireCombo,
+      calcCondiOver: this.calcCondiOver,
     };
   }
 
@@ -114,6 +125,14 @@ export class MeleeModBuild extends ModBuild {
   }
 
   // ### 计算属性 ###
+
+  /** [overwrite] 全局伤害增幅倍率 */
+  get overallMul() {
+    if (this.damagePerStatus > 0)
+      return (this._overallMul / 100) * ((1 + this.damagePerStatus) ** (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount));
+    return this._overallMul / 100;
+  }
+
   get slideMode() { return this.compareMode === MeleeCompareMode.SlideDamage || this.compareMode === MeleeCompareMode.SlideDamagePS; }
   /** 滑行攻击倍率 */
   get slideAttackMul() { return this.weapon.slideDmg / this.originalDamage; }
@@ -225,8 +244,8 @@ export class MeleeModBuild extends ModBuild {
   isValidMod(mod: NormalMod) {
     if (!super.isValidMod(mod))
       return false;
-    if ("sacrificialPressure" === mod.id && this._mods.some(v => v && v.id === "primedPressurePoint")
-      || "primedPressurePoint" === mod.id && this._mods.some(v => v && v.id === "sacrificialPressure"))
+    if ("Sacrificial Pressure" === mod.id && this._mods.some(v => v && v.id === "Primed Pressure Point")
+      || "Primed Pressure Point" === mod.id && this._mods.some(v => v && v.id === "Sacrificial Pressure"))
       return false;
     if (this.weapon.tags.includes("Exalted")) {
       return !["Weeping Wounds", "Blood Rush", "Maiming Strike", "Focused Defense"].includes(mod.id)
@@ -247,6 +266,8 @@ export class MeleeModBuild extends ModBuild {
     this._comboProcChanceMul = 0;
     this._stealthDamageMul = 0;
     this._finalSpeedMul = 100;
+    this._damagePerStatus = 0;
+    this._extraStatusCount = 0;
   }
 
   /**
@@ -268,6 +289,8 @@ export class MeleeModBuild extends ModBuild {
       case 'sccm': this._comboProcChanceMul += pValue; break;
       case 'ds': this._stealthDamageMul += pValue; break;
       case 'bsk': this._finalSpeedMul = hAccMul(this._finalSpeedMul, 100 + pValue) / 100; break;
+      case 'co': /* 异况超量 */ this._damagePerStatus = this._damagePerStatus += pValue; break;
+      case 'esc': /* 异况数量 */ this._extraStatusCount = this._extraStatusCount += pValue; break;
       default:
         super.applyProp(mod, pName, pValue); break;
     }

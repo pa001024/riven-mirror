@@ -112,7 +112,8 @@ export default class ModSelector extends Vue {
       silverViral: ["Primed Fever Strike", "North Wind"],
       goldCorrosive: ["Voltaic Strike", "Virulent Scourge"],
       gas: ["Primed Fever Strike", "Volcanic Edge", "Virulent Scourge"],
-      allStatus: ["Voltaic Strike", "Virulent Scourge", "Volcanic Edge", "Vicious Frost"]
+      allStatus: ["Voltaic Strike", "Virulent Scourge", "Volcanic Edge", "Vicious Frost"],
+      condiCombo: ["Drifting Contact", "Condition Overload"]
     },
     Archgun: {
       baseDmg: ["Rubedo-Lined Barrel", "Dual Rounds"],

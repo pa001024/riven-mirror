@@ -184,6 +184,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "apd", }, // first Pellet Damage additionally
   { id: "ccl", noplus: true }, // crit chance lock
   { id: "erc", }, // energy recovery
+  { id: "esc", dmg: true, nopercent: true }, // extra status count
 
   // Amp damage convert
   { id: "vte", dmg: true },

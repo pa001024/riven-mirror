@@ -69,7 +69,12 @@
               <!-- 连击加成 -->
               <el-form-item :label="$t('buildview.comboMul')">
                 <el-tooltip effect="dark" :content="$t('buildview.comboMulTip')" placement="bottom">
-                  <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="1" :max="6" :step="0.5" label="使用MOD槽位"></el-input-number>
+                  <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="1" :max="6" :step="0.5"></el-input-number>
+                </el-tooltip>
+              </el-form-item>
+              <el-form-item :label="$t('buildview.condiOver')">
+                <el-tooltip effect="dark" :content="$t('buildview.condiOverTip')" placement="bottom">
+                  <el-checkbox class="right-side" size="small" v-model="calcCondiOver" @change="optionChange"></el-checkbox>
                 </el-tooltip>
               </el-form-item>
             </el-form>
@@ -182,6 +187,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   comboMul = 1.5;
   extraBaseDamage = 0;
   extraOverall = 0;
+  calcCondiOver = true;
   /** 赋能 */
   arcanes = [];
   get availableArcanes() {
@@ -189,7 +195,10 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   }
 
   @Watch("weapon")
-  reload() { super.reload(); }
+  reload() {
+    this.comboMul = this.weapon.tags.includes("Vistual") ? 1 : 1.5;
+    super.reload();
+  }
   reloadSelector() {
     this.$refs.selector && (this.$refs.selector as any).reload();
     this.$refs.buffselector && (this.$refs.buffselector as any).reload();
@@ -200,6 +209,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
       comboLevel: ~~((this.comboMul - 1) * 2),
       extraBaseDamage: +this.extraBaseDamage,
       extraOverall: +this.extraOverall,
+      calcCondiOver: this.calcCondiOver,
       arcanes: this.arcanes,
     };
   }

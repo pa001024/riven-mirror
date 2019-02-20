@@ -144,12 +144,13 @@ export class GunModBuild extends ModBuild {
     let enemy = new Enemy(this.target.data, this.target.level);
     enemy.amrorReduce = this.amrorReduce;
     enemy.reset();
-    let ticks = Math.ceil(enemy.TICKCYCLE / this.fireRate); // 1200tick/s 整合射速和秒DoT
+    let ticks = Math.ceil(enemy.TICKCYCLE / this.fireRate); // 60tick/s 整合射速和秒DoT
     let reloadTicks = Math.ceil(enemy.TICKCYCLE * this.reloadTime); // 装填需要的tick数
     let remaingMag = this.magazineSize; // 剩余子弹数
     let shotAmmoCost = this.ammoCost; // 射击消耗子弹数
     let nextDoTTick = enemy.TICKCYCLE;
-    let nextDmgTick = 0;
+    const isCharge = this.weapon.tags.includes("Charge");
+    let nextDmgTick = isCharge ? ticks : 0;
     // 敌人死亡或者到时间停止
     for (let seconds = 0; enemy.currentHealth > 0 && seconds < timeLimit; ++seconds) {
       // 伤害
@@ -158,7 +159,7 @@ export class GunModBuild extends ModBuild {
         enemy.applyHit(remaingMag === this.magazineSize ? this.totalDmgFirstRaw : this.totalDmgRaw,
           this.procChanceMap, this.dotDamageMap, this.bullets, this.procDurationMul,
           this.critChance, this.weapon.tags.includes("Sniper") ? 750 : 750 / (this.fireRate < 1 ? 1 : this.fireRate));
-        nextDmgTick += (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : (remaingMag = this.magazineSize, reloadTicks || ticks);
+        nextDmgTick += (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : (remaingMag = this.magazineSize, isCharge ? reloadTicks + ticks : reloadTicks || ticks);
       }
       // DoT
       if (enemy.currentHealth > 0) {
@@ -240,6 +241,8 @@ export class GunModBuild extends ModBuild {
   get oriSustainedFireRate() {
     const { fireRate: f, reload: r, magazine } = this.weapon;
     const m = ~~(magazine / this.ammoCost);
+    if (this.weapon.tags.includes("Charge"))
+      return 1 / (1 / f + r / m);
     return m * f / (m - 1 + Math.max(1, r * f));
   }
 
@@ -251,6 +254,8 @@ export class GunModBuild extends ModBuild {
    */
   get sustainedFireRate() {
     const { fireRate: f, reloadTime: r, effectiveMagazineSize: m } = this;
+    if (this.weapon.tags.includes("Charge"))
+      return 1 / (1 / f + r / m);
     return m * f / (m - 1 + Math.max(1, r * f));
   }
   /** 持续伤害增幅倍率  */
