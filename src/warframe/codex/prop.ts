@@ -143,7 +143,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "bldr", dmg: true }, // 连击暴击率 Critical Chance stacks with Combo Multiplier
   { id: "sccm" }, // 连击触发几率 Status Chance per Combo Multiplier
   { id: "ccws" }, // 切割增加连击数 chance to increase Melee Combo Counter when <DT_SLASH>Slash Status deals damage.
-  { id: "bsk" }, // 最终攻速 Attack Speed (Max: 75%) for 4s on Critical Hit
+  { id: "bsk", dmg: true }, // 最终攻速 Attack Speed (Max: 75%) for 4s on Critical Hit
   { id: "co", dmg: true }, // 异常状态增加伤害 Melee Damage per Status Type affecting the target.
   { id: "gdr", nopercent: true }, // 嘲讽
   { id: "hlr", nopercent: true, noplus: true }, // 治愈

@@ -167,6 +167,7 @@ export class Amp implements GunWeapon {
   reloadDelay: number;
   /** 充能速度 基础30点每秒 */
   reloadSpeed: number;
+  pol = "";
   get reload() { return this.reloadDelay + this.magazine / this.reloadSpeed; }
 
   /** 是否是棱镜 */

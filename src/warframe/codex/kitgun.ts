@@ -161,6 +161,7 @@ export class Kitgun implements GunWeapon {
   reload: number;
   magazine: number;
   accuracy: number;
+  pol = "";
 
   static loadGrip(chamber: KitgunChamber, grip: KitgunGrip) {
     return grip.chambersData[chamber.index];

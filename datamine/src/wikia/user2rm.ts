@@ -83,13 +83,23 @@ if (false) {
   }))
 }
 
-if (true) {
+if (false) {
   rmw = userWeapons.sort((a, b) => (a.Family || a.Name).localeCompare(b.Family || b.Name) || ((b.Family || b.Name).length - (a.Family || a.Name).length))
     .filter(uw => (uw.Type === "Secondary" || uw.Type === "Primary") && (uw.NormalAttack || uw.ChargeAttack))
     .map(v => ({
       id: v.Name,
       rangeLimit: (v.NormalAttack || v.ChargeAttack).Range
     }))
+}
+
+let list = []
+if (true) {
+  rmw = list.map(v => {
+    let w = userWeapons.find(k => k.Name === v.id)
+    if (w)
+      v.pol = w.Polarities ? w.Polarities.map(v => ({ V: "r", Bar: "-", D: "d", U: "w" }[v])).join("") : "";
+    return v
+  })
 }
 
 fs.writeFileSync("rmw.js", "exports = [\n" + JSON.stringify(rmw).replace(/},{/g, "},\n{").replace(/"(\w+)":/g, (_, v) => v + ":").replace(/^\[|\]$/g, v => "") + "\n]")

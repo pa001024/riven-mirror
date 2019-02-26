@@ -1,6 +1,20 @@
 export const magic = "ALPHA";
-export const version = "1.4.14";
+export const version = "1.4.15";
 export const updateLogs = [
+  {
+    version: "1.4.15",
+    date: "2019/2/18",
+    md: {
+      en: `- Fixing the ray weapon multishot does not affect the panel damage
+- Fix the melee builder without the use of the Berserker problem.
+- add Desert Wind and Landslide
+- add weapon forma count`,
+      cn: `- 修复射线武器多重不影响面板的问题
+- 修复近战配卡不使用狂战士的问题
+- 加入沙漠之风 土石塌方计算
+- 增加武器极化次数计算`
+    }
+  },
   {
     version: "1.4.14",
     date: "2019/2/18",
@@ -33,6 +47,7 @@ export const updateLogs = [
 - 修复各种BUG (1.4.12.x)`
     }
   },
+  /*
   {
     version: "1.4.11",
     date: "2019/1/30",
@@ -41,7 +56,6 @@ export const updateLogs = [
       cn: `- 增加战甲技能数据`
     }
   },
-  /*
   {
     version: "1.4.10",
     date: "2019/1/28",

@@ -1243,6 +1243,7 @@ let po = {
     "regulators": "监察者双枪",
     "diwata": "仙女",
     "dexPixia": "Dex 妖精",
+    "desertWind": "沙漠之风",
 
     "ferrite": "铁氧体",
     "nanoSpores": "纳米孢子",

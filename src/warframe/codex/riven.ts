@@ -467,12 +467,14 @@ const _rivenWeaponDataBase = [
   ["Obex", "Melee", 1.1],
   ["Magistar", "Melee", 1.09],
 
+  ["Balla", "Melee", 1],
+  ["Cyath", "Melee", 1],
+  ["Dehtat", "Melee", 1],
+  ["Dokrahm", "Melee", 1],
+  ["Rabvee", "Melee", 1],
   ["Mewan", "Melee", 1],
   ["Kronsh", "Melee", 1],
   ["Ooltha", "Melee", 1],
-  ["Balla", "Melee", 1],
-  ["Dehtat", "Melee", 1],
-  ["Cyath", "Melee", 1],
   ["Plague Keewar", "Melee", 1],
   ["Plague Kripath", "Melee", 1],
 
@@ -493,8 +495,6 @@ const _rivenWeaponDataBase = [
   ["Sepfahn", "Melee", 1],
   ["Cassowar", "Melee", 1],
   ["Boltace", "Melee", 1],
-  ["Rabvee", "Melee", 1],
-  ["Dokrahm", "Melee", 1],
   ["Skiajati", "Melee", 1],
   ["Ohma", "Melee", 0.97],
   ["Fragor", "Melee", 0.96],
@@ -529,6 +529,8 @@ const _rivenWeaponDataBase = [
   ["Dex Pixia", "Pistol", 0],
   ["Whipclaw", "Melee", 0],
   ["Shattered Lash", "Melee", 0],
+  ["Desert Wind", "Melee", 0],
+  ["Landslide", "Melee", 0],
 
   // Archgun
   ["Phaedra", "Archgun", 0],

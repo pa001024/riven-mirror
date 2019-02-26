@@ -6,7 +6,8 @@
         <div class="weapon-display">
           <el-card class="weapon-box">
             <div slot="header" class="weapon-name">
-              <span>{{weapon.displayName}}</span>
+              <span class="title">{{weapon.displayName}}</span>
+              <span class="forma">{{$t("build.formaCount", [build.formaCount])}}</span>
               <ShareQR :url="build.miniCodeURL"/>
             </div>
             <div class="weapon-capacity"></div>

@@ -177,7 +177,7 @@ export class GunModBuild extends ModBuild {
   /** 是否是射线武器 */
   get isLaser() { return !(this.weapon.bullets > 1) && this.weapon.tags.includes("Continuous"); }
   /** [overwrite] 弹片数 */
-  get bullets() { return hAccMul(this.weapon.bullets, this.multishotMul); }
+  get bullets() { return this.isLaser ? 1 : hAccMul(this.weapon.bullets, this.multishotMul); }
   /** 换弹时间 */
   get reloadTime() {
     // 一发发装的武器随弹匣变化
@@ -353,12 +353,7 @@ export class GunModBuild extends ModBuild {
   */
   applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
     switch (pName) {
-      case 'S': /* 多重射击 multiShot */
-        if (this.isLaser)
-          this._overallMul = this._overallMul * (100 + pValue) / 100;
-        else
-          this._multishotMul = hAccSum(this._multishotMul, pValue);
-        break;
+      case 'S': /* 多重射击 multiShot */ this._multishotMul = hAccSum(this._multishotMul, pValue); break;
       case 'R': /* 射速 fireRate */ this._fireRateMul = hAccSum(this._fireRateMul, (this.weapon.tags.includes("Bow") ? 2 * pValue : pValue)); break;
       case 'L': /* 弹匣容量 magazine */ this._magazineMul = hAccSum(this._magazineMul, pValue); break;
       case 'F': /* 装填速度 reloadSpeed */ this._reloadSpeedMul = hAccSum(this._reloadSpeedMul, pValue); break;

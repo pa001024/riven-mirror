@@ -251,6 +251,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["oad", 100, 0]],
     parms: ["power", "%"],
+    defaultValue: 0.7,
   }, {
     id: "R",
     name: "roar", // 牛吼

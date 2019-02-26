@@ -458,8 +458,10 @@ export class WarframeBuild {
       if (sortableMods.length > 0) {
         // console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
         // 4. 将收益最高的一项插入并移出数组
-        let expMod = sortableMods.shift()[0];
-        this.applyMod(expMod);
+        let expMod = sortableMods.shift();
+        // 跳过负收益 (可能是被过滤的)
+        if (expMod[1] < 0) break;
+        this.applyMod(expMod[0]);
         // 5. 重复以上步骤直到卡槽充满
       }
     }

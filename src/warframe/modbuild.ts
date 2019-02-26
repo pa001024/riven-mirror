@@ -58,12 +58,15 @@ export abstract class ModBuild {
   protected _multishotMul = 100;
   protected _voidConvs: [string, number][] = [];
   protected _critChanceLock = -100;
+  private _finalSpeedMul = 100;
 
   protected _extraProcChance: [string, number][] = [];
   protected _statusInfo: { [key: string]: SpecialStatusInfo } = null;
   /** 快速模式 */
   fastMode = false;
 
+  /** 总攻速(狂战士) */
+  get finalSpeedMul() { return this._finalSpeedMul / 100; }
   /** 基伤增幅倍率 */
   get baseDamageMul() { return this._baseDamageMul / 100; }
   /** 额伤增幅倍率 */
@@ -646,7 +649,7 @@ export abstract class ModBuild {
   get electricityBaseDamage() { return hAccMul(this.baseDamage, 1 + this.electricityMul); }
   /** 攻速 */
   get fireRate() {
-    let fr = hAccMul(this.weapon.fireRate, this.fireRateMul);
+    let fr = hAccMul(this.weapon.fireRate, this.fireRateMul, this.finalSpeedMul);
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }
@@ -768,6 +771,7 @@ export abstract class ModBuild {
     this._allEnemyDmgMul = 0;
     this._multishotMul = 100;
     this._critChanceLock = -100;
+    this._finalSpeedMul = 100;
     this.standaloneElements = [];
     this._voidConvs = [];
     this.recalcElements();
@@ -971,9 +975,11 @@ export abstract class ModBuild {
       if (sortableMods.length > 0) {
         // console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
         // 4. 将收益最高的一项插入并移出数组
-        let expMod = sortableMods.shift()[0];
-        if (expMod.id === "RIVENFAKE") rivenCount++;
-        this.applyMod(expMod);
+        let expMod = sortableMods.shift();
+        // 跳过负收益 (可能是被过滤的)
+        if (expMod[1] < 0) break;
+        if (expMod[0].id === "RIVENFAKE") rivenCount++;
+        this.applyMod(expMod[0]);
         // 5. 重复以上步骤直到卡槽充满
       }
     }
@@ -1159,6 +1165,7 @@ export abstract class ModBuild {
       case 'aed': /* 对全种族伤害 allEnemyDmgMul */ this._allEnemyDmgMul = hAccSum(this._allEnemyDmgMul, pValue); break;
       case 'bsc': /* 加法触发几率 */ this._procChanceAdd = hAccSum(this._procChanceAdd, pValue); break;
       case 'ccl': /* 暴击率锁定 */ this._critChanceLock = pValue; break;
+      case 'bsk': /* 总攻速 */ this._finalSpeedMul = this._finalSpeedMul * (100 + pValue) / 100; break;
       default:
     }
   }
@@ -1195,15 +1202,72 @@ export abstract class ModBuild {
 
   /** 最大容量 */
   get maxCost() { return 60; }
+  _formaCount = 0;
+  /** 极化次数 */
+  get formaCount() { return this._formaCount }
   /** 重新计算极化次数 */
   recalcPolarizations() {
-    this._polarizations = Array(8);
-    // 按容量需求量排序
-    const pls = this._mods.map((v, i) => [i, v ? v.cost : 0]).sort((a, b) => b[1] - a[1]);
-    // 最多极化8次
-    for (let i = 0; this.totalCost > this.maxCost && i < pls.length && this._mods[pls[i][0]]; ++i) {
-      this._polarizations[pls[i][0]] = this._mods[pls[i][0]].polarity;
+    // 自带的极性
+    let defaultPolarities = (this.weapon.pol || "").split("");
+    this._polarizations = Array(8).fill(null);
+    this._formaCount = 0;
+    // 匹配自带槽位
+    // - 正面极性
+    const deltaSeq = this._mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1]);
+    // - 负面极性
+    const thetaSeq = this._mods.map((v, i) => [i, v ? v.theta : 0]).sort((a, b) => a[1] - b[1]);
+    deltaSeq.forEach(([i]) => {
+      if (this._mods[i]) {
+        let matched = defaultPolarities.indexOf(this._mods[i].polarity);
+        if (matched >= 0) {
+          defaultPolarities.splice(matched, 1);
+          this._polarizations[i] = this._mods[i].polarity;
+        }
+      }
+    });
+    // 负面极性位
+    let thetaMod = [];
+    // 强制使用自带槽位
+    while (defaultPolarities.length > 0) {
+      const pol = defaultPolarities.pop();
+      let mod = thetaSeq.pop();
+      if (mod) {
+        // 跳过已经极化的槽位
+        if (!this._polarizations[mod[0]]) {
+          this._polarizations[mod[0]] = pol;
+          thetaMod.push(mod[0]);
+        }
+      } else {
+        this._polarizations.some((v, i) => {
+          if (!v) {
+            this._polarizations[i] = pol;
+            return true;
+          }
+          return false
+        });
+      }
     }
+
+    // 按容量需求量排序
+    const mods = this.mods;
+    const delta = mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1]);
+    // 最多极化10次
+    for (let i = 0; this.totalCost > this.maxCost && i < delta.length && mods[delta[i][0]]; ++i) {
+      const [modIndex] = delta[i];
+      const pol = mods[modIndex].polarity;
+      if (pol !== "w") {
+        // console.log(`set pol [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to ${pol}`)
+        if (this._polarizations[modIndex] !== pol) {
+          this._polarizations[modIndex] = pol;
+          ++this._formaCount;
+        }
+      } else if (thetaMod.includes(modIndex)) {
+        // console.log(`set null [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to null`)
+        this._polarizations[modIndex] = "";
+        thetaMod = thetaMod.filter(v => v != modIndex);
+      }
+    }
+    // console.log(this.allMods, this.allPolarizations)
     return this.polarizations;
   }
 }

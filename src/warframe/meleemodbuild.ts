@@ -37,7 +37,6 @@ export class MeleeModBuild extends ModBuild {
   private _comboCritChanceMul = 0;
   private _comboProcChanceMul = 0;
   private _stealthDamageMul = 0;
-  private _finalSpeedMul = 100;
   private _damagePerStatus = 0;
   private _extraStatusCount = 0;
 
@@ -59,8 +58,6 @@ export class MeleeModBuild extends ModBuild {
   get comboProcChanceMul() { return this._comboProcChanceMul / 100; }
   /** 偷袭伤害 */
   get stealthDamageMul() { return this._stealthDamageMul < 0 ? 0 : this._stealthDamageMul / 100; }
-  /** 最终攻速(狂战士) */
-  get finalSpeedMul() { return this._finalSpeedMul / 100; }
   /** 每个状态额外伤害(异况量化) */
   get damagePerStatus() { return this._damagePerStatus / 100; }
 
@@ -162,12 +159,6 @@ export class MeleeModBuild extends ModBuild {
   }
   /** [overwrite] 真实触发几率 */
   get realProcChance() { return this.procChance; }
-  /** [overwrite] 攻速增幅倍率 */
-  get fireRate() {
-    let fr = hAccMul(this.weapon.fireRate, this.fireRateMul, this.finalSpeedMul);
-    // 攻速下限
-    return fr < 0.05 ? 0.05 : fr;
-  }
   /** [overwrite] 平均暴击区增幅倍率 */
   get critDamageMul() { return this.slideMode ? this.slideCritDamageMul : this.normalCritDamageMul; }
   /** [overwrite] 平均暴击区增幅倍率(暴击向下取整) */
@@ -265,7 +256,6 @@ export class MeleeModBuild extends ModBuild {
     this._comboCritChanceMul = 0;
     this._comboProcChanceMul = 0;
     this._stealthDamageMul = 0;
-    this._finalSpeedMul = 100;
     this._damagePerStatus = 0;
     this._extraStatusCount = 0;
   }
@@ -288,7 +278,6 @@ export class MeleeModBuild extends ModBuild {
       case 'bldr': this._comboCritChanceMul += pValue; break;
       case 'sccm': this._comboProcChanceMul += pValue; break;
       case 'ds': this._stealthDamageMul += pValue; break;
-      case 'bsk': this._finalSpeedMul = hAccMul(this._finalSpeedMul, 100 + pValue) / 100; break;
       case 'co': /* 异况超量 */ this._damagePerStatus = this._damagePerStatus += pValue; break;
       case 'esc': /* 异况数量 */ this._extraStatusCount = this._extraStatusCount += pValue; break;
       default:
@@ -311,7 +300,7 @@ export class MeleeModBuild extends ModBuild {
     if (useRiven == 2)
       this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
     if (this.requireRange && rangeMod && !mods.some(v => v.id === rangeMod.id) && (useRiven === 0 || !this.riven.shortSubfix.includes("T"))) this.applyMod(rangeMod);
-    if (this.requireCombo && comboMod && !mods.some(v => v.id === comboMod.id) && (useRiven === 0 || !this.riven.shortSubfix.includes("N"))) this.applyMod(comboMod);
+    if (this.requireCombo && comboMod && !mods.some(v => v.id === comboMod.id || v.id === "Body Count") && (useRiven === 0 || !this.riven.shortSubfix.includes("N"))) this.applyMod(comboMod);
     super.fillEmpty(slots, 0, lib, rivenLimit);
   }
 
