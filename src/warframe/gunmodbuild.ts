@@ -367,6 +367,7 @@ export class GunModBuild extends ModBuild {
       case 'fsb': /* 第一发子弹伤害加成 firstAmmoMul */ this._firstAmmoMul = hAccSum(this._firstAmmoMul, pValue); break;
       case 'eed': /* 电击伤害 */ this.weapon.prjSpeed ? this.electricityMul = hAccSum(this._electricityMul, pValue) : this.applyStandaloneElement("Electricity", pValue / 100); break;
       case 'efd': /* 火焰伤害 */ this.weapon.prjSpeed ? this.heatMul = hAccSum(this._heatMul, pValue) : this.applyStandaloneElement("Heat", pValue / 100); break;
+      case 'etd': /* 毒素伤害 */ this.weapon.prjSpeed ? this.toxinMul = hAccSum(this._toxinMul, pValue) : this.applyStandaloneElement("Toxin", pValue / 100); break;
       case 'ar': /* + Range (nopercent) */ this._rangeLimitAdd = hAccSum(this._rangeLimitAdd, pValue); break;
       case 'vte': /* 虚空转换电击 voidConvs */ this._voidConvs.push(["Electricity", pValue]); break;
       case 'vtv': /* 虚空转换病毒 voidConvs */ this._voidConvs.push(["Viral", pValue]); break;

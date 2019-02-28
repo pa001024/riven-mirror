@@ -13,8 +13,7 @@
         </el-input>
       </el-form-item>
       <el-form-item style="margin-bottom: -14px">
-        <el-checkbox v-if="!isLogin" v-model="isAgreeEULA">{{$t('app.readandagree')}}<a href="/eula" target="_blank">EULA</a></el-checkbox>
-        <input :style="'margin-top:'+(isLogin ? 18 : 8)+'px'" type="submit" class="block btn-login" :class="{'is-disabled': showEULA}" :disabled="showEULA" :value="isLogin ? $t('app.loginbtn') : $t('app.registerbtn')">
+        <input :style="'margin-top:'+(isLogin ? 18 : 8)+'px'" type="submit" class="block btn-login" :class="{'is-disabled': !canLogin}" :disabled="!canLogin" :value="isLogin ? $t('app.loginbtn') : $t('app.registerbtn')">
         <el-button style="margin-right: 12px;" type="text" @click="isLogin=!isLogin">{{isLogin ? $t('app.registerbtn') : $t('app.loginbtn')}}</el-button>
         <router-link class="link-btn" to="/forgetpass" v-t="'app.loginforget'"></router-link>
       </el-form-item>
@@ -35,8 +34,8 @@ export default class Login extends Vue {
   }
 
   isLogin = true
-  isAgreeEULA = false
-  get showEULA() { return !this.isLogin && !this.isAgreeEULA }
+  get canLogin() { return false }
+
   @Getter("loginLoading") loading: boolean;
   @Action("login") login: (user: { login: string, password: string }) => void;
 

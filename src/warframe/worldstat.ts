@@ -427,7 +427,7 @@ export class WorldStat {
   nodeNameTranslate(node: string) {
     node = node.replace(/Relay$/, Translator.getLocText("Relay"));
     const tranlate = Translator.getLocText(node);
-    if (tranlate.toLowerCase() === node.toLowerCase())
+    if (node.startsWith("War") || tranlate.toLowerCase() === node.toLowerCase())
       return node;
     else
       return tranlate;
@@ -474,7 +474,7 @@ export class WorldStat {
    * 警报信息
    */
   get alerts() {
-    if (!this.data) return [];
+    if (!this.data || !this.data.alerts) return [];
     return this.deepTranslate(this.data.alerts
       .filter(v => !this.filterType.includes(v.rewardTypes[0])));
   }

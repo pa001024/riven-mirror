@@ -683,6 +683,9 @@ let po = {
     "deadlyEfficiency": "致命效率",
     "sabotRounds": "覆殼彈藥",
     "harkonarScope": "哈庫那瞄準鏡",
+    "wildFrenzy": "猛烈發狂",
+    "burstingMass": "爆發質量",
+    "napalmGrenades": "凝固汽油榴彈",
 
     "shotgunRivenMod": "霰彈槍裂罅MOD",
     "meleeRivenMod": "近戰裂罅MOD",
@@ -1145,6 +1148,7 @@ let po = {
     "multron": "多連穿甲槍",
     "cryotra": "急凍噴槍",
     "tazicor": "泰瑟步槍",
+    "wolfSledge": "惡狼戰鎚",
 
     "none": "無",
     "balla": "寶拉",
@@ -2190,6 +2194,7 @@ let po = {
       ecd: "{0} 腐蝕傷害",
       eed: "{0} 電擊傷害",
       efd: "{0} 火焰傷害",
+      etd: "{0} 毒素傷害",
       aed: "{0} 對全派系傷害",
       rse: "觸發異常後 {0} 範圍",
       lsb: "最後一發子彈 {0} 總傷害",
@@ -2350,6 +2355,7 @@ let po = {
       ecd: "腐蝕傷害",
       eed: "電擊傷害",
       efd: "火焰傷害",
+      etd: "毒素傷害",
       aed: "全派系傷害",
       rse: "觸發增加近戰範圍",
       lsb: "最後一發總傷害",

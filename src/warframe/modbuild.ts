@@ -1162,6 +1162,7 @@ export abstract class ModBuild {
       case 'ecd': /* 腐蚀伤害 */ this.applyStandaloneElement("Corrosive", pValue / 100); break;
       case 'eed': /* 电击伤害 */ this.electricityMul = hAccSum(this._electricityMul, pValue); break;
       case 'efd': /* 火焰伤害 */ this.heatMul = hAccSum(this._heatMul, pValue); break;
+      case 'etd': /* 毒素伤害 */ this.toxinMul = hAccSum(this._toxinMul, pValue); break;
       case 'aed': /* 对全种族伤害 allEnemyDmgMul */ this._allEnemyDmgMul = hAccSum(this._allEnemyDmgMul, pValue); break;
       case 'bsc': /* 加法触发几率 */ this._procChanceAdd = hAccSum(this._procChanceAdd, pValue); break;
       case 'ccl': /* 暴击率锁定 */ this._critChanceLock = pValue; break;

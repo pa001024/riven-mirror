@@ -559,6 +559,8 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Falcor", name: "falcor", tags: ["Melee", "Glaive"], dmg: [["Electricity", 28], ["Puncture", 4], ["Slash", 34], ["Impact", 12]], critMul: 1.6, critChance: 0.12, fireRate: 0.833, slideDmg: 390, status: 0.28, fltSpeed: 30 },
   { id: "Kreska", name: "kreska", tags: ["Melee", "Machete"], dmg: [["Heat", 40], ["Puncture", 5], ["Slash", 15], ["Impact", 10]], critMul: 2, critChance: 0.14, fireRate: 0.917, slideDmg: 210, status: 0.22, pol: "r" },
   { id: "Cobra & Crane", name: "cobraCrane", tags: ["Melee", "Sword-Shield"], dmg: [["Puncture", 10], ["Impact", 90]], critMul: 1.5, critChance: 0.1, fireRate: 0.917, slideDmg: 214, status: 0.36 },
+  { id: "Wolf Sledge", name: "wolfSledge", tags: ["Melee", "Hammer"], dmg: [["Puncture", 3.4], ["Slash", 53], ["Impact", 58.6]], critMul: 1.9, critChance: 0.17, fireRate: 1, slideDmg: 230, status: 0.33 },
+  { id: "Wolf Sledge (charged)", name: "wolfSledge", mode: "charged", rivenName: "Wolf Sledge", tags: ["Melee", "Hammer"], dmg: [["Puncture", 17.2], ["Slash", 264.6], ["Impact", 293.2]], critMul: 1.9, critChance: 0.17, fireRate: 1, slideDmg: 0, status: 0.33, fltSpeed: 50 },
   // 显赫武器
   { id: "Diwata", name: "diwata", tags: ["Melee", "Exalted"], dmg: [["Puncture", 150], ["Slash", 20], ["Impact", 30]], critMul: 2, critChance: 0.2, fireRate: 1.08, slideDmg: 429, status: 0.1, pol: "rr-" },
   { id: "Iron Staff", name: "ironStaff", tags: ["Melee", "Exalted"], dmg: [["Puncture", 37.5], ["Impact", 212.5]], critMul: 2, critChance: 0.25, fireRate: 1, slideDmg: 536, status: 0.1, pol: "r--" },

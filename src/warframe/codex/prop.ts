@@ -165,6 +165,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "ecd", dmg: true }, // 腐蚀伤害
   { id: "eed", dmg: true }, // 电击伤害
   { id: "efd", dmg: true }, // 火焰伤害
+  { id: "etd", dmg: true }, // 毒素伤害
   { id: "aed", dmg: true }, // 全派系伤害
   { id: "rse", dmg: true }, // Weapon Range for 4s on Status Effect
   { id: "lsb", dmg: true }, // Bonus Damage on final shot. Requires Magazine 6 or higher.

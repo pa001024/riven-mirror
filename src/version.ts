@@ -1,9 +1,17 @@
 export const magic = "ALPHA";
-export const version = "1.4.15";
+export const version = "1.4.16";
 export const updateLogs = [
   {
+    version: "1.4.16",
+    date: "2019/2/28",
+    md: {
+      en: `- new mods/new Mutalist Quanta buff (Orb)/new weapon`,
+      cn: `- 新MOD/新异融球BUFF/新武器`
+    }
+  },
+  {
     version: "1.4.15",
-    date: "2019/2/18",
+    date: "2019/2/26",
     md: {
       en: `- Fixing the ray weapon multishot does not affect the panel damage
 - Fix the melee builder without the use of the Berserker problem.
@@ -33,6 +41,7 @@ export const updateLogs = [
       cn: `- 添加使用提示`
     }
   },
+  /*
   {
     version: "1.4.12",
     date: "2019/2/1",
@@ -47,7 +56,6 @@ export const updateLogs = [
 - 修复各种BUG (1.4.12.x)`
     }
   },
-  /*
   {
     version: "1.4.11",
     date: "2019/1/30",

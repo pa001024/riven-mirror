@@ -241,7 +241,7 @@ export const BuffList: BuffData[] = [
     name: "combo", // 连击
     type: BuffType.TotalDamage,
     target: "Sniper",
-    dynamicProps: [["oad", 100, -1]],
+    dynamicProps: [["oad", 100, -100]],
     parms: ["status", ""],
     defaultValue: 2,
   }, {
@@ -458,9 +458,9 @@ export const BuffList: BuffData[] = [
     multiLayer: {
       maxStack: 3,
       unstackableProps: [
-        [["eed", 100]],
-        [["eed", 366.6]],
-        [["eed", 500]],
+        [["etd", 100]],
+        [["etd", 366.6]],
+        [["etd", 500]],
       ],
     },
     defaultLayer: 3,
