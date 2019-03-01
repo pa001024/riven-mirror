@@ -3,13 +3,13 @@ import { WarframeData, WarframeProperty, AbilityData } from "./warframe.i";
 // 一些工具函数
 
 /** 将属性绑定到技能强度 S(数值, 加数) */
-const S = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityStrength, n] as [string, number]] })
+const S = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityStrength, n] as [string, number]] });
 /** 将属性绑定到技能持续 D(数值, 加数) */
-const D = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityDuration, n] as [string, number]] })
+const D = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityDuration, n] as [string, number]] });
 /** 将属性绑定到效率 E(数值, 加数) */
-const E = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityEfficiency, n] as [string, number]] })
+const E = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityEfficiency, n] as [string, number]] });
 /** 将属性绑定到技能范围 R(数值, 加数) */
-const R = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityRange, n] as [string, number]] })
+const R = (v: number, n = 0) => ({ value: v, bind: [[WarframeProperty.AbilityRange, n] as [string, number]] });
 
 // data from https://github.com/WFCD/warframe-items
 export let _abilityData: AbilityData[] = [
@@ -206,9 +206,7 @@ export let _abilityData: AbilityData[] = [
     props: {
       Damage: {
         range: R(25),
-        damage: [
-          ["Physical", S(1000)],
-        ]
+        damage: [["Physical", S(1000)]]
       }
     }
   },
@@ -670,7 +668,7 @@ export let _abilityData: AbilityData[] = [
   {
     id: "Eclipse",
     tags: 2,
-    energyCost: 75,
+    energyCost: 25,
     props: {
       DamageReduce: { rate: { value: 75, bind: [["t", 0]], maxValue: 95 } },
       Buff: { effect: [["dmg", S(200)]], duration: D(25) }
@@ -1072,10 +1070,7 @@ export let _abilityData: AbilityData[] = [
         range: R(8),
         distance: R(25)
       },
-      Special: [
-        { desc: "吸引半径", val: R(20) },
-        { desc: "爆炸半径", val: R(8) }
-      ]
+      Special: [{ desc: "吸引半径", val: R(20) }, { desc: "爆炸半径", val: R(8) }]
     }
   },
   {
@@ -1231,29 +1226,31 @@ export let _abilityData: AbilityData[] = [
     energyCost: 25,
     props: {
       Damage: {
-        damage: [
-          ["Impact", S(800)]
-        ],
+        damage: [["Impact", S(800)]],
         range: 10
       },
       Control: {
         range: R(2)
       }
     }
-  }, {
+  },
+  {
     id: "Defy",
     tags: 2,
     energyCost: 50,
     props: {
-      Special: [{
-        desc: "濒死时回血，并无敌数秒"
-      }],
+      Special: [
+        {
+          desc: "濒死时回血，并无敌数秒"
+        }
+      ],
       Buff: {
         desc: "无敌",
         duration: D(5)
       }
     }
-  }, {
+  },
+  {
     id: "Cloud Walker",
     tags: 4,
     energyCost: 75,
@@ -1261,11 +1258,14 @@ export let _abilityData: AbilityData[] = [
       Control: {
         range: R(8)
       },
-      Special: [{
-        desc: "使玩家向任意方向移动，激活时无敌"
-      }]
+      Special: [
+        {
+          desc: "使玩家向任意方向移动，激活时无敌"
+        }
+      ]
     }
-  }, {
+  },
+  {
     id: "Primal Fury",
     tags: 0,
     energyCost: 0,
@@ -1283,9 +1283,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 25,
     props: {
       Damage: {
-        damage: [
-          ["Slash", S(500)]
-        ],
+        damage: [["Slash", S(500)]],
         range: R(2)
       },
       Move: {
@@ -1296,24 +1294,26 @@ export let _abilityData: AbilityData[] = [
         range: R(2)
       }
     }
-  }, {
+  },
+  {
     id: "Airburst",
     tags: 1,
     energyCost: 50,
     props: {
-      Special: [{
-        desc: "对龙卷云风使用可使其强化"
-      }],
+      Special: [
+        {
+          desc: "对龙卷云风使用可使其强化"
+        }
+      ],
       Damage: {
-        damage: [
-          ["Slash", S(500)]
-        ],
+        damage: [["Slash", S(500)]],
         range: R(8),
         distance: 100
       }
     },
     oneHand: true
-  }, {
+  },
+  {
     id: "Turbulence",
     tags: 2,
     energyCost: 75,
@@ -1325,7 +1325,8 @@ export let _abilityData: AbilityData[] = [
         range: R(6)
       }
     }
-  }, {
+  },
+  {
     id: "Tornado",
     tags: 49,
     energyCost: 100,
@@ -1333,14 +1334,14 @@ export let _abilityData: AbilityData[] = [
       Damage: {
         amount: 4,
         duration: D(20),
-        damage: [
-          ["Impact", S(120)]
-        ],
+        damage: [["Impact", S(120)]],
         range: R(25)
       },
-      Special: [{
-        desc: "可以通过攻击龙卷风改变伤害类型"
-      }],
+      Special: [
+        {
+          desc: "可以通过攻击龙卷风改变伤害类型"
+        }
+      ],
       Control: {
         duration: D(20),
         range: 5
@@ -1405,8 +1406,9 @@ export const _warframeData: WarframeData[] = [
     aura: "r",
     introduced: "Vanilla",
     polarities: ["r", "r"],
-    sex: "Male",
-  }, {
+    sex: "Male"
+  },
+  {
     id: "Ash Prime",
     // name: "ashPrime",
     className: "Ash",
@@ -1421,7 +1423,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2015 07 07",
     vaultDate: "2017 05 30",
     estimatedVaultDate: "2017 05 30"
-  }, {
+  },
+  {
     id: "Atlas",
     // name: "atlas",
     tags: ["Tank", "Control", "Tactics"],
@@ -1437,7 +1440,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "17.5",
     polarities: ["-", "d", "r"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Banshee",
     // name: "banshee",
     tags: ["DPS", "Support"],
@@ -1453,7 +1457,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "7",
     polarities: ["r", "r"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Banshee Prime",
     // name: "bansheePrime",
     className: "Banshee",
@@ -1471,7 +1476,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2017 02 28",
     vaultDate: "n/a",
     estimatedVaultDate: "2019 01 01"
-  }, {
+  },
+  {
     id: "Baruuk",
     // name: "baruuk",
     tags: ["DPS", "Tactics"],
@@ -1488,7 +1494,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "24.2.0",
     polarities: ["r", "r"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Chroma",
     // name: "chroma",
     tags: ["Tactics"],
@@ -1504,7 +1511,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "16",
     polarities: ["-", "r"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Chroma Prime",
     // name: "chromaPrime",
     className: "Chroma",
@@ -1520,7 +1528,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2018 09 25",
     vaultDate: "n/a",
     estimatedVaultDate: "2020 08 11"
-  }, {
+  },
+  {
     id: "Ember",
     // name: "ember",
     tags: ["DPS"],
@@ -1536,7 +1545,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "Vanilla",
     polarities: ["-", "-"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Ember Prime",
     // name: "emberPrime",
     className: "Ember",
@@ -1551,7 +1561,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2013 11 20",
     vaultDate: "2015 10 06",
     estimatedVaultDate: "2015 10 06"
-  }, {
+  },
+  {
     id: "Equinox",
     // name: "equinox",
     tags: ["DPS", "Support", "Control"],
@@ -1567,7 +1578,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "17",
     polarities: ["d", "r"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Excalibur",
     // name: "excalibur",
     tags: ["DPS", "Control"],
@@ -1582,7 +1594,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "Vanilla",
     polarities: ["d", "r"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Excalibur Prime",
     // name: "excaliburPrime",
     className: "Excalibur",
@@ -1594,8 +1607,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1,
     aura: "r",
     introduced: "5",
-    polarities: ["d", "r", "r"],
-  }, {
+    polarities: ["d", "r", "r"]
+  },
+  {
     id: "Excalibur Umbra",
     // name: "excaliburUmbra",
     className: "Excalibur",
@@ -1609,8 +1623,9 @@ export const _warframeData: WarframeData[] = [
     abilities: ["Slash Dash", "Radial Howl", "Radial Javelin", "Exalted Blade"],
     aura: "r",
     introduced: "23",
-    polarities: ["r", "w", "w", "w"],
-  }, {
+    polarities: ["r", "w", "w", "w"]
+  },
+  {
     id: "Frost",
     // name: "frost",
     tags: ["DPS", "Tactics", "Control"],
@@ -1626,7 +1641,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "6",
     polarities: ["-", "d"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Frost Prime",
     // name: "frostPrime",
     className: "Frost",
@@ -1641,7 +1657,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2013 05 03",
     vaultDate: "2015 04 01",
     estimatedVaultDate: "2015 04 01"
-  }, {
+  },
+  {
     id: "Gara",
     // name: "gara",
     tags: ["DPS", "Tank"],
@@ -1657,7 +1674,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "22",
     polarities: ["r", "r"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Garuda",
     // name: "garuda",
     tags: ["DPS", "Support"],
@@ -1674,7 +1692,8 @@ export const _warframeData: WarframeData[] = [
     polarities: ["-", "d"],
     sex: "Female",
     lvlUps: [["h", 200], ["e", 125], ["s", 200]]
-  }, {
+  },
+  {
     id: "Harrow",
     // name: "harrow",
     tags: ["Support", "Control"],
@@ -1690,7 +1709,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "21",
     polarities: ["d", "-"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Hydroid",
     // name: "hydroid",
     tags: ["Tactics"],
@@ -1706,7 +1726,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "13",
     polarities: ["r", "-"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Hydroid Prime",
     // name: "hydroidPrime",
     className: "Hydroid",
@@ -1722,7 +1743,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2017 08 29",
     vaultDate: "n/a",
     estimatedVaultDate: "2019 07 16"
-  }, {
+  },
+  {
     id: "Inaros",
     // name: "inaros",
     tags: ["Tank", "Control"],
@@ -1740,7 +1762,8 @@ export const _warframeData: WarframeData[] = [
     polarities: ["d", "d"],
     sex: "Male",
     lvlUps: [["h", 300], ["e", 50]]
-  }, {
+  },
+  {
     id: "Ivara",
     // name: "ivara",
     tags: ["DPS", "Tactics", "Control"],
@@ -1756,7 +1779,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "18",
     polarities: ["d", "-"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Khora",
     // name: "khora",
     tags: ["DPS", "Control"],
@@ -1773,7 +1797,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "22.18.0",
     polarities: ["r", "-"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Limbo",
     // name: "limbo",
     tags: ["Tank", "Support", "Control"],
@@ -1789,7 +1814,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "15",
     polarities: ["r", "r"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Limbo Prime",
     // name: "limboPrime",
     className: "Limbo",
@@ -1805,7 +1831,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2018 06 19",
     vaultDate: "n/a",
     estimatedVaultDate: "2020 05 05"
-  }, {
+  },
+  {
     id: "Loki",
     // name: "loki",
     tags: ["Tactics"],
@@ -1821,7 +1848,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "Vanilla",
     polarities: ["d", "r"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Loki Prime",
     // name: "lokiPrime",
     className: "Loki",
@@ -1836,7 +1864,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2014 06 11",
     vaultDate: "2016 05 17",
     estimatedVaultDate: "2016 05 17"
-  }, {
+  },
+  {
     id: "Mag",
     // name: "mag",
     tags: ["DPS"],
@@ -1852,7 +1881,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "Vanilla",
     polarities: ["-", "-"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Mag Prime",
     // name: "magPrime",
     className: "Mag",
@@ -1867,7 +1897,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2013 09 13",
     vaultDate: "2015 07 07",
     estimatedVaultDate: "2015 07 07"
-  }, {
+  },
+  {
     id: "Mesa",
     // name: "mesa",
     tags: ["DPS", "Control"],
@@ -1883,7 +1914,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "15.5",
     polarities: ["-", "-"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Mesa Prime",
     // name: "mesaPrime",
     className: "Mesa",
@@ -1895,8 +1927,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1.1,
     introduced: "24.2.2",
     masteryReq: 2,
-    polarities: ["-", "-", "d", "r"],
-  }, {
+    polarities: ["-", "-", "d", "r"]
+  },
+  {
     id: "Mirage",
     // name: "mirage",
     tags: ["Tactics"],
@@ -1912,7 +1945,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "14",
     polarities: ["d", "r"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Mirage Prime",
     // name: "miragePrime",
     className: "Mirage",
@@ -1928,7 +1962,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2017 12 12",
     vaultDate: "n/a",
     estimatedVaultDate: "2019 10 22"
-  }, {
+  },
+  {
     id: "Nekros",
     // name: "nekros",
     tags: ["Tactics"],
@@ -1943,7 +1978,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "10",
     polarities: ["d", "r"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Nekros Prime",
     // name: "nekrosPrime",
     className: "Nekros",
@@ -1958,7 +1994,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2016 08 23",
     vaultDate: "2018 06 19",
     estimatedVaultDate: "2018 06 19"
-  }, {
+  },
+  {
     id: "Nezha",
     // name: "nezha",
     tags: ["DPS", "Control"],
@@ -1974,7 +2011,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "18.1",
     polarities: ["d", "r"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Nidus",
     // name: "nidus",
     tags: ["Tank", "Support"],
@@ -1991,7 +2029,8 @@ export const _warframeData: WarframeData[] = [
     polarities: ["r", "d"],
     sex: "Male",
     lvlUps: [["h", 300], ["e", 50], ["a", 50], ["t", 15]]
-  }, {
+  },
+  {
     id: "Nova",
     // name: "nova",
     tags: ["Support", "Control"],
@@ -2007,7 +2046,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "9",
     polarities: ["r", "r"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Nova Prime",
     // name: "novaPrime",
     className: "Nova",
@@ -2022,7 +2062,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2014 12 16",
     vaultDate: "2016 11 22",
     estimatedVaultDate: "2016 11 22"
-  }, {
+  },
+  {
     id: "Nyx",
     // name: "nyx",
     tags: ["Tank", "Control"],
@@ -2038,7 +2079,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "6",
     polarities: ["r", "-"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Nyx Prime",
     // name: "nyxPrime",
     className: "Nyx",
@@ -2053,7 +2095,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2014 09 23",
     vaultDate: "2016 08 23",
     estimatedVaultDate: "2016 08 23"
-  }, {
+  },
+  {
     id: "Oberon",
     // name: "oberon",
     tags: ["DPS", "Support"],
@@ -2069,7 +2112,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "11.5",
     polarities: ["r", "r"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Oberon Prime",
     // name: "oberonPrime",
     className: "Oberon",
@@ -2085,7 +2129,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2017 05 30",
     vaultDate: "n/a",
     estimatedVaultDate: "2019 04 09"
-  }, {
+  },
+  {
     id: "Octavia",
     // name: "octavia",
     tags: ["DPS", "Tactics"],
@@ -2101,7 +2146,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "20",
     polarities: ["-", "-"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Revenant",
     // name: "revenant",
     tags: ["DPS"],
@@ -2117,7 +2163,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "23.5",
     polarities: ["r", "d"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Rhino",
     // name: "rhino",
     tags: ["Tactics", "Tank", "Support", "Control"],
@@ -2133,7 +2180,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "Vanilla",
     polarities: ["d", "d"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Rhino Prime",
     // name: "rhinoPrime",
     className: "Rhino",
@@ -2148,7 +2196,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2014 03 06",
     vaultDate: "2016 02 16",
     estimatedVaultDate: "2016 02 16"
-  }, {
+  },
+  {
     id: "Saryn",
     // name: "saryn",
     tags: ["DPS"],
@@ -2164,7 +2213,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "7",
     polarities: ["-", "d"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Saryn Prime",
     // name: "sarynPrime",
     className: "Saryn",
@@ -2179,7 +2229,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2016 02 16",
     vaultDate: "2017 12 12",
     estimatedVaultDate: "2017 12 12"
-  }, {
+  },
+  {
     id: "Titania",
     // name: "titania",
     tags: ["DPS"],
@@ -2195,7 +2246,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "The Silver Grove",
     polarities: ["r", "d"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Trinity",
     // name: "trinity",
     tags: ["Support"],
@@ -2211,7 +2263,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "Vanilla",
     polarities: ["d", "d"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Trinity Prime",
     // name: "trinityPrime",
     className: "Trinity",
@@ -2226,7 +2279,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2015 10 06",
     vaultDate: "2017 08 29",
     estimatedVaultDate: "2017 08 29"
-  }, {
+  },
+  {
     id: "Valkyr",
     // name: "valkyr",
     tags: ["Tank", "Support"],
@@ -2242,7 +2296,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "11",
     polarities: ["r", "r"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Valkyr Prime",
     // name: "valkyrPrime",
     className: "Valkyr",
@@ -2257,7 +2312,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2016 11 22",
     vaultDate: "2018 09 25",
     estimatedVaultDate: "2018 09 25"
-  }, {
+  },
+  {
     id: "Vauban",
     // name: "vauban",
     tags: ["Tactics", "Control"],
@@ -2273,7 +2329,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "7.11",
     polarities: ["-", "r"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Vauban Prime",
     // name: "vaubanPrime",
     className: "Vauban",
@@ -2288,7 +2345,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2016 05 17",
     vaultDate: "2018 03 20",
     estimatedVaultDate: "2018 03 20"
-  }, {
+  },
+  {
     id: "Volt",
     // name: "volt",
     tags: ["DPS", "Tactics"],
@@ -2304,7 +2362,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "Vanilla",
     polarities: ["-", "r"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Volt Prime",
     // name: "voltPrime",
     className: "Volt",
@@ -2319,7 +2378,8 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2015 03 24",
     vaultDate: "2017 02 28",
     estimatedVaultDate: "2017 02 28"
-  }, {
+  },
+  {
     id: "Wukong",
     // name: "wukong",
     tags: ["Tank"],
@@ -2335,7 +2395,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "17.12",
     polarities: ["-", "d"],
     sex: "Male"
-  }, {
+  },
+  {
     id: "Zephyr",
     // name: "zephyr",
     tags: ["Tactics"],
@@ -2351,7 +2412,8 @@ export const _warframeData: WarframeData[] = [
     introduced: "12",
     polarities: ["r", "-"],
     sex: "Female"
-  }, {
+  },
+  {
     id: "Zephyr Prime",
     // name: "zephyrPrime",
     className: "Zephyr",
@@ -2372,9 +2434,9 @@ export const _warframeData: WarframeData[] = [
 
 /** 战甲功能分类 */
 export enum WarframeFunction {
-  DPS = "DPS",// 输出
-  Tactics = "Tactics",// 战术
-  Tank = "Tank",// 坦克
-  Support = "Support",// 辅助
-  Control = "Control",// 控制
+  DPS = "DPS", // 输出
+  Tactics = "Tactics", // 战术
+  Tank = "Tank", // 坦克
+  Support = "Support", // 辅助
+  Control = "Control" // 控制
 }

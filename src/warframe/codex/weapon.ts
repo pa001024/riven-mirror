@@ -75,17 +75,25 @@ export class Weapon implements WeaponData {
     this.pol = data.pol;
   }
   /** URL */
-  get url() { return this.id.replace(/ /g, "_") }
+  get url() {
+    return this.id.replace(/ /g, "_");
+  }
   /** 真实ID */
-  get realID() { return this.id.replace(/ \(.+?\)$/g, "") }
+  get realID() {
+    return this.id.replace(/ \(.+?\)$/g, "");
+  }
   /** 真实URL */
-  get realURL() { return this.realID.replace(/ /g, "_") }
+  get realURL() {
+    return this.realID.replace(/ /g, "_");
+  }
   /** WM URL */
-  get wmurl() { return this.realID.toLowerCase().replace(/ /g, "-") }
+  get wmurl() {
+    return this.realID.toLowerCase().replace(/ /g, "-");
+  }
   get displayName() {
     let name = i18n.t(`messages.${this.name}`) as string;
     if (!this.mode) return name;
-    let mode = this.mode && i18n.t('weaponmode.format', [i18n.t(`weaponmode.${this.mode}`)]) || '';
+    let mode = (this.mode && i18n.t("weaponmode.format", [i18n.t(`weaponmode.${this.mode}`)])) || "";
     return name + mode;
   }
 }
@@ -409,7 +417,7 @@ export const GunWeaponDataBase: GunWeapon[] = ([
   { id: "Prime Laser Rifle", name: "primeLaserRifle", rivenName: "Laser Rifle", tags: ["Gun", "Robotic", "Primary", "Rifle"], dmg: [["Puncture", 8.4], ["Slash", 2.4], ["Impact", 1.2]], critMul: 1.5, critChance: 0.15, fireRate: 10, status: 0.05, accuracy: 100, magazine: 5, reload: 1.2 },
   { id: "Deth Machine Rifle", name: "dethMachineRifle", rivenName: "Deth Machine Rifle", tags: ["Gun", "Robotic", "Primary", "Rifle"], dmg: [["Puncture", 0.3], ["Slash", 4.3], ["Impact", 0.5]], critMul: 2, critChance: 0.05, fireRate: 8.3, status: 0.01, accuracy: 100, magazine: 100, reload: 2 },
   { id: "Cryotra", name: "cryotra", rivenName: "Cryotra", tags: ["Gun", "Robotic", "Primary", "Rifle"], dmg: [["Cold", 10]], critMul: 2, critChance: 0.05, fireRate: 1, status: 0.35, accuracy: 12.5, magazine: 80, reload: 4 },
-  { id: "Tazicor", name: "tazicor", rivenName: "Tazicor", tags: ["Gun", "Robotic", "Primary", "Rifle"], dmg: [["Electricity", 6]], critMul: 1.5, critChance: 0.02, fireRate: 8.33, status: 0.15, accuracy: 25, magazine: 4, reload: 2.5 },
+  { id: "Tazicor", name: "tazicor", rivenName: "Tazicor", tags: ["Gun", "Robotic", "Primary", "Rifle"], dmg: [["Electricity", 6]], critMul: 1.5, critChance: 0.02, fireRate: 8.33, status: 0.15, accuracy: 25, magazine: 4, reload: 2.5 }
 ] as GunWeaponData[]).map(v => new GunWeapon(v));
 
 export const MeleeWeaponDataBase: MeleeWeapon[] = ([
@@ -445,7 +453,8 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Dual Kamas", name: "dualKamas", tags: ["Melee", "DualSwords"], dmg: [["Puncture", 4.2], ["Slash", 35.7], ["Impact", 2.1]], critMul: 1.5, critChance: 0.05, fireRate: 1.17, slideDmg: 252, status: 0.075 },
   { id: "Dual Kamas Prime", name: "dualKamasPrime", rivenName: "Dual Kamas", tags: ["Melee", "DualSwords"], dmg: [["Puncture", 14], ["Slash", 52.5], ["Impact", 3.5]], critMul: 2, critChance: 0.15, fireRate: 1.17, slideDmg: 420, status: 0.2, pol: "r" },
   { id: "Ceramic Dagger", name: "ceramicDagger", tags: ["Melee", "Dagger"], dmg: [["Puncture", 31.5], ["Impact", 3.5]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 75, status: 0.1, pol: "r" },
-  { id: "Cerata", name: "cerata", tags: ["Melee", "Glaive"], dmg: [["Toxin", 44]], critMul: 2, critChance: 0.15, fireRate: 1, slideDmg: 220, status: 0.3, fltSpeed: 35, pol: "rd" },
+  { id: "Cerata", name: "cerata", tags: ["Melee", "Glaive"], dmg: [["Toxin", 44]], critMul: 2, critChance: 0.15, fireRate: 1, slideDmg: 220, status: 0.3, pol: "rd" },
+  { id: "Cerata (charged)", name: "cerata", mode: "charged", rivenName: "Cerata", tags: ["Melee", "Glaive"], dmg: [["Puncture", 160], ["Slash", 20], ["Impact", 20], ["Toxin", 150]], critMul: 2, critChance: 0.15, fireRate: 1, slideDmg: 0, status: 0.33, fltSpeed: 35, pol: "rd" },
   { id: "Galatine", name: "galatine", tags: ["Melee", "HeavyBlade"], dmg: [["Puncture", 3.1], ["Slash", 118.8], ["Impact", 3.1]], critMul: 2, critChance: 0.1, fireRate: 1, slideDmg: 250, status: 0.2, pol: "-" },
   { id: "Galatine Prime", name: "galatinePrime", rivenName: "Galatine", tags: ["Melee", "HeavyBlade"], dmg: [["Puncture", 4.1], ["Slash", 156.8], ["Impact", 4.1]], critMul: 2, critChance: 0.2, fireRate: 1, slideDmg: 330, status: 0.2, pol: "rr" },
   { id: "Dual Cleavers", name: "dualCleavers", tags: ["Melee", "DualSwords"], dmg: [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]], critMul: 3, critChance: 0.25, fireRate: 0.833, slideDmg: 210, status: 0.1, pol: "r" },
@@ -454,7 +463,7 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Fang", name: "fang", tags: ["Melee", "DualDaggers"], dmg: [["Puncture", 21], ["Slash", 4.5], ["Impact", 4.5]], critMul: 1.5, critChance: 0.05, fireRate: 0.917, slideDmg: 150, status: 0.08, pol: "d" },
   { id: "Fang Prime", name: "fangPrime", rivenName: "Fang", tags: ["Melee", "DualDaggers"], dmg: [["Puncture", 32.4], ["Impact", 3.6]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 180, status: 0.05, pol: "d" },
   { id: "Lesion", name: "lesion", tags: ["Melee", "Polearm"], dmg: [["Puncture", 5], ["Slash", 75], ["Impact", 20]], critMul: 2, critChance: 0.05, fireRate: 1, slideDmg: 222, status: 0.3, pol: "r" },
-  { id: "Galvacord", name: "galvacord", tags: ["Melee", "Whip"], dmg: [["Puncture", 6], ["Slash", 22], ["Impact", 14]], critMul: 1.8, critChance: 0.12, fireRate: 0.75, slideDmg: 171, status: 0.3 },
+  { id: "Galvacord", name: "galvacord", tags: ["Melee", "Whip"], dmg: [["Puncture", 6], ["Slash", 22], ["Impact", 14], ["Electricity", 38]], critMul: 1.8, critChance: 0.12, fireRate: 0.75, slideDmg: 171, status: 0.3 },
   { id: "Gram", name: "gram", tags: ["Melee", "HeavyBlade"], dmg: [["Puncture", 15], ["Slash", 70], ["Impact", 15]], critMul: 2, critChance: 0.15, fireRate: 0.95, slideDmg: 200, status: 0.15 },
   { id: "Gram Prime", name: "gramPrime", tags: ["Melee", "HeavyBlade"], rivenName: "Gram", dmg: [["Puncture", 9], ["Slash", 135], ["Impact", 36]], critMul: 2.6, critChance: 0.32, fireRate: 0.8, slideDmg: 360, status: 0.32, pol: "rr" },
   { id: "Jaw Sword", name: "jawSword", tags: ["Melee", "Sword"], dmg: [["Puncture", 8.8], ["Slash", 33], ["Impact", 2.2]], critMul: 1.5, critChance: 0.05, fireRate: 0.917, slideDmg: 94, status: 0.1, pol: "r" },
@@ -517,16 +526,20 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Tipedo", name: "tipedo", tags: ["Melee", "Staff"], dmg: [["Puncture", 5], ["Slash", 40], ["Impact", 5]], critMul: 2, critChance: 0.2, fireRate: 1.33, slideDmg: 107, status: 0.2, pol: "d" },
   { id: "Okina", name: "okina", tags: ["Melee", "DualDaggers"], dmg: [["Puncture", 18], ["Slash", 20], ["Impact", 2]], critMul: 2, critChance: 0.05, fireRate: 1.08, slideDmg: 200, status: 0.15, pol: "r" },
   { id: "Shaku", name: "shaku", tags: ["Melee", "Nunchaku"], dmg: [["Puncture", 0], ["Slash", 0], ["Impact", 55]], critMul: 2, critChance: 0.075, fireRate: 1.17, slideDmg: 118, status: 0.25 },
-  { id: "Kestrel", name: "kestrel", tags: ["Melee", "Glaive"], dmg: [["Puncture", 5.3], ["Slash", 5.2], ["Impact", 24.5]], critMul: 2, critChance: 0.1, fireRate: 1.08, slideDmg: 175, status: 0.1, fltSpeed: 30, pol: "r-" },
+  { id: "Kestrel", name: "kestrel", tags: ["Melee", "Glaive"], dmg: [["Puncture", 5.3], ["Slash", 5.2], ["Impact", 24.5]], critMul: 2, critChance: 0.1, fireRate: 1.08, slideDmg: 175, status: 0.1, pol: "r-" },
+  { id: "Kestrel (charged)", name: "kestrel", mode: "charged", rivenName: "Kestrel", tags: ["Melee", "Glaive"], dmg: [["Puncture", 15], ["Slash", 15], ["Impact", 120]], critMul: 2, critChance: 0.1, fireRate: 1.08, slideDmg: 0, status: 0.1, fltSpeed: 30, pol: "r-" },
   { id: "Dark Split-Sword (Heavy Blade)", name: "darkSplitSword", mode: "heavyBlade", rivenName: "Dark Split-Sword", tags: ["Melee", "HeavyBlade"], dmg: [["Radiation", 90]], critMul: 2, critChance: 0.1, fireRate: 0.917, slideDmg: 180, status: 0.25, pol: "r" },
   { id: "Dark Split-Sword (Dual Swords)", name: "darkSplitSword", mode: "dualSwords", rivenName: "Dark Split-Sword", tags: ["Melee", "DualSwords"], dmg: [["Radiation", 65]], critMul: 2.5, critChance: 0.25, fireRate: 1.17, slideDmg: 390, status: 0.15, pol: "r" },
   { id: "Reaper Prime", name: "reaperPrime", tags: ["Melee", "Scythe"], dmg: [["Puncture", 11.3], ["Slash", 52.5], ["Impact", 11.3]], critMul: 2, critChance: 0.2, fireRate: 1.08, slideDmg: 150, status: 0.12 },
-  { id: "Glaive", name: "glaive", tags: ["Melee", "Glaive"], dmg: [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]], critMul: 2, critChance: 0.1, fireRate: 1, slideDmg: 225, status: 0.1, fltSpeed: 20, pol: "r-" },
+  { id: "Glaive", name: "glaive", tags: ["Melee", "Glaive"], dmg: [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]], critMul: 2, critChance: 0.1, fireRate: 1, slideDmg: 225, status: 0.1, pol: "r-" },
+  { id: "Glaive (charged)", name: "glaive", mode: "charged", rivenName: "Glaive", tags: ["Melee", "Glaive"], dmg: [["Puncture", 30], ["Slash", 140], ["Impact", 30], ["Blast", 50]], critMul: 2, critChance: 0.1, fireRate: 1, slideDmg: 0, status: 0.1, fltSpeed: 20, pol: "r-" },
   { id: "Glaive Prime", name: "glaivePrime", rivenName: "Glaive", tags: ["Melee", "Glaive"], dmg: [["Puncture", 7.5], ["Slash", 35], ["Impact", 7.5]], critMul: 2, critChance: 0.15, fireRate: 1.25, slideDmg: 250, status: 0.3, fltSpeed: 40, pol: "r-" },
+  { id: "Glaive Prime (charged)", name: "glaivePrime", mode: "charged", rivenName: "Glaive", tags: ["Melee", "Glaive"], dmg: [["Puncture", 37.5], ["Slash", 37.5], ["Impact", 175], ["Blast", 175]], critMul: 2, critChance: 0.15, fireRate: 1.25, slideDmg: 0, status: 0.3, fltSpeed: 40, pol: "r-" },
   { id: "Cronus", name: "cronus", tags: ["Melee", "Sword"], dmg: [["Puncture", 5.3], ["Slash", 19.2], ["Impact", 10.5]], critMul: 1.5, critChance: 0.05, fireRate: 0.917, slideDmg: 75, status: 0.1, pol: "r" },
   { id: "Dual Ether", name: "dualEther", tags: ["Melee", "DualSwords"], dmg: [["Puncture", 6], ["Slash", 28], ["Impact", 6]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 240, status: 0.1 },
   { id: "Dual Heat Swords", name: "dualHeatSwords", tags: ["Melee", "DualSwords"], dmg: [["Puncture", 6.75], ["Slash", 31.5], ["Impact", 6.75]], critMul: 1.5, critChance: 0.05, fireRate: 0.917, slideDmg: 270, status: 0.1, pol: "-" },
-  { id: "Halikar", name: "halikar", tags: ["Melee", "Glaive"], dmg: [["Puncture", 36], ["Slash", 4.5], ["Impact", 4.5]], critMul: 2, critChance: 0.1, fireRate: 1.17, slideDmg: 225, status: 0.2, fltSpeed: 30, pol: "r-" },
+  { id: "Halikar", name: "halikar", tags: ["Melee", "Glaive"], dmg: [["Puncture", 36], ["Slash", 4.5], ["Impact", 4.5]], critMul: 2, critChance: 0.1, fireRate: 1.17, slideDmg: 225, status: 0.2, pol: "r-" },
+  { id: "Halikar (charged)", name: "halikar", mode: "charged", rivenName: "Halikar", tags: ["Melee", "Glaive"], dmg: [["Puncture", 160], ["Slash", 20], ["Impact", 20], ["Blast", 150]], critMul: 2, critChance: 0.1, fireRate: 1.17, slideDmg: 0, status: 0.2, fltSpeed: 30, pol: "r-" },
   { id: "Ether Reaper", name: "etherReaper", tags: ["Melee", "Scythe"], dmg: [["Puncture", 9.8], ["Slash", 45.5], ["Impact", 9.8]], critMul: 2, critChance: 0.15, fireRate: 1.08, slideDmg: 130, status: 0.15, pol: "r" },
   { id: "Venka", name: "venka", tags: ["Melee", "Claws"], dmg: [["Puncture", 9.25], ["Slash", 25.9], ["Impact", 1.85]], critMul: 2, critChance: 0.15, fireRate: 1, slideDmg: 111, status: 0.15 },
   { id: "Venka Prime", name: "venkaPrime", rivenName: "Venka", tags: ["Melee", "Claws"], dmg: [["Puncture", 11], ["Slash", 41.25], ["Impact", 2.75]], critMul: 2.5, critChance: 0.25, fireRate: 1.05, slideDmg: 165, status: 0.15, pol: "-r" },
@@ -545,7 +558,8 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Zenistar (aura)", name: "zenistar", mode: "aura", rivenName: "Zenistar", tags: ["Melee", "HeavyBlade"], dmg: [["Heat", 50]], critMul: 2, critChance: 0.05, fireRate: 0.833, slideDmg: 0, status: 0.5, pol: "r" },
   { id: "Volnus", name: "volnus", tags: ["Melee", "Hammer"], dmg: [["Puncture", 32], ["Slash", 46], ["Impact", 22]], critMul: 1.6, critChance: 0.18, fireRate: 1.2, slideDmg: 200, status: 0.3, pol: "r" },
   { id: "Jat Kusar", name: "jatKusar", tags: ["Melee", "BladeAndWhip"], dmg: [["Heat", 80]], critMul: 2.5, critChance: 0.35, fireRate: 0.833, slideDmg: 171, status: 0.05, pol: "rr" },
-  { id: "Orvius", name: "orvius", tags: ["Melee", "Glaive"], dmg: [["Puncture", 3.5], ["Slash", 52.5], ["Impact", 14]], critMul: 2, critChance: 0.15, fireRate: 0.75, slideDmg: 350, status: 0.15, fltSpeed: 30, pol: "-r" },
+  { id: "Orvius", name: "orvius", tags: ["Melee", "Glaive"], dmg: [["Puncture", 3.5], ["Slash", 52.5], ["Impact", 14]], critMul: 2, critChance: 0.15, fireRate: 0.75, slideDmg: 350, status: 0.15, pol: "-r" },
+  { id: "Orvius (charged)", name: "orvius", mode: "charged", rivenName: "Orvius", tags: ["Melee", "Glaive"], dmg: [["Puncture", 10], ["Slash", 150], ["Impact", 40], ["Cold", 150]], critMul: 2, critChance: 0.15, fireRate: 0.75, slideDmg: 0, status: 0.15, fltSpeed: 30, pol: "-r" },
   { id: "Cassowar", name: "cassowar", tags: ["Melee", "Polearm"], dmg: [["Puncture", 23.8], ["Slash", 30.8], ["Impact", 15.4]], critMul: 1.4, critChance: 0.06, fireRate: 1.17, slideDmg: 156, status: 0.28, pol: "rd" },
   { id: "Plasma Sword", name: "plasmaSword", tags: ["Melee", "Sword"], dmg: [["Electricity", 35]], critMul: 2, critChance: 0.15, fireRate: 0.667, slideDmg: 75, status: 0.15 },
   { id: "Ohma", name: "ohma", tags: ["Melee", "Tonfa"], dmg: [["Electricity", 100]], critMul: 2, critChance: 0.15, fireRate: 0.917, slideDmg: 600, status: 0.3 },
@@ -556,7 +570,8 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Broken War", name: "brokenWar", tags: ["Melee", "Sword"], dmg: [["Puncture", 9], ["Slash", 72], ["Impact", 9]], critMul: 1.5, critChance: 0.15, fireRate: 1, slideDmg: 193, status: 0.1, pol: "r-" },
   { id: "Paracesis", name: "paracesis", tags: ["Melee", "HeavyBlade"], dmg: [["Puncture", 11.5], ["Slash", 100.8], ["Impact", 31.7]], critMul: 2.6, critChance: 0.31, fireRate: 0.917, slideDmg: 288, status: 0.12 },
   { id: "Pupacyst", name: "pupacyst", tags: ["Melee", "Polearm"], dmg: [["Viral", 43], ["Impact", 47]], critMul: 1.5, critChance: 0.13, fireRate: 0.833, slideDmg: 193, status: 0.27, pol: "r" },
-  { id: "Falcor", name: "falcor", tags: ["Melee", "Glaive"], dmg: [["Electricity", 28], ["Puncture", 4], ["Slash", 34], ["Impact", 12]], critMul: 1.6, critChance: 0.12, fireRate: 0.833, slideDmg: 390, status: 0.28, fltSpeed: 30 },
+  { id: "Falcor", name: "falcor", tags: ["Melee", "Glaive"], dmg: [["Electricity", 28], ["Puncture", 4], ["Slash", 34], ["Impact", 12]], critMul: 1.6, critChance: 0.12, fireRate: 0.833, slideDmg: 390, status: 0.28 },
+  { id: "Falcor (charged)", name: "falcor", mode: "charged", rivenName: "Falcor", tags: ["Melee", "Glaive"], dmg: [["Electricity", 435], ["Puncture", 80], ["Slash", 100], ["Impact", 50]], critMul: 1.6, critChance: 0.12, fireRate: 0.833, slideDmg: 0, status: 0.28, fltSpeed: 30 },
   { id: "Kreska", name: "kreska", tags: ["Melee", "Machete"], dmg: [["Heat", 40], ["Puncture", 5], ["Slash", 15], ["Impact", 10]], critMul: 2, critChance: 0.14, fireRate: 0.917, slideDmg: 210, status: 0.22, pol: "r" },
   { id: "Cobra & Crane", name: "cobraCrane", tags: ["Melee", "Sword-Shield"], dmg: [["Puncture", 10], ["Impact", 90]], critMul: 1.5, critChance: 0.1, fireRate: 0.917, slideDmg: 214, status: 0.36 },
   { id: "Wolf Sledge", name: "wolfSledge", tags: ["Melee", "Hammer"], dmg: [["Puncture", 3.4], ["Slash", 53], ["Impact", 58.6]], critMul: 1.9, critChance: 0.17, fireRate: 1, slideDmg: 230, status: 0.33 },
@@ -573,5 +588,5 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Landslide", name: "landslide", tags: ["Melee", "Exalted", "Virtual"], dmg: [["Impact", 350]], critMul: 2, critChance: 0.05, fireRate: 1, slideDmg: 0, status: 0.05 },
   // 守护武器
   { id: "Deconstructor", name: "deconstructor", rivenName: "Deconstructor", tags: ["Melee", "Robotic", "Glaive"], dmg: [["Impact", 50]], critChance: 0, fireRate: 1.3, status: 0.25 },
-  { id: "Deconstructor Prime", name: "deconstructorPrime", rivenName: "Deconstructor", tags: ["Melee", "Robotic", "Glaive"], dmg: [["Impact", 75]], critChance: 0, fireRate: 1.33, status: 0.25 },
+  { id: "Deconstructor Prime", name: "deconstructorPrime", rivenName: "Deconstructor", tags: ["Melee", "Robotic", "Glaive"], dmg: [["Impact", 75]], critChance: 0, fireRate: 1.33, status: 0.25 }
 ] as MeleeWeaponData[]).map(v => new MeleeWeapon(v));
