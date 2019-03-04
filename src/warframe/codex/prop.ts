@@ -46,68 +46,68 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "E", dmg: true }, // 滑暴 Critical Hit Chance for Slide Attack
   { id: "X" }, // 处决 Finisher Damage
   // 战甲
-  { id: "h", }, // Health
-  { id: "s", }, // Shield
-  { id: "a", }, // Amror
-  { id: "e", }, // Energy
-  { id: "f", }, // Sprint
-  { id: "r", }, // ShieldRecharge
-  { id: "t", }, // AbilityStrength S=>t
-  { id: "u", }, // AbilityDuration D=>u
-  { id: "x", }, // AbilityEfficiency E=>x
-  { id: "g", }, // AbilityRange R=>g
-  { id: "c", }, // CastSpeed
-  { id: "k", }, // KnockdownResistance
-  { id: "y", }, // KnockdownRecovery h=>y
-  { id: "l", }, // Slide
-  { id: "i", }, // Friction F=>i
-  { id: "v", }, // ParkourVelocity
-  { id: "z", }, // QuickThinking
-  { id: "rg", }, // Rage A=>rg
-  { id: "hc", nopercent: true, }, // HealthConversion
-  { id: "ec", }, // EnergyConversion
-  { id: "tr", }, // TauResist
-  { id: "as", }, // AuraStrength
-  { id: "ae", }, // AuraEffectiveness
-  { id: "at", }, // AimGlideWallLatchTime
-  { id: "er", nopercent: true, }, // EnemyRadar
-  { id: "lr", nopercent: true, }, // LootRadar
-  { id: "ea", nopercent: true, }, // extra armor
-  { id: "fsr", }, // fully shield recovery
-  { id: "psr", }, // persecond shield recovery
-  { id: "phr", }, // persecond health recovery
-  { id: "ivb", }, // invisible
-  { id: "ehb", }, // extra health orb
-  { id: "eeb", }, // extra energy orb
-  { id: "rgd", }, // range knockdown
-  { id: "tt", }, // team AbilityStrength
-  { id: "ab", }, // Resistance to that Damage Type for 10s. Stacks up to 90%.
-  { id: "cc", }, // Counter Chance
-  { id: "ddb", }, // Damage during Bleedout
-  { id: "pr", }, // Toxin Resistance
-  { id: "rr", }, // Radiation Resistance
-  { id: "drk", }, // Damage Resistance on Knockdown
-  { id: "cr", }, // Cold Resistance
-  { id: "fr", }, // Heat Resistance
-  { id: "ir", }, // Electricity Resistance
-  { id: "ll", }, // chance to unlock locked lockers
-  { id: "br", }, // Bleedout Reduction
-  { id: "apc", }, // Auto Parry Chance
-  { id: "sr", }, // Faster Stagger Recovery
-  { id: "fl", }, // Flight Speed (Archwing)
-  { id: "es", }, // Energy Rate (Aura)
-  { id: "ap", }, // Ammo Pickup (Aura)
-  { id: "ev", }, // Evasion
-  { id: "m", }, // Movement Speed when Aiming
-  { id: "wc", }, // Shield Resistance to Ice Levels
-  { id: "adr", }, // Reduces damage by |val|% when Airborne.
-  { id: "her", }, // EnergyOnHeadshotRifle
-  { id: "ens", }, // Enemy Shield
-  { id: "ena", }, // Enemy Amror
-  { id: "ref", }, // % Damage taken is reflected when Blocking attacks while Channeling.
+  { id: "h" }, // Health
+  { id: "s" }, // Shield
+  { id: "a" }, // Amror
+  { id: "e" }, // Energy
+  { id: "f" }, // Sprint
+  { id: "r" }, // ShieldRecharge
+  { id: "t" }, // AbilityStrength S=>t
+  { id: "u" }, // AbilityDuration D=>u
+  { id: "x" }, // AbilityEfficiency E=>x
+  { id: "g" }, // AbilityRange R=>g
+  { id: "c" }, // CastSpeed
+  { id: "k" }, // KnockdownResistance
+  { id: "y" }, // KnockdownRecovery h=>y
+  { id: "l" }, // Slide
+  { id: "i" }, // Friction F=>i
+  { id: "v" }, // ParkourVelocity
+  { id: "z" }, // QuickThinking
+  { id: "rg" }, // Rage A=>rg
+  { id: "hc", nopercent: true }, // HealthConversion
+  { id: "ec" }, // EnergyConversion
+  { id: "tr" }, // TauResist
+  { id: "as" }, // AuraStrength
+  { id: "ae" }, // AuraEffectiveness
+  { id: "at" }, // AimGlideWallLatchTime
+  { id: "er", nopercent: true }, // EnemyRadar
+  { id: "lr", nopercent: true }, // LootRadar
+  { id: "ea", nopercent: true }, // extra armor
+  { id: "fsr" }, // fully shield recovery
+  { id: "psr" }, // persecond shield recovery
+  { id: "phr" }, // persecond health recovery
+  { id: "ivb" }, // invisible
+  { id: "ehb" }, // extra health orb
+  { id: "eeb" }, // extra energy orb
+  { id: "rgd" }, // range knockdown
+  { id: "tt" }, // team AbilityStrength
+  { id: "ab" }, // Resistance to that Damage Type for 10s. Stacks up to 90%.
+  { id: "cc" }, // Counter Chance
+  { id: "ddb" }, // Damage during Bleedout
+  { id: "pr" }, // Toxin Resistance
+  { id: "rr" }, // Radiation Resistance
+  { id: "drk" }, // Damage Resistance on Knockdown
+  { id: "cr" }, // Cold Resistance
+  { id: "fr" }, // Heat Resistance
+  { id: "ir" }, // Electricity Resistance
+  { id: "ll" }, // chance to unlock locked lockers
+  { id: "br" }, // Bleedout Reduction
+  { id: "apc" }, // Auto Parry Chance
+  { id: "sr" }, // Faster Stagger Recovery
+  { id: "fl" }, // Flight Speed (Archwing)
+  { id: "es" }, // Energy Rate (Aura)
+  { id: "ap" }, // Ammo Pickup (Aura)
+  { id: "ev" }, // Evasion
+  { id: "m" }, // Movement Speed when Aiming
+  { id: "wc" }, // Shield Resistance to Ice Levels
+  { id: "adr" }, // Reduces damage by |val|% when Airborne.
+  { id: "her" }, // EnergyOnHeadshotRifle
+  { id: "ens" }, // Enemy Shield
+  { id: "ena" }, // Enemy Amror
+  { id: "ref" }, // % Damage taken is reflected when Blocking attacks while Channeling.
   { id: "hps", nopercent: true }, // Heal Rate/s
-  { id: "eac", }, // % Hit Chance
-  { id: "esp", }, // % Speed
+  { id: "eac" }, // % Hit Chance
+  { id: "esp" }, // % Speed
   // 集团
   { id: "vp", nopercent: true }, // 'Purity'
   { id: "vt", nopercent: true }, // 'Truth'
@@ -172,20 +172,23 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "edm", dmg: true }, // Extra Damage against a Marked Enemy
   { id: "ld", nopercent: true }, // Extra Damage on Melee Attacks, or Lethal Damage on Finishers.
   { id: "ar", nopercent: true }, // + Range (nopercent)
-  { id: "cd", }, // Critical Chance and Damage when Aiming
-  { id: "ca", }, // Charge Rate
-  { id: "ck", }, // Chance to Resist Staggers/Knockdowns when Aiming
-  { id: "sds", }, // Status Duration on Self
-  { id: "but", }, // Shots now bounce up to 1x and travel 5% further.
-  { id: "el", }, // Grenades tether up to 2 enemies from 4m away.
-  { id: "sb", }, // Self-damage
+  { id: "cd", dmg: true }, // Critical Chance and Damage when Aiming
+  { id: "ca" }, // Charge Rate
+  { id: "ck" }, // Chance to Resist Staggers/Knockdowns when Aiming
+  { id: "sds" }, // Status Duration on Self
+  { id: "but" }, // Shots now bounce up to 1x and travel 5% further.
+  { id: "el" }, // Grenades tether up to 2 enemies from 4m away.
+  { id: "sb" }, // Self-damage
   { id: "si", nopercent: true }, // Impact damage reduces enemy armor by 1.
-  { id: "rc", }, // Fire/Charge Rate
-  { id: "scan", }, // Fatal strikes against an enemy also perform a Codex Scan
-  { id: "apd", }, // first Pellet Damage additionally
+  { id: "rc" }, // Fire/Charge Rate
+  { id: "scan" }, // Fatal strikes against an enemy also perform a Codex Scan
+  { id: "apd" }, // first Pellet Damage additionally
   { id: "ccl", noplus: true }, // crit chance lock
-  { id: "erc", }, // energy recovery
+  { id: "erc" }, // energy recovery
   { id: "esc", dmg: true, nopercent: true }, // extra status count
+  { id: "rvs" }, // Revive Speed
+  { id: "dgs" }, // Dodge Speed
+  { id: "fca" }, // Faster Charge Attack
 
   // Amp damage convert
   { id: "vte", dmg: true },
@@ -194,18 +197,18 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "vth", dmg: true },
 
   // 条件
-  { id: "ify", }, // if the target is over 45m away.
-  { id: "onHeadshot", },
-  { id: "onHeadshotKill", },
-  { id: "onKill", },
-  { id: "onReload", },
-  { id: "onHit", },
-  { id: "onAbilityCast", },
-  { id: "onMeleeChannelKill", },
-  { id: "onReloadFromEmpty", },
-  { id: "onDodge", },
-  { id: "onEquip", },
-].reduce((a, b) => (a[b.id] = b, a), {});
+  { id: "ify" }, // if the target is over 45m away.
+  { id: "onHeadshot" },
+  { id: "onHeadshotKill" },
+  { id: "onKill" },
+  { id: "onReload" },
+  { id: "onHit" },
+  { id: "onAbilityCast" },
+  { id: "onMeleeChannelKill" },
+  { id: "onReloadFromEmpty" },
+  { id: "onDodge" },
+  { id: "onEquip" }
+].reduce((a, b) => ((a[b.id] = b), a), {});
 
 /**
  * 带值通用属性
@@ -219,16 +222,18 @@ export class ValuedProperty {
     return {
       id: vn,
       displayValue: String(vv),
-      get fullString() { return vn },
+      get fullString() {
+        return vn;
+      },
       shortString: vn,
       value: vv,
       prop: { id: vn }
     };
   }
   /** 属性原型 */
-  prop: CommonProperty
+  prop: CommonProperty;
   /** 属性值 */
-  value: number
+  value: number;
   constructor(prop: CommonProperty, value: number) {
     this.prop = prop;
     this.value = value;
@@ -238,23 +243,23 @@ export class ValuedProperty {
    */
   get displayValue() {
     let dv = this.prop.nopercent ? this.value.toString() : +this.value.toFixed(1) + "%";
-    if (!this.prop.noplus && dv[0] != "-")
-      return "+" + dv;
+    if (!this.prop.noplus && dv[0] != "-") return "+" + dv;
     return dv;
   }
 
-  get id() { return this.prop.id }
+  get id() {
+    return this.prop.id;
+  }
   /**
    * 完整属性显示
    */
   get fullString() {
-    return i18n.te("prop.fullName." + this.prop.id) && i18n.t("prop.fullName." + this.prop.id, [this.displayValue]) || this.prop.id
+    return (i18n.te("prop.fullName." + this.prop.id) && i18n.t("prop.fullName." + this.prop.id, [this.displayValue])) || this.prop.id;
   }
   /**
    * 属性简称
    */
   get shortString() {
-    return i18n.te("prop.shortName." + this.prop.id) && i18n.t("prop.shortName." + this.prop.id) || this.prop.id
+    return (i18n.te("prop.shortName." + this.prop.id) && i18n.t("prop.shortName." + this.prop.id)) || this.prop.id;
   }
-
 }

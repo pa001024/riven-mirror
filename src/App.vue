@@ -25,10 +25,6 @@
     <!-- 移动端弹出菜单 -->
     <transition name="el-zoom-in-top">
       <div class="app-nav-menu hidden-sm-and-up" v-if="menuOpen" @click="menuOpen=false">
-        <router-link tag="div" to="/login" class="menu-item">
-          <WfIcon type="fingerprint"></WfIcon>
-          <span class="app-login-title">{{$t("app.login")}}</span>
-        </router-link>
         <router-link v-for="link in links" :key="link.title" tag="div" :to="link.path" class="menu-item" :exact="link.exact">
           <WfIcon :type="link.icon"></WfIcon>
           <span class="app-nav-title">{{$t(link.title)}}</span>
@@ -92,6 +88,7 @@ export default class App extends Vue {
   get updateLogs() { return updateLogs }
   get links() {
     return [
+      // { title: "app.login", path: "/login", icon: "fingerprint" },
       { title: "navigate.index", path: "/alerts", icon: "world", exact: true },
       { title: "navigate.riven", path: "/riven", icon: "motion" },
       { title: "navigate.weapon", path: "/weapon", icon: "extension" },

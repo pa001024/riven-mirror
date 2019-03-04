@@ -717,6 +717,9 @@ let po = {
       ccl: "Lock Crit chance to {0}",
       erc: "{0} Amp Energy Regen",
       esc: "{0} Extra status count",
+      rvs: "{0} Revive Speed",
+      dgs: "{0} Dodge Speed",
+      fca: "{0} Faster Charge Attack",
 
       ify: "if the target is over {0}m away",
       onHeadshot: "On Headshot:",
@@ -876,7 +879,10 @@ let po = {
       vtp: "Void to Puncture",
       vth: "Void to Heat",
       ccl: "Lock Crit chance",
-      erc: "Amp Energy Regen"
+      erc: "Amp Energy Regen",
+      rvs: "Revive Speed",
+      dgs: "Dodge Speed",
+      fca: "Faster Charge Attack"
     }
   },
   elements: {
@@ -1216,7 +1222,8 @@ let po = {
   },
   setting: {
     lang: "Language Setting",
-    default: "Default"
+    default: "Default",
+    bugreport: "Bug Report"
   },
   modular: {
     damage: "Damage",
@@ -1536,26 +1543,26 @@ let po = {
     wh1: "More efficient",
     wh2: "More professional",
     wh3: "More abundant",
-    w11: "Support OCR, fast import Riven from <strong>screenshot</strong>",
-    w12: "One-click generation <strong>Best building</strong>",
+    w11: "Support OCR, fast import riven from <strong>screenshot</strong>",
+    w12: "One-click generation <strong>best building</strong>",
     w13: "Quickly calculate <strong>Riven score</strong> based on comparison with the best Riven",
-    w21: "<strong>Phantom device</strong> corresponds to the real damage model",
+    w21: "<strong>Simulacrum</strong> corresponds to the real damage model",
     w22: "<strong>Eidolon</strong> unique algorithm is perfectly supported",
     w23: "Various <strong>buffs</strong> highly integrated",
     w31: "Plain time and alerting notice is in place",
     w32: "<strong>Color pick tool</strong>: find a best match from hundreds of colors",
-    w33: "<strong>Build Share</strong> to get more fans",
+    w33: "<s><strong>Build Share</strong> to get more fans</s>",
     fh1: "About and help",
     fw1: "User Document",
     fw2: "Video Tutorial",
-    fw3: "Tencent IM group (paid)",
+    fw3: "QQ Group (paid)",
     fw4: "Discord",
     fw5: "EULA",
-    fw6: "donation/update record",
+    fw6: "Donation",
     fav: "Links",
     fav1: "Warframe official site",
     fav2: "HUIJI WIKI",
-    fav3: "Chinese Forum",
+    fav3: "WfLoveBBS (Chinese)",
     fav4: "WIKIA",
     fav5: "WFA"
   },

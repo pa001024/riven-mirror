@@ -1,14 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.4.16.1";
+export const version = "1.4.16.2";
 export const updateLogs = [
   {
     version: "1.4.16",
     date: "2019/2/28",
     md: {
       en: `- new mods / ~~new Mutalist Quanta buff (Orb)~~ / new weapon
-- add Wolf of Saturn Six (untest) (2019/3/3)`,
+- add Wolf of Saturn Six (untest) (2019/3/3)
+- add new Mod (devstream) (2019/3/4)`,
       cn: `- 新MOD / ~~新异融球BUFF~~ / 新武器
-- 添加土星六号之狼 (未测试) (2019/3/3)`
+- 添加土星六号之狼 (未测试) (2019/3/3)
+- 添加新系列MOD (devstream) (2019/3/4)`
     }
   },
   {

@@ -686,6 +686,10 @@ let po = {
     wildFrenzy: "猛烈发狂",
     burstingMass: "爆发质量",
     napalmGrenades: "凝固汽油榴弹",
+    shotgunMedic: "急救时间",
+    swiftShatter: "迅捷碎解",
+    tacticalDiffusion: "战术扩散",
+    serratedRush: "加速膛线",
 
     shotgunRivenMod: "霰弹枪裂罅MOD",
     meleeRivenMod: "近战裂罅MOD",
@@ -697,7 +701,7 @@ let po = {
     sacrificialSteel: "牺牲 斩铁",
     sacrificialPressure: "牺牲 压迫点",
     rifleAmmoMutation: "步枪弹药转换",
-    sniperAmmoMutation: "狙击枪枪弹药转换",
+    sniperAmmoMutation: "狙击枪弹药转换",
     arrowMutation: "箭矢转换",
     pistolAmmoMutation: "手枪弹药转换",
     shotgunAmmoMutation: "霰弹枪弹药转换",
@@ -2226,9 +2230,12 @@ let po = {
       vtv: "{0} 虚空转换病毒",
       vtp: "{0} 虚空转换穿刺",
       vth: "{0} 虚空转换火焰",
-      ccl: "锁定基础暴击率 {0}",
+      ccl: "{0} 固定暴击率",
       erc: "{0} 能量回复",
       esc: "{0} 异常状态数量",
+      rvs: "{0} 救援速度",
+      dgs: "{0} 翻滚速度",
+      fca: "{0} 蓄力速度",
 
       ify: "如果目标距离 {0} 米外",
       onHeadshot: "爆头后:",
@@ -2387,8 +2394,11 @@ let po = {
       vtv: "虚空转换病毒",
       vtp: "虚空转换穿刺",
       vth: "虚空转换火焰",
-      ccl: "锁定基础暴击率",
-      erc: "能量回复"
+      ccl: "固定暴击率",
+      erc: "能量回复",
+      rvs: "救援速度",
+      dgs: "翻滚速度",
+      fca: "蓄力速度"
     }
   },
   elements: {
@@ -2824,7 +2834,8 @@ let po = {
   },
   setting: {
     lang: "语言设置",
-    default: "默认"
+    default: "默认",
+    bugreport: "BUG反馈"
   },
   modular: {
     damage: "伤害",
@@ -3152,7 +3163,7 @@ let po = {
     w23: "各种<strong>加成效果</strong>高度集成",
     w31: "平原时间警报通知一步到位",
     w32: "数百种颜色百里挑一：<strong>选色工具</strong>",
-    w33: "<strong>配装分享</strong>收获更多粉丝",
+    w33: "<s><strong>配装分享</strong>收获更多粉丝</s>",
     fh1: "关于和帮助",
     fw1: "使用文档",
     fw2: "视频教程",

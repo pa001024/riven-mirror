@@ -12,7 +12,7 @@
       <div class="mod-detail" @click.stop="$emit('remove')">
         <div class="mod-stat">
           <div class="mod-prop" v-for="prop in mod.vProps" :key="prop.id">{{prop.fullName}}</div>
-          <div class="mod-sum" v-if="modValue">{{modValue}}% {{$t("build.effectiveHealth")}}</div>
+          <div class="mod-sum" v-if="modValue">{{modValue}}% {{$t("build.total")}}</div>
         </div>
         <div class="mod-action">
           <button type="button" class="mod-slot-remove">
@@ -30,8 +30,8 @@
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { WarframeBuild } from "@/warframe/warframebuild";
-import "./ModSlot.vue";
 import { NormalMod } from "@/warframe/codex";
+import "@/less/modslot.less";
 
 @Component
 export default class LeveledModSlot extends Vue {
@@ -60,39 +60,3 @@ export default class LeveledModSlot extends Vue {
 }
 
 </script>
-
-<style lang="less">
-@import "../less/common.less";
-
-.mod-header-icon {
-  font-size: 1.3em;
-  position: absolute;
-  top: 0;
-  color: @theme_main;
-}
-
-.mod-level {
-  display: inline-block;
-  .el-input-number {
-    .el-input-number__decrease,
-    .el-input-number__increase,
-    .el-input > input {
-      background: none;
-      border: 0;
-    }
-  }
-}
-
-.mod-title {
-  .mod-level {
-    font-size: 14px;
-    .el-input-number--mini {
-      width: auto;
-    }
-  }
-}
-
-.mod-slot.leveled .mod-name {
-  font-size: 16px;
-}
-</style>

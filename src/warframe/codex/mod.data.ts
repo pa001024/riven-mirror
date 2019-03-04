@@ -1,5 +1,5 @@
-type Polarity = "r" | "-" | "d" | "=" | "w"
-type Rarity = "n" | "c" | "r" | "l" | "x"
+type Polarity = "r" | "-" | "d" | "=" | "w";
+type Rarity = "n" | "c" | "r" | "g" | "l" | "x";
 
 const Primary = "Primary";
 const Rifle = "Rifle";
@@ -119,6 +119,7 @@ const data = [
   ["2T", "Wild Frenzy", [["!R", 100], ["R", 50]], "Grakata", "-", "r", 4],
   ["2U", "Bursting Mass", [["err"]], "Mutalist Quanta", "-", "r", 4],
   ["2V", "Napalm Grenades", [["bsc", 5]], "Penta", "-", "r", 4],
+  ["2W", "Serrated Rush", [["D", 14], ["!D", 1], ["f", 1.3], ["!f", 0.7]], Rifle, "r", "g", 6, 10],
 
   // 霰弹枪 50 ~ 8z
   ["50", "Point Blank", [["D", 15]], Shotgun, "r", "c", 4],
@@ -178,6 +179,7 @@ const data = [
   ["5s", "Acid Shells", [["Enemies explode on death, dealing 75 <DT_CORROSIVE>Corrosive Damage (+8% Enemy Max Health) in a 2.5m radius."]], "Sobek", "r", "c", 4],
   ["5t", "Fomorian Accelerant", [["Flak now bounces up to 1x and travels 15% faster."]], "Drakgoon", "r", "c", 4, 3],
   ["5u", "Primed Charged Shell", [["7", 15]], Shotgun, "-", "l", 6, 10],
+  ["5v", "Shotgun Medic", [["R", 14], ["!R", 1], ["rvs", 7.5]], Shotgun, "-", "g", 6],
 
   // 手枪 90 ~ Bz
   ["90", "Hornet Strike", [["D", 20]], Secondary, "r", "c", 4, 10],
@@ -251,6 +253,7 @@ const data = [
   ["A6", "Thermagnetic Shells", [["Enemies explode on death, dealing 20 <DT_MAGNETIC>Magnetic Damage (+10% Enemy Max Health) in a 1.5m radius."]], "SECONDARY", "-", "r", 2, 3],
   ["A7", "Fulmination", [["brad", 6]], "SecondUnique", "r", "r", 6, 3],
   ["A8", "Synth Charge", [["lsb", 50]], "Second6", "r", "r", 6, 3],
+  ["A9", "Tactical Diffusion", [["S", 18], ["!S", 2], ["dgs", 10]], Secondary, "-", "g", 10],
 
   // 近战 C0 ~ Fz
   ["C0", "Pressure Point", [["K", 20]], Melee, "r", "n", 4],
@@ -337,6 +340,7 @@ const data = [
   ["DJ", "Spring-Loaded Blade", [["rse", 5]], Melee, "d", "r", 4],
   ["DK", "Tek Gravity", [["Slam Attacks in the Marked Zone pull all enemies within 6m."]], Melee, "r", "r", 6, 3],
   ["DL", "Strain Infection", [["Melee Attacks gain +5% Critical Damage per Cyst."]], Melee, "r", "r", 6, 3],
+  ["DM", "Swift Shatter", [["1", 14], ["!1", 1], ["fca", 10]], Melee, "r", "g", 6],
 
   // 战甲 G0 ~ Nz
   // 光环
@@ -642,7 +646,7 @@ const data = [
   ["VB", "Searing Steel", [["4", 15], ["2", 15]], Archmelee, "r", "r", 4, 3],
   ["VC", "Astral Slash", [["A", 15]], Archmelee, "-", "r", 2],
   ["VD", "Nebula Bore", [["9", 15]], Archmelee, "-", "r", 2],
-  ["VE", "Meteor Crash", [["8", 15]], Archmelee, "-", "r", 2],
+  ["VE", "Meteor Crash", [["8", 15]], Archmelee, "-", "r", 2]
 ] as [string, string, [string, number][], string, Polarity, Rarity, number, number][];
 
 export default data;

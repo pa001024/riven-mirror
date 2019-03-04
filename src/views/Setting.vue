@@ -9,6 +9,9 @@
         <span class="lang" @click="setlang('zh-TW')">繁體中文</span>
         <span class="lang" @click="setlang('zh-CY')">国服中文</span>
       </div>
+      <div class="bug-report">
+        <a href="https://github.com/pa001024/riven-mirror/issues/new/choose" target="_blank" rel="noopener noreferrer" v-t="'setting.bugreport'"></a>
+      </div>
     </el-card>
   </el-row>
 </template>
@@ -21,21 +24,26 @@ import { HMT } from "@/service/HMT";
 @Component
 export default class Setting extends Vue {
   setlang(lang: string) {
-    changeLocale(lang)
-    HMT.langSelect(lang)
+    changeLocale(lang);
+    HMT.langSelect(lang);
   }
   setDefaultLang() {
-    changeLocale(null)
+    changeLocale(null);
   }
 }
 </script>
 <style lang="less">
-.lang {
-  margin: 5px;
-  color: cornflowerblue;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
+.setting {
+  .lang {
+    margin: 5px;
+    color: cornflowerblue;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .bug-report {
+    padding: 12px 4px 8px;
   }
 }
 </style>

@@ -121,7 +121,7 @@
               <a href="https://discord.gg/m8pGvfP" target="_blank" v-t="'intro.fw4'"></a>
             </li>
             <li>
-              <router-link to="/eula" v-t="'intro.fw5'"></router-link>
+              <a href="https://github.com/pa001024/riven-mirror/issues/new/choose" target="_blank" v-t="'setting.bugreport'"></a>
             </li>
             <li>
               <a href="https://afdian.net/@rivenmirror" target="_blank" v-t="'intro.fw6'"></a>
@@ -156,11 +156,11 @@ import localStorage from "universal-localstorage";
 export default class extends Vue {
   touse(e: MouseEvent) {
     e.preventDefault();
-    this.$router.push("/alerts")
+    this.$router.push("/alerts");
   }
 
   mounted() {
-    localStorage.setItem("0w0", "yes")
+    localStorage.setItem("0w0", "yes");
   }
 }
 </script>
@@ -317,11 +317,17 @@ export default class extends Vue {
   }
 }
 @media screen and (max-width: 1012px) {
-  .intro-container .section {
-    padding: 20px 0;
-    .container {
-      width: 92%;
-      padding: 0 4%;
+  .intro-container {
+    .section {
+      padding: 20px 0;
+      .container {
+        width: 92%;
+        padding: 0 4%;
+      }
+    }
+    .footer ul li {
+      display: block;
+      margin-top: 12px;
     }
   }
 }
