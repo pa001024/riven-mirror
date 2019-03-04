@@ -76,7 +76,7 @@ export default class EnemyTimeline extends Vue {
         if (dot > 0) this.hasDoT = true;
         lastHitHead = i;
         ammo = 0;
-        console.log("dot", hit, dot)
+        // console.log("dot", hit, dot)
       } else if (this.perBullet || i === this.timeline.length - 1) {
         let hit = ~~(this.timeline[this.perBullet ? Math.max(i - 1, 0) : lastHitHead].health - v.health);
         if (hit) {
@@ -88,7 +88,7 @@ export default class EnemyTimeline extends Vue {
             hp: ~~v.health,
             ar: ~~v.armor,
           });
-          console.log("HIT", hit)
+          // console.log("HIT", hit)
         }
       }
     });

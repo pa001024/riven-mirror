@@ -6,14 +6,16 @@ import { RivenMod } from "@/warframe/rivenmod";
 import localStorage from "universal-localstorage";
 
 declare interface BuildSelectorTab {
-  title: string
-  name: string
-  build: ModBuild
-  mods: NormalMod[]
-  buffs: Buff[]
+  title: string;
+  name: string;
+  build: ModBuild;
+  mods: NormalMod[];
+  buffs: Buff[];
 }
 export abstract class BaseBuildEditor extends Vue {
-  get code() { return this.$route.params.code; }
+  get code() {
+    return this.$route.params.code;
+  }
 
   abstract get weapon(): Weapon;
   abstract get rWeapon(): RivenWeapon;
@@ -21,10 +23,16 @@ export abstract class BaseBuildEditor extends Vue {
   tabValue = "SET A";
   selectModIndex = 0;
   selectBuffIndex = 0;
-  get modelArmor() { return this.build.modelArmor || ""; }
-  set modelArmor(value) { this.build.modelArmor = +value; }
+  get modelArmor() {
+    return this.build.modelArmor || "";
+  }
+  set modelArmor(value) {
+    this.build.modelArmor = +value;
+  }
   protected _selectDamageModel = "";
-  get selectDamageModel() { return this._selectDamageModel; }
+  get selectDamageModel() {
+    return this._selectDamageModel;
+  }
   set selectDamageModel(value) {
     let model = DamageModelList.find(v => v.id === value);
     this._selectDamageModel = value;
@@ -36,10 +44,13 @@ export abstract class BaseBuildEditor extends Vue {
   }
   dialogVisible = false;
   buffDialogVisible = false;
+  levelSetting = false;
   abstract newBuild(...parms): ModBuild;
   abstract get defalutMode(): number;
   /** 伤害模型列表 */
-  get dmgModels() { return DamageModelList }
+  get dmgModels() {
+    return DamageModelList;
+  }
 
   @Watch("code")
   onCodeChange() {
@@ -51,16 +62,17 @@ export abstract class BaseBuildEditor extends Vue {
       buffs.push(null);
       this.currentTab.mods = mods;
       this.currentTab.buffs = buffs;
+      if (mods.some(v => v.level != v.maxLevel)) this.levelSetting = true;
     }
   }
   reload() {
     if (this.weapon) {
-      let buffs = [null]
+      let buffs = [null];
       if (this.weapon.tags.includes("Exalted")) {
         if (this.weapon.id === "Regulators") {
-          buffs = [new Buff(BuffList.find(v => v.id === "z")), null]
+          buffs = [new Buff(BuffList.find(v => v.id === "z")), null];
         } else {
-          buffs = [new Buff(BuffList.find(v => v.id === "Z")), null]
+          buffs = [new Buff(BuffList.find(v => v.id === "Z")), null];
         }
       }
       this.tabs = "ABC".split("").map(v => ({
@@ -68,7 +80,7 @@ export abstract class BaseBuildEditor extends Vue {
         name: `SET ${v}`,
         build: this.newBuild(this.weapon),
         mods: Array(8),
-        buffs,
+        buffs
       }));
       this.tabValue = "SET A";
       if (this.code) {
@@ -79,8 +91,12 @@ export abstract class BaseBuildEditor extends Vue {
     }
   }
 
-  get currentTab() { return this.tabs.find(v => v.name === this.tabValue); }
-  get build() { return this.currentTab.build; }
+  get currentTab() {
+    return this.tabs.find(v => v.name === this.tabValue);
+  }
+  get build() {
+    return this.currentTab.build;
+  }
   get mergedDmg() {
     let lD = this.weapon.dmg;
     let nD = this.build.dmg;
@@ -97,10 +113,8 @@ export abstract class BaseBuildEditor extends Vue {
   }
   pushState() {
     let code = this.build.miniCode;
-    if (code)
-      this.$router.push({ name: 'BuildEditorWithCode', params: { code } });
-    else
-      this.$router.push({ name: 'BuildEditor' });
+    if (code) this.$router.push({ name: "BuildEditorWithCode", params: { code } });
+    else this.$router.push({ name: "BuildEditor" });
   }
   fill() {
     this.build.fill(8, 0);
@@ -115,13 +129,13 @@ export abstract class BaseBuildEditor extends Vue {
     this.pushState();
   }
   clear() {
-    let rivenIdx = this.currentTab.mods.findIndex(v => v && v.rarity === "x"), riven = this.currentTab.mods[rivenIdx];
+    let rivenIdx = this.currentTab.mods.findIndex(v => v && v.rarity === "x"),
+      riven = this.currentTab.mods[rivenIdx];
     this.currentTab.mods = Array(8);
     // 不清除紫卡
     if (riven) this.currentTab.mods[rivenIdx] = riven;
     this.refleshMods();
     this.reloadSelector();
-    this.pushState();
   }
   changeMode(mode: number) {
     this.build.compareMode = mode;
@@ -197,18 +211,18 @@ export abstract class BaseBuildEditor extends Vue {
     this.reloadSelector();
   }
   handleTabsEdit(targetName, action: "add" | "remove") {
-    if (action === 'add') {
+    if (action === "add") {
       let newTabName = "SET " + (1 + (+this.tabs[this.tabs.length - 1].name.split(" ")[1] || 0));
       this.tabs.push({
         title: newTabName.replace("SET", "配置"),
         name: newTabName,
         build: this.newBuild(this.weapon),
         mods: Array(8),
-        buffs: [null],
+        buffs: [null]
       });
       this.tabValue = newTabName;
     }
-    if (action === 'remove') {
+    if (action === "remove") {
       let tabs = this.tabs;
       let activeName = this.tabValue;
       if (activeName === targetName) {
@@ -231,21 +245,20 @@ export abstract class BaseBuildEditor extends Vue {
 
   get steps() {
     let data = this.$t("tour.builde");
-    return Array(data.length).fill(0).map((_, i) => (
-      {
+    return Array(data.length)
+      .fill(0)
+      .map((_, i) => ({
         target: '[data-v-step="' + (i + 1) + '"]',
         content: data[i],
         params: {
-          placement: 'top'
+          placement: "top"
         }
-      }
-    ))
+      }));
   }
   onTourStop() {
-    localStorage.setItem("tour.builde", "1.4")
+    localStorage.setItem("tour.builde", "1.4");
   }
   onMounted() {
-    if (localStorage.getItem("tour.builde") != "1.4")
-      this.$tours["baseTour"].start()
+    if (localStorage.getItem("tour.builde") != "1.4") this.$tours["baseTour"].start();
   }
 }

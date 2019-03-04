@@ -458,9 +458,9 @@ export const BuffList: BuffData[] = [
     multiLayer: {
       maxStack: 3,
       unstackableProps: [
-        [["etd", 100]],
-        [["etd", 366.6]],
-        [["etd", 500]],
+        [["eed", 100]],
+        [["eed", 366.6]],
+        [["eed", 500]],
       ],
     },
     defaultLayer: 3,

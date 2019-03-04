@@ -1,6 +1,6 @@
 <template>
   <div class="intro-container">
-    <div class="section">
+    <div class="hidden-xs-only section">
       <div class="container">
         <div class="intro">
           <h1 v-t="'intro.ti1'"></h1>

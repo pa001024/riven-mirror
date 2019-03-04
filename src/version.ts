@@ -1,12 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.4.16";
+export const version = "1.4.16.1";
 export const updateLogs = [
   {
     version: "1.4.16",
     date: "2019/2/28",
     md: {
-      en: `- new mods/new Mutalist Quanta buff (Orb)/new weapon`,
-      cn: `- 新MOD/新异融球BUFF/新武器`
+      en: `- new mods / ~~new Mutalist Quanta buff (Orb)~~ / new weapon
+- add Wolf of Saturn Six (untest) (2019/3/3)`,
+      cn: `- 新MOD / ~~新异融球BUFF~~ / 新武器
+- 添加土星六号之狼 (未测试) (2019/3/3)`
     }
   },
   {
@@ -33,6 +35,7 @@ export const updateLogs = [
 - 添加异况超量的量化计算(自动带入当前的"状态量期望进行计算" 可手动禁用)`
     }
   },
+  /*
   {
     version: "1.4.13",
     date: "2019/2/12",
@@ -41,7 +44,6 @@ export const updateLogs = [
       cn: `- 添加使用提示`
     }
   },
-  /*
   {
     version: "1.4.12",
     date: "2019/2/1",

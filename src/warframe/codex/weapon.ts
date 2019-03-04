@@ -404,8 +404,8 @@ export const GunWeaponDataBase: GunWeapon[] = ([
   { id: "Velocitus (Atmosphere)", name: "velocitus", mode: "atmosphere", rivenName: "Velocitus", tags: ["Gun", "Archgun"], dmg: [["Magnetic", 1200]], critMul: 3, critChance: 0.3, fireRate: 1, status: 0.25, accuracy: 28.6, magazine: 10, reload: 2, ammo: 60 },
 
   // 守护
-  { id: "Burst Laser", name: "burstLaser", rivenName: "Burst Laser", tags: ["Gun", "Robotic", "Pistol"], dmg: [["Puncture", 6], ["Slash", 0.3], ["Impact", 0.7]], critMul: 1.3, critChance: 0.025, fireRate: 1.5, status: 0.02, accuracy: 100, magazine: 15, reload: 0 },
-  { id: "Prisma Burst Laser", name: "prismaBurstLaser", rivenName: "Burst Laser", tags: ["Gun", "Robotic", "Pistol"], dmg: [["Puncture", 8.5], ["Slash", 0.5], ["Impact", 1]], critMul: 2, critChance: 0.05, fireRate: 1.61, status: 0.1, accuracy: 100, magazine: 15, reload: 0 },
+  { id: "Burst Laser", name: "burstLaser", rivenName: "Burst Laser", tags: ["Gun", "Robotic", "Secondary"], dmg: [["Puncture", 6], ["Slash", 0.3], ["Impact", 0.7]], critMul: 1.3, critChance: 0.025, fireRate: 1.5, status: 0.02, accuracy: 100, magazine: 15, reload: 0 },
+  { id: "Prisma Burst Laser", name: "prismaBurstLaser", rivenName: "Burst Laser", tags: ["Gun", "Robotic", "Secondary"], dmg: [["Puncture", 8.5], ["Slash", 0.5], ["Impact", 1]], critMul: 2, critChance: 0.05, fireRate: 1.61, status: 0.1, accuracy: 100, magazine: 15, reload: 0 },
   { id: "Vulklok", name: "vulklok", rivenName: "Vulklok", tags: ["Gun", "Robotic", "Primary", "Rifle", "Sniper"], dmg: [["Electricity", 85]], critMul: 2.5, critChance: 0.35, fireRate: 0.15, status: 0.25, accuracy: 100, magazine: 10, reload: 2 },
   { id: "Artax", name: "artax", rivenName: "Artax", tags: ["Gun", "Robotic", "Primary", "Rifle"], dmg: [["Cold", 5]], critMul: 1.5, critChance: 0.02, fireRate: 1, status: 0.03, accuracy: 12.5, magazine: 100, reload: 1.5 },
   { id: "Vulcax", name: "vulcax", rivenName: "Vulcax", tags: ["Gun", "Robotic", "Primary", "Rifle"], dmg: [["Heat", 35]], critMul: 2.5, critChance: 0.2, fireRate: 1, status: 0.1, accuracy: 100, magazine: 1, reload: 6 },
@@ -574,7 +574,7 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Falcor (charged)", name: "falcor", mode: "charged", rivenName: "Falcor", tags: ["Melee", "Glaive"], dmg: [["Electricity", 435], ["Puncture", 80], ["Slash", 100], ["Impact", 50]], critMul: 1.6, critChance: 0.12, fireRate: 0.833, slideDmg: 0, status: 0.28, fltSpeed: 30 },
   { id: "Kreska", name: "kreska", tags: ["Melee", "Machete"], dmg: [["Heat", 40], ["Puncture", 5], ["Slash", 15], ["Impact", 10]], critMul: 2, critChance: 0.14, fireRate: 0.917, slideDmg: 210, status: 0.22, pol: "r" },
   { id: "Cobra & Crane", name: "cobraCrane", tags: ["Melee", "Sword-Shield"], dmg: [["Puncture", 10], ["Impact", 90]], critMul: 1.5, critChance: 0.1, fireRate: 0.917, slideDmg: 214, status: 0.36 },
-  { id: "Wolf Sledge", name: "wolfSledge", tags: ["Melee", "Hammer"], dmg: [["Puncture", 3.4], ["Slash", 53], ["Impact", 58.6]], critMul: 1.9, critChance: 0.17, fireRate: 1, slideDmg: 230, status: 0.33 },
+  { id: "Wolf Sledge", name: "wolfSledge", tags: ["Melee", "Hammer"], dmg: [["Puncture", 3.4], ["Slash", 52.9], ["Impact", 58.6]], critMul: 1.9, critChance: 0.17, fireRate: 1, slideDmg: 230, status: 0.33 },
   { id: "Wolf Sledge (charged)", name: "wolfSledge", mode: "charged", rivenName: "Wolf Sledge", tags: ["Melee", "Hammer"], dmg: [["Puncture", 17.2], ["Slash", 264.6], ["Impact", 293.2]], critMul: 1.9, critChance: 0.17, fireRate: 1, slideDmg: 0, status: 0.33, fltSpeed: 50 },
   // 显赫武器
   { id: "Diwata", name: "diwata", tags: ["Melee", "Exalted"], dmg: [["Puncture", 150], ["Slash", 20], ["Impact", 30]], critMul: 2, critChance: 0.2, fireRate: 1.08, slideDmg: 429, status: 0.1, pol: "rr-" },

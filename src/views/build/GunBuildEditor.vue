@@ -77,6 +77,9 @@
                   <el-slider class="right-side" v-model="headShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
                 </el-tooltip>
               </el-form-item>
+              <el-form-item :label="$t('buildview.levelSetting')">
+                <el-checkbox class="right-side" size="small" v-model="levelSetting"></el-checkbox>
+              </el-form-item>
             </el-form>
           </el-card>
         </div>
@@ -89,7 +92,7 @@
             <el-row type="flex" class="mod-slot-container" :gutter="12" v-if="!isAMP">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
-                  <ModSlot @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
+                  <component :is="levelSetting ? 'LeveledModSlot' : 'ModSlot'"  @level="refleshMods()" @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
                 </el-col>
               </draggable>
             </el-row>
@@ -153,11 +156,11 @@
                     <div class="value">{{enemy.health.toFixed()}}</div>
                   </div>
                   <div v-if="enemy.shield > 0" class="item enemy-shield">
-                    <div class="key">{{$t(`enemy.shieldType.${enemy.shieldType}`)}}</div>
+                    <div class="key">{{$t(`enemy.fleshType.${enemy.shieldType}`)}}</div>
                     <div class="value">{{enemy.shield.toFixed()}}</div>
                   </div>
                   <div v-if="enemy.armor > 0" class="item enemy-armor">
-                    <div class="key">{{$t(`enemy.armorType.${enemy.armorType}`)}}</div>
+                    <div class="key">{{$t(`enemy.fleshType.${enemy.armorType}`)}}</div>
                     <div class="value">{{enemy.armor.toFixed()}}</div>
                   </div>
                   <div v-if="enemy.resistence > 0" class="item enemy-resistence">
@@ -214,13 +217,14 @@ import ProbabilityVisualization from "@/components/ProbabilityVisualization.vue"
 import OtherInfoDisplay from "@/components/OtherInfoDisplay.vue";
 import ShareQR from "@/components/ShareQR.vue";
 import ModSlot from "@/components/ModSlot.vue";
+import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 import { GunWeapon, RivenWeapon, EnemyData, Codex, Enemy } from "@/warframe/codex";
 import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
 import "@/less/builder.less";
 
 @Component({
-  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR }
+  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, LeveledModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR }
 })
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;
@@ -261,7 +265,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
       extraBaseDamage: +this.extraBaseDamage,
       extraOverall: +this.extraOverall,
       arcanes: this.arcanes,
-      amrorReduce: this.amrorReduce / 100,
+      amrorReduce: this.amrorReduce / 100
     };
   }
 
@@ -296,6 +300,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
     "Teralyst Synovia": 50,
     "Tusk Firbolg": 55,
     "Tusk Bolkor": 55,
+    "Wolf of Saturn Six": 30
   };
   selectEnemy(enemyData: EnemyData) {
     this.enemyData = enemyData;
@@ -311,9 +316,15 @@ export default class GunBuildEditor extends BaseBuildEditor {
     if (this.enemy) this.enemy.level = this.enemyLevel;
   }
   // 子类不实现会报错
-  handleTabsEdit(targetName, action: "add" | "remove") { super.handleTabsEdit(targetName, action); }
+  handleTabsEdit(targetName, action: "add" | "remove") {
+    super.handleTabsEdit(targetName, action);
+  }
   // === 生命周期钩子 ===
-  beforeMount() { this.reload(); }
-  mounted() { super.onMounted() }
+  beforeMount() {
+    this.reload();
+  }
+  mounted() {
+    super.onMounted();
+  }
 }
 </script>
