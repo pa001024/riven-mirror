@@ -3099,7 +3099,11 @@ let po = {
       banish: "放逐",
       energyObtained: "能量值获得",
       causingExtraSlash: "造成额外切割",
-      headshotEnergy: "爆头回蓝"
+      headshotEnergy: "爆头回蓝",
+      attractionRadius: "吸引半径",
+      explosionRadius: "爆炸半径",
+      chainDistance: "连锁距离",
+      invincibleTime: "无敌时间"
     },
     target: "对象",
     targets: {

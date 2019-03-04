@@ -1487,7 +1487,11 @@ let po = {
       banish: "Banish",
       energyObtained: "Energy obtained",
       causingExtraSlash: "Causing extra slash",
-      headshotEnergy: "Headshot energy"
+      headshotEnergy: "Headshot energy",
+      attractionRadius: "Attraction Radius",
+      explosionRadius: "Explosion Radius",
+      chainDistance: "Chain Distance",
+      invincibleTime: "Invincible Time"
     },
     target: "Target",
     targets: {

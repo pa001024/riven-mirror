@@ -759,8 +759,8 @@ export let _abilityData: AbilityData[] = [
     tags: 3,
     energyCost: 75,
     props: {
-      DamageReduce: { durability: { value: 1437, bind: [[WarframeProperty.Armor, 0], [WarframeProperty.AbilityStrength, 0]] }, rate: 90 },
-      Special: [{ desc: "无敌时间", val: 3 }],
+      DamageReduce: { durability: { value: 1000, bind: [[WarframeProperty.Armor, 0, 2.5], [WarframeProperty.AbilityStrength, 0]] }, rate: 90 },
+      Special: [{ desc: "invincibleTime", val: 3 }],
       Damage: { damage: [["Heat", S(125)]] }
     }
   },
@@ -995,7 +995,12 @@ export let _abilityData: AbilityData[] = [
     id: "Iron Skin",
     tags: 2,
     energyCost: 50,
-    props: { DamageReduce: { durability: S(1200), rate: 100 } }
+    props: {
+      DamageReduce: {
+        durability: { value: 1000, bind: [[WarframeProperty.Armor, 0, 2.5], [WarframeProperty.AbilityStrength, 0]] },
+        rate: 100
+      }
+    }
   },
   {
     id: "Roar",
@@ -1070,7 +1075,7 @@ export let _abilityData: AbilityData[] = [
         range: R(8),
         distance: R(25)
       },
-      Special: [{ desc: "吸引半径", val: R(20) }, { desc: "爆炸半径", val: R(8) }]
+      Special: [{ desc: "attractionRadius", val: R(20) }, { desc: "explosionRadius", val: R(8) }]
     }
   },
   {
@@ -1217,7 +1222,7 @@ export let _abilityData: AbilityData[] = [
         range: R(20)
       },
       Control: { duration: D(6), range: R(20) },
-      Special: [{ desc: "连锁距离", val: R(8) }]
+      Special: [{ desc: "chainDistance", val: R(8) }]
     }
   },
   {
@@ -1239,15 +1244,7 @@ export let _abilityData: AbilityData[] = [
     tags: 2,
     energyCost: 50,
     props: {
-      Special: [
-        {
-          desc: "濒死时回血，并无敌数秒"
-        }
-      ],
-      Buff: {
-        desc: "无敌",
-        duration: D(5)
-      }
+      Special: [{ desc: "invincibleTime", val: D(5) }]
     }
   },
   {
@@ -1257,12 +1254,7 @@ export let _abilityData: AbilityData[] = [
     props: {
       Control: {
         range: R(8)
-      },
-      Special: [
-        {
-          desc: "使玩家向任意方向移动，激活时无敌"
-        }
-      ]
+      }
     }
   },
   {
@@ -1300,11 +1292,6 @@ export let _abilityData: AbilityData[] = [
     tags: 1,
     energyCost: 50,
     props: {
-      Special: [
-        {
-          desc: "对龙卷云风使用可使其强化"
-        }
-      ],
       Damage: {
         damage: [["Slash", S(500)]],
         range: R(8),
@@ -1337,11 +1324,6 @@ export let _abilityData: AbilityData[] = [
         damage: [["Impact", S(120)]],
         range: R(25)
       },
-      Special: [
-        {
-          desc: "可以通过攻击龙卷风改变伤害类型"
-        }
-      ],
       Control: {
         duration: D(20),
         range: 5

@@ -74,8 +74,8 @@ export enum AbilityType {
 
 /** 高级数值 */
 export interface AdvancedAbilityPropValue {
-  /** 与基础属性的关联性 [属性名, 加数] 不填即为固定 */
-  bind?: [string, number][]
+  /** 与基础属性的关联性 [属性名, 加数, 乘数] 不填即为固定 */
+  bind?: [string, AbilityPropValue, AbilityPropValue?][]
   /** 基础值 */
   value?: number
   /** 下限 */

@@ -743,97 +743,56 @@ export class RenderedAbilities {
           return o.map(trans)
         } else // object
           if ("value" in o) { // is AdvancedAbilityPropValue
-            const aap = o as AdvancedAbilityPropValue
-            let value = aap.value;
-            if (aap.bind)
-              aap.bind.forEach(([binder, add]) => {
-                switch (binder) {
-                  case WarframeProperty.Health:
-                    value = value * this.build.health + add;
-                    break;
-                  case WarframeProperty.Shield:
-                    value = value * this.build.shield + add;
-                    break;
-                  case WarframeProperty.Armor:
-                    value = value * this.build.armor + add;
-                    break;
-                  case WarframeProperty.Energy:
-                    value = value * this.build.energy + add;
-                    break;
-                  case WarframeProperty.Sprint:
-                    value = value * this.build.sprint + add;
-                    break;
-                  case WarframeProperty.ShieldRecharge:
-                    value = value * this.build.shieldRecharge + add;
-                    break;
-                  case WarframeProperty.AbilityStrength:
-                    value = value * this.build.abilityStrength + add;
-                    break;
-                  case WarframeProperty.AbilityDuration:
-                    value = value * this.build.abilityDuration + add;
-                    break;
-                  case WarframeProperty.AbilityEfficiency:
-                    value = value * this.build.abilityEfficiency + add;
-                    break;
-                  case WarframeProperty.AbilityRange:
-                    value = value * this.build.abilityRange + add;
-                    break;
-                  case WarframeProperty.CastSpeed:
-                    value = value * this.build.castSpeed + add;
-                    break;
-                  case WarframeProperty.KnockdownResistance:
-                    value = value * this.build.knockdownResistance + add;
-                    break;
-                  case WarframeProperty.KnockdownRecovery:
-                    value = value * this.build.knockdownRecovery + add;
-                    break;
-                  case WarframeProperty.Slide:
-                    value = value * this.build.slide + add;
-                    break;
-                  case WarframeProperty.Friction:
-                    value = value * this.build.friction + add;
-                    break;
-                  case WarframeProperty.ParkourVelocity:
-                    value = value * this.build.parkourVelocity + add;
-                    break;
-                  case WarframeProperty.QuickThinking:
-                    value = value * this.build.quickThinking + add;
-                    break;
-                  case WarframeProperty.Rage:
-                    value = value * this.build.rage + add;
-                    break;
-                  case WarframeProperty.HealthConversion:
-                    value = value * this.build.healthConversion + add;
-                    break;
-                  case WarframeProperty.EnergyConversion:
-                    value = value * this.build.energyConversion + add;
-                    break;
-                  case WarframeProperty.TauResist:
-                    value = value * this.build.tauResist + add;
-                    break;
-                  case WarframeProperty.AuraStrength:
-                    value = value * this.build.auraStrength + add;
-                    break;
-                  case WarframeProperty.AuraEffectiveness:
-                    value = value * this.build.auraEffectiveness + add;
-                    break;
-                  case WarframeProperty.AimGlideWallLatchTime:
-                    value = value * this.build.aimGlideWallLatchTime + add;
-                    break;
-                  case WarframeProperty.EnemyRadar:
-                    value = value * this.build.enemyRadar + add;
-                    break;
-                  case WarframeProperty.LootRadar:
-                    value = value * this.build.lootRadar + add;
-                    break;
-                  case WarframeProperty.HolsterRate:
-                    value = value * this.build.holsterRate + add;
-                    break;
-                }
-              })
-            if (aap.minValue) value = Math.max(value, aap.minValue)
-            if (aap.maxValue) value = Math.min(value, aap.maxValue)
-            return +value.toFixed(2)
+            // 递归解析AAP
+            const resolveBind = (aap: AdvancedAbilityPropValue) => {
+              let value = aap.value;
+              if (value && aap.bind)
+                aap.bind.forEach(([binder, add, mul]) => {
+                  // 仅加法模式
+                  if(typeof add !== "undefined") {
+                    if (typeof add !== "number") {
+                      add = resolveBind(add);
+                    }
+                    if (typeof mul !== "undefined" && typeof mul !== "number") {
+                      mul = resolveBind(mul);
+                    }
+                    // 属性映射解析
+                    switch (binder) {
+                      case WarframeProperty.Health:
+                        value = (mul ? value + this.build.health * mul : value * this.build.health) + add;
+                        break;
+                      case WarframeProperty.Shield:
+                        value = (mul ? value + this.build.shield * mul : value * this.build.shield) + add;
+                        break;
+                      case WarframeProperty.Armor:
+                        value = (mul ? value + this.build.armor * mul : value * this.build.armor) + add;
+                        break;
+                      case WarframeProperty.Energy:
+                        value = (mul ? value + this.build.energy * mul : value * this.build.energy) + add;
+                        break;
+                      case WarframeProperty.Sprint:
+                        value = (mul ? value + this.build.sprint * mul : value * this.build.sprint) + add;
+                        break;
+                      case WarframeProperty.AbilityStrength:
+                        value = (mul ? value + this.build.abilityStrength * mul : value * this.build.abilityStrength) + add;
+                        break;
+                      case WarframeProperty.AbilityDuration:
+                        value = (mul ? value + this.build.abilityDuration * mul : value * this.build.abilityDuration) + add;
+                        break;
+                      case WarframeProperty.AbilityEfficiency:
+                        value = (mul ? value + this.build.abilityEfficiency * mul : value * this.build.abilityEfficiency) + add;
+                        break;
+                      case WarframeProperty.AbilityRange:
+                        value = (mul ? value + this.build.abilityRange * mul : value * this.build.abilityRange) + add;
+                        break;
+                    }
+                  }
+                })
+              if (aap.minValue) value = Math.max(value, aap.minValue)
+              if (aap.maxValue) value = Math.min(value, aap.maxValue)
+              return +value.toFixed(2)
+            }
+            return resolveBind(o);
           } else { // speical
             return _.mapValues(o as any, val => trans(val)) as typeof o
           }
