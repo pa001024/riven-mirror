@@ -720,6 +720,13 @@ let po = {
       rvs: "{0} Revive Speed",
       dgs: "{0} Dodge Speed",
       fca: "{0} Faster Charge Attack",
+      fsr: "Fully Shield Charge",
+      psr: "Shield Charge {0}/s",
+      phr: "Health Regen {0}/s",
+      ea: "{0} Extra Armor",
+      ovs: "{0} Total Strength",
+      ovr: "{0} Total Range",
+      res: "{0} Damage Resistance",
 
       ify: "if the target is over {0}m away",
       onHeadshot: "On Headshot:",
@@ -731,7 +738,12 @@ let po = {
       onMeleeChannelKill: "On Melee Channel Kill:",
       onReloadFromEmpty: "On Reload From Empty:",
       onDodge: "On Dodge:",
-      onEquip: "On Equip:"
+      onEquip: "On Equip:",
+      onDamaged: "On Damaged:",
+      onFinish: "On Finish:",
+      onWalllatch: "On Walllatch:",
+      onBlock: "On Block:",
+      augment: "{0} Augment"
     },
     shortName: {
       0: "Critical Chance",
@@ -1348,6 +1360,7 @@ let po = {
   buff: {
     types: {
       arcane: "ARCANE",
+      team: "TEAM",
       baseDamage: "BASE DAMAGE",
       totalDamage: "TOTAL DAMAGE",
       elementDamage: "ELEMENT DAMAGE",
@@ -1386,6 +1399,16 @@ let po = {
     critChance: "Crit Chance (Common)",
     combo: "Combo (Sniper)",
     finalDamage: "Final Damage (Common)",
+    gladiator: "Gladiator Set",
+    arcaneAgility: "Arcane Agility",
+    arcaneBarrier: "Arcane Barrier",
+    arcaneAegis: "Arcane Aegis",
+    arcaneTrickery: "Arcane Trickery",
+    arcaneUltimatum: "Arcane Ultimatum",
+    arcaneArachne: "Arcane Arachne",
+    arcaneGrace: "Arcane Grace",
+    arcaneGuardian: "Arcane Guardian",
+    arcanePhantasm: "Arcane Phantasm",
     arcaneAcceleration: "Arcane Acceleration",
     arcaneAvenger: "Arcane Avenger",
     arcaneAwakening: "Arcane Awakening",
@@ -1426,7 +1449,14 @@ let po = {
     virtuosForge: "Virtuos Forge",
     strength: "Ability Strength",
     charm: "Charm",
-    unairu: "Unairu Wisp"
+    unairu: "Unairu Wisp",
+    zaw: "ZAW Bonus",
+    parasiticLink: "Parasitic Link (Nidus)",
+    commonResistance: "Resistance (Common)",
+    paxBolt: "Pax Bolt",
+    corruption: "Corruption",
+    growingPower: "Growing Power",
+    powerDonation: "Power Donation"
   },
   ability: {
     energyCost: "ENERGY: {0}",

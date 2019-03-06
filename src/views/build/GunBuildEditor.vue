@@ -77,6 +77,7 @@
                   <el-slider class="right-side" v-model="headShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
                 </el-tooltip>
               </el-form-item>
+              <!-- 等级调整 -->
               <el-form-item :label="$t('buildview.levelSetting')">
                 <el-checkbox class="right-side" size="small" v-model="levelSetting"></el-checkbox>
               </el-form-item>

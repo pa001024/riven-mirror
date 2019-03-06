@@ -73,10 +73,15 @@
                   <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="1" :max="6" :step="0.5"></el-input-number>
                 </el-tooltip>
               </el-form-item>
+              <!-- 异况数字化 -->
               <el-form-item :label="$t('buildview.condiOver')">
                 <el-tooltip effect="dark" :content="$t('buildview.condiOverTip')" placement="bottom">
                   <el-checkbox class="right-side" size="small" v-model="calcCondiOver" @change="optionChange"></el-checkbox>
                 </el-tooltip>
+              </el-form-item>
+              <!-- 等级调整 -->
+              <el-form-item :label="$t('buildview.levelSetting')">
+                <el-checkbox class="right-side" size="small" v-model="levelSetting"></el-checkbox>
               </el-form-item>
             </el-form>
           </el-card>

@@ -5,28 +5,28 @@ import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
 
 export enum MeleeCompareMode {
-  TotalDamage,  // 平砍DPH
-  SlideDamage,  // 滑砍DPH
-  TotalDamagePS,// 平砍DPS
-  SlideDamagePS,// 滑砍DPS
+  TotalDamage, // 平砍DPH
+  SlideDamage, // 滑砍DPH
+  TotalDamagePS, // 平砍DPS
+  SlideDamagePS // 滑砍DPS
 }
 export interface MeleeModBuildOptions {
-  compareMode?: MeleeCompareMode
-  comboLevel?: number
-  allowElementTypes?: string[]
-  isUseFury?: boolean
-  isUseStrike?: boolean
-  extraBaseDamage?: number
-  extraOverall?: number
-  arcanes?: Arcane[]
-  target?: Enemy
-  requireRange?: boolean
-  requireCombo?: boolean
-  calcCondiOver?: boolean
+  compareMode?: MeleeCompareMode;
+  comboLevel?: number;
+  allowElementTypes?: string[];
+  isUseFury?: boolean;
+  isUseStrike?: boolean;
+  extraBaseDamage?: number;
+  extraOverall?: number;
+  arcanes?: Arcane[];
+  target?: Enemy;
+  requireRange?: boolean;
+  requireCombo?: boolean;
+  calcCondiOver?: boolean;
 }
 
 export class MeleeModBuild extends ModBuild {
-  weapon: MeleeWeapon
+  weapon: MeleeWeapon;
   // 属性增幅器
   private _rangeMul = 100;
   private _chargeMulMul = 100;
@@ -41,25 +41,45 @@ export class MeleeModBuild extends ModBuild {
   private _extraStatusCount = 0;
 
   /** 范围增幅倍率 */
-  get rangeMul() { return this._rangeMul / 100; }
+  get rangeMul() {
+    return this._rangeMul / 100;
+  }
   /** 导引倍率增幅倍率 */
-  get chargeMulMul() { return this._chargeMulMul / 100; }
+  get chargeMulMul() {
+    return this._chargeMulMul / 100;
+  }
   /** 导引效率增幅倍率 */
-  get chargeEffMul() { return this._chargeEffMul / 100; }
+  get chargeEffMul() {
+    return this._chargeEffMul / 100;
+  }
   /** 连击时间增值 */
-  get comboDurationAdd() { return this._comboDurationAdd / 100; }
+  get comboDurationAdd() {
+    return this._comboDurationAdd / 100;
+  }
   /** 滑行暴击增值 */
-  get slideCritChanceAdd() { return this._slideCritChanceAdd / 100; }
+  get slideCritChanceAdd() {
+    return this._slideCritChanceAdd / 100;
+  }
   /** 处决伤害增幅倍率 */
-  get execDmgMul() { return this._execDmgMul < 0 ? 0 : this._execDmgMul / 100; }
+  get execDmgMul() {
+    return this._execDmgMul < 0 ? 0 : this._execDmgMul / 100;
+  }
   /** 连击数增加暴击率 */
-  get comboCritChanceMul() { return this._comboCritChanceMul / 100; }
+  get comboCritChanceMul() {
+    return this._comboCritChanceMul / 100;
+  }
   /** 连击数增加触发率 */
-  get comboProcChanceMul() { return this._comboProcChanceMul / 100; }
+  get comboProcChanceMul() {
+    return this._comboProcChanceMul / 100;
+  }
   /** 偷袭伤害 */
-  get stealthDamageMul() { return this._stealthDamageMul < 0 ? 0 : this._stealthDamageMul / 100; }
+  get stealthDamageMul() {
+    return this._stealthDamageMul < 0 ? 0 : this._stealthDamageMul / 100;
+  }
   /** 每个状态额外伤害(异况量化) */
-  get damagePerStatus() { return this._damagePerStatus / 100; }
+  get damagePerStatus() {
+    return this._damagePerStatus / 100;
+  }
 
   // 额外参数
   /** 异况触发量 */
@@ -73,7 +93,7 @@ export class MeleeModBuild extends ModBuild {
 
   constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null, fast = false) {
     super(riven, fast);
-    if (this.weapon = weapon) {
+    if ((this.weapon = weapon)) {
       this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.id]).includes(v.type));
     }
     if (options) {
@@ -105,7 +125,7 @@ export class MeleeModBuild extends ModBuild {
       target: this.target,
       requireRange: this.requireRange,
       requireCombo: this.requireCombo,
-      calcCondiOver: this.calcCondiOver,
+      calcCondiOver: this.calcCondiOver
     };
   }
 
@@ -125,32 +145,43 @@ export class MeleeModBuild extends ModBuild {
 
   /** [overwrite] 全局伤害增幅倍率 */
   get overallMul() {
-    if (this.damagePerStatus > 0)
-      return (this._overallMul / 100) * ((1 + this.damagePerStatus) ** (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount));
+    if (this.damagePerStatus > 0) return (this._overallMul / 100) * (1 + this.damagePerStatus) ** (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount);
     return this._overallMul / 100;
   }
 
-  get slideMode() { return this.compareMode === MeleeCompareMode.SlideDamage || this.compareMode === MeleeCompareMode.SlideDamagePS; }
+  get slideMode() {
+    return this.compareMode === MeleeCompareMode.SlideDamage || this.compareMode === MeleeCompareMode.SlideDamagePS;
+  }
   /** 滑行攻击倍率 */
-  get slideAttackMul() { return this.weapon.slideDmg / this.originalDamage; }
+  get slideAttackMul() {
+    return this.weapon.slideDmg / this.originalDamage;
+  }
 
   /** 连击倍率 */
   get comboMul() {
-    if (this.weapon.id === "Venka Prime")
-      return this.comboLevel * 0.75 + 1;
-    else
-      return this.comboLevel * 0.5 + 1;
+    if (this.weapon.id === "Venka Prime") return this.comboLevel * 0.75 + 1;
+    else return this.comboLevel * 0.5 + 1;
   }
   /** 连击数增加暴击率 */
-  get comboCritChance() { return this.comboMul > 1 ? 1 + hAccMul(this.comboMul, this.comboCritChanceMul) : 1; }
+  get comboCritChance() {
+    return this.comboMul > 1 ? 1 + hAccMul(this.comboMul, this.comboCritChanceMul) : 1;
+  }
   /** 连击数增加触发率 */
-  get comboProcChance() { return this.comboMul > 1 ? 1 + hAccMul(this.comboMul, this.comboProcChanceMul) : 1; }
+  get comboProcChance() {
+    return this.comboMul > 1 ? 1 + hAccMul(this.comboMul, this.comboProcChanceMul) : 1;
+  }
   /** [overwrite] 暴击率 */
-  get critChance() { return this.slideMode ? this.slideCritChance : this.normalCritChance; }
+  get critChance() {
+    return this.slideMode ? this.slideCritChance : this.normalCritChance;
+  }
   /** 平砍暴击率 */
-  get normalCritChance() { return hAccMul(this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd), this.comboCritChance); }
+  get normalCritChance() {
+    return hAccMul(this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd), this.comboCritChance);
+  }
   /** 滑行暴击率 */
-  get slideCritChance() { return hAccMul(this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd), this.comboCritChance); }
+  get slideCritChance() {
+    return hAccMul(this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd), this.comboCritChance);
+  }
 
   /** [overwrite] 触发几率 */
   get procChance() {
@@ -158,58 +189,103 @@ export class MeleeModBuild extends ModBuild {
     return s > 1 ? 1 : s < 0 ? 0 : s;
   }
   /** [overwrite] 真实触发几率 */
-  get realProcChance() { return this.procChance; }
+  get realProcChance() {
+    return this.procChance;
+  }
   /** [overwrite] 平均暴击区增幅倍率 */
-  get critDamageMul() { return this.slideMode ? this.slideCritDamageMul : this.normalCritDamageMul; }
+  get critDamageMul() {
+    return this.slideMode ? this.slideCritDamageMul : this.normalCritDamageMul;
+  }
   /** [overwrite] 平均暴击区增幅倍率(暴击向下取整) */
-  get critDamageMulFloor() { return this.slideMode ? this.calcCritDamage(Math.floor(this.slideCritChance), this.critMul, 0, 2, this.stealthDamageMul) : this.calcCritDamage(Math.floor(this.normalCritChance), this.critMul, 0, 2, this.stealthDamageMul); }
+  get critDamageMulFloor() {
+    return this.slideMode ? this.calcCritDamage(Math.floor(this.slideCritChance), this.critMul, 0, 2, this.stealthDamageMul) : this.calcCritDamage(Math.floor(this.normalCritChance), this.critMul, 0, 2, this.stealthDamageMul);
+  }
   /** [overwrite] 平均暴击区增幅倍率(暴击向上取整) */
-  get critDamageMulCeil() { return this.slideMode ? this.calcCritDamage(Math.ceil(this.slideCritChance), this.critMul, 0, 2, this.stealthDamageMul) : this.calcCritDamage(Math.ceil(this.normalCritChance), this.critMul, 0, 2, this.stealthDamageMul); }
+  get critDamageMulCeil() {
+    return this.slideMode ? this.calcCritDamage(Math.ceil(this.slideCritChance), this.critMul, 0, 2, this.stealthDamageMul) : this.calcCritDamage(Math.ceil(this.normalCritChance), this.critMul, 0, 2, this.stealthDamageMul);
+  }
   /** 平砍平均暴击区增幅倍率 */
-  get normalCritDamageMul() { return this.calcCritDamage(this.normalCritChance, this.critMul, 0, 2, this.stealthDamageMul); }
+  get normalCritDamageMul() {
+    return this.calcCritDamage(this.normalCritChance, this.critMul, 0, 2, this.stealthDamageMul);
+  }
   /** 滑行平均暴击区增幅倍率 */
-  get slideCritDamageMul() { return this.calcCritDamage(this.slideCritChance, this.critMul, 0, 2, this.stealthDamageMul); }
+  get slideCritDamageMul() {
+    return this.calcCritDamage(this.slideCritChance, this.critMul, 0, 2, this.stealthDamageMul);
+  }
 
   /** [overwrite] 总伤增幅倍率 */
-  get totalDamageMul() { return hAccMul(this.critDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul); }
+  get totalDamageMul() {
+    return hAccMul(this.critDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul);
+  }
   /** [overwrite] 总伤增幅倍率(暴击向下取整) */
-  get totalDamageMulFloor() { return hAccMul(this.critDamageMulFloor, this.overallMul, this.comboMul, this.enemyDmgMul); }
+  get totalDamageMulFloor() {
+    return hAccMul(this.critDamageMulFloor, this.overallMul, this.comboMul, this.enemyDmgMul);
+  }
   /** [overwrite] 总伤增幅倍率(暴击向上取整) */
-  get totalDamageMulCeil() { return hAccMul(this.critDamageMulCeil, this.overallMul, this.comboMul, this.enemyDmgMul); }
+  get totalDamageMulCeil() {
+    return hAccMul(this.critDamageMulCeil, this.overallMul, this.comboMul, this.enemyDmgMul);
+  }
   /** 平砍总伤增幅倍率 */
-  get normalTotalDamageMul() { return hAccMul(this.normalCritDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul); }
+  get normalTotalDamageMul() {
+    return hAccMul(this.normalCritDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul);
+  }
   /** 滑行总伤增幅倍率 */
-  get slideTotalDamageMul() { return hAccMul(this.slideCritDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul); }
+  get slideTotalDamageMul() {
+    return hAccMul(this.slideCritDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul);
+  }
 
   /** 每秒总伤害 */
-  get totalDamagePS() { return hAccMul(this.totalDamage, this.fireRate); }
+  get totalDamagePS() {
+    return hAccMul(this.totalDamage, this.fireRate);
+  }
   /** 原每秒总伤害 */
-  get oriTotalDamagePS() { return hAccMul(this.oriTotalDamage, this.weapon.fireRate); }
+  get oriTotalDamagePS() {
+    return hAccMul(this.oriTotalDamage, this.weapon.fireRate);
+  }
 
   /** 原滑行攻击伤害 */
-  get oriSlideDamage() { return hAccMul(this.oriTotalDamage, this.slideAttackMul); }
+  get oriSlideDamage() {
+    return hAccMul(this.oriTotalDamage, this.slideAttackMul);
+  }
   /** 原每秒滑行攻击伤害 */
-  get oriSlideDamagePS() { return hAccMul(this.oriSlideDamage, this.weapon.fireRate); }
+  get oriSlideDamagePS() {
+    return hAccMul(this.oriSlideDamage, this.weapon.fireRate);
+  }
 
   /** 攻击伤害 */
-  get normalDamage() { return hAccMul(this.panelDamage, this.normalTotalDamageMul); }
+  get normalDamage() {
+    return hAccMul(this.panelDamage, this.normalTotalDamageMul);
+  }
   /** 每秒攻击伤害 */
-  get normalDamagePS() { return hAccMul(this.normalDamage, this.fireRate); }
+  get normalDamagePS() {
+    return hAccMul(this.normalDamage, this.fireRate);
+  }
   /** 滑行攻击伤害 */
-  get slideDamage() { return hAccMul(this.panelDamage, this.slideAttackMul, this.slideTotalDamageMul); }
+  get slideDamage() {
+    return hAccMul(this.panelDamage, this.slideAttackMul, this.slideTotalDamageMul);
+  }
   /** 每秒滑行攻击伤害 */
-  get slideDamagePS() { return hAccMul(this.slideDamage, this.fireRate); }
+  get slideDamagePS() {
+    return hAccMul(this.slideDamage, this.fireRate);
+  }
 
   /** 面板滑行伤害 */
-  get panelSlideDamage() { return hAccMul(this.panelDamage, this.slideAttackMul); }
+  get panelSlideDamage() {
+    return hAccMul(this.panelDamage, this.slideAttackMul);
+  }
 
   /** [overwrite] 用于比较的伤害 */
   get compareDamage() {
     switch (this.compareMode) {
-      case MeleeCompareMode.TotalDamage: return this.normalDamage;
-      case MeleeCompareMode.SlideDamage: return this.slideDamage;
-      default: case MeleeCompareMode.TotalDamagePS: return this.normalDamagePS;
-      case MeleeCompareMode.SlideDamagePS: return this.slideDamagePS;
+      case MeleeCompareMode.TotalDamage:
+        return this.normalDamage;
+      case MeleeCompareMode.SlideDamage:
+        return this.slideDamage;
+      default:
+      case MeleeCompareMode.TotalDamagePS:
+        return this.normalDamagePS;
+      case MeleeCompareMode.SlideDamagePS:
+        return this.slideDamagePS;
     }
   }
 
@@ -224,22 +300,17 @@ export class MeleeModBuild extends ModBuild {
    * @param s 偷袭倍率 [=0]
    */
   calcCritDamage(m: number, n: number, p = 0, v = 2, s = 0) {
-    if (v != 2)
-      return ((1 + (1 - v) * p) * (hAccMul(m, n - 1) + 1) + m * n * p * v) / (p + 1) + s;
-    if (p != 0)
-      return hAccMul(m, n - 1) + s + 1 + 2 * m * n * p / (p + 1);
+    if (v != 2) return ((1 + (1 - v) * p) * (hAccMul(m, n - 1) + 1) + m * n * p * v) / (p + 1) + s;
+    if (p != 0) return hAccMul(m, n - 1) + s + 1 + (2 * m * n * p) / (p + 1);
     return hAccMul(m, n - 1) + s + 1;
   }
 
   /** [overwrite] 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
-    if (!super.isValidMod(mod))
-      return false;
-    if ("Sacrificial Pressure" === mod.id && this._mods.some(v => v && v.id === "Primed Pressure Point")
-      || "Primed Pressure Point" === mod.id && this._mods.some(v => v && v.id === "Sacrificial Pressure"))
-      return false;
+    if (!super.isValidMod(mod)) return false;
+    if (("Sacrificial Pressure" === mod.id && this._mods.some(v => v && v.id === "Primed Pressure Point")) || ("Primed Pressure Point" === mod.id && this._mods.some(v => v && v.id === "Sacrificial Pressure"))) return false;
     if (this.weapon.tags.includes("Exalted")) {
-      return !["Weeping Wounds", "Blood Rush", "Maiming Strike", "Focused Defense"].includes(mod.id)
+      return !["Weeping Wounds", "Blood Rush", "Maiming Strike", "Focused Defense"].includes(mod.id);
     }
     return true;
   }
@@ -268,20 +339,45 @@ export class MeleeModBuild extends ModBuild {
    */
   applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
     switch (pName) {
-      case 'T': /* 攻击范围 range */ this._rangeMul += pValue; break;
-      case 'J': /* 攻击速度 attackSpeed */ this._fireRateMul += pValue; break;
-      case 'B': /* 导引伤害 chargeMul */ this._chargeMulMul += pValue; break;
-      case 'U': /* 导引效率 chargeEff */ this._chargeEffMul += pValue; break;
-      case 'N': /* 连击持续时间 comboDuration */ this._comboDurationAdd += pValue; break;
-      case 'E': /* 滑行攻击造成暴击几率 slideCritChance */ this._slideCritChanceAdd += pValue; break;
-      case 'X': /* 处决伤害 execDmg */ this._execDmgMul += pValue; break;
-      case 'bldr': this._comboCritChanceMul += pValue; break;
-      case 'sccm': this._comboProcChanceMul += pValue; break;
-      case 'ds': this._stealthDamageMul += pValue; break;
-      case 'co': /* 异况超量 */ this._damagePerStatus = this._damagePerStatus += pValue; break;
-      case 'esc': /* 异况数量 */ this._extraStatusCount = this._extraStatusCount += pValue; break;
+      case "T":
+        /* 攻击范围 range */ this._rangeMul += pValue;
+        break;
+      case "J":
+        /* 攻击速度 attackSpeed */ this._fireRateMul += pValue;
+        break;
+      case "B":
+        /* 导引伤害 chargeMul */ this._chargeMulMul += pValue;
+        break;
+      case "U":
+        /* 导引效率 chargeEff */ this._chargeEffMul += pValue;
+        break;
+      case "N":
+        /* 连击持续时间 comboDuration */ this._comboDurationAdd += pValue;
+        break;
+      case "E":
+        /* 滑行攻击造成暴击几率 slideCritChance */ this._slideCritChanceAdd += pValue;
+        break;
+      case "X":
+        /* 处决伤害 execDmg */ this._execDmgMul += pValue;
+        break;
+      case "bldr":
+        this._comboCritChanceMul += pValue;
+        break;
+      case "sccm":
+        this._comboProcChanceMul += pValue;
+        break;
+      case "ds":
+        this._stealthDamageMul += pValue;
+        break;
+      case "co":
+        /* 异况超量 */ this._damagePerStatus = this._damagePerStatus += pValue;
+        break;
+      case "esc":
+        /* 异况数量 */ this._extraStatusCount = this._extraStatusCount += pValue;
+        break;
       default:
-        super.applyProp(mod, pName, pValue); break;
+        super.applyProp(mod, pName, pValue);
+        break;
     }
   }
 
@@ -296,14 +392,16 @@ export class MeleeModBuild extends ModBuild {
   fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
     const rangeMod = this.avaliableMods.find(v => v.id === "Primed Reach");
     const comboMod = this.avaliableMods.find(v => v.id === "Drifting Contact");
-    let mods = this._mods = _.compact(this._mods);
-    if (useRiven == 2)
-      this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
+    let mods = (this._mods = _.compact(this._mods));
+    if (useRiven == 2) this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
     if (this.requireRange && rangeMod && !mods.some(v => v.id === rangeMod.id) && (useRiven === 0 || !this.riven.shortSubfix.includes("T"))) this.applyMod(rangeMod);
     if (this.requireCombo && comboMod && !mods.some(v => v.id === comboMod.id || v.id === "Body Count") && (useRiven === 0 || !this.riven.shortSubfix.includes("N"))) this.applyMod(comboMod);
     super.fillEmpty(slots, 0, lib, rivenLimit);
   }
 
   /** [overwrite] 最大容量 */
-  get maxCost() { return this.weapon.id === "Paracesis" ? 80 : 70; }
+  get maxCost() {
+    if (this.weapon.tags.includes("Exalted")) return this.weapon.tags.includes("Virtual") ? 70 : 60;
+    return this.weapon.tags.includes("Robotic") ? 60 : this.weapon.id === "Paracesis" ? 80 : 70;
+  }
 }

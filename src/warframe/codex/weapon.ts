@@ -587,6 +587,6 @@ export const MeleeWeaponDataBase: MeleeWeapon[] = ([
   { id: "Shattered Lash", name: "shatteredLash", tags: ["Melee", "Exalted", "Virtual"], dmg: [["Puncture", 800]], critMul: 1, critChance: 0, fireRate: 1, slideDmg: 0, status: 0 },
   { id: "Landslide", name: "landslide", tags: ["Melee", "Exalted", "Virtual"], dmg: [["Impact", 350]], critMul: 2, critChance: 0.05, fireRate: 1, slideDmg: 0, status: 0.05 },
   // 守护武器
-  { id: "Deconstructor", name: "deconstructor", rivenName: "Deconstructor", tags: ["Melee", "Robotic", "Glaive"], dmg: [["Impact", 50]], critChance: 0, fireRate: 1.3, status: 0.25 },
-  { id: "Deconstructor Prime", name: "deconstructorPrime", rivenName: "Deconstructor", tags: ["Melee", "Robotic", "Glaive"], dmg: [["Impact", 75]], critChance: 0, fireRate: 1.33, status: 0.25 }
+  { id: "Deconstructor", name: "deconstructor", rivenName: "Deconstructor", tags: ["Melee", "Robotic", "Glaive"], dmg: [["Impact", 50]], critChance: 0, critMul: 1, fireRate: 1.3, slideDmg: 0, status: 0.25 },
+  { id: "Deconstructor Prime", name: "deconstructorPrime", rivenName: "Deconstructor", tags: ["Melee", "Robotic", "Glaive"], dmg: [["Impact", 75]], critChance: 0, critMul: 1, fireRate: 1.33, slideDmg: 0, status: 0.25 }
 ] as MeleeWeaponData[]).map(v => new MeleeWeapon(v));

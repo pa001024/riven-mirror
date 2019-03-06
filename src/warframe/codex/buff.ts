@@ -20,8 +20,8 @@ export interface BuffData {
   /** 参数 */
   parms?: [string, string];
   /** 默认参数 */
-  defaultValue?: number
-  defaultLayer?: number
+  defaultValue?: number;
+  defaultLayer?: number;
 }
 
 export interface MultiLayer {
@@ -33,6 +33,7 @@ export interface MultiLayer {
 
 export enum BuffType {
   Arcane,
+  Team,
   BaseDamage,
   TotalDamage,
   ElementDamage,
@@ -52,7 +53,9 @@ export class Buff {
     if (data.defaultLayer) this.layer = data.defaultLayer;
     if (data.defaultValue) this.power = data.defaultValue;
   }
-  get name() { return this.data.name; }
+  get name() {
+    return this.data.name;
+  }
   get props() {
     let pout = [];
     if (this.data.props) pout = pout.concat(this.data.props);
@@ -69,17 +72,21 @@ export class Buff {
    */
   get vProps() {
     return this.props.map(prop => {
-      let vp = ValuedProperty.parse(prop)
+      let vp = ValuedProperty.parse(prop);
       return {
         id: vp.id,
         fullName: vp.fullString,
         shortName: vp.shortString,
         value: vp.value
-      }
-    })
+      };
+    });
   }
-  get layerEnable() { return !!this.data.multiLayer; }
-  get powerEnable() { return !!this.data.parms; }
+  get layerEnable() {
+    return !!this.data.multiLayer;
+  }
+  get powerEnable() {
+    return !!this.data.parms;
+  }
 }
 /**
  * 需求效果:
@@ -90,37 +97,50 @@ export class Buff {
 export const BuffList: BuffData[] = [
   // 赋能
   ...[
-    ["aJ", "arcaneAcceleration", [["R", 60]], "Rifle"],
-    ["aK", "arcaneAvenger", [["eca", 30]], "Weapon"],
-    ["aL", "arcaneAwakening", [["D", 100]], "Secondary"],
-    ["aM", "arcaneFury", [["K", 120]], "Melee"],
-    ["aN", "arcaneStrike", [["J", 40]], "Melee"],
-    ["aO", "arcaneMomentum", [["F", 100]], "Sniper"],
-    ["aP", "arcanePrecision", [["D", 120]], "Secondary"],
-    ["aQ", "arcaneRage", [["D", 10]], "Primary"],
-    ["aR", "arcaneTempo", [["R", 60]], "Shotgun"],
-    ["aS", "arcaneVelocity", [["R", 80]], "Secondary"],
-  ].map(v => ({
-    id: v[0],
-    name: v[1],
-    type: BuffType.Arcane,
-    target: v[3],
-    multiLayer: {
-      maxStack: 2,
-      stackableProps: v[2],
-    },
-  } as BuffData)),
+    ["a3", "arcaneAgility", [["onDamaged"], ["f", 40]], "Warframe"], // 灵敏赋能
+    ["a4", "arcaneBarrier", [["onDamaged"], ["fsr", 100]], "Warframe"], // 壁垒赋能
+    ["a5", "arcaneAegis", [["onDamaged"], ["psr", 60]], "Warframe"], // 神盾赋能
+    ["a6", "arcaneTrickery", [["onFinish"], ["ivb", 100]], "Warframe"], // 诡计赋能
+    ["a7", "arcaneUltimatum", [["onFinish"], ["ea", 600]], "Warframe"], // 通牒赋能
+    ["a8", "arcaneArachne", [["onWalllatch"], ["oad", 100]], "Weapon"], // 蜘蛛赋能
+    ["a9", "arcaneGrace", [["onDamaged"], ["phr", 4]], "Warframe"], // 优雅赋能
+    ["aA", "arcaneGuardian", [["onDamaged"], ["ea", 600]], "Warframe"], // 保卫者赋能
+    ["aB", "arcanePhantasm", [["onBlock"], ["f", 40]], "Warframe"], // 幻象赋能
+    ["aJ", "arcaneAcceleration", [["R", 60]], "Rifle"], // 加速
+    ["aK", "arcaneAvenger", [["eca", 30]], "Weapon"], // 复仇
+    ["aL", "arcaneAwakening", [["D", 100]], "Secondary"], // 觉醒
+    ["aM", "arcaneFury", [["K", 120]], "Melee"], // 狂怒
+    ["aN", "arcaneStrike", [["J", 40]], "Melee"], // 速攻
+    ["aO", "arcaneMomentum", [["F", 100]], "Sniper"], // 动量
+    ["aP", "arcanePrecision", [["D", 120]], "Secondary"], // 精确
+    ["aQ", "arcaneRage", [["D", 10]], "Primary"], // 愤怒
+    ["aR", "arcaneTempo", [["R", 60]], "Shotgun"], // 节奏
+    ["aS", "arcaneVelocity", [["R", 80]], "Secondary"], // 迅速
+    ["aT", "paxBolt", [["t", 30], ["x", 30]], "Warframe"] // 和平电闪
+  ].map(
+    v =>
+      ({
+        id: v[0],
+        name: v[1],
+        type: BuffType.Arcane,
+        target: v[3],
+        multiLayer: {
+          maxStack: 2,
+          stackableProps: v[2]
+        }
+      } as BuffData)
+  ),
   ...[
-    ["vA", "virtuosNull", [["erc", 5]], "Amp"],
-    ["vB", "virtuosTempo", [["R", 15]], "Amp"],
-    ["vC", "virtuosFury", [["D", 7.5]], "Amp"],
-    ["vD", "virtuosStrike", [["1", 15]], "Amp"],
-    ["vE", "virtuosShadow", [["0", 15]], "Amp"],
-    ["vF", "virtuosGhost", [["2", 15]], "Amp"],
-    ["vH", "virtuosSurge", [["vte", 25]], "Amp"],
-    ["vG", "virtuosTrojan", [["vtv", 25]], "Amp"],
-    ["vI", "virtuosSpike", [["vtp", 25]], "Amp"],
-    ["vJ", "virtuosForge", [["vth", 25]], "Amp"],
+    ["vA", "virtuosNull", [["erc", 5]], "Amp"], // 正直空无
+    ["vB", "virtuosTempo", [["R", 15]], "Amp"], // 正直节奏
+    ["vC", "virtuosFury", [["D", 7.5]], "Amp"], // 正直狂怒
+    ["vD", "virtuosStrike", [["1", 15]], "Amp"], // 正直打击
+    ["vE", "virtuosShadow", [["0", 15]], "Amp"], // 正直暗影
+    ["vF", "virtuosGhost", [["2", 15]], "Amp"], // 正直鬼魅
+    ["vH", "virtuosSurge", [["vte", 25]], "Amp"], // 正直特洛伊
+    ["vG", "virtuosTrojan", [["vtv", 25]], "Amp"], // 正直突波
+    ["vI", "virtuosSpike", [["vtp", 25]], "Amp"], // 正直尖刺
+    ["vJ", "virtuosForge", [["vth", 25]], "Amp"], // 正直熔炉
     // ["mA", "magusVigor", [[]], "Operator"],
     // ["mB", "magusHusk", [[]], "Operator"],
     // ["mC", "magusCloud", [[]], "Operator"],
@@ -136,105 +156,168 @@ export const BuffList: BuffData[] = [
     // ["mM", "magusLockdown", [[]], "Operator"],
     // ["mN", "magusDestruct", [[]], "Operator"],
     // ["mO", "magusAnomaly", [[]], "Operator"],
-    ["mP", "magusMelt", [["4", 25]], "Amp"],
+    ["mP", "magusMelt", [["4", 25]], "Amp"]
     // ["mQ", "magusAccelerant", [[]], "Operator"],
     // ["mR", "magusRepair", [[]], "Operator"],
-  ].map(v => ({
-    id: v[0],
-    name: v[1],
-    type: BuffType.Arcane,
-    target: v[3],
-    defaultLayer: v[4] || 4,
-    multiLayer: {
-      maxStack: v[4] || 4,
-      stackableProps: v[2],
-    },
-  } as BuffData)),
+  ].map(
+    v =>
+      ({
+        id: v[0],
+        name: v[1],
+        type: BuffType.Arcane,
+        target: v[3],
+        defaultLayer: v[4] || 4,
+        multiLayer: {
+          maxStack: v[4] || 4,
+          stackableProps: v[2]
+        }
+      } as BuffData)
+  ),
+  // 战甲加成
+  ...[
+    ["A0", "growingPower", [["t", 25.5]], "Warframe"], // 成长之力
+    ["A1", "powerDonation", [["t", 30]], "Warframe"] // 献出力量
+  ].map(
+    v =>
+      ({
+        id: v[0],
+        name: v[1],
+        type: BuffType.Team,
+        target: v[3],
+        defaultLayer: v[4] || 1,
+        multiLayer: {
+          maxStack: v[4] || 6,
+          stackableProps: v[2]
+        }
+      } as BuffData)
+  ),
+  {
+    id: "Q",
+    name: "parasiticLink", // 蛆3 寄生链接
+    type: BuffType.Team,
+    target: "Warframe",
+    dynamicProps: [["ovs", 0.25, 0]],
+    parms: ["power", "%"],
+    defaultValue: 364
+  },
+  {
+    id: "y",
+    name: "commonResistance", // 通用减伤
+    type: BuffType.Team,
+    target: "Warframe",
+    dynamicProps: [["res", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 75
+  },
+  {
+    id: "X",
+    name: "corruption", // 堕落
+    type: BuffType.Other,
+    target: "Warframe",
+    props: [["ovs", 100], ["ovr", 100]]
+  },
+  {
+    id: "x",
+    name: "speed", // 加速 (Volt)
+    type: BuffType.Team,
+    target: "Warframe",
+    dynamicProps: [["f", 0.5, 0]],
+    parms: ["power", "%"],
+    defaultValue: 348
+  },
+
   // 加法基伤类
   // 死亡之眼光环等
   {
     id: "b",
-    name: "baseDamage",   // 通用基伤
+    name: "baseDamage", // 通用基伤
     type: BuffType.BaseDamage,
     target: "Weapon",
     dynamicProps: [["dmg", 100, 0]],
-    parms: ["power", "%"],
-  }, {
+    parms: ["power", "%"]
+  },
+  {
     id: "B",
     name: "ballisticBattery", // 女枪1 弹道蓄能 (加数值)
     type: BuffType.BaseDamage,
     target: "Gun",
     dynamicProps: [["apd", 1600, 0]],
     parms: ["power", "%"],
-    defaultValue: 2,
-  }, {
+    defaultValue: 2
+  },
+  {
     id: "G",
     name: "shootingGallery", // 女枪2 靶场
     type: BuffType.BaseDamage,
     target: "All",
     dynamicProps: [["dmg", 50, 0]],
     parms: ["power", "%"],
-    defaultValue: 2,
-  }, {
+    defaultValue: 2
+  },
+  {
     id: "A",
     name: "vexArmor", // 龙3 怨怒护甲
     type: BuffType.BaseDamage,
     target: "Weapon",
     dynamicProps: [["dmg", 275, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 3.48
+  },
+  {
     id: "J",
     name: "mallet", // DJ4 强音增幅
     type: BuffType.BaseDamage,
     target: "Weapon",
-    dynamicProps: [["dmg", 200, 0]],
+    dynamicProps: [["dmg", 2, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "d",
     name: "deadEye", // 死亡之眼 Dead Eye
     type: BuffType.BaseDamage,
     target: "Sniper",
     dynamicProps: [["dmg", 52.5, 0]],
-    parms: ["mul", "x"],
-  }, {
+    parms: ["mul", "x"]
+  },
+  {
     id: "m",
-    name: "metamorphosis",  // 扶她1 昼夜交替
+    name: "metamorphosis", // 扶她1 昼夜交替
     type: BuffType.BaseDamage,
     target: "Weapon",
-    dynamicProps: [["dmg", 25, 0]],
+    dynamicProps: [["dmg", 0.25, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "v",
-    name: "vigorousSwap",   // 强力切换 (MOD)
+    name: "vigorousSwap", // 强力切换 (MOD)
     type: BuffType.BaseDamage,
     target: "Weapon",
     multiLayer: {
       maxStack: 11,
-      stackableProps: [["dmg", 15]],
+      stackableProps: [["dmg", 15]]
     },
-    defaultLayer: 11,
+    defaultLayer: 11
   },
   {
     id: "z",
-    name: "strength",   // 强度
+    name: "strength", // 强度
     type: BuffType.BaseDamage,
     target: "Regulators",
     dynamicProps: [["dmg", 1.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 100,
+    defaultValue: 100
   },
   // 乘法总伤类
   {
     id: "Z",
-    name: "strength",   // 强度
+    name: "strength", // 强度
     type: BuffType.TotalDamage,
     target: "Exalted",
     dynamicProps: [["oad", 1, -100]],
     parms: ["power", "%"],
-    defaultValue: 100,
+    defaultValue: 100
   },
   {
     id: "c",
@@ -243,73 +326,92 @@ export const BuffList: BuffData[] = [
     target: "Sniper",
     dynamicProps: [["oad", 100, -100]],
     parms: ["status", ""],
-    defaultValue: 2,
-  }, {
+    defaultValue: 2
+  },
+  {
     id: "o",
     name: "finalDamage", // 通用终伤
     type: BuffType.TotalDamage,
     target: "Weapon",
-    dynamicProps: [["oad", 100, 0]],
+    dynamicProps: [["oad", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 0.7,
-  }, {
+    defaultValue: 100
+  },
+  {
     id: "R",
     name: "roar", // 牛吼
     type: BuffType.TotalDamage,
-    target: "Weapon",
-    dynamicProps: [["aed", 50, 0]],
+    target: "Weapon+",
+    dynamicProps: [["aed", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "E",
-    name: "eclipse",   // 小丑3 黯然失色
+    name: "eclipse", // 小丑3 黯然失色
     type: BuffType.TotalDamage,
     target: "Weapon",
-    dynamicProps: [["oad", 200, 0]],
+    dynamicProps: [["oad", 2, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "M",
     name: "voidStrike", // M蹲 虚空重击
     type: BuffType.TotalDamage,
     target: "All",
     dynamicProps: [["oad", 12, 0]],
     parms: ["time", "s"],
-    defaultValue: 30,
-  }, {
+    defaultValue: 30
+  },
+  {
     id: "U",
     name: "unairu", // UNAIRU 虚灵
     type: BuffType.TotalDamage,
     target: "Amp",
     multiLayer: {
       maxStack: 4,
-      stackableProps: [["oad", 25]],
+      stackableProps: [["oad", 25]]
     },
-    defaultLayer: 4,
-  }, {
+    defaultLayer: 4
+  },
+  {
+    id: "K",
+    name: "zaw", // zaw 加成
+    type: BuffType.TotalDamage,
+    target: "Vistual",
+    multiLayer: {
+      maxStack: 2,
+      unstackableProps: [[["oad", 14]], [["oad", 70]]]
+    },
+    defaultLayer: 2
+  },
+  {
     id: "N",
     name: "molecularPrime", // nova4 分子填充
     type: BuffType.TotalDamage,
     target: "All",
-    props: [["oad", 100]],
-  }, {
+    props: [["oad", 100]]
+  },
+  {
     id: "C",
     name: "conditionOverlord", // 异况超量 次方计算
     type: BuffType.TotalDamage,
     target: "Melee",
     multiLayer: {
       maxStack: 13,
-      stackableProps: [["esc", 1]],
+      stackableProps: [["esc", 1]]
     },
-    defaultLayer: 2,
-  }, {
+    defaultLayer: 2
+  },
+  {
     id: "T",
     name: "stealth", // 偷袭
     type: BuffType.TotalDamage,
     target: "Melee",
-    dynamicProps: [["ds", 20, 0], ["sd", 20, 0]],
+    dynamicProps: [["ds", 20, 100], ["sd", 20, 100]],
     parms: ["level", ""],
-    defaultValue: 30,
+    defaultValue: 30
   },
   // 附加元素类
   {
@@ -317,49 +419,54 @@ export const BuffList: BuffData[] = [
     name: "fireballFrenzy", // 火鸡集团1 狂热火球 火焰伤害
     type: BuffType.ElementDamage,
     target: "Weapon",
-    dynamicProps: [["4", 100, 0]],
+    dynamicProps: [["4", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "a",
     name: "flashAccelerant", // 火鸡集团2 闪耀助燃 火焰伤害
     type: BuffType.ElementDamage,
     target: "Weapon",
-    dynamicProps: [["4", 50, 0]],
+    dynamicProps: [["4", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "F",
     name: "freezeForce", // 冰男集团1 寒冰之力 冰冻伤害
     type: BuffType.ElementDamage,
     target: "Weapon",
-    dynamicProps: [["5", 100, 0]],
+    dynamicProps: [["5", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "S",
     name: "shockTrooper", // 电男集团1 电击奇兵 电击伤害
     type: BuffType.ElementDamage,
     target: "Weapon",
-    dynamicProps: [["7", 100, 0]],
+    dynamicProps: [["7", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "O",
-    name: "smiteInfusion",   // 奶爸集团1 惩击洗礼 辐射伤害
+    name: "smiteInfusion", // 奶爸集团1 惩击洗礼 辐射伤害
     type: BuffType.ElementDamage,
     target: "Weapon",
-    dynamicProps: [["erd", 100, 0]],
+    dynamicProps: [["erd", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "D",
-    name: "venomDose",   // 毒妈集团1 猛毒附加 腐蚀伤害
+    name: "venomDose", // 毒妈集团1 猛毒附加 腐蚀伤害
     type: BuffType.ElementDamage,
     target: "Weapon",
-    dynamicProps: [["ecd", 100, 0]],
+    dynamicProps: [["ecd", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
+    defaultValue: 348
   },
   // 速度类
   // 电男2 女汉子2 毒龙2
@@ -369,25 +476,27 @@ export const BuffList: BuffData[] = [
     name: "speed", // 加速 (Volt)
     type: BuffType.Speed,
     target: "Melee",
-    dynamicProps: [["J", 50, 0]],
+    dynamicProps: [["J", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "W",
     name: "warcry", // 咆哮 (Valkyr)
     type: BuffType.Speed,
     target: "Melee",
-    dynamicProps: [["J", 50, 0]],
+    dynamicProps: [["J", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "w",
     name: "elementalWard", // 元素之护 (毒龙)
     type: BuffType.Speed,
     target: "Gun",
-    dynamicProps: [["F", 35, 0]],
+    dynamicProps: [["F", 0.35, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
+    defaultValue: 348
   },
   // 暴击类
   {
@@ -395,38 +504,42 @@ export const BuffList: BuffData[] = [
     name: "critChance", // 通用暴击
     type: BuffType.CritDamage,
     target: "All",
-    dynamicProps: [["eca", 100, 0]],
+    dynamicProps: [["eca", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 0.6,
-  }, {
+    defaultValue: 60
+  },
+  {
     id: "I",
     name: "empoweredQuiver", // 弓妹集团1踩线
     type: BuffType.CritDamage,
     target: "All",
-    dynamicProps: [["1", 100, 0]],
+    dynamicProps: [["1", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48,
-  }, {
+    defaultValue: 348
+  },
+  {
     id: "H",
     name: "covenant", // 主教4 庇佑圣约
     type: BuffType.CritDamage,
     target: "Weapon",
-    props: [["eca", 50], ["cwh", 150]],
-  }, {
+    props: [["eca", 50], ["cwh", 150]]
+  },
+  {
     id: "l",
     name: "gladiator", // 角斗士组合效果
     type: BuffType.CritDamage,
     target: "Melee",
     multiLayer: {
       maxStack: 6,
-      stackableProps: [["bldr", 15]],
-    },
-  }, {
+      stackableProps: [["bldr", 15]]
+    }
+  },
+  {
     id: "r",
     name: "charm", // 招福
     type: BuffType.CritDamage,
     target: "Weapon",
-    props: [["ccl", 200]],
+    props: [["ccl", 200]]
   },
   // 复合类
   {
@@ -437,19 +550,21 @@ export const BuffList: BuffData[] = [
     props: [["fcd", 100]],
     multiLayer: {
       maxStack: 6,
-      stackableProps: [["eed", 50]],
+      stackableProps: [["eed", 50]]
     },
-    defaultLayer: 6,
-  }, {
+    defaultLayer: 6
+  },
+  {
     id: "e",
     name: "fireBlast", // 火圈
     type: BuffType.Other,
     target: "Ranged",
     multiLayer: {
       maxStack: 6,
-      stackableProps: [["efd", 50]],
-    },
-  }, {
+      stackableProps: [["efd", 50]]
+    }
+  },
+  {
     id: "L",
     name: "mutalistQuanta", // 异融量子枪次要
     type: BuffType.Other,
@@ -457,12 +572,8 @@ export const BuffList: BuffData[] = [
     props: [["fcd", 25], ["eca", 25], ["oad", -33.3]],
     multiLayer: {
       maxStack: 3,
-      unstackableProps: [
-        [["eed", 100]],
-        [["eed", 366.6]],
-        [["eed", 500]],
-      ],
+      unstackableProps: [[["eed", 100]], [["eed", 366.6]], [["eed", 500]]]
     },
-    defaultLayer: 3,
-  },
+    defaultLayer: 3
+  }
 ];

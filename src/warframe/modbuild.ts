@@ -23,6 +23,12 @@ export abstract class ModBuild {
   protected _arcanes: Arcane[] = [];
   protected _buffs: Buff[] = [];
 
+  get id() {
+    return this.weapon.id;
+  }
+  get baseId() {
+    return this.weapon.rivenName || this.weapon.id;
+  }
   /** 原型MOD列表 */
   get rawMods() {
     return this._rawmods;

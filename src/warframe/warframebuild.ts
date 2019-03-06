@@ -16,12 +16,12 @@ export enum WarframeCompareMode {
   Shield, // 护盾
   Strength, // 强度
   Duration, // 持续
-  Range, // 范围
+  Range // 范围
 }
 export interface WarframeBuildOptions {
-  compareMode?: WarframeCompareMode
-  usrEnergyConversion?: boolean
-  arcanes?: Arcane[]
+  compareMode?: WarframeCompareMode;
+  usrEnergyConversion?: boolean;
+  arcanes?: Arcane[];
 }
 
 export class WarframeBuild {
@@ -34,17 +34,21 @@ export class WarframeBuild {
   protected _exilus: NormalMod = null;
 
   /** 所有适用的MOD */
-  protected avaliableMods: NormalMod[] = []
+  protected avaliableMods: NormalMod[] = [];
 
   /** 光环 */
-  get aura() { return this._aura }
+  get aura() {
+    return this._aura;
+  }
   set aura(value) {
     this._aura = value;
     this.calcMods();
     this.recalcPolarizations();
   }
   /** 特殊功能 */
-  get exilus() { return this._exilus }
+  get exilus() {
+    return this._exilus;
+  }
   set exilus(value) {
     this._exilus = value;
     this.calcMods();
@@ -52,9 +56,13 @@ export class WarframeBuild {
   }
 
   /** 原型MOD列表 */
-  get rawMods() { return this._rawmods; }
+  get rawMods() {
+    return this._rawmods;
+  }
   /** MOD列表 */
-  get mods() { return _.cloneDeep(this._mods); }
+  get mods() {
+    return _.cloneDeep(this._mods);
+  }
   set mods(value) {
     this._rawmods = _.cloneDeep(value);
     this._mods = this.mapRankUpMods(value);
@@ -62,24 +70,46 @@ export class WarframeBuild {
     this.recalcPolarizations();
   }
   /** 特殊功能MOD与MOD */
-  get costMods() { return [this.exilus, ...this._mods] }
+  get costMods() {
+    return [this.exilus, ...this._mods];
+  }
   /** 所有MOD */
-  get allMods() { return [this._aura, this._exilus, ...this._mods] }
+  get allMods() {
+    return [this._aura, this._exilus, ...this._mods];
+  }
   /** 赋能列表 */
-  get arcanes() { return _.cloneDeep(this._arcanes); }
-  set arcanes(value) { this._arcanes = _.cloneDeep(value); this.calcMods(); }
+  get arcanes() {
+    return _.cloneDeep(this._arcanes);
+  }
+  set arcanes(value) {
+    this._arcanes = _.cloneDeep(value);
+    this.calcMods();
+  }
   /** 加成列表 */
-  get buffs() { return _.cloneDeep(this._buffs); }
-  set buffs(value) { this._buffs = _.cloneDeep(value); this.calcMods(); }
+  get buffs() {
+    return _.cloneDeep(this._buffs);
+  }
+  set buffs(value) {
+    this._buffs = _.cloneDeep(value);
+    this.calcMods();
+  }
 
   /** ID */
-  get id() { return this.data.name }
+  get id() {
+    return this.data.name;
+  }
   /** 本地化名称 */
-  get name() { return i18n.t(`messages.${this.data.name}`) }
+  get name() {
+    return i18n.t(`messages.${this.data.name}`);
+  }
   /** 基础ID */
-  get baseId() { return this.data.className || this.data.id }
+  get baseId() {
+    return this.data.className || this.data.id;
+  }
   /** 属性标记 */
-  get tags() { return this.data.tags.concat(["Warframe", this.baseId]) }
+  get tags() {
+    return this.data.tags.concat(["Warframe", this.baseId]);
+  }
 
   protected _healthMul: number;
   protected _shieldMul: number;
@@ -113,100 +143,161 @@ export class WarframeBuild {
   protected _aimGlideWallLatchTimeAdd: number;
   protected _enemyRadarAdd: number;
   protected _lootRadarAdd: number;
+  protected _damageResistance: number;
 
   // ### 参数 ###
 
   /** 是否计算能量转换 */
-  usrEnergyConversion = true
-  compareMode = WarframeCompareMode.EffectiveHealth
+  usrEnergyConversion = true;
+  compareMode = WarframeCompareMode.EffectiveHealth;
 
   // ### 基础属性 ###
 
   /** 生命 */
-  get health() { return this.data.health * this._healthMul / 100 }
+  get health() {
+    return (this.data.health * this._healthMul) / 100;
+  }
   /** 护盾 */
-  get shield() { return this.data.shield * this._shieldMul / 100 }
+  get shield() {
+    return (this.data.shield * this._shieldMul) / 100;
+  }
   /** 护甲 */
-  get armor() { return this.data.armor * this._armorMul / 100 + this._armorAdd }
+  get armor() {
+    return (this.data.armor * this._armorMul) / 100 + this._armorAdd;
+  }
   /** 能量 */
-  get energy() { return this.data.energy * this._energyMul / 100 }
+  get energy() {
+    return (this.data.energy * this._energyMul) / 100;
+  }
   /** 冲刺速度 */
-  get sprint() { return this.data.sprint * this._sprintMul / 100 }
+  get sprint() {
+    return (this.data.sprint * this._sprintMul) / 100;
+  }
   /** 护盾回充 */
-  get shieldRecharge() { return this._shieldRecharge / 100 }
+  get shieldRecharge() {
+    return this._shieldRecharge / 100;
+  }
   /** 技能强度 */
-  get abilityStrength() { return (this.usrEnergyConversion ? this.energyConversion : 0) + (1 + this._abilityStrengthAdd / 100) * this._abilityStrengthMul / 100 }
+  get abilityStrength() {
+    return (this.usrEnergyConversion ? this.energyConversion : 0) + ((1 + this._abilityStrengthAdd / 100) * this._abilityStrengthMul) / 100;
+  }
   /** 技能持续 */
-  get abilityDuration() { return (1 + this._abilityDurationAdd / 100) * this._abilityDurationMul / 100 }
+  get abilityDuration() {
+    return ((1 + this._abilityDurationAdd / 100) * this._abilityDurationMul) / 100;
+  }
   /** 技能效率(无限制) */
-  get abilityEfficiencyUnlimited() { return (1 + this._abilityEfficiencyAdd / 100) * this._abilityEfficiencyMul / 100 }
+  get abilityEfficiencyUnlimited() {
+    return ((1 + this._abilityEfficiencyAdd / 100) * this._abilityEfficiencyMul) / 100;
+  }
   /** 技能效率 */
-  get abilityEfficiency() { return this.abilityEfficiencyUnlimited > 1.75 ? 1.75 : this.abilityEfficiencyUnlimited }
+  get abilityEfficiency() {
+    return this.abilityEfficiencyUnlimited > 1.75 ? 1.75 : this.abilityEfficiencyUnlimited;
+  }
   /** 技能范围 */
-  get abilityRange() { return (1 + this._abilityRangeAdd / 100) * this._abilityRangeMul / 100 }
+  get abilityRange() {
+    return ((1 + this._abilityRangeAdd / 100) * this._abilityRangeMul) / 100;
+  }
   /** 施放速度 */
-  get castSpeed() { return this._castSpeedMul / 100 }
+  get castSpeed() {
+    return this._castSpeedMul / 100;
+  }
   /** 倒地抵抗 */
-  get knockdownResistance() { return this._knockdownResistanceMul / 100 }
+  get knockdownResistance() {
+    return this._knockdownResistanceMul / 100;
+  }
   /** 倒地恢复 */
-  get knockdownRecovery() { return this._knockdownRecoveryMul / 100 }
+  get knockdownRecovery() {
+    return this._knockdownRecoveryMul / 100;
+  }
   /** 滑行 */
-  get slide() { return this._slideMul / 100 }
+  get slide() {
+    return this._slideMul / 100;
+  }
   /** 摩擦力 */
-  get friction() { return this._frictionMul / 100 }
+  get friction() {
+    return this._frictionMul / 100;
+  }
   /** 跑酷速度 */
-  get parkourVelocity() { return this._parkourVelocityMul / 100 }
+  get parkourVelocity() {
+    return this._parkourVelocityMul / 100;
+  }
   /** 随机应变 */
-  get quickThinking() { return this._quickThinkingAdd / 100 }
+  get quickThinking() {
+    return this._quickThinkingAdd / 100;
+  }
   /** 狂暴化 */
-  get rage() { return this._rageAdd / 100 }
+  get rage() {
+    return this._rageAdd / 100;
+  }
   /** 生命转换 */
-  get healthConversion() { return this._healthConversionAdd / 100 }
+  get healthConversion() {
+    return this._healthConversionAdd / 100;
+  }
   /** 能量转换 */
-  get energyConversion() { return this._energyConversionAdd / 100 }
+  get energyConversion() {
+    return this._energyConversionAdd / 100;
+  }
   /** S系抗性 */
-  get tauResist() { return this._tauResistAdd / 100 }
+  get tauResist() {
+    return this._tauResistAdd / 100;
+  }
   /** 光环强度 */
-  get auraStrength() { return this._auraStrengthAdd / 100 }
+  get auraStrength() {
+    return this._auraStrengthAdd / 100;
+  }
   /** 光环效果 */
-  get auraEffectiveness() { return this._auraEffectivenessAdd / 100 }
+  get auraEffectiveness() {
+    return this._auraEffectivenessAdd / 100;
+  }
   /** 飞身瞄准和持续时间 */
-  get aimGlideWallLatchTime() { return this._aimGlideWallLatchTimeAdd / 100 }
+  get aimGlideWallLatchTime() {
+    return this._aimGlideWallLatchTimeAdd / 100;
+  }
   /** 敌人雷达 */
-  get enemyRadar() { return this._enemyRadarAdd / 100 }
+  get enemyRadar() {
+    return this._enemyRadarAdd / 100;
+  }
   /** 物品雷达 */
-  get lootRadar() { return this._lootRadarAdd / 100 }
+  get lootRadar() {
+    return this._lootRadarAdd / 100;
+  }
   /** 切换速度 */
-  get holsterRate() { return this._holsterRateMul / 100 }
+  get holsterRate() {
+    return this._holsterRateMul / 100;
+  }
+  /** 伤害减免 */
+  get damageResistance() {
+    return this._damageResistance / 100;
+  }
   /** 有效生命 */
   get effectiveHealth() {
-    return this.shield + ((this.health + this.energy * this.quickThinking) * (1 + this.armor / 300));
+    return (this.shield + (this.health + this.energy * this.quickThinking) * (1 + this.armor / 300)) / (1 - this.damageResistance);
   }
   /** 对比参数 */
   get compareValue() {
     switch (this.compareMode) {
       default:
       case WarframeCompareMode.EffectiveHealth:
-        return this.effectiveHealth
+        return this.effectiveHealth;
       case WarframeCompareMode.Health:
-        return this.health
+        return this.health;
       case WarframeCompareMode.Armor:
-        return this.armor
+        return this.armor;
       case WarframeCompareMode.Shield:
-        return this.shield
+        return this.shield;
       case WarframeCompareMode.Strength:
-        return this.abilityStrength
+        return this.abilityStrength;
       case WarframeCompareMode.Duration:
-        return this.abilityDuration
+        return this.abilityDuration;
       case WarframeCompareMode.Range:
-        return this.abilityRange
+        return this.abilityRange;
     }
   }
 
   constructor(data: Warframe | string, options: WarframeBuildOptions = null) {
     if (typeof data === "string") data = WarframeDataBase.getWarframeById(data);
     if (!data) return;
-    if (this.data = data) {
+    if ((this.data = data)) {
       this.avaliableMods = NormalModDatabase.filter(v => this.data.tags.concat(["Warframe", "Exilus", this.baseId, this.baseId + ",Exilus"]).includes(v.type));
     }
     if (options) {
@@ -224,8 +315,8 @@ export class WarframeBuild {
     return {
       compareMode: this.compareMode,
       usrEnergyConversion: this.usrEnergyConversion,
-      arcanes: this.arcanes,
-    }
+      arcanes: this.arcanes
+    };
   }
 
   /** 重置属性 */
@@ -262,6 +353,7 @@ export class WarframeBuild {
     this._abilityDurationAdd = 0;
     this._abilityEfficiencyAdd = 0;
     this._abilityRangeAdd = 0;
+    this._damageResistance = 0;
     this.data.lvlUps.map(v => this.applyProp(null, v[0], v[1]));
     this.recalcPolarizations();
   }
@@ -276,34 +368,99 @@ export class WarframeBuild {
    */
   applyProp(mod: NormalMod | Arcane, pName: string, pValue: number = 0) {
     switch (pName) {
-    /** Health */                case "h": this._healthMul = hAccSum(this._healthMul, pValue); break;
-    /** Shield */                case "s": this._shieldMul = hAccSum(this._shieldMul, pValue); break;
-    /** Amror */                 case "a": this._armorMul = hAccSum(this._armorMul, pValue); break;
-    /** AmrorAdd */              case "aa": this._armorAdd = hAccSum(this._armorAdd, pValue); break;
-    /** Energy */                case "e": this._energyMul = hAccSum(this._energyMul, pValue); break;
-    /** Sprint */                case "f": this._sprintMul = hAccSum(this._sprintMul, pValue); break;
-    /** ShieldRecharge */        case "r": this._shieldRecharge = hAccSum(this._shieldRecharge, pValue); break;
-    /** AbilityStrength */       case "t": this._abilityStrengthAdd = hAccSum(this._abilityStrengthAdd, pValue); break;
-    /** AbilityDuration */       case "u": this._abilityDurationAdd = hAccSum(this._abilityDurationAdd, pValue); break;
-    /** AbilityEfficiency */     case "x": this._abilityEfficiencyAdd = hAccSum(this._abilityEfficiencyAdd, pValue); break;
-    /** AbilityRange */          case "g": this._abilityRangeAdd = hAccSum(this._abilityRangeAdd, pValue); break;
-    /** CastSpeed */             case "c": this._castSpeedMul = hAccSum(this._castSpeedMul, pValue); break;
-    /** KnockdownResistance */   case "k": this._knockdownResistanceMul = hAccSum(this._knockdownResistanceMul, pValue); break;
-    /** KnockdownRecovery */     case "y": this._knockdownRecoveryMul = hAccSum(this._knockdownRecoveryMul, pValue); break;
-    /** Slide */                 case "l": this._slideMul = hAccSum(this._slideMul, pValue); break;
-    /** Friction */              case "i": this._frictionMul = hAccSum(this._frictionMul, pValue); break;
-    /** ParkourVelocity */       case "v": this._parkourVelocityMul = hAccSum(this._parkourVelocityMul, pValue); break;
-    /** QuickThinking */         case "z": this._quickThinkingAdd = hAccSum(this._quickThinkingAdd, pValue); break;
-    /** Rage */                  case "rg": this._rageAdd = hAccSum(this._rageAdd, pValue); break;
-    /** HealthConversion */      case "hc": this._healthConversionAdd = hAccSum(this._healthConversionAdd, pValue); break;
-    /** EnergyConversion */      case "ec": this._energyConversionAdd = hAccSum(this._energyConversionAdd, pValue); break;
-    /** TauResist */             case "tr": this._tauResistAdd = hAccSum(this._tauResistAdd, pValue); break;
-    /** AuraStrength */          case "as": this._auraStrengthAdd = hAccSum(this._auraStrengthAdd, pValue); break;
-    /** AuraEffectiveness */     case "ae": this._auraEffectivenessAdd = hAccSum(this._auraEffectivenessAdd, pValue); break;
-    /** AimGlideWallLatchTime */ case "at": this._aimGlideWallLatchTimeAdd = hAccSum(this._aimGlideWallLatchTimeAdd, pValue); break;
-    /** EnemyRadar */            case "er": this._enemyRadarAdd = hAccSum(this._enemyRadarAdd, pValue); break;
-    /** LootRadar */             case "lr": this._lootRadarAdd = hAccSum(this._lootRadarAdd, pValue); break;
-    /** HolsterRate */           case "hr": this._holsterRateMul = hAccSum(this._holsterRateMul, pValue); break;
+      /** Health */ case "h":
+        this._healthMul = hAccSum(this._healthMul, pValue);
+        break;
+      /** Shield */ case "s":
+        this._shieldMul = hAccSum(this._shieldMul, pValue);
+        break;
+      /** Amror */ case "a":
+        this._armorMul = hAccSum(this._armorMul, pValue);
+        break;
+      /** AmrorAdd */ case "ea":
+        this._armorAdd = hAccSum(this._armorAdd, pValue);
+        break;
+      /** Energy */ case "e":
+        this._energyMul = hAccSum(this._energyMul, pValue);
+        break;
+      /** Sprint */ case "f":
+        this._sprintMul = hAccSum(this._sprintMul, pValue);
+        break;
+      /** ShieldRecharge */ case "r":
+        this._shieldRecharge = hAccSum(this._shieldRecharge, pValue);
+        break;
+      /** AbilityStrength */ case "t":
+        this._abilityStrengthAdd = hAccSum(this._abilityStrengthAdd, pValue);
+        break;
+      /** AbilityStrength */ case "ovs":
+        this._abilityStrengthMul = (this._abilityStrengthMul * (100 + pValue)) / 100;
+        break;
+      /** AbilityDuration */ case "u":
+        this._abilityDurationAdd = hAccSum(this._abilityDurationAdd, pValue);
+        break;
+      /** AbilityEfficiency */ case "x":
+        this._abilityEfficiencyAdd = hAccSum(this._abilityEfficiencyAdd, pValue);
+        break;
+      /** AbilityRange */ case "g":
+        this._abilityRangeAdd = hAccSum(this._abilityRangeAdd, pValue);
+        break;
+      /** AbilityRange */ case "ovr":
+        this._abilityRangeMul = (this._abilityRangeMul * (100 + pValue)) / 100;
+        break;
+      /** CastSpeed */ case "c":
+        this._castSpeedMul = hAccSum(this._castSpeedMul, pValue);
+        break;
+      /** KnockdownResistance */ case "k":
+        this._knockdownResistanceMul = hAccSum(this._knockdownResistanceMul, pValue);
+        break;
+      /** KnockdownRecovery */ case "y":
+        this._knockdownRecoveryMul = hAccSum(this._knockdownRecoveryMul, pValue);
+        break;
+      /** Slide */ case "l":
+        this._slideMul = hAccSum(this._slideMul, pValue);
+        break;
+      /** Friction */ case "i":
+        this._frictionMul = hAccSum(this._frictionMul, pValue);
+        break;
+      /** ParkourVelocity */ case "v":
+        this._parkourVelocityMul = hAccSum(this._parkourVelocityMul, pValue);
+        break;
+      /** QuickThinking */ case "z":
+        this._quickThinkingAdd = hAccSum(this._quickThinkingAdd, pValue);
+        break;
+      /** Rage */ case "rg":
+        this._rageAdd = hAccSum(this._rageAdd, pValue);
+        break;
+      /** HealthConversion */ case "hc":
+        this._healthConversionAdd = hAccSum(this._healthConversionAdd, pValue);
+        break;
+      /** EnergyConversion */ case "ec":
+        this._energyConversionAdd = hAccSum(this._energyConversionAdd, pValue);
+        break;
+      /** TauResist */ case "tr":
+        this._tauResistAdd = hAccSum(this._tauResistAdd, pValue);
+        break;
+      /** AuraStrength */ case "as":
+        this._auraStrengthAdd = hAccSum(this._auraStrengthAdd, pValue);
+        break;
+      /** AuraEffectiveness */ case "ae":
+        this._auraEffectivenessAdd = hAccSum(this._auraEffectivenessAdd, pValue);
+        break;
+      /** AimGlideWallLatchTime */ case "at":
+        this._aimGlideWallLatchTimeAdd = hAccSum(this._aimGlideWallLatchTimeAdd, pValue);
+        break;
+      /** EnemyRadar */ case "er":
+        this._enemyRadarAdd = hAccSum(this._enemyRadarAdd, pValue);
+        break;
+      /** LootRadar */ case "lr":
+        this._lootRadarAdd = hAccSum(this._lootRadarAdd, pValue);
+        break;
+      /** HolsterRate */ case "hr":
+        this._holsterRateMul = hAccSum(this._holsterRateMul, pValue);
+        break;
+      /** Damage Resistance */ case "res":
+        this._damageResistance = 100 - ((100 - this._damageResistance) * (100 - pValue)) / 100;
+        break;
     }
   }
 
@@ -356,6 +513,10 @@ export class WarframeBuild {
     [this._aura, this._exilus, ...this._mods].forEach(mod => {
       mod && _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
     });
+    // 加载Buff
+    this._buffs.forEach(buff => {
+      buff && buff.props.forEach(prop => this.applyProp(null, prop[0], prop[1]));
+    });
   }
 
   /**
@@ -380,8 +541,7 @@ export class WarframeBuild {
   isValidMod(mod: NormalMod): boolean {
     let mods = _.compact(this._mods);
     // 如果相应的P卡已经存在则不使用
-    if (mods.some(v => v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed)))
-      return false;
+    if (mods.some(v => v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed))) return false;
     return true;
   }
 
@@ -393,7 +553,7 @@ export class WarframeBuild {
    * @memberof WarframeBuild
    */
   mapRankUpMods(mods: NormalMod[]): NormalMod[] {
-    let umbraSet = { "Ha": [1, 1.25, 1.75], "Hb": [1, 1.25, 1.75], "Hc": [1, 1.25, 1.5] };
+    let umbraSet = { Ha: [1, 1.25, 1.75], Hb: [1, 1.25, 1.75], Hc: [1, 1.25, 1.5] };
     let umbraSetCount = mods.filter(v => v && v.key in umbraSet).length - 1;
     let rst = mods.map(mod => {
       if (mod && mod.key in umbraSet) {
@@ -408,18 +568,35 @@ export class WarframeBuild {
   }
 
   /**
-   * 返回MOD价值有效生命值收益
+   * 返回MOD价值收益
    * @param index 也可以是mod.id
    * @return MOD价值收益 (-∞ ~ +∞ 小数)
    */
   modValue(index: number | string) {
-    if (typeof index === "string")
-      index = this._mods.findIndex(v => v && v.id === index);
+    if (typeof index === "string") index = this._mods.findIndex(v => v && v.id === index);
     if (!this._mods[index]) return 0;
     let nb = new (this.constructor as any)(this.data);
     nb._mods = this.mods;
     nb._buffs = this.buffs;
     nb._mods.splice(index, 1);
+    let oldVal = this.compareValue;
+    nb.calcMods();
+    let newVal = nb.compareValue;
+    return oldVal / newVal - 1;
+  }
+
+  /**
+   * 返回BUFF价值收益
+   * @param index 也可以是buff.id
+   * @return MOD价值收益 (-∞ ~ +∞ 小数)
+   */
+  buffValue(index: number | string) {
+    if (typeof index === "string") index = this._buffs.findIndex(v => v.data.id === index);
+    if (!this._buffs[index]) return 0;
+    let nb = new (this.constructor as any)(this.data);
+    nb._mods = this.mods;
+    nb._buffs = this.buffs;
+    nb._buffs.splice(index, 1);
     let oldVal = this.compareValue;
     nb.calcMods();
     let newVal = nb.compareValue;
@@ -443,18 +620,18 @@ export class WarframeBuild {
    * @memberof WarframeBuild
    */
   fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
-    let mods = this._mods = _.compact(this._mods);
+    let mods = (this._mods = _.compact(this._mods));
     let othermods = lib.filter(v => !mods.some(k => v.id === k.id || v.id === k.primed || v.primed === k.id));
     let sortableMods = othermods.map(v => [v, this.testMod(v)] as [NormalMod, number]).filter(v => v[1] > 0);
-    console.log(sortableMods, mods.length, sortableMods.length, slots - mods.length)
+    console.log(sortableMods, mods.length, sortableMods.length, slots - mods.length);
     while (mods.length < slots && sortableMods.length > 0) {
       // 2. 计算收益
       // console.log("开始计算收益: ", this._mods.length)
       sortableMods.forEach(v => {
         v[1] = this.testMod(v[0]);
-      })
+      });
       // 3. 把所有卡按收益排序
-      sortableMods.sort((a, b) => b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]);
+      sortableMods.sort((a, b) => (b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]));
       if (sortableMods.length > 0) {
         // console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
         // 4. 将收益最高的一项插入并移出数组
@@ -542,12 +719,10 @@ export class WarframeBuild {
   get miniCode(): string {
     let mods = [this.aura, this.exilus, ...this.mods];
     while (mods.length < 10) mods.push(null);
-    let normal = mods.map(v => v && (v.key + (v.level !== v.maxLevel ? "@" + base62(v.level) : "")) || "00").join("");
+    let normal = mods.map(v => (v && v.key + (v.level !== v.maxLevel ? "@" + base62(v.level) : "")) || "00").join("");
     let buffseq = this.buffs.map(v => `!${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 100) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
-    if (normal === "00000000000000000000")
-      return buffseq;
-    else
-      return normal + buffseq;
+    if (normal === "00000000000000000000") return buffseq;
+    else return normal + buffseq;
   }
 
   set miniCode(code: string) {
@@ -568,7 +743,8 @@ export class WarframeBuild {
       }
     });
     let [aura, exilus, ...mods] = normal.map(v => {
-      let key = v.substr(0, 2), level = v.substr(3, 4);
+      let key = v.substr(0, 2),
+        level = v.substr(3, 4);
       let mod = _.cloneDeep(Codex.getNormalMod(key));
       if (level) mod.level = debase62(level);
       return mod;
@@ -581,28 +757,54 @@ export class WarframeBuild {
   get miniCodeURL() {
     return this.miniCode ? `https://${HH}/warframe/${this.data.url}/${this.miniCode}` : `https://${HH}/warframe/${this.data.url}`;
   }
-  get maxHealth() { return 1 }
-  get maxShield() { return 1 }
-  get maxArmor() { return 1 }
-  get maxEnergy() { return 1 }
-  get maxSprint() { return 1 }
-  get maxAbilityStrength() { return 1 }
-  get maxAbilityDuration() { return 1 }
-  get maxAbilityEfficiency() { return 1 }
-  get maxAbilityRange() { return 1 }
+  get maxHealth() {
+    return 1;
+  }
+  get maxShield() {
+    return 1;
+  }
+  get maxArmor() {
+    return 1;
+  }
+  get maxEnergy() {
+    return 1;
+  }
+  get maxSprint() {
+    return 1;
+  }
+  get maxAbilityStrength() {
+    return 1;
+  }
+  get maxAbilityDuration() {
+    return 1;
+  }
+  get maxAbilityEfficiency() {
+    return 1;
+  }
+  get maxAbilityRange() {
+    return 1;
+  }
 
   // 容量计算与极化
 
   protected _auraPol: string;
   protected _exilusPol: string;
-  get auraPol() { return this._auraPol }
-  get exilusPol() { return this._exilusPol }
+  get auraPol() {
+    return this._auraPol;
+  }
+  get exilusPol() {
+    return this._exilusPol;
+  }
   protected _polarizations: string[] = Array(8);
-  get polarizations() { return this._polarizations; }
-  get allPolarizations() { return [this._auraPol, this._exilusPol, ...this._polarizations]; }
+  get polarizations() {
+    return this._polarizations;
+  }
+  get allPolarizations() {
+    return [this._auraPol, this._exilusPol, ...this._polarizations];
+  }
   /** 容量 */
   get totalCost() {
-    let total = this.costMods.reduce((a, _, i) => a += this.getCost(i - 1), 0);
+    let total = this.costMods.reduce((a, _, i) => (a += this.getCost(i - 1)), 0);
     return total;
   }
 
@@ -614,10 +816,14 @@ export class WarframeBuild {
   }
 
   /** 最大容量 */
-  get maxCost() { return 60 - this.getCost(-2); }
+  get maxCost() {
+    return 60 - this.getCost(-2);
+  }
   _formaCount = 0;
   /** 极化次数 */
-  get formaCount() { return this._formaCount }
+  get formaCount() {
+    return this._formaCount;
+  }
   /** 重新计算极化次数 */
   recalcPolarizations() {
     // 自带的极性
@@ -656,7 +862,7 @@ export class WarframeBuild {
             this._polarizations[i] = pol;
             return true;
           }
-          return false
+          return false;
         });
       }
     }
@@ -700,7 +906,7 @@ export class WarframeBuild {
   }
 
   _abilities: RenderedAbilities[];
-  _lastCode: string
+  _lastCode: string;
   get Abilities() {
     if (this._lastCode === this.miniCode) return this._abilities;
     this._lastCode = this.miniCode;
@@ -711,9 +917,11 @@ export class WarframeBuild {
 }
 
 export class RenderedAbilities {
-  build: WarframeBuild
-  data: AbilityData
-  get id() { return this.data.id }
+  build: WarframeBuild;
+  data: AbilityData;
+  get id() {
+    return this.data.id;
+  }
   get name() {
     const key = `messages.${_.camelCase(this.id)}`;
     return i18n.te(key) ? i18n.t(key) : this.id;
@@ -722,91 +930,107 @@ export class RenderedAbilities {
     this.data = data;
     this.build = build;
   }
-  get oneHand() { return this.data.oneHand }
-  get tags() {
-    return Array(6).fill(1)
-      .map((_, i) => (this.data.tags & 1 << i) && AbilityType[1 << i])
-      .filter(Boolean)
-      .map(v => i18n.t(`ability.types.${_.camelCase(v)}`))
+  get oneHand() {
+    return this.data.oneHand;
   }
-  get energyCost() { return this.data.energyCost * (2 - this.build.abilityEfficiency) }
-  get energyCostPS() { return this.data.energyCostPS * (2 - this.build.abilityEfficiencyUnlimited) / this.build.abilityDuration }
-  get energyCostN() { return this.data.energyCostN * (2 - this.build.abilityEfficiency) }
+  get tags() {
+    return Array(6)
+      .fill(1)
+      .map((_, i) => this.data.tags & (1 << i) && AbilityType[1 << i])
+      .filter(Boolean)
+      .map(v => i18n.t(`ability.types.${_.camelCase(v)}`));
+  }
+  get energyCost() {
+    return this.data.energyCost * (2 - this.build.abilityEfficiency);
+  }
+  get energyCostPS() {
+    return (this.data.energyCostPS * (2 - this.build.abilityEfficiencyUnlimited)) / this.build.abilityDuration;
+  }
+  get energyCostN() {
+    return this.data.energyCostN * (2 - this.build.abilityEfficiency);
+  }
 
   enhance?: AbilityEnhance;
   forms?: AbilityFormData[];
 
   get props() {
     const trans = (o: string | number | object) => {
-      if (typeof o === "object") {// is object
-        if (Array.isArray(o)) {// is array
-          return o.map(trans)
-        } else // object
-          if ("value" in o) { // is AdvancedAbilityPropValue
-            // 递归解析AAP
-            const resolveBind = (aap: AdvancedAbilityPropValue) => {
-              let value = aap.value;
-              if (value && aap.bind)
-                aap.bind.forEach(([binder, add, mul]) => {
-                  // 仅加法模式
-                  if(typeof add !== "undefined") {
-                    if (typeof add !== "number") {
-                      add = resolveBind(add);
-                    }
-                    if (typeof mul !== "undefined" && typeof mul !== "number") {
-                      mul = resolveBind(mul);
-                    }
-                    // 属性映射解析
-                    switch (binder) {
-                      case WarframeProperty.Health:
-                        value = (mul ? value + this.build.health * mul : value * this.build.health) + add;
-                        break;
-                      case WarframeProperty.Shield:
-                        value = (mul ? value + this.build.shield * mul : value * this.build.shield) + add;
-                        break;
-                      case WarframeProperty.Armor:
-                        value = (mul ? value + this.build.armor * mul : value * this.build.armor) + add;
-                        break;
-                      case WarframeProperty.Energy:
-                        value = (mul ? value + this.build.energy * mul : value * this.build.energy) + add;
-                        break;
-                      case WarframeProperty.Sprint:
-                        value = (mul ? value + this.build.sprint * mul : value * this.build.sprint) + add;
-                        break;
-                      case WarframeProperty.AbilityStrength:
-                        value = (mul ? value + this.build.abilityStrength * mul : value * this.build.abilityStrength) + add;
-                        break;
-                      case WarframeProperty.AbilityDuration:
-                        value = (mul ? value + this.build.abilityDuration * mul : value * this.build.abilityDuration) + add;
-                        break;
-                      case WarframeProperty.AbilityEfficiency:
-                        value = (mul ? value + this.build.abilityEfficiency * mul : value * this.build.abilityEfficiency) + add;
-                        break;
-                      case WarframeProperty.AbilityRange:
-                        value = (mul ? value + this.build.abilityRange * mul : value * this.build.abilityRange) + add;
-                        break;
-                    }
+      if (typeof o === "object") {
+        // is object
+        if (Array.isArray(o)) {
+          // is array
+          return o.map(trans);
+        } // object
+        else if ("value" in o) {
+          // is AdvancedAbilityPropValue
+          // 递归解析AAP
+          const resolveBind = (aap: AdvancedAbilityPropValue) => {
+            let value = aap.value;
+            if (value && aap.bind)
+              aap.bind.forEach(([binder, add, mul]) => {
+                // 仅加法模式
+                if (typeof add !== "undefined") {
+                  if (typeof add !== "number") {
+                    add = resolveBind(add);
                   }
-                })
-              if (aap.minValue) value = Math.max(value, aap.minValue)
-              if (aap.maxValue) value = Math.min(value, aap.maxValue)
-              return +value.toFixed(2)
-            }
-            return resolveBind(o);
-          } else { // speical
-            return _.mapValues(o as any, val => trans(val)) as typeof o
-          }
+                  if (typeof mul !== "undefined" && typeof mul !== "number") {
+                    mul = resolveBind(mul);
+                  }
+                  // 属性映射解析
+                  switch (binder) {
+                    case WarframeProperty.Health:
+                      value = (mul ? value + this.build.health * mul : value * this.build.health) + add;
+                      break;
+                    case WarframeProperty.Shield:
+                      value = (mul ? value + this.build.shield * mul : value * this.build.shield) + add;
+                      break;
+                    case WarframeProperty.Armor:
+                      value = (mul ? value + this.build.armor * mul : value * this.build.armor) + add;
+                      break;
+                    case WarframeProperty.Energy:
+                      value = (mul ? value + this.build.energy * mul : value * this.build.energy) + add;
+                      break;
+                    case WarframeProperty.Sprint:
+                      value = (mul ? value + this.build.sprint * mul : value * this.build.sprint) + add;
+                      break;
+                    case WarframeProperty.AbilityStrength:
+                      value = (mul ? value + this.build.abilityStrength * mul : value * this.build.abilityStrength) + add;
+                      break;
+                    case WarframeProperty.AbilityDuration:
+                      value = (mul ? value + this.build.abilityDuration * mul : value * this.build.abilityDuration) + add;
+                      break;
+                    case WarframeProperty.AbilityEfficiency:
+                      value = (mul ? value + this.build.abilityEfficiency * mul : value * this.build.abilityEfficiency) + add;
+                      break;
+                    case WarframeProperty.AbilityRange:
+                      value = (mul ? value + this.build.abilityRange * mul : value * this.build.abilityRange) + add;
+                      break;
+                  }
+                }
+              });
+            if (aap.minValue) value = Math.max(value, aap.minValue);
+            if (aap.maxValue) value = Math.min(value, aap.maxValue);
+            return +value.toFixed(2);
+          };
+          return resolveBind(o);
+        } else {
+          // speical
+          return _.mapValues(o as any, val => trans(val)) as typeof o;
+        }
       }
-      return o
-    }
+      return o;
+    };
     return _.map(this.data.props, (v, type) => {
-      let rst = _.mapValues(v as any, val => trans(val)) as typeof v
+      let rst = _.mapValues(v as any, val => trans(val)) as typeof v;
       switch (type) {
         case "Damage":
           const { ...r } = rst as AbilityPropTypes.Damage;
-          return [_.camelCase(type), {
-            ...r
-          }]
+          return [
+            _.camelCase(type),
+            {
+              ...r
+            }
+          ];
         case "Buff":
         case "Debuff":
         case "Summon":
@@ -820,16 +1044,16 @@ export class RenderedAbilities {
         default:
           break;
       }
-      return [_.camelCase(type), rst]
-    })
+      return [_.camelCase(type), rst];
+    });
   }
 }
 
 export module WarframeBuild {
   export interface FillRule {
-    name: string
-    type: FillRuleType
-    target: FillRuleTarget
+    name: string;
+    type: FillRuleType;
+    target: FillRuleTarget;
   }
   /** 规则 */
   export enum FillRuleType {
@@ -842,7 +1066,7 @@ export module WarframeBuild {
     /** 大于 */
     More,
     /** 最大化 */
-    Max,
+    Max
   }
   /** 对象 */
   export enum FillRuleTarget {
@@ -854,8 +1078,8 @@ export module WarframeBuild {
     AbilityStrength,
     AbilityDuration,
     AbilityEfficiency,
-    AbilityRange,
+    AbilityRange
   }
 }
 
-export * from "./codex/warframe"
+export * from "./codex/warframe";

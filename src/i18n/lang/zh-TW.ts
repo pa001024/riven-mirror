@@ -2232,6 +2232,13 @@ let po = {
       rvs: "{0} 救援速度",
       dgs: "{0} 翻滾速度",
       fca: "{0} 蓄力速度",
+      fsr: "回復全部護盾",
+      psr: "每秒回复 {0} 護盾",
+      phr: "每秒回复 {0} 生命",
+      ea: "{0} 额外护甲",
+      ovs: "{0} 總強度",
+      ovr: "{0} 總范围",
+      res: "{0} 傷害減免",
 
       ify: "如果目標距離 {0} 米外",
       onHeadshot: "爆頭後:",
@@ -2243,7 +2250,12 @@ let po = {
       onMeleeChannelKill: "近戰導引擊殺後:",
       onReloadFromEmpty: "耗盡彈匣重新裝填後:",
       onDodge: "翻滾後:",
-      onEquip: "裝備後:"
+      onEquip: "裝備後:",
+      onDamaged: "受到傷害時:",
+      onFinish: "處決後:",
+      onWalllatch: "壁面攀附:",
+      onBlock: "格擋後:",
+      augment: "{0}強化"
     },
     shortName: {
       0: "暴擊率",
@@ -2953,6 +2965,7 @@ let po = {
   buff: {
     types: {
       arcane: "賦能",
+      team: "團隊",
       baseDamage: "基礎傷害",
       totalDamage: "最終傷害",
       elementDamage: "元素傷害",
@@ -2992,6 +3005,15 @@ let po = {
     combo: "連擊加成 (狙擊)",
     finalDamage: "最終傷害 (通用)",
     gladiator: "角斗士組合效果",
+    arcaneAgility: "靈敏賦能",
+    arcaneBarrier: "壁壘賦能",
+    arcaneAegis: "神盾賦能",
+    arcaneTrickery: "詭計賦能",
+    arcaneUltimatum: "通牒賦能",
+    arcaneArachne: "蜘蛛賦能",
+    arcaneGrace: "優雅賦能",
+    arcaneGuardian: "保衛者賦能",
+    arcanePhantasm: "幻象賦能",
     arcaneAcceleration: "加速賦能",
     arcaneAvenger: "復仇者賦能",
     arcaneAwakening: "覺醒賦能",
@@ -3032,7 +3054,14 @@ let po = {
     virtuosForge: "正直熔爐",
     strength: "技能強度",
     charm: "招福",
-    unairu: "UNAIRU 虛靈"
+    unairu: "UNAIRU 虛靈",
+    zaw: "ZAW 加成",
+    parasiticLink: "寄生鏈接 (Nidus)",
+    commonResistance: "通用減傷",
+    paxBolt: "和平電閃",
+    corruption: "墮落化",
+    growingPower: "成長之力 (光環)",
+    powerDonation: "獻出力量 (光環)"
   },
   ability: {
     energyCost: "能量: {0}",

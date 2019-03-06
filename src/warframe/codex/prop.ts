@@ -1,4 +1,5 @@
 import { i18n } from "@/i18n";
+import _ from "lodash";
 
 /**
  * 通用属性
@@ -108,6 +109,9 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "hps", nopercent: true }, // Heal Rate/s
   { id: "eac" }, // % Hit Chance
   { id: "esp" }, // % Speed
+  { id: "ovs", dmg: true }, // % Overall Strength
+  { id: "ovr", dmg: true }, // % Overall Range
+  { id: "res", dmg: true }, // Damage Resistance
   // 集团
   { id: "vp", nopercent: true }, // 'Purity'
   { id: "vt", nopercent: true }, // 'Truth'
@@ -223,6 +227,8 @@ export class ValuedProperty {
       id: vn,
       displayValue: String(vv),
       get fullString() {
+        if (vn.endsWith("Augment")) return i18n.t("prop.fullName.augment", [i18n.t("messages." + _.camelCase(vn.substr(0, vn.length - 8)))]);
+        if (i18n.te(`prop.fullName.${vn}`)) return i18n.t(`prop.fullName.${vn}`);
         return vn;
       },
       shortString: vn,

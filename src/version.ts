@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.4.16.2";
+export const version = "1.4.17";
 export const updateLogs = [
+  {
+    version: "1.4.17",
+    date: "2019/3/6",
+    md: {
+      en: `- add warframe buff`,
+      cn: `- 添加战甲加成`
+    }
+  },
   {
     version: "1.4.16",
     date: "2019/2/28",
@@ -27,6 +35,7 @@ export const updateLogs = [
 - 增加武器极化次数计算`
     }
   },
+  /*
   {
     version: "1.4.14",
     date: "2019/2/18",
@@ -37,7 +46,6 @@ export const updateLogs = [
 - 添加异况超量的量化计算(自动带入当前的"状态量期望进行计算" 可手动禁用)`
     }
   },
-  /*
   {
     version: "1.4.13",
     date: "2019/2/12",

@@ -686,10 +686,10 @@ let po = {
     wildFrenzy: "猛烈发狂",
     burstingMass: "爆发质量",
     napalmGrenades: "凝固汽油榴弹",
-    shotgunMedic: "急救时间",
-    swiftShatter: "迅捷碎解",
-    tacticalDiffusion: "战术扩散",
-    serratedRush: "加速膛线",
+    amalgamSerration: "合金 膛线",
+    amalgamShotgunSpazz: "合金 表演时间",
+    amalgamBarrelDiffusion: "合金 弹头扩散",
+    amalgamOrganShatter: "合金 肢解",
 
     shotgunRivenMod: "霰弹枪裂罅MOD",
     meleeRivenMod: "近战裂罅MOD",
@@ -2236,6 +2236,13 @@ let po = {
       rvs: "{0} 救援速度",
       dgs: "{0} 翻滚速度",
       fca: "{0} 蓄力速度",
+      fsr: "回复全部护盾",
+      psr: "每秒回复 {0} 护盾",
+      phr: "每秒回复 {0} 生命",
+      ea: "{0} 额外护甲",
+      ovs: "{0} 总强度",
+      ovr: "{0} 总范围",
+      res: "{0} 伤害减免",
 
       ify: "如果目标距离 {0} 米外",
       onHeadshot: "爆头后:",
@@ -2247,7 +2254,12 @@ let po = {
       onMeleeChannelKill: "近战导引击杀后:",
       onReloadFromEmpty: "耗尽弹匣重新装填后:",
       onDodge: "翻滚后:",
-      onEquip: "装备后:"
+      onEquip: "装备后:",
+      onDamaged: "受到伤害时:",
+      onFinish: "处决后:",
+      onWalllatch: "壁面攀附:",
+      onBlock: "格挡后:",
+      augment: "{0}强化"
     },
     shortName: {
       0: "暴击率",
@@ -2959,6 +2971,7 @@ let po = {
   buff: {
     types: {
       arcane: "赋能",
+      team: "团队",
       baseDamage: "基础伤害",
       totalDamage: "最终伤害",
       elementDamage: "元素伤害",
@@ -2998,6 +3011,15 @@ let po = {
     combo: "连击加成 (狙击)",
     finalDamage: "最终伤害 (通用)",
     gladiator: "角斗士组合效果",
+    arcaneAgility: "灵敏赋能",
+    arcaneBarrier: "壁垒赋能",
+    arcaneAegis: "神盾赋能",
+    arcaneTrickery: "诡计赋能",
+    arcaneUltimatum: "通牒赋能",
+    arcaneArachne: "蜘蛛赋能",
+    arcaneGrace: "优雅赋能",
+    arcaneGuardian: "保卫者赋能",
+    arcanePhantasm: "幻象赋能",
     arcaneAcceleration: "加速赋能",
     arcaneAvenger: "复仇者赋能",
     arcaneAwakening: "觉醒赋能",
@@ -3038,7 +3060,14 @@ let po = {
     virtuosForge: "正直熔炉",
     strength: "技能强度",
     charm: "招福",
-    unairu: "UNAIRU 虚灵"
+    unairu: "UNAIRU 虚灵",
+    zaw: "ZAW 加成",
+    parasiticLink: "寄生链接 (Nidus)",
+    commonResistance: "通用减伤",
+    paxBolt: "和平电闪",
+    corruption: "堕落化",
+    growingPower: "成长之力 (光环)",
+    powerDonation: "献出力量 (光环)"
   },
   ability: {
     energyCost: "能量: {0}",

@@ -75,6 +75,35 @@
                 </el-col>
               </draggable>
             </el-row>
+            <div class="buff-head">{{$t('build.buff')}}</div>
+            <!-- Buff区域 -->
+            <el-row type="flex" class="buff-slot-container" :gutter="12">
+              <div class="block">
+                <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(buff, index) in item.buffs" :key="index">
+                  <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)">
+                    <template v-if="buff">
+                      <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">
+                        <div class="buff-name">{{$t(`buff.${buff.name}`)}}</div>
+                        <div class="buff-parm layer" v-if="buff.layerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.layer" :min="1" :max="buff.data.multiLayer.maxStack"></el-input-number></div>
+                        <div class="buff-parm power" v-if="buff.powerEnable"><el-input-number @change="refleshMods()" :step="0.5" size="mini" v-model="buff.power"></el-input-number></div>
+                      </div>
+                      <div class="buff-detail" @click.stop="buffRemove(index)">
+                        <div class="buff-stat">
+                          <div class="buff-prop" v-for="prop in buff.vProps" :key="prop.id">{{prop.fullName}}</div>
+                          <div class="buff-sum" v-show="item.build.buffValue(index)">{{PNNum(100 * item.build.buffValue(index))}}% {{$t("build.total")}}</div>
+                        </div>
+                        <div class="buff-action">
+                          <button type="button" class="buff-slot-remove">
+                            <i class="el-icon-close"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </template>
+                    <i v-else class="el-icon-plus"></i>
+                  </div>
+                </el-col>
+              </div>
+            </el-row>
           </el-tab-pane>
         </el-tabs>
         <!-- 技能区域 -->
@@ -150,6 +179,9 @@
     <el-dialog :title="$t('build.selectMod')" :visible.sync="modDialogVisible" width="600">
       <LeveledModSelector :type="selectModType" ref="selector" :build="build" @command="modSelect($event)" />
     </el-dialog>
+    <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
+      <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
+    </el-dialog>
   </div>
 </template>
 <script lang="ts">
@@ -158,52 +190,65 @@ import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { WarframeBuild } from "@/warframe/warframebuild";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import LeveledModSelector from "@/components/LeveledModSelector.vue";
+import BuffSelector from "@/components/BuffSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import ShareQR from "@/components/ShareQR.vue";
-import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty } from "@/warframe/codex";
+import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty, BuffData } from "@/warframe/codex";
 import "@/less/builder.less";
 import { i18n } from "@/i18n";
 
 interface BuildSelectorTab {
-  title: string
-  name: string
-  build: WarframeBuild
-  aura: NormalMod
-  exilus: NormalMod
-  mods: NormalMod[]
-  buffs: Buff[]
+  title: string;
+  name: string;
+  build: WarframeBuild;
+  aura: NormalMod;
+  exilus: NormalMod;
+  mods: NormalMod[];
+  buffs: Buff[];
 }
 
 @Component({
-  components: { PropDiff, LeveledModSlot, LeveledModSelector, ShareQR },
+  components: { PropDiff, LeveledModSlot, LeveledModSelector, ShareQR, BuffSelector },
   beforeRouteEnter(to, from, next) {
     const core = WarframeDataBase.getWarframeById(to.params.id.replace(/_/g, " "));
     if (core) {
       document.title = i18n.t("title.sub", [i18n.t("title.weapon", [core.name])]);
       next();
-    }
-    else next("/WarframeNotFound")
+    } else next("/WarframeNotFound");
   }
 })
 export default class WarframeEditor extends Vue {
   modDialogVisible = false;
+  buffDialogVisible = false;
 
-  get id() { return this.$route.params.id; }
-  get code() { return this.$route.params.code; }
+  get id() {
+    return this.$route.params.id;
+  }
+  get code() {
+    return this.$route.params.code;
+  }
 
   tabs: BuildSelectorTab[] = [];
   tabValue = "SET A";
   currentAbility = "0";
   private _lastid = "";
   private _core: Warframe = null;
-  private selectModIndex: number = 0;
-  get selectModType() { return this.selectModIndex === -2 ? "Aura" : this.selectModIndex === -1 ? "Exilus" : "Warframe" }
+  selectModIndex = 0;
+  selectBuffIndex = 0;
+  get selectModType() {
+    return this.selectModIndex === -2 ? "Aura" : this.selectModIndex === -1 ? "Exilus" : "Warframe";
+  }
 
-  get core() { if (this._lastid !== this.id) this.reload(); return this._core; }
-  get coreBuild() { return new WarframeBuild(this.core); }
+  get core() {
+    if (this._lastid !== this.id) this.reload();
+    return this._core;
+  }
+  get coreBuild() {
+    return new WarframeBuild(this.core);
+  }
 
   renderProps([vn, vv]: [string, number]) {
-    return ValuedProperty.parse([vn, vv])
+    return ValuedProperty.parse([vn, vv]);
   }
   changeMode(mode: number) {
     this.build.compareMode = mode;
@@ -221,13 +266,17 @@ export default class WarframeEditor extends Vue {
       this.currentTab.exilus = exilus;
     }
   }
-  get currentTab() { return this.tabs.find(v => v.name === this.tabValue); }
-  get build() { return this.currentTab.build; }
+  get currentTab() {
+    return this.tabs.find(v => v.name === this.tabValue);
+  }
+  get build() {
+    return this.currentTab.build;
+  }
 
   @Watch("id")
   @Watch("code")
   reload() {
-    if ((this.$route.name !== "WarframeEditor" && this.$route.name !== "WarframeEditorWithCode")) return;
+    if (this.$route.name !== "WarframeEditor" && this.$route.name !== "WarframeEditorWithCode") return;
     if (this.id && this._lastid !== this.id) {
       this._lastid = this.id;
       this._core = WarframeDataBase.getWarframeById(this.id.replace(/_/g, " "));
@@ -239,7 +288,7 @@ export default class WarframeEditor extends Vue {
           aura: null,
           exilus: null,
           mods: Array(8),
-          buffs: [null],
+          buffs: [null]
         }));
         this.tabValue = "SET A";
       }
@@ -251,6 +300,11 @@ export default class WarframeEditor extends Vue {
   reloadSelector() {
     this.$refs.selector && (this.$refs.selector as any).reload();
   }
+  /** 返回固定精确度数值并带正负号 */
+  PNNum(num: number, preci = 1) {
+    let n = +num.toFixed(preci);
+    return n < 0 ? n.toString() : "+" + n;
+  }
   refleshMods() {
     this.build.clear();
     let { mods, aura, exilus } = this.currentTab;
@@ -261,7 +315,13 @@ export default class WarframeEditor extends Vue {
     this.build.buffs = buffs;
     this.currentTab.mods = this.build.mods;
     this.build.recalcPolarizations();
-    this.$router.push({ name: 'WarframeEditorWithCode', params: { code: this.build.miniCode } });
+    this.pushState();
+  }
+
+  pushState() {
+    let code = this.build.miniCode;
+    if (code) this.$router.push({ name: "WarframeEditorWithCode", params: { code } });
+    else this.$router.push({ name: "WarframeEditor" });
   }
 
   slotClick(modIndex: number) {
@@ -272,6 +332,16 @@ export default class WarframeEditor extends Vue {
     if (modIndex === -2) this.currentTab.aura = null;
     else if (modIndex === -1) this.currentTab.exilus = null;
     else this.currentTab.mods[modIndex] = null;
+    this.refleshMods();
+    this.reloadSelector();
+  }
+  buffClick(buffIndex: number) {
+    this.selectBuffIndex = buffIndex;
+    this.buffDialogVisible = true;
+  }
+  buffRemove(buffIndex: number) {
+    this.currentTab.buffs[buffIndex] = null;
+    this.currentTab.buffs = _.compact(this.currentTab.buffs).concat([null]);
     this.refleshMods();
     this.reloadSelector();
   }
@@ -287,18 +357,21 @@ export default class WarframeEditor extends Vue {
         });
       }
     } else {
-      if (this.selectModIndex === -2)
-        this.currentTab.aura = mod;
-      if (this.selectModIndex === -1)
-        this.currentTab.exilus = mod;
-      else
-        this.currentTab.mods[this.selectModIndex] = mod;
+      if (this.selectModIndex === -2) this.currentTab.aura = mod;
+      if (this.selectModIndex === -1) this.currentTab.exilus = mod;
+      else this.currentTab.mods[this.selectModIndex] = mod;
     }
     this.modDialogVisible = false;
     this.refleshMods();
   }
+  buffSelect(buff: BuffData) {
+    this.currentTab.buffs[this.selectBuffIndex] = new Buff(buff);
+    this.currentTab.buffs = _.compact(this.currentTab.buffs).concat([null]);
+    this.refleshMods();
+    this.buffDialogVisible = false;
+  }
   handleTabsEdit(targetName, action: "add" | "remove") {
-    if (action === 'add') {
+    if (action === "add") {
       let newTabName = "SET " + (1 + (+this.tabs[this.tabs.length - 1].name.split(" ")[1] || 0));
       this.tabs.push({
         title: this.$t("zh") ? newTabName.replace("SET", "配置") : newTabName,
@@ -307,11 +380,11 @@ export default class WarframeEditor extends Vue {
         aura: null,
         exilus: null,
         mods: Array(8),
-        buffs: [null],
+        buffs: [null]
       });
       this.tabValue = newTabName;
     }
-    if (action === 'remove') {
+    if (action === "remove") {
       let tabs = this.tabs;
       let activeName = this.tabValue;
       if (activeName === targetName) {
@@ -332,16 +405,17 @@ export default class WarframeEditor extends Vue {
     this.build.fill(8, 0);
     this.currentTab.mods = this.build.mods;
     this.reloadSelector();
-    this.$router.push({ name: 'WarframeEditorWithCode', params: { code: this.build.miniCode } });
+    this.pushState();
   }
   fillEmpty() {
     this.build.fillEmpty(8, 0);
     this.currentTab.mods = this.build.mods;
     this.reloadSelector();
-    this.$router.push({ name: 'WarframeEditorWithCode', params: { code: this.build.miniCode } });
+    this.pushState();
   }
   clear() {
-    let rivenIdx = this.currentTab.mods.findIndex(v => v && v.rarity === "x"), riven = this.currentTab.mods[rivenIdx];
+    let rivenIdx = this.currentTab.mods.findIndex(v => v && v.rarity === "x"),
+      riven = this.currentTab.mods[rivenIdx];
     this.currentTab.mods = Array(8);
     // 不清除紫卡
     if (riven) this.currentTab.mods[rivenIdx] = riven;
