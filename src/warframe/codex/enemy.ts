@@ -734,7 +734,7 @@ export class Enemy extends EnemyData {
           return [DamageType.Toxin, vv];
         // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
         case "Gas":
-          this.currentProcs.push(DamageType.Toxin, vv * procDamageMul * procDamageMul, durationMul);
+          this.currentProcs.push(DamageType.Toxin, vv * procDamageMul ** 2, durationMul);
           return [DamageType.Toxin, vv];
         // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
         // 注:火焰触发不会叠加

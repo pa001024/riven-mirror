@@ -193,6 +193,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "rvs" }, // Revive Speed
   { id: "dgs" }, // Dodge Speed
   { id: "fca" }, // Faster Charge Attack
+  { id: "pd" }, // Panel Damage
 
   // Amp damage convert
   { id: "vte", dmg: true },

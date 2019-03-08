@@ -23,6 +23,7 @@ export interface MeleeModBuildOptions {
   requireRange?: boolean;
   requireCombo?: boolean;
   calcCondiOver?: boolean;
+  melee30?: boolean;
 }
 
 export class MeleeModBuild extends ModBuild {
@@ -39,6 +40,9 @@ export class MeleeModBuild extends ModBuild {
   private _stealthDamageMul = 0;
   private _damagePerStatus = 0;
   private _extraStatusCount = 0;
+
+  // 近战3.0 连击数
+  melee30 = true;
 
   /** 范围增幅倍率 */
   get rangeMul() {
@@ -112,6 +116,7 @@ export class MeleeModBuild extends ModBuild {
     this.requireRange = typeof options.requireRange !== "undefined" ? options.requireRange : this.requireRange;
     this.requireCombo = typeof options.requireCombo !== "undefined" ? options.requireCombo : this.requireCombo;
     this.calcCondiOver = typeof options.calcCondiOver !== "undefined" ? options.calcCondiOver : this.calcCondiOver;
+    this.melee30 = typeof options.melee30 !== "undefined" ? options.melee30 : this.melee30;
   }
 
   get options(): MeleeModBuildOptions {
@@ -125,7 +130,8 @@ export class MeleeModBuild extends ModBuild {
       target: this.target,
       requireRange: this.requireRange,
       requireCombo: this.requireCombo,
-      calcCondiOver: this.calcCondiOver
+      calcCondiOver: this.calcCondiOver,
+      melee30: this.melee30
     };
   }
 
@@ -215,23 +221,23 @@ export class MeleeModBuild extends ModBuild {
 
   /** [overwrite] 总伤增幅倍率 */
   get totalDamageMul() {
-    return hAccMul(this.critDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul);
+    return hAccMul(this.critDamageMul, this.overallMul, this.melee30 ? 1 : this.comboMul, this.enemyDmgMul);
   }
   /** [overwrite] 总伤增幅倍率(暴击向下取整) */
   get totalDamageMulFloor() {
-    return hAccMul(this.critDamageMulFloor, this.overallMul, this.comboMul, this.enemyDmgMul);
+    return hAccMul(this.critDamageMulFloor, this.overallMul, this.melee30 ? 1 : this.comboMul, this.enemyDmgMul);
   }
   /** [overwrite] 总伤增幅倍率(暴击向上取整) */
   get totalDamageMulCeil() {
-    return hAccMul(this.critDamageMulCeil, this.overallMul, this.comboMul, this.enemyDmgMul);
+    return hAccMul(this.critDamageMulCeil, this.overallMul, this.melee30 ? 1 : this.comboMul, this.enemyDmgMul);
   }
   /** 平砍总伤增幅倍率 */
   get normalTotalDamageMul() {
-    return hAccMul(this.normalCritDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul);
+    return hAccMul(this.normalCritDamageMul, this.overallMul, this.melee30 ? 1 : this.comboMul, this.enemyDmgMul);
   }
   /** 滑行总伤增幅倍率 */
   get slideTotalDamageMul() {
-    return hAccMul(this.slideCritDamageMul, this.overallMul, this.comboMul, this.enemyDmgMul);
+    return hAccMul(this.slideCritDamageMul, this.overallMul, this.melee30 ? 1 : this.comboMul, this.enemyDmgMul);
   }
 
   /** 每秒总伤害 */

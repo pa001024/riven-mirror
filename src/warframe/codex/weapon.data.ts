@@ -249,9 +249,10 @@ export const gunWeaponData = [
   { id: "Zhuge", name: "zhuge", tags: ["Gun", "Primary", "Rifle", "Bow"], dmg: [["Slash", 20], ["Puncture", 75], ["Impact", 5]], accuracy: 40, fireRate: 4.17, critChance: 0.2, critMul: 2, status: 0.35, magazine: 20, reload: 2.5, ammo: 540, prjSpeed: 100, pol: "r" },
   { id: "Zylok", name: "zylok", tags: ["Gun", "Secondary"], dmg: [["Slash", 78.4], ["Puncture", 16.8], ["Impact", 44.8]], accuracy: 23.5, fireRate: 1.5, critChance: 0.08, critMul: 2, status: 0.26, magazine: 8, reload: 1.2, ammo: 210 },
   // 显赫武器
-  { id: "Dex Pixia", name: "dexPixia", tags: ["Gun", "Exalted", "Secondary"], dmg: [["Slash", 128], ["Puncture", 16], ["Impact", 16]], accuracy: 23, fireRate: 5.83, critChance: 0.1, critMul: 2, status: 0.25, magazine: 60, reload: 1.2, ammo: 210 },
-  { id: "Regulators", name: "regulators", tags: ["Gun", "Exalted", "Secondary"], dmg: [["Slash", 12.5], ["Puncture", 12.5], ["Impact", 25]], accuracy: 13.3, fireRate: 14.8, critChance: 0.25, critMul: 3, status: 0.1, magazine: 100, reload: 0, ammo: 99999999 },
-  { id: "Artemis Bow", name: "artemisBow", tags: ["Gun", "Exalted", "Primary", "Rifle", "Bow"], dmg: [["Slash", 14.4], ["Puncture", 192], ["Impact", 33.6]], accuracy: 100, fireRate: 1.11, critChance: 0.25, critMul: 2.5, status: 0.2, magazine: 1, reload: 0.9, ammo: 72, prjSpeed: 70 },
+  { id: "Dex Pixia", name: "dexPixia", tags: ["Gun", "Exalted", "Secondary"], dmg: [["Slash", 128], ["Puncture", 16], ["Impact", 16]], accuracy: 23, fireRate: 5.83, critChance: 0.1, critMul: 2, status: 0.25, magazine: 60, reload: 1.2, ammo: 210, pol: "rr-" },
+  { id: "Regulators", name: "regulators", tags: ["Gun", "Exalted", "Secondary"], dmg: [["Slash", 12.5], ["Puncture", 12.5], ["Impact", 25]], accuracy: 13.3, fireRate: 14.8, critChance: 0.25, critMul: 3, status: 0.1, magazine: 100, reload: 0, ammo: 99999999, pol: "r--" },
+  { id: "Artemis Bow", name: "artemisBow", tags: ["Gun", "Exalted", "Primary", "Rifle", "Bow"], dmg: [["Slash", 14.4], ["Puncture", 192], ["Impact", 33.6]], accuracy: 100, fireRate: 1.11, critChance: 0.25, critMul: 2.5, status: 0.2, magazine: 1, reload: 0.9, ammo: 72, prjSpeed: 70, pol: "rr-" },
+  { id: "Balefire", name: "balefire", tags: ["Gun", "Exalted", "Secondary"], dmg: [["Electricity", 500]], accuracy: 100, fireRate: 0.833, critChance: 0.05, critMul: 1.5, status: 0.1, magazine: 100, reload: 0, ammo: 99999999, pol: "rr" },
 
   // Arch-gun
   { id: "Imperator", name: "imperator", rivenName: "Imperator", tags: ["Gun", "Archgun"], dmg: [["Puncture", 14], ["Slash", 10], ["Impact", 16]], critMul: 2, critChance: 0.1, fireRate: 16.7, status: 0.05, accuracy: 25, magazine: 250, reload: 250 / 50 },

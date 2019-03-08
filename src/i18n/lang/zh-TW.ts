@@ -1248,6 +1248,8 @@ let po = {
     diwata: "仙女",
     dexPixia: "Dex 妖精",
     desertWind: "沙漠之風",
+    artemisBow: "月神狩弓",
+    balefire: "野火充能",
 
     ferrite: "鐵氧體",
     nanoSpores: "納米孢子",
@@ -2242,7 +2244,7 @@ let po = {
       ccl: "{0} 固定暴擊率",
       erc: "{0} 能量回复",
       esc: "{0} 異常狀態數量",
-      rvs: "{0} 救援速度",
+      rvs: "{0} 復活速度",
       dgs: "{0} 翻滾速度",
       fca: "{0} 蓄力速度",
       fsr: "回復全部護盾",
@@ -2252,6 +2254,7 @@ let po = {
       ovs: "{0} 總強度",
       ovr: "{0} 總范围",
       res: "{0} 傷害減免",
+      pd: "{0} 總面板",
 
       ify: "如果目標距離 {0} 米外",
       onHeadshot: "爆頭後:",
@@ -2417,9 +2420,10 @@ let po = {
       vth: "虛空轉換火焰",
       ccl: "固定暴擊率",
       erc: "能量回复",
-      rvs: "救援速度",
+      rvs: "復活速度",
       dgs: "翻滾速度",
-      fca: "蓄力速度"
+      fca: "蓄力速度",
+      pd: "總面板"
     }
   },
   elements: {
@@ -2707,6 +2711,8 @@ let po = {
     extraOverall: "總傷加成",
     extraBaseDamageTip: 'Chroma的"怨怒護甲"和Mirage的"黯然失色"等技能可對武器基傷進行大量加成，<br>步槍增幅、死亡之眼等光環MOD也屬於這個加成',
     extraOverallTip: "如Rhino的戰吼和狙擊槍的連擊等屬於這個加成",
+    melee30: "近戰3.0",
+    melee30Tip: "啟用後連擊數不再直接加成傷害",
     usemods: "使用MOD",
     normal: "標準配置",
     yourriven: "紫卡配置",

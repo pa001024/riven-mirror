@@ -79,7 +79,7 @@
               </el-form-item>
               <!-- 等级调整 -->
               <el-form-item :label="$t('buildview.levelSetting')">
-                <el-checkbox class="right-side" size="small" v-model="levelSetting"></el-checkbox>
+                <el-switch class="right-side" size="small" v-model="levelSetting"></el-switch>
               </el-form-item>
             </el-form>
           </el-card>

@@ -315,7 +315,7 @@ export const BuffList: BuffData[] = [
     name: "strength", // 强度
     type: BuffType.TotalDamage,
     target: "Exalted",
-    dynamicProps: [["oad", 1, -100]],
+    dynamicProps: [["pd", 1, -100]],
     parms: ["power", "%"],
     defaultValue: 100
   },

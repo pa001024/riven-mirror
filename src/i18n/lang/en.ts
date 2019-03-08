@@ -1088,6 +1088,8 @@ let po = {
     extraOverall: "Extra overall damage",
     extraBaseDamageTip: 'e.g. Chroma\'s "Vex Armor" and Mirage\'s "Eclipse"',
     extraOverallTip: "e.g. Rhino's \"Roar\" and Sniper's Shot Combo",
+    melee30: "Melee 3.0",
+    melee30Tip: "Disable combo damage multiply when selected.",
     usemods: "Use mods",
     normal: "Normal Set",
     yourriven: "Your Riven Set",

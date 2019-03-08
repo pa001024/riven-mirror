@@ -76,12 +76,18 @@
               <!-- 异况数字化 -->
               <el-form-item :label="$t('buildview.condiOver')">
                 <el-tooltip effect="dark" :content="$t('buildview.condiOverTip')" placement="bottom">
-                  <el-checkbox class="right-side" size="small" v-model="calcCondiOver" @change="optionChange"></el-checkbox>
+                  <el-switch class="right-side" size="small" v-model="calcCondiOver" @change="optionChange"></el-switch>
                 </el-tooltip>
               </el-form-item>
               <!-- 等级调整 -->
               <el-form-item :label="$t('buildview.levelSetting')">
-                <el-checkbox class="right-side" size="small" v-model="levelSetting"></el-checkbox>
+                <el-switch class="right-side" size="small" v-model="levelSetting"></el-switch>
+              </el-form-item>
+              <!-- 近战3.0 -->
+              <el-form-item :label="$t('buildview.melee30')">
+                <el-tooltip effect="dark" :content="$t('buildview.melee30Tip')" placement="bottom">
+                  <el-switch class="right-side" size="small" v-model="melee30"></el-switch>
+                </el-tooltip>
               </el-form-item>
             </el-form>
           </el-card>
@@ -194,6 +200,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   extraBaseDamage = 0;
   extraOverall = 0;
   calcCondiOver = true;
+  melee30 = true;
   /** 赋能 */
   arcanes = [];
   get availableArcanes() {
@@ -216,6 +223,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
       extraBaseDamage: +this.extraBaseDamage,
       extraOverall: +this.extraOverall,
       calcCondiOver: this.calcCondiOver,
+      melee30: this.melee30,
       arcanes: this.arcanes,
     };
   }

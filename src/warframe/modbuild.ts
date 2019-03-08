@@ -79,7 +79,8 @@ export abstract class ModBuild {
   protected _multishotMul = 100;
   protected _voidConvs: [string, number][] = [];
   protected _critChanceLock = -100;
-  private _finalSpeedMul = 100;
+  protected _finalSpeedMul = 100;
+  protected _panelDamageMul = 100;
 
   protected _extraProcChance: [string, number][] = [];
   protected _statusInfo: { [key: string]: SpecialStatusInfo } = null;
@@ -666,7 +667,7 @@ export abstract class ModBuild {
             return [vn, vv * this.toxinBaseDamage * 0.5];
           // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
           case "Gas":
-            return [vn, vv * this.toxinBaseDamage * this.procDamageMul * 0.5];
+            return [vn, vv * this.gasBaseDamage * this.procDamageMul * 0.5];
           // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
           case "Heat":
             return [vn, vv * this.heatBaseDamage * 0.5];
@@ -715,7 +716,7 @@ export abstract class ModBuild {
   }
   /** 面板伤害增幅倍率 */
   get panelDamageMul() {
-    return hAccMul(this.panelBaseDamageMul, this.extraDmgMul);
+    return hAccMul(this._panelDamageMul / 100, this.panelBaseDamageMul, this.extraDmgMul);
   }
   /** 面板基础伤害 */
   get panelBaseDamage() {
@@ -785,6 +786,10 @@ export abstract class ModBuild {
   /** 毒DoT的基伤 */
   get toxinBaseDamage() {
     return hAccMul(this.baseDamage, 1 + this.toxinMul);
+  }
+  /** 毒气DoT的基伤 */
+  get gasBaseDamage() {
+    return hAccMul(this.baseDamage, (1 + this.toxinMul) ** 2 / 2);
   }
   /** 火DoT的基伤 */
   get heatBaseDamage() {
@@ -918,6 +923,7 @@ export abstract class ModBuild {
     this._multishotMul = 100;
     this._critChanceLock = -100;
     this._finalSpeedMul = 100;
+    this._panelDamageMul = 100;
     this.standaloneElements = [];
     this._voidConvs = [];
     this.recalcElements();
@@ -1371,6 +1377,9 @@ export abstract class ModBuild {
         break;
       case "bsk":
         /* 总攻速 */ this._finalSpeedMul = (this._finalSpeedMul * (100 + pValue)) / 100;
+        break;
+      case "pd":
+        /* 总面板 */ this._panelDamageMul = hAccSum(this._panelDamageMul, pValue);
         break;
       default:
     }

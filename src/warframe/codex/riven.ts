@@ -537,6 +537,7 @@ const _rivenWeaponDataBase = [
   ["Shattered Lash", "Melee", 0],
   ["Desert Wind", "Melee", 0],
   ["Landslide", "Melee", 0],
+  ["Balefire", "Pistol", 0],
 
   // Archgun
   ["Larkspur", "Archgun", 1],
