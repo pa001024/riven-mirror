@@ -259,9 +259,9 @@ export const BuffList: BuffData[] = [
     name: "vexArmor", // 龙3 怨怒护甲
     type: BuffType.BaseDamage,
     target: "Weapon",
-    dynamicProps: [["dmg", 275, 0]],
+    dynamicProps: [["dmg", 2.75, 0]],
     parms: ["power", "%"],
-    defaultValue: 3.48
+    defaultValue: 348
   },
   {
     id: "J",

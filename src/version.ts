@@ -1,6 +1,20 @@
 export const magic = "ALPHA";
-export const version = "1.4.17";
+export const version = "1.4.18";
 export const updateLogs = [
+  {
+    version: "1.4.18",
+    date: "2019/3/8",
+    md: {
+      en: `- Warframe Update 24.4.0:
+  - New MOD: "Amalgam" series
+  - New Weapon: Prisma Grinlok, Tatsu, Larkspur(Archwing), ~~Opticor Vandal(no data)~~
+  - New Warframe: Hildryn`,
+      cn: `- Warframe 更新 24.4.0:
+  - 新增MOD: "并合"系列
+  - 新增武器: 棱晶 葛恩火枪、龙辰、飞燕(空战), ~~奥堤克光子枪 破坏者(暂无数据)~~
+  - 新增战甲: Hildryn`
+    }
+  },
   {
     version: "1.4.17",
     date: "2019/3/6",
@@ -21,6 +35,7 @@ export const updateLogs = [
 - 添加新系列MOD (devstream) (2019/3/4)`
     }
   },
+  /*
   {
     version: "1.4.15",
     date: "2019/2/26",
@@ -35,7 +50,6 @@ export const updateLogs = [
 - 增加武器极化次数计算`
     }
   },
-  /*
   {
     version: "1.4.14",
     date: "2019/2/18",

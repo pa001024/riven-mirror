@@ -1365,6 +1365,30 @@ export let _abilityData: AbilityData[] = [
     props: {
       ExaltedWeapon: { weaponName: "Desert Wind", effect: [["oad", S(100, -100)]] }
     }
+  },
+  {
+    id: "Balefire",
+    tags: 0,
+    energyCost: 25,
+    props: {}
+  },
+  {
+    id: "Shield Pillage",
+    tags: 0,
+    energyCost: 50,
+    props: {}
+  },
+  {
+    id: "Haven",
+    tags: 0,
+    energyCost: 75,
+    props: {}
+  },
+  {
+    id: "Aegis Storm",
+    tags: 0,
+    energyCost: 100,
+    props: {}
   }
 ];
 
@@ -1691,6 +1715,23 @@ export const _warframeData: WarframeData[] = [
     introduced: "21",
     polarities: ["d", "-"],
     sex: "Male"
+  },
+  {
+    id: "Hildryn",
+    tags: ["DPS", "Tank", "Tactics"],
+    // description: "Always prepared to sacrifice. This monastic Warframe uses the Void to bolster allies’ defenses and amplify their lethality.",
+    health: 75,
+    shield: 450,
+    armor: 300,
+    energy: 0,
+    sprint: 1,
+    passiveDescription: "",
+    abilities: ["Balefire", "Shield Pillage", "Haven", "Aegis Storm"],
+    aura: "-",
+    exilus: "d",
+    introduced: "24",
+    polarities: ["d", "d"],
+    sex: "Female"
   },
   {
     id: "Hydroid",

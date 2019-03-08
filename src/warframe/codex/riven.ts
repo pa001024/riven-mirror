@@ -30,53 +30,53 @@ export interface RivenProperty {
 }
 
 const baseProperty: RivenProperty[] = [
-  { id: '0', sName: "暴击率", eName: "Critical Chance", name: "暴击率", prefix: "crita", subfix: "cron" },
-  { id: '1', sName: "暴击伤害", eName: "Critical Damage", name: "暴击伤害", prefix: "acri", subfix: "tis" },
-  { id: '2', sName: "触发率", eName: "Status Chance", name: "触发几率", prefix: "hexa", subfix: "dex", noDmg: true },
-  { id: '3', sName: "触发时间", eName: "Status Duration", name: "触发时间", prefix: "deci", subfix: "des", noDmg: true },
-  { id: '4', sName: "火伤", eName: "Heat", name: "火焰伤害", prefix: "igni", subfix: "pha", onlyPositive: true },
-  { id: '5', sName: "冰伤", eName: "Cold", name: "冰冻伤害", prefix: "geli", subfix: "do", onlyPositive: true },
-  { id: '6', sName: "毒伤", eName: "Toxin", name: "毒素伤害", prefix: "toxi", subfix: "tox", onlyPositive: true },
-  { id: '7', sName: "电伤", eName: "Electricity", name: "电击伤害", prefix: "vexi", subfix: "tio", onlyPositive: true },
-  { id: '8', sName: "冲击", eName: "Impact", name: "冲击伤害", prefix: "magna", subfix: "ton" },
-  { id: '9', sName: "穿刺", eName: "Puncture", name: "穿刺伤害", prefix: "insi", subfix: "cak" },
-  { id: 'A', sName: "切割", eName: "Slash", name: "切割伤害", prefix: "sci", subfix: "sus" },
-  { id: 'G', sName: "Grineer伤害", eName: "Damage to Grineer", name: "对Grineer伤害", prefix: "argi", subfix: "con" },
-  { id: 'I', sName: "Infested伤害", eName: "Damage to Infested", name: "对Infested伤害", prefix: "pura", subfix: "ada" },
-  { id: 'C', sName: "Corpus伤害", eName: "Damage to Corpus", name: "对Corpus伤害", prefix: "manti", subfix: "tron" },
+  { id: "0", sName: "暴击率", eName: "Critical Chance", name: "暴击率", prefix: "crita", subfix: "cron" }, //
+  { id: "1", sName: "暴击伤害", eName: "Critical Damage", name: "暴击伤害", prefix: "acri", subfix: "tis" }, //
+  { id: "2", sName: "触发率", eName: "Status Chance", name: "触发几率", prefix: "hexa", subfix: "dex", noDmg: true }, //
+  { id: "3", sName: "触发时间", eName: "Status Duration", name: "触发时间", prefix: "deci", subfix: "des", noDmg: true }, //
+  { id: "4", sName: "火伤", eName: "Heat", name: "火焰伤害", prefix: "igni", subfix: "pha", onlyPositive: true }, //
+  { id: "5", sName: "冰伤", eName: "Cold", name: "冰冻伤害", prefix: "geli", subfix: "do", onlyPositive: true }, //
+  { id: "6", sName: "毒伤", eName: "Toxin", name: "毒素伤害", prefix: "toxi", subfix: "tox", onlyPositive: true }, //
+  { id: "7", sName: "电伤", eName: "Electricity", name: "电击伤害", prefix: "vexi", subfix: "tio", onlyPositive: true }, //
+  { id: "8", sName: "冲击", eName: "Impact", name: "冲击伤害", prefix: "magna", subfix: "ton" }, //
+  { id: "9", sName: "穿刺", eName: "Puncture", name: "穿刺伤害", prefix: "insi", subfix: "cak" }, //
+  { id: "A", sName: "切割", eName: "Slash", name: "切割伤害", prefix: "sci", subfix: "sus" }, //
+  { id: "G", sName: "Grineer伤害", eName: "Damage to Grineer", name: "对Grineer伤害", prefix: "argi", subfix: "con" }, //
+  { id: "I", sName: "Infested伤害", eName: "Damage to Infested", name: "对Infested伤害", prefix: "pura", subfix: "ada" }, //
+  { id: "C", sName: "Corpus伤害", eName: "Damage to Corpus", name: "对Corpus伤害", prefix: "manti", subfix: "tron" } //
 ];
 
 const gunProperty: RivenProperty[] = [
-  { id: 'D', sName: "伤害", eName: "Damage", name: "伤害", prefix: "visi", subfix: "ata" },
-  { id: 'S', sName: "多重", eName: "Multishot", name: "多重射击", prefix: "sati", subfix: "can" },
-  { id: 'R', sName: "射速", eName: "Fire Rate", name: "射速", prefix: "croni", subfix: "dra" },
-  { id: 'L', sName: "弹匣", eName: "Magazine Capacity", name: "弹匣容量", prefix: "arma", subfix: "tin" },
-  { id: 'F', sName: "装填", eName: "Reload Speed", name: "装填速度", prefix: "feva", subfix: "tak" },
-  { id: 'M', sName: "弹药", eName: "Ammo Maximum", name: "弹药最大值", prefix: "ampi", subfix: "bin", noDmg: true },
-  { id: 'P', sName: "穿透", eName: "Punch Through", name: "穿透", prefix: "lexi", subfix: "nok", onlyPositive: true, nopercent: true, noDmg: true },
-  { id: 'H', sName: "变焦", eName: "Zoom", name: "变焦", prefix: "hera", subfix: "lis", noDmg: true },
-  { id: 'V', sName: "弹道", eName: "Projectile Flight Speed", name: "弹道飞行速度", prefix: "conci", subfix: "nak", noDmg: true },
-  { id: 'Z', sName: "后坐", eName: "Weapon Recoil", name: "后坐力", prefix: "zeti", subfix: "mag", negative: true, noDmg: true },
+  { id: "D", sName: "伤害", eName: "Damage", name: "伤害", prefix: "visi", subfix: "ata" }, //
+  { id: "S", sName: "多重", eName: "Multishot", name: "多重射击", prefix: "sati", subfix: "can" }, //
+  { id: "R", sName: "射速", eName: "Fire Rate", name: "射速", prefix: "croni", subfix: "dra" }, //
+  { id: "L", sName: "弹匣", eName: "Magazine Capacity", name: "弹匣容量", prefix: "arma", subfix: "tin" }, //
+  { id: "F", sName: "装填", eName: "Reload Speed", name: "装填速度", prefix: "feva", subfix: "tak" }, //
+  { id: "M", sName: "弹药", eName: "Ammo Maximum", name: "弹药最大值", prefix: "ampi", subfix: "bin", noDmg: true }, //
+  { id: "P", sName: "穿透", eName: "Punch Through", name: "穿透", prefix: "lexi", subfix: "nok", onlyPositive: true, nopercent: true, noDmg: true }, //
+  { id: "H", sName: "变焦", eName: "Zoom", name: "变焦", prefix: "hera", subfix: "lis", noDmg: true }, //
+  { id: "V", sName: "弹道", eName: "Projectile Flight Speed", name: "弹道飞行速度", prefix: "conci", subfix: "nak", noDmg: true }, //
+  { id: "Z", sName: "后坐", eName: "Weapon Recoil", name: "后坐力", prefix: "zeti", subfix: "mag", negative: true, noDmg: true } //
 ];
 
 const meleeProperty: RivenProperty[] = [
-  { id: 'K', sName: "伤害", eName: "Melee Damage", name: "近战伤害", prefix: "visi", subfix: "ata" },
-  { id: 'T', sName: "范围", eName: "Range", name: "攻击范围", prefix: "locti", subfix: "tor", noDmg: true },
-  { id: 'J', sName: "攻速", eName: "Attack Speed", name: "攻击速度", prefix: "croni", subfix: "dra" },
-  { id: 'B', sName: "导引伤害", eName: "Channeling Damage", name: "导引伤害", prefix: "tori", subfix: "bo", noDmg: true, onlyPositive: true },
-  { id: 'U', sName: "导引效率", eName: "Channeling Efficiency", name: "导引效率", prefix: "uti", subfix: "tia", noDmg: true, onlyPositive: true },
-  { id: 'N', sName: "连击时间", eName: "Combo Duration", name: "连击持续时间", prefix: "tempi", subfix: "nem", nopercent: true, noDmg: true },
-  { id: 'E', sName: "滑行暴击", eName: "chance to be a Critical Hit.", eDisplayPre: "Slide Attack has", displayPre: "滑行攻击有", name: "的几率造成暴击", prefix: "pleci", subfix: "nent" },
-  { id: 'X', sName: "处决伤害", eName: "Finisher Damage", name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true },
+  { id: "K", sName: "伤害", eName: "Melee Damage", name: "近战伤害", prefix: "visi", subfix: "ata" }, //
+  { id: "T", sName: "范围", eName: "Range", name: "攻击范围", prefix: "locti", subfix: "tor", noDmg: true }, //
+  { id: "J", sName: "攻速", eName: "Attack Speed", name: "攻击速度", prefix: "croni", subfix: "dra" }, //
+  { id: "B", sName: "导引伤害", eName: "Channeling Damage", name: "导引伤害", prefix: "tori", subfix: "bo", noDmg: true, onlyPositive: true }, //
+  { id: "U", sName: "导引效率", eName: "Channeling Efficiency", name: "导引效率", prefix: "uti", subfix: "tia", noDmg: true, onlyPositive: true }, //
+  { id: "N", sName: "连击时间", eName: "Combo Duration", name: "连击持续时间", prefix: "tempi", subfix: "nem", nopercent: true, noDmg: true }, //
+  { id: "E", sName: "滑行暴击", eName: "chance to be a Critical Hit.", eDisplayPre: "Slide Attack has", displayPre: "滑行攻击有", name: "的几率造成暴击", prefix: "pleci", subfix: "nent" }, //
+  { id: "X", sName: "处决伤害", eName: "Finisher Damage", name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true } //
 ];
 
 export const RivenPropertyDataBase: { [key: string]: RivenProperty[] } = {
-  Rifle: baseProperty.concat(gunProperty.map(v => v.id === "R" ? { id: 'R', sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v)),
-  Shotgun: baseProperty.concat(gunProperty.filter(v => v.id != 'H').map(v => v.id === "R" ? { id: 'R', sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v)),
+  Rifle: baseProperty.concat(gunProperty.map(v => (v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v))),
+  Shotgun: baseProperty.concat(gunProperty.filter(v => v.id != "H").map(v => (v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v))),
   Pistol: baseProperty.concat(gunProperty),
   Archgun: baseProperty.concat(gunProperty),
   Melee: baseProperty.concat(meleeProperty),
-  all: baseProperty.concat(gunProperty, meleeProperty),
+  all: baseProperty.concat(gunProperty, meleeProperty)
 };
 
 export const ExtraDmgSet = new Set(["4", "5", "6", "7", "8", "9", "A"]);
@@ -85,113 +85,113 @@ export const ExtraDmgSet = new Set(["4", "5", "6", "7", "8", "9", "A"]);
  * 属性基础值
  */
 export const RivenPropertyValueBaseDataBase = {
-  "Rifle": {
-    0: 15,  // 暴击率
-    1: 12,  // 暴击伤害
-    2: 9,   // 触发几率
-    3: 10,  // 触发时间
-    4: 9,   // 火焰伤害
-    5: 9,   // 冰冻伤害
-    6: 9,   // 毒素伤害
-    7: 9,   // 电击伤害
-    8: 12,  // 冲击伤害
-    9: 12,  // 穿刺伤害
-    A: 12,  // 切割伤害
+  Rifle: {
+    0: 15, // 暴击率
+    1: 12, // 暴击伤害
+    2: 9, // 触发几率
+    3: 10, // 触发时间
+    4: 9, // 火焰伤害
+    5: 9, // 冰冻伤害
+    6: 9, // 毒素伤害
+    7: 9, // 电击伤害
+    8: 12, // 冲击伤害
+    9: 12, // 穿刺伤害
+    A: 12, // 切割伤害
     G: 4.5, // 对Grineer伤害
     I: 4.5, // 对Infested伤害
     C: 4.5, // 对Corpus伤害
     O: 4.5, // 对堕落者伤害
-    D: 16.5,// 伤害
-    S: 9,   // 多重射击
-    R: 6,   // 射速（弓类武器效果加倍）
-    L: 5,   // 弹匣容量
-    F: 5,   // 装填速度
-    M: 5,   // 弹药最大值
-    P: 27,  // 穿透
-    H: 6,   // 变焦
-    V: 9,   // 弹道飞行速度
-    Z: -9,  // 后坐力
+    D: 16.5, // 伤害
+    S: 9, // 多重射击
+    R: 6, // 射速（弓类武器效果加倍）
+    L: 5, // 弹匣容量
+    F: 5, // 装填速度
+    M: 5, // 弹药最大值
+    P: 27, // 穿透
+    H: 6, // 变焦
+    V: 9, // 弹道飞行速度
+    Z: -9 // 后坐力
   },
-  "Shotgun": {
-    0: 9,   // 暴击率
-    1: 9,   // 暴击伤害
-    2: 9,   // 触发几率
-    3: 10,  // 触发时间
-    4: 9,   // 火焰伤害
-    5: 9,   // 冰冻伤害
-    6: 9,   // 毒素伤害
-    7: 9,   // 电击伤害
-    8: 12,  // 冲击伤害
-    9: 12,  // 穿刺伤害
-    A: 12,  // 切割伤害
+  Shotgun: {
+    0: 9, // 暴击率
+    1: 9, // 暴击伤害
+    2: 9, // 触发几率
+    3: 10, // 触发时间
+    4: 9, // 火焰伤害
+    5: 9, // 冰冻伤害
+    6: 9, // 毒素伤害
+    7: 9, // 电击伤害
+    8: 12, // 冲击伤害
+    9: 12, // 穿刺伤害
+    A: 12, // 切割伤害
     G: 4.5, // 对Grineer伤害
     I: 4.5, // 对Infested伤害
     C: 4.5, // 对Corpus伤害
     O: 4.5, // 对堕落者伤害
-    D: 16.5,// 伤害
-    S: 12,  // 多重射击
-    R: 9,   // 射速
-    L: 5,   // 弹匣容量
-    F: 5,   // 装填速度
-    M: 9,   // 弹药最大值
-    P: 27,  // 穿透
-    H: 6,   // 变焦
-    V: 9,   // 弹道飞行速度
-    Z: -9,  // 后坐力
+    D: 16.5, // 伤害
+    S: 12, // 多重射击
+    R: 9, // 射速
+    L: 5, // 弹匣容量
+    F: 5, // 装填速度
+    M: 9, // 弹药最大值
+    P: 27, // 穿透
+    H: 6, // 变焦
+    V: 9, // 弹道飞行速度
+    Z: -9 // 后坐力
   },
-  "Pistol": {
-    0: 15,  // 暴击率
-    1: 9,   // 暴击伤害
-    2: 9,   // 触发几率
-    3: 10,  // 触发时间
-    4: 9,   // 火焰伤害
-    5: 9,   // 冰冻伤害
-    6: 9,   // 毒素伤害
-    7: 9,   // 电击伤害
-    8: 12,  // 冲击伤害
-    9: 12,  // 穿刺伤害
-    A: 12,  // 切割伤害
+  Pistol: {
+    0: 15, // 暴击率
+    1: 9, // 暴击伤害
+    2: 9, // 触发几率
+    3: 10, // 触发时间
+    4: 9, // 火焰伤害
+    5: 9, // 冰冻伤害
+    6: 9, // 毒素伤害
+    7: 9, // 电击伤害
+    8: 12, // 冲击伤害
+    9: 12, // 穿刺伤害
+    A: 12, // 切割伤害
     G: 4.5, // 对Grineer伤害
     I: 4.5, // 对Infested伤害
     C: 4.5, // 对Corpus伤害
     O: 4.5, // 对堕落者伤害
-    D: 22,  // 伤害
-    S: 12,  // 多重射击
+    D: 22, // 伤害
+    S: 12, // 多重射击
     R: 7.5, // 射速
-    L: 5,   // 弹匣容量
-    F: 5,   // 装填速度
-    M: 9,   // 弹药最大值
-    P: 27,  // 穿透
-    H: 8,   // 变焦
-    V: 9,   // 弹道飞行速度
-    Z: -9,  // 后坐力
+    L: 5, // 弹匣容量
+    F: 5, // 装填速度
+    M: 9, // 弹药最大值
+    P: 27, // 穿透
+    H: 8, // 变焦
+    V: 9, // 弹道飞行速度
+    Z: -9 // 后坐力
   },
-  "Melee": {
-    0: 9,   // 暴击率
-    1: 9,   // 暴击伤害
-    2: 9,   // 触发几率
-    3: 10,  // 触发时间
-    4: 9,   // 火焰伤害
-    5: 9,   // 冰冻伤害
-    6: 9,   // 毒素伤害
-    7: 9,   // 电击伤害
-    8: 12,  // 冲击伤害
-    9: 12,  // 穿刺伤害
-    A: 12,  // 切割伤害
+  Melee: {
+    0: 9, // 暴击率
+    1: 9, // 暴击伤害
+    2: 9, // 触发几率
+    3: 10, // 触发时间
+    4: 9, // 火焰伤害
+    5: 9, // 冰冻伤害
+    6: 9, // 毒素伤害
+    7: 9, // 电击伤害
+    8: 12, // 冲击伤害
+    9: 12, // 穿刺伤害
+    A: 12, // 切割伤害
     G: 4.5, // 对Grineer伤害
     I: 4.5, // 对Infested伤害
     C: 4.5, // 对Corpus伤害
     O: 4.5, // 对堕落者伤害
-    K: 16.5,// 近战伤害
-    T: 12,  // 攻击范围
+    K: 16.5, // 近战伤害
+    T: 12, // 攻击范围
     J: 5.5, // 攻击速度
-    B: 15,  // 导引伤害
-    U: 9,   // 导引效率
-    N: 81,  // 连击持续时间
-    E: 9,   // 滑行攻击造成暴击几率
-    X: 12,  // 处决伤害
+    B: 15, // 导引伤害
+    U: 9, // 导引效率
+    N: 81, // 连击持续时间
+    E: 9, // 滑行攻击造成暴击几率
+    X: 12 // 处决伤害
   }
-}
+};
 
 /**
  * 武器名称及裂罅倾向
@@ -212,16 +212,20 @@ export class RivenWeapon {
   /** 武器MOD类型 */
   price: number;
   /** 武器MOD类型中文 */
-  get modcn() { return ModTypeTable[this.mod]; }
+  get modcn() {
+    return ModTypeTable[this.mod];
+  }
   get weapons() {
-    if (this.mod === "Melee")
-      return MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
-    else
-      return GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
+    if (this.mod === "Melee") return MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
+    else return GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
   }
   /** 武器倾向星数 */
-  get star() { return [0.1, 0.7, 0.875, 1.125, 1.305, Infinity].findIndex(v => this.ratio < v); }
-  get starText() { return _.repeat("●", this.star) + _.repeat("○", 5 - this.star); }
+  get star() {
+    return [0.1, 0.7, 0.875, 1.125, 1.305, Infinity].findIndex(v => this.ratio < v);
+  }
+  get starText() {
+    return _.repeat("●", this.star) + _.repeat("○", 5 - this.star);
+  }
   constructor(id: string, mod: string, ratio: number, price: number = 0) {
     this.id = id;
     this.mod = mod;
@@ -478,6 +482,7 @@ const _rivenWeaponDataBase = [
   ["Plague Keewar", "Melee", 1],
   ["Plague Kripath", "Melee", 1],
 
+  ["Tatsu", "Melee", 1],
   ["Wolf Sledge", "Melee", 1],
   ["Galvacord", "Melee", 1],
   ["Cadus", "Melee", 1],
@@ -534,24 +539,34 @@ const _rivenWeaponDataBase = [
   ["Landslide", "Melee", 0],
 
   // Archgun
-  ["Phaedra", "Archgun", 0],
-  ["Velocitus", "Archgun", 0],
-  ["Imperator", "Archgun", 0],
-  ["Dual Decurion", "Archgun", 0],
-  ["Fluctus", "Archgun", 0],
-  ["Grattler", "Archgun", 0],
-  ["Cyngas", "Archgun", 0],
-  ["Corvas", "Archgun", 0],
+  ["Larkspur", "Archgun", 1],
+  ["Phaedra", "Archgun", 1],
+  ["Velocitus", "Archgun", 1],
+  ["Imperator", "Archgun", 1],
+  ["Dual Decurion", "Archgun", 1],
+  ["Fluctus", "Archgun", 1],
+  ["Grattler", "Archgun", 1],
+  ["Cyngas", "Archgun", 1],
+  ["Corvas", "Archgun", 1],
+
+  // Archmelee
+  ["Agkuza", "Archmelee", 0],
+  ["Centaur", "Archmelee", 0],
+  ["Kaszas", "Archmelee", 0],
+  ["Knux", "Archmelee", 0],
+  ["Onorix", "Archmelee", 0],
+  ["Rathbone", "Archmelee", 0],
+  ["Veritux", "Archmelee", 0],
 
   // Amp
-  ["Amp", "Amp", 0],
+  ["Amp", "Amp", 0]
 ] as [string, string, number][];
 export const ModTypeTable = {
-  "Rifle": "rifle",
-  "Shotgun": "shotgun",
-  "Pistol": "pistol",
-  "Melee": "melee",
-  "Archgun": "archgun",
+  Rifle: "rifle",
+  Shotgun: "shotgun",
+  Pistol: "pistol",
+  Melee: "melee",
+  Archgun: "archgun"
 };
 
 export const RivenWeaponDataBase = _rivenWeaponDataBase.map(v => new RivenWeapon(v[0], v[1], v[2]));
@@ -575,9 +590,9 @@ export class RivenDataBase {
     Rifle: new RegExp(`(?:(${RivenPropertyDataBase.Rifle.map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase.Rifle.map(v => v.prefix).join("|")})(${RivenPropertyDataBase.Rifle.map(v => v.subfix).join("|")})`, "i"),
     Shotgun: new RegExp(`(?:(${RivenPropertyDataBase.Shotgun.map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase.Shotgun.map(v => v.prefix).join("|")})(${RivenPropertyDataBase.Shotgun.map(v => v.subfix).join("|")})`, "i"),
     Pistol: new RegExp(`(?:(${RivenPropertyDataBase.Pistol.map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase.Pistol.map(v => v.prefix).join("|")})(${RivenPropertyDataBase.Pistol.map(v => v.subfix).join("|")})`, "i"),
-    Melee: new RegExp(`(?:(${RivenPropertyDataBase.Melee.map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase.Melee.map(v => v.prefix).join("|")})(${RivenPropertyDataBase.Melee.map(v => v.subfix).join("|")})`, "i"),
-  }
-  static PrefixAll = new RegExp(`(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})`, "i")
+    Melee: new RegExp(`(?:(${RivenPropertyDataBase.Melee.map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase.Melee.map(v => v.prefix).join("|")})(${RivenPropertyDataBase.Melee.map(v => v.subfix).join("|")})`, "i")
+  };
+  static PrefixAll = new RegExp(`(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})`, "i");
 
   constructor() {
     this.reload();
@@ -585,8 +600,15 @@ export class RivenDataBase {
 
   reload() {
     // 同时添加中英文名称
-    RivenWeaponDataBase.forEach((v, i) => { this.rWeaponDict.set(v.id, i); this.rWeaponDict.set(v.name, i); });
-    RivenPropertyDataBase.all.forEach((v, i) => { this.propDict.set(v.id, i); this.propDict.set(v.eName, i); this.propDict.set(v.name, i); });
+    RivenWeaponDataBase.forEach((v, i) => {
+      this.rWeaponDict.set(v.id, i);
+      this.rWeaponDict.set(v.name, i);
+    });
+    RivenPropertyDataBase.all.forEach((v, i) => {
+      this.propDict.set(v.id, i);
+      this.propDict.set(v.eName, i);
+      this.propDict.set(v.name, i);
+    });
     (GunWeaponDataBase as Weapon[]).concat(MeleeWeaponDataBase).forEach((v, i) => this.addWeapon(v, i));
   }
 
@@ -605,8 +627,7 @@ export class RivenDataBase {
     if (this.ccWeaponDict.has(riven.name)) {
       if (riven.id !== riven.name) this.ccWeaponDict.get(riven.id).push(index);
       this.ccWeaponDict.get(riven.name).push(index);
-    }
-    else {
+    } else {
       if (riven.id !== riven.name) this.ccWeaponDict.set(riven.id, [index]);
       this.ccWeaponDict.set(riven.name, [index]);
     }
@@ -620,10 +641,8 @@ export class RivenDataBase {
     let rst = this.instance.nWeaponDict.get(name),
       gunCount = GunWeaponDataBase.length;
     if (rst < 0) return null;
-    if (rst < gunCount)
-      return GunWeaponDataBase[rst];
-    else
-      return MeleeWeaponDataBase[rst - gunCount];
+    if (rst < gunCount) return GunWeaponDataBase[rst];
+    else return MeleeWeaponDataBase[rst - gunCount];
   }
 
   /**
@@ -634,10 +653,8 @@ export class RivenDataBase {
     let rst = this.instance.ccWeaponDict.get(name),
       gunCount = GunWeaponDataBase.length;
     if (rst) {
-      if (rst[0] < gunCount)
-        return rst.map(v => GunWeaponDataBase[v])
-      else
-        return rst.map(v => MeleeWeaponDataBase[v - gunCount])
+      if (rst[0] < gunCount) return rst.map(v => GunWeaponDataBase[v]);
+      else return rst.map(v => MeleeWeaponDataBase[v - gunCount]);
     } else {
       return [];
     }
@@ -668,9 +685,9 @@ export class RivenDataBase {
     return weaponFinded;
   }
   /**
-    * 查询是否有这个属性
-    * @param name 属性名称
-    */
+   * 查询是否有这个属性
+   * @param name 属性名称
+   */
   static hasProp(name: string) {
     return this.instance.propDict.has(name);
   }
@@ -710,10 +727,7 @@ export class RivenDataBase {
   static getPropBaseValue(weaponName: string, propName: string): number {
     let weapon = this.getRivenWeaponByName(weaponName);
     let prop = this.getPropByName(propName);
-    if (weapon && prop)
-      return RivenPropertyValueBaseDataBase[weapon.mod][prop.id] * weapon.ratio * (prop.nopercent ? 0.1 : 10);
-    else
-      return -1;
+    if (weapon && prop) return RivenPropertyValueBaseDataBase[weapon.mod][prop.id] * weapon.ratio * (prop.nopercent ? 0.1 : 10);
+    else return -1;
   }
-
 }

@@ -45,6 +45,7 @@
     "babel-plugin-import": "^1.8.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
+    "ts-node": "^8.0.3",
     "typescript": "^3.0.0",
     "vue-cli-plugin-element": "^1.0.0",
     "vue-template-compiler": "^2.5.17",
