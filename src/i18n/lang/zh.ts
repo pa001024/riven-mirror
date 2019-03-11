@@ -1002,7 +1002,7 @@ let po = {
     cyngas: "合成燃气炮",
     fluctus: "巨浪",
     velocitus: "极速电磁步枪",
-    larkspur: "飞燕",
+    larkspur: "翠雀",
     phaedra: "菲德菈",
     corvas: "黑鸦",
     boltor: "螺钉步枪",
@@ -2083,6 +2083,7 @@ let po = {
     heavyBlade: "巨刃",
     dualSwords: "双剑",
     atmosphere: "大气层",
+    atmosphereCharged: "蓄力-大气层",
     aura: "光环"
   },
   alerting: {
@@ -2443,8 +2444,25 @@ let po = {
     Magnetic: "磁力",
     Radiation: "辐射",
     Viral: "病毒",
+    Void: "虚空",
     True: "真实",
-    Void: "虚空"
+    proc: {
+      Impact: "蹒跚",
+      Puncture: "伤害输出",
+      Slash: "流血",
+      Cold: "缓速",
+      Electricity: "链式攻击",
+      Heat: "火焰DoT 恐惧",
+      Toxin: "生命DoT",
+      Blast: "击倒",
+      Corrosive: "降低护甲",
+      Gas: "毒素AoE",
+      Magnetic: "降低最大护盾值",
+      Radiation: "降低精度 向队友开火",
+      Viral: "降低最大生命值",
+      Void: "吸引子弹",
+      True: "无视护甲"
+    }
   },
   statusinfo: {
     appearRate: "弹片触发率",
@@ -2580,7 +2598,8 @@ let po = {
       corpusShield: "Corpus (护盾)",
       corpusElite: "Corpus (肉体 + 合金装甲)",
       corpusEliteShield: "Corpus (原型护盾)",
-      infested: "Infested (感染肉体)",
+      infested: "Infested (感染)",
+      infestedFlesh: "Infested (感染肉体)",
       infestedElite: "Infested (化石)",
       tenno: "Tenno (肉体 + 铁质装甲)"
     },
@@ -2686,8 +2705,8 @@ let po = {
     sustainedDamage: "持续伤害",
     slideDamage: "滑砍伤害",
     attackDamage: "攻击伤害",
-    slideDamagePS: "每秒滑砍伤害",
-    attackDamagePS: "每秒攻击伤害",
+    slideDamagePS: "每秒攻击",
+    attackDamagePS: "每秒滑砍",
     totalDamageTip: "不考虑射速算出的伤害DPH",
     firstAmmoDamageTip: "狙击枪第一发的伤害FDPH",
     burstDamageTip: "只考虑射速算出的DPS",

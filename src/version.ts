@@ -1,5 +1,5 @@
 export const magic = "ALPHA";
-export const version = "1.4.18.2";
+export const version = "1.4.18.3";
 export const updateLogs = [
   {
     version: "1.4.18",
@@ -7,13 +7,13 @@ export const updateLogs = [
     md: {
       en: `- Warframe Update 24.4.0:
   - New MOD: "Amalgam" series
-  - New Weapon: Prisma Grinlok, Tatsu, Larkspur(Archwing), ~~Opticor Vandal(no data)~~
+  - New Weapon: Prisma Grinlok, Tatsu, Larkspur(Archwing), Opticor Vandal
   - New Warframe: Hildryn
   - New Exalted: Balefire
 - Melee3.0: Add a swtich to control combo damage multiply`,
       cn: `- Warframe 更新 24.4.0:
   - 新增MOD: "并合"系列
-  - 新增武器: 棱晶 葛恩火枪、龙辰、飞燕(空战), ~~奥堤克光子枪 破坏者(暂无数据)~~
+  - 新增武器: 棱晶 葛恩火枪、龙辰、翠雀(空战), 奥堤克光子枪 破坏者
   - 新增战甲: Hildryn
   - 新增显赫: 野火充能
 - 近战3.0: 添加取消连击伤害加成的选项`

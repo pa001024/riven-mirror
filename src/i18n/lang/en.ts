@@ -554,6 +554,7 @@ let po = {
     heavyBlade: "Heavy Blade",
     dualSwords: "Dual Swords",
     atmosphere: "Atmosphere",
+    atmosphereCharged: "charged-Atmosphere",
     aura: "aura"
   },
   alerting: {
@@ -1049,7 +1050,8 @@ let po = {
       corpusShield: "Corpus (Shield)",
       corpusElite: "Corpus (Flesh + Alloy Armor)",
       corpusEliteShield: "Corpus (Proto Shield)",
-      infested: "Infested (Infested Flesh)",
+      infested: "Infested (Infested)",
+      infestedFlesh: "Infested (Infested Flesh)",
       infestedElite: "Infested (Fossilized)",
       tenno: "Tenno (Flesh + Ferrite Armor)"
     }
