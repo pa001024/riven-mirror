@@ -742,7 +742,7 @@ let po = {
     tekGravity: "技法 引力",
     tekEnhance: "技法 強化",
     tekAssault: "技法 猛襲",
-    "tekCollat​​eral": "技法 連帶",
+    tekCollateral: "技法 連帶",
     synthCharge: "合成 充能",
     synthReflex: "合成 反射",
     synthFiber: "合成 纖維",
@@ -914,6 +914,7 @@ let po = {
     daikyu: "大久和弓",
     quartakk: "夸塔克",
     opticor: "奧堤克光子槍",
+    opticorVandal: "奧堤克光子槍 破壞者",
     vectis: "守望者",
     vectisPrime: "守望者 PRIME",
     amprex: "安培克斯",
@@ -1001,6 +1002,7 @@ let po = {
     cyngas: "合成燃氣炮",
     fluctus: "巨浪",
     velocitus: "極速電磁步槍",
+    larkspur: "翠雀",
     phaedra: "菲德菈",
     corvas: "黑鴉",
     boltor: "螺釘步槍",
@@ -2081,6 +2083,7 @@ let po = {
     heavyBlade: "巨刃",
     dualSwords: "雙劍",
     atmosphere: "大氣層",
+    atmosphereCharged: "蓄力-大氣層",
     aura: "光環"
   },
   alerting: {
@@ -2578,7 +2581,8 @@ let po = {
       corpusShield: "Corpus (護盾)",
       corpusElite: "Corpus (肉體 + 合金裝甲)",
       corpusEliteShield: "Corpus (原型護盾)",
-      infested: "Infested (感染肉體)",
+      infested: "Infested (感染)",
+      infestedFlesh: "Infested (感染肉體)",
       infestedElite: "Infested (化石)",
       tenno: "Tenno (肉體 + 鐵質裝甲)"
     },

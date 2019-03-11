@@ -157,22 +157,18 @@ export class NormalMod implements NormalModData {
 import _normalModSource from "./mod.data";
 
 const linkedMods = [
-  ["Sacrificial Pressure", "Primed Pressure Point"], // 压迫点
+  ["Sacrificial Pressure", "Primed Pressure Point"], // 压迫点 (TODO: 好像会导致压迫点和牺牲一起装备)
   ["True Steel", "Sacrificial Steel"], // 斩铁
   ["Vitality", "Umbral Vitality"], // 生命力
   ["Steel Fiber", "Umbral Fiber"], // 纤维
-  ["Intensify", "Umbral Intensify"], // 聚精会神
-  ["Shotgun Spazz", "Shotgun Medic"], // 表演时间
-  ["Organ Shatter", "Swift Shatter"], // 肢解
-  ["Barrel Diffusion", "Tactical Diffusion"], // 弹头扩散
-  ["Serration", "Serrated Rush"] // 膛线
+  ["Intensify", "Umbral Intensify"] // 聚精会神
 ];
 /**
  * 普通MOD信息
  */
 export const NormalModDatabase = _normalModSource.map(v => {
   let linked = linkedMods.find(k => v[1] === k[0]);
-  let pr = _normalModSource.find(k => k[1] === (linked ? linked[1] : "Primed " + v[1]));
+  let pr = _normalModSource.find(k => (linked ? k[1] === linked[1] : k[1] === "Primed " + v[1] || k[1] === "Amalgam " + v[1]));
   return new NormalMod({
     key: v[0],
     id: v[1],

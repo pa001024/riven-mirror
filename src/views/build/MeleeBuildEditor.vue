@@ -86,7 +86,7 @@
               <!-- 近战3.0 -->
               <el-form-item :label="$t('buildview.melee30')">
                 <el-tooltip effect="dark" :content="$t('buildview.melee30Tip')" placement="bottom">
-                  <el-switch class="right-side" size="small" v-model="melee30"></el-switch>
+                  <el-switch class="right-side" size="small" v-model="melee30" @change="optionChange"></el-switch>
                 </el-tooltip>
               </el-form-item>
             </el-form>
@@ -176,6 +176,7 @@ import ProbabilityVisualization from "@/components/ProbabilityVisualization.vue"
 import OtherInfoDisplay from "@/components/OtherInfoDisplay.vue";
 import ShareQR from "@/components/ShareQR.vue";
 import ModSlot from "@/components/ModSlot.vue";
+import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 import { ModBuild } from "@/warframe/modbuild";
 import { NormalMod, MeleeWeapon, RivenWeapon, Codex } from "@/warframe/codex";
@@ -183,14 +184,14 @@ import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
 import "@/less/builder.less";
 
 declare interface BuildSelectorTab {
-  title: string
-  name: string
-  build: ModBuild
-  mods: NormalMod[]
+  title: string;
+  name: string;
+  build: ModBuild;
+  mods: NormalMod[];
 }
 
 @Component({
-  components: { ModSelector, PropDiff, BuffSelector, StatusInfoDisplay, ModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR }
+  components: { ModSelector, LeveledModSlot, PropDiff, BuffSelector, StatusInfoDisplay, ModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR }
 })
 export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: MeleeWeapon;
@@ -200,7 +201,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   extraBaseDamage = 0;
   extraOverall = 0;
   calcCondiOver = true;
-  melee30 = true;
+  melee30 = false;
   /** 赋能 */
   arcanes = [];
   get availableArcanes() {
@@ -224,7 +225,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
       extraOverall: +this.extraOverall,
       calcCondiOver: this.calcCondiOver,
       melee30: this.melee30,
-      arcanes: this.arcanes,
+      arcanes: this.arcanes
     };
   }
 
@@ -252,9 +253,15 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
     this.reloadSelector();
   }
   // 子类不实现会报错
-  handleTabsEdit(targetName, action: "add" | "remove") { super.handleTabsEdit(targetName, action); }
+  handleTabsEdit(targetName, action: "add" | "remove") {
+    super.handleTabsEdit(targetName, action);
+  }
   // === 生命周期钩子 ===
-  beforeMount() { this.reload(); }
-  mounted() { super.onMounted() }
+  beforeMount() {
+    this.reload();
+  }
+  mounted() {
+    super.onMounted();
+  }
 }
 </script>

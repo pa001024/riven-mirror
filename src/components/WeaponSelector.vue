@@ -44,16 +44,16 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import ZawBuilder from '@/components/ZawBuilder.vue'
-import KitgunBuilder from '@/components/KitgunBuilder.vue'
-import AmpBuilder from '@/components/AmpBuilder.vue'
+import ZawBuilder from "@/components/ZawBuilder.vue";
+import KitgunBuilder from "@/components/KitgunBuilder.vue";
+import AmpBuilder from "@/components/AmpBuilder.vue";
 import { ModTypeTable, RivenWeapon, RivenWeaponDataBase, RivenDataBase, Zaw, Kitgun, Amp } from "@/warframe/codex";
 
 declare interface WeaponSelectorTab {
-  id: string
-  name: string
-  rivens: RivenWeapon[]
-  weapons: string[][]
+  id: string;
+  name: string;
+  rivens: RivenWeapon[];
+  weapons: string[][];
 }
 
 const AllTabs = Object.assign({}, ModTypeTable, { KITGUN: "KITGUN", ZAW: "ZAW", AMP: "AMP" });
@@ -65,14 +65,16 @@ export default class WeaponSelector extends Vue {
     let val = location.hash && location.hash.split("#")[1].trim();
     return val in AllTabs ? val : "Rifle";
   }
-  set modType(value) { location.hash = value; }
+  set modType(value) {
+    location.hash = value;
+  }
   tabs: WeaponSelectorTab[] = [];
   beforeMount() {
     this.tabs = _.map(ModTypeTable, (name, id) => ({ id, name, rivens: RivenWeaponDataBase.filter(v => v.mod === id && v.weapons.length > 0), weapons: [] }));
   }
   handleCommand(id: string) {
     console.log("BuildEditor->", id);
-    this.$router.push({ name: 'BuildEditor', params: { id: id.replace(/ /g, "_") } });
+    this.$router.push({ name: "BuildEditor", params: { id: id.replace(/ /g, "_") } });
   }
   handleClick(id: string) {
     let weapon = RivenDataBase.getRivenWeaponByName(id);
@@ -85,15 +87,15 @@ export default class WeaponSelector extends Vue {
   }
   newZAW(zaw: Zaw) {
     console.log("newZAW->", zaw.url);
-    this.$router.push({ name: 'BuildEditor', params: { id: zaw.url } });
+    this.$router.push({ name: "BuildEditor", params: { id: zaw.url } });
   }
   newKITGUN(kitgun: Kitgun) {
     console.log("newKITGUN->", kitgun.url);
-    this.$router.push({ name: 'BuildEditor', params: { id: kitgun.url } });
+    this.$router.push({ name: "BuildEditor", params: { id: kitgun.url } });
   }
   newAMP(amp: Amp) {
     console.log("newAMP->", amp.url);
-    this.$router.push({ name: 'BuildEditor', params: { id: amp.url } });
+    this.$router.push({ name: "BuildEditor", params: { id: amp.url } });
   }
 }
 </script>
@@ -104,8 +106,7 @@ export default class WeaponSelector extends Vue {
   display: inline-block;
 }
 .weapon-tablabel {
-  font-size: 16px;
-  padding: 0 8px;
+  font-size: 1.1rem;
 }
 .weapon-item {
   display: inline-block;

@@ -32,21 +32,21 @@ export interface DamageTypeData {
 }
 
 const _damageTypeDatabase = {
-  Impact: ["Physical", null, "蹒跚", [-0.25, -0.25, 0, 0, 0, 0, 0.25, 0, 0, 0.5, 0.25, 0, 0]],
-  Puncture: ["Physical", null, "伤害输出", [0, 0, 0, 0, 0, 0.25, 0, 0.25, 0, -0.25, -0.5, 0.5, 0.25]],
-  Slash: ["Physical", null, "流血", [0.25, 0.25, 0.25, 0.25, 0.5, 0, 0, -0.25, 0, 0, 0, -0.25, -0.5]],
-  Cold: ["Elemental", null, "缓速", [0, 0, -0.25, 0, -0.5, 0.25, 0, 0, 0, 0.5, 0, 0, 0.25]],
-  Electricity: ["Elemental", null, "链式攻击", [0, 0, 0, 0, 0, 0, 0.5, 0.5, 0, 0, 0, 0, -0.5]],
-  Heat: ["Elemental", null, "火焰DoT 恐惧", [0, 0.25, 0, 0.25, 0.5, 0, 0, 0, 0, 0, -0.5, 0, 0]],
-  Toxin: ["Elemental", null, "生命DoT", [0.5, 0, -0.5, 0, 0, 0, -0.25, -0.25, 0, NaN, 0.25, 0.25, 0]],
-  Blast: ["Combined", "Cold+Heat", "击倒", [0, 0, 0.5, 0, 0, -0.5, 0.75, 0, 0, 0, 0, -0.25, 0]],
-  Corrosive: ["Combined", "Electricity+Toxin", "降低护甲", [0, 0, 0.75, 0, 0, 0, 0, 0, 0, 0, -0.5, 0.75, 0]],
-  Gas: ["Combined", "Heat+Toxin", "毒素AoE", [-0.25, -0.5, 0, 0.75, 0.5, 0, 0, 0, 0, 0, 0, 0, 0]],
-  Magnetic: ["Combined", "Cold+Electricity", "降低最大护盾值", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0.75, 0.75, 0, -0.5]],
-  Radiation: ["Combined", "Electricity+Heat", "降低精度 向队友开火", [0, 0, -0.75, -0.5, 0, 0.5, 0, 0.25, 0, -0.25, 0, 0, 0.75]],
-  Viral: ["Combined", "Cold+Toxin", "降低最大生命值", [0.5, 0.75, 0, -0.5, 0, 0, -0.25, 0, 0, 0, 0, 0, 0]],
-  Void: ["Standalone", null, "吸引子弹", [0, -0.5, 0, 0, 0, 0, -0.5, 0, 0, 0, 0, 0, 0]]
-} as { [key: string]: [string, string, string, number[]] };
+  Impact: ["Physical", null, [-0.25, -0.25, 0, 0, 0, 0, 0.25, 0, 0, 0.5, 0.25, 0, 0]],
+  Puncture: ["Physical", null, [0, 0, 0, 0, 0, 0.25, 0, 0.25, 0, -0.25, -0.5, 0.5, 0.25]],
+  Slash: ["Physical", null, [0.25, 0.25, 0.25, 0.25, 0.5, 0, 0, -0.25, 0, 0, 0, -0.25, -0.5]],
+  Cold: ["Elemental", null, [0, 0, -0.25, 0, -0.5, 0.25, 0, 0, 0, 0.5, 0, 0, 0.25]],
+  Electricity: ["Elemental", null, [0, 0, 0, 0, 0, 0, 0.5, 0.5, 0, 0, 0, 0, -0.5]],
+  Heat: ["Elemental", null, [0, 0.25, 0, 0.25, 0.5, 0, 0, 0, 0, 0, -0.5, 0, 0]],
+  Toxin: ["Elemental", null, [0.5, 0, -0.5, 0, 0, 0, -0.25, -0.25, 0, NaN, 0.25, 0.25, 0]],
+  Blast: ["Combined", "Cold+Heat", [0, 0, 0.5, 0, 0, -0.5, 0.75, 0, 0, 0, 0, -0.25, 0]],
+  Corrosive: ["Combined", "Electricity+Toxin", [0, 0, 0.75, 0, 0, 0, 0, 0, 0, 0, -0.5, 0.75, 0]],
+  Gas: ["Combined", "Heat+Toxin", [-0.25, -0.5, 0, 0.75, 0.5, 0, 0, 0, 0, 0, 0, 0, 0]],
+  Magnetic: ["Combined", "Cold+Electricity", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0.75, 0.75, 0, -0.5]],
+  Radiation: ["Combined", "Electricity+Heat", [0, 0, -0.75, -0.5, 0, 0.5, 0, 0.25, 0, -0.25, 0, 0, 0.75]],
+  Viral: ["Combined", "Cold+Toxin", [0.5, 0.75, 0, -0.5, 0, 0, -0.25, 0, 0, 0, 0, 0, 0]],
+  Void: ["Standalone", null, [0, -0.5, 0, 0, 0, 0, -0.5, 0, 0, 0, 0, 0, 0]]
+} as { [key: string]: [string, string, number[]] };
 
 /**
  * 伤害类型数据
@@ -56,7 +56,7 @@ export const DamageTypeDatabase: DamageTypeData[] = Object.keys(_damageTypeDatab
   let o = {
     id: k,
     type: v[0].trim(),
-    dmgMul: v[3]
+    dmgMul: v[2]
   } as DamageTypeData;
   if (v[1]) o.combinedBy = v[1].trim().split("+") as DamageType[];
   return o;
@@ -267,7 +267,22 @@ export const EnemyList = _enemyList.map(
 /** 伤害模型序列 [id, faction, flesh, shield, armor, resistence, ignoreProc] */
 type DamageModelDataArray = [string, number, number, number, number, number, number];
 
-const _damageModelList = [["Eidolon", 5, 6, , 1, 0.6, 3], ["Eidolon Unarmored", 5, 6, , , 0.6, 3], ["Grineer", 1, 1, , 0, 0, 0], ["Grineer Unarmored", 1, 1, , , 0, 0], ["Grineer Elite", 1, 1, , 1, 0, 0], ["Corpus", 2, 0, , , 0, 0], ["Corpus Shield", 2, , 0, , 0, 0], ["Corpus Elite", 2, 0, , 1, 0, 0], ["Corpus Elite Shield", 2, , 1, , 0, 0], ["Infested", 3, 3, , , 0, 0], ["Infested Elite", 3, 2, , , 0, 0], ["Tenno", 0, 0, , 0, 0, 0]] as DamageModelDataArray[];
+const _damageModelList = [
+  // 伤害模型列表
+  ["Eidolon", 5, 6, , 1, 0.6, 3],
+  ["Eidolon Unarmored", 5, 6, , , 0.6, 3],
+  ["Grineer", 1, 1, , 0, 0, 0],
+  ["Grineer Unarmored", 1, 1, , , 0, 0],
+  ["Grineer Elite", 1, 1, , 1, 0, 0],
+  ["Corpus", 2, 0, , , 0, 0],
+  ["Corpus Shield", 2, , 0, , 0, 0],
+  ["Corpus Elite", 2, 0, , 1, 0, 0],
+  ["Corpus Elite Shield", 2, , 1, , 0, 0],
+  ["Infested", 3, 3, , , 0, 0],
+  ["Infested Flesh", 3, 4, , , 0, 0],
+  ["Infested Elite", 3, 2, , , 0, 0],
+  ["Tenno", 0, 0, , 0, 0, 0]
+] as DamageModelDataArray[];
 
 export interface IDamageModelData {
   /** 模型ID */
@@ -304,10 +319,26 @@ export class DamageModelData implements IDamageModelData {
   constructor(data: IDamageModelData | DamageModelDataArray) {
     if (Array.isArray(data)) {
       const [id, faction, fleshType, shieldType, armorType, resistence, ignoreProc] = data;
-      [this.id, this.faction, this.fleshType, this.shieldType, this.armorType, this.resistence, this.ignoreProc] = [id, faction || 0, fleshType || 0, (shieldType || 0) + 9, (armorType || 0) + 11, resistence || 0, ignoreProc || 0];
+      [this.id, this.faction, this.fleshType, this.shieldType, this.armorType, this.resistence, this.ignoreProc] = [
+        id, // -
+        faction,
+        fleshType || 0,
+        shieldType && shieldType + 9,
+        armorType && armorType + 11,
+        resistence,
+        ignoreProc
+      ];
     } else {
       const { id, faction, fleshType, shieldType, armorType, resistence, ignoreProc } = data;
-      [this.id, this.faction, this.fleshType, this.shieldType, this.armorType, this.resistence, this.ignoreProc] = [id, faction || 0, fleshType || 0, (shieldType || 0) + 9, (armorType || 0) + 11, resistence || 0, ignoreProc || 0];
+      [this.id, this.faction, this.fleshType, this.shieldType, this.armorType, this.resistence, this.ignoreProc] = [
+        id, // -
+        faction,
+        fleshType,
+        shieldType,
+        armorType,
+        resistence,
+        ignoreProc
+      ];
     }
   }
 }
