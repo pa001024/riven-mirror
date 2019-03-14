@@ -135,7 +135,6 @@ export default class App extends Vue {
   }
   .icon {
     font-size: 1.5rem;
-    vertical-align: middle;
     filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.2));
   }
 }

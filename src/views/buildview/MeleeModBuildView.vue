@@ -121,15 +121,7 @@
           </el-tooltip>
         </el-form-item>
         <!-- 使用MOD -->
-        <!-- <el-form-item :label="$t('buildview.usemods')">
-          <el-checkbox v-model="useCombotime" @change="debouncedRecalc">{{$t("buildview.heavyCaliber")}}</el-checkbox>
-          <el-checkbox v-model="usePrimedChamber" @change="debouncedRecalc">{{$t("buildview.primedChamber")}}</el-checkbox>
-          <el-tooltip effect="dark" :content="$t('buildview.acolyteModsTip')" placement="bottom">
-            <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">{{$t("buildview.acolyteMods")}}</el-checkbox>
-          </el-tooltip>
-        </el-form-item> -->
-        <!-- 赋能 -->
-        <el-form-item :label="$t('buildview.arcanes')">
+        <el-form-item :label="$t('buildview.usemods')">
           <!-- 需求范围 -->
           <el-tooltip effect="dark" :content="$t('buildview.requireRangeTip')" placement="bottom">
             <el-checkbox v-model="requireRange" @change="debouncedRecalc">{{$t("buildview.requireRange")}}</el-checkbox>
@@ -138,6 +130,13 @@
           <el-tooltip effect="dark" :content="$t('buildview.requireComboTip')" placement="bottom">
             <el-checkbox v-model="requireCombo" @change="debouncedRecalc">{{$t("buildview.requireCombo")}}</el-checkbox>
           </el-tooltip>
+          <!-- 异况数字化 -->
+          <el-tooltip effect="dark" :content="$t('buildview.condiOverTip')" placement="bottom">
+            <el-checkbox v-model="calcCondiOver" @change="debouncedRecalc">{{$t("buildview.condiOver")}}</el-checkbox>
+          </el-tooltip>
+        </el-form-item>
+        <!-- 赋能 -->
+        <el-form-item :label="$t('buildview.arcanes')">
           <el-checkbox-group v-model="arcanes">
             <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="debouncedRecalc">{{$t(`buff.${arcane.name}`)}}</el-checkbox>
           </el-checkbox-group>
@@ -174,6 +173,8 @@ export default class MeleeModBuildView extends BaseModBuildView {
   requireRange = true;
   /** 需求连击 */
   requireCombo = true;
+  /** 异况数字化 */
+  calcCondiOver = true;
 
   strikeList = ZawStrikeData;
   gripList = ZawGripData;
@@ -258,6 +259,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
       allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
       extraBaseDamage: +this.extraBaseDamage,
       extraOverall: +this.extraOverall,
+      calcCondiOver: this.calcCondiOver,
       arcanes: this.arcanes
     };
     super.recalc(MeleeModBuild, options);

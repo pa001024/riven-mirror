@@ -1,3 +1,3 @@
 @echo off
 lua wiki2json.lua
-ts-node data2user.ts
+npx ts-node data2user.ts

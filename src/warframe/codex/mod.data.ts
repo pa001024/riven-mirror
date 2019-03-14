@@ -253,7 +253,7 @@ const data = [
   ["A6", "Thermagnetic Shells", [["Enemies explode on death, dealing 20 <DT_MAGNETIC>Magnetic Damage (+10% Enemy Max Health) in a 1.5m radius."]], "SECONDARY", "-", "r", 2, 3],
   ["A7", "Fulmination", [["brad", 6]], "SecondUnique", "r", "r", 6, 3],
   ["A8", "Synth Charge", [["lsb", 50]], "Second6", "r", "r", 6, 3],
-  ["A9", "Amalgam Barrel Diffusion", [["S", 18], ["!S", 2], ["dgs", 10]], Secondary, "-", "g", 10],
+  ["A9", "Amalgam Barrel Diffusion", [["S", 18], ["!S", 2], ["dgs", 10]], Secondary, "r", "g", 10],
 
   // 近战 C0 ~ Fz
   ["C0", "Pressure Point", [["K", 20]], Melee, "r", "n", 4],

@@ -1252,6 +1252,10 @@ let po = {
     desertWind: "沙漠之風",
     artemisBow: "月神狩弓",
     balefire: "野火充能",
+    whipclaw: "長鞭利爪",
+    shatteredLash: "琉璃碎擊",
+    landslide: "土石坍方",
+    exaltedBlade: "顯赫刀劍",
 
     ferrite: "鐵氧體",
     nanoSpores: "納米孢子",

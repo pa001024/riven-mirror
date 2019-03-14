@@ -1368,27 +1368,29 @@ export let _abilityData: AbilityData[] = [
   },
   {
     id: "Balefire",
-    tags: 0,
-    energyCost: 25,
-    props: {}
+    tags: 1,
+    energyCost: 50,
+    energyCostN: 100,
+    props: { Damage: { damage: [["Electricity", S(500)]] }, ExaltedWeapon: { weaponName: "Balefire" } }
   },
   {
     id: "Shield Pillage",
-    tags: 0,
-    energyCost: 50,
-    props: {}
+    tags: 2,
+    energyCost: 150,
+    props: { Debuff: { desc: "消耗护盾和护甲", duration: D(2), range: R(8), effect: [["s", { value: -25, bind: [["t", 0]] }]] }, Special: [{ desc: "清除负面状态" }] }
   },
   {
     id: "Haven",
-    tags: 0,
-    energyCost: 75,
-    props: {}
+    tags: 2,
+    energyCost: 250,
+    props: { Buff: { effect: [["r", S(80)], ["s", S(500)]] } }
   },
   {
     id: "Aegis Storm",
-    tags: 0,
+    tags: 1,
     energyCost: 100,
-    props: {}
+    energyCostPS: 25,
+    props: { Damage: { damage: [["Radiation", S(200)]], rangeDamage: [["Impact", S(500)]] } }
   }
 ];
 
@@ -1493,7 +1495,8 @@ export const _warframeData: WarframeData[] = [
     armor: 150,
     energy: 200,
     sprint: 1.2,
-    passiveDescription: "Each projectile dodged, each enemy lulled or disarmed, erodes Baruuk’s restraint and fuels the storm within. As Baruuk’s restraint is diminished he becomes more resistant to damage.",
+    passiveDescription:
+      "Each projectile dodged, each enemy lulled or disarmed, erodes Baruuk’s restraint and fuels the storm within. As Baruuk’s restraint is diminished he becomes more resistant to damage.",
     abilities: ["Elude", "Lull", "Desolate Hands", "Serene Storm"],
     aura: "-",
     exilus: "-",

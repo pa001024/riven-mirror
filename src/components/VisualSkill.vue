@@ -144,7 +144,7 @@ export default class VisualSkill extends Vue {
 
   get id() { return this.abilityData.id }
   get name() {
-    const key = `messages.${_.camelCase(this.id)}`;
+    const key = `skill.${_.camelCase(this.id)}`;
     return i18n.te(key) ? i18n.t(key) : this.id;
   }
   get wikiaURL() { return "https://warframe.fandom.com/wiki/" + this.id.replace(/ /g, "_"); }

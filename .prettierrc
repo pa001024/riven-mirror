@@ -1,5 +1,5 @@
 {
-  "printWidth": 2000,
+  "printWidth": 200,
   "singleQuote": false,
   "bracketSpacing": true,
   "jsxBracketSameLine": true,
