@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.4.18.3";
+export const version = "1.4.19";
 export const updateLogs = [
+  {
+    version: "1.4.19",
+    date: "2019/3/11",
+    md: {
+      en: `- add build minimap`,
+      cn: `- 添加配置缩略图`
+    }
+  },
   {
     version: "1.4.18",
     date: "2019/3/8",
@@ -27,6 +35,7 @@ export const updateLogs = [
       cn: `- 添加战甲加成`
     }
   },
+  /*
   {
     version: "1.4.16",
     date: "2019/2/28",
@@ -39,7 +48,6 @@ export const updateLogs = [
 - 添加新系列MOD (devstream) (2019/3/4)`
     }
   },
-  /*
   {
     version: "1.4.15",
     date: "2019/2/26",

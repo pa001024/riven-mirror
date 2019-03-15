@@ -2,7 +2,24 @@ import _ from "lodash";
 import { choose, hAccMul, hAccSum } from "./util";
 import { base62, debase62 } from "./lib/base62";
 import { procDurationMap, SpecialStatusInfo } from "./status";
-import { Weapon, NormalMod, RivenDataBase, Arcane, Buff, Enemy, EnemyTimelineState, BuffList, Codex, CombElementMap, Damage2_0, DamageType, ExtraDmgSet, NormalCardDependTable, RivenPropertyDataBase, SimpleDamageModel } from "./codex";
+import {
+  Weapon,
+  NormalMod,
+  RivenDataBase,
+  Arcane,
+  Buff,
+  Enemy,
+  EnemyTimelineState,
+  BuffList,
+  Codex,
+  CombElementMap,
+  Damage2_0,
+  DamageType,
+  ExtraDmgSet,
+  NormalCardDependTable,
+  RivenPropertyDataBase,
+  SimpleDamageModel
+} from "./codex";
 import { RivenMod, toUpLevel, toNegaUpLevel, ValuedRivenProperty } from "./rivenmod";
 import { HH } from "@/var";
 
@@ -101,7 +118,7 @@ export abstract class ModBuild {
   }
   /** 暴击率增幅倍率 */
   get critChanceMul() {
-    return this._critChanceMul < 0 ? 0 : this._critChanceMul / 100;
+    return this._critChanceMul / 100;
   }
   /** 加法暴击率增幅倍率 */
   get critChanceAdd() {
@@ -268,7 +285,7 @@ export abstract class ModBuild {
   }
   /** 暴击率 */
   get critChance() {
-    return this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd);
+    return Math.max(0, this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd));
   }
   /** 暴击倍率 */
   get critMul() {
@@ -1173,7 +1190,12 @@ export abstract class ModBuild {
       });
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.weapon.id === "Vectis Prime" ? "L" : "H") || v.id === "U" || (this.riven.mod === "Shotgun" && v.id === "Z"));
-    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, this.weapon.id === "Vectis Prime" ? -28 : RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id) * -negaUpLevel, RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id), upLevel);
+    let valuedNegativeProp = new ValuedRivenProperty(
+      negativeProp,
+      this.weapon.id === "Vectis Prime" ? -28 : RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id) * -negaUpLevel,
+      RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id),
+      upLevel
+    );
 
     // 将属性虚拟成MOD
     let fakeMods = avaliableProps.map(
@@ -1247,7 +1269,12 @@ export abstract class ModBuild {
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
-    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id) * -negaUpLevel, RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id), upLevel);
+    let valuedNegativeProp = new ValuedRivenProperty(
+      negativeProp,
+      RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id) * -negaUpLevel,
+      RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id),
+      upLevel
+    );
 
     let newRivens = propsOfMods.map(v => {
       let newRiven = new RivenMod(this.riven);

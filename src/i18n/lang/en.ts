@@ -1014,7 +1014,8 @@ let po = {
     provis: "Probability Visualization",
     provislabel: "{0} pellets {1} crit-level",
     provislabel0: "{0} crit-level",
-    otherinfo: "Other info"
+    otherinfo: "Other info",
+    minimap: "Minimap"
   },
   enemy: {
     name: "Enemy",

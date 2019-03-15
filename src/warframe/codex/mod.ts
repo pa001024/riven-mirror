@@ -102,6 +102,19 @@ export class NormalMod implements NormalModData {
     let name = this.customName || (i18n.te(ikey) ? i18n.t(ikey) : this.id);
     return name || "";
   }
+
+  /**
+   * 简称
+   *
+   * @readonly
+   * @memberof NormalMod
+   */
+  get shortName() {
+    const ikey = `mods.${_.camelCase(this.key === "01" ? "riven" : this.id)}`;
+    let name = i18n.te(ikey) ? i18n.t(ikey) : "";
+    return name || this.name;
+  }
+
   /** 描述 */
   get desc() {
     let desc = i18n.t(`moddesc.${_.camelCase(this.id)}`) as string;

@@ -129,8 +129,11 @@
           </el-tab-pane>
         </el-tabs>
         <!-- 扩展功能区 -->
-        <el-tabs value="statusinfo" class="external-area" data-v-step="4">
-          <!-- 触发计算 -->
+        <el-tabs value="minimap" class="external-area" data-v-step="4">
+          <!-- 缩略图 -->
+          <el-tab-pane class="minimap" :label="$t('build.minimap')" name="minimap">
+            <BuildMinimap :build="build"/>
+          </el-tab-pane>
           <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
             <StatusInfoDisplay :info="build.statusInfo" :common="build.commonStatusInfo" />
           </el-tab-pane>
@@ -216,6 +219,7 @@ import EnemyTimeline from "@/components/EnemyTimeline.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
 import ProbabilityVisualization from "@/components/ProbabilityVisualization.vue";
 import OtherInfoDisplay from "@/components/OtherInfoDisplay.vue";
+import BuildMinimap from "@/components/BuildMinimap.vue";
 import ShareQR from "@/components/ShareQR.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
@@ -225,7 +229,7 @@ import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
 import "@/less/builder.less";
 
 @Component({
-  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, LeveledModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR }
+  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, LeveledModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR, BuildMinimap }
 })
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: GunWeapon;

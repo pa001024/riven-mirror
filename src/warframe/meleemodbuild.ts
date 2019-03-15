@@ -182,11 +182,27 @@ export class MeleeModBuild extends ModBuild {
   }
   /** 平砍暴击率 */
   get normalCritChance() {
-    return hAccMul(this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd), this.comboCritChance);
+    return Math.max(
+      0,
+      hAccMul(
+        this.critChanceLock != -1
+          ? this.critChanceLock // Locked
+          : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd),
+        this.comboCritChance
+      )
+    );
   }
   /** 滑行暴击率 */
   get slideCritChance() {
-    return hAccMul(this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd), this.comboCritChance);
+    return Math.max(
+      0,
+      hAccMul(
+        this.critChanceLock != -1
+          ? this.critChanceLock // Locked
+          : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd),
+        this.comboCritChance
+      )
+    );
   }
 
   /** [overwrite] 触发几率 */
@@ -204,11 +220,15 @@ export class MeleeModBuild extends ModBuild {
   }
   /** [overwrite] 平均暴击区增幅倍率(暴击向下取整) */
   get critDamageMulFloor() {
-    return this.slideMode ? this.calcCritDamage(Math.floor(this.slideCritChance), this.critMul, 0, 2, this.stealthDamageMul) : this.calcCritDamage(Math.floor(this.normalCritChance), this.critMul, 0, 2, this.stealthDamageMul);
+    return this.slideMode
+      ? this.calcCritDamage(Math.floor(this.slideCritChance), this.critMul, 0, 2, this.stealthDamageMul)
+      : this.calcCritDamage(Math.floor(this.normalCritChance), this.critMul, 0, 2, this.stealthDamageMul);
   }
   /** [overwrite] 平均暴击区增幅倍率(暴击向上取整) */
   get critDamageMulCeil() {
-    return this.slideMode ? this.calcCritDamage(Math.ceil(this.slideCritChance), this.critMul, 0, 2, this.stealthDamageMul) : this.calcCritDamage(Math.ceil(this.normalCritChance), this.critMul, 0, 2, this.stealthDamageMul);
+    return this.slideMode
+      ? this.calcCritDamage(Math.ceil(this.slideCritChance), this.critMul, 0, 2, this.stealthDamageMul)
+      : this.calcCritDamage(Math.ceil(this.normalCritChance), this.critMul, 0, 2, this.stealthDamageMul);
   }
   /** 平砍平均暴击区增幅倍率 */
   get normalCritDamageMul() {
@@ -314,7 +334,11 @@ export class MeleeModBuild extends ModBuild {
   /** [overwrite] 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
     if (!super.isValidMod(mod)) return false;
-    if (("Sacrificial Pressure" === mod.id && this._mods.some(v => v && v.id === "Primed Pressure Point")) || ("Primed Pressure Point" === mod.id && this._mods.some(v => v && v.id === "Sacrificial Pressure"))) return false;
+    if (
+      ("Sacrificial Pressure" === mod.id && this._mods.some(v => v && v.id === "Primed Pressure Point")) ||
+      ("Primed Pressure Point" === mod.id && this._mods.some(v => v && v.id === "Sacrificial Pressure"))
+    )
+      return false;
     if (this.weapon.tags.includes("Exalted")) {
       return !["Weeping Wounds", "Blood Rush", "Maiming Strike", "Focused Defense"].includes(mod.id);
     }
