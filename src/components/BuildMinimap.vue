@@ -57,7 +57,7 @@ export default class BuildMinimap extends Vue {
   }
 
   get dmgVal() {
-    return this.build.compareDamage;
+    return this.build.compareDamage.toFixed(1);
   }
 
   get mods() {
@@ -83,14 +83,14 @@ export default class BuildMinimap extends Vue {
 
   imgSrc = "";
 
-  @Watch("build.id")
+  @Watch("build.pureId")
   async onIdChange(o: string, n: string) {
     this.imgSrc = await CachedWikiApi.instance.getMainImage(n);
     console.log("fetched", n, this.imgSrc);
   }
 
   mounted() {
-    this.onIdChange(null, this.build.id);
+    this.onIdChange(null, this.build.pureId);
   }
 }
 </script>
