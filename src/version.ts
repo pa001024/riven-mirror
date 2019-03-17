@@ -1,6 +1,18 @@
 export const magic = "ALPHA";
-export const version = "1.4.19";
+export const version = "1.4.20";
 export const updateLogs = [
+  {
+    version: "1.4.20",
+    date: "2019/3/16",
+    md: {
+      en: `- preview(maybe incorrect)
+  - New Warframe: Equinox Prime
+  - New Weapon: Stradavar Prime, Tipedo Prime`,
+      cn: `- 预览(可能不准确)
+  - 新战甲: Equinox Prime
+  - 新武器: 斯特拉迪瓦 Prime、提佩多 Prime`
+    }
+  },
   {
     version: "1.4.19",
     date: "2019/3/11",
@@ -27,6 +39,7 @@ export const updateLogs = [
 - 近战3.0: 添加取消连击伤害加成的选项`
     }
   },
+  /*
   {
     version: "1.4.17",
     date: "2019/3/6",
@@ -35,7 +48,6 @@ export const updateLogs = [
       cn: `- 添加战甲加成`
     }
   },
-  /*
   {
     version: "1.4.16",
     date: "2019/2/28",

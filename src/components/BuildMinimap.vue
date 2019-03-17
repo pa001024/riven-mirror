@@ -1,12 +1,15 @@
 <template>
   <div class="build-minimap">
     <header>
-      <img class="weapon-img" :src="imgSrc" :alt="build.id">
+      <img class="weapon-img" :src="imgSrc">
       {{$t(`messages.${build.weapon.name}`)}}
     </header>
     <section class="mods">
       <header v-t="`minimap.mods`"></header>
-      <div class="minimod" :class="[mod.rarity]" v-for="(mod, i) in mods" :key="i">
+      <div class="minimod" v-if="mods.length === 0">
+        -
+      </div>
+      <div v-else class="minimod" :class="[mod.rarity]" v-for="(mod, i) in mods" :key="i">
         <a :href="mod.wiki" target="_blank" rel="noopener noreferrer">
           {{mod.name}}
         </a>
@@ -84,13 +87,16 @@ export default class BuildMinimap extends Vue {
   imgSrc = "";
 
   @Watch("build.pureId")
-  async onIdChange(o: string, n: string) {
-    this.imgSrc = await CachedWikiApi.instance.getMainImage(n);
-    console.log("fetched", n, this.imgSrc);
+  async onIdChange() {
+    const id = this.build.pureId;
+    if (id) {
+      this.imgSrc = await CachedWikiApi.instance.getMainImage(id);
+      console.log("fetched", id, this.imgSrc);
+    }
   }
 
   mounted() {
-    this.onIdChange(null, this.build.pureId);
+    this.onIdChange();
   }
 }
 </script>
@@ -129,7 +135,7 @@ export default class BuildMinimap extends Vue {
   .minimod {
     display: inline-block;
     border-left: 2px solid;
-    padding: 1px 4px;
+    padding: 1px 6px;
     background: white;
     border-radius: 2px;
     margin: 4px;

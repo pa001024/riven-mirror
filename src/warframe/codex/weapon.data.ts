@@ -3129,6 +3129,39 @@ export const gunWeaponData = [
     pol: "rr"
   },
   {
+    id: "Stradavar Prime",
+    name: "stradavarPrime",
+    rivenName: "Stradavar",
+    tags: ["Gun", "Primary", "Rifle", "AssaultRifle"],
+    dmg: [["Slash", 9], ["Puncture", 10.5], ["Impact", 10.5]],
+    accuracy: 25,
+    fireRate: 10,
+    critChance: 0.24,
+    critMul: 2.6,
+    status: 0.12,
+    magazine: 90,
+    reload: 2,
+    ammo: 540,
+    pol: "rr-"
+  },
+  {
+    id: "Stradavar Prime (semi-auto)",
+    name: "stradavarPrime",
+    rivenName: "Stradavar",
+    mode: "semiAuto",
+    tags: ["Gun", "Primary", "Rifle", "AssaultRifle"],
+    dmg: [["Slash", 9], ["Puncture", 10.5], ["Impact", 10.5]],
+    accuracy: 28.6,
+    fireRate: 5,
+    critChance: 0.3,
+    critMul: 2.6,
+    status: 0.16,
+    magazine: 90,
+    reload: 2,
+    ammo: 540,
+    pol: "rr-"
+  },
+  {
     id: "Strun",
     name: "strun",
     tags: ["Gun", "Primary", "Shotgun"],
@@ -5401,7 +5434,31 @@ export const meleeWeaponData = [
     pol: "r"
   },
   { id: "Krohkur", name: "krohkur", tags: ["Melee", "Sword"], dmg: [["Puncture", 12.6], ["Slash", 49], ["Impact", 8.4]], critMul: 1.7, critChance: 0.29, fireRate: 0.833, slideDmg: 150, status: 0.19 },
-  { id: "Tipedo", name: "tipedo", tags: ["Melee", "Staff"], dmg: [["Puncture", 5], ["Slash", 40], ["Impact", 5]], critMul: 2, critChance: 0.2, fireRate: 1.33, slideDmg: 107, status: 0.2, pol: "d" },
+  {
+    id: "Tipedo",
+    name: "tipedo",
+    tags: ["Melee", "Staff"],
+    dmg: [["Puncture", 5], ["Slash", 40], ["Impact", 5]],
+    critMul: 2,
+    critChance: 0.2,
+    fireRate: 1.33,
+    slideDmg: 107,
+    status: 0.2,
+    pol: "d"
+  },
+  {
+    id: "Tipedo Prime",
+    name: "tipedoPrime",
+    rivenName: "Tipedo",
+    tags: ["Melee", "Staff"],
+    dmg: [["Puncture", 7.6], ["Slash", 60.8], ["Impact", 7.6]],
+    critMul: 2.4,
+    critChance: 0.24,
+    fireRate: 1.17,
+    slideDmg: 163,
+    status: 0.24,
+    pol: "d"
+  },
   {
     id: "Okina",
     name: "okina",

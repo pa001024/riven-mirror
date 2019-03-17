@@ -15,25 +15,25 @@ See WIKI for details: [RivenMirror](https://warframe.huijiwiki.com/wiki/%E5%8D%9
 
 ## Features
 - Input
-  - [x] MOD screenshot recognition
-    - [x] English recognition
-  - [x] text input
-  - [x] Manually select attributes
-  - [x] Random Roll
-  - ~~[x] QR code~~
+  - [x] MOD screenshot recognition
+    - [x] English recognition
+  - [x] text input
+  - [x] Manually select attributes
+  - [x] Random Roll
+  - ~~[x] QR code~~
 - Edit
-  - [x] Self-selection card
-  - [x] Unified Bonus
+  - [x] Self-selection card
+  - [x] Unified Bonus
 - Output
-  - [ ] Multi-program comparison
-  - [x] faction damage simulation
-  - [x] automatic building
-  - [x] benchmark score
+  - [ ] Multi-program comparison
+  - [x] faction damage simulation
+  - [x] automatic building
+  - [x] benchmark score
 - [x] weapon fitting
-  - [x] status calculation
-  - [x] faction calculation
-  - [x] simulacrum
-  - [x] probability calculation
+  - [x] status calculation
+  - [x] faction calculation
+  - [x] simulacrum
+  - [x] probability calculation
 
 ## Contribution
 

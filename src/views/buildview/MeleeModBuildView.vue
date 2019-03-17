@@ -174,7 +174,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
   /** 需求连击 */
   requireCombo = true;
   /** 异况数字化 */
-  calcCondiOver = true;
+  calcCondiOver = false;
 
   strikeList = ZawStrikeData;
   gripList = ZawGripData;

@@ -1589,6 +1589,23 @@ export const _warframeData: WarframeData[] = [
     sex: "Female"
   },
   {
+    id: "Equinox Prime",
+    // name: "equinox",
+    tags: ["DPS", "Support", "Control"],
+    // description: "Split between day and night, Equinox manifests aggressive and defensive forms at will.",
+    health: 125,
+    shield: 100,
+    armor: 120,
+    energy: 165,
+    sprint: 1.15,
+    passiveDescription: "Health Orbs generate a little Energy, while Energy Orbs restore a bit of Health.",
+    abilities: ["Metamorphosis", "Rest & Rage", "Pacify & Provoke", "Mend & Maim"],
+    aura: "-",
+    introduced: "24.6",
+    polarities: ["d", "r"],
+    sex: "Female"
+  },
+  {
     id: "Excalibur",
     // name: "excalibur",
     tags: ["DPS", "Control"],

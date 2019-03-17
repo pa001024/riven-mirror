@@ -74,7 +74,7 @@
               <!-- 爆头几率 -->
               <el-form-item :label="$t('buildview.headshotChance')">
                 <el-tooltip effect="dark" :content="$t('buildview.headshotChanceTip')" placement="bottom">
-                  <el-slider class="right-side" v-model="headShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
+                  <el-slider class="right-side fill" v-model="headShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
                 </el-tooltip>
               </el-form-item>
               <!-- 等级调整 -->
