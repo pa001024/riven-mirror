@@ -228,7 +228,10 @@ export class ValuedProperty {
       id: vn,
       displayValue: String(vv),
       get fullString() {
-        if (vn.endsWith("Augment")) return i18n.t("prop.fullName.augment", [i18n.t("messages." + _.camelCase(vn.substr(0, vn.length - 8)))]);
+        if (vn.endsWith(" Augment")) {
+          const skillName = "skill." + _.camelCase(vn.substr(0, vn.length - 8));
+          return i18n.t("prop.fullName.augment", [i18n.te(skillName) ? i18n.t(skillName) : vn.substr(0, vn.length - 8)]);
+        }
         if (i18n.te(`prop.fullName.${vn}`)) return i18n.t(`prop.fullName.${vn}`);
         return vn;
       },

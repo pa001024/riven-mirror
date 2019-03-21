@@ -1,5 +1,5 @@
 export const magic = "ALPHA";
-export const version = "1.4.20";
+export const version = "1.4.20.1";
 export const updateLogs = [
   {
     version: "1.4.20",
@@ -7,10 +7,24 @@ export const updateLogs = [
     md: {
       en: `- preview(maybe incorrect)
   - New Warframe: Equinox Prime
-  - New Weapon: Stradavar Prime, Tipedo Prime`,
+  - New Weapon: Stradavar Prime, Tipedo Prime
+- new feature:
+   - Simulacrum: The time limit for the simulation has increased from 10 seconds to 300 seconds (more I am afraid your computer will explode)
+   - Simulacrum: Enemies in table mode that are still unable to be killed for more than 10 seconds will be displayed in the last column
+- BUG fix:
+   - Fixed an issue where the amount of ammunition displayed in the Simulacrum was not correct for weapons that were consumed by abnormal ammunition (such as laser, kohm, etc.)
+   - Fixed high-level headshot crit damage formula
+   - Fixed an issue where the Edge browser could not properly adjust the enemy level.`,
       cn: `- 预览(可能不准确)
   - 新战甲: Equinox Prime
-  - 新武器: 斯特拉迪瓦 Prime、提佩多 Prime`
+  - 新武器: 斯特拉迪瓦 Prime、提佩多 Prime
+- 新功能:
+  - 幻影装置: 模拟的时间上限从10秒增加到了300秒 (再多我怕你电脑会爆炸)
+  - 幻影装置: 表格模式中对于超过10秒仍旧无法击杀的敌人，将在最后一格中显示
+- BUG修复:
+  - 修复非正常弹药消耗的武器(比如射线类、寇恩等)在幻影装置中显示的弹药数不正确的问题
+  - 修正橙色以上的爆头暴击公式
+  - 修正Edge浏览器无法正常调整敌人等级的问题`
     }
   },
   {
@@ -38,7 +52,7 @@ export const updateLogs = [
   - 新增显赫: 野火充能
 - 近战3.0: 添加取消连击伤害加成的选项`
     }
-  },
+  }
   /*
   {
     version: "1.4.17",

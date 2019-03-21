@@ -14,6 +14,7 @@ export class Weapon implements WeaponData {
   status: number;
   defaultMode?: number;
   pol: string;
+  bullets: number;
 
   constructor(data: WeaponData) {
     this.id = data.id;
@@ -28,6 +29,7 @@ export class Weapon implements WeaponData {
     this.status = data.status;
     this.defaultMode = data.defaultMode;
     this.pol = data.pol;
+    this.bullets = data.bullets || 1;
   }
   /** URL */
   get url() {
@@ -55,7 +57,6 @@ export class Weapon implements WeaponData {
 
 export class GunWeapon extends Weapon implements GunWeaponData {
   accuracy: number;
-  bullets?: number;
   magazine: number;
   reload: number;
   ammo: number;
@@ -65,7 +66,6 @@ export class GunWeapon extends Weapon implements GunWeaponData {
   constructor(data: GunWeaponData) {
     super(data);
     this.accuracy = data.accuracy;
-    this.bullets = data.bullets || 1;
     this.magazine = data.magazine;
     this.reload = data.reload;
     this.ammo = data.ammo;

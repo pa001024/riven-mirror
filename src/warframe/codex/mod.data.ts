@@ -116,7 +116,7 @@ const data = [
   ["2Q", "Cautious Shot", [["sb", -10], ["oad", -5]], "Launcher", "r", "r", 6, 3],
   ["2R", "Harkonar Scope", [["N", 2]], Sniper, "-", "c", 4],
   ["2S", "Tainted Mag", [["L", 6], ["F", -3]], Rifle, "-", "r", 4, 10],
-  ["2T", "Wild Frenzy", [["!R", 100], ["R", 50]], "Grakata", "-", "r", 4],
+  ["2T", "Wild Frenzy", [["!R", 160], ["R", 40]], "Grakata", "-", "r", 4],
   ["2U", "Bursting Mass", [["err"]], "Mutalist Quanta", "-", "r", 4],
   ["2V", "Napalm Grenades", [["bsc", 5]], "Penta", "-", "r", 4],
   ["2W", "Amalgam Serration", [["D", 14], ["!D", 1], ["f", 2.2], ["!f", 0.8]], Rifle, "r", "g", 6, 10],

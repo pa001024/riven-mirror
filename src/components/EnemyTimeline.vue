@@ -29,16 +29,15 @@
 </template>
 
 <script lang="ts">
-
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 
 import echarts from "echarts/lib/echarts";
 // 引入柱状图
-import 'echarts/lib/chart/bar';
-import 'echarts/lib/chart/line';
+import "echarts/lib/chart/bar";
+import "echarts/lib/chart/line";
 // 引入组件
-import 'echarts/lib/component/tooltip';
-import 'echarts/lib/component/grid';
+import "echarts/lib/component/tooltip";
+import "echarts/lib/component/grid";
 import { EnemyTimelineState } from "@/warframe/codex";
 
 // 设置echarts主题
@@ -55,9 +54,25 @@ export default class EnemyTimeline extends Vue {
 
   get timelineText() {
     let rst = [];
-    let lastHitHead = 0, ammo = 0;
+    let lastHitHead = 0,
+      ammo = 0;
     this.hasDoT = this.hasArmorChange = false;
-    this.timeline.forEach((v, i) => {
+
+    // 因为要中途中止所以不用forEach
+    for (let i = 0; i < this.timeline.length; i++) {
+      let v = this.timeline[i];
+      if (rst.length > 10) {
+        rst.push({
+          time: "...",
+          hit: "...",
+          ammo: "...",
+          dot: 0,
+          hp: "...",
+          ar: "..."
+        });
+        i = this.timeline.length - 1;
+        v = this.timeline[i];
+      }
       ammo += v.ammo;
       if (v.isDoT) {
         let hit = this.timeline[i - 1];
@@ -69,7 +84,7 @@ export default class EnemyTimeline extends Vue {
             ammo: this.perBullet ? 0 : ammo,
             dot,
             hp: ~~v.health,
-            ar: ~~v.armor,
+            ar: ~~v.armor
           });
         }
         if (v.armor != this.timeline[0].armor) this.hasArmorChange = true;
@@ -86,30 +101,37 @@ export default class EnemyTimeline extends Vue {
             ammo: this.perBullet ? 1 : ammo,
             dot: 0,
             hp: ~~v.health,
-            ar: ~~v.armor,
+            ar: ~~v.armor
           });
           // console.log("HIT", hit)
         }
       }
-    });
-    return rst
+    }
+    return rst;
   }
 
   get timelineTable() {
     return this.timelineText.map(v => ({
-      time: `${+(v.time / 1e3).toFixed(1)}s`,
-      hit: v.ammo ? `${(v.hit / v.ammo).toFixed()} x ${v.ammo}` : this.$t("timeline.reload"),
+      time: isNaN(v.time) ? v.time : `${+(v.time / 1e3).toFixed(1)}s`,
+      hit: isNaN(v.ammo) ? v.ammo : v.ammo ? `${(v.hit / v.ammo).toFixed()} x ${v.ammo}` : this.$t("timeline.reload"),
       dot: v.dot,
-      hp: v.hp,
-      ar: v.ar,
+      hp: isNaN(v.hp) || v.hp > 0 ? v.hp : this.$t("timeline.dead"),
+      ar: v.ar
     }));
   }
 
-  get chart() { return this.$refs.chart as Element; }
+  get chart() {
+    return this.$refs.chart as Element;
+  }
 
   get timelineData() {
-    let tm = [], hp = [], dd = [], pd = [], ar = [];
-    let lastHitHead = 0, ammo = 0;
+    let tm = [],
+      hp = [],
+      dd = [],
+      pd = [],
+      ar = [];
+    let lastHitHead = 0,
+      ammo = 0;
     this.hasDoT = this.hasArmorChange = false;
     this.timeline.forEach((v, i) => {
       ammo += v.ammo;
@@ -118,13 +140,13 @@ export default class EnemyTimeline extends Vue {
         let dot = ~~(lastHealth - v.health);
         tm.push(v.ms / 1e3 + "s");
         hp.push(~~v.health);
-        ar.push(~~(v.armor));
+        ar.push(~~v.armor);
         if (v.isDoT) {
-          dd.push(~~(this.timeline[lastHitHead].health - lastHealth) || '-');
-          pd.push(dot || '-');
+          dd.push(~~(this.timeline[lastHitHead].health - lastHealth) || "-");
+          pd.push(dot || "-");
         } else {
-          dd.push(dot || '-');
-          pd.push('-');
+          dd.push(dot || "-");
+          pd.push("-");
         }
         if (v.armor != this.timeline[0].armor) this.hasArmorChange = true;
         if (dot > 0) this.hasDoT = true;
@@ -133,66 +155,68 @@ export default class EnemyTimeline extends Vue {
       } else if (i === this.timeline.length - 1) {
         tm.push(v.ms / 1e3 + "s");
         hp.push(0);
-        ar.push(~~(v.armor));
-        dd.push(~~(this.timeline[lastHitHead].health - v.health) || '-');
-        pd.push('-');
+        ar.push(~~v.armor);
+        dd.push(~~(this.timeline[lastHitHead].health - v.health) || "-");
+        pd.push("-");
       }
     });
+    const isLargeData = tm.length > 20;
 
     let series = [
       {
         name: this.$t("timeline.hp"),
-        type: 'bar',
-        stack: 'total',
+        type: "bar",
+        stack: "total",
         itemStyle: {
           normal: {
-            barBorderColor: 'rgba(0,0,0,0)',
-            color: 'rgba(0,0,0,0)'
+            barBorderColor: "rgba(0,0,0,0)",
+            color: "rgba(0,0,0,0)"
           },
           emphasis: {
-            barBorderColor: 'rgba(0,0,0,0)',
-            color: 'rgba(0,0,0,0)'
+            barBorderColor: "rgba(0,0,0,0)",
+            color: "rgba(0,0,0,0)"
           }
         },
         data: hp
       },
       {
         name: this.$t("timeline.dot"),
-        type: 'bar',
-        stack: 'total',
+        type: "bar",
+        stack: "total",
         label: {
           normal: {
-            show: true,
-            position: 'bottom'
+            show: !isLargeData,
+            position: "bottom"
           }
         },
         data: pd
       },
       {
         name: this.$t("timeline.hit"),
-        type: 'bar',
-        stack: 'total',
+        type: "bar",
+        stack: "total",
         label: {
           normal: {
-            show: true,
-            position: 'top'
+            show: !isLargeData,
+            position: "top"
           }
         },
         data: dd
-      }, {
+      },
+      {
         name: this.$t("timeline.ar"),
-        type: 'line',
+        type: "line",
         data: this.hasArmorChange && ar
       }
     ] as any[];
 
     let option = {
       xAxis: {
-        type: 'category',
+        type: "category",
         splitLine: { show: false },
         data: tm
       },
-      yAxis: { type: 'value' },
+      yAxis: { type: "value" },
       series
     };
     return option;
@@ -209,22 +233,21 @@ export default class EnemyTimeline extends Vue {
       this.myChart = echarts.init(this.chart, "rivenmirror");
       this.myChart.setOption({
         tooltip: {
-          trigger: 'axis',
-          axisPointer: { type: 'shadow' },
+          trigger: "axis",
+          axisPointer: { type: "shadow" }
         },
         grid: {
-          top: '4%',
-          left: '0%',
-          right: '2%',
-          bottom: '0%',
+          top: "4%",
+          left: "0%",
+          right: "2%",
+          bottom: "0%",
           containLabel: true
-        },
+        }
       });
       this.myChart.setOption(this.timelineData);
     });
   }
 }
-
 </script>
 
 <style lang="less">

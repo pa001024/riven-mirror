@@ -199,7 +199,7 @@ export abstract class ModBuild {
   }
   /** 弹片数 */
   get bullets() {
-    return 1;
+    return this.weapon.bullets;
   }
   /** 空占比 */
   get dutyCycle() {
@@ -887,7 +887,7 @@ export abstract class ModBuild {
    */
   calcCritDamage(m: number, n: number, p = 0, v = 2) {
     if (v != 2) return ((1 + (1 - v) * p) * (hAccMul(m, n - 1) + 1) + m * n * p * v) / (p + 1);
-    if (p != 0) return hAccMul(m, n - 1) + 1 + (2 * m * n * p) / (p + 1);
+    if (p != 0) return (p + 1) * (m * (3 * n - 1) + 1) - 2 * m * n; // (1+p)[m(3n-1)+1] - 2mn
     return hAccMul(m, n - 1) + 1; //m * (n - 1) + 1;
   }
 

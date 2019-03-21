@@ -178,9 +178,25 @@ export let _abilityData: AbilityData[] = [
     energyCost: 25,
     props: { Buff: { duration: D(25), effect: [["a", 2.5], ["s", 1.5]] } }
   },
-  { id: "Rest & Rage", tags: 16, energyCost: 50, props: {} },
-  { id: "Pacify & Provoke", tags: 0, energyCost: 75, props: {} },
-  { id: "Mend & Maim", tags: 0, energyCost: 100, props: {} },
+  {
+    id: "Rest & Rage",
+    tags: 16,
+    energyCost: 25,
+    props: { Control: { duration: D(22), range: R(5), distance: R(50) } }
+  },
+  {
+    id: "Pacify & Provoke",
+    tags: 2,
+    energyCost: 10,
+    props: { Buff: { effect: [["t", { value: 20, maxValue: 50, bind: [["t", 0]] }]] } }
+  },
+  {
+    id: "Mend & Maim",
+    tags: 1,
+    energyCost: 50,
+    energyCostPS: 3.5,
+    props: { Damage: { damage: [["Slash", S(150)]], range: R(18) } }
+  },
   {
     id: "Slash Dash",
     tags: 5,
@@ -1591,7 +1607,7 @@ export const _warframeData: WarframeData[] = [
   {
     id: "Equinox Prime",
     // name: "equinox",
-    tags: ["DPS", "Support", "Control"],
+    className: "Equinox",
     // description: "Split between day and night, Equinox manifests aggressive and defensive forms at will.",
     health: 125,
     shield: 100,
@@ -2076,7 +2092,7 @@ export const _warframeData: WarframeData[] = [
   {
     id: "Nova",
     // name: "nova",
-    tags: ["Support", "Control"],
+    tags: ["Support", "Control", "Tactics"],
     // description: "Nova uses electromagnetic energy to contain and control highly volatile antimatter that fuels her abilities.",
     health: 100,
     shield: 75,

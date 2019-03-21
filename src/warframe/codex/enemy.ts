@@ -780,6 +780,7 @@ export class Enemy extends EnemyData {
     }) as [DamageType, number][];
     this.applyDmg(immediateDamages);
   }
+
   /**
    * 计算单发射击后怪物血量剩余情况(连续)
    *
@@ -788,9 +789,14 @@ export class Enemy extends EnemyData {
    * @param {[string, number][]} dotDamageMap 触发伤害表(DoT)
    * @param {number} [bullets=1] 弹片数
    * @param {number} [durationMul=1]
+   * @param {number} [durationMul=1]
+   * @param {number} [critChance=0]
+   * @param {number} [threshold=300]
+   * @param {number} [procDamageMul=1]
+   * @param {number} [ammo=1]
    * @memberof Enemy
    */
-  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets = 1, durationMul = 1, critChance = 0, threshold = 300, procDamageMul = 1) {
+  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets = 1, durationMul = 1, critChance = 0, threshold = 300, procDamageMul = 1, ammo = 1) {
     let procChance = procChanceMap.reduce((a, [id, val]) => ((a[id] = val), a), {});
     // [0.每个弹片单独计算]
     let bls = bullets;
@@ -829,7 +835,7 @@ export class Enemy extends EnemyData {
       }
       bls = hAccSum(bls, -1);
     }
-    this.pushState(false, 1);
+    this.pushState(false, ammo);
   }
 
   // === 时间线系统 ===

@@ -153,7 +153,7 @@
                   </div>
                   <div class="item enemy-level">
                     <div class="key">{{$t("enemy.level")}}</div>
-                    <div class="value control"><el-input-number size="small" class="enemy-level-edit" controls-position="right" v-model="enemyLevel"></el-input-number></div>
+                    <div class="value control"><el-input size="small" class="enemy-level-edit" v-model="enemyLevel"></el-input></div>
                   </div>
                   <div class="item enemy-health">
                     <div class="key">{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</div>
@@ -314,11 +314,11 @@ export default class GunBuildEditor extends BaseBuildEditor {
       return;
     }
     if (this.spawnLevels[enemyData.id]) this.enemyLevel = this.spawnLevels[enemyData.id];
-    this.build.target = this.enemy = new Enemy(enemyData, this.enemyLevel);
+    this.build.target = this.enemy = new Enemy(enemyData, +this.enemyLevel);
   }
   @Watch("enemyLevel")
   enemyLevelChange() {
-    if (this.enemy) this.enemy.level = this.enemyLevel;
+    if (this.enemy) this.enemy.level = +this.enemyLevel;
   }
   // 子类不实现会报错
   handleTabsEdit(targetName, action: "add" | "remove") {

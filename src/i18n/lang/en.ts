@@ -1185,7 +1185,8 @@ let po = {
     reload: "RELOAD",
     dot: "DoT DMG",
     hp: "HP",
-    ar: "ARMOR"
+    ar: "ARMOR",
+    dead: "DEAD"
   },
   navigate: {
     index: "In-Game Alerts",
@@ -1612,7 +1613,16 @@ let po = {
       buttonNext: "Next",
       buttonStop: "Finish"
     },
-    builde: ["Here is the weapon infobox, all data will be automaticly updated", "You can switch to other calculation modes by clicking here to calculate the benefits of different mods", "Also these buffs are useful in various situation", "Additional, here are some other features (like Simulacrum e.t.c.)"]
+    builde: [
+      "Here is the weapon infobox, all data will be automaticly updated", //
+      "You can switch to other calculation modes by clicking here to calculate the benefits of different mods",
+      "Also these buffs are useful in various situation",
+      "Additional, here are some other features (like Simulacrum e.t.c.)"
+    ]
+  },
+  minimap: {
+    mods: "Mods",
+    data: "Data"
   }
 };
 

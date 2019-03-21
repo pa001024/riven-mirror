@@ -4141,7 +4141,10 @@ export const gunWeaponData = [
     status: 0.25,
     accuracy: 8.3,
     magazine: 600,
-    reload: 2.5
+    reload: 2.5,
+    rangeLimit: 200,
+    ammo: 800,
+    pol: "r"
   },
   {
     id: "Larkspur (charged)",
@@ -4156,7 +4159,9 @@ export const gunWeaponData = [
     status: 0.25,
     accuracy: 100,
     magazine: 600,
-    reload: 2.5
+    reload: 2.5,
+    ammo: 800,
+    pol: "r"
   },
 
   // Arch-gun (Atmosphere)
@@ -4169,7 +4174,7 @@ export const gunWeaponData = [
     dmg: [["Puncture", 17.5], ["Slash", 12.5], ["Impact", 20]],
     critMul: 2,
     critChance: 0.24,
-    fireRate: 16.7,
+    fireRate: 16.67,
     status: 0.12,
     accuracy: 25,
     magazine: 200,
@@ -4186,12 +4191,13 @@ export const gunWeaponData = [
     dmg: [["Puncture", 17.5], ["Slash", 12.5], ["Impact", 20]],
     critMul: 2.4,
     critChance: 0.28,
-    fireRate: 25,
+    fireRate: 16.67,
     status: 0.12,
     accuracy: 25,
     magazine: 300,
     reload: 2,
-    ammo: 1200
+    ammo: 1200,
+    pol: "r"
   },
   {
     id: "Fluctus (Atmosphere)",
@@ -4323,7 +4329,8 @@ export const gunWeaponData = [
     status: 0.5,
     accuracy: 8.3,
     magazine: 100,
-    reload: 2.5
+    reload: 2.5,
+    pol: "r"
   },
   {
     id: "Larkspur (charged-Atmosphere)",
@@ -4338,7 +4345,9 @@ export const gunWeaponData = [
     status: 0.34,
     accuracy: 100,
     magazine: 600,
-    reload: 2.5
+    reload: 2.5,
+    ammoCost: 10,
+    pol: "r"
   },
 
   // 守护
@@ -4580,7 +4589,17 @@ export const meleeWeaponData = [
     status: 0.3,
     pol: "rrd"
   },
-  { id: "Redeemer", name: "redeemer", tags: ["Melee", "Gunblade"], dmg: [["Puncture", 12], ["Slash", 42], ["Impact", 6]], critMul: 1.5, critChance: 0.05, fireRate: 0.833, slideDmg: 180, status: 0.1 },
+  {
+    id: "Redeemer",
+    name: "redeemer",
+    tags: ["Melee", "Gunblade"],
+    dmg: [["Puncture", 12], ["Slash", 42], ["Impact", 6]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 0.833,
+    slideDmg: 180,
+    status: 0.1
+  },
   {
     id: "Redeemer (charged)",
     name: "redeemer",
@@ -4592,7 +4611,8 @@ export const meleeWeaponData = [
     critChance: 0.05,
     fireRate: 0.833,
     slideDmg: 0,
-    status: 0.1
+    status: 0.1,
+    bullets: 10
   },
   {
     id: "Redeemer Prime",
@@ -4618,7 +4638,8 @@ export const meleeWeaponData = [
     critChance: 0.16,
     fireRate: 0.917,
     slideDmg: 0,
-    status: 0.28
+    status: 0.28,
+    bullets: 10
   },
   {
     id: "Sigma & Octantis",

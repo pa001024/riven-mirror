@@ -163,7 +163,7 @@ export class GunModBuild extends ModBuild {
    * @returns {EnemyTimelineState[]} 敌人时间线
    * @memberof GunModBuild
    */
-  getTimeline(timeLimit = 10) {
+  getTimeline(timeLimit = 300) {
     let enemy = new Enemy(this.target.data, this.target.level);
     enemy.amrorReduce = this.amrorReduce;
     enemy.reset();
@@ -186,7 +186,9 @@ export class GunModBuild extends ModBuild {
           this.bullets,
           this.procDurationMul,
           this.critChance,
-          this.weapon.tags.includes("Sniper") ? 750 : 750 / (this.fireRate < 1 ? 1 : this.fireRate)
+          this.weapon.tags.includes("Sniper") ? 750 : 750 / (this.fireRate < 1 ? 1 : this.fireRate),
+          this.procDamageMul,
+          shotAmmoCost
         );
         nextDmgTick += (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : ((remaingMag = this.magazineSize), isCharge ? reloadTicks + ticks : reloadTicks || ticks);
       }
