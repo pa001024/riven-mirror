@@ -1622,6 +1622,7 @@ let po = {
   },
   minimap: {
     mods: "Mods",
+    buffs: "Buffs",
     data: "Data"
   }
 };

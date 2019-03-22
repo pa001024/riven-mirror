@@ -654,6 +654,7 @@ let po = {
     modifiedMunitions: "彈藥改良",
     venomousClip: "惡毒彈匣",
     polarMagazine: "極地彈倉",
+    cryoCoatin: "冷凍包覆",
     combustionRounds: "燃燒彈頭",
     rubedoLinedBarrel: "紅晶槍管",
     magazineExtension: "擴充彈匣",
@@ -679,7 +680,9 @@ let po = {
     archGunAce: "Arch-槍械行家",
     hypothermicShell: "低溫外殼",
     chargedBullets: "帶電子彈",
+    ionInfusion: "離子注入",
     contaminationCasing: "毒染套管",
+    infectiousInjection: "傳染性注射",
     deadlyEfficiency: "致命效率",
     sabotRounds: "覆殼彈藥",
     harkonarScope: "哈庫那瞄準鏡",
@@ -3134,6 +3137,7 @@ let po = {
   },
   minimap: {
     mods: "配卡",
+    buffs: "加成",
     data: "數據"
   }
 };

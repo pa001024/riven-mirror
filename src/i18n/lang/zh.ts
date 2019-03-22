@@ -654,6 +654,7 @@ let po = {
     modifiedMunitions: "弹药改良",
     venomousClip: "恶毒弹匣",
     polarMagazine: "极地弹仓",
+    cryoCoatin: "冷冻包覆",
     combustionRounds: "燃烧弹头",
     rubedoLinedBarrel: "红晶枪管",
     magazineExtension: "扩充弹匣",
@@ -679,7 +680,9 @@ let po = {
     archGunAce: "Arch-枪械行家",
     hypothermicShell: "低温外壳",
     chargedBullets: "带电子弹",
+    ionInfusion: "离子注入",
     contaminationCasing: "毒染套管",
+    infectiousInjection: "传染性注射",
     deadlyEfficiency: "致命效率",
     sabotRounds: "覆壳弹药",
     harkonarScope: "哈库那瞄准镜",
@@ -1986,7 +1989,7 @@ let po = {
     primedShred: "撕裂P",
     splitChamber: "分裂",
     vileAcceleration: "卑劣",
-    primedCryoRounds: "低温P",
+    primedCryoRounds: "冰P",
     primedPointBlank: "抵近P",
     baneOfCorpus: "C歧视",
     baneOfGrineer: "G歧视",
@@ -1999,41 +2002,64 @@ let po = {
     primedFastHands: "爆发P",
     primedRavage: "破灭P",
     primedChargedShell: "电P",
-    cryoRounds: "冰",
-    chargedShell: "电",
-    highVoltage: "电",
-    contagiousSpread: "毒",
-    hellfire: "火",
-    incendiaryCoat: "火",
-    stormbringer: "电",
-    jolt: "电",
-    pistolPestilence: "毒",
-    chillingGrasp: "冰",
-    frostbite: "冰",
-    scorch: "火",
-    heatedCharge: "火",
-    malignantForce: "毒",
-    pathogenRounds: "毒",
-    convulsion: "电",
+    hellfire: "银火", // 地狱火
+    incendiaryCoat: "银火", // 燃烧外壳
+    heatedCharge: "银火", // 火焰装填
+    moltenImpact: "银火", // 熔岩冲击
+    blazingSteel: "银火", // 炽烈坚刃
+    magmaChamber: "银火", // 熔岩弹膛
+    thermiteRounds: "金火", // 铝热焊弹
+    scatteringInferno: "金火", // 炼狱轰击
+    scorch: "金火", // 灼痕焦点
+    volcanicEdge: "金火", // 爆裂刀刃
+    combustionRounds: "金火", // 燃烧弹头
+    searingSteel: "金火", // 炽燃钢铁
+    stormbringer: "银电", // 暴风使者
+    chargedShell: "银电", // 充电弹头
+    convulsion: "银电", // 痉挛
+    shockingTouch: "银电", // 电击触点
+    electrifiedBarrel: "银电", // 带电枪管
+    galvanizedBlade: "银电", // 通电刀刃
+    highVoltage: "金电", // 高压电流
+    shellShock: "金电", // 电冲弹药
+    jolt: "金电", // 电流震击
+    voltaicStrike: "金电", // 伏打电能
+    chargedBullets: "金电", // 带电子弹
+    ionInfusion: "金电", // 离子注入
+    cryoRounds: "银冰", // 低温弹头
+    chillingGrasp: "银冰", // 急冻控场
+    deepFreeze: "银冰", // 深层冷冻
+    northWind: "银冰", // 北风
+    hypothermicShell: "银冰", // 低温外壳
+    glacialEdge: "银冰", // 冰冷刃缘
+    rimeRounds: "金冰", // 白霜弹头
+    frigidBlast: "金冰", // 冰冷疾风
+    frostbite: "金冰", // 结霜侵蚀
+    viciousFrost: "金冰", // 蚀骨寒霜
+    cryoCoatin: "金冰", // 冷冻包覆
+    polarMagazine: "金冰", // 极地弹仓
+    infectedClip: "银毒", // 污染弹匣
+    contagiousSpread: "银毒", // 传染蔓延
+    pathogenRounds: "银毒", // 病原弹头
+    feverStrike: "银毒", // 热病打击
+    venomousClip: "银毒", // 恶毒弹匣
+    poisonousSting: "银毒", // 剧毒螯刺
+    malignantForce: "金毒", // 致命火力
+    toxicBarrage: "金毒", // 毒素弹幕
+    pistolPestilence: "金毒", // 瘟疫手枪
+    virulentScourge: "金毒", // 剧毒灾害
+    contaminationCasing: "金毒", // 毒染套管
+    infectiousInjection: "金毒", // 传染性注射
     lethalTorrent: "洪流",
-    rimeRounds: "冰",
-    shellShock: "电",
-    scatteringInferno: "火",
     chillingReload: "激冷",
-    taintedShell: "毒",
     viciousSpread: "恶性",
-    voltaicStrike: "电",
     maimingStrike: "致残",
     bloodRush: "急进",
-    virulentScourge: "毒",
     collisionForce: "冲",
     conditionOverload: "异况",
     spoiledStrike: "腐坏",
     buzzKill: "败兴",
-    northWind: "冰",
-    feverStrike: "毒",
-    moltenImpact: "火",
-    riven: "裂罅"
+    riven: "紫"
   },
   weaponmode: {
     format: " ({0})",
@@ -3229,6 +3255,7 @@ let po = {
   },
   minimap: {
     mods: "配卡",
+    buffs: "加成",
     data: "数据"
   },
   droptable: {

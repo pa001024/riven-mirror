@@ -15,6 +15,12 @@
         </a>
       </div>
     </section>
+    <section class="buffs" v-if="buffs.length > 0">
+      <header v-t="`minimap.buffs`"></header>
+      <div class="minimod" v-for="(buff, i) in buffs" :key="i">
+        {{$t(`buff.${buff.name}`)}}: {{buff.value}}
+      </div>
+    </section>
     <section class="data">
       <header v-t="`minimap.data`"></header>
       <div class="minidata">
@@ -80,6 +86,16 @@ export default class BuildMinimap extends Vue {
         name: v.shortName,
         wiki: this.$t("otherinfo.wikiurl", [v.id.replace(/ /g, "_")]),
         rarity: v.rarity
+      };
+    });
+  }
+
+  get buffs() {
+    return this.build.buffs.filter(Boolean).map(v => {
+      return {
+        id: v.data.id, //
+        name: v.name,
+        value: v.layerEnable ? v.layer : v.power
       };
     });
   }

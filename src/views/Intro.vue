@@ -109,6 +109,9 @@
           <h3 v-t="'intro.fh1'"></h3>
           <ul class="clear">
             <li>
+              <a href="https://github.com/pa001024/riven-mirror" target="_blank">GitHub</a>
+            </li>
+            <li>
               <a href="https://warframe.huijiwiki.com/wiki/blog:RivenMirror" target="_blank" v-t="'intro.fw1'"></a>
             </li>
             <li>

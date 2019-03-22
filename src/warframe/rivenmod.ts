@@ -88,7 +88,7 @@ export class RivenMod {
   }
 
   get readableSubfix() {
-    return this.properties.map(v => (v.isNegative ? "-" : "") + i18n.t(`prop.shortName.${v.id}`)).join(" ");
+    return this.properties.map(v => (v.isNegative ? "-" : "") + i18n.t(`prop.shortName.${v.id}`)).join("");
   }
   /** 等级 */
   level: number = 8;

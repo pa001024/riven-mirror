@@ -62,7 +62,7 @@ export abstract class BaseBuildEditor extends Vue {
       buffs.push(null);
       this.currentTab.mods = mods;
       this.currentTab.buffs = buffs;
-      if (mods.some(v => v.level != v.maxLevel)) this.levelSetting = true;
+      if (mods.some(v => v && v.level != v.maxLevel)) this.levelSetting = true;
     }
   }
   reload() {
