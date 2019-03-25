@@ -1,34 +1,42 @@
 <template>
-  <svg class="icon" :class="[`wf-icon-`+name, { shadow }]" v-html="use">
+  <svg class="icon" :class="[`wf-icon-`+name, { shadow }]" :viewBox="size" v-html="path">
   </svg>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { SVGData } from "../assets/svgicons";
 
 const AliasTrans = {
-  "o": "koneksi",
-  "r": "madurai",
+  o: "koneksi",
+  r: "madurai",
   "-": "naramon",
-  "f": "penjaga",
-  "t": "unairu",
-  "d": "vazarin",
+  f: "penjaga",
+  t: "unairu",
+  d: "vazarin",
   "=": "zenurik",
-  "w": "umbra",
-  "infestation": "infested",
-  "corrupted": "orokin",
-  "fissure": "void",
-}
+  w: "umbra",
+  infestation: "infested",
+  corrupted: "orokin",
+  fissure: "void"
+};
 
 @Component
 export default class WfIcon extends Vue {
-  @Prop() type: string
-  @Prop({ type: Boolean }) shadow: boolean
+  @Prop() type: string;
+  @Prop({ type: Boolean }) shadow: boolean;
   get name() {
     if (this.type in AliasTrans) return AliasTrans[this.type];
     return this.type;
   }
-  get use() {
-    return `<use xlink:href="/fonts/wf.svg#wf-icon-${this.name}"></use>`
+  get raw() {
+    return SVGData[this.name] || SVGData["true"];
+  }
+  get path() {
+    return `<path d="${this.raw && this.raw.path}"></path>`;
+  }
+  get size() {
+    let vs = (this.raw && this.raw.size) || 32;
+    return `0 0 ${vs} ${vs}`;
   }
 }
 </script>

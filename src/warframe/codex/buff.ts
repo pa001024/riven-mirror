@@ -379,7 +379,7 @@ export const BuffList: BuffData[] = [
     id: "K",
     name: "zaw", // zaw 加成
     type: BuffType.TotalDamage,
-    target: "Vistual",
+    target: "Virtual",
     multiLayer: {
       maxStack: 2,
       unstackableProps: [[["oad", 14]], [["oad", 70]]]

@@ -984,12 +984,12 @@ export abstract class ModBuild {
     // 只允许选择的元素
     if (this.allowElementTypes) if (mod.props.some(v => ExtraDmgSet.has(v[0]))) if (!mod.props.some(v => this.allowElementTypes.includes(v[0]))) return false;
     // 过滤一些需要前置MOD的MOD
-    for (let i = 0; i < NormalCardDependTable.length; i++) {
-      const depend = NormalCardDependTable[i];
-      if (mod.id === depend[0]) {
-        if (!mods.some(v => v.id === depend[1])) return false;
-      }
-    }
+    // for (let i = 0; i < NormalCardDependTable.length; i++) {
+    //   const depend = NormalCardDependTable[i];
+    //   if (mod.id === depend[0]) {
+    //     if (!mods.some(v => v.id === depend[1])) return false;
+    //   }
+    // }
     return true;
   }
 
@@ -1151,8 +1151,8 @@ export abstract class ModBuild {
         else v[1] = this.testMod(v[0]);
         // v[0].id === "RIVENFAKE" && console.log("测试收益: ", this._mods.map(v => v.name).join(","), v[0].props[0][1], v[0].name, "的收益是", v[1]);
       });
-      // 3. 把所有卡按收益排序
-      sortableMods.sort((a, b) => (b[1] == a[1] ? b[0].name.localeCompare(a[0].name) : b[1] - a[1]));
+      // 3. 把所有卡按收益排序 []
+      sortableMods.sort((a, b) => (b[1] == a[1] ? (NormalCardDependTable[a[0].id] === b[0].id ? 1 : b[0].name.localeCompare(a[0].name)) : b[1] - a[1]));
       if (sortableMods.length > 0) {
         // console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
         // 4. 将收益最高的一项插入并移出数组

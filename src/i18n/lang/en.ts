@@ -1189,7 +1189,7 @@ let po = {
     dead: "DEAD"
   },
   navigate: {
-    index: "In-Game Alerts",
+    index: "Realtime Events",
     riven: "Riven Analyzer",
     weapon: "Weapon Builder",
     warframe: "Tactics Builder",

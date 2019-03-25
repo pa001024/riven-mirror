@@ -11,12 +11,12 @@
       <!-- padding -->
       <div class="app-nav-pad"></div>
       <!-- PC端用户登录界面 -->
-      <router-link to="/login" class="app-login-container">
+      <!-- <router-link to="/login" class="app-login-container">
         <div class="hidden-xs-only app-login">
           <WfIcon type="fingerprint"/>
           <span class="app-login-title">{{$t("app.login")}}</span>
         </div>
-      </router-link>
+      </router-link> -->
       <!-- 移动端菜单按钮 -->
       <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
         <WfIcon type="menu"></WfIcon>

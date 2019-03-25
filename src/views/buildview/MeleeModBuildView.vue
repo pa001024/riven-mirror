@@ -51,9 +51,11 @@
     <div class="setting">
       <el-form :inline="true" class="build-form-inline">
         <!-- 选择武器 -->
-        <el-form-item :label="$t('buildview.weapon')" v-if="riven.weapons.length > 1">
+        <el-form-item :label="$t('buildview.weapon')">
           <el-select size="small" v-model="selectWeapon" @change="debouncedRecalc" :placeholder="$t('buildview.selectWeapon')">
             <el-option v-for="weapon in riven.weapons" :key="weapon.id" :label="weapon.displayName" :value="weapon.id">
+            </el-option>
+            <el-option v-for="weapon in vistualWeapons" :key="weapon.id" :label="weapon.displayName" :value="weapon.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -70,7 +72,7 @@
         </el-form-item>
         <!-- 选择比较类型 -->
         <el-form-item>
-          <el-radio-group size="small" v-model="selectCompMethod" @change="debouncedRecalc">
+          <el-radio-group v-if="!isVirtualWeaponSelected" size="small" v-model="selectCompMethod" @change="debouncedRecalc">
             <el-radio-button :label="0">{{$t("buildview.attackDamage")}}</el-radio-button>
             <el-radio-button :label="1">{{$t("buildview.slideDamage")}}</el-radio-button>
             <el-radio-button :label="2">{{$t("buildview.attackDamagePS")}}</el-radio-button>
@@ -151,18 +153,18 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { BaseModBuildView } from "./BaseModBuildView";
 import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
-import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDataBase, Codex, MeleeWeapon } from "@/warframe/codex";
+import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDataBase, Codex, MeleeWeapon, MeleeWeaponDataBase } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import "@/less/buildview.less";
 import localStorage from "universal-localstorage";
 
 @Component
 export default class MeleeModBuildView extends BaseModBuildView {
-  builds: [string, MeleeModBuild][] = []
+  builds: [string, MeleeModBuild][] = [];
   /** 连击倍率 */
-  comboMul = 2
+  comboMul = 2;
   /** 插槽使用数 */
-  slots = 8
+  slots = 8;
   /** 基伤加成 */
   extraBaseDamage = 0;
   /** 总伤加成 */
@@ -185,12 +187,16 @@ export default class MeleeModBuildView extends BaseModBuildView {
   gripId: string = null;
   linksId: string = null;
 
+  vistualWeapons = MeleeWeaponDataBase.filter(v => v.tags.includes("Virtual"));
+
+  get isVirtualWeaponSelected() {
+    return this.weapon.tags.includes("Virtual");
+  }
+
   /** [overwrite] 武器 */
   get weapon() {
-    if (this.riven.isZaw)
-      return new Zaw(this.strike, this.grip, this.links);
-    else
-      return RivenDataBase.getNormalWeaponsByName(this.selectWeapon);
+    if (this.riven.isZaw) return new Zaw(this.strike, this.grip, this.links);
+    else return RivenDataBase.getNormalWeaponsByName(this.selectWeapon);
   }
 
   get availableArcanes() {
@@ -236,8 +242,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
       }
       this.selectWeapon = weapons[weapons.length - 1].id;
     }
-    if (!oldRiven || this.riven && oldRiven.id !== this.riven.id)
-      this.selectCompMethod = this.defalutMode;
+    if (!oldRiven || (this.riven && oldRiven.id !== this.riven.id)) this.selectCompMethod = this.defalutMode;
     this.debouncedRecalc();
   }
   zawPartChange() {
@@ -247,16 +252,19 @@ export default class MeleeModBuildView extends BaseModBuildView {
   }
   // === 生命周期钩子 ===
   beforeMount() {
-    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 150);
+    this._debouncedRecalc = _.debounce(() => {
+      this.recalc();
+    }, 150);
     this.selectDamageType = localStorage.getItem("MeleeModBuildView.selectDamageType") || "Corrosive";
     this.rivenChange();
   }
   recalc() {
     if (!this.riven || !this.riven.name || this.riven.properties.length < 2) return;
+    if (this.isVirtualWeaponSelected && this.selectCompMethod > 0) this.selectCompMethod = 0;
     let options = {
       compareMode: this.selectCompMethod,
       comboLevel: ~~((this.comboMul - 1) * 2),
-      allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
+      allowElementTypes: (this.selectDamageType && this.elementTypes[this.selectDamageType]) || null,
       extraBaseDamage: +this.extraBaseDamage,
       extraOverall: +this.extraOverall,
       calcCondiOver: this.calcCondiOver,
@@ -264,6 +272,5 @@ export default class MeleeModBuildView extends BaseModBuildView {
     };
     super.recalc(MeleeModBuild, options);
   }
-
 }
 </script>

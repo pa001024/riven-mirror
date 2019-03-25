@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.4.20.1";
+export const version = "1.4.21";
 export const updateLogs = [
+  {
+    version: "1.4.21",
+    date: "2019/3/25",
+    md: {
+      en: `- Riven Analyzer: Now able to select and calculate the current Riven for the benefit of a specific skill (Gara, Khora, Atlas)`,
+      cn: `- 紫卡分析: 可选择并计算当前紫卡应用于特定技能的收益 (Gara, Khora, Atlas)`
+    }
+  },
   {
     version: "1.4.20",
     date: "2019/3/16",
@@ -27,6 +35,7 @@ export const updateLogs = [
   - 修正Edge浏览器无法正常调整敌人等级的问题`
     }
   },
+  /*
   {
     version: "1.4.19",
     date: "2019/3/11",
@@ -53,7 +62,6 @@ export const updateLogs = [
 - 近战3.0: 添加取消连击伤害加成的选项`
     }
   }
-  /*
   {
     version: "1.4.17",
     date: "2019/3/6",

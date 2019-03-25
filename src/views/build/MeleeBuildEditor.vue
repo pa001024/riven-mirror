@@ -216,7 +216,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
 
   @Watch("weapon")
   reload() {
-    this.comboMul = this.weapon.tags.includes("Vistual") ? 1 : 1.5;
+    this.comboMul = this.weapon.tags.includes("Virtual") ? 1 : 1.5;
     super.reload();
   }
   reloadSelector() {
@@ -243,7 +243,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   }
 
   newBuild(weapon: MeleeWeapon) {
-    if (weapon.tags.includes("Vistual")) this.comboMul = 1;
+    if (weapon.tags.includes("Virtual")) this.comboMul = 1;
     let b = new MeleeModBuild(weapon, null, this.options);
     b.fastMode = false;
     b.compareMode = this.defalutMode;

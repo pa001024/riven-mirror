@@ -10,6 +10,8 @@ See WIKI for details: [RivenMirror](https://warframe.huijiwiki.com/wiki/%E5%8D%9
 
 ## Recent TODO-LIST
 
+- [ ] dark theme
+- [ ] skill riven analysis
 - [ ] account
 - [ ] user feedback
 

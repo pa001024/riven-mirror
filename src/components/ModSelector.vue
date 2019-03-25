@@ -42,7 +42,6 @@
 </template>
 
 <script lang="ts">
-
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import RivenEditor from "@/components/RivenEditor.vue";
@@ -52,9 +51,9 @@ import { RivenMod } from "@/warframe/rivenmod";
 import { ModBuild } from "@/warframe/modbuild";
 
 declare interface ModSelectorTab {
-  id: string
-  name: string
-  mods: NormalMod[]
+  id: string;
+  name: string;
+  mods: NormalMod[];
 }
 
 @Component({ components: { RivenEditor } })
@@ -65,8 +64,12 @@ export default class ModSelector extends Vue {
   tabs: ModSelectorTab[] = [];
   selectTab = "fast";
   editorRivenCode = "";
-  get isExalted() { return this.build.weapon.tags.includes("Exalted") }
-  get isVirtual() { return this.build.weapon.tags.includes("Virtual") }
+  get isExalted() {
+    return this.build.weapon.tags.includes("Exalted");
+  }
+  get isVirtual() {
+    return this.build.weapon.tags.includes("Virtual");
+  }
 
   /** MOD快速选择 */
   fastSelect = {
@@ -127,35 +130,42 @@ export default class ModSelector extends Vue {
       allStatus: ["Contamination Casing", "Magma Chamber", "Charged Bullets", "Hypothermic Shell"]
     }
   };
-  get fast() { return _.map(this.fastSelect[this.build.rivenWeapon.mod], (v, i) => ({ name: i, id: v } as any)); }
+  get fast() {
+    return _.map(this.fastSelect[this.build.rivenWeapon.mod], (v, i) => ({ name: i, id: v } as any));
+  }
 
   newRiven(code?: string) {
     let riven = new RivenMod();
     riven.qrCodeBase64 = code || this.editorRivenCode;
     if (!this.isVirtual && riven.id !== this.build.rivenWeapon.id)
-      this.$confirm(this.$t("modselector.weaponWarnTip") as string, this.$t("modselector.weaponWarn") as string, { type: 'warning' }).then(() => {
+      this.$confirm(this.$t("modselector.weaponWarnTip") as string, this.$t("modselector.weaponWarn") as string, { type: "warning" }).then(() => {
         this.$emit("command", riven.normalMod);
       });
-    else
-      this.$emit("command", riven.normalMod);
+    else this.$emit("command", riven.normalMod);
   }
 
   @Watch("build")
   reload() {
     let selected = _.compact(this.build.mods);
     // 是否虚拟技能武器
-    let mods = NormalModDatabase.filter(v =>
-      (this.isVirtual && VirtualMeleeMods.includes(v.key)) || // 虚拟技能武器接受所有mod
-      this.build.weapon.tags.concat([this.build.rivenWeapon.id]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id));
-    let benefits = mods.filter(v => v.props.some(k => v.id === "Berserker" || "01DSKEGICO456789ARLFJ".indexOf(k[0]) >= 0))
-      .map(v => [v, this.build.testMod(v)] as [NormalMod, number]).sort((a, b) => b[1] - a[1]).map(([v]) => v);
+    let mods = NormalModDatabase.filter(
+      v =>
+        (this.isVirtual && VirtualMeleeMods.includes(v.key)) || // 虚拟技能武器接受所有mod
+        (this.build.weapon.tags.concat([this.build.rivenWeapon.id]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id))
+    );
+    console.log(this.build.options);
+    let benefits = mods
+      .filter(v => v.props.some(k => v.id === "Berserker" || "01DSKEGICO456789ARLFJ".indexOf(k[0]) >= 0))
+      .map(v => [v, this.build.testMod(v)] as [NormalMod, number])
+      .sort((a, b) => b[1] - a[1])
+      .map(([v]) => v);
     this.tabs = [
       // { id: "Fast", name: this.$t("modselector.fastSelect") as string, mods: _.map(this.fastSelect[this.build.rivenWeapon.mod], (v, i) => ({ name: i, id: v } as any)) },
       { id: "benefit", name: this.$t("modselector.sorted") as string, mods: benefits },
       { id: "damage", name: this.$t("modselector.damage") as string, mods: mods.filter(v => v.props.some(k => k[1] > 0 && "01DSKEGICO".indexOf(k[0]) >= 0)) },
       { id: "elements", name: this.$t("modselector.element") as string, mods: mods.filter(v => v.props.some(k => "456789A".indexOf(k[0]) >= 0)) },
       { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.id === "Berserker" || v.props.some(k => "RLFJ".indexOf(k[0]) >= 0)) },
-      { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.id !== "Berserker" && v.props.every(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) < 0)) },
+      { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.id !== "Berserker" && v.props.every(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) < 0)) }
     ];
     this.selectTab = "fast";
   }
@@ -163,11 +173,12 @@ export default class ModSelector extends Vue {
     this.reload();
   }
   handleClick(id: string | string[]) {
-    if (typeof id === "string")
-      this.$emit("command", Codex.getNormalMod(id));
+    if (typeof id === "string") this.$emit("command", Codex.getNormalMod(id));
     else {
       let selected = _.compact(this.build.mods);
-      let mods = NormalModDatabase.filter(v => this.build.weapon.tags.concat([this.build.rivenWeapon.id]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id));
+      let mods = NormalModDatabase.filter(
+        v => this.build.weapon.tags.concat([this.build.rivenWeapon.id]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id)
+      );
       let found = id.map(v => mods.find(k => k.id === v)).filter(Boolean);
       this.$emit("command", found);
     }

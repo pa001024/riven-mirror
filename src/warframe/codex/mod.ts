@@ -195,11 +195,11 @@ export const NormalModDatabase = _normalModSource.map(v => {
   } as NormalModData);
 });
 
-export const NormalCardDependTable: [string, string][] = [
-  ["Bladed Rounds", "Vital Sense"], // 尖刃弹头 -> 致命一击
-  ["Heavy Caliber", "Serration"], // 重口径 -> 膛线
-  ["Pressurized Magazine", "Anemic Agility"] // 增压弹匣 -> 乏能迅敏
-];
+export const NormalCardDependTable: { [key: string]: string } = {
+  "Bladed Rounds": "Vital Sense", // 尖刃弹头 -> 致命一击
+  "Heavy Caliber": "Serration", // 重口径 -> 膛线
+  "Pressurized Magazine": "Anemic Agility" // 增压弹匣 -> 乏能迅敏
+};
 
 export const AcolyteModsList: string[] = [
   "Weeping Wounds",
