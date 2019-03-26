@@ -27,6 +27,18 @@
         <div class="title">{{$t(`build.${dmgName}`)}}</div>
         <div class="value">{{dmgVal}}</div>
       </div>
+      <div class="minidata">
+        <div class="title">{{$t(`build.fireRate`)}}</div>
+        <div class="value">{{toFixed(build.fireRate, 2)}}</div>
+      </div>
+      <div class="minidata">
+        <div class="title">{{$t(`build.crit`)}}</div>
+        <div class="value">{{toPercent(build.critChance)}}% / {{build.critMul}}x</div>
+      </div>
+      <div class="minidata">
+        <div class="title">{{$t(`build.proc`)}}</div>
+        <div class="value">{{toPercent(build.procChance)}}%{{build.bullets > 1 ? ` / ${build.bullets}` : ''}}</div>
+      </div>
     </section>
   </div>
 </template>
@@ -44,6 +56,14 @@ export default class BuildMinimap extends Vue {
 
   get isMelee() {
     return this.build.weapon.tags.includes("Melee");
+  }
+
+  toFixed(val: number, num: number) {
+    return +val.toFixed(num);
+  }
+
+  toPercent(val: number) {
+    return +(val * 100).toFixed(1);
   }
 
   get dmgName() {

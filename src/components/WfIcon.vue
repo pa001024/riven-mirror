@@ -1,5 +1,6 @@
 <template>
-  <svg class="icon" :class="[`wf-icon-`+name, { shadow }]" :viewBox="size" v-html="path">
+  <svg class="icon" :class="[`wf-icon-`+name, { shadow }]" :viewBox="size">
+    <path :d="path"></path>
   </svg>
 </template>
 <script lang="ts">
@@ -20,7 +21,7 @@ const AliasTrans = {
   fissure: "void"
 };
 
-@Component
+@Component({})
 export default class WfIcon extends Vue {
   @Prop() type: string;
   @Prop({ type: Boolean }) shadow: boolean;
@@ -32,7 +33,7 @@ export default class WfIcon extends Vue {
     return SVGData[this.name] || SVGData["true"];
   }
   get path() {
-    return `<path d="${this.raw && this.raw.path}"></path>`;
+    return this.raw && this.raw.path;
   }
   get size() {
     let vs = (this.raw && this.raw.size) || 32;

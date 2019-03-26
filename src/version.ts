@@ -1,12 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.4.21";
+export const version = "1.4.21.1";
 export const updateLogs = [
   {
     version: "1.4.21",
     date: "2019/3/25",
     md: {
-      en: `- Riven Analyzer: Now able to select and calculate the current Riven for the benefit of a specific skill (Gara, Khora, Atlas)`,
-      cn: `- 紫卡分析: 可选择并计算当前紫卡应用于特定技能的收益 (Gara, Khora, Atlas)`
+      en: `- Riven Analyzer: Now able to select and calculate the current Riven for the benefit of a specific skill (Gara, Khora, Atlas)
+- build minimap improvements`,
+      cn: `- 紫卡分析: 可选择并计算当前紫卡应用于特定技能的收益 (Gara, Khora, Atlas)
+- 配置缩略图改进`
     }
   },
   {

@@ -17,11 +17,14 @@
               </div>
               <el-button slot="reference" class="block btn-addriven" size="medium" icon="el-icon-plus">{{$t("riven.addriven")}}</el-button>
             </el-popover>
-            <el-upload v-else class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="https://api.0-0.at/api/ocr">
-              <i class="el-icon-upload"></i>
-              <div class="el-upload__text" v-html="$t('riven.uploadtip')"></div>
-              <div slot="tip" class="el-upload__tip">{{$t("riven.uploadlimit")}}</div>
-            </el-upload>
+            <template v-else>
+              <el-input type="textarea" :rows="1" :placeholder="$t(`riven.pastehere`)"></el-input>
+              <el-upload class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="https://api.0-0.at/api/ocr">
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text" v-html="$t('riven.uploadtip')"></div>
+                <div slot="tip" class="el-upload__tip">{{$t("riven.uploadlimit")}}</div>
+              </el-upload>
+            </template>
           </el-col>
         </el-row>
         <!-- 紫卡显示区域 -->

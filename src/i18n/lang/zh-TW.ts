@@ -1963,6 +1963,105 @@ let po = {
     engines: "引擎",
     avionics: "飛航系統"
   },
+  mods: {
+    primedReach: "劍風P",
+    primedPressurePoint: "壓迫P",
+    primedFeverStrike: "毒P",
+    primedFury: "狂暴P",
+    primedHeavyTrauma: "重創P",
+    primedQuickdraw: "持續P",
+    expelCorpus: "C歧視",
+    expelGrineer: "G歧視",
+    expelInfested: "I歧視",
+    expelCorrupted: "O歧視",
+    primedExpelCorpus: "C歧視P",
+    primedExpelGrineer: "G歧視P",
+    primedExpelInfested: "I歧視P",
+    primedExpelCorrupted: "O歧視P",
+    primedSlipMagazine: "串聯P",
+    primedTargetCracker: "弱點P",
+    primedPistolGambit: "手槍P",
+    primedHeatedCharge: "火P",
+    pointStrike: "致命",
+    vitalSense: "弱點",
+    primedChamber: "首發",
+    chargedChamber: "首發",
+    primedShred: "撕裂P",
+    splitChamber: "分裂",
+    vileAcceleration: "卑劣",
+    primedCryoRounds: "冰P",
+    primedPointBlank: "抵近P",
+    baneOfCorpus: "C歧視",
+    baneOfGrineer: "G歧視",
+    baneOfInfested: "I歧視",
+    baneOfCorrupted: "O歧視",
+    primedBaneOfCorpus: "C歧視P",
+    primedBaneOfGrineer: "G歧視P",
+    primedBaneOfInfested: "I歧視P",
+    primedBaneOfCorrupted: "O歧視P",
+    primedFastHands: "爆發P",
+    primedRavage: "破滅P",
+    primedChargedShell: "電P",
+    hellfire: "銀火", // 地獄火
+    incendiaryCoat: "銀火", // 燃燒外殼
+    heatedCharge: "銀火", // 火焰裝填
+    moltenImpact: "銀火", // 熔岩衝擊
+    blazingSteel: "銀火", // 熾烈堅刃
+    magmaChamber: "銀火", // 熔岩彈膛
+    thermiteRounds: "金火", // 鋁熱焊彈
+    scatteringInferno: "金火", // 煉獄轟擊
+    scorch: "金火", // 灼痕焦點
+    volcanicEdge: "金火", // 爆裂刀刃
+    combustionRounds: "金火", // 燃燒彈頭
+    searingSteel: "金火", // 熾燃鋼鐵
+    stormbringer: "銀電", // 暴風使者
+    chargedShell: "銀電", // 充電彈頭
+    convulsion: "銀電", // 痙攣
+    shockingTouch: "銀電", // 電擊觸點
+    electrifiedBarrel: "銀電", // 帶電槍管
+    galvanizedBlade: "銀電", // 通電刀刃
+    highVoltage: "金電", // 高壓電流
+    shellShock: "金電", // 電衝彈藥
+    jolt: "金電", // 電流震擊
+    voltaicStrike: "金電", // 伏打電能
+    chargedBullets: "金電", // 帶電子彈
+    ionInfusion: "金電", // 離子注入
+    cryoRounds: "銀冰", // 低溫彈頭
+    chillingGrasp: "銀冰", // 急凍控場
+    deepFreeze: "銀冰", // 深層冷凍
+    northWind: "銀冰", // 北風
+    hypothermicShell: "銀冰", // 低溫外殼
+    glacialEdge: "銀冰", // 冰冷刃緣
+    rimeRounds: "金冰", // 白霜彈頭
+    frigidBlast: "金冰", // 冰冷疾風
+    frostbite: "金冰", // 結霜侵蝕
+    viciousFrost: "金冰", // 蝕骨寒霜
+    cryoCoatin: "金冰", // 冷凍包覆
+    polarMagazine: "金冰", // 極地彈倉
+    infectedClip: "銀毒", // 污染彈匣
+    contagiousSpread: "銀毒", // 傳染蔓延
+    pathogenRounds: "銀毒", // 病原彈頭
+    feverStrike: "銀毒", // 熱病打擊
+    venomousClip: "銀毒", // 惡毒彈匣
+    poisonousSting: "銀毒", // 劇毒螯刺
+    malignantForce: "金毒", // 致命火力
+    toxicBarrage: "金毒", // 毒素彈幕
+    pistolPestilence: "金毒", // 瘟疫手槍
+    virulentScourge: "金毒", // 劇毒災害
+    contaminationCasing: "金毒", // 毒染套管
+    infectiousInjection: "金毒", // 傳染性注射
+    lethalTorrent: "洪流",
+    chillingReload: "激冷",
+    viciousSpread: "惡性",
+    maimingStrike: "致殘",
+    bloodRush: "急進",
+    driftingContact: "漂移",
+    collisionForce: "衝",
+    conditionOverload: "異況",
+    spoiledStrike: "腐壞",
+    buzzKill: "敗興",
+    riven: "紫"
+  },
   weaponmode: {
     format: " ({0})",
     charged: "蓄力",
@@ -2385,7 +2484,8 @@ let po = {
     share: "分享",
     history: "歷史記錄",
     star: "裂罅傾向: {0}",
-    range: "範圍: {0} ~ {1} (±10%)"
+    range: "範圍: {0} ~ {1} (±10%)",
+    pastehere: "在此處粘貼"
   },
   build: {
     fill: "自動配置",
@@ -2394,10 +2494,12 @@ let po = {
     fireRate: "攻擊速度",
     prjSpeed: "飛行速度",
     rangeLimit: "射程",
+    crit: "暴擊",
     critMul: "暴擊倍率",
     critChance: "暴擊幾率",
     slideDmg: "滑行攻擊",
     ratio: "裂罅傾向性",
+    proc: "觸發",
     status: "觸發幾率",
     damage: "傷害",
     panelDamage: "面板傷害",

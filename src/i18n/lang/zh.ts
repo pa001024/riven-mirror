@@ -2055,6 +2055,7 @@ let po = {
     viciousSpread: "恶性",
     maimingStrike: "致残",
     bloodRush: "急进",
+    driftingContact: "漂移",
     collisionForce: "冲",
     conditionOverload: "异况",
     spoiledStrike: "腐坏",
@@ -2500,7 +2501,8 @@ let po = {
     share: "分享",
     history: "历史记录",
     star: "裂罅倾向: {0}",
-    range: "范围: {0} ~ {1} (±10%)"
+    range: "范围: {0} ~ {1} (±10%)",
+    pastehere:"在此处粘贴"
   },
   build: {
     fill: "自动配置",
@@ -2509,10 +2511,12 @@ let po = {
     fireRate: "攻击速度",
     prjSpeed: "飞行速度",
     rangeLimit: "射程",
+    crit: "暴击",
     critMul: "暴击倍率",
     critChance: "暴击几率",
     slideDmg: "滑行攻击",
     ratio: "裂罅倾向性",
+    proc: "触发",
     status: "触发几率",
     damage: "伤害",
     panelDamage: "面板伤害",

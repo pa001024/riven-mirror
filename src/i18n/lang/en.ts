@@ -962,7 +962,8 @@ let po = {
     share: "Share",
     history: "History",
     star: "Disposition: {0}",
-    range: "Range: {0} ~ {1} (±10%)"
+    range: "Range: {0} ~ {1} (±10%)",
+    pastehere:"Paste Here"
   },
   build: {
     fill: "Auto fill",
@@ -971,10 +972,12 @@ let po = {
     fireRate: "FIRE RATE",
     rangeLimit: "RANGE LIMIT",
     prjSpeed: "PROJECTILE SPEED",
+    crit: "CRIT",
     critMul: "CRIT MULTIPLIER",
     critChance: "CRIT CHANCE",
     slideDmg: "SPIN ATTACK",
     ratio: "RATIO",
+    proc: "PROC",
     status: "STATUS",
     damage: "DAMAGE",
     panelDamage: "PANEL DAMAGE",
