@@ -18,7 +18,7 @@
               <el-button slot="reference" class="block btn-addriven" size="medium" icon="el-icon-plus">{{$t("riven.addriven")}}</el-button>
             </el-popover>
             <template v-else>
-              <el-input type="textarea" :rows="1" :placeholder="$t(`riven.pastehere`)"></el-input>
+              <el-input type="textarea" :rows="1" :placeholder="$t(`riven.pastehere`)" style="margin-bottom: 8px;"></el-input>
               <el-upload class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="https://api.0-0.at/api/ocr">
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text" v-html="$t('riven.uploadtip')"></div>
@@ -77,8 +77,12 @@
       <!-- BuildView区域 -->
       <el-col :xs="24" :sm="12" :md="16" :lg="18">
         <el-row>
+          <!-- 价格区域 -->
+          <el-col :span="24" v-if="priceData.length > 0">
+            <RivenPrice :veliedPrice="veliedPrice" :rolledPrice="rolledPrice" :unrolledPrice="unrolledPrice" />
+          </el-col>
           <el-col :span="24">
-            <component :riven="mod" :is="isGun ? 'GunModBuildView' : 'MeleeModBuildView'"></component>
+            <component :riven="mod" :is="mod.isGun ? 'GunModBuildView' : 'MeleeModBuildView'"></component>
           </el-col>
         </el-row>
       </el-col>
@@ -88,11 +92,12 @@
 
 <script lang="ts">
 import _ from "lodash";
-import axios from 'axios';
+import axios from "axios";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import GunModBuildView from "@/views/buildview/GunModBuildView.vue";
 import MeleeModBuildView from "@/views/buildview/MeleeModBuildView.vue";
 import ShareQR from "@/components/ShareQR.vue";
+import RivenPrice from "@/components/RivenPrice.vue";
 import { Getter, Action } from "vuex-class";
 import { HH } from "@/var";
 import "../less/mod.less";
@@ -101,15 +106,16 @@ import localStorage from "universal-localstorage";
 
 // import jsQR from "jsqr";
 import RivenEditor from "@/components/RivenEditor.vue";
-import { RivenMod } from '@/warframe/rivenmod';
-import { RivenDataBase } from '@/warframe/codex';
+import { RivenMod } from "@/warframe/rivenmod";
+import { RivenDataBase } from "@/warframe/codex";
+import { WeeklyRivenInfo } from "@/warframe/weeklyriven";
 
 interface OCRResult {
-  result: string[]
-  success: number
+  result: string[];
+  success: number;
 }
 @Component({
-  components: { GunModBuildView, MeleeModBuildView, RivenEditor, ShareQR }
+  components: { GunModBuildView, MeleeModBuildView, RivenEditor, ShareQR, RivenPrice }
 })
 export default class Mod extends Vue {
   // prop
@@ -119,18 +125,32 @@ export default class Mod extends Vue {
   useText = true;
   modText = "";
   ocrLoading = false;
-  debouncedmodTextChange: (() => void);
+  debouncedmodTextChange: () => void;
   editorVisible = false;
   editorRivenCode = "";
   @Getter("mod") mod: RivenMod;
   @Getter("modHistoty") modHistoty: RivenMod[];
+  @Getter("priceData") priceData: WeeklyRivenInfo[];
+  @Getter("lastWeekly") lastWeekly: number;
   @Action("newBase64Text") newBase64Text: (text: string) => void;
   @Action("newModTextInput") newModTextInput: (text: string) => void;
   @Action("removeHistory") removeHistory: (qrcode: string) => void;
-  get isGun() {
-    let vp = RivenDataBase.getRivenWeaponByName(this.mod.id);
-    return vp && vp.mod != "Melee";
+  @Action("getWeekly") getWeekly: () => void;
+
+  // 未开价格
+  get veliedPrice() {
+    const query = `${this.mod.weapon.mod} Riven Mod`;
+    return this.priceData.find(v => v.itemType === query && !v.compatibility);
   }
+  // 普卡
+  get rolledPrice() {
+    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && !v.rerolled);
+  }
+  // 未洗
+  get unrolledPrice() {
+    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && v.rerolled);
+  }
+
   readQRCode(file: File) {
     return new Promise((resolve: (msg: string) => void, reject) => {
       let ur = URL.createObjectURL(file);
@@ -142,27 +162,26 @@ export default class Mod extends Vue {
         cvs.width = img.width;
         ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
         let imageData = ctx.getImageData(0, 0, cvs.width, cvs.height);
-        const code = null//jsQR(imageData.data, imageData.width, imageData.height);
-        if (code)
-          resolve(code.data);
-        else
-          reject("no code");
+        const code = null; //jsQR(imageData.data, imageData.width, imageData.height);
+        if (code) resolve(code.data);
+        else reject("no code");
       };
       img.src = ur;
     });
   }
   readOCR(file: File) {
     let formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
     this.ocrLoading = true;
-    axios.post("https://api.riven.im/ocr", formData, { timeout: 6e3, headers: { 'Content-Type': 'multipart/form-data' } })
+    axios
+      .post("https://api.riven.im/ocr", formData, { timeout: 6e3, headers: { "Content-Type": "multipart/form-data" } })
       .then(response => {
         this.ocrLoading = false;
         let rst = response.data as OCRResult;
         if (rst) {
           console.log("readOCR=>", rst);
           this.modText = rst.result.map(v => v.trim()).join("\n");
-          HMT.newModOCR(this.mod.fullId)
+          HMT.newModOCR(this.mod.fullId);
         }
       })
       .catch(error => {
@@ -183,15 +202,17 @@ export default class Mod extends Vue {
       if (item.type.startsWith("image")) {
         ev.preventDefault();
         let blob = item.getAsFile();
-        this.readQRCode(blob).then(msg => {
-          if (msg) {
-            console.log("readQRCode=>", msg);
-            this.newBase64Text(msg.replace(`https://${HH}/riven/`, ""));
-          } else this.readOCR(blob);
-        }).catch(err => {
-          console.log("[handlePaste]", err);
-          this.readOCR(blob);
-        });
+        this.readQRCode(blob)
+          .then(msg => {
+            if (msg) {
+              console.log("readQRCode=>", msg);
+              this.newBase64Text(msg.replace(`https://${HH}/riven/`, ""));
+            } else this.readOCR(blob);
+          })
+          .catch(err => {
+            console.log("[handlePaste]", err);
+            this.readOCR(blob);
+          });
         return;
       } else {
         if (item.type === "text/plain")
@@ -226,7 +247,7 @@ export default class Mod extends Vue {
   }
   @Watch("mod")
   modChange() {
-    this.$router.push({ name: 'ModWithSource', params: { source: this.mod.qrCodeBase64 } });
+    this.$router.push({ name: "ModWithSource", params: { source: this.mod.qrCodeBase64 } });
   }
   // === 生命周期钩子 ===
   beforeMount() {
@@ -241,6 +262,11 @@ export default class Mod extends Vue {
     if (this.source) {
       console.log("read source:", this.source);
       this.newBase64Text(this.source);
+    }
+    // 紫卡交易数据初始化
+    if (Date.now() - this.lastWeekly > 36e5) {
+      console.log("update riven price...");
+      this.getWeekly();
     }
   }
   mounted() {

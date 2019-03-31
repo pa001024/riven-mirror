@@ -1,5 +1,5 @@
 import _ from "lodash";
-import axios from 'axios';
+import axios from "axios";
 import { Translator } from "@/warframe/translate";
 import { i18n } from "../i18n";
 
@@ -11,7 +11,7 @@ export interface WarframeStat {
   sortie: Sortie;
   syndicateMissions: SyndicateMission[];
   fissures: Fissure[];
-  globalUpgrades: any[];
+  globalUpgrades: GlobalUpgrade[];
   flashSales: FlashSale[];
   invasions: Invasion[];
   darkSectors: DarkSector[];
@@ -23,9 +23,63 @@ export interface WarframeStat {
   earthCycle: EarthCycle;
   cetusCycle: CetusCycle;
   constructionProgress: ConstructionProgress;
+  vallisCycle: VallisCycle;
+  nightwave: Nightwave;
   twitter: Twitter[];
 }
 
+export interface Nightwave {
+  id: string;
+  activation: string;
+  startString: string;
+  expiry: string;
+  active: boolean;
+  season: number;
+  tag: string;
+  phase: number;
+  params: Param;
+  possibleChallenges: ActiveChallenge[];
+  activeChallenges: ActiveChallenge[];
+  rewardTypes: string[];
+}
+
+export interface ActiveChallenge {
+  id: string;
+  activation: string;
+  startString: string;
+  expiry: string;
+  active: boolean;
+  isDaily: boolean;
+  isElite: boolean;
+  desc: string;
+  title: string;
+  reputation: number;
+}
+
+export interface Param {
+  wgsc: number;
+  wsr: number;
+}
+
+export interface VallisCycle {
+  id: string;
+  expiry: string;
+  isWarm: boolean;
+  timeLeft: string;
+  shortString: string;
+}
+
+export interface GlobalUpgrade {
+  start: string;
+  end: string;
+  upgrade: string;
+  operation: string;
+  operationSymbol: string;
+  upgradeOperationValue: number;
+  expired: boolean;
+  eta: string;
+  desc: string;
+}
 
 export interface Twitter {
   id: string;
@@ -196,6 +250,8 @@ export interface DarkSector {
 
 export interface Invasion {
   id: string;
+  activation: string;
+  startString: string;
   node: string;
   desc: string;
   attackerReward: AttackerReward;
@@ -203,7 +259,6 @@ export interface Invasion {
   defenderReward: DefenderReward;
   defendingFaction: string;
   vsInfestation: boolean;
-  activation: string;
   count: number;
   requiredRuns: number;
   completion: number;
@@ -223,13 +278,16 @@ export interface DefenderReward {
 }
 
 export interface AttackerReward {
-  items: any[];
-  countedItems: CountedItem[];
-  credits: number;
-  asString: string;
-  itemString: string;
-  thumbnail: string;
-  color: number;
+  item: string;
+  expiry: string;
+  discount: number;
+  regularOverride: number;
+  premiumOverride: number;
+  isFeatured: boolean;
+  isPopular: boolean;
+  id: string;
+  expired: boolean;
+  eta: string;
 }
 
 export interface CountedItem {
@@ -274,18 +332,46 @@ export interface SyndicateMission {
 
 export interface Event {
   id: string;
+  activation: string;
+  startString: string;
   expiry: string;
+  active: boolean;
+  maximumScore: number;
+  currentScore: number;
   description: string;
   tooltip: string;
+  node: string;
   concurrentNodes: any[];
   victimNode: string;
-  rewards: any[];
+  scoreLocTag: string;
+  rewards: Reward[];
   expired: boolean;
   health: string;
+  interimSteps: InterimStep[];
   affiliatedWith: string;
   jobs: Job[];
+  progressSteps: any[];
+  showTotalAtEndOfMission: boolean;
+  isPersonal: boolean;
+  isCommunity: boolean;
   asString: string;
 }
+
+export interface InterimStep {
+  goal: number;
+  reward: Reward;
+  message: Message;
+  winnerCount: number;
+}
+
+export interface Message {
+  sender: string;
+  subject: string;
+  message: string;
+  senderIcon: string;
+  attachments: string[];
+}
+
 export interface Job {
   id: string;
   type: string;
@@ -387,18 +473,22 @@ export interface Translations {
 export class WorldStat {
   data: WarframeStat;
   platform = "pc";
-  get APIBase() { return "https://api.warframestat.us/" + this.platform; }
+  get APIBase() {
+    return "https://api.warframestat.us/" + this.platform;
+  }
   /**
    * 获取最新数据
    */
   fetch() {
     return new Promise((resolve, reject) => {
-      axios.get(this.APIBase, { timeout: 10e3 })
+      axios
+        .get(this.APIBase, { timeout: 10e3 })
         .then(data => {
           this.data = data.data;
           resolve(this.data);
-        }).catch(reject);
-    })
+        })
+        .catch(reject);
+    });
   }
 
   /**
@@ -406,15 +496,11 @@ export class WorldStat {
    * @param obj 需要翻译的对象
    */
   deepTranslate<T extends Object>(obj: T): T {
-    if (_.isArray(obj))
-      return _.map(obj, v =>
-        typeof v === "string" ? Translator.getLocText(v) :
-          typeof v === "object" ? this.deepTranslate(v) : v) as any;
+    if (_.isArray(obj)) return _.map(obj, v => (typeof v === "string" ? Translator.getLocText(v) : typeof v === "object" ? this.deepTranslate(v) : v)) as any;
     else
       return _.mapValues(obj, (v, i) =>
-        typeof v === "string" ?
-          i === "node" || i === "location" ? this.nodeTranslate(v) : Translator.getLocText(v) :
-          typeof v === "object" ? this.deepTranslate(v) : v) as T;
+        typeof v === "string" ? (i === "node" || i === "location" ? this.nodeTranslate(v) : Translator.getLocText(v)) : typeof v === "object" ? this.deepTranslate(v) : v
+      ) as T;
   }
   /**
    * 地图节点翻译
@@ -427,30 +513,34 @@ export class WorldStat {
   nodeNameTranslate(node: string) {
     node = node.replace(/Relay$/, Translator.getLocText("Relay"));
     const tranlate = Translator.getLocText(node);
-    if (node.startsWith("War") || tranlate.toLowerCase() === node.toLowerCase())
-      return node;
-    else
-      return tranlate;
+    if (node.startsWith("War") || tranlate.toLowerCase() === node.toLowerCase()) return node;
+    else return tranlate;
   }
   /**
    * 突击信息
    */
   get sortie() {
-    if (!this.data) return {
-      id: "",
-      activation: "",
-      expiry: "",
-      rewardPool: "Sortie Rewards",
-      variants: [],
-      boss: "",
-      faction: "",
-      expired: false,
-      eta: ""
-    };
+    if (!this.data)
+      return {
+        id: "",
+        activation: "",
+        expiry: "",
+        rewardPool: "Sortie Rewards",
+        variants: [],
+        boss: "",
+        faction: "",
+        expired: false,
+        eta: ""
+      };
     return this.deepTranslate(this.data.sortie);
   }
 
-  filterType = ["nightmare", "endo", "traces", "credits", "resource",
+  filterType = [
+    "nightmare",
+    "endo",
+    "traces",
+    "credits",
+    "resource",
     "ferrite",
     "nanoSpores",
     "alloyPlate",
@@ -468,15 +558,14 @@ export class WorldStat {
     "neurodes",
     "orokinCell",
     "oxium",
-    "tellurium",
+    "tellurium"
   ];
   /**
    * 警报信息
    */
   get alerts() {
     if (!this.data || !this.data.alerts) return [];
-    return this.deepTranslate(this.data.alerts
-      .filter(v => !this.filterType.includes(v.rewardTypes[0])));
+    return this.deepTranslate(this.data.alerts.filter(v => !this.filterType.includes(v.rewardTypes[0])));
   }
 
   filterMission = ["Mobile Defense"];
@@ -485,9 +574,7 @@ export class WorldStat {
    */
   get fissures() {
     if (!this.data) return [];
-    return this.deepTranslate(this.data.fissures
-      .filter(v => !this.filterMission.includes(v.missionType))
-      .sort((a, b) => a.tierNum - b.tierNum));
+    return this.deepTranslate(this.data.fissures.filter(v => !this.filterMission.includes(v.missionType)).sort((a, b) => a.tierNum - b.tierNum));
   }
 
   /**
@@ -495,11 +582,12 @@ export class WorldStat {
    */
   get news() {
     if (!this.data) return [];
-    return _.reverse(this.deepTranslate(this.data.news.filter(v => v.translations.en)).map(v => {
-      if (v.translations[i18n.locale.substr(0, 2)])
-        v.message = v.translations[i18n.locale.substr(0, 2)];
-      return v;
-    }));
+    return _.reverse(
+      this.deepTranslate(this.data.news.filter(v => v.translations.en)).map(v => {
+        if (v.translations[i18n.locale.substr(0, 2)]) v.message = v.translations[i18n.locale.substr(0, 2)];
+        return v;
+      })
+    );
   }
 
   filterInvasion = ["fieldron", "detonite", "mutagen"];
@@ -508,8 +596,7 @@ export class WorldStat {
    */
   get invasions() {
     if (!this.data) return [];
-    return this.deepTranslate(this.data.invasions
-      .filter(v => !v.completed && !v.rewardTypes.every(k => this.filterInvasion.includes(k))))
+    return this.deepTranslate(this.data.invasions.filter(v => !v.completed && !v.rewardTypes.every(k => this.filterInvasion.includes(k))));
   }
 
   /**
@@ -519,9 +606,7 @@ export class WorldStat {
     if (!this.data) return [];
     let data = this.data.syndicateMissions.find(v => v.syndicate === "Ostrons");
     if (!data) return [];
-    return this.deepTranslate(data.jobs
-      .map(v => (v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1"))
-        .filter(k => !k.match(/^\d/)), v)));
+    return this.deepTranslate(data.jobs.map(v => ((v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")).filter(k => !k.match(/^\d/))), v)));
   }
 
   /**
@@ -531,9 +616,7 @@ export class WorldStat {
     if (!this.data) return [];
     let data = this.data.syndicateMissions.find(v => v.syndicate === "Solaris United");
     if (!data) return [];
-    return this.deepTranslate(data.jobs
-      .map(v => (v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1"))
-        .filter(k => !k.match(/^\d/)), v)));
+    return this.deepTranslate(data.jobs.map(v => ((v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")).filter(k => !k.match(/^\d/))), v)));
   }
 
   /**
@@ -547,9 +630,26 @@ export class WorldStat {
   }
 
   /**
+   * 午夜电波
+   */
+  get nightwave() {
+    if (!this.data) return null;
+    let data = this.data.nightwave;
+    if (!data) return null;
+    return this.deepTranslate(data);
+  }
+
+  /**
    * 希图斯时间
    */
   get cetusCycle() {
     return this.data.cetusCycle;
+  }
+
+  /**
+   * 福尔图娜时间
+   */
+  get vallisCycle() {
+    return this.data.vallisCycle;
   }
 }

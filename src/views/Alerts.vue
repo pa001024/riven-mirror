@@ -5,7 +5,7 @@
         <!-- 时间 -->
         <el-col :xs="24" :sm="12" :lg="8">
           <el-card class="index-clock" :body-style="{ padding: '0px' }">
-            <el-carousel :autoplay="false" class="clock">
+            <el-carousel :autoplay="false" class="clock no-invert">
               <el-carousel-item class="cetus" :class="[cetusTime.isDay ? 'day' : 'night']">
                 <div class="clock-body">
                   <div class="block">

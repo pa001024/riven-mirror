@@ -12,7 +12,7 @@
               <div class="bgmask"></div>
             </div>
           </el-upload>
-          <div class="color-box">
+          <div class="color-box no-invert">
             <!-- 色板 -->
             <div class="color-palette">
               <div class="theme-color" :title="color.hex" :style="{'background-color': color.hex}">
@@ -34,7 +34,7 @@
           <el-col :md="12" :lg="6" :xl="4" v-for="palette in matchedPalettes" :key="palette.id">
             <el-card class="palette-box" :class="{dark: color.hsl.l < 0.5}">
               <div slot="header" class="palette-name">{{$t(`palette.name.${palette.id}`)}}</div>
-              <div class="palette-show">
+              <div class="palette-show no-invert">
                 <div class="palette-cell" v-for="(color, idx) in palette.colors" :key="idx" @click="setColor(color.toString())" :title="color.toString()" :style="{'background-color': color.toString()}">
                   <i v-if="palette.match.includes(idx)" class="el-icon-check"></i>
                 </div>

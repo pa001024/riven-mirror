@@ -1721,6 +1721,7 @@ let po = {
     tacAlertProxyRebellion: "机械叛乱",
     plainsOfEidolon: "夜灵平野",
     vitusEssence: "生息精华",
+    orbVallis: "奥布山谷",
     // 赏金
     creditsCache: "现金匣",
     creditCache: "现金匣",
@@ -2496,13 +2497,22 @@ let po = {
     rank: "段位: ",
     recycle: "循环: ",
     level: "等级: ",
-    ratio: "倾向性: ",
+    ratio: "倾向: ",
     sharetip: "手机扫描或直接粘贴",
     share: "分享",
     history: "历史记录",
     star: "裂罅倾向: {0}",
     range: "范围: {0} ~ {1} (±10%)",
-    pastehere:"在此处粘贴"
+    pastehere: "在此粘贴",
+    viewprice: "查看价格",
+    veliedPrice: "未开价格",
+    unrolledPrice: "未洗价格",
+    rolledPrice: "已洗价格",
+    avg: "平均值",
+    stddev: "标准差",
+    min: "最小值",
+    max: "最大值",
+    pop: "流行度"
   },
   build: {
     fill: "自动配置",
@@ -2766,7 +2776,7 @@ let po = {
     shotgun: "霰弹枪",
     pistol: "手枪",
     melee: "近战",
-    archgun: "ARCHWING枪械"
+    archwing: "ARCHWING"
   },
   warframeselector: {
     notfound: "暂无该战甲资料",

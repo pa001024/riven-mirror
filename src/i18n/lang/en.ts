@@ -963,7 +963,16 @@ let po = {
     history: "History",
     star: "Disposition: {0}",
     range: "Range: {0} ~ {1} (±10%)",
-    pastehere:"Paste Here"
+    pastehere: "Paste Here",
+    viewprice: "View Price",
+    veliedPrice: "Velied Price",
+    unrolledPrice: "Unrolled Price",
+    rolledPrice: "Rerolled Price",
+    avg: "Average",
+    stddev: "Std-Dev",
+    min: "Minimum",
+    max: "Maximum",
+    pop: "Popularity"
   },
   build: {
     fill: "Auto fill",
@@ -1133,7 +1142,7 @@ let po = {
     shotgun: "SHOTGUN",
     pistol: "PISTOL",
     melee: "MELEE",
-    archgun: "ARCH-GUN"
+    archwing: "ARCHWING"
   },
   warframeselector: {
     notfound: "暫無該戰甲資料",
@@ -1244,7 +1253,8 @@ let po = {
   setting: {
     lang: "Language Setting",
     default: "Default",
-    bugreport: "Bug Report"
+    bugreport: "Bug Report",
+    nightmode: "Night Mode"
   },
   modular: {
     damage: "Damage",

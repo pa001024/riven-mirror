@@ -5,12 +5,15 @@
 .index-card.news li {
   color: #3d5afe;
   transition: 0.4s ease-out;
+
   +li {
     padding-top: 8px;
   }
+
   &:hover {
     color: #7385ec;
   }
+
   a {
     margin-left: 8px;
     text-decoration: none;
@@ -19,6 +22,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+
     &:hover {
       text-decoration: underline;
       color: #3d5afe;
@@ -45,6 +49,7 @@
     border-radius: 8px;
     margin-top: -16px;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+
     li {
       padding: 1rem 1.6rem;
       display: flex;
@@ -53,6 +58,7 @@
       width: calc(100% - 3.2rem);
     }
   }
+
   .padding {
     flex: 1;
   }
@@ -117,6 +123,7 @@
     padding: 4px 12px;
     margin: 14px 0 0 16px;
   }
+
   .index-card.sortie .time {
     margin: 20px 20px 0 0;
   }
@@ -168,14 +175,15 @@
 .wrapper {
   height: 100%;
   user-select: none;
+
+  >.content {
+    height: calc(100vh - 60px);
+    padding: 1rem;
+    box-sizing: border-box;
+    will-change: transform;
+  }
 }
 
-.content {
-  height: 100%;
-  width: 1920px;
-  padding: 1rem;
-  box-sizing: border-box;
-}
 
 .index {
   flex-flow: column wrap;
@@ -267,20 +275,21 @@
   .clock-body .title {
     font-size: calc(2vw - 2px);
   }
+
   .clock-body .time {
     padding: calc(1.4vw - 1px) 0;
     font-size: calc(5.2vw - 5px);
   }
+
   .wrapper {
     overflow: hidden;
   }
-  .content {
-    box-sizing: initial;
-  }
+
   .index {
     height: 100%;
     width: calc(100vw - 80px);
   }
+
   .index-card ul {
     max-height: calc(100vh - 178px);
     overflow-y: auto;
@@ -291,6 +300,7 @@
   .clock-body .title {
     font-size: calc(1.3vw - 1px);
   }
+
   .clock-body .time {
     padding: calc(1vw - 1px) 0;
     font-size: calc(3.5vw - 2.8px);

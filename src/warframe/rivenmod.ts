@@ -156,25 +156,33 @@ export class RivenMod {
       this.mod = parm.mod;
     }
   }
-  is(tag: string) {
-    tag = tag.toLowerCase();
-    switch (tag) {
-      case "gun":
-        return this.mod !== "Melee";
-      case "melee":
-        return this.mod === "Melee";
-      case "pistol":
-        return this.mod === "Pistol";
-      case "rifle":
-        return this.mod === "Rifle";
-      case "sniper":
-        return this.mod === "Rifle" && this.weapons[0].tags.includes("Sniper");
-      case "zaw":
-        return this.mod === "Melee" && MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id)).length === 0;
-      case "kitgun":
-        return this.mod === "Pistol" && GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id)).length === 0;
-    }
-    return false;
+  /** 是否是Gun */
+  get isGun() {
+    return this.mod !== "Melee" && this.mod !== "Zaw";
+  }
+  /** 是否是Melee */
+  get isMelee() {
+    return this.mod === "Melee" || this.mod === "Zaw";
+  }
+  /** 是否是Pistol */
+  get isPistol() {
+    return this.mod === "Pistol" || this.mod === "Kitgun";
+  }
+  /** 是否是Rifle */
+  get isRifle() {
+    return this.mod === "Rifle";
+  }
+  /** 是否是Sniper */
+  get isSniper() {
+    return this.mod === "Rifle" && this.weapons[0].tags.includes("Sniper");
+  }
+  /** 是否是Zaw */
+  get isZaw() {
+    return this.mod === "Zaw";
+  }
+  /** 是否是Kitgun */
+  get isKitgun() {
+    return this.mod === "Kitgun";
   }
   /**
    * 读取OCR识别的MOD文本
@@ -372,14 +380,6 @@ A段位12023
       props: this.properties.map(v => [v.prop.id, v.value / 9] as [string, number]),
       riven: this.qrCode
     });
-  }
-  /** 是否是Zaw */
-  get isZaw() {
-    return this.is("zaw");
-  }
-  /** 是否是Kitgun */
-  get isKitgun() {
-    return this.is("kitgun");
   }
   /** 短后缀 */
   get shortSubfix() {

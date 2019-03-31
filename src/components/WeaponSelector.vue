@@ -70,7 +70,13 @@ export default class WeaponSelector extends Vue {
   }
   tabs: WeaponSelectorTab[] = [];
   beforeMount() {
-    this.tabs = _.map(ModTypeTable, (name, id) => ({ id, name, rivens: RivenWeaponDataBase.filter(v => v.mod === id && v.weapons.length > 0), weapons: [] }));
+    this.tabs = _.map(ModTypeTable, ({ name, include }, id) => ({
+      id,
+      name,
+      // 筛选
+      rivens: RivenWeaponDataBase.filter(v => include.includes(v.mod) && v.weapons.length > 0),
+      weapons: []
+    }));
   }
   handleCommand(id: string) {
     console.log("BuildEditor->", id);

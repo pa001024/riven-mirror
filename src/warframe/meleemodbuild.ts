@@ -42,7 +42,7 @@ export class MeleeModBuild extends ModBuild {
   private _extraStatusCount = 0;
 
   // 近战3.0 连击数
-  melee30 = true;
+  melee30 = false;
 
   /** 范围增幅倍率 */
   get rangeMul() {

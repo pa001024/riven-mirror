@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.4.21.1";
+export const version = "1.4.22";
 export const updateLogs = [
+  {
+    version: "1.4.22",
+    date: "2019/3/30",
+    md: {
+      en: `- Riven Analyzer: Price data
+- Setting: add night mode`,
+      cn: `- 紫卡分析: 添加紫卡价格
+- 设置: 添加夜间模式`
+    }
+  },
   {
     version: "1.4.21",
     date: "2019/3/25",

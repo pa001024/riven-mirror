@@ -1,5 +1,5 @@
 <template>
-  <component :is="rWeapon.mod !== 'Melee' ? 'GunBuildEditor' : 'MeleeBuildEditor'" :weapon="weapon" :rWeapon="rWeapon"/>
+  <component :is="rWeapon.isGun ? 'GunBuildEditor' : 'MeleeBuildEditor'" :weapon="weapon" :rWeapon="rWeapon"/>
 </template>
 
 <script lang="ts">

@@ -46,7 +46,7 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import RivenEditor from "@/components/RivenEditor.vue";
 import { Getter } from "vuex-class";
-import { NormalMod, NormalModDatabase, VirtualMeleeMods, Codex } from "@/warframe/codex";
+import { NormalMod, NormalModDatabase, VirtualMeleeMods, Codex, AcolyteModsList } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import { ModBuild } from "@/warframe/modbuild";
 
@@ -131,7 +131,8 @@ export default class ModSelector extends Vue {
     }
   };
   get fast() {
-    return _.map(this.fastSelect[this.build.rivenWeapon.mod], (v, i) => ({ name: i, id: v } as any));
+    const mod = this.build.rivenWeapon.mod;
+    return _.map(this.fastSelect[mod === "Zaw" ? "Melee" : mod === "Kitgun" ? "Pistol" : mod], (v, i) => ({ name: i, id: v } as any));
   }
 
   newRiven(code?: string) {
@@ -147,11 +148,17 @@ export default class ModSelector extends Vue {
   @Watch("build")
   reload() {
     let selected = _.compact(this.build.mods);
+    const { isVirtual, isExalted } = this;
+    const AcolyteMods = AcolyteModsList.slice(0, 5); // 近战追随者MOD
     // 是否虚拟技能武器
     let mods = NormalModDatabase.filter(
       v =>
-        (this.isVirtual && VirtualMeleeMods.includes(v.key)) || // 虚拟技能武器接受所有mod
-        (this.build.weapon.tags.concat([this.build.rivenWeapon.id]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id))
+        (isVirtual && VirtualMeleeMods.includes(v.key)) || // 虚拟技能武器接受所有mod
+        (this.build.weapon.tags // 普通
+          .concat([this.build.rivenWeapon.id])
+          .includes(v.type) &&
+          !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id) &&
+          (!(!isVirtual && isExalted) || !AcolyteMods.includes(v.id))) // 近战显赫武器不接受追随者MOD
     );
     console.log(this.build.options);
     let benefits = mods
