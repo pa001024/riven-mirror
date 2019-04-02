@@ -19,7 +19,7 @@
             </el-popover>
             <template v-else>
               <el-input type="textarea" :rows="1" :placeholder="$t(`riven.pastehere`)" style="margin-bottom: 8px;"></el-input>
-              <el-upload class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="https://api.0-0.at/api/ocr">
+              <el-upload class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="https://api.riven.im/api/ocr">
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text" v-html="$t('riven.uploadtip')"></div>
                 <div slot="tip" class="el-upload__tip">{{$t("riven.uploadlimit")}}</div>
@@ -144,11 +144,11 @@ export default class Mod extends Vue {
   }
   // 普卡
   get rolledPrice() {
-    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && !v.rerolled);
+    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && v.rerolled);
   }
   // 未洗
   get unrolledPrice() {
-    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && v.rerolled);
+    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && !v.rerolled);
   }
 
   readQRCode(file: File) {
