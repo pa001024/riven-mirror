@@ -262,21 +262,21 @@ export abstract class ModBuild {
     let mods = this.mods;
     while (mods.length < 8) mods.push(null);
     let normal = mods.map(v => (v && v.key + (v.level !== v.maxLevel ? "@" + base62(v.level) : "")) || "00").join("");
-    let buffseq = this.buffs.map(v => `!${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 100) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
+    let buffseq = this.buffs.map(v => `_${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 100) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
     if (this.riven && mods.some(v => v && v.key === "01") && this.riven.properties.length > 1) return normal + this.riven.qrCodeBase64 + buffseq;
     if (normal === "0000000000000000") return buffseq;
     else return normal + buffseq;
   }
 
   set miniCode(code: string) {
-    if (code.startsWith("!")) code = "0000000000000000" + code;
+    if (code.startsWith("!") || code.startsWith("_")) code = "0000000000000000" + code;
     let normal = code.match(/..(?:@.)?/g).slice(0, 8);
     let subPart = code.substr(normal.join("").length);
     let buffIdx = subPart.indexOf("!");
     let riven = buffIdx >= 0 ? subPart.substr(0, buffIdx) : subPart;
     let buffseq = subPart.substr(buffIdx + 1);
     let bufflist = [];
-    buffseq.split("!").forEach(buff => {
+    buffseq.split(/[!_]/g).forEach(buff => {
       let w = buff.split(":");
       let bdata = BuffList.find(v => v.id === w[0]);
       if (bdata) {

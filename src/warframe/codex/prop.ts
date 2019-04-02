@@ -190,6 +190,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "ccl", noplus: true }, // crit chance lock
   { id: "erc" }, // energy recovery
   { id: "esc", dmg: true, nopercent: true }, // extra status count
+  { id: "ess", dmg: true }, // extra slash state
   { id: "rvs" }, // Revive Speed
   { id: "dgs" }, // Dodge Speed
   { id: "fca" }, // Faster Charge Attack

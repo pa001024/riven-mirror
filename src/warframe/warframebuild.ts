@@ -720,19 +720,19 @@ export class WarframeBuild {
     let mods = [this.aura, this.exilus, ...this.mods];
     while (mods.length < 10) mods.push(null);
     let normal = mods.map(v => (v && v.key + (v.level !== v.maxLevel ? "@" + base62(v.level) : "")) || "00").join("");
-    let buffseq = this.buffs.map(v => `!${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 100) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
+    let buffseq = this.buffs.map(v => `_${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 100) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
     if (normal === "00000000000000000000") return buffseq;
     else return normal + buffseq;
   }
 
   set miniCode(code: string) {
-    if (code.startsWith("!")) code = "00000000000000000000" + code;
+    if (code.startsWith("!") || code.startsWith("_")) code = "00000000000000000000" + code;
     let normal = code.match(/..(?:@.)?/g).slice(0, 10);
     let subPart = code.substr(normal.join("").length);
     let buffIdx = subPart.indexOf("!");
     let buffseq = subPart.substr(buffIdx + 1);
     let bufflist = [];
-    buffseq.split("!").forEach(buff => {
+    buffseq.split(/[!_]/g).forEach(buff => {
       let w = buff.split(":");
       let bdata = BuffList.find(v => v.id === w[0]);
       if (bdata) {

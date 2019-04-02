@@ -377,12 +377,13 @@ export default class WarframeEditor extends Vue {
         title: this.$t("zh") ? newTabName.replace("SET", "配置") : newTabName,
         name: newTabName,
         build: new WarframeBuild(this.core),
-        aura: null,
-        exilus: null,
-        mods: Array(8),
-        buffs: [null]
+        aura: this.currentTab.aura,
+        exilus: this.currentTab.exilus,
+        mods: this.currentTab.mods,
+        buffs: this.currentTab.buffs
       });
       this.tabValue = newTabName;
+      this.refleshMods();
     }
     if (action === "remove") {
       let tabs = this.tabs;

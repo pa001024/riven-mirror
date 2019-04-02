@@ -2250,6 +2250,7 @@ let po = {
       ovr: "{0} 總范围",
       res: "{0} 傷害減免",
       pd: "{0} 總面板",
+      ess: "{0} 機率造成切割",
 
       ify: "如果目標距離 {0} 米外",
       onHeadshot: "爆頭後:",
@@ -3150,7 +3151,6 @@ let po = {
       disarm: "繳械",
       banish: "放逐",
       energyObtained: "能量值獲得",
-      causingExtraSlash: "造成額外切割",
       headshotEnergy: "爆頭回藍",
       attractionRadius: "吸引半徑",
       explosionRadius: "爆炸半徑",

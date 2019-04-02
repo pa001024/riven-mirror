@@ -728,6 +728,8 @@ let po = {
       ovs: "{0} Total Strength",
       ovr: "{0} Total Range",
       res: "{0} Damage Resistance",
+      pd: "{0} Panel Damage",
+      ess: "{0} chance apply Slash",
 
       ify: "if the target is over {0}m away",
       onHeadshot: "On Headshot:",
@@ -1535,7 +1537,6 @@ let po = {
       disarm: "Disarm",
       banish: "Banish",
       energyObtained: "Energy obtained",
-      causingExtraSlash: "Causing extra slash",
       headshotEnergy: "Headshot energy",
       attractionRadius: "Attraction Radius",
       explosionRadius: "Explosion Radius",

@@ -237,6 +237,16 @@
   >* {
     margin: 14px;
   }
+
+  .nosidebar & {
+    width: 100vw;
+    margin: 60px 0 0 0;
+  }
+
+  .nosidebar.fullpage & {
+    width: 100vw;
+    margin: 0;
+  }
 }
 
 .site-logo {
@@ -300,6 +310,16 @@ h3 {
   .main-container {
     margin: 50px 0 0;
     min-height: calc(100vh - 50px);
+
+    .nosidebar & {
+      width: 100vw;
+      margin: 50px 0 0;
+    }
+
+    .nosidebar.fullpage & {
+      width: 100vw;
+      margin: 0;
+    }
   }
 
   .i-mirror-logo {

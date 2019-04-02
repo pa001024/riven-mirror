@@ -79,7 +79,7 @@ export let _abilityData: AbilityData[] = [
     id: "Sonar",
     tags: 2,
     energyCost: 50,
-    props: { Buff: { effect: [["oad", S(5)]], range: R(35), duration: D(30) } }
+    props: { Buff: { effect: [["oad", S(500)]], range: R(35), duration: D(30) } }
   },
   {
     id: "Silence",
@@ -237,7 +237,12 @@ export let _abilityData: AbilityData[] = [
       }
     }
   },
-  { id: "Radial Howl", tags: 0, energyCost: 25, props: {} },
+  {
+    id: "Radial Howl",
+    tags: 16,
+    energyCost: 50,
+    props: { Control: { range: R(25), duration: D(15) } }
+  },
   {
     id: "Freeze",
     tags: 17,
@@ -336,12 +341,22 @@ export let _abilityData: AbilityData[] = [
       Damage: { damage: [["Impact", 100]], distance: R(30) }
     }
   },
-  { id: "Blood Altar", tags: 0, energyCost: 50, props: {} },
+  {
+    id: "Blood Altar",
+    tags: 22,
+    energyCost: 50,
+    props: {
+      Buff: { effect: [["hps", S(25)]], duration: D(20), distance: R(30), range: R(6) },
+      Move: { directive: "2", distance: R(30) }
+    }
+  },
   {
     id: "Bloodletting",
     tags: 0,
     energyCost: 0,
-    props: { Special: [{ desc: "energyObtained", val: E(25) }] }
+    props: {
+      Special: [{ desc: "energyObtained", val: E(25) }]
+    }
   },
   {
     id: "Seeking Talons",
@@ -355,7 +370,10 @@ export let _abilityData: AbilityData[] = [
         prjSpeed: 80,
         amount: 8
       },
-      Buff: { desc: "causingExtraSlash" }
+      Buff: {
+        effect: [["ess", { value: 50, bind: [["t", 0]], maxValue: 100 }]],
+        duration: D(10)
+      }
     }
   },
   {

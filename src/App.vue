@@ -1,5 +1,5 @@
 <template>
-  <el-container id="app">
+  <el-container id="app" :class="{fullpage:isFullPage, nosidebar:isIndexPage}">
     <header class="main-header" v-if="!isFullPage">
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
@@ -33,7 +33,7 @@
     </transition>
     <el-container class="body-container">
       <!-- 桌面端侧边菜单 -->
-      <el-aside width="60px" class="pc-aside hidden-xs-only">
+      <el-aside width="60px" class="pc-aside hidden-xs-only" v-if="!isIndexPage">
         <div class="aside-nav-menu">
           <el-tooltip v-for="link in links" :key="link.title" :content="$t(link.title)" placement="right" :enterable="false">
             <router-link tag="div" :to="link.path" class="menu-item" :exact="link.exact">
@@ -92,10 +92,10 @@ export default class App extends Vue {
   }
 
   get isIndexPage() {
-    return this.isFullPage || ["Intro", "Login", "ForgetPass", "EULA"].includes(this.$route.name);
+    return this.isFullPage || ["VisualSkillEditor", "Login", "ForgetPass", "EULA"].includes(this.$route.name);
   }
   get isFullPage() {
-    return ["VisualSkillEditor"].includes(this.$route.name);
+    return [].includes(this.$route.name);
   }
   get magic() {
     return magic;
