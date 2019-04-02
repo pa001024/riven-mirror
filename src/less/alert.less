@@ -1,23 +1,24 @@
+@import "./common.less";
 .alerts-container {
   margin: 0 !important;
 }
 
 .index-card.news li {
-  color: #3d5afe;
+  color: @theme_primary;
   transition: 0.4s ease-out;
 
-  +li {
+  + li {
     padding-top: 8px;
   }
 
   &:hover {
-    color: #7385ec;
+    color: @theme_lighter;
   }
 
   a {
     margin-left: 8px;
     text-decoration: none;
-    color: #222;
+    color: @text_darker;
     transition: 0.4s;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -25,7 +26,7 @@
 
     &:hover {
       text-decoration: underline;
-      color: #3d5afe;
+      color: @theme_primary;
     }
   }
 }
@@ -36,7 +37,7 @@
 }
 
 .index-card .el-card__body {
-  background: #3d5afe;
+  background: @theme_primary;
   padding: 16px;
 }
 
@@ -45,10 +46,10 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    background: #fff;
+    background: @theme_back;
     border-radius: 8px;
     margin-top: -16px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 8px @shadow;
 
     li {
       padding: 1rem 1.6rem;
@@ -94,7 +95,7 @@
 }
 
 .index-card.sortie .time {
-  color: #3d5afe;
+  color: @theme_primary;
   text-align: right;
   float: right;
   margin: 22px 24px 0 0;
@@ -102,15 +103,15 @@
 
 .index-card .progress,
 .index-card .time {
-  color: #999;
+  color: @text_halfgrey;
   text-align: right;
   float: right;
   margin-top: 4px;
 }
 
 .index-card.sortie .sortie-info {
-  border: 1px solid #3d5afe;
-  color: #3d5afe;
+  border: 1px solid @theme_primary;
+  color: @theme_primary;
   display: inline-block; // padding: 8px 16px;
   border-radius: 4px; // margin: 16px 0 0 24px;
   padding: 0.5rem 1rem;
@@ -130,8 +131,8 @@
 }
 
 .index-card .el-card__header {
-  background: #3d5afe;
-  color: #fff;
+  background: @theme_primary;
+  color: @text_light;
   letter-spacing: 2px;
   text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
   border: 0;
@@ -160,14 +161,14 @@
   text-align: right;
 }
 
-.index-card.voidtrader .cost>* {
+.index-card.voidtrader .cost > * {
   display: inline-block;
   margin-left: 12px;
 }
 
 .reward-item {
   display: inline-block;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid @text_halfgrey;
   padding: 2px 4px;
   margin: 0 2px 2px 0;
 }
@@ -176,14 +177,14 @@
   height: 100%;
   user-select: none;
 
-  >.content {
+  > .content {
+    width: 100%;
     height: calc(100vh - 60px);
     padding: 1rem;
     box-sizing: border-box;
     will-change: transform;
   }
 }
-
 
 .index {
   flex-flow: column wrap;
@@ -195,11 +196,11 @@
   align-content: center;
 }
 
-.clock>.el-carousel__container {
+.clock > .el-carousel__container {
   height: initial;
 }
 
-.clock>.el-carousel__container::before {
+.clock > .el-carousel__container::before {
   content: "";
   display: block;
   padding-top: 38.611111%;
@@ -253,8 +254,8 @@
 .clock-body .title {
   font-size: calc(4vw - 2px);
   text-align: center;
-  color: #ffffff;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  color: @text_light;
+  text-shadow: 1px 1px 3px @shadow5;
 }
 
 .clock-body .time {
@@ -262,8 +263,8 @@
   font-size: calc(11vw - 5px);
   padding: 3vw 0;
   text-align: center;
-  color: #ffffff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+  color: @text_light;
+  text-shadow: 2px 2px 4px @shadow15;
 }
 
 .index .el-card {

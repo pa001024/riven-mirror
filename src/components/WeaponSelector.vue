@@ -106,7 +106,9 @@ export default class WeaponSelector extends Vue {
 }
 </script>
 
-<style>
+<style lang="less">
+@import "../less/common.less";
+
 .weapon-item-container {
   margin: 4px;
   display: inline-block;
@@ -124,17 +126,18 @@ export default class WeaponSelector extends Vue {
   user-select: none;
   box-sizing: content-box;
   transition: 0.3s;
+  &:hover {
+    background: #6199ff;
+    color: white;
+    box-shadow: 0 0 0 4px #a8c7ff80;
+    border-color: transparent;
+  }
 }
-.weapon-item:hover {
-  background: #6199ff;
-  color: white;
-  box-shadow: 0 0 0 4px #a8c7ff80;
-  border-color: transparent;
-}
+
 .weapon-group-header {
   font-size: 1.6em;
   margin: 0 12px;
-  color: #6199ff;
+  color: @theme_main;
 }
 </style>
 

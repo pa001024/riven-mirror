@@ -42,31 +42,47 @@ export default class ProbabilityVisualization extends Vue {
   @Prop({ type: Number }) totalDamageFloor: number;
   @Prop({ type: Number }) totalDamageCeil: number;
 
-  get lowerMulti() { return Math.floor(this.multi); }
-  get higherMulti() { return Math.floor(this.multi) + 1; }
-  get lowerCriti() { return Math.floor(this.criti); }
-  get higherCriti() { return Math.floor(this.criti) + 1; }
+  get lowerMulti() {
+    return Math.floor(this.multi);
+  }
+  get higherMulti() {
+    return Math.floor(this.multi) + 1;
+  }
+  get lowerCriti() {
+    return Math.floor(this.criti);
+  }
+  get higherCriti() {
+    return Math.floor(this.criti) + 1;
+  }
 
-  get lowerMultiWidth() { return this.higherMulti - this.multi; }
-  get higherMultiWidth() { return 1 - this.lowerMultiWidth; }
-  get lowerCritiWidth() { return this.higherCriti - this.criti; }
-  get higherCritiWidth() { return 1 - this.lowerCritiWidth; }
+  get lowerMultiWidth() {
+    return this.higherMulti - this.multi;
+  }
+  get higherMultiWidth() {
+    return 1 - this.lowerMultiWidth;
+  }
+  get lowerCritiWidth() {
+    return this.higherCriti - this.criti;
+  }
+  get higherCritiWidth() {
+    return 1 - this.lowerCritiWidth;
+  }
 
   get lowerMultiLowerCritiDamage() {
-    let rawValue = this.totalDamageFloor * this.lowerMulti / this.multi;
-    return +rawValue.toFixed(1)
+    let rawValue = (this.totalDamageFloor * this.lowerMulti) / this.multi;
+    return +rawValue.toFixed(1);
   }
   get lowerMultiHigherCritiDamage() {
-    let rawValue = this.totalDamageCeil * this.lowerMulti / this.multi;
-    return +rawValue.toFixed(1)
+    let rawValue = (this.totalDamageCeil * this.lowerMulti) / this.multi;
+    return +rawValue.toFixed(1);
   }
   get higherMultiLowerCritiDamage() {
-    let rawValue = this.totalDamageFloor * this.higherMulti / this.multi;
-    return +rawValue.toFixed(1)
+    let rawValue = (this.totalDamageFloor * this.higherMulti) / this.multi;
+    return +rawValue.toFixed(1);
   }
   get higherMultiHigherCritiDamage() {
-    let rawValue = this.totalDamageCeil * this.higherMulti / this.multi;
-    return +rawValue.toFixed(1)
+    let rawValue = (this.totalDamageCeil * this.higherMulti) / this.multi;
+    return +rawValue.toFixed(1);
   }
 }
 </script>
@@ -79,6 +95,7 @@ export default class ProbabilityVisualization extends Vue {
 
 .provis-container {
   height: 320px;
+  color: #303133;
   .lower-level {
     .lower-level {
       background-color: @lmlc-color;

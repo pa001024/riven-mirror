@@ -2271,7 +2271,7 @@ let po = {
     shortName: {
       0: "暴率",
       1: "暴伤",
-      2: "触发率",
+      2: "触发",
       3: "触发时间",
       4: "火伤",
       5: "冰伤",
@@ -2889,7 +2889,8 @@ let po = {
   setting: {
     lang: "语言设置",
     default: "默认",
-    bugreport: "BUG反馈"
+    bugreport: "BUG反馈",
+    nightmode: "夜间模式"
   },
   modular: {
     damage: "伤害",

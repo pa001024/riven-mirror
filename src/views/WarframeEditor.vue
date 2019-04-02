@@ -476,12 +476,12 @@ export default class WarframeEditor extends Vue {
     white-space: nowrap;
     .skill-cost {
       background: @theme_main;
-      color: #fff;
+      color: @theme_back;
       font-size: 1.2em;
       padding: 8px 16px;
       display: inline-block;
       & + .skill-cost {
-        border-left: 1px solid #fff;
+        border-left: 1px solid @theme_back;
       }
     }
     .skill-cost:first-child {
@@ -498,7 +498,7 @@ export default class WarframeEditor extends Vue {
       padding: 2px 10px;
       border: 1px solid #e3e4ea;
       border-radius: 2px;
-      box-shadow: 2px 4px 4px #0000000f;
+      box-shadow: 2px 4px 4px @shadow;
     }
   }
 }
@@ -512,7 +512,7 @@ export default class WarframeEditor extends Vue {
       display: inline-block;
       width: 4px;
       height: 24px;
-      background: #6199ff;
+      background: @theme_main;
       vertical-align: bottom;
       border-radius: 4px;
       margin-right: 8px;
@@ -523,18 +523,18 @@ export default class WarframeEditor extends Vue {
       display: inline-block;
       padding: 8px 16px;
       margin: 4px;
-      background: #fff;
+      background: @theme_back;
       border-radius: 4px;
       .prop-name {
         height: 17px;
         line-height: 17px;
-        color: #606c80;
+        color: @half_greyblue;
         font-size: 12px;
       }
       .prop-value {
         height: 22px;
         line-height: 22px;
-        color: #202d40;
+        color: @text_darkerblue;
         font-size: 16px;
       }
     }

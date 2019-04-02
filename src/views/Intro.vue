@@ -325,7 +325,6 @@ export default class extends Vue {
       padding: 20px 0;
       .container {
         width: 92%;
-        padding: 0 4%;
       }
     }
     .footer ul li {

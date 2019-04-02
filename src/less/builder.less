@@ -1,9 +1,5 @@
-@text_grey : #606266;
-@theme_main: #6199ff;
-@theme_back: #fff;
-@theme_leaf: #89b2fd;
-@half_grey : #777;
-@text_info : #67c23a;
+@import "./common.less";
+
 .weapon-display {
   .share-icon {
     float: right;
@@ -173,7 +169,7 @@
 
 // BUFF
 .buff-head {
-  color: #6199ff;
+  color: @theme_main;
   margin: 8px 0;
 }
 
@@ -182,7 +178,7 @@
   text-align: center;
   margin: 8px 0;
   border-radius: 4px;
-  background: #fff;
+  background: @theme_back;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   height: 80px;
   display: flex;

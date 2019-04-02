@@ -210,15 +210,16 @@ export abstract class BaseBuildEditor extends Vue {
     this.refleshMods();
     this.reloadSelector();
   }
-  handleTabsEdit(targetName, action: "add" | "remove") {
+  handleTabsEdit(targetName: string, action: "add" | "remove") {
     if (action === "add") {
       let newTabName = "SET " + (1 + (+this.tabs[this.tabs.length - 1].name.split(" ")[1] || 0));
+
       this.tabs.push({
         title: newTabName.replace("SET", "配置"),
         name: newTabName,
         build: this.newBuild(this.weapon),
-        mods: Array(8),
-        buffs: [null]
+        mods: this.currentTab.mods,
+        buffs: this.currentTab.buffs
       });
       this.tabValue = newTabName;
     }

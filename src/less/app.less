@@ -19,7 +19,7 @@
 
   .icon {
     font-size: 1.5rem;
-    filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(2px 3px 2px @shadow);
   }
 }
 
@@ -94,10 +94,10 @@
 }
 
 .app-nav-menu {
-  background: #3952e0;
+  background: @theme_darker;
   color: @text_light;
   padding: 8px 0;
-  position: absolute;
+  position: fixed;
   overflow: hidden;
   z-index: 999;
   width: 100%;
@@ -108,14 +108,16 @@
     align-items: center;
 
     &:hover {
-      background: #5c6de8;
+      background: @theme_darker2;
     }
 
     &:active {
-      background: #707de2;
+      background: @theme_lighter;
     }
 
-    svg {
+    .icon {
+      width: 64px;
+      height: 64px;
       padding: 20px;
       font-size: 24px;
     }
@@ -149,10 +151,10 @@
 
 /* ASIDE */
 .pc-aside {
-  background-color: #ffffff80;
+  background-color: @theme_back;
   color: @text_main;
   text-align: center;
-  box-shadow: inset 0 0 8px 0px #0000001f;
+  box-shadow: inset 0 0 8px 0px @shadow15;
   position: fixed;
   height: 100%;
   top: 60px;
@@ -162,11 +164,11 @@
   .menu-item {
     .icon {
       font-size: 24px;
-      padding: 18px;
     }
 
     width: 100%;
     height: 60px;
+    padding: 18px;
     cursor: pointer;
     overflow: hidden;
     background-color: transparent;
@@ -200,36 +202,39 @@
   font-size: 0.4em;
 }
 
-#app {
-  .main-header {
-    position: fixed;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background-color: @theme_primary;
-    color: @text_light;
-    padding: 0 10px;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.25);
-    text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
-    z-index: 999;
+.main-header {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: @theme_primary;
+  color: @text_light;
+  padding: 0 10px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.25);
+  text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
+  z-index: 999;
 
-    h1 {
-      margin: 0 0 0 16px;
-      font-weight: normal;
-      font-family: @font_logo;
-      font-size: 24px;
-      user-select: none;
-    }
+  h1 {
+    margin: 0 0 0 16px;
+    font-weight: normal;
+    font-family: @font_logo;
+    font-size: 24px;
+    user-select: none;
   }
 }
 
 .main-container {
+  flex-basis: auto;
+  display: block;
+  flex: 1;
   background-color: @theme_mainback;
   color: @text_main;
   margin: 60px 0 0 60px;
   padding: 0;
+  min-height: calc(100vh - 60px);
+  width: calc(100vw - 60px);
 
-  > * {
+  >* {
     margin: 14px;
   }
 }
@@ -245,7 +250,7 @@
 }
 
 .i-mirror-logo {
-  background-image: url("../assets/LOGO@4x.png");
+  background-image: url("/img/LOGO@4x.png");
   background-size: 100%;
   width: 60px;
   height: 60px;
@@ -257,7 +262,6 @@
 html,
 body {
   margin: 0;
-  height: 100%;
   width: 100%;
   display: flex;
   font-size: 14px;
@@ -280,21 +284,22 @@ h3 {
   float: right;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 @media only screen and (max-width: 767px) {
-  #app {
-    .el-header {
-      height: 50px !important;
+  .main-header {
+    height: 50px !important;
+
+    h1 {
+      font-size: 22px;
     }
   }
 
   .main-container {
     margin: 50px 0 0;
-  }
-
-  .el-header {
-    h1 {
-      font-size: 22px;
-    }
+    min-height: calc(100vh - 50px);
   }
 
   .i-mirror-logo {
@@ -326,11 +331,56 @@ h3 {
   max-width: calc(100vw - 35px);
 }
 
-.invert {
-  filter: invert(100%);
+.invert-theme {
+  // filter: invert(100%);
 
-  .no-invert,
-  img {
+  .i-mirror-logo,
+  [class*="-item-container"],
+  .provis-container,
+  .el-form-item,
+  .el-tabs__nav,
+  .el-dropdown-menu,
+  .el-tag,
+  .el-select-dropdown,
+  .el-message-box,
+  .other-info>section {
     filter: invert(100%);
   }
+}
+
+#app {
+  .el-card {
+    background-color: @theme_back;
+    color: @text_main;
+  }
+
+  .el-switch__label {
+    color: @text_main;
+  }
+
+  .el-switch.is-checked .el-switch__core,
+  .el-progress-bar__inner {
+    border-color: @theme_main;
+    background-color: @theme_main;
+  }
+
+  .el-button--primary {
+    color: @text_light;
+    border-color: @theme_main;
+    background-color: @theme_main;
+  }
+
+  .el-dialog {
+    background-color: @theme_back;
+    border: 1px solid #ebeef5;
+  }
+
+  .el-dialog__title {
+    color: @text_main;
+  }
+
+}
+
+.el-message-box {
+  max-width: 98vw;
 }

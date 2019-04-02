@@ -1,6 +1,6 @@
 <template>
   <div class="simulator">
-    <el-row :gutter="20">
+    <el-row :gutter="14">
       <el-row type="flex" justify="center">
         <el-col :sm="24" :md="12" :lg="8" style="padding:0 11px;">
           <el-dropdown class="simulator-new" :class="{ 'is-disabled': openCountdown > 0 }"  size="medium" split-button type="primary" @click="simulatorNew" @command="newTypeSelect" trigger="click">
@@ -18,7 +18,7 @@
           <el-button class="simulator-roll" type="primary" size="medium" :disabled="refreshCountdown > 0 || !hasChoosen" icon="el-icon-refresh" @click="simulatorRoll">{{refreshCountdown > 0 ? $t("simulator.pleaseWait",[refreshCountdown]) : $t("simulator.recycle")}}</el-button>
         </el-col>
       </el-row>
-      <el-row type="flex" :gutter="20" justify="center">
+      <el-row type="flex" :gutter="14" justify="center">
         <!-- 老卡 -->
         <transition name="el-zoom-in-center">
           <el-col :sm="24" :md="12" :lg="8" v-if="mod">
@@ -103,8 +103,8 @@ function countDown(sec = 3, tickCallback: (sec: number) => void) {
         resolve();
       }
     }, 1e3);
-    return
-  })
+    return;
+  });
 }
 
 @Component({
@@ -131,7 +131,7 @@ export default class Simulator extends Vue {
     }, 1e3);
 
     this.newMod = null;
-    countDown(5, v => this.openCountdown = v);
+    countDown(5, v => (this.openCountdown = v));
   }
   simulatorRoll() {
     let oldMod = this.mod;
@@ -142,11 +142,10 @@ export default class Simulator extends Vue {
       this.newMod = newMod;
     }, 1e3);
     this.hasChoosen = false;
-    countDown(3, v => this.refreshCountdown = v);
+    countDown(3, v => (this.refreshCountdown = v));
   }
   choose(isNew: boolean) {
-    if (isNew)
-      this.mod = this.newMod;
+    if (isNew) this.mod = this.newMod;
     this.newMod = null;
     this.hasChoosen = true;
     localStorage.setItem("simulator", this.mod.qrCodeBase64);
@@ -158,14 +157,13 @@ export default class Simulator extends Vue {
   // === 生命周期钩子 ===
   beforeMount() {
     let sto = localStorage.getItem("simulator");
-    if (sto)
-      this.mod.qrCodeBase64 = sto;
-    else
-      this.mod.random();
+    if (sto) this.mod.qrCodeBase64 = sto;
+    else this.mod.random();
   }
 }
 </script>
 <style lang="less">
+@import "../less/common.less";
 .simulator {
   .mod-prop {
     text-align: center;
@@ -219,7 +217,7 @@ export default class Simulator extends Vue {
   }
   .index-card .el-card__header,
   .index-card .el-card__body {
-    background: #6199ff;
+    background: @theme_main;
   }
 }
 </style>

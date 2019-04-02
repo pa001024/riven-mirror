@@ -1,12 +1,12 @@
 @import "./common.less";
 .rank-final {
   font-size: 38px;
-  width: 40px;
-  height: 40px;
+  width: 56px;
+  height: 56px;
   line-height: 40px;
   background-color: @theme_primary;
-  background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
-  color: #fff;
+  background-image: linear-gradient(90deg, @theme_primary 0%, @theme_lighter2 100%);
+  color: @text_light;
   display: inline-block;
   text-align: center;
   border-radius: 30px;
@@ -16,12 +16,12 @@
 
 .build-container {
   .setting {
-    background: #fff;
+    background: @theme_back;
     padding: 8px 20px 0;
     margin: 16px 0;
     border-radius: 20px;
-    border-left: 4px solid #3e5dfe;
-    border-right: 4px solid #508aff;
+    border-left: 4px solid @theme_primary;
+    border-right: 4px solid @theme_lighter2;
   }
   .el-collapse {
     border: 0;
@@ -40,14 +40,14 @@
     }
   }
   padding: 8px;
-  >.el-card__body {
+  > .el-card__body {
     padding: 8px;
   }
 }
 
 .build-item {
   .el-tag {
-    background: #fff;
+    background: transparent;
     border-radius: 20px;
   }
   flex-wrap: wrap;
@@ -55,10 +55,10 @@
 
 .build-prop {
   .el-tag {
-    background: #fff;
+    background: transparent;
     border-radius: 20px;
   }
-  &>* {
+  & > * {
     margin-bottom: 4px;
     margin-left: 8px;
   }
@@ -70,7 +70,7 @@
     padding: 10px 20px;
   }
   .el-collapse-item {
-    &+.el-collapse-item {
+    & + .el-collapse-item {
       .el-collapse-item__header {
         padding-top: 0;
       }
@@ -84,17 +84,17 @@
     min-height: 40px;
     border-radius: 20px;
     background-color: @theme_primary;
-    background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
+    background-image: linear-gradient(90deg, @theme_primary 0%, @theme_lighter2 100%);
   }
   .el-collapse-item__wrap {
     background: unset;
     border: 0;
   }
-  background-color: #fff;
-  color: #222;
+  background-color: @theme_back;
+  color: @text_darker;
   border-radius: 20px;
-  border-left: 4px solid #3e5dfe;
-  border-right: 4px solid #508aff;
+  border-left: 4px solid @theme_primary;
+  border-right: 4px solid @theme_lighter2;
   margin-top: 8px;
   padding-bottom: 8px;
   .el-collapse-item__arrow {
@@ -125,7 +125,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background: #fff;
+  background: @theme_back;
   margin: 8px;
   border-radius: 20px;
   color: @text_grey;
@@ -144,7 +144,6 @@
     display: inline-block;
     font-size: 14px;
     color: @text_grey;
-    vertical-align: middle;
     margin: 0 6px;
     line-height: 1;
   }

@@ -1,6 +1,6 @@
 <template>
-  <el-container id="app" :class="{invert}">
-    <el-header class="main-header" v-if="!isFullPage">
+  <el-container id="app">
+    <header class="main-header" v-if="!isFullPage">
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
         <h1>Riven.IM
@@ -21,10 +21,10 @@
       <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
         <WfIcon type="menu"></WfIcon>
       </button>
-    </el-header>
+    </header>
     <!-- 移动端弹出菜单 -->
     <transition name="el-zoom-in-top">
-      <div class="app-nav-menu hidden-sm-and-up" v-if="menuOpen" @click="menuOpen=false">
+      <div class="app-nav-menu hidden-sm-and-up" v-if="menuOpen" @click="menuOpen=false" tabindex="0">
         <router-link v-for="link in links" :key="link.title" tag="div" :to="link.path" class="menu-item" :exact="link.exact">
           <WfIcon :type="link.icon"></WfIcon>
           <span class="app-nav-title">{{$t(link.title)}}</span>
@@ -42,7 +42,7 @@
           </el-tooltip>
         </div>
       </el-aside>
-      <el-main class="main-container">
+      <main class="main-container" @click="menuOpen=false">
         <keep-alive>
           <router-view/>
         </keep-alive>
@@ -60,7 +60,7 @@
             <el-button size="small" type="primary" @click="readUpdate">{{$t('update.confirm')}}</el-button>
           </span>
         </el-dialog>
-      </el-main>
+      </main>
     </el-container>
   </el-container>
 </template>
@@ -85,6 +85,11 @@ export default class App extends Vue {
   updateMessageVisible = false;
 
   @Getter("invert") invert: boolean;
+
+  @Watch("invert")
+  themeChange() {
+    document.body.className = this.invert ? "invert-theme" : "";
+  }
 
   get isIndexPage() {
     return this.isFullPage || ["Intro", "Login", "ForgetPass", "EULA"].includes(this.$route.name);

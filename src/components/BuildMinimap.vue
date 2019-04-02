@@ -144,7 +144,7 @@ export default class BuildMinimap extends Vue {
   padding: 16px;
   margin: 7px;
   border-radius: 8px;
-  background: #fff;
+  background: @theme_back;
   position: relative;
   .weapon-img {
     height: 44px;
@@ -172,7 +172,7 @@ export default class BuildMinimap extends Vue {
     display: inline-block;
     border-left: 2px solid;
     padding: 1px 6px;
-    background: white;
+    background: @theme_back;
     border-radius: 2px;
     margin: 4px;
     box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.1);
@@ -212,7 +212,7 @@ export default class BuildMinimap extends Vue {
     }
     .value {
       display: inline-block;
-      color: #202d40;
+      color: @text_darker;
     }
   }
 }

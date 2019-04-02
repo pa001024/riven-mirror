@@ -4,18 +4,18 @@
   .link-btn {
     color: @theme_main;
     &:hover {
-      color: lighten(@theme_main, 10%);
+      color: @theme_lighter;
     }
   }
   .login-bg {
     height: calc(50vh - 160px);
-    background: #7084f9;
-    background-image: linear-gradient(135deg, #7084f9 0%, #3d5afe 100%);
+    background: @theme_lighter;
+    background-image: linear-gradient(135deg, @theme_lighter 0%, @theme_primary 100%);
   }
   .login-box {
     width: 440px;
     margin: -50px auto 0;
-    background: #fff;
+    background: @theme_back;
     padding: 55px;
     border-radius: 8px;
     box-sizing: border-box;
@@ -47,12 +47,12 @@
     line-height: 1;
     background-color: #7a94ff;
     background-image: linear-gradient(90deg, #7090ff 0%, #5d8bff 100%);
-    color: #fff;
+    color: @text_light;
     border-radius: 100px;
     border: 0;
     box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
     &.is-disabled {
-      color: #fff;
+      color: @text_light;
       background: #b0bfff;
       cursor: not-allowed;
     }

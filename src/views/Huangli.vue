@@ -1,5 +1,5 @@
 <template>
-  <el-row type="flex" :gutter="20" justify="center">
+  <el-row type="flex" justify="center">
     <div class="huangli">
       <div class="title">
         {{$t("huangli.title")}}
@@ -54,7 +54,7 @@ function random(dayseed: number, indexseed: number) {
   let n = dayseed % 11117;
   for (var i = 0; i < 100 + indexseed; i++) {
     n = n * n;
-    n = n % 11117;   // 11117 是个质数
+    n = n % 11117; // 11117 是个质数
   }
   return n;
 }
@@ -63,7 +63,7 @@ interface Activitie {
   name: string;
   good: string;
   bad: string;
-  weekend?: boolean
+  weekend?: boolean;
 }
 const weeks = ["日", "一", "二", "三", "四", "五", "六"];
 const directions = ["北方", "东北方", "东方", "东南方", "南方", "西南方", "西方", "西北方"];
@@ -87,34 +87,78 @@ const activities = [
   { name: "打超过%l波无尽", good: "连金传说", bad: "什么都不出" },
   { name: "去%a水", good: "别人觉得你是个大佬", bad: "今天杠精很多" },
   { name: "逛B站", good: "会发现不错的东♂西", bad: "满眼广告区大佬", weekend: true },
-  { name: "作死", good: "在大佬群中七进七出", bad: "除非你活够了，死得早点没关系" },
+  { name: "作死", good: "在大佬群中七进七出", bad: "除非你活够了，死得早点没关系" }
 ] as Activitie[];
 
-
-const warframes = ["黑咖喱", "Ash", "Atlas", "Banshee", "Chroma", "Ember", "Equinox", "Excalibur", "Frost",
-  "Gara", "Harrow", "Hydroid", "Inaros", "Ivara", "Khora", "Limbo", "Loki", "Mag", "Mesa", "Mirage",
-  "Nekros", "Nezha", "Nidus", "Nova", "Nyx", "Oberon", "Octavia", "Rhino", "Saryn", "Titania",
-  "Trinity", "Valkyr", "Vauban", "Volt", "Wukong", "Zephyr"];
-const weapons = "兰卡,狂鲨,金工火神,奥堤克光子枪,苏普拉,绝路,双簧管,铁晶磁轨炮,安培克斯,沙皇,楞次弓,席芭莉丝,斯特朗,野猪,碎裂者,科林斯,食人鱼,循环离子枪,雷克斯双枪,安培克斯,悦音Prime,暗杀者,弧电离子枪,布拉克,嵴椎节鞭,提佩多,玻之武杖,怯薛,西亚什,瘟疫 克里帕丝,欧玛,关刀".split(",");
+const warframes = [
+  "黑咖喱",
+  "Ash",
+  "Atlas",
+  "Banshee",
+  "Chroma",
+  "Ember",
+  "Equinox",
+  "Excalibur",
+  "Frost",
+  "Gara",
+  "Harrow",
+  "Hydroid",
+  "Inaros",
+  "Ivara",
+  "Khora",
+  "Limbo",
+  "Loki",
+  "Mag",
+  "Mesa",
+  "Mirage",
+  "Nekros",
+  "Nezha",
+  "Nidus",
+  "Nova",
+  "Nyx",
+  "Oberon",
+  "Octavia",
+  "Rhino",
+  "Saryn",
+  "Titania",
+  "Trinity",
+  "Valkyr",
+  "Vauban",
+  "Volt",
+  "Wukong",
+  "Zephyr"
+];
+const weapons = "兰卡,狂鲨,金工火神,奥堤克光子枪,苏普拉,绝路,双簧管,铁晶磁轨炮,安培克斯,沙皇,楞次弓,席芭莉丝,斯特朗,野猪,碎裂者,科林斯,食人鱼,循环离子枪,雷克斯双枪,安培克斯,悦音Prime,暗杀者,弧电离子枪,布拉克,嵴椎节鞭,提佩多,玻之武杖,怯薛,西亚什,瘟疫 克里帕丝,欧玛,关刀".split(
+  ","
+);
 const areas = ["贴吧", "氏族", "区域频道", "联盟"];
 const stars = "水星,金星,地球,月球,火星,火卫一,谷神星,木星,欧罗巴,土星,天王星,海王星,冥王星,赛德娜,阋神星,虚空".split(",");
 
 @Component
 export default class Huangli extends Vue {
   today = new Date();
-  get iday() { return this.today.getFullYear() * 10000 + (this.today.getMonth() + 1) * 100 + this.today.getDate(); }
-  get directionString() { return directions[random(this.iday, 55) % directions.length] }
-  get starsString() { return stars[random(this.iday, 233) % stars.length] }
-  get dalaoValue() {
-    return Array(5).fill("").map((v, o) => o <= random(this.iday, 18) % 6 ? "★" : "☆").join("");
+  get iday() {
+    return this.today.getFullYear() * 10000 + (this.today.getMonth() + 1) * 100 + this.today.getDate();
   }
-  goods = []
-  bads = []
+  get directionString() {
+    return directions[random(this.iday, 55) % directions.length];
+  }
+  get starsString() {
+    return stars[random(this.iday, 233) % stars.length];
+  }
+  get dalaoValue() {
+    return Array(5)
+      .fill("")
+      .map((v, o) => (o <= random(this.iday, 18) % 6 ? "★" : "☆"))
+      .join("");
+  }
+  goods = [];
+  bads = [];
   beforeMount() {
     this.goods = [];
     this.bads = [];
-    let numGood = random(this.iday, 56) % 3 + 1;
-    let numBad = random(this.iday, 33) % 3 + 1;
+    let numGood = (random(this.iday, 56) % 3) + 1;
+    let numBad = (random(this.iday, 33) % 3) + 1;
     let eventArr = this.pickRandomActivity(numGood + numBad);
     for (var i = 0; i < numGood; i++) {
       this.goods.push(eventArr[i]);
@@ -148,18 +192,18 @@ export default class Huangli extends Vue {
 
   // 解析占位符并替换成随机内容
   parse(event: Activitie) {
-    var result = { name: event.name, good: event.good, bad: event.bad } as Activitie;  // clone
-    if (result.name.indexOf('%w') != -1) {
-      result.name = result.name.replace('%w', warframes[random(this.iday, 11) % warframes.length]);
+    var result = { name: event.name, good: event.good, bad: event.bad } as Activitie; // clone
+    if (result.name.indexOf("%w") != -1) {
+      result.name = result.name.replace("%w", warframes[random(this.iday, 11) % warframes.length]);
     }
-    if (result.name.indexOf('%f') != -1) {
-      result.name = result.name.replace('%f', weapons[random(this.iday, 51) % weapons.length]);
+    if (result.name.indexOf("%f") != -1) {
+      result.name = result.name.replace("%f", weapons[random(this.iday, 51) % weapons.length]);
     }
-    if (result.name.indexOf('%a') != -1) {
-      result.name = result.name.replace('%a', areas[random(this.iday, 35) % areas.length]);
+    if (result.name.indexOf("%a") != -1) {
+      result.name = result.name.replace("%a", areas[random(this.iday, 35) % areas.length]);
     }
-    if (result.name.indexOf('%l') != -1) {
-      result.name = result.name.replace('%l', (random(this.iday, 12) % 12 + 5).toString());
+    if (result.name.indexOf("%l") != -1) {
+      result.name = result.name.replace("%l", ((random(this.iday, 12) % 12) + 5).toString());
     }
     return result;
   }
@@ -170,89 +214,92 @@ export default class Huangli extends Vue {
 }
 </script>
 
-<style>
-.huangli .comment {
-  color: #aaa;
-  margin: 8px;
-  text-align: right;
-}
-.direction_value {
-  color: #4a4;
-  font-weight: bold;
-}
-.dalao_value {
-  color: #f87;
-}
-.line-tip {
-  font-size: 11pt;
-  padding: 8px;
-  background: white;
-}
-.ev-title {
-  flex: 1;
-  text-align: center;
-  box-sizing: border-box;
-  font-size: 2em;
-  font-weight: bold;
-  /* box-shadow: 0 0 1px white inset, 0 0 1px black; */
-  margin: 16px 8px;
-}
-.ev-list {
-  flex: 2;
-  box-sizing: border-box;
-  padding: 16px 8px;
-  background: #ffffff8c;
-  line-height: 1.5;
-}
-.ev-list li {
-  margin: 8px;
-}
-
-.ev-name {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #444;
-}
-.ev-desc {
-  font-size: 1em;
-  color: #777;
-}
+<style lang="less">
+@import "../less/common.less";
 .huangli {
-  width: 440px;
-}
-.huangli .title {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  background: rgb(61, 90, 254);
-  padding: 10px;
-  color: white;
-  font-size: 1.2em;
-  margin: 0;
-  border-bottom: 8px solid #a8c7ff;
-}
-.huangli .date {
-  padding: 8px;
-  background: white;
-}
-.huangli .title sub {
-  vertical-align: super;
-  font-size: smaller;
-}
-.ev {
-  display: flex;
-  align-items: center;
-}
-.ev.good {
-  background-color: #fbe04c;
-}
-.ev.bad {
-  background: #d8502b;
-}
-.ev.good .ev-list {
-  background: #fdf1ae;
-}
-.ev.bad .ev-list {
-  background: #edb09f;
+  width: 100vw;
+  max-width: 440px;
+  .comment {
+    color: #aaa;
+    margin: 8px;
+    text-align: right;
+  }
+
+  .direction_value {
+    color: #4a4;
+    font-weight: bold;
+  }
+  .dalao_value {
+    color: #f87;
+  }
+  .line-tip {
+    font-size: 11pt;
+    padding: 8px;
+    background: @theme_back;
+  }
+  .ev-title {
+    flex: 1;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 2em;
+    font-weight: bold;
+    /* box-shadow: 0 0 1px white inset, 0 0 1px black; */
+    margin: 16px 8px;
+  }
+  .ev-list {
+    flex: 2;
+    box-sizing: border-box;
+    padding: 16px 8px;
+    background: @light;
+    line-height: 1.5;
+    li {
+      margin: 8px;
+    }
+  }
+
+  .ev-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #444;
+  }
+  .ev-desc {
+    font-size: 1em;
+    color: #777;
+  }
+  .title {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    background: @theme_primary;
+    padding: 10px;
+    color: @text_light;
+    font-size: 1.2em;
+    margin: 0;
+    border-bottom: 8px solid @theme_leaf;
+  }
+  .date {
+    padding: 8px;
+    background: @theme_back;
+  }
+  .title sub {
+    vertical-align: super;
+    font-size: smaller;
+  }
+  .ev {
+    display: flex;
+    align-items: center;
+    &.good {
+      background-color: #fbe04c;
+    }
+    &.bad {
+      background: #d8502b;
+    }
+    &.good .ev-list {
+      background: #fdf1ae;
+    }
+    &.bad .ev-list {
+      background: #edb09f;
+    }
+  }
 }
 </style>

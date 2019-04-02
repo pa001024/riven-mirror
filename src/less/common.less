@@ -1,17 +1,90 @@
+:root {
+  --text_grey: #606266;
+  --text_halfgrey: #999;
+  --text_sliver: #b0b2b5;
+  --text_error: #f56c6c;
+  --theme_primary: #3d5afe;
+  --theme_darker: #3952e0;
+  --theme_darker2: #5c6de8;
+  --theme_lighter: #7084f9;
+  --theme_lighter2: #5d8bff;
+  --theme_highlight: #768aff;
+  --theme_main: #6199ff;
+  --theme_back: #fff;
+  --theme_mainback: #ecf0f1;
+  --theme_leaf: #89b2fd;
+  --theme_hover: #e8f0ff;
+  --half_grey: #777;
+  --half_greyblue: #606c80;
+  --text_info: #67c23a;
+  --text_light: #fff;
+  --text_main: #303133;
+  --text_darker: #222;
+  --text_darkerblue: #202d40;
+  --light: #ffffff80;
+  --shadow: #0000001f;
+  --shadow5: #00000080;
+  --shadow15: #00000026;
+  --delete_hover: #ffd6d6;
+}
 
-@text_grey : #606266;
-@text_sliver : #b0b2b5;
-@text_error : #f56c6c;
-@theme_primary: #3d5afe;
-@theme_highlight: #768aff;
-@theme_main: #6199ff;
-@theme_back: #fff;
-@theme_mainback: #ecf0f1;
-@theme_leaf: #89b2fd;
-@half_grey : #777;
-@text_info : #67c23a;
-@text_light: #fff;
-@text_main: #333;
+.invert-theme {
+  --text_grey: #9f9d99;
+  --text_halfgrey: #666;
+  --text_sliver: #4f4d4a;
+  --text_error: #d43434;
+  --theme_primary: #c2a501;
+  --theme_darker: #c6ad1f;
+  --theme_darker2: #a39217;
+  --theme_lighter: #8f7b06;
+  --theme_lighter2: #a27400;
+  --theme_highlight: #897500;
+  --theme_main: #9e6600;
+  --theme_back: #000;
+  --theme_mainback: #130f0e;
+  --theme_leaf: #764d02;
+  --theme_hover: #170f00;
+  --half_grey: #888888;
+  --half_greyblue: #9f937f;
+  --text_info: #386820;
+  --text_light: #000;
+  --text_main: #cfcecc;
+  --text_darker: #ddd;
+  --text_darkerblue: #dfd2bf;
+  --light: #00000080;
+  --shadow: #ffffff1f;
+  --shadow5: #ffffff80;
+  --shadow15: #ffffff26;
+  --delete_hover: #5c4545;
+}
+
+@text_grey : var(--text_grey);
+@text_halfgrey : var(--text_halfgrey);
+@text_sliver : var(--text_sliver);
+@text_error : var(--text_error);
+@theme_primary: var(--theme_primary);
+@theme_darker: var(--theme_darker);
+@theme_darker2: var(--theme_darker2);
+@theme_lighter: var(--theme_lighter);
+@theme_lighter2: var(--theme_lighter2);
+@theme_highlight: var(--theme_highlight);
+@theme_main: var(--theme_main);
+@theme_back: var(--theme_back);
+@theme_mainback: var(--theme_mainback);
+@theme_leaf: var(--theme_leaf);
+@theme_hover: var(--theme_hover);
+@half_grey : var(--half_grey);
+@half_greyblue : var(--half_greyblue);
+@text_info : var(--text_info);
+@text_light: var(--text_light);
+@text_main: var(--text_main);
+@text_darker: var(--text_darker);
+@text_darkerblue: var(--text_darkerblue);
+@light: var(--light);
+@shadow: var(--shadow);
+@shadow5: var(--shadow5);
+@shadow15: var(--shadow15);
+@delete_hover: var(--delete_hover);
 
 @mod_n : #865e37;
 @mod_c : #a7a7a7;
@@ -20,5 +93,4 @@
 @mod_g : #bdffd4;
 @mod_x : #a072ce;
 
-@font_main: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
-  "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+@font_main: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;

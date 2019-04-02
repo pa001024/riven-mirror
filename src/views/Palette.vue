@@ -23,7 +23,7 @@
             </div>
             <!-- 拾色器 -->
             <div class="color-picker">
-              <ColorPicker v-model="color"></ColorPicker>
+              <ColorPicker v-model="color" />
             </div>
           </div>
         </el-card>
@@ -124,7 +124,7 @@ export default class extends Vue {
   // === 生命周期钩子 ===
   beforeMount() {
     let img = new Image();
-    img.src = this.refImageURL = "/img/eidolon-day.jpg";
+    img.src = this.refImageURL = "/img/LOGO@4x.png";
     img.onload = () => {
       let colorThief = new ColorThief();
       let color = new Color(colorThief.getColor(img));
@@ -139,6 +139,7 @@ export default class extends Vue {
 }
 </script>
 <style lang="less">
+@import "../less/common.less";
 .palette-list {
   flex-wrap: wrap;
 }
@@ -204,7 +205,7 @@ export default class extends Vue {
     position: relative;
     overflow: hidden;
     border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: @light;
     opacity: 0;
     transition: opacity 0.5s;
   }

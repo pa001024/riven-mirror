@@ -70,7 +70,7 @@ export default class extends Vue {
     padding-right: 4px;
   }
   &:hover {
-    background: #fafafa;
+    background: @theme_mainback;
   }
   .diff-val.positive {
     color: #67c23a;
@@ -94,23 +94,20 @@ export default class extends Vue {
 
 .select-cpmode {
   cursor: pointer;
-  &:hover {
-    background: #ebf2ff;
-  }
   &.active .prop-diff {
-    background: #89b2fd;
-    color: @theme_back;
+    background: @theme_leaf;
+    color: @text_light;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-    border: 4px solid #d9e6ff;
+    border: 3px solid @light;
     .title {
-      color: @theme_back;
+      color: @text_light;
     }
     .diff-val.positive {
-      color: #fff;
+      color: @text_light;
       text-shadow: 1px 1px 1px rgba(70, 255, 70, 0.4);
     }
     .diff-val.negative {
-      color: #fff;
+      color: @text_light;
       text-shadow: 1px 1px 1px rgba(255, 70, 70, 0.4);
     }
   }

@@ -70,6 +70,9 @@ export default class BuildMinimap extends Vue {
 @import "../less/common.less";
 
 .riven-price {
+  .el-collapse {
+    border: 0;
+  }
   .el-collapse-item {
     & + .el-collapse-item {
       .el-collapse-item__header {
@@ -78,7 +81,7 @@ export default class BuildMinimap extends Vue {
     }
   }
   .el-collapse-item__header {
-    color: #fff !important;
+    color: @text_light !important;
     padding: 0px 0 0 16px;
     line-height: 32px;
     background: unset;
@@ -87,7 +90,7 @@ export default class BuildMinimap extends Vue {
     height: auto;
     border-radius: 20px;
     background-color: @theme_primary;
-    background-image: linear-gradient(90deg, #3d5afe 0%, #508aff 100%);
+    background-image: linear-gradient(90deg, @theme_primary 0%, @theme_lighter2 100%);
   }
   .el-collapse-item__wrap {
     background: unset;
@@ -118,14 +121,14 @@ export default class BuildMinimap extends Vue {
     }
     .header {
       color: @theme_highlight;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.12);
+      text-shadow: 1px 1px 2px @shadow;
       border-bottom: 1px solid;
       padding: 0 0 4px;
     }
   }
   .price.avg {
     display: block;
-    background: #fff;
+    background: @theme_back;
     padding: 8px;
     border-radius: 0 0 8px 8px;
     margin: 0 4px;

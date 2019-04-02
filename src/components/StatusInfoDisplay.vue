@@ -30,7 +30,9 @@ export default class extends Vue {
   @Prop() info: any;
   @Prop() common: any;
 
-  get elementTypes() { return this.info; }
+  get elementTypes() {
+    return this.info;
+  }
   renderProps(vn: string, vv: number) {
     switch (vn) {
       case "appearRate":
@@ -48,10 +50,11 @@ export default class extends Vue {
 }
 </script>
 <style lang="less">
+@import "../less/common.less";
 .status-info {
   .info-title {
     height: 17px;
-    color: #606c80;
+    color: @half_greyblue;
     font-size: 12px;
   }
   .info-element-title {
@@ -60,14 +63,14 @@ export default class extends Vue {
   }
   .info-value {
     height: 22px;
-    color: #202d40;
+    color: @text_darkerblue;
     font-size: 16px;
   }
   .info-inline-element {
     display: inline-block;
     padding: 8px 16px;
     margin: 4px;
-    background: #fff;
+    background: @theme_back;
     border-radius: 4px;
   }
 }
