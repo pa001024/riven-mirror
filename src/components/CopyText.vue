@@ -16,7 +16,11 @@ export default class CopyText extends Vue {
   doCopy() {
     copy(this.text);
     (this.$refs.copytext as any).select();
-    this.$notify.success(this.$t("app.copySuccess") as string);
+    this.$message({
+      showClose: true,
+      message: this.$t("app.copySuccess") as string,
+      type: "success"
+    });
   }
 }
 </script>

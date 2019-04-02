@@ -363,19 +363,36 @@ h3 {
   .el-tag,
   .el-select-dropdown,
   .el-message-box,
+  .el-button,
+  .el-cascader,
+  .el-cascader-menus,
+  .el-radio__input,
+  .copytext-input,
+  .prop-number,
   .other-info>section {
     filter: invert(100%);
   }
+
+  .el-tag.mod-dis,
+  .el-button.btn-addriven {
+    filter: unset;
+  }
 }
 
-#app {
-  .el-card {
-    background-color: @theme_back;
-    color: @text_main;
-  }
-
+body {
   .el-switch__label {
     color: @text_main;
+
+  }
+
+  .el-switch__label.is-active {
+    color: @theme_main;
+  }
+
+  .el-switch .el-switch__core,
+  .el-progress-bar__inner {
+    border-color: @text_sliver_light;
+    background-color: @text_sliver_light;
   }
 
   .el-switch.is-checked .el-switch__core,
@@ -384,23 +401,28 @@ h3 {
     background-color: @theme_main;
   }
 
-  .el-button--primary {
-    color: @text_light;
-    border-color: @theme_main;
-    background-color: @theme_main;
-  }
-
-  .el-dialog {
-    background-color: @theme_back;
-    border: 1px solid #ebeef5;
-  }
-
   .el-dialog__title {
     color: @text_main;
   }
 
-}
+  .el-radio.is-bordered.is-checked {
+    border-color: @theme_main;
+  }
 
-.el-message-box {
-  max-width: 98vw;
+  .el-card,
+  .el-notification {
+    background-color: @theme_back;
+    color: @text_main;
+    border-color: @theme_border;
+  }
+
+  .el-dialog,
+  .el-popover {
+    background-color: @theme_back;
+    border: 1px solid @theme_border;
+  }
+
+  .el-message-box {
+    max-width: 98vw;
+  }
 }

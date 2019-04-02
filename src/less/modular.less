@@ -1,12 +1,15 @@
+@import "./common.less";
+
 .modularbuilder {
+
   .preview .prop,
   .parts .part {
     display: inline-block;
     margin: 8px 4px 4px;
     padding: 4px 8px;
-    border: 1px solid #6199ff;
+    border: 1px solid @theme_main;
     border-radius: 4px;
-    color: #6199ff;
+    color: @theme_main;
     font-size: 0.9em;
   }
 
@@ -30,6 +33,19 @@
 
     .part {
       padding: 8px 16px;
+
+      .name {
+        color: @text_main;
+        font-size: 1.1em;
+      }
+
+      &.is-checked .name {
+        color: @theme_main;
+      }
+
+      &.is-checked .type {
+        color: @theme_leaf;
+      }
     }
 
     .el-radio {
@@ -43,10 +59,6 @@
     .snapshot {
       width: 110px;
       height: 80px;
-    }
-
-    .name {
-      font-size: 1.1em;
     }
 
     .type {
@@ -63,8 +75,5 @@
       }
     }
 
-    .is-checked .type {
-      color: #9cbfff;
-    }
   }
 }
