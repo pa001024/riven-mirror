@@ -1,13 +1,15 @@
 import { Translator } from "../warframe/translate";
 
-type VueI18n = import("vue-i18n").default
+type VueI18n = import("vue-i18n").default;
 
 class I18nProxy {
-  private _i18n: VueI18n
-  get locale() { return this._i18n && this._i18n.locale }
+  private _i18n: VueI18n;
+  get locale() {
+    return this._i18n && this._i18n.locale;
+  }
   set locale(value) {
     if (this._i18n) {
-      this._i18n.locale = value
+      this._i18n.locale = value;
       Translator.reload();
     }
   }
@@ -17,17 +19,17 @@ class I18nProxy {
   }
 
   t(key: string, ...value: any) {
-    if (this._i18n) return this._i18n.t(key, ...value) as string
-    return key
+    if (this._i18n) return this._i18n.t(key, ...value) as string;
+    return key;
   }
   te(key: string) {
-    if (this._i18n) return this._i18n.te(key)
-    return false
+    if (this._i18n) return this._i18n.te(key) || this._i18n.te(key, "en");
+    return false;
   }
   a(key: string, ...value: any): any {
-    if (this._i18n) return this._i18n.t(key, ...value) as string
-    return key
+    if (this._i18n) return this._i18n.t(key, ...value) as string;
+    return key;
   }
 }
 
-export const i18n = new I18nProxy()
+export const i18n = new I18nProxy();
