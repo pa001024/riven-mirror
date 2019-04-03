@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.4.22";
+export const version = "1.5.0";
 export const updateLogs = [
+  {
+    version: "1.5.0",
+    date: "2019/4/3",
+    md: {
+      en: `- Riven Disposition Updated [See Detail](https://forums.warframe.com/topic/1078776-april-2019-riven-disposition-updates/)`,
+      cn: `- 裂罅倾向更新 [查看详细](https://forums.warframe.com/topic/1078776-april-2019-riven-disposition-updates/)`
+    }
+  },
   {
     version: "1.4.22",
     date: "2019/3/30",
@@ -21,6 +29,7 @@ export const updateLogs = [
 - 配置缩略图改进`
     }
   },
+  /*
   {
     version: "1.4.20",
     date: "2019/3/16",
@@ -47,7 +56,6 @@ export const updateLogs = [
   - 修正Edge浏览器无法正常调整敌人等级的问题`
     }
   },
-  /*
   {
     version: "1.4.19",
     date: "2019/3/11",
