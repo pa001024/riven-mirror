@@ -436,6 +436,9 @@ export class GunModBuild extends ModBuild {
       case "L":
         /* 弹匣容量 magazine */ this._magazineMul = hAccSum(this._magazineMul, pValue);
         break;
+      case "bL":
+        /* 基础弹匣容量 magazine */ this._magazineMul = hAccSum(this._magazineMul, (pValue / this.weapon.magazine) * 100);
+        break;
       case "F":
         /* 装填速度 reloadSpeed */ this._reloadSpeedMul = hAccSum(this._reloadSpeedMul, pValue);
         break;

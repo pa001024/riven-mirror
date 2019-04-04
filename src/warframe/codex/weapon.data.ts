@@ -3142,7 +3142,7 @@ export const gunWeaponData = [
     magazine: 90,
     reload: 2,
     ammo: 540,
-    pol: "rr-"
+    pol: "rrr"
   },
   {
     id: "Stradavar Prime (semi-auto)",
@@ -3150,16 +3150,16 @@ export const gunWeaponData = [
     rivenName: "Stradavar",
     mode: "semiAuto",
     tags: ["Gun", "Primary", "Rifle", "AssaultRifle"],
-    dmg: [["Slash", 9], ["Puncture", 10.5], ["Impact", 10.5]],
-    accuracy: 28.6,
-    fireRate: 5,
+    dmg: [["Slash", 48], ["Puncture", 24], ["Impact", 8]],
+    accuracy: 66.7,
+    fireRate: 3.33,
     critChance: 0.3,
-    critMul: 2.6,
-    status: 0.16,
+    critMul: 2.8,
+    status: 0.22,
     magazine: 90,
     reload: 2,
     ammo: 540,
-    pol: "rr-"
+    pol: "rrr"
   },
   {
     id: "Strun",
@@ -5478,7 +5478,7 @@ export const meleeWeaponData = [
     fireRate: 1.17,
     slideDmg: 163,
     status: 0.24,
-    pol: "d"
+    pol: "rd"
   },
   {
     id: "Okina",

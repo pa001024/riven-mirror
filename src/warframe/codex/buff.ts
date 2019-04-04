@@ -107,7 +107,7 @@ export const BuffList: BuffData[] = [
     ["aA", "arcaneGuardian", [["onDamaged"], ["ea", 600]], "Warframe"], // 保卫者赋能
     ["aB", "arcanePhantasm", [["onBlock"], ["f", 40]], "Warframe"], // 幻象赋能
     ["aJ", "arcaneAcceleration", [["R", 60]], "Rifle"], // 加速
-    ["aK", "arcaneAvenger", [["eca", 30]], "Weapon"], // 复仇
+    ["aK", "arcaneAvenger", [["i0", 30]], "Weapon"], // 复仇
     ["aL", "arcaneAwakening", [["D", 100]], "Secondary"], // 觉醒
     ["aM", "arcaneFury", [["K", 120]], "Melee"], // 狂怒
     ["aN", "arcaneStrike", [["J", 40]], "Melee"], // 速攻
@@ -199,6 +199,15 @@ export const BuffList: BuffData[] = [
     dynamicProps: [["ovs", 0.25, 0]],
     parms: ["power", "%"],
     defaultValue: 364
+  },
+  {
+    id: "q",
+    name: "provoke", // 激怒 (和平挑衅)
+    type: BuffType.Team,
+    target: "Warframe",
+    dynamicProps: [["t", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 80
   },
   {
     id: "y",
@@ -315,7 +324,7 @@ export const BuffList: BuffData[] = [
     name: "strength", // 强度
     type: BuffType.TotalDamage,
     target: "Exalted",
-    dynamicProps: [["pd", 1, -100]],
+    dynamicProps: [["eid", 1, -100]],
     parms: ["power", "%"],
     defaultValue: 100
   },
@@ -504,7 +513,7 @@ export const BuffList: BuffData[] = [
     name: "critChance", // 通用暴击
     type: BuffType.CritDamage,
     target: "All",
-    dynamicProps: [["eca", 1, 0]],
+    dynamicProps: [["i0", 1, 0]],
     parms: ["power", "%"],
     defaultValue: 60
   },
@@ -522,7 +531,7 @@ export const BuffList: BuffData[] = [
     name: "covenant", // 主教4 庇佑圣约
     type: BuffType.CritDamage,
     target: "Weapon",
-    props: [["eca", 50], ["cwh", 150]]
+    props: [["i0", 50], ["cwh", 150]]
   },
   {
     id: "l",
@@ -569,7 +578,7 @@ export const BuffList: BuffData[] = [
     name: "mutalistQuanta", // 异融量子枪次要
     type: BuffType.Other,
     target: "Ranged",
-    props: [["fcd", 25], ["eca", 25], ["oad", -33.3]],
+    props: [["fcd", 25], ["i0", 25], ["oad", -33.3]],
     multiLayer: {
       maxStack: 3,
       unstackableProps: [[["eed", 100]], [["eed", 366.6]], [["eed", 500]]]

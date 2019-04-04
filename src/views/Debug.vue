@@ -1,16 +1,13 @@
 <template>
   <div class="debug-container">
-    <JSXTest v-model="text" color="#f00"/>
-    <div class="show">
-     Outside State: {{text}}
-    </div>
+    <DamageSystem />
   </div>
 </template>
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import JSXTest from "@/components/JSXTest.tsx";
+import { DamageSystem } from "@/components/DamageSystem";
 
-@Component({ components: { JSXTest } })
+@Component({ components: { DamageSystem } })
 export default class Debug extends Vue {
   text = "123";
 }

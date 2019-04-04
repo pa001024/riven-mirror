@@ -1,7 +1,6 @@
 @import "./common.less";
 
 .modularbuilder {
-
   .preview .prop,
   .parts .part {
     display: inline-block;
@@ -38,12 +37,25 @@
         color: @text_main;
         font-size: 1.1em;
       }
+      .type {
+        margin-top: 8px;
+        color: #aaa;
+      }
+      .prop {
+        margin-top: 8px;
+
+        span {
+          display: block;
+          margin-top: 4px;
+        }
+      }
 
       &.is-checked .name {
         color: @theme_main;
       }
 
-      &.is-checked .type {
+      &.is-checked .type,
+      &.is-checked .prop {
         color: @theme_leaf;
       }
     }
@@ -60,20 +72,5 @@
       width: 110px;
       height: 80px;
     }
-
-    .type {
-      margin-top: 8px;
-      color: #aaa;
-    }
-
-    .prop {
-      margin-top: 8px;
-
-      span {
-        display: block;
-        margin-top: 4px;
-      }
-    }
-
   }
 }

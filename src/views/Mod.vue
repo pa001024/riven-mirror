@@ -45,12 +45,15 @@
                     </el-tooltip>
                   </div>
                   <div class="mod-extra">
-                    <div class="extra-tag mod-rank">{{$t("riven.rank")}}{{mod.rank}}</div>
-                    <div class="extra-tag mod-recycleTimes">{{$t("riven.recycle")}}{{mod.recycleTimes}}</div>
-                    <div class="extra-tag mod-level">{{$t("riven.level")}}{{mod.level}}</div>
-                    <el-tooltip effect="dark" :content="$t('riven.star', [mod.starText])" placement="right">
-                      <div class="extra-tag mod-ratio">{{$t("riven.ratio")}}{{mod.ratio}}</div>
-                    </el-tooltip>
+                    <div class="extra-tag mod-rank" v-if="mod.rank">{{$t("riven.rank")}}{{mod.rank}}</div>
+                    <div class="extra-tag mod-recycleTimes">
+                      <i class="el-icon-refresh"></i>
+                      {{mod.recycleTimes}}
+                    </div>
+                    <!-- <div class="extra-tag mod-level">{{$t("riven.level")}}{{mod.level}}</div> -->
+                    <!-- <el-tooltip effect="dark" :content="" placement="right"> -->
+                    <div class="extra-tag mod-ratio">{{$t('riven.star', [mod.starText])}} {{mod.ratio}}</div>
+                    <!-- </el-tooltip> -->
                   </div>
                 </div>
               </div>

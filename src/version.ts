@@ -1,12 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.5.0";
+export const version = "1.5.1";
 export const updateLogs = [
   {
-    version: "1.5.0",
+    version: "1.5.1",
     date: "2019/4/3",
     md: {
-      en: `- Riven Disposition Updated [See Detail](https://forums.warframe.com/topic/1078776-april-2019-riven-disposition-updates/)`,
-      cn: `- 裂罅倾向更新 [查看详细](https://forums.warframe.com/topic/1078776-april-2019-riven-disposition-updates/)`
+      en: `- Riven Disposition Updated [See Detail](https://forums.warframe.com/topic/1078776-april-2019-riven-disposition-updates/)
+- MOD "Napalm Grenades" Support`,
+      cn: `- 裂罅倾向更新 [查看详细](https://forums.warframe.com/topic/1078776-april-2019-riven-disposition-updates/)
+- MOD "凝固汽油榴弹" 支持`
     }
   },
   {

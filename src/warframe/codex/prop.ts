@@ -12,8 +12,61 @@ export interface CommonProperty {
   negative?: boolean;
 }
 
+/**
+Property Calculate System
+
+@summary
+OPERATORS:
+base: the base prop value 任意属性的基础值
+abs-inc: increase by percent before all 按比例增加 绝对
+abs-more: scale by percent before all 按比例缩放 绝对
+abs-extra: increase by number before all 可被影响的绝对数值
+inc: increase by percent 按比例增加 相对
+more: scale by percent 按比例缩放 相对
+extra: increase by number after all 不可被影响的绝对数值
+
+* damage inc reducer (毒化者机制)
+
+Final Calculate Formula:
+
+(base * (1 + abs-inc1 + abs-inc2) * (1 + abs-more1) * (1 + abs-more2) + abs-extra) * (1 + inc1 + inc2) * (1 + more1) * (1 + more2) + extra
+
+@example
+base=30% crit chance
+abs-inc=90% True Steel
+abs-extra=30% Arcane Avenger
+more=165%*2=330% Blood Rush
+RESULT = (30% * (1 + 90%) + 30%) * (1 + 330%) = 374.1%
+
+base=300 Blast
+layer: Weapon Damage
+abs-more=-100% Weapon Damage
+abs-extra=700 Heat
+layer: Element Damage
+abs-inc=90% Hellfire
+RESULT = (300 * (1 - 100%) + 700) * (1 + 90%) = 1330 Heat
+
+* ! System Layers
+* Weapon Damage 武器伤害 基本输入 "基伤"
+* Element Damage 元素伤害 基本输入 "元素"
+* Crit Damage 暴击伤害 关联性引用 "暴击"
+* Enemy Damage 派系伤害 关联性引用 "歧视"
+* Status Damage 触发伤害 关联性引用 "触发"
+* Final Damage 总伤害  结算 "总伤"
+
+* ? prefix
+* i abs-extra (percent)
+* e abs-extra
+* m more
+* b extra
+
+* ! innate 固有 - 以下属性天生具有不同的等级
+* P (穿透) - abs-extra
+* N (连击) - abs-extra
+
+ */
 export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
-  // 基础
+  // abs-inc 绝对增加
   { id: "0", dmg: true }, // 暴击率 Critical Chance
   { id: "1", dmg: true }, // 暴击伤害 Critical Damage
   { id: "2" }, // 触发率
@@ -34,7 +87,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "L", dmg: true }, // 弹匣 Magazine Capacity
   { id: "F", dmg: true }, // 装填
   { id: "M" }, // 弹药 Ammo Maximum
-  { id: "P" }, // 穿透
+  { id: "P" }, // 穿透 // abs-extra 绝对数值增加
   { id: "H" }, // 变焦
   { id: "V" }, // 弹道 Projectile Flight Speed
   { id: "Z" }, // 后坐
@@ -43,8 +96,9 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "J", dmg: true }, // 攻速 Attack Speed
   { id: "B", dmg: true }, // 导引伤害
   { id: "U" }, // 导引效率
-  { id: "N", nopercent: true }, // 连击 Combo Duration
+  { id: "N", nopercent: true }, // 连击 Combo Duration // abs-extra 绝对数值增加
   { id: "E", dmg: true }, // 滑暴 Critical Hit Chance for Slide Attack
+  // abs-inc 绝对增加
   { id: "X" }, // 处决 Finisher Damage
   // 战甲
   { id: "h" }, // Health
@@ -120,34 +174,99 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "vj", nopercent: true }, // 'Justice'
   { id: "vb", nopercent: true }, // 'Blight'
 
-  // 其他
-  { id: "acc" }, // 精准
+  // ========================
+
+  // Special 特殊
+
+  // abs-extra 绝对加法
+  { id: "erd", dmg: true }, // 辐射伤害
+  { id: "ecd", dmg: true }, // 腐蚀伤害
+  { id: "eed", dmg: true }, // 电击伤害
+  { id: "efd", dmg: true }, // 火焰伤害
+  { id: "etd", dmg: true }, // 毒素伤害
+  { id: "eid", dmg: true }, // Initial damage 初始伤害
+  { id: "e4", dmg: true, nopercent: true }, // Initial Heat 初始火伤
+  { id: "e5", dmg: true, nopercent: true }, // Initial Cold 初始冰伤
+  { id: "e6", dmg: true, nopercent: true }, // Initial Toxin 初始毒伤
+  { id: "e7", dmg: true, nopercent: true }, // Initial Electricity 初始电伤
+  { id: "e8", dmg: true, nopercent: true }, // Initial Impact 初始冲击
+  { id: "e9", dmg: true, nopercent: true }, // Initial Puncture 初始穿刺
+  { id: "eA", dmg: true, nopercent: true }, // Initial Slash 初始切割
+
+  // extra
+  { id: "bL", dmg: true, nopercent: true }, // 基础弹匣 Magazine Capacity
+
+  // abs-extra (percent) 绝对加法 (百分比)
+  { id: "i0", dmg: true }, // 暴击率 Critical Chance
+  { id: "i1", dmg: true }, // 暴击伤害 Critical Damage
+  { id: "i2" }, // 触发率
+  { id: "i3" }, // 触发时间
+  { id: "iG", dmg: true }, // G系伤害 Damage to Grineer
+  { id: "iI", dmg: true }, // I系伤害 Damage to Infested
+  { id: "iC", dmg: true }, // C系伤害 Damage to Corpus
+  { id: "iD", dmg: true, nopercent: true }, // 伤害 Damage
+  { id: "iS", dmg: true, nopercent: true }, // 多重 Multishot
+  { id: "iR", dmg: true }, // 射速 Fire Rate
+  { id: "iF", dmg: true }, // 装填
+  { id: "iM" }, // 弹药 Ammo Maximum
+  { id: "iP" }, // 穿透
+  { id: "iH" }, // 变焦
+  { id: "iV" }, // 弹道 Projectile Flight Speed
+  { id: "iZ" }, // 后坐
+  { id: "iK", dmg: true }, // 近战伤害
+  { id: "iT" }, // 范围 Range
+  { id: "iJ", dmg: true }, // 攻速 Attack Speed
+  { id: "iB", dmg: true }, // 导引伤害
+  { id: "iU" }, // 导引效率
+  { id: "iE", dmg: true }, // 滑暴 Critical Hit Chance for Slide Attack
+  { id: "iX" }, // 处决 Finisher Damage
+
+  // rel-inc extend 扩展相对增加
+  { id: "aed", dmg: true }, // 全派系伤害
+  { id: "od", dmg: true }, // O系伤害
+  { id: "fsb", dmg: true }, // 首发伤害 Damage on first shot in Magazine
+  { id: "da", dmg: true }, // 正中红心 Dead Aim
+  { id: "oad", dmg: true }, // 最终伤害
+  { id: "ds", dmg: true }, // 偷袭伤害
+  { id: "sd", dmg: true }, // 触发伤害
+  { id: "fcd", dmg: true }, // 最终暴伤
+  { id: "smd", dmg: true }, // 对Sentient伤害 Damage to Sentients
+  { id: "dmg", dmg: true }, // 伤害
+  { id: "cwh", dmg: true }, // 爆头暴击率
+  { id: "rse", dmg: true }, // Weapon Range for 4s on Status Effect
+  { id: "lsb", dmg: true }, // Bonus Damage on final shot. Requires Magazine 6 or higher. 末发伤害
+  { id: "edm", dmg: true }, // Extra Damage against a Marked Enemy 对标记敌人增伤
+  { id: "bsk", dmg: true }, // 最终攻速 Attack Speed (Max: 75%) for 4s on Critical Hit
+  { id: "ce", dmg: true }, // 暴击强化
+  { id: "ac", dmg: true, noplus: true }, // 暴击造成切割触发 chance to apply <DT_SLASH> on Critical
+  { id: "bldr", dmg: true }, // 连击暴击率 Critical Chance stacks with Combo Multiplier
+  { id: "fca" }, // Faster Charge Attack
+  { id: "esc", dmg: true, nopercent: true }, // extra status count
+  { id: "ess", dmg: true }, // extra slash state
+  { id: "hm", dmg: true }, // 爆头倍率 to Headshot Multiplier
   { id: "range", nopercent: true }, // 射程
+
+  // ========================
+
+  // Other 其他
+
+  { id: "acc" }, // 精准
   { id: "stick" }, // 壁面附着
   { id: "aimm" }, // 瞄准移速
   { id: "ckm" }, // 移动速度
-  { id: "od", dmg: true }, // O系伤害
   { id: "kb", nopercent: true, noplus: true }, // 死亡爆炸
+  { id: "kbr", noplus: true }, // 死亡爆炸 (percent)
   { id: "brad" }, // 爆炸半径 Blast Radius
-  { id: "sp" }, // 魔改
   { id: "hr" }, // 拔枪速度 Holster Speed
-  { id: "fsb", dmg: true }, // 首发伤害 Damage on first shot in Magazine
   { id: "am" }, // 弹药转换
-  { id: "hm", dmg: true }, // 爆头倍率 to Headshot Multiplier
-  { id: "bsc" }, // 基础触发几率
-  { id: "da", dmg: true }, // 正中红心 Dead Aim
-  { id: "oad", dmg: true }, // 最终伤害
   { id: "lal" }, // 自动装填
   { id: "spr" }, // 扩散 Spread
   { id: "slc" }, // 消音 Reduces the chance an enemy will hear gunfire by
   { id: "bnc", nopercent: true }, // 反弹 Bounce
   { id: "exp", dmg: true }, // 爆炸 Chance to Explode (Use with Caution)
   { id: "ls" }, // 生命窃取 Life Steal
-  { id: "maga", nopercent: true }, // 加法弹匣容量
-  { id: "bldr", dmg: true }, // 连击暴击率 Critical Chance stacks with Combo Multiplier
   { id: "sccm" }, // 连击触发几率 Status Chance per Combo Multiplier
   { id: "ccws" }, // 切割增加连击数 chance to increase Melee Combo Counter when <DT_SLASH>Slash Status deals damage.
-  { id: "bsk", dmg: true }, // 最终攻速 Attack Speed (Max: 75%) for 4s on Critical Hit
   { id: "co", dmg: true }, // 异常状态增加伤害 Melee Damage per Status Type affecting the target.
   { id: "gdr", nopercent: true }, // 嘲讽
   { id: "hlr", nopercent: true, noplus: true }, // 治愈
@@ -156,24 +275,6 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "par", noplus: true }, // 反击几率
   { id: "msd" }, // 近战震波伤害
   { id: "fs" }, // 飞行速度 (战刃)
-  { id: "ce", dmg: true }, // 暴击强化
-  { id: "ac", dmg: true, noplus: true }, // 暴击造成切割触发 chance to apply <DT_SLASH> on Critical
-  { id: "ds", dmg: true }, // 偷袭伤害
-  { id: "sd", dmg: true }, // 触发伤害
-  { id: "fcd", dmg: true }, // 最终暴伤
-  { id: "eca", dmg: true }, // 加法暴击率
-  { id: "smd", dmg: true }, // 对Sentient伤害 Damage to Sentients
-  { id: "dmg", dmg: true }, // 伤害
-  { id: "cwh", dmg: true }, // 爆头暴击率
-  { id: "erd", dmg: true }, // 辐射伤害
-  { id: "ecd", dmg: true }, // 腐蚀伤害
-  { id: "eed", dmg: true }, // 电击伤害
-  { id: "efd", dmg: true }, // 火焰伤害
-  { id: "etd", dmg: true }, // 毒素伤害
-  { id: "aed", dmg: true }, // 全派系伤害
-  { id: "rse", dmg: true }, // Weapon Range for 4s on Status Effect
-  { id: "lsb", dmg: true }, // Bonus Damage on final shot. Requires Magazine 6 or higher.
-  { id: "edm", dmg: true }, // Extra Damage against a Marked Enemy
   { id: "ld", nopercent: true }, // Extra Damage on Melee Attacks, or Lethal Damage on Finishers.
   { id: "ar", nopercent: true }, // + Range (nopercent)
   { id: "cd", dmg: true }, // Critical Chance and Damage when Aiming
@@ -189,18 +290,19 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "apd" }, // first Pellet Damage additionally
   { id: "ccl", noplus: true }, // crit chance lock
   { id: "erc" }, // energy recovery
-  { id: "esc", dmg: true, nopercent: true }, // extra status count
-  { id: "ess", dmg: true }, // extra slash state
   { id: "rvs" }, // Revive Speed
   { id: "dgs" }, // Dodge Speed
-  { id: "fca" }, // Faster Charge Attack
-  { id: "pd" }, // Panel Damage
+
+  // no parameter 无参数
+  { id: "sp" }, // 魔改
+
+  // ========================
 
   // Amp damage convert
-  { id: "vte", dmg: true },
-  { id: "vtv", dmg: true },
-  { id: "vtp", dmg: true },
-  { id: "vth", dmg: true },
+  { id: "vte", dmg: true }, // to Electricity
+  { id: "vtv", dmg: true }, // to Viral
+  { id: "vtp", dmg: true }, // to Puncture
+  { id: "vth", dmg: true }, // to Heat
 
   // 条件
   { id: "ify" }, // if the target is over 45m away.

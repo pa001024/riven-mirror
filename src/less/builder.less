@@ -2,10 +2,12 @@
 
 .weapon-display {
   .share-icon {
-    float: right;
+    position: absolute;
+    right: 16px;
     line-height: 23px;
     cursor: pointer;
     transition: 0.5s;
+
     &:hover {
       opacity: 0.7;
     }
@@ -15,6 +17,7 @@
 .right-side {
   float: right;
   height: 2.8rem;
+
   &.fill {
     width: 50%;
   }
@@ -27,9 +30,11 @@
   max-width: 100%;
   font-size: 14px;
   color: @text_grey;
+
   .item {
     display: inline-block;
-    & > div {
+
+    &>div {
       display: inline-block;
       padding: 4px 8px;
       margin-right: 8px;
@@ -40,17 +45,21 @@
       position: relative;
     }
   }
+
   .control {
     padding: 0 8px;
     width: 110px;
     margin: 0;
+
     .el-input__inner {
       padding: 0 12px;
     }
+
     .el-input-number--small {
       width: 100%;
     }
   }
+
   .key {
     white-space: nowrap;
     overflow: hidden;
@@ -75,7 +84,7 @@
 }
 
 .enemy-sim-body {
-  > .el-form-item {
+  >.el-form-item {
     margin: 0;
   }
 }
@@ -87,6 +96,7 @@
 .build-form-editor {
   .el-form-item {
     margin-bottom: 8px;
+
     &:last-child {
       margin-bottom: 0;
     }
@@ -95,19 +105,22 @@
 
 .build-tools {
   margin-top: 16px;
+
   .el-form-item__label,
   .el-form-item__content,
   .el-checkbox__label {
     font-size: 1rem;
     line-height: 2.8rem;
   }
+
   .build-tools-action {
     display: flex;
     align-content: center;
     justify-content: center;
     flex-wrap: wrap;
     margin-bottom: 12px;
-    > * {
+
+    >* {
       flex: 1;
     }
   }
@@ -122,6 +135,7 @@
   border-spacing: 0;
   border-collapse: separate;
   font-size: 1em;
+
   th {
     color: @text_grey;
     font-weight: inherit;
@@ -129,7 +143,7 @@
   }
 }
 
-.editor-main > .el-dialog__wrapper {
+.editor-main>.el-dialog__wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -149,18 +163,22 @@
   .title {
     line-height: 20px;
   }
+
   .model-name,
   .armor-value {
     display: block;
+
     .el-input__inner {
       border: 0;
       text-align: right;
       background: none;
     }
   }
+
   .el-input--mini .el-input__icon {
     line-height: 20px;
   }
+
   .el-input--mini .el-input__inner {
     height: 20px;
     line-height: 20px;
@@ -185,15 +203,18 @@
   justify-content: center;
   align-items: center;
   border-left-color: #ffd6d6;
-  > .el-icon-plus {
+
+  >.el-icon-plus {
     font-size: 40px;
     color: @theme_leaf;
     padding: 20px;
   }
-  &:hover > .el-icon-plus,
+
+  &:hover>.el-icon-plus,
   .el-icon-close {
     color: @theme_main;
   }
+
   &.active {
     cursor: pointer;
   }
@@ -211,19 +232,23 @@
   flex: 1;
   position: relative;
   flex-wrap: wrap;
+
   &:hover {
     background: #e8f0ff;
   }
+
   .mod-polarity {
     position: absolute;
     left: 10px;
     top: 8px;
     font-size: 1rem;
   }
+
   &.layers,
   &.powers {
     font-size: 14px;
   }
+
   .buff-name {
     width: 100%;
   }
@@ -237,11 +262,14 @@
   transition: 0.3s;
   cursor: pointer;
   flex: 1;
+
   &:hover {
     background: #ffd6d6;
+
     .buff-stat {
       display: none;
     }
+
     .buff-action {
       display: initial;
     }
@@ -265,6 +293,7 @@
     font-size: 9pt;
     color: @half_grey;
   }
+
   display: initial;
 }
 
@@ -275,9 +304,10 @@
 
 .buff-parm {
   .el-input-number {
+
     .el-input-number__decrease,
     .el-input-number__increase,
-    .el-input > input {
+    .el-input>input {
       background: none;
       border: 0;
     }
@@ -285,14 +315,14 @@
 }
 
 @media only screen and (max-width: 1366px) {
-  .editor-main > .el-dialog__wrapper > .el-dialog {
+  .editor-main>.el-dialog__wrapper>.el-dialog {
     width: 70%;
     margin: 0 !important;
   }
 }
 
 @media only screen and (max-width: 992px) {
-  .editor-main > .el-dialog__wrapper > .el-dialog {
+  .editor-main>.el-dialog__wrapper>.el-dialog {
     width: 90%;
     margin: 0 !important;
   }

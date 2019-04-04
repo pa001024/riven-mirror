@@ -1,4 +1,5 @@
 @import "./common.less";
+
 .mod-display .share-icon {
   float: right;
   line-height: 23px;
@@ -32,11 +33,13 @@
 }
 
 .mod-container {
+
   .btn-addriven:focus,
   .btn-addriven:active,
   .btn-addriven:hover {
     color: @text_light;
   }
+
   .mod-display .mod-name {
     background-color: @theme_primary;
     background-image: linear-gradient(90deg, @theme_primary 0%, @theme_lighter2 100%);
@@ -47,6 +50,7 @@
     border: 0;
     box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
   }
+
   .btn-addriven {
     background-color: @theme_primary;
     background-image: linear-gradient(90deg, @theme_primary 0%, @theme_lighter2 100%);
@@ -55,6 +59,7 @@
     border: 0;
     box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
   }
+
   .mod-name {
     font-size: 1.2em;
     font-weight: bold;
@@ -68,12 +73,15 @@
   border-right: 4px solid @theme_lighter2;
   border-radius: 0 0 20px 20px;
   box-shadow: 1px 1px 4px rgba(61, 90, 254, 0.15);
+
   .mod-prop:first-child {
     padding-top: 12px;
   }
+
   .mod-prop {
     line-height: 1.5em;
     padding: 4px 18px;
+
     .mod-dis {
       float: right;
       border: 0;
@@ -85,16 +93,17 @@
   margin: 0 8px;
   padding: 0 0 8px;
   margin-top: 8px;
-}
 
-.extra-tag {
-  display: inline-block;
-  margin: 8px 4px 4px;
-  padding: 4px 8px;
-  border: 1.5px solid @theme_lighter2;
-  border-radius: 20px;
-  color: @theme_lighter2;
-  font-size: 0.9em;
+  .extra-tag {
+    display: inline-block;
+    margin: 4px 4px 0 0;
+    padding: 4px 8px;
+    border: 1.5px solid @theme_lighter2;
+    border-radius: 20px;
+    color: @theme_lighter2;
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
 }
 
 .history-delete {
@@ -117,6 +126,7 @@
 .mod-qrcode {
   margin: 16px 0 0;
   text-align: center;
+
   button.el-popover__reference {
     display: block;
     width: 100%;

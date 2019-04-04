@@ -62,7 +62,7 @@ export default class ModModule implements Module<ModState, RootState> {
     },
     async load(ctx) {
       ctx.commit(LOAD, {
-        mod: new RivenMod(localStorage.getItem("lastMod") || "Lanka|1DS|C3l|DOk.SCn.1Hl.H-6x", true),
+        mod: new RivenMod(localStorage.getItem("lastMod") || "Rubico|01S|C3l|0Ii.1Eu.SBG.3-9Q", true),
         history: localStorage.getItem("modHistory") ? JSON.parse(localStorage.getItem("modHistory")).map((v: string) => new RivenMod(v)) : [],
         priceData: localStorage.getItem("priceData") ? JSON.parse(localStorage.getItem("priceData")) : [],
         lastWeekly: localStorage.getItem("lastWeekly") ? JSON.parse(localStorage.getItem("lastWeekly")) : 0

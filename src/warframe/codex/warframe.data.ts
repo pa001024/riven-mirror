@@ -401,7 +401,7 @@ export let _abilityData: AbilityData[] = [
     id: "Covenant",
     tags: 2,
     energyCost: 10,
-    props: { Buff: { effect: [["eca", 50]], duration: D(6) } }
+    props: { Buff: { effect: [["i0", 50]], duration: D(6) } }
   },
   {
     id: "Tempest Barrage",
@@ -1636,7 +1636,7 @@ export const _warframeData: WarframeData[] = [
     abilities: ["Metamorphosis", "Rest & Rage", "Pacify & Provoke", "Mend & Maim"],
     aura: "-",
     introduced: "24.6",
-    polarities: ["d", "r"],
+    polarities: ["d", "d", "r", "r"],
     sex: "Female"
   },
   {

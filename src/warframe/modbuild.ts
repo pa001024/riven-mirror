@@ -121,7 +121,7 @@ export abstract class ModBuild {
   protected _voidConvs: [string, number][] = [];
   protected _critChanceLock = -100;
   protected _finalSpeedMul = 100;
-  protected _panelDamageMul = 100;
+  protected _initialDamageMul = 100;
 
   protected _extraProcChance: [string, number][] = [];
   protected _statusInfo: { [key: string]: SpecialStatusInfo } = null;
@@ -231,11 +231,29 @@ export abstract class ModBuild {
 
   private _compareMode: number = 0;
   /** 对比模式 */
-  public get compareMode(): number {
+  get compareMode(): number {
     return this._compareMode;
   }
-  public set compareMode(value: number) {
+  set compareMode(value: number) {
     this._compareMode = value;
+  }
+
+  // 修改武器基础数据
+
+  // abs-extra prop
+  _absExtra: [string, number][] = [];
+
+  /** 武器原本伤害增幅倍率 */
+  get initialDamageMul() {
+    return this._initialDamageMul / 100;
+  }
+
+  /** 武器原本伤害 */
+  get initialDamage() {
+    if (this.initialDamageMul === 1 && !this._absExtra.length) return this.weapon.dmg;
+    let dmg = this.weapon.dmg.map(([n, v]) => [n, v * this.initialDamageMul] as [string, number]);
+    if (this._absExtra.length) dmg = dmg.concat(this._absExtra);
+    return dmg;
   }
 
   protected _target: Enemy;
@@ -409,7 +427,7 @@ export abstract class ModBuild {
     let eleOrder = _.clone(this.elementsOrder),
       otherOrder = [],
       eleMul = this.elementsMul;
-    let oridmg = this.weapon.dmg;
+    let oridmg = this.initialDamage;
     if (this._voidConvs.length > 0) {
       let extraDmg = [];
       oridmg = oridmg.map(([vn, vv]) => {
@@ -757,7 +775,7 @@ export abstract class ModBuild {
   }
   /** 面板伤害增幅倍率 */
   get panelDamageMul() {
-    return hAccMul(this._panelDamageMul / 100, this.panelBaseDamageMul, this.extraDmgMul);
+    return hAccMul(this.panelBaseDamageMul, this.extraDmgMul);
   }
   /** 面板基础伤害 */
   get panelBaseDamage() {
@@ -854,7 +872,7 @@ export abstract class ModBuild {
   protected _originalDamage: number;
   /** 武器原本伤害 */
   get originalDamage(): number {
-    if (!this._originalDamage) this._originalDamage = this.weapon.dmg.reduce((a, b) => hAccSum(a, b[1]), 0);
+    if (!this._originalDamage) this._originalDamage = this.initialDamage.reduce((a, b) => hAccSum(a, b[1]), 0);
     return this._originalDamage;
   }
 
@@ -964,9 +982,10 @@ export abstract class ModBuild {
     this._multishotMul = 100;
     this._critChanceLock = -100;
     this._finalSpeedMul = 100;
-    this._panelDamageMul = 100;
+    this._initialDamageMul = 100;
     this.standaloneElements = [];
     this._voidConvs = [];
+    this._absExtra = [];
     this.recalcElements();
   }
 
@@ -1081,15 +1100,15 @@ export abstract class ModBuild {
         case "7": // 电击伤害 elecDmg
           return props[0].value / this._extraDmgMul;
         case "8": // 冲击伤害 impaDmg
-          oriDmg = this.weapon.dmg.find(v => v[0] == "Impact");
+          oriDmg = this.initialDamage.find(v => v[0] == "Impact");
           if (oriDmg) return (props[0].value * oriDmg[1]) / this.originalDamage / this._extraDmgMul;
           break;
         case "9": // 穿刺伤害 puncDmg
-          oriDmg = this.weapon.dmg.find(v => v[0] == "Puncture");
+          oriDmg = this.initialDamage.find(v => v[0] == "Puncture");
           if (oriDmg) return (props[0].value * oriDmg[1]) / this.originalDamage / this._extraDmgMul;
           break;
         case "A": // 切割伤害 slasDmg
-          oriDmg = this.weapon.dmg.find(v => v[0] == "Slash");
+          oriDmg = this.initialDamage.find(v => v[0] == "Slash");
           if (oriDmg) return (props[0].value * oriDmg[1]) / this.originalDamage / this._extraDmgMul;
           break;
         case "G": // 对Grineer伤害 grinDmg
@@ -1396,7 +1415,7 @@ export abstract class ModBuild {
       case "fcd":
         /* 最终暴伤 finalCritMulMul */ this._finalCritMulMul = (this._finalCritMulMul * (100 + pValue)) / 100;
         break;
-      case "eca":
+      case "i0":
         /* 加法暴击 critChanceAdd */ this._critChanceAdd = hAccSum(this._critChanceAdd, pValue);
         break;
       case "dmg":
@@ -1420,7 +1439,7 @@ export abstract class ModBuild {
       case "aed":
         /* 对全种族伤害 allEnemyDmgMul */ this._allEnemyDmgMul = hAccSum(this._allEnemyDmgMul, pValue);
         break;
-      case "bsc":
+      case "i2":
         /* 加法触发几率 */ this._procChanceAdd = hAccSum(this._procChanceAdd, pValue);
         break;
       case "ccl":
@@ -1429,8 +1448,29 @@ export abstract class ModBuild {
       case "bsk":
         /* 总攻速 */ this._finalSpeedMul = (this._finalSpeedMul * (100 + pValue)) / 100;
         break;
-      case "pd":
-        /* 总面板 */ this._panelDamageMul = hAccSum(this._panelDamageMul, pValue);
+      case "eid":
+        /* 初始伤害 */ this._initialDamageMul = hAccSum(this._initialDamageMul, pValue);
+        break;
+      case "e4":
+        /* Initial Heat 初始火伤 */ this._absExtra.push(["Heat", pValue]);
+        break;
+      case "e5":
+        /* Initial Cold 初始冰伤 */ this._absExtra.push(["Cold", pValue]);
+        break;
+      case "e6":
+        /* Initial Toxin 初始毒伤 */ this._absExtra.push(["Toxin", pValue]);
+        break;
+      case "e7":
+        /* Initial Electricity 初始电伤 */ this._absExtra.push(["Electricity", pValue]);
+        break;
+      case "e8":
+        /* Initial Impact 初始冲击 */ this._absExtra.push(["Impact", pValue]);
+        break;
+      case "e9":
+        /* Initial Puncture 初始穿刺 */ this._absExtra.push(["Puncture", pValue]);
+        break;
+      case "eA":
+        /* Initial Slash 初始切割 */ this._absExtra.push(["Slash", pValue]);
         break;
       default:
     }
