@@ -217,7 +217,7 @@ import PropDiff from "@/components/PropDiff.vue";
 import EnemySelector from "@/components/EnemySelector.vue";
 import EnemyTimeline from "@/components/EnemyTimeline.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
-import ProbabilityVisualization from "@/components/ProbabilityVisualization.vue";
+import ProbabilityVisualization from "@/components/ProbabilityVisualization";
 import OtherInfoDisplay from "@/components/OtherInfoDisplay.vue";
 import BuildMinimap from "@/components/BuildMinimap.vue";
 import ShareQR from "@/components/ShareQR.vue";

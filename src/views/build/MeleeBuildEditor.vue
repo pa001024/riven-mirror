@@ -177,7 +177,7 @@ import PropDiff from "@/components/PropDiff.vue";
 import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
-import ProbabilityVisualization from "@/components/ProbabilityVisualization.vue";
+import ProbabilityVisualization from "@/components/ProbabilityVisualization";
 import OtherInfoDisplay from "@/components/OtherInfoDisplay.vue";
 import BuildMinimap from "@/components/BuildMinimap.vue";
 import ShareQR from "@/components/ShareQR.vue";
