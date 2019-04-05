@@ -403,6 +403,7 @@ let po = {
     tazicor: "Tazicor",
     wolfSledge: "Wolf Sledge",
     tatsu: "Tatsu",
+    korrudo: "Korrudo",
 
     none: "None",
     balla: "Balla",

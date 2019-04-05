@@ -525,6 +525,7 @@ const _rivenWeaponDataBase = [
   ["Plague Keewar", "Zaw", 1],
   ["Plague Kripath", "Zaw", 1],
 
+  ["Korrudo", "Melee", 1],
   ["Tatsu", "Melee", 1],
   ["Wolf Sledge", "Melee", 1],
   ["Galvacord", "Melee", 1],

@@ -5965,6 +5965,17 @@ export const meleeWeaponData = [
     slideDmg: 192,
     status: 0.23
   },
+  {
+    id: "Korrudo",
+    name: "korrudo",
+    tags: ["Melee", "Sparring"],
+    dmg: [["Puncture", 1.8], ["Slash", 24.4], ["Impact", 34.8]],
+    critMul: 2.5,
+    critChance: 0.31,
+    fireRate: 0.833,
+    slideDmg: 244,
+    status: 0.09
+  },
   // 显赫武器
   {
     id: "Diwata",

@@ -404,7 +404,7 @@ let po = {
     fatalAcceleration: "致死加速",
     chargedChamber: "蓄力装填",
     primedChamber: "膛室 Prime",
-    shotgunSpazz: "表演时间",
+    shotgunSpazz: "霰弹速射",
     repeaterClip: "转轮弹匣",
     twitch: "迅速抽换",
     shotgunSavvy: "通晓霰弹枪",
@@ -1156,6 +1156,7 @@ let po = {
     tazicor: "泰瑟步枪",
     wolfSledge: "恶狼战锤",
     tatsu: "龙辰",
+    korrudo: "Korrudo",
 
     none: "无",
     balla: "宝拉",

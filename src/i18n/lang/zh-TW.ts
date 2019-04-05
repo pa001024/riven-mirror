@@ -404,7 +404,7 @@ let po = {
     fatalAcceleration: "致死加速",
     chargedChamber: "蓄力裝填",
     primedChamber: "膛室 Prime",
-    shotgunSpazz: "表演時間",
+    shotgunSpazz: "霰彈速射",
     repeaterClip: "轉輪彈匣",
     twitch: "迅速抽換",
     shotgunSavvy: "通曉霰彈槍",
