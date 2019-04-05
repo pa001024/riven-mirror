@@ -986,6 +986,7 @@ export abstract class ModBuild {
     this.standaloneElements = [];
     this._voidConvs = [];
     this._absExtra = [];
+    if (this.baseId === "Knell") this._procChanceAdd = 60;
     this.recalcElements();
   }
 

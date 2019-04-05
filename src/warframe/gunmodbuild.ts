@@ -254,9 +254,9 @@ export class GunModBuild extends ModBuild {
   /** [overwrite] 暴击倍率 */
   get critMul() {
     // 绝路开镜暴伤
-    if ((this.weapon.rivenName || this.weapon.id) === "Rubico") return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul) + 1.5;
+    if (this.baseId === "Rubico") return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul) + 1.5;
     // 丧钟开镜暴伤
-    if ((this.weapon.rivenName || this.weapon.id) === "Knell") return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul) + 2.5;
+    if (this.baseId === "Knell") return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul) + 2.5;
     return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul);
   }
 
