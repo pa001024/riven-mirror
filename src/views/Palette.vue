@@ -24,6 +24,14 @@
             <!-- 拾色器 -->
             <div class="color-picker">
               <ColorPicker v-model="color" />
+              <div class="deltaE">
+                {{$t('palette.deltaE')}}
+                <el-slider v-model="deltaE"></el-slider>
+              </div>
+              <div class="recommand">
+                {{$t('palette.recommand')}}
+                <a class="link-btn" href="https://color.adobe.com/create" target="_blank" rel="noopener noreferrer">Adobe Color</a>
+              </div>
             </div>
           </div>
         </el-card>
@@ -33,7 +41,10 @@
         <el-row class="palette-list" type="flex" :gutter="20">
           <el-col :md="12" :lg="6" :xl="4" v-for="palette in matchedPalettes" :key="palette.id">
             <el-card class="palette-box" :class="{dark: color.hsl.l < 0.5}">
-              <div slot="header" class="palette-name">{{$t(`palette.name.${palette.id}`)}}</div>
+              <div slot="header" class="palette-name">
+                {{$t(`palette.name.${palette.id}`)}}
+                <small>△E = {{formatDeltaE(palette.deltaE)}}</small>
+              </div>
               <div class="palette-show no-invert">
                 <div class="palette-cell" v-for="(color, idx) in palette.colors" :key="idx" @click="setColor(color.toString())" :title="color.toString()" :style="{'background-color': color.toString()}">
                   <i v-if="palette.match.includes(idx)" class="el-icon-check"></i>
@@ -60,16 +71,8 @@ export default class extends Vue {
   // 参考图
   refImage = null;
   refImageURL = null;
-  paletteColors: Color[] = [
-    "#bdaaad",
-    "#472e25",
-    "#cdbab8",
-    "#584857",
-    "#826c84",
-    "#5e5668",
-    "#84665c",
-    "#928497"
-  ].map(v => new Color(v));
+  paletteColors: Color[] = ["#bdaaad", "#472e25", "#cdbab8", "#584857", "#826c84", "#5e5668", "#84665c", "#928497"].map(v => new Color(v));
+  deltaE = 30;
 
   color: {
     hsl: { h: number; s: number; l: number; a: number };
@@ -79,13 +82,20 @@ export default class extends Vue {
     return this.color.hex;
   }
   palettes = PaletteData;
-  matchedColors = ColorHelper.searchColor(this.colorHEX);
-  matchedPalettes = ColorHelper.searchPalette(this.colorHEX);
-  @Watch("color")
-  reload() {
-    this.matchedColors = ColorHelper.searchColor(this.colorHEX);
-    this.matchedPalettes = ColorHelper.searchPalette(this.colorHEX);
+  // matchedColors = ColorHelper.searchColor(this.colorHEX, this.deltaE);
+  // matchedPalettes = ColorHelper.searchPalette(this.colorHEX, this.deltaE);
+  // @Watch("color")
+  // reload() {
+  //   this.matchedColors = ColorHelper.searchColor(this.colorHEX, this.deltaE);
+  //   this.matchedPalettes = ColorHelper.searchPalette(this.colorHEX, this.deltaE);
+  // }
+  get matchedColors() {
+    return ColorHelper.searchColor(this.colorHEX, this.deltaE);
   }
+  get matchedPalettes() {
+    return ColorHelper.searchPalette(this.colorHEX, this.deltaE);
+  }
+
   setColor(color: string) {
     let c = tinycolor(color);
     this.color = { hsl: c.toHsl(), hex: c.toHexString() };
@@ -98,9 +108,7 @@ export default class extends Vue {
     img.onload = () => {
       let colorThief = new ColorThief();
       let color = new Color(colorThief.getColor(img));
-      let palette = [color].concat(
-        colorThief.getPalette(img, 8).map(v => new Color(v))
-      );
+      let palette = [color].concat(colorThief.getPalette(img, 8).map(v => new Color(v)));
       this.paletteColors = palette;
       this.setColor(color.toString());
     };
@@ -128,13 +136,15 @@ export default class extends Vue {
     img.onload = () => {
       let colorThief = new ColorThief();
       let color = new Color(colorThief.getColor(img));
-      let palette = [color].concat(
-        colorThief.getPalette(img, 8).map(v => new Color(v))
-      );
+      let palette = [color].concat(colorThief.getPalette(img, 8).map(v => new Color(v)));
       this.paletteColors = palette;
       this.setColor(color.toString());
-      console.log(palette);
     };
+  }
+
+  // other
+  formatDeltaE(s: number) {
+    return +s.toFixed(1);
   }
 }
 </script>
@@ -150,6 +160,9 @@ export default class extends Vue {
     &:hover {
       box-shadow: 0 0 2px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.3);
     }
+  }
+  .deltaE {
+    margin-top: 12px;
   }
 }
 .color-box {
@@ -215,6 +228,12 @@ export default class extends Vue {
 }
 .palette-box {
   margin: 0 0 12px;
+  .palette-name {
+    small {
+      font-size: 0.8rem;
+      color: @text_grey;
+    }
+  }
 }
 .palette-show {
   display: flex;

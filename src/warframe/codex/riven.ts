@@ -525,7 +525,6 @@ const _rivenWeaponDataBase = [
   ["Plague Keewar", "Zaw", 1],
   ["Plague Kripath", "Zaw", 1],
 
-  ["Korrudo", "Melee", 1],
   ["Tatsu", "Melee", 1],
   ["Wolf Sledge", "Melee", 1],
   ["Galvacord", "Melee", 1],
@@ -568,6 +567,7 @@ const _rivenWeaponDataBase = [
   ["Venka", "Melee", 0.5],
   ["Nikana", "Melee", 0.5],
   ["Orthos", "Melee", 0.5],
+  ["Korrudo", "Melee", 0.5],
 
   // 技能武器 Exalted Weapon
   ["Regulators", "Pistol", 0],

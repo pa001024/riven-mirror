@@ -3019,7 +3019,9 @@ let po = {
       tenno2: "TENNO II"
     },
     title: "选择颜色",
-    uploadtip: "将文件拖到此处，或<em>点击上传</em>参考图"
+    uploadtip: "将文件拖到此处，或<em>点击上传</em>参考图",
+    deltaE: "容差:",
+    recommand: "推荐:"
   },
   buff: {
     types: {

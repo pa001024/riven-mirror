@@ -16,11 +16,13 @@ export class Palette {
  * 色板搜索结果类
  */
 export class MatchedPalette extends Palette {
-  match: number[]
-  constructor({ id, store, colors }: Palette, matchedColors: PaletteColorInfo[]) {
+  match: number[];
+  deltaE: number;
+  constructor({ id, store, colors }: Palette, matchedColors: MatchedPaletteColorInfo[]) {
     super({ id, store, colors: [] });
     this.colors = colors;
     this.match = [matchedColors[0].index];
+    this.deltaE = matchedColors[0].deltaE;
   }
 }
 
@@ -43,7 +45,7 @@ export class Color {
     }
   }
   deltaE(cc: Color) {
-    return (this.r - cc.r) ** 2 + (this.g - cc.g) ** 2 + (this.b - cc.b) ** 2;
+    return Math.sqrt((this.r - cc.r) ** 2 + (this.g - cc.g) ** 2 + (this.b - cc.b) ** 2);
   }
   toString() {
     return "#" + String.fromCharCode(this.r / 16 + (this.r / 16 < 10 ? 48 : 87)) + String.fromCharCode(this.r % 16 + (this.r % 16 < 10 ? 48 : 87))
@@ -737,9 +739,13 @@ export const PaletteData = _paletteData.map(v => new Palette(v));
  * 色板颜色信息
  */
 export interface PaletteColorInfo {
-  id: string
-  index: number
-  color: Color
+  id: string;
+  index: number;
+  color: Color;
+}
+
+export interface MatchedPaletteColorInfo extends PaletteColorInfo {
+  deltaE: number;
 }
 
 /**
@@ -768,23 +774,26 @@ export class ColorHelper {
    * 搜索颜色
    *
    * @param {(string | Color)} color 要搜索的颜色
-   * @param {number} [deltaE=300] 容差
+   * @param {number} [deltaE=50] 容差
    * @memberof ColorHelper
    */
-  static searchColor(color: string | Color, deltaE: number = 300) {
+  static searchColor(color: string | Color, deltaE: number = 50) {
     let cc = typeof color === "string" ? new Color(color) : color;
-    return this.instance._colors.filter(v => cc.deltaE(v) < deltaE).sort((a, b) => cc.deltaE(a) - cc.deltaE(b))
-      .map(v => this.instance._colorMap.get(v.toString()))
+    return this.instance._colors.filter(v => cc.deltaE(v) < deltaE)
+      .sort((a, b) => cc.deltaE(a) - cc.deltaE(b))
+      .map(v => this.instance._colorMap.get(v.toString())
+        .map(m => ({ ...m, deltaE: cc.deltaE(v) } as MatchedPaletteColorInfo))
+      )
       .reduce((a, b) => a.concat(b), []);
   }
   /**
    * 搜索包含指定颜色的色板
    *
    * @param {(string | Color)} color 要搜索的颜色
-   * @param {number} [deltaE=300] 容差
+   * @param {number} [deltaE=50] 容差
    * @memberof ColorHelper
    */
-  static searchPalette(color: string | Color, deltaE: number = 300) {
+  static searchPalette(color: string | Color, deltaE: number = 50) {
     let colors = this.searchColor(color, deltaE);
     let ps = _.groupBy(colors, v => v.id);
     return _.map(ps, (info, id) => new MatchedPalette(this.getPalette(id), info));

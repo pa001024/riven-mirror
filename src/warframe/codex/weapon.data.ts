@@ -5974,7 +5974,8 @@ export const meleeWeaponData = [
     critChance: 0.31,
     fireRate: 0.833,
     slideDmg: 244,
-    status: 0.09
+    status: 0.09,
+    pol: "r"
   },
   // 显赫武器
   {

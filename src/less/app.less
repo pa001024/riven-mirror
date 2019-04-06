@@ -234,7 +234,7 @@
   min-height: calc(100vh - 60px);
   width: calc(100vw - 60px);
 
-  >* {
+  > * {
     margin: 14px;
   }
 
@@ -292,6 +292,13 @@ h3 {
 
 .right {
   float: right;
+}
+
+.link-btn {
+  color: @theme_main;
+  &:hover {
+    color: @theme_lighter;
+  }
 }
 
 * {
@@ -369,7 +376,7 @@ h3 {
   .el-radio__input,
   .copytext-input,
   .prop-number,
-  .other-info>section {
+  .other-info > section {
     filter: invert(100%);
   }
 
@@ -382,7 +389,6 @@ h3 {
 body {
   .el-switch__label {
     color: @text_main;
-
   }
 
   .el-switch__label.is-active {

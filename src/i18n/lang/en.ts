@@ -1394,7 +1394,9 @@ let po = {
       tenno2: "TENNO II"
     },
     title: "SELECT COLOR",
-    uploadtip: "Drag or <em>upload file</em> to pick colors automaticly"
+    uploadtip: "Drag or <em>upload file</em> to pick colors automaticly",
+    deltaE: "Tolerance:",
+    recommand: "Recommand:"
   },
   buff: {
     types: {
