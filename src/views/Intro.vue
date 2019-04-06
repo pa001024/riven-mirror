@@ -319,7 +319,7 @@ export default class extends Vue {
     }
   }
 }
-@media screen and (max-width: 1012px) {
+@media screen and (max-width: 1080px) {
   .intro-container {
     .section {
       padding: 20px 0;

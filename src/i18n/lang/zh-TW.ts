@@ -224,6 +224,7 @@ let po = {
     primedRegen: "重生 PRIME",
     coolantLeak: "冷卻液外泄",
     animalInstinct: "動物本能",
+    primedAnimalInstinct: "動物本能 PRIME",
     sanctuary: "守護光罩",
     detectVulnerability: "弱點偵測",
     shieldCharger: "護盾充能",
