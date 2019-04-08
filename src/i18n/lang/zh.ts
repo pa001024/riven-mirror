@@ -676,6 +676,7 @@ let po = {
     suddenImpact: "瞬间冲击",
     bleedingEdge: "血色刃缘",
     resoluteFocus: "坚决专注",
+    quickReload: "快速装填",
     criticalFocus: "关键焦点",
     markedTarget: "标记目标",
     archGunAce: "Arch-枪械行家",

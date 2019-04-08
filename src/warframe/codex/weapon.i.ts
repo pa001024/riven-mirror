@@ -53,4 +53,6 @@ export interface MeleeWeaponData extends WeaponData {
   slideDmg: number;
   /** 飞行速度 */
   fltSpeed?: number;
+  /** 近战范围 [加法值, 乘法值] */
+  range?: [number, number];
 }

@@ -630,6 +630,7 @@ const data = [
   ["TM", "Comet Blast", [["8", 15]], Archgun, "-", "r", 2],
   ["TN", "Deadly Efficiency", [["onReloadFromEmpty"], ["D", 20]], Archgun, "r", "r", 4],
   ["TO", "Resolute Focus", [["ck", 17], ["spr", -8]], Archgun, "-", "c", 4],
+  ["TP", "Quick Reload", [["F", 25]], Archgun, "-", "c", 2, 3],
 
   // Archmelee
   ["V0", "Poisonous Sting", [["6", 20]], Archmelee, "-", "c", 4],
