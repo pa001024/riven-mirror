@@ -268,6 +268,8 @@ export default class MeleeModBuildView extends BaseModBuildView {
       extraBaseDamage: +this.extraBaseDamage,
       extraOverall: +this.extraOverall,
       calcCondiOver: this.calcCondiOver,
+      requireRange: this.requireRange,
+      requireCombo: this.requireCombo,
       arcanes: this.arcanes
     };
     super.recalc(MeleeModBuild, options);

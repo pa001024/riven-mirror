@@ -672,7 +672,7 @@ export class RivenDataBase {
 
   addWeapon(weapon: Weapon, index: number) {
     this.nWeaponDict.set(weapon.id, index);
-    this.nWeaponDict.set(i18n.t(`messages.${weapon.name}`), index);
+    if (!this.nWeaponDict.has(i18n.t(`messages.${weapon.name}`))) this.nWeaponDict.set(i18n.t(`messages.${weapon.name}`), index);
     let riven = RivenWeaponDataBase[this.rWeaponDict.get(weapon.rivenName || weapon.id)];
     if (!riven) {
       // 部分技能武器
