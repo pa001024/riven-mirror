@@ -149,6 +149,18 @@ export class MeleeModBuild extends ModBuild {
 
   // ### 计算属性 ###
 
+  /** 范围 */
+  get range() {
+    if (!this.weapon.range) return 0;
+    return this.weapon.range[0] * this.rangeMul + this.weapon.range[1];
+  }
+
+  /** 原范围 */
+  get originalRange() {
+    if (!this.weapon.range) return 0;
+    return this.weapon.range[0] + this.weapon.range[1];
+  }
+
   /** [overwrite] 全局伤害增幅倍率 */
   get overallMul() {
     if (this.damagePerStatus > 0) return (this._overallMul / 100) * (1 + this.damagePerStatus) ** (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount);

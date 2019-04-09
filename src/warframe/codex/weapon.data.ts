@@ -4568,7 +4568,19 @@ export const gunWeaponData = [
 ] as GunWeaponData[];
 
 export const meleeWeaponData = [
-  { id: "Sibear", name: "sibear", tags: ["Melee", "Hammer"], dmg: [["Cold", 130]], critMul: 2, critChance: 0.15, fireRate: 1, slideDmg: 260, status: 0.1, pol: "d" },
+  {
+    id: "Sibear",
+    name: "sibear",
+    tags: ["Melee", "Hammer"],
+    dmg: [["Cold", 130]],
+    critMul: 2,
+    critChance: 0.15,
+    fireRate: 1,
+    slideDmg: 260,
+    status: 0.1,
+    pol: "d",
+    range: [0.76, 1.54]
+  },
   {
     id: "Endura",
     name: "endura",
@@ -4579,7 +4591,8 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 204,
     status: 0.25,
-    pol: "r"
+    pol: "r",
+    range: [0.91, 1.29]
   },
   {
     id: "Nami Skyla",
@@ -4590,7 +4603,8 @@ export const meleeWeaponData = [
     critChance: 0.05,
     fireRate: 0.917,
     slideDmg: 300,
-    status: 0.1
+    status: 0.1,
+    range: [1, 1.6]
   },
   {
     id: "Nami Skyla Prime",
@@ -4603,7 +4617,8 @@ export const meleeWeaponData = [
     fireRate: 1.33,
     slideDmg: 360,
     status: 0.3,
-    pol: "rrd"
+    pol: "rrd",
+    range: [1, 1.6]
   },
   {
     id: "Redeemer",
@@ -4614,7 +4629,8 @@ export const meleeWeaponData = [
     critChance: 0.05,
     fireRate: 0.833,
     slideDmg: 180,
-    status: 0.1
+    status: 0.1,
+    range: [0.85, 0.95]
   },
   {
     id: "Redeemer (charged)",
@@ -4628,7 +4644,8 @@ export const meleeWeaponData = [
     fireRate: 0.833,
     slideDmg: 0,
     status: 0.1,
-    bullets: 10
+    bullets: 10,
+    range: [0.85, 0.95]
   },
   {
     id: "Redeemer Prime",
@@ -4641,7 +4658,8 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 240,
     status: 0.28,
-    pol: "rr"
+    pol: "rr",
+    range: [0.85, 0.95]
   },
   {
     id: "Redeemer Prime (charged)",
@@ -4655,7 +4673,8 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 0,
     status: 0.28,
-    bullets: 10
+    bullets: 10,
+    range: [0.85, 0.95]
   },
   {
     id: "Sigma & Octantis",
@@ -4666,11 +4685,46 @@ export const meleeWeaponData = [
     critChance: 0.28,
     fireRate: 1.08,
     slideDmg: 129,
-    status: 0.16
+    status: 0.16,
+    range: [0.7, 1.5]
   },
-  { id: "Prova", name: "prova", tags: ["Melee", "Machete"], dmg: [["Electricity", 35]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 105, status: 0.1 },
-  { id: "Prova Vandal", name: "provaVandal", rivenName: "Prova", tags: ["Melee", "Machete"], dmg: [["Electricity", 48]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 144, status: 0.2 },
-  { id: "Furax", name: "furax", tags: ["Melee", "Fist"], dmg: [["Puncture", 5.3], ["Slash", 5.2], ["Impact", 24.5]], critMul: 2, critChance: 0.2, fireRate: 1, slideDmg: 105, status: 0.1 },
+  {
+    id: "Prova",
+    name: "prova",
+    tags: ["Melee", "Machete"],
+    dmg: [["Electricity", 35]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 1,
+    slideDmg: 105,
+    status: 0.1,
+    range: [0.73, 1.32]
+  },
+  {
+    id: "Prova Vandal",
+    name: "provaVandal",
+    rivenName: "Prova",
+    tags: ["Melee", "Machete"],
+    dmg: [["Electricity", 48]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 1,
+    slideDmg: 144,
+    status: 0.2,
+    range: [0.73, 1.32]
+  },
+  {
+    id: "Furax",
+    name: "furax",
+    tags: ["Melee", "Fist"],
+    dmg: [["Puncture", 5.3], ["Slash", 5.2], ["Impact", 24.5]],
+    critMul: 2,
+    critChance: 0.2,
+    fireRate: 1,
+    slideDmg: 105,
+    status: 0.1,
+    range: [0.24, 1.66]
+  },
   {
     id: "MK1-Furax",
     name: "mk1Furax",
@@ -4681,7 +4735,8 @@ export const meleeWeaponData = [
     critChance: 0.2,
     fireRate: 1,
     slideDmg: 90,
-    status: 0.1
+    status: 0.1,
+    range: [0.24, 1.66]
   },
   {
     id: "Furax Wraith",
@@ -4693,9 +4748,21 @@ export const meleeWeaponData = [
     critChance: 0.25,
     fireRate: 1.08,
     slideDmg: 105,
-    status: 0.1
+    status: 0.1,
+    range: [0.24, 1.66]
   },
-  { id: "Boltace", name: "boltace", tags: ["Melee", "Tonfa"], dmg: [["Puncture", 68], ["Slash", 8.5], ["Impact", 8.5]], critMul: 1.5, critChance: 0.05, fireRate: 0.917, slideDmg: 510, status: 0.25 },
+  {
+    id: "Boltace",
+    name: "boltace",
+    tags: ["Melee", "Tonfa"],
+    dmg: [["Puncture", 68], ["Slash", 8.5], ["Impact", 8.5]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 0.917,
+    slideDmg: 510,
+    status: 0.25,
+    range: [0.48, 1.32]
+  },
   {
     id: "Telos Boltace",
     name: "telosBoltace",
@@ -4707,7 +4774,8 @@ export const meleeWeaponData = [
     fireRate: 1.08,
     slideDmg: 510,
     status: 0.25,
-    pol: "-"
+    pol: "-",
+    range: [0.48, 1.32]
   },
   {
     id: "Dragon Nikana",
@@ -4719,9 +4787,21 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 182,
     status: 0.15,
-    pol: "rd"
+    pol: "rd",
+    range: [0.85, 1.05]
   },
-  { id: "Magistar", name: "magistar", tags: ["Melee", "Hammer"], dmg: [["Puncture", 12], ["Slash", 4], ["Impact", 64]], critMul: 2, critChance: 0.2, fireRate: 0.833, slideDmg: 160, status: 0.1 },
+  {
+    id: "Magistar",
+    name: "magistar",
+    tags: ["Melee", "Hammer"],
+    dmg: [["Puncture", 12], ["Slash", 4], ["Impact", 64]],
+    critMul: 2,
+    critChance: 0.2,
+    fireRate: 0.833,
+    slideDmg: 160,
+    status: 0.1,
+    range: [0.76, 1.54]
+  },
   {
     id: "Sancti Magistar",
     name: "sanctiMagistar",
@@ -4733,10 +4813,34 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 240,
     status: 0.1,
-    pol: "r"
+    pol: "r",
+    range: [0.76, 1.54]
   },
-  { id: "Atterax", name: "atterax", tags: ["Melee", "Whip"], dmg: [["Puncture", 2.25], ["Slash", 40.5], ["Impact", 2.25]], critMul: 3, critChance: 0.25, fireRate: 0.917, slideDmg: 96, status: 0.2 },
-  { id: "Dual Ichor", name: "dualIchor", tags: ["Melee", "DualSwords"], dmg: [["Toxin", 35]], critMul: 3, critChance: 0.25, fireRate: 1.08, slideDmg: 210, status: 0.15, pol: "d" },
+  {
+    id: "Atterax",
+    name: "atterax",
+    tags: ["Melee", "Whip"],
+    dmg: [["Puncture", 2.25], ["Slash", 40.5], ["Impact", 2.25]],
+    critMul: 3,
+    critChance: 0.25,
+    fireRate: 0.917,
+    slideDmg: 96,
+    status: 0.2,
+    range: [3.82, 1.18]
+  },
+  {
+    id: "Dual Ichor",
+    name: "dualIchor",
+    tags: ["Melee", "DualSwords"],
+    dmg: [["Toxin", 35]],
+    critMul: 3,
+    critChance: 0.25,
+    fireRate: 1.08,
+    slideDmg: 210,
+    status: 0.15,
+    pol: "d",
+    range: [1, 1.6]
+  },
   {
     id: "Ack & Brunt",
     name: "ackBrunt",
@@ -4746,7 +4850,8 @@ export const meleeWeaponData = [
     critChance: 0.2,
     fireRate: 0.833,
     slideDmg: 107,
-    status: 0.1
+    status: 0.1,
+    range: [0.7, 1.5]
   },
   {
     id: "Amphis",
@@ -4758,7 +4863,8 @@ export const meleeWeaponData = [
     fireRate: 1.25,
     slideDmg: 75,
     status: 0.1,
-    pol: "-"
+    pol: "-",
+    range: [1.15, 1.25]
   },
   {
     id: "Dual Skana",
@@ -4769,7 +4875,8 @@ export const meleeWeaponData = [
     critChance: 0.05,
     fireRate: 0.833,
     slideDmg: 192,
-    status: 0.1
+    status: 0.1,
+    range: [1, 1.6]
   },
   {
     id: "Nami Solo",
@@ -4781,7 +4888,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 105,
     status: 0.25,
-    pol: "r"
+    pol: "r",
+    range: [0.58, 2.62]
   },
   {
     id: "Twin Krohkur",
@@ -4792,10 +4900,34 @@ export const meleeWeaponData = [
     critChance: 0.19,
     fireRate: 0.917,
     slideDmg: 420,
-    status: 0.33
+    status: 0.33,
+    range: [1, 1.6]
   },
-  { id: "Lacera", name: "lacera", tags: ["Melee", "BladeAndWhip"], dmg: [["Electricity", 80]], critMul: 2, critChance: 0.025, fireRate: 0.917, slideDmg: 171, status: 0.45, pol: "-" },
-  { id: "Skana", name: "skana", tags: ["Melee", "Sword"], dmg: [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]], critMul: 1.5, critChance: 0.05, fireRate: 0.833, slideDmg: 75, status: 0.1 },
+  {
+    id: "Lacera",
+    name: "lacera",
+    tags: ["Melee", "BladeAndWhip"],
+    dmg: [["Electricity", 80]],
+    critMul: 2,
+    critChance: 0.025,
+    fireRate: 0.917,
+    slideDmg: 171,
+    status: 0.45,
+    pol: "-",
+    range: [0.58, 2.02]
+  },
+  {
+    id: "Skana",
+    name: "skana",
+    tags: ["Melee", "Sword"],
+    dmg: [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 0.833,
+    slideDmg: 75,
+    status: 0.1,
+    range: [0.73, 1.32]
+  },
   {
     id: "Skana Prime",
     name: "skanaPrime",
@@ -4807,7 +4939,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 90,
     status: 0.1,
-    pol: "r-"
+    pol: "r-",
+    range: [0.73, 1.32]
   },
   {
     id: "Prisma Skana",
@@ -4819,9 +4952,22 @@ export const meleeWeaponData = [
     critChance: 0.2,
     fireRate: 1,
     slideDmg: 75,
-    status: 0.1
+    status: 0.1,
+    range: [0.73, 1.32]
   },
-  { id: "Serro", name: "serro", tags: ["Melee", "Polearm"], dmg: [["Electricity", 75]], critMul: 1.5, critChance: 0.05, fireRate: 0.917, slideDmg: 167, status: 0.25, pol: "r" },
+  {
+    id: "Serro",
+    name: "serro",
+    tags: ["Melee", "Polearm"],
+    dmg: [["Electricity", 75]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 0.917,
+    slideDmg: 167,
+    status: 0.25,
+    pol: "r",
+    range: [1.45, 1.65]
+  },
   {
     id: "Dual Kamas",
     name: "dualKamas",
@@ -4831,7 +4977,8 @@ export const meleeWeaponData = [
     critChance: 0.05,
     fireRate: 1.17,
     slideDmg: 252,
-    status: 0.075
+    status: 0.075,
+    range: [1, 1.6]
   },
   {
     id: "Dual Kamas Prime",
@@ -4844,7 +4991,8 @@ export const meleeWeaponData = [
     fireRate: 1.17,
     slideDmg: 420,
     status: 0.2,
-    pol: "r"
+    pol: "r",
+    range: [1, 1.6]
   },
   {
     id: "Ceramic Dagger",
@@ -4856,9 +5004,22 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 75,
     status: 0.1,
-    pol: "r"
+    pol: "r",
+    range: [0.88, 0.82]
   },
-  { id: "Cerata", name: "cerata", tags: ["Melee", "Glaive"], dmg: [["Toxin", 44]], critMul: 2, critChance: 0.15, fireRate: 1, slideDmg: 220, status: 0.3, pol: "rd" },
+  {
+    id: "Cerata",
+    name: "cerata",
+    tags: ["Melee", "Glaive"],
+    dmg: [["Toxin", 44]],
+    critMul: 2,
+    critChance: 0.15,
+    fireRate: 1,
+    slideDmg: 220,
+    status: 0.3,
+    pol: "rd",
+    range: [0.48, 1.72]
+  },
   {
     id: "Cerata (charged)",
     name: "cerata",
@@ -4872,7 +5033,8 @@ export const meleeWeaponData = [
     slideDmg: 0,
     status: 0.33,
     fltSpeed: 35,
-    pol: "rd"
+    pol: "rd",
+    range: [0.48, 1.72]
   },
   {
     id: "Galatine",
@@ -4884,7 +5046,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 250,
     status: 0.2,
-    pol: "-"
+    pol: "-",
+    range: [1.3, 1.5]
   },
   {
     id: "Galatine Prime",
@@ -4897,7 +5060,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 330,
     status: 0.2,
-    pol: "rr"
+    pol: "rr",
+    range: [1.3, 1.5]
   },
   {
     id: "Dual Cleavers",
@@ -4909,7 +5073,8 @@ export const meleeWeaponData = [
     fireRate: 0.833,
     slideDmg: 210,
     status: 0.1,
-    pol: "r"
+    pol: "r",
+    range: [1, 1.6]
   },
   {
     id: "Prisma Dual Cleavers",
@@ -4922,7 +5087,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 210,
     status: 0.25,
-    pol: "r"
+    pol: "r",
+    range: [1, 1.6]
   },
   {
     id: "Jat Kittag",
@@ -4934,7 +5100,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 260,
     status: 0.25,
-    pol: "r-"
+    pol: "r-",
+    range: [1.3, 1.5]
   },
   {
     id: "Fang",
@@ -4946,7 +5113,8 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 150,
     status: 0.08,
-    pol: "d"
+    pol: "d",
+    range: [0.58, 2.02]
   },
   {
     id: "Fang Prime",
@@ -4959,9 +5127,22 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 180,
     status: 0.05,
-    pol: "d"
+    pol: "d",
+    range: [0.58, 2.02]
   },
-  { id: "Lesion", name: "lesion", tags: ["Melee", "Polearm"], dmg: [["Puncture", 5], ["Slash", 75], ["Impact", 20]], critMul: 2, critChance: 0.05, fireRate: 1, slideDmg: 222, status: 0.3, pol: "r" },
+  {
+    id: "Lesion",
+    name: "lesion",
+    tags: ["Melee", "Polearm"],
+    dmg: [["Puncture", 5], ["Slash", 75], ["Impact", 20]],
+    critMul: 2,
+    critChance: 0.05,
+    fireRate: 1,
+    slideDmg: 222,
+    status: 0.3,
+    pol: "r",
+    range: [1.03, 1.37]
+  },
   {
     id: "Galvacord",
     name: "galvacord",
@@ -4971,9 +5152,21 @@ export const meleeWeaponData = [
     critChance: 0.12,
     fireRate: 0.75,
     slideDmg: 171,
-    status: 0.3
+    status: 0.3,
+    range: [3.82, 1.18]
   },
-  { id: "Gram", name: "gram", tags: ["Melee", "HeavyBlade"], dmg: [["Puncture", 15], ["Slash", 70], ["Impact", 15]], critMul: 2, critChance: 0.15, fireRate: 0.95, slideDmg: 200, status: 0.15 },
+  {
+    id: "Gram",
+    name: "gram",
+    tags: ["Melee", "HeavyBlade"],
+    dmg: [["Puncture", 15], ["Slash", 70], ["Impact", 15]],
+    critMul: 2,
+    critChance: 0.15,
+    fireRate: 0.95,
+    slideDmg: 200,
+    status: 0.15,
+    range: [1.3, 1.5]
+  },
   {
     id: "Gram Prime",
     name: "gramPrime",
@@ -4985,7 +5178,8 @@ export const meleeWeaponData = [
     fireRate: 0.8,
     slideDmg: 360,
     status: 0.32,
-    pol: "rr"
+    pol: "rr",
+    range: [1.3, 1.5]
   },
   {
     id: "Jaw Sword",
@@ -4997,9 +5191,22 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 94,
     status: 0.1,
-    pol: "r"
+    pol: "r",
+    range: [0.73, 1.32]
   },
-  { id: "Bo", name: "bo", tags: ["Melee", "Staff"], dmg: [["Puncture", 5], ["Impact", 45]], critMul: 2, critChance: 0.125, fireRate: 1, slideDmg: 107, status: 0.2, pol: "d" },
+  {
+    id: "Bo",
+    name: "bo",
+    tags: ["Melee", "Staff"],
+    dmg: [["Puncture", 5], ["Impact", 45]],
+    critMul: 2,
+    critChance: 0.125,
+    fireRate: 1,
+    slideDmg: 107,
+    status: 0.2,
+    pol: "d",
+    range: [1.15, 1.25]
+  },
   {
     id: "MK1-Bo",
     name: "mk1Bo",
@@ -5011,7 +5218,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 96,
     status: 0.2,
-    pol: "d"
+    pol: "d",
+    range: [1.15, 1.25]
   },
   {
     id: "Bo Prime",
@@ -5024,9 +5232,21 @@ export const meleeWeaponData = [
     fireRate: 1.08,
     slideDmg: 161,
     status: 0.25,
-    pol: "dr"
+    pol: "dr",
+    range: [1.15, 1.25]
   },
-  { id: "Fragor", name: "fragor", tags: ["Melee", "Hammer"], dmg: [["Puncture", 17.3], ["Slash", 17.2], ["Impact", 80.5]], critMul: 2, critChance: 0.2, fireRate: 0.833, slideDmg: 230, status: 0.1 },
+  {
+    id: "Fragor",
+    name: "fragor",
+    tags: ["Melee", "Hammer"],
+    dmg: [["Puncture", 17.3], ["Slash", 17.2], ["Impact", 80.5]],
+    critMul: 2,
+    critChance: 0.2,
+    fireRate: 0.833,
+    slideDmg: 230,
+    status: 0.1,
+    range: [0.76, 1.54]
+  },
   {
     id: "Fragor Prime",
     name: "fragorPrime",
@@ -5038,7 +5258,8 @@ export const meleeWeaponData = [
     fireRate: 0.8,
     slideDmg: 260,
     status: 0.1,
-    pol: "r"
+    pol: "r",
+    range: [0.76, 1.54]
   },
   {
     id: "Skiajati",
@@ -5050,10 +5271,35 @@ export const meleeWeaponData = [
     fireRate: 1.17,
     slideDmg: 165,
     status: 0.27,
-    pol: "ww"
+    pol: "ww",
+    range: [0.85, 1.05]
   },
-  { id: "Anku", name: "anku", tags: ["Melee", "Scythe"], dmg: [["Puncture", 56], ["Slash", 3.5], ["Impact", 10.5]], critMul: 2, critChance: 0.2, fireRate: 1.08, slideDmg: 140, status: 0.1, pol: "r" },
-  { id: "Caustacyst", name: "caustacyst", tags: ["Melee", "Scythe"], dmg: [["Corrosive", 75]], critMul: 2, critChance: 0.05, fireRate: 1, slideDmg: 150, status: 0.3, pol: "r" },
+  {
+    id: "Anku",
+    name: "anku",
+    tags: ["Melee", "Scythe"],
+    dmg: [["Puncture", 56], ["Slash", 3.5], ["Impact", 10.5]],
+    critMul: 2,
+    critChance: 0.2,
+    fireRate: 1.08,
+    slideDmg: 140,
+    status: 0.1,
+    pol: "r",
+    range: [0.42, 1.48]
+  },
+  {
+    id: "Caustacyst",
+    name: "caustacyst",
+    tags: ["Melee", "Scythe"],
+    dmg: [["Corrosive", 75]],
+    critMul: 2,
+    critChance: 0.05,
+    fireRate: 1,
+    slideDmg: 150,
+    status: 0.3,
+    pol: "r",
+    range: [0.42, 1.48]
+  },
   {
     id: "Nikana",
     name: "nikana",
@@ -5064,7 +5310,8 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 96,
     status: 0.1,
-    pol: "rd"
+    pol: "rd",
+    range: [0.85, 1.05]
   },
   {
     id: "Nikana Prime",
@@ -5077,7 +5324,8 @@ export const meleeWeaponData = [
     fireRate: 1.08,
     slideDmg: 204,
     status: 0.2,
-    pol: "rd"
+    pol: "rd",
+    range: [0.85, 1.05]
   },
   {
     id: "Kama",
@@ -5089,7 +5337,8 @@ export const meleeWeaponData = [
     fireRate: 1.17,
     slideDmg: 135,
     status: 0.02,
-    pol: "rr"
+    pol: "rr",
+    range: [0.58, 2.62]
   },
   {
     id: "Heat Sword",
@@ -5101,7 +5350,8 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 94,
     status: 0.2,
-    pol: "-"
+    pol: "-",
+    range: [0.73, 1.32]
   },
   {
     id: "Machete",
@@ -5112,7 +5362,8 @@ export const meleeWeaponData = [
     critChance: 0.05,
     fireRate: 0.917,
     slideDmg: 75,
-    status: 0.1
+    status: 0.1,
+    range: [0.58, 2.62]
   },
   {
     id: "Prisma Machete",
@@ -5124,7 +5375,8 @@ export const meleeWeaponData = [
     critChance: 0.05,
     fireRate: 0.917,
     slideDmg: 75,
-    status: 0.1
+    status: 0.1,
+    range: [0.58, 2.62]
   },
   {
     id: "Machete Wraith",
@@ -5137,7 +5389,8 @@ export const meleeWeaponData = [
     fireRate: 1.08,
     slideDmg: 135,
     status: 0.1,
-    pol: "rr"
+    pol: "rr",
+    range: [0.58, 2.62]
   },
   {
     id: "Hirudo",
@@ -5149,9 +5402,22 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 220,
     status: 0.05,
-    pol: "r"
+    pol: "r",
+    range: [0.48, 2.32]
   },
-  { id: "Tekko", name: "tekko", tags: ["Melee", "Fist"], dmg: [["Puncture", 4.5], ["Slash", 31.5], ["Impact", 9]], critMul: 2, critChance: 0.3, fireRate: 0.917, slideDmg: 135, status: 0.1, pol: "r" },
+  {
+    id: "Tekko",
+    name: "tekko",
+    tags: ["Melee", "Fist"],
+    dmg: [["Puncture", 4.5], ["Slash", 31.5], ["Impact", 9]],
+    critMul: 2,
+    critChance: 0.3,
+    fireRate: 0.917,
+    slideDmg: 135,
+    status: 0.1,
+    pol: "r",
+    range: [0.24, 1.66]
+  },
   {
     id: "Arca Titron",
     name: "arcaTitron",
@@ -5162,7 +5428,8 @@ export const meleeWeaponData = [
     fireRate: 0.733,
     slideDmg: 360,
     status: 0.38,
-    pol: "r-"
+    pol: "r-",
+    range: [1.76, 1.24]
   },
   {
     id: "Dual Raza",
@@ -5173,7 +5440,8 @@ export const meleeWeaponData = [
     critChance: 0.2,
     fireRate: 0.917,
     slideDmg: 288,
-    status: 0.05
+    status: 0.05,
+    range: [1, 1.6]
   },
   {
     id: "Dakra Prime",
@@ -5185,7 +5453,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 129,
     status: 0.1,
-    pol: "r-"
+    pol: "r-",
+    range: [0.73, 1.32]
   },
   {
     id: "Gunsen",
@@ -5197,9 +5466,22 @@ export const meleeWeaponData = [
     fireRate: 1.17,
     slideDmg: 107,
     status: 0.28,
-    pol: "r"
+    pol: "r",
+    range: [1.03, 0.87]
   },
-  { id: "Karyst", name: "karyst", tags: ["Melee", "Dagger"], dmg: [["Toxin", 50]], critMul: 2, critChance: 0.1, fireRate: 0.75, slideDmg: 107, status: 0.15, pol: "-" },
+  {
+    id: "Karyst",
+    name: "karyst",
+    tags: ["Melee", "Dagger"],
+    dmg: [["Toxin", 50]],
+    critMul: 2,
+    critChance: 0.1,
+    fireRate: 0.75,
+    slideDmg: 107,
+    status: 0.15,
+    pol: "-",
+    range: [0.88, 0.82]
+  },
   {
     id: "Mios",
     name: "mios",
@@ -5210,7 +5492,8 @@ export const meleeWeaponData = [
     fireRate: 1.08,
     slideDmg: 171,
     status: 0.25,
-    pol: "r"
+    pol: "r",
+    range: [0.58, 2.02]
   },
   {
     id: "Destreza",
@@ -5222,7 +5505,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 161,
     status: 0.05,
-    pol: "r"
+    pol: "r",
+    range: [0.91, 1.29]
   },
   {
     id: "Destreza Prime",
@@ -5235,9 +5519,21 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 163,
     status: 0.18,
-    pol: "rr"
+    pol: "rr",
+    range: [0.91, 1.29]
   },
-  { id: "Kogake", name: "kogake", tags: ["Melee", "Sparring"], dmg: [["Puncture", 5.3], ["Slash", 5.2], ["Impact", 24.5]], critMul: 2, critChance: 0.2, fireRate: 0.917, slideDmg: 140, status: 0.1 },
+  {
+    id: "Kogake",
+    name: "kogake",
+    tags: ["Melee", "Sparring"],
+    dmg: [["Puncture", 5.3], ["Slash", 5.2], ["Impact", 24.5]],
+    critMul: 2,
+    critChance: 0.2,
+    fireRate: 0.917,
+    slideDmg: 140,
+    status: 0.1,
+    range: [0.48, 2.32]
+  },
   {
     id: "Kogake Prime",
     name: "kogakePrime",
@@ -5249,7 +5545,8 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 280,
     status: 0.34,
-    pol: "rrr"
+    pol: "rrr",
+    range: [0.48, 2.32]
   },
   {
     id: "Pangolin Sword",
@@ -5261,7 +5558,8 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 79,
     status: 0.12,
-    pol: "r"
+    pol: "r",
+    range: [0.73, 1.32]
   },
   {
     id: "Scoliac",
@@ -5273,7 +5571,8 @@ export const meleeWeaponData = [
     fireRate: 1.25,
     slideDmg: 118,
     status: 0.15,
-    pol: "r"
+    pol: "r",
+    range: [3.82, 1.18]
   },
   {
     id: "Dual Keres",
@@ -5284,10 +5583,33 @@ export const meleeWeaponData = [
     critChance: 0.28,
     fireRate: 1.25,
     slideDmg: 264,
-    status: 0.14
+    status: 0.14,
+    range: [1, 1.6]
   },
-  { id: "Sydon", name: "sydon", tags: ["Melee", "Polearm"], dmg: [["Puncture", 71.3], ["Impact", 3.8]], critMul: 2, critChance: 0.1, fireRate: 0.917, slideDmg: 167, status: 0.25 },
-  { id: "Kronen", name: "kronen", tags: ["Melee", "Tonfa"], dmg: [["Puncture", 6.5], ["Slash", 52], ["Impact", 6.5]], critMul: 1.5, critChance: 0.05, fireRate: 1.08, slideDmg: 390, status: 0.2 },
+  {
+    id: "Sydon",
+    name: "sydon",
+    tags: ["Melee", "Polearm"],
+    dmg: [["Puncture", 71.3], ["Impact", 3.8]],
+    critMul: 2,
+    critChance: 0.1,
+    fireRate: 0.917,
+    slideDmg: 167,
+    status: 0.25,
+    range: [1.45, 1.65]
+  },
+  {
+    id: "Kronen",
+    name: "kronen",
+    tags: ["Melee", "Tonfa"],
+    dmg: [["Puncture", 6.5], ["Slash", 52], ["Impact", 6.5]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 1.08,
+    slideDmg: 390,
+    status: 0.2,
+    range: [0.48, 1.32]
+  },
   {
     id: "Kronen Prime",
     name: "kronenPrime",
@@ -5299,10 +5621,34 @@ export const meleeWeaponData = [
     fireRate: 1.17,
     slideDmg: 396,
     status: 0.24,
-    pol: "r-"
+    pol: "r-",
+    range: [0.48, 1.32]
   },
-  { id: "Tonbo", name: "tonbo", tags: ["Melee", "Polearm"], dmg: [["Puncture", 12], ["Slash", 60], ["Impact", 8]], critMul: 2, critChance: 0.05, fireRate: 1, slideDmg: 178, status: 0.25, pol: "r" },
-  { id: "Obex", name: "obex", tags: ["Melee", "Sparring"], dmg: [["Puncture", 3.8], ["Slash", 3.7], ["Impact", 17.5]], critMul: 2, critChance: 0.25, fireRate: 1, slideDmg: 100, status: 0.1 },
+  {
+    id: "Tonbo",
+    name: "tonbo",
+    tags: ["Melee", "Polearm"],
+    dmg: [["Puncture", 12], ["Slash", 60], ["Impact", 8]],
+    critMul: 2,
+    critChance: 0.05,
+    fireRate: 1,
+    slideDmg: 178,
+    status: 0.25,
+    pol: "r",
+    range: [1.45, 1.65]
+  },
+  {
+    id: "Obex",
+    name: "obex",
+    tags: ["Melee", "Sparring"],
+    dmg: [["Puncture", 3.8], ["Slash", 3.7], ["Impact", 17.5]],
+    critMul: 2,
+    critChance: 0.25,
+    fireRate: 1,
+    slideDmg: 100,
+    status: 0.1,
+    range: [0.48, 2.32]
+  },
   {
     id: "Prisma Obex",
     name: "prismaObex",
@@ -5313,7 +5659,8 @@ export const meleeWeaponData = [
     critChance: 0.25,
     fireRate: 1.33,
     slideDmg: 100,
-    status: 0.3
+    status: 0.3,
+    range: [0.48, 2.32]
   },
   {
     id: "Vaykor Sydon",
@@ -5326,9 +5673,21 @@ export const meleeWeaponData = [
     fireRate: 1.08,
     slideDmg: 189,
     status: 0.25,
-    pol: "r"
+    pol: "r",
+    range: [1.45, 1.65]
   },
-  { id: "Ankyros", name: "ankyros", tags: ["Melee", "Fist"], dmg: [["Puncture", 4.5], ["Slash", 4.5], ["Impact", 21]], critMul: 2, critChance: 0.2, fireRate: 1.17, slideDmg: 90, status: 0.1 },
+  {
+    id: "Ankyros",
+    name: "ankyros",
+    tags: ["Melee", "Fist"],
+    dmg: [["Puncture", 4.5], ["Slash", 4.5], ["Impact", 21]],
+    critMul: 2,
+    critChance: 0.2,
+    fireRate: 1.17,
+    slideDmg: 90,
+    status: 0.1,
+    range: [0.24, 1.66]
+  },
   {
     id: "Ankyros Prime",
     name: "ankyrosPrime",
@@ -5340,9 +5699,21 @@ export const meleeWeaponData = [
     fireRate: 1.25,
     slideDmg: 114,
     status: 0.15,
-    pol: "rr"
+    pol: "rr",
+    range: [0.24, 1.66]
   },
-  { id: "Silva & Aegis", name: "silvaAegis", tags: ["Melee", "Sword-Shield"], dmg: [["Heat", 35]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 75, status: 0.2 },
+  {
+    id: "Silva & Aegis",
+    name: "silvaAegis",
+    tags: ["Melee", "Sword-Shield"],
+    dmg: [["Heat", 35]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 1,
+    slideDmg: 75,
+    status: 0.2,
+    range: [0.7, 1.5]
+  },
   {
     id: "Silva & Aegis Prime",
     name: "silvaAegisPrime",
@@ -5354,7 +5725,8 @@ export const meleeWeaponData = [
     fireRate: 0.75,
     slideDmg: 257,
     status: 0.25,
-    pol: "rdd"
+    pol: "rdd",
+    range: [0.7, 1.5]
   },
   {
     id: "Sheev",
@@ -5366,9 +5738,22 @@ export const meleeWeaponData = [
     fireRate: 0.667,
     slideDmg: 96,
     status: 0.25,
-    pol: "-"
+    pol: "-",
+    range: [0.88, 0.82]
   },
-  { id: "Cadus", name: "cadus", tags: ["Melee", "Staff"], dmg: [["Electricity", 50]], critMul: 2, critChance: 0.15, fireRate: 1, slideDmg: 107, status: 0.25, pol: "d" },
+  {
+    id: "Cadus",
+    name: "cadus",
+    tags: ["Melee", "Staff"],
+    dmg: [["Electricity", 50]],
+    critMul: 2,
+    critChance: 0.15,
+    fireRate: 1,
+    slideDmg: 107,
+    status: 0.25,
+    pol: "d",
+    range: [1.15, 1.25]
+  },
   {
     id: "Heat Dagger",
     name: "heatDagger",
@@ -5379,7 +5764,8 @@ export const meleeWeaponData = [
     fireRate: 0.75,
     slideDmg: 96,
     status: 0.05,
-    pol: "-"
+    pol: "-",
+    range: [0.88, 0.82]
   },
   {
     id: "Gazal Machete",
@@ -5391,7 +5777,8 @@ export const meleeWeaponData = [
     fireRate: 1.08,
     slideDmg: 156,
     status: 0.25,
-    pol: "r"
+    pol: "r",
+    range: [0.58, 2.62]
   },
   {
     id: "Ether Daggers",
@@ -5403,7 +5790,8 @@ export const meleeWeaponData = [
     fireRate: 0.833,
     slideDmg: 225,
     status: 0.15,
-    pol: "d"
+    pol: "d",
+    range: [0.58, 2.02]
   },
   {
     id: "Dex Dakra",
@@ -5415,9 +5803,21 @@ export const meleeWeaponData = [
     fireRate: 0.883,
     slideDmg: 390,
     status: 0.2,
-    pol: "-"
+    pol: "-",
+    range: [1, 1.6]
   },
-  { id: "Dark Sword", name: "darkSword", tags: ["Melee", "Sword"], dmg: [["Radiation", 37]], critMul: 1.5, critChance: 0.05, fireRate: 0.833, slideDmg: 79, status: 0.1 },
+  {
+    id: "Dark Sword",
+    name: "darkSword",
+    tags: ["Melee", "Sword"],
+    dmg: [["Radiation", 37]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 0.833,
+    slideDmg: 79,
+    status: 0.1,
+    range: [0.73, 1.32]
+  },
   {
     id: "Ripkas",
     name: "ripkas",
@@ -5428,7 +5828,8 @@ export const meleeWeaponData = [
     fireRate: 0.883,
     slideDmg: 165,
     status: 0.15,
-    pol: "r"
+    pol: "r",
+    range: [0.15, 1.85]
   },
   {
     id: "Broken Scepter",
@@ -5440,9 +5841,21 @@ export const meleeWeaponData = [
     fireRate: 1.25,
     slideDmg: 129,
     status: 0.3,
-    pol: "-"
+    pol: "-",
+    range: [1.15, 1.25]
   },
-  { id: "Orthos", name: "orthos", tags: ["Melee", "Polearm"], dmg: [["Puncture", 7.5], ["Slash", 35], ["Impact", 7.5]], critMul: 1.5, critChance: 0.05, fireRate: 0.917, slideDmg: 111, status: 0.15 },
+  {
+    id: "Orthos",
+    name: "orthos",
+    tags: ["Melee", "Polearm"],
+    dmg: [["Puncture", 7.5], ["Slash", 35], ["Impact", 7.5]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 0.917,
+    slideDmg: 111,
+    status: 0.15,
+    range: [3.09, 0.11]
+  },
   {
     id: "Orthos Prime",
     name: "orthosPrime",
@@ -5453,10 +5866,34 @@ export const meleeWeaponData = [
     critChance: 0.1,
     fireRate: 1.17,
     slideDmg: 144,
-    status: 0.15
+    status: 0.15,
+    range: [3.09, 0.11]
   },
-  { id: "Twin Basolk", name: "twinBasolk", tags: ["Melee", "DualSwords"], dmg: [["Heat", 65]], critMul: 2, critChance: 0.05, fireRate: 1, slideDmg: 390, status: 0.4, pol: "r" },
-  { id: "Scindo", name: "scindo", tags: ["Melee", "HeavyBlade"], dmg: [["Puncture", 10], ["Slash", 80], ["Impact", 10]], critMul: 1.5, critChance: 0.15, fireRate: 0.917, slideDmg: 200, status: 0.1 },
+  {
+    id: "Twin Basolk",
+    name: "twinBasolk",
+    tags: ["Melee", "DualSwords"],
+    dmg: [["Heat", 65]],
+    critMul: 2,
+    critChance: 0.05,
+    fireRate: 1,
+    slideDmg: 390,
+    status: 0.4,
+    pol: "r",
+    range: [1, 1.6]
+  },
+  {
+    id: "Scindo",
+    name: "scindo",
+    tags: ["Melee", "HeavyBlade"],
+    dmg: [["Puncture", 10], ["Slash", 80], ["Impact", 10]],
+    critMul: 1.5,
+    critChance: 0.15,
+    fireRate: 0.917,
+    slideDmg: 200,
+    status: 0.1,
+    range: [0.79, 1.51]
+  },
   {
     id: "Scindo Prime",
     name: "scindoPrime",
@@ -5468,9 +5905,21 @@ export const meleeWeaponData = [
     fireRate: 0.967,
     slideDmg: 260,
     status: 0.15,
-    pol: "r"
+    pol: "r",
+    range: [0.79, 1.51]
   },
-  { id: "Krohkur", name: "krohkur", tags: ["Melee", "Sword"], dmg: [["Puncture", 12.6], ["Slash", 49], ["Impact", 8.4]], critMul: 1.7, critChance: 0.29, fireRate: 0.833, slideDmg: 150, status: 0.19 },
+  {
+    id: "Krohkur",
+    name: "krohkur",
+    tags: ["Melee", "Sword"],
+    dmg: [["Puncture", 12.6], ["Slash", 49], ["Impact", 8.4]],
+    critMul: 1.7,
+    critChance: 0.29,
+    fireRate: 0.833,
+    slideDmg: 150,
+    status: 0.19,
+    range: [0.73, 1.32]
+  },
   {
     id: "Tipedo",
     name: "tipedo",
@@ -5481,7 +5930,8 @@ export const meleeWeaponData = [
     fireRate: 1.33,
     slideDmg: 107,
     status: 0.2,
-    pol: "d"
+    pol: "d",
+    range: [1.15, 1.25]
   },
   {
     id: "Tipedo Prime",
@@ -5494,7 +5944,8 @@ export const meleeWeaponData = [
     fireRate: 1.17,
     slideDmg: 163,
     status: 0.24,
-    pol: "rd"
+    pol: "rd",
+    range: [1.15, 1.25]
   },
   {
     id: "Okina",
@@ -5506,9 +5957,21 @@ export const meleeWeaponData = [
     fireRate: 1.08,
     slideDmg: 200,
     status: 0.15,
-    pol: "r"
+    pol: "r",
+    range: [0.58, 2.02]
   },
-  { id: "Shaku", name: "shaku", tags: ["Melee", "Nunchaku"], dmg: [["Puncture", 0], ["Slash", 0], ["Impact", 55]], critMul: 2, critChance: 0.075, fireRate: 1.17, slideDmg: 118, status: 0.25 },
+  {
+    id: "Shaku",
+    name: "shaku",
+    tags: ["Melee", "Nunchaku"],
+    dmg: [["Puncture", 0], ["Slash", 0], ["Impact", 55]],
+    critMul: 2,
+    critChance: 0.075,
+    fireRate: 1.17,
+    slideDmg: 118,
+    status: 0.25,
+    range: [0.91, 1.59]
+  },
   {
     id: "Kestrel",
     name: "kestrel",
@@ -5519,7 +5982,8 @@ export const meleeWeaponData = [
     fireRate: 1.08,
     slideDmg: 175,
     status: 0.1,
-    pol: "r-"
+    pol: "r-",
+    range: [0.48, 1.72]
   },
   {
     id: "Kestrel (charged)",
@@ -5534,9 +5998,22 @@ export const meleeWeaponData = [
     slideDmg: 0,
     status: 0.1,
     fltSpeed: 30,
-    pol: "r-"
+    pol: "r-",
+    range: [0.48, 1.72]
   },
-  { id: "Dark Split-Sword", name: "darkSplitSword", tags: ["Melee", "HeavyBlade"], dmg: [["Radiation", 90]], critMul: 2, critChance: 0.1, fireRate: 0.917, slideDmg: 180, status: 0.25, pol: "r" },
+  {
+    id: "Dark Split-Sword",
+    name: "darkSplitSword",
+    tags: ["Melee", "HeavyBlade"],
+    dmg: [["Radiation", 90]],
+    critMul: 2,
+    critChance: 0.1,
+    fireRate: 0.917,
+    slideDmg: 180,
+    status: 0.25,
+    pol: "r",
+    range: [1, 1.6]
+  },
   {
     id: "Dark Split-Sword (Dual Swords)",
     name: "darkSplitSword",
@@ -5549,7 +6026,8 @@ export const meleeWeaponData = [
     fireRate: 1.17,
     slideDmg: 390,
     status: 0.15,
-    pol: "r"
+    pol: "r",
+    range: [1, 1.6]
   },
   {
     id: "Reaper Prime",
@@ -5560,7 +6038,8 @@ export const meleeWeaponData = [
     critChance: 0.2,
     fireRate: 1.08,
     slideDmg: 150,
-    status: 0.12
+    status: 0.12,
+    range: [0.42, 1.48]
   },
   {
     id: "Glaive",
@@ -5572,7 +6051,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 225,
     status: 0.1,
-    pol: "r-"
+    pol: "r-",
+    range: [0.48, 1.72]
   },
   {
     id: "Glaive (charged)",
@@ -5587,7 +6067,8 @@ export const meleeWeaponData = [
     slideDmg: 0,
     status: 0.1,
     fltSpeed: 20,
-    pol: "r-"
+    pol: "r-",
+    range: [0.48, 1.72]
   },
   {
     id: "Glaive Prime",
@@ -5601,7 +6082,8 @@ export const meleeWeaponData = [
     slideDmg: 250,
     status: 0.3,
     fltSpeed: 40,
-    pol: "r-"
+    pol: "r-",
+    range: [0.48, 1.72]
   },
   {
     id: "Glaive Prime (charged)",
@@ -5616,7 +6098,8 @@ export const meleeWeaponData = [
     slideDmg: 0,
     status: 0.3,
     fltSpeed: 40,
-    pol: "r-"
+    pol: "r-",
+    range: [0.48, 1.72]
   },
   {
     id: "Cronus",
@@ -5628,9 +6111,21 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 75,
     status: 0.1,
-    pol: "r"
+    pol: "r",
+    range: [0.73, 1.32]
   },
-  { id: "Dual Ether", name: "dualEther", tags: ["Melee", "DualSwords"], dmg: [["Puncture", 6], ["Slash", 28], ["Impact", 6]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 240, status: 0.1 },
+  {
+    id: "Dual Ether",
+    name: "dualEther",
+    tags: ["Melee", "DualSwords"],
+    dmg: [["Puncture", 6], ["Slash", 28], ["Impact", 6]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 1,
+    slideDmg: 240,
+    status: 0.1,
+    range: [1, 1.6]
+  },
   {
     id: "Dual Heat Swords",
     name: "dualHeatSwords",
@@ -5641,7 +6136,8 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 270,
     status: 0.1,
-    pol: "-"
+    pol: "-",
+    range: [1, 1.6]
   },
   {
     id: "Halikar",
@@ -5653,7 +6149,8 @@ export const meleeWeaponData = [
     fireRate: 1.17,
     slideDmg: 225,
     status: 0.2,
-    pol: "r-"
+    pol: "r-",
+    range: [0.48, 1.72]
   },
   {
     id: "Halikar (charged)",
@@ -5668,7 +6165,8 @@ export const meleeWeaponData = [
     slideDmg: 0,
     status: 0.2,
     fltSpeed: 30,
-    pol: "r-"
+    pol: "r-",
+    range: [0.48, 1.72]
   },
   {
     id: "Ether Reaper",
@@ -5680,9 +6178,21 @@ export const meleeWeaponData = [
     fireRate: 1.08,
     slideDmg: 130,
     status: 0.15,
-    pol: "r"
+    pol: "r",
+    range: [0.42, 1.48]
   },
-  { id: "Venka", name: "venka", tags: ["Melee", "Claws"], dmg: [["Puncture", 9.25], ["Slash", 25.9], ["Impact", 1.85]], critMul: 2, critChance: 0.15, fireRate: 1, slideDmg: 111, status: 0.15 },
+  {
+    id: "Venka",
+    name: "venka",
+    tags: ["Melee", "Claws"],
+    dmg: [["Puncture", 9.25], ["Slash", 25.9], ["Impact", 1.85]],
+    critMul: 2,
+    critChance: 0.15,
+    fireRate: 1,
+    slideDmg: 111,
+    status: 0.15,
+    range: [0.15, 1.85]
+  },
   {
     id: "Venka Prime",
     name: "venkaPrime",
@@ -5694,9 +6204,21 @@ export const meleeWeaponData = [
     fireRate: 1.05,
     slideDmg: 165,
     status: 0.15,
-    pol: "-r"
+    pol: "-r",
+    range: [0.15, 1.85]
   },
-  { id: "Dark Dagger", name: "darkDagger", tags: ["Melee", "Dagger"], dmg: [["Radiation", 35]], critMul: 1.5, critChance: 0.05, fireRate: 0.917, slideDmg: 75, status: 0.1 },
+  {
+    id: "Dark Dagger",
+    name: "darkDagger",
+    tags: ["Melee", "Dagger"],
+    dmg: [["Radiation", 35]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 0.917,
+    slideDmg: 75,
+    status: 0.1,
+    range: [0.88, 0.82]
+  },
   {
     id: "Rakta Dark Dagger",
     name: "raktaDarkDagger",
@@ -5708,9 +6230,21 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 107,
     status: 0.1,
-    pol: "r"
+    pol: "r",
+    range: [0.88, 0.82]
   },
-  { id: "Heliocor", name: "heliocor", tags: ["Melee", "Hammer"], dmg: [["Puncture", 14], ["Slash", 7], ["Impact", 119]], critMul: 2, critChance: 0.25, fireRate: 0.833, slideDmg: 280, status: 0.025 },
+  {
+    id: "Heliocor",
+    name: "heliocor",
+    tags: ["Melee", "Hammer"],
+    dmg: [["Puncture", 14], ["Slash", 7], ["Impact", 119]],
+    critMul: 2,
+    critChance: 0.25,
+    fireRate: 0.833,
+    slideDmg: 280,
+    status: 0.025,
+    range: [0.76, 1.54]
+  },
   {
     id: "Synoid Heliocor",
     name: "synoidHeliocor",
@@ -5721,7 +6255,8 @@ export const meleeWeaponData = [
     critChance: 0.1,
     fireRate: 1.08,
     slideDmg: 240,
-    status: 0.2
+    status: 0.2,
+    range: [0.76, 1.54]
   },
   {
     id: "Dual Zoren",
@@ -5733,9 +6268,21 @@ export const meleeWeaponData = [
     fireRate: 1.17,
     slideDmg: 180,
     status: 0.05,
-    pol: "d"
+    pol: "d",
+    range: [1, 1.6]
   },
-  { id: "Lecta", name: "lecta", tags: ["Melee", "Whip"], dmg: [["Electricity", 45]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 96, status: 0.25 },
+  {
+    id: "Lecta",
+    name: "lecta",
+    tags: ["Melee", "Whip"],
+    dmg: [["Electricity", 45]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 1,
+    slideDmg: 96,
+    status: 0.25,
+    range: [3.82, 1.18]
+  },
   {
     id: "Secura Lecta",
     name: "securaLecta",
@@ -5747,7 +6294,8 @@ export const meleeWeaponData = [
     fireRate: 1.25,
     slideDmg: 161,
     status: 0.25,
-    pol: "d"
+    pol: "d",
+    range: [3.82, 1.18]
   },
   {
     id: "Kesheg",
@@ -5759,10 +6307,34 @@ export const meleeWeaponData = [
     fireRate: 0.833,
     slideDmg: 233,
     status: 0.1,
-    pol: "r"
+    pol: "r",
+    range: [1.45, 1.65]
   },
-  { id: "Mire", name: "mire", tags: ["Melee", "Sword"], dmg: [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]], critMul: 1.5, critChance: 0.05, fireRate: 1.08, slideDmg: 75, status: 0.1 },
-  { id: "Sarpa", name: "sarpa", tags: ["Melee", "Gunblade"], dmg: [["Puncture", 14], ["Slash", 49], ["Impact", 7]], critMul: 1.5, critChance: 0.05, fireRate: 1, slideDmg: 210, status: 0.1, pol: "d" },
+  {
+    id: "Mire",
+    name: "mire",
+    tags: ["Melee", "Sword"],
+    dmg: [["Puncture", 5.25], ["Slash", 24.5], ["Impact", 5.25]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 1.08,
+    slideDmg: 75,
+    status: 0.1,
+    range: [0.73, 1.32]
+  },
+  {
+    id: "Sarpa",
+    name: "sarpa",
+    tags: ["Melee", "Gunblade"],
+    dmg: [["Puncture", 14], ["Slash", 49], ["Impact", 7]],
+    critMul: 1.5,
+    critChance: 0.05,
+    fireRate: 1,
+    slideDmg: 210,
+    status: 0.1,
+    pol: "d",
+    range: [0.85, 0.95]
+  },
   {
     id: "Sarpa (charged)",
     name: "sarpa",
@@ -5775,7 +6347,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 0,
     status: 0.1,
-    pol: "d"
+    pol: "d",
+    range: [0.85, 0.95]
   },
   {
     id: "War",
@@ -5787,9 +6360,22 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 280,
     status: 0.2,
-    pol: "-"
+    pol: "-",
+    range: [1.3, 1.4]
   },
-  { id: "Zenistar", name: "zenistar", tags: ["Melee", "HeavyBlade"], dmg: [["Heat", 130]], critMul: 2, critChance: 0.05, fireRate: 0.833, slideDmg: 260, status: 0.25, pol: "r" },
+  {
+    id: "Zenistar",
+    name: "zenistar",
+    tags: ["Melee", "HeavyBlade"],
+    dmg: [["Heat", 130]],
+    critMul: 2,
+    critChance: 0.05,
+    fireRate: 0.833,
+    slideDmg: 260,
+    status: 0.25,
+    pol: "r",
+    range: [0.79, 1.51]
+  },
   {
     id: "Zenistar (aura)",
     name: "zenistar",
@@ -5802,7 +6388,8 @@ export const meleeWeaponData = [
     fireRate: 0.833,
     slideDmg: 0,
     status: 0.5,
-    pol: "r"
+    pol: "r",
+    range: [0.79, 1.51]
   },
   {
     id: "Volnus",
@@ -5814,9 +6401,22 @@ export const meleeWeaponData = [
     fireRate: 1.2,
     slideDmg: 200,
     status: 0.3,
-    pol: "r"
+    pol: "r",
+    range: [1.76, 1.24]
   },
-  { id: "Jat Kusar", name: "jatKusar", tags: ["Melee", "BladeAndWhip"], dmg: [["Heat", 80]], critMul: 2.5, critChance: 0.35, fireRate: 0.833, slideDmg: 171, status: 0.05, pol: "rr" },
+  {
+    id: "Jat Kusar",
+    name: "jatKusar",
+    tags: ["Melee", "BladeAndWhip"],
+    dmg: [["Heat", 80]],
+    critMul: 2.5,
+    critChance: 0.35,
+    fireRate: 0.833,
+    slideDmg: 171,
+    status: 0.05,
+    pol: "rr",
+    range: [0.58, 2.02]
+  },
   {
     id: "Orvius",
     name: "orvius",
@@ -5827,7 +6427,8 @@ export const meleeWeaponData = [
     fireRate: 0.75,
     slideDmg: 350,
     status: 0.15,
-    pol: "-r"
+    pol: "-r",
+    range: [0.48, 1.72]
   },
   {
     id: "Orvius (charged)",
@@ -5842,7 +6443,8 @@ export const meleeWeaponData = [
     slideDmg: 0,
     status: 0.15,
     fltSpeed: 30,
-    pol: "-r"
+    pol: "-r",
+    range: [0.48, 1.72]
   },
   {
     id: "Cassowar",
@@ -5854,10 +6456,33 @@ export const meleeWeaponData = [
     fireRate: 1.17,
     slideDmg: 156,
     status: 0.28,
-    pol: "rd"
+    pol: "rd",
+    range: [3.09, 0.11]
   },
-  { id: "Plasma Sword", name: "plasmaSword", tags: ["Melee", "Sword"], dmg: [["Electricity", 35]], critMul: 2, critChance: 0.15, fireRate: 0.667, slideDmg: 75, status: 0.15 },
-  { id: "Ohma", name: "ohma", tags: ["Melee", "Tonfa"], dmg: [["Electricity", 100]], critMul: 2, critChance: 0.15, fireRate: 0.917, slideDmg: 600, status: 0.3 },
+  {
+    id: "Plasma Sword",
+    name: "plasmaSword",
+    tags: ["Melee", "Sword"],
+    dmg: [["Electricity", 35]],
+    critMul: 2,
+    critChance: 0.15,
+    fireRate: 0.667,
+    slideDmg: 75,
+    status: 0.15,
+    range: [0.73, 1.32]
+  },
+  {
+    id: "Ohma",
+    name: "ohma",
+    tags: ["Melee", "Tonfa"],
+    dmg: [["Electricity", 100]],
+    critMul: 2,
+    critChance: 0.15,
+    fireRate: 0.917,
+    slideDmg: 600,
+    status: 0.3,
+    range: [0.48, 1.32]
+  },
   {
     id: "Ether Sword",
     name: "etherSword",
@@ -5867,10 +6492,33 @@ export const meleeWeaponData = [
     critChance: 0.05,
     fireRate: 1,
     slideDmg: 79,
-    status: 0.1
+    status: 0.1,
+    range: [0.73, 1.32]
   },
-  { id: "Hate", name: "hate", tags: ["Melee", "Scythe"], dmg: [["Puncture", 10.5], ["Slash", 49], ["Impact", 10.5]], critMul: 2.5, critChance: 0.2, fireRate: 0.917, slideDmg: 140, status: 0.15 },
-  { id: "Ninkondi", name: "ninkondi", tags: ["Melee", "Nunchaku"], dmg: [["Electricity", 45]], critMul: 2, critChance: 0.1, fireRate: 1, slideDmg: 96, status: 0.35 },
+  {
+    id: "Hate",
+    name: "hate",
+    tags: ["Melee", "Scythe"],
+    dmg: [["Puncture", 10.5], ["Slash", 49], ["Impact", 10.5]],
+    critMul: 2.5,
+    critChance: 0.2,
+    fireRate: 0.917,
+    slideDmg: 140,
+    status: 0.15,
+    range: [0.42, 1.48]
+  },
+  {
+    id: "Ninkondi",
+    name: "ninkondi",
+    tags: ["Melee", "Nunchaku"],
+    dmg: [["Electricity", 45]],
+    critMul: 2,
+    critChance: 0.1,
+    fireRate: 1,
+    slideDmg: 96,
+    status: 0.35,
+    range: [0.91, 1.59]
+  },
   {
     id: "Guandao",
     name: "guandao",
@@ -5881,7 +6529,8 @@ export const meleeWeaponData = [
     fireRate: 0.833,
     slideDmg: 200,
     status: 0.04,
-    pol: "dr"
+    pol: "dr",
+    range: [3.09, 0.11]
   },
   {
     id: "Broken War",
@@ -5893,7 +6542,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 193,
     status: 0.1,
-    pol: "r-"
+    pol: "r-",
+    range: [0.73, 1.32]
   },
   {
     id: "Paracesis",
@@ -5904,9 +6554,22 @@ export const meleeWeaponData = [
     critChance: 0.31,
     fireRate: 0.917,
     slideDmg: 288,
-    status: 0.12
+    status: 0.12,
+    range: [1.3, 1.4]
   },
-  { id: "Pupacyst", name: "pupacyst", tags: ["Melee", "Polearm"], dmg: [["Viral", 43], ["Impact", 47]], critMul: 1.5, critChance: 0.13, fireRate: 0.833, slideDmg: 193, status: 0.27, pol: "r" },
+  {
+    id: "Pupacyst",
+    name: "pupacyst",
+    tags: ["Melee", "Polearm"],
+    dmg: [["Viral", 43], ["Impact", 47]],
+    critMul: 1.5,
+    critChance: 0.13,
+    fireRate: 0.833,
+    slideDmg: 193,
+    status: 0.27,
+    pol: "r",
+    range: [0.97, 1.73]
+  },
   {
     id: "Falcor",
     name: "falcor",
@@ -5916,7 +6579,8 @@ export const meleeWeaponData = [
     critChance: 0.12,
     fireRate: 0.833,
     slideDmg: 390,
-    status: 0.28
+    status: 0.28,
+    range: [0.48, 1.72]
   },
   {
     id: "Falcor (charged)",
@@ -5930,7 +6594,8 @@ export const meleeWeaponData = [
     fireRate: 0.833,
     slideDmg: 0,
     status: 0.28,
-    fltSpeed: 30
+    fltSpeed: 30,
+    range: [0.48, 1.72]
   },
   {
     id: "Kreska",
@@ -5942,9 +6607,21 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 210,
     status: 0.22,
-    pol: "r"
+    pol: "r",
+    range: [0.58, 2.62]
   },
-  { id: "Cobra & Crane", name: "cobraCrane", tags: ["Melee", "Sword-Shield"], dmg: [["Puncture", 10], ["Impact", 90]], critMul: 1.5, critChance: 0.1, fireRate: 0.917, slideDmg: 214, status: 0.36 },
+  {
+    id: "Cobra & Crane",
+    name: "cobraCrane",
+    tags: ["Melee", "Sword-Shield"],
+    dmg: [["Puncture", 10], ["Impact", 90]],
+    critMul: 1.5,
+    critChance: 0.1,
+    fireRate: 0.917,
+    slideDmg: 214,
+    status: 0.36,
+    range: [0.7, 1.5]
+  },
   {
     id: "Wolf Sledge",
     name: "wolfSledge",
@@ -5954,7 +6631,8 @@ export const meleeWeaponData = [
     critChance: 0.17,
     fireRate: 1,
     slideDmg: 260,
-    status: 0.33
+    status: 0.33,
+    range: [1.3, 1.5]
   },
   {
     id: "Wolf Sledge (charged)",
@@ -5968,7 +6646,8 @@ export const meleeWeaponData = [
     fireRate: 1,
     slideDmg: 0,
     status: 0.33,
-    fltSpeed: 50
+    fltSpeed: 50,
+    range: [1.3, 1.5]
   },
   {
     id: "Tatsu",
@@ -5979,7 +6658,8 @@ export const meleeWeaponData = [
     critChance: 0.11,
     fireRate: 1,
     slideDmg: 192,
-    status: 0.23
+    status: 0.23,
+    range: [2.12, 0.18]
   },
   {
     id: "Korrudo",
@@ -5991,7 +6671,8 @@ export const meleeWeaponData = [
     fireRate: 0.833,
     slideDmg: 244,
     status: 0.09,
-    pol: "r"
+    pol: "r",
+    range: [0.24, 1.66]
   },
   // 显赫武器
   {

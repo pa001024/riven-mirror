@@ -76,11 +76,13 @@ export class GunWeapon extends Weapon implements GunWeaponData {
 }
 export class MeleeWeapon extends Weapon implements MeleeWeaponData {
   slideDmg: number;
-  fltSpeed: number;
+  fltSpeed?: number;
+  range?: [number, number];
   constructor(data: MeleeWeaponData) {
     super(data);
     this.slideDmg = data.slideDmg;
     this.fltSpeed = data.fltSpeed;
+    this.range = data.range;
   }
 }
 

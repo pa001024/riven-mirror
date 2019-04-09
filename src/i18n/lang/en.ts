@@ -1009,6 +1009,7 @@ let po = {
     proc: "Proc",
     status: "Status",
     damage: "Damage",
+    range: "Range",
     panelDamage: "Panel DMG",
     attackDamage: "Attack DPH",
     slideDamage: "Slide DPH",

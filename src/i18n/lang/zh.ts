@@ -2541,6 +2541,7 @@ let po = {
     proc: "触发",
     status: "触发几率",
     damage: "伤害",
+    range: "范围",
     panelDamage: "面板伤害",
     attackDamage: "攻击伤害",
     slideDamage: "滑砍伤害",
