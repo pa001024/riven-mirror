@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.5.1";
+export const version = "1.5.2";
 export const updateLogs = [
+  {
+    version: "1.5.2",
+    date: "2019/4/9",
+    md: {
+      en: `- Add range support of melee weapons`,
+      cn: `- 添加近战范围显示`
+    }
+  },
   {
     version: "1.5.1",
     date: "2019/4/3",
@@ -21,6 +29,7 @@ export const updateLogs = [
 - 设置: 添加夜间模式`
     }
   },
+  /*
   {
     version: "1.4.21",
     date: "2019/3/25",
@@ -31,7 +40,6 @@ export const updateLogs = [
 - 配置缩略图改进`
     }
   },
-  /*
   {
     version: "1.4.20",
     date: "2019/3/16",

@@ -1280,7 +1280,8 @@ let po = {
   modular: {
     damage: "Damage",
     slideDamage: "Slide Damage",
-    fireRate: "Firerate",
+    fireRate: "Fire rate",
+    range: "Range",
     status: "Status",
     critDamage: "Crit damage",
     critChance: "Crit chance",

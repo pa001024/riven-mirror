@@ -2888,6 +2888,7 @@ let po = {
     damage: "傷害",
     slideDamage: "滑行攻擊",
     fireRate: "攻速",
+    range: "範圍",
     status: "觸發",
     critDamage: "暴擊倍率",
     critChance: "暴擊機率",
