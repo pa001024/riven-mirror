@@ -729,7 +729,8 @@ export class WarframeBuild {
     if (code.startsWith("!") || code.startsWith("_")) code = "00000000000000000000" + code;
     let normal = code.match(/..(?:@.)?/g).slice(0, 10);
     let subPart = code.substr(normal.join("").length);
-    let buffIdx = subPart.indexOf("!");
+    let buffIdx = subPart.indexOf("_");
+    if (buffIdx < 0) buffIdx = subPart.indexOf("!");
     let buffseq = subPart.substr(buffIdx + 1);
     let bufflist = [];
     buffseq.split(/[!_]/g).forEach(buff => {

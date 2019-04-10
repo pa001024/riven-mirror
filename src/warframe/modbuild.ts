@@ -290,7 +290,8 @@ export abstract class ModBuild {
     if (code.startsWith("!") || code.startsWith("_")) code = "0000000000000000" + code;
     let normal = code.match(/..(?:@.)?/g).slice(0, 8);
     let subPart = code.substr(normal.join("").length);
-    let buffIdx = subPart.indexOf("!");
+    let buffIdx = subPart.indexOf("_");
+    if (buffIdx < 0) buffIdx = subPart.indexOf("!");
     let riven = buffIdx >= 0 ? subPart.substr(0, buffIdx) : subPart;
     let buffseq = subPart.substr(buffIdx + 1);
     let bufflist = [];
