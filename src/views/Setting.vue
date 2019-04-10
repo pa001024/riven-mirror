@@ -35,7 +35,7 @@
               <el-switch class="right-side" size="small" v-model="nightMode"></el-switch>
             </div>
           </div>
-          <!-- 夜间设置 -->
+          <!-- 大屏模式 -->
           <div class="item" :label="$t('setting.bigmode')">
             <label>
               {{$t('setting.bigmode')}}
@@ -43,6 +43,16 @@
             </label>
             <div class="content">
               <el-switch class="right-side" size="small" v-model="bigScreenMode"></el-switch>
+            </div>
+          </div>
+          <!-- 紫卡编辑器 -->
+          <div class="item" :label="$t('setting.legacyriven')">
+            <label>
+              {{$t('setting.legacyriven')}}
+              <Tip :content="$t('setting.legacyrivenTip')"/>
+            </label>
+            <div class="content">
+              <el-switch class="right-side" size="small" v-model="legacyRivenEditorMode"></el-switch>
             </div>
           </div>
         </div>
@@ -60,9 +70,11 @@ import { Getter, Action } from "vuex-class";
 @Component
 export default class Setting extends Vue {
   @Getter("invert") invert: boolean;
-  @Action("setInvert") setInvert: (text: boolean) => void;
+  @Action("setInvert") setInvert: (value: boolean) => void;
   @Getter("bigScreen") bigScreen: boolean;
-  @Action("setBigScreen") setBigScreen: (text: boolean) => void;
+  @Action("setBigScreen") setBigScreen: (value: boolean) => void;
+  @Getter("legacyRivenEditor") legacyRivenEditor: boolean;
+  @Action("setLegacyRivenEditor") setLegacyRivenEditor: (value: boolean) => void;
 
   setlang(lang: string) {
     changeLocale(lang);
@@ -88,6 +100,14 @@ export default class Setting extends Vue {
   }
   set bigScreenMode(val: boolean) {
     this.setBigScreen(val);
+  }
+
+  // 老版本紫卡编辑器
+  get legacyRivenEditorMode() {
+    return this.legacyRivenEditor;
+  }
+  set legacyRivenEditorMode(val: boolean) {
+    this.setLegacyRivenEditor(val);
   }
 }
 </script>

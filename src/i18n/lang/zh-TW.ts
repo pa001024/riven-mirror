@@ -2905,7 +2905,10 @@ let po = {
     bugreport: "BUG反饋",
     ui: "介面設定",
     nightmode: "夜間模式",
-    bigmode: "大屏模式"
+    bigmode: "大屏模式",
+    bigmodeTip: "在高DPI的手機上讓某些介面變得更小",
+    legacyriven: "老版紫卡編輯器",
+    legacyrivenTip: "使用一個老的文字輸入框版本"
   },
   modular: {
     damage: "傷害",

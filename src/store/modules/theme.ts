@@ -7,12 +7,14 @@ interface ThemeState {
   invert: boolean;
   theme: string;
   bigScreen: boolean;
+  legacyRivenEditor: boolean;
 }
 
 // mutations
 const SET_INVERT = "SET_INVERT";
 const SET_THEME = "SET_THEME";
 const SET_BIGSCREEN = "SET_BIGSCREEN";
+const SET_LEGACYRIVENEDITOR = "SET_LEGACYRIVENEDITOR";
 
 export default class ThemeModule implements Module<ThemeState, RootState> {
   state: ThemeState;
@@ -27,6 +29,10 @@ export default class ThemeModule implements Module<ThemeState, RootState> {
     [SET_BIGSCREEN](state, bigScreen: boolean) {
       state.bigScreen = bigScreen;
       localStorage.setItem("bigScreen", bigScreen ? "1" : "0");
+    },
+    [SET_LEGACYRIVENEDITOR](state, legacyRivenEditor: boolean) {
+      state.legacyRivenEditor = legacyRivenEditor;
+      localStorage.setItem("legacyRivenEditor", legacyRivenEditor ? "1" : "0");
     }
   };
 
@@ -36,13 +42,17 @@ export default class ThemeModule implements Module<ThemeState, RootState> {
     },
     async setBigScreen(ctx, bigScreen: boolean) {
       ctx.commit(SET_BIGSCREEN, bigScreen);
+    },
+    async setLegacyRivenEditor(ctx, legacyRivenEditor: boolean) {
+      ctx.commit(SET_LEGACYRIVENEDITOR, legacyRivenEditor);
     }
   };
 
   getters: GetterTree<ThemeState, RootState> = {
     invert: state => state.invert,
     theme: state => state.theme,
-    bigScreen: state => state.bigScreen
+    bigScreen: state => state.bigScreen,
+    legacyRivenEditor: state => state.legacyRivenEditor
   };
 
   constructor(initState: ThemeState) {
@@ -50,6 +60,7 @@ export default class ThemeModule implements Module<ThemeState, RootState> {
       invert: false,
       theme: "defalut",
       bigScreen: !!localStorage.getItem("bigScreen"),
+      legacyRivenEditor: !!localStorage.getItem("legacyRivenEditor"),
       ...initState
     };
   }

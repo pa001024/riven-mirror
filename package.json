@@ -17,6 +17,7 @@
     "echarts": "^4.1.0",
     "element-ui": "^2.6.1",
     "fastclick": "^1.0.6",
+    "fuse.js": "^3.4.4",
     "lodash": "^4.17.4",
     "markdown-it": "^8.4.2",
     "qrious": "^4.0.2",

@@ -1277,7 +1277,10 @@ let po = {
     bugreport: "Bug Report",
     ui: "User Interface",
     nightmode: "Night Mode",
-    bigmode: "High DPI Mode"
+    bigmode: "High DPI Mode",
+    bigmodeTip: "Scale more small when use High DPI Phone",
+    legacyriven: "Old Riven Editor",
+    legacyrivenTip: "Use old riven editor using text input"
   },
   modular: {
     damage: "Damage",

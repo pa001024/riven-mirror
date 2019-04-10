@@ -8,8 +8,8 @@
           <div class="prop-picker" v-for="(prop, index) in props" :key="index">
             <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
               <div>
-                <div class="prop-button" v-if="index === 2">
-                  <el-checkbox v-model="is21Negative">{{$t("rivenedit.isNegative")}}</el-checkbox>
+                <div class="prop-button" @click.stop="is21Negative=!is21Negative" v-if="index === 2">
+                  <el-checkbox style="pointer-events: none;" :value="is21Negative">{{$t("rivenedit.isNegative")}}</el-checkbox>
                 </div>
                 <div class="prop-button" v-for="vprop in (index === 3 || is21Negative && index === 2 ? allProps.filter(v => !v.onlyPositive) : allProps)" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
                   {{$t("prop.shortName." + vprop.id)}} ({{index === 0 ? vprop.prefix : (index === 1 ? vprop.prefix + " / " + vprop.subfix : vprop.subfix)}})
@@ -22,8 +22,13 @@
                 </span>
               </el-button>
             </el-popover>
-            <el-input-number class="prop-number" @input="handleInput" :disabled="!prop.id" controls-position="right" :placeholder="$t('rivenedit.inputValue')" :precision="1" :step="0.1" :min="-600" :max="600" size="medium" v-model="prop.value">
-            </el-input-number>
+            <el-input-number v-if="legacyRivenEditor"
+              class="prop-number" v-model="prop.value" :disabled="!prop.id" @input="handleInput"
+              controls-position="right" :placeholder="$t('rivenedit.inputValue')"
+              :precision="1" :step="0.1" :min="prop.min" :max="prop.max" size="medium"/>
+            <el-slider v-else
+              class="prop-slider" v-model="prop.value" :disabled="!prop.id" @change="handleInput"
+              :precision="1" :step="0.1" :min="prop.min" :max="prop.max" size="medium" :format-tooltip="v=>v+'%'"/>
             <button class="prop-remove" @click="removeProp(index)">
               <i class="el-icon-remove"></i>
             </button>
@@ -38,27 +43,40 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
 import { RivenWeapon, RivenProperty, RivenPropertyDataBase, RivenDataBase, ModTypeTable } from "@/warframe/codex";
 import { RivenMod, toNegaUpLevel, toUpLevel } from "@/warframe/rivenmod";
+import { Getter } from "vuex-class";
 
 interface CascaderValue {
-  value: string
-  label: string
+  value: string;
+  label: string;
   children?: CascaderValue[];
 }
+
+interface EditorProp {
+  id: string;
+  prop: RivenProperty;
+  value: number;
+  visable: boolean;
+  min: number;
+  max: number;
+}
+
+const defalutEditorProp = () => ({ id: "", prop: null, value: 0, visable: false, min: -1, max: 1 } as EditorProp);
+
 @Component
 export default class RivenEditor extends Vue {
+  @Getter("legacyRivenEditor") legacyRivenEditor: boolean;
   @Model("change") value;
   @Prop() weapon: RivenWeapon;
-  riven: RivenMod = null
+  riven: RivenMod = null;
   nameOptions: CascaderValue[] = [];
   selectWeapon = [];
   mod = "";
-  props: { id: string, prop: RivenProperty, value: number, visable: boolean }[] = [];
+  props: EditorProp[] = [];
   is21Negative = false;
-  get allProps() { return RivenPropertyDataBase[this.mod].filter(v => !this.props.some(k => k.id === v.id)); }
-  // cnpyFilter(input: string) {
-  //   let names = input.match(/^\w+$/) && CNPY_RivenWeapon.find(input) || [input];
-  //   return this.nameOptions.filter(v => names.some(k => v.label.indexOf(k) >= 0));
-  // }
+  get allProps() {
+    return RivenPropertyDataBase[this.mod].filter(v => !this.props.some(k => k.id === v.id));
+  }
+
   // === 事件处理 ===
   /** 武器变更 */
   @Watch("weapon")
@@ -68,7 +86,7 @@ export default class RivenEditor extends Vue {
     [this.riven.id, this.riven.name, this.riven.mod] = [rWeapon.id, rWeapon.name, rWeapon.mod];
     this.mod = rWeapon.mod;
     this.is21Negative = false;
-    this.props = [{ id: "", prop: null, value: 0, visable: false }];
+    this.props = [defalutEditorProp()];
     this.updateRiven();
   }
   handleInput() {
@@ -81,20 +99,21 @@ export default class RivenEditor extends Vue {
     this.props[index].visable = false;
 
     let props = this.props.filter(v => v.prop);
-    let lastProp = _.last(props), hasNegative = !lastProp.prop.negative !== lastProp.value >= 0;
-    let pUpLevel = toUpLevel(props.length, hasNegative), nUpLevel = toNegaUpLevel(props.length, hasNegative);
+    let lastProp = _.last(props),
+      hasNegative = !lastProp.prop.negative !== lastProp.value >= 0;
+    let pUpLevel = toUpLevel(props.length, hasNegative),
+      nUpLevel = toNegaUpLevel(props.length, hasNegative);
     this.props[index].value = (hasNegative && index === props.length - 1 ? -nUpLevel : pUpLevel) * RivenDataBase.getPropBaseValue(this.riven.id, id);
-    if (this.props.length < 4 && !this.props.filter(v => !v.id).length) this.props.push({ id: "", prop: null, value: 0, visable: false });
+    if (this.props.length < 4 && !this.props.filter(v => !v.id).length) this.props.push(defalutEditorProp());
     if (index >= props.length - 1) this.refill();
     this.updateRiven();
   }
   /** 删除属性 */
   removeProp(index: number) {
-    if (this.props.length === 1)
-      this.props = [{ id: "", prop: null, value: 0, visable: false }];
+    if (this.props.length === 1) this.props = [defalutEditorProp()];
     else {
       this.props.splice(index, 1);
-      if (this.props.length < 4 && !this.props.filter(v => !v.id).length) this.props.push({ id: "", prop: null, value: 0, visable: false });
+      if (this.props.length < 4 && !this.props.filter(v => !v.id).length) this.props.push(defalutEditorProp());
     }
     this.refill();
     this.updateRiven();
@@ -103,13 +122,18 @@ export default class RivenEditor extends Vue {
   refill() {
     let props = this.props.filter(v => v.prop);
     if (props.length > 1) {
-      let lastProp = _.last(props), hasNegative = this.is21Negative || !lastProp.prop.negative !== lastProp.value >= 0;
+      let lastProp = _.last(props),
+        hasNegative = this.is21Negative || !lastProp.prop.negative !== lastProp.value >= 0;
       this.is21Negative = false;
       // 正面属性增幅, 负面属性增幅
-      let pUpLevel = toUpLevel(props.length, hasNegative), nUpLevel = toNegaUpLevel(props.length, hasNegative);
+      let pUpLevel = toUpLevel(props.length, hasNegative),
+        nUpLevel = toNegaUpLevel(props.length, hasNegative);
       props.forEach((v, i) => {
         let base = RivenDataBase.getPropBaseValue(this.riven.id, v.id);
-        this.props[i].value = base * (hasNegative && i === props.length - 1 ? -nUpLevel : pUpLevel);
+        let mid = base * (hasNegative && i === props.length - 1 ? -nUpLevel : pUpLevel);
+        this.props[i].value = +mid.toFixed(1);
+        this.props[i].min = +((mid > 0 ? 0.89 : 1.11) * mid).toFixed(1);
+        this.props[i].max = +((mid > 0 ? 1.11 : 0.89) * mid).toFixed(1);
       });
     }
   }
@@ -121,9 +145,8 @@ export default class RivenEditor extends Vue {
   // === 生命周期钩子 ===
   beforeMount() {
     _.forEach(ModTypeTable, ({ name, include }, id) => {
-      let rWeapons = RivenDataBase.Weapons.filter(v => include.includes(v.mod)  && v.ratio > 0.1).map(v => ({ value: v.id, label: v.name }));
-      if (rWeapons.length > 0)
-        this.nameOptions.push({ value: id, label: this.$t(`weaponselector.${name}`) as string, children: rWeapons });
+      let rWeapons = RivenDataBase.Weapons.filter(v => include.includes(v.mod) && v.ratio > 0.1).map(v => ({ value: v.id, label: v.name }));
+      if (rWeapons.length > 0) this.nameOptions.push({ value: id, label: this.$t(`weaponselector.${name}`) as string, children: rWeapons });
     });
     if (this.weapon) this.handleChange();
   }
@@ -143,6 +166,11 @@ export default class RivenEditor extends Vue {
   .prop-number {
     flex: 1;
     margin-left: 8px;
+  }
+  .prop-slider {
+    flex: 1;
+    margin-left: 12px;
+    margin-right: 4px;
   }
   .el-popover {
     max-width: calc(100vw - 35px);
