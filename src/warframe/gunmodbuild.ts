@@ -33,6 +33,7 @@ export interface GunModBuildOptions {
   arcanes?: Arcane[];
   target?: Enemy;
   amrorReduce?: number;
+  burstSampleSize?: number;
 }
 /** 枪类 */
 export class GunModBuild extends ModBuild {
@@ -139,6 +140,7 @@ export class GunModBuild extends ModBuild {
     this.arcanes = typeof options.arcanes !== "undefined" ? options.arcanes : this.arcanes;
     this.target = typeof options.target !== "undefined" ? options.target : this.target;
     this.amrorReduce = typeof options.amrorReduce !== "undefined" ? options.amrorReduce : this.amrorReduce;
+    this.burstSampleSize = typeof options.burstSampleSize !== "undefined" ? options.burstSampleSize : this.burstSampleSize;
   }
   get options(): GunModBuildOptions {
     return {
@@ -153,7 +155,8 @@ export class GunModBuild extends ModBuild {
       extraOverall: this.extraOverall,
       arcanes: this.arcanes,
       target: this.target,
-      amrorReduce: this.amrorReduce
+      amrorReduce: this.amrorReduce,
+      burstSampleSize: this.burstSampleSize
     };
   }
   /**
@@ -267,10 +270,6 @@ export class GunModBuild extends ModBuild {
   get panelBaseDamageMul() {
     return hAccMul(this.baseDamageMul, this.multishotMul);
   }
-  /** 爆发伤害增幅倍率 */
-  get burstDamageMul() {
-    return hAccMul(this.totalDamageMul, this.fireRateMul);
-  }
   /** [overwrite] 平均暴击区增幅倍率 */
   get critDamageMul() {
     // 私法系列的暴击强化可以直接加在这里 因为白字无加成 去掉不暴击的概率
@@ -318,7 +317,7 @@ export class GunModBuild extends ModBuild {
   }
   /** 原爆发伤害 */
   get oriBurstDamage() {
-    return hAccMul(this.oriTotalDamage, this.weapon.fireRate);
+    return hAccMul(this.oriTotalDamage, this.oriBurstSampleFireRate);
   }
 
   // 首发相关
@@ -349,8 +348,53 @@ export class GunModBuild extends ModBuild {
 
   /** 爆发伤害 */
   get burstDamage() {
-    return hAccMul(this.totalDamage, this.fireRate);
+    return hAccMul(this.totalDamage, this.burstSampleFireRate);
   }
+
+  /** 爆发取样等效射速 */
+  get burstSampleFireRate() {
+    const { fireRate: f, reloadTime: r, effectiveMagazineSize: m, burstSampleSize: b } = this;
+    if (!b) return f;
+    const isCharge = this.weapon.tags.includes("Charge");
+    let ar = isCharge ? m / f : (m - 1) / f, // 射完子弹需要的时间
+      rt = isCharge ? m / f + r : (m - 1) / f + r; // 整个周期需要的时间
+    // 时间不足射完弹匣
+    if (b < ar) {
+      return f;
+    } //时间刚好射完弹匣
+    else if (b < rt) {
+      return m / b;
+    } // 射完换了弹还在射
+    else {
+      const rs = ~~(b / rt); // 总共射了几轮
+      const rr = b - rs * rt; // 还剩多少时间
+      return (m * rs + (isCharge ? Math.floor : Math.ceil)(rr * f)) / b;
+    }
+  }
+
+  /** 原爆发取样等效射速 */
+  get oriBurstSampleFireRate() {
+    const { fireRate: f, reload: r, magazine } = this.weapon;
+    const b = this.burstSampleSize;
+    if (!b) return f;
+    const m = ~~(magazine / this.ammoCost);
+    const isCharge = this.weapon.tags.includes("Charge");
+    let ar = isCharge ? m / f : (m - 1) / f, // 射完子弹需要的时间
+      rt = isCharge ? m / f + r : (m - 1) / f + r; // 整个周期需要的时间
+    // 时间不足射完弹匣
+    if (b < ar) {
+      return f;
+    } //时间刚好射完弹匣
+    else if (b < rt) {
+      return m / b;
+    } // 射完换了弹还在射
+    else {
+      const rs = ~~(b / rt); // 总共射了几轮
+      const rr = b - rs * rt; // 还剩多少时间
+      return (m * rs + (isCharge ? Math.floor : Math.ceil)(rr * f)) / b;
+    }
+  }
+
   /** 原持续伤害 */
   get oriSustainedDamage() {
     return hAccMul(this.oriTotalDamage, this.oriSustainedFireRate);

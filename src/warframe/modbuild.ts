@@ -217,6 +217,8 @@ export abstract class ModBuild {
   extraOverall = 0;
   /** 护甲削减 */
   amrorReduce = 0;
+  /** 爆发取样大小 */
+  burstSampleSize = 0;
 
   private _headShotChance = 0;
   /** 爆头概率 */

@@ -2908,7 +2908,11 @@ let po = {
     bigmode: "大屏模式",
     bigmodeTip: "在高DPI的手机上让某些界面变得更小",
     legacyriven: "老版紫卡编辑器",
-    legacyrivenTip: "使用一个老的文字输入框版本"
+    legacyrivenTip: "使用一个老的文字输入框版本",
+    burstsamplesize: "全局爆发采样大小",
+    burstsamplesizeTip: "计算该武器在指定秒数内的平均输出 (△D/△t公式中△t的大小 默认为0)",
+    savedBuilds: "储存的配置",
+    clear: "全部清除"
   },
   modular: {
     damage: "伤害",

@@ -1,5 +1,5 @@
 import { Module, GetterTree, ActionTree, MutationTree } from "vuex";
-// import localStorage from "universal-localstorage";
+import localStorage from "universal-localstorage";
 import RootState from "../state";
 
 // user authentication with JWT
@@ -28,11 +28,13 @@ export default class ThemeModule implements Module<ThemeState, RootState> {
     },
     [SET_BIGSCREEN](state, bigScreen: boolean) {
       state.bigScreen = bigScreen;
-      localStorage.setItem("bigScreen", bigScreen ? "1" : "0");
+      if (bigScreen) localStorage.setItem("bigScreen", "1");
+      else localStorage.removeItem("bigScreen");
     },
     [SET_LEGACYRIVENEDITOR](state, legacyRivenEditor: boolean) {
       state.legacyRivenEditor = legacyRivenEditor;
-      localStorage.setItem("legacyRivenEditor", legacyRivenEditor ? "1" : "0");
+      if (legacyRivenEditor) localStorage.setItem("legacyRivenEditor", "1");
+      else localStorage.removeItem("legacyRivenEditor");
     }
   };
 

@@ -270,7 +270,8 @@ export default class GunBuildEditor extends BaseBuildEditor {
       extraBaseDamage: +this.extraBaseDamage,
       extraOverall: +this.extraOverall,
       arcanes: this.arcanes,
-      amrorReduce: this.amrorReduce / 100
+      amrorReduce: this.amrorReduce / 100,
+      burstSampleSize: this.burstSampleSize
     };
   }
 

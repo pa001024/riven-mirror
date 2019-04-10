@@ -27,32 +27,61 @@
         </div>
         <div class="setting-items">
           <!-- 夜间设置 -->
-          <div class="item">
-            <label>
+          <div class="setting-item">
+            <div class="title">
               {{$t('setting.nightmode')}}
-            </label>
+            </div>
+            <div class="padding"></div>
             <div class="content">
-              <el-switch class="right-side" size="small" v-model="nightMode"></el-switch>
+              <el-switch size="small" v-model="nightMode"/>
             </div>
           </div>
           <!-- 大屏模式 -->
-          <div class="item" :label="$t('setting.bigmode')">
-            <label>
+          <div class="setting-item">
+            <div class="title">
               {{$t('setting.bigmode')}}
               <Tip :content="$t('setting.bigmodeTip')"/>
-            </label>
+            </div>
+            <div class="padding"></div>
             <div class="content">
-              <el-switch class="right-side" size="small" v-model="bigScreenMode"></el-switch>
+              <el-switch size="small" v-model="bigScreen"/>
             </div>
           </div>
           <!-- 紫卡编辑器 -->
-          <div class="item" :label="$t('setting.legacyriven')">
-            <label>
+          <div class="setting-item">
+            <div class="title">
               {{$t('setting.legacyriven')}}
               <Tip :content="$t('setting.legacyrivenTip')"/>
-            </label>
+            </div>
+            <div class="padding"></div>
             <div class="content">
-              <el-switch class="right-side" size="small" v-model="legacyRivenEditorMode"></el-switch>
+              <el-switch size="small" v-model="legacyRivenEditor"/>
+            </div>
+          </div>
+          <!-- 爆发采样大小 -->
+          <div class="setting-item">
+            <div class="title">
+              {{$t('setting.burstsamplesize')}}
+              <Tip :content="$t('setting.burstsamplesizeTip')"/>
+            </div>
+            <div class="padding"></div>
+            <div class="content">
+              <el-radio-group v-model="burstSampleSize" size="mini">
+                <el-radio-button :label="0"></el-radio-button>
+                <el-radio-button :label="0.5"></el-radio-button>
+                <el-radio-button :label="1"></el-radio-button>
+                <el-radio-button :label="2"></el-radio-button>
+              </el-radio-group>
+            </div>
+          </div>
+          <!-- 配置缓存 -->
+          <div class="setting-item">
+            <div class="title">
+              {{$t('setting.savedBuilds')}}
+            </div>
+            <div class="padding"></div>
+            <div class="content">
+              <el-button type="danger" size="mini">{{$t('setting.clear')}}</el-button>
             </div>
           </div>
         </div>
@@ -69,13 +98,6 @@ import { Getter, Action } from "vuex-class";
 
 @Component
 export default class Setting extends Vue {
-  @Getter("invert") invert: boolean;
-  @Action("setInvert") setInvert: (value: boolean) => void;
-  @Getter("bigScreen") bigScreen: boolean;
-  @Action("setBigScreen") setBigScreen: (value: boolean) => void;
-  @Getter("legacyRivenEditor") legacyRivenEditor: boolean;
-  @Action("setLegacyRivenEditor") setLegacyRivenEditor: (value: boolean) => void;
-
   setlang(lang: string) {
     changeLocale(lang);
     HMT.langSelect(lang);
@@ -86,6 +108,8 @@ export default class Setting extends Vue {
     Vue.nextTick(() => location.reload());
   }
 
+  @Getter("invert") invert: boolean;
+  @Action("setInvert") setInvert: (value: boolean) => void;
   // 夜间模式
   get nightMode() {
     return this.invert;
@@ -94,21 +118,37 @@ export default class Setting extends Vue {
     this.setInvert(val);
   }
 
+  @Getter("bigScreen") _bigScreen: boolean;
+  @Action("setBigScreen") setBigScreen: (value: boolean) => void;
   // 大屏模式
-  get bigScreenMode() {
-    return this.bigScreen;
+  get bigScreen() {
+    return this._bigScreen;
   }
-  set bigScreenMode(val: boolean) {
+  set bigScreen(val: boolean) {
     this.setBigScreen(val);
   }
 
+  @Getter("legacyRivenEditor") _legacyRivenEditor: boolean;
+  @Action("setLegacyRivenEditor") setLegacyRivenEditor: (value: boolean) => void;
   // 老版本紫卡编辑器
-  get legacyRivenEditorMode() {
-    return this.legacyRivenEditor;
+  get legacyRivenEditor() {
+    return this._legacyRivenEditor;
   }
-  set legacyRivenEditorMode(val: boolean) {
+  set legacyRivenEditor(val: boolean) {
     this.setLegacyRivenEditor(val);
   }
+
+  @Getter("burstSampleSize") _burstSampleSize: number;
+  @Action("setBurstSampleSize") setBurstSampleSize: (value: number) => void;
+  // 老版本紫卡编辑器
+  get burstSampleSize() {
+    return this._burstSampleSize;
+  }
+  set burstSampleSize(val: number) {
+    this.setBurstSampleSize(+val);
+  }
+
+  @Action("clearBuilds") clearBuilds: () => void;
 }
 </script>
 <style lang="less">
@@ -127,12 +167,13 @@ export default class Setting extends Vue {
   }
   .setting-items {
     margin: -16px 0;
-    .item {
+    .setting-item {
+      display: flex;
       padding: 8px 0;
       margin: 0;
       border-bottom: 1px solid @text_sliver_light;
 
-      label {
+      .title {
         text-align: right;
         float: left;
         line-height: 40px;
@@ -142,14 +183,11 @@ export default class Setting extends Vue {
       }
       .content {
         line-height: 40px;
-        position: relative;
-        .safebox();
       }
       &:last-child {
         margin-bottom: 0;
         border-bottom: 0;
       }
-      .safebox();
     }
   }
 }

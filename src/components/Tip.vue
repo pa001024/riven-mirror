@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip class="item" effect="dark" :content="content" placement="top">
+  <el-tooltip effect="dark" :content="content" placement="top">
     <i class="el-icon-question"></i>
   </el-tooltip>
 </template>

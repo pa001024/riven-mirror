@@ -3,7 +3,7 @@ import { Vue, Watch } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import { NormalMod, Buff, Weapon, RivenWeapon, BuffData, DamageModelList, SimpleDamageModel, BuffList } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
-import { Getter } from "vuex-class";
+import { Getter, Action } from "vuex-class";
 import localStorage from "universal-localstorage";
 
 declare interface BuildSelectorTab {
@@ -15,8 +15,11 @@ declare interface BuildSelectorTab {
 }
 export abstract class BaseBuildEditor extends Vue {
   @Getter("bigScreen") bigScreen: boolean;
+  @Getter("burstSampleSize") burstSampleSize: number;
+  @Getter("savedBuilds") savedBuilds: { [key: string]: string };
+  @Action("setBuild") setBuild: (build: ModBuild) => void;
   get code() {
-    return this.$route.params.code;
+    return this.$route.params.code || this.savedBuilds[this.weapon.id];
   }
 
   abstract get weapon(): Weapon;
@@ -115,8 +118,10 @@ export abstract class BaseBuildEditor extends Vue {
   }
   pushState() {
     let code = this.build.miniCode;
-    if (code) this.$router.push({ name: "BuildEditorWithCode", params: { code } });
-    else this.$router.push({ name: "BuildEditor" });
+    if (code) {
+      this.$router.push({ name: "BuildEditorWithCode", params: { code } });
+      this.setBuild(this.build);
+    } else this.$router.push({ name: "BuildEditor" });
   }
   fill() {
     this.build.fill(8, 0);
