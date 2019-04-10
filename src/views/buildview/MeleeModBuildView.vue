@@ -20,8 +20,8 @@
               {{$t(build[0])}} &nbsp;-&nbsp; {{build[1].compareDamage.toFixed(1)}} {{selectCompMethodText}}
             </div>
           </template>
-          <el-row type="flex" :gutter="12" class="build-item" style="margin:8px;">
-            <el-col class="build-card" :sm="12" :md="6" :lg="3" v-for="mod in build[1].mods" :key="mod.name">
+          <el-row type="flex" :gutter="12" class="build-item autozoom" style="margin:8px;">
+            <el-col class="build-card" :span="bigScreen ? 12 : 24" :sm="12" :md="6" :lg="3" v-for="mod in build[1].mods" :key="mod.name">
               <div class="build-card-box" :class="[mod.rarity]">
                 <div class="build-card-header">
                   <div class="build-card-name">{{mod.name}}</div>

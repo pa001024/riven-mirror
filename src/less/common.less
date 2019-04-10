@@ -100,3 +100,14 @@
 @mod_x : #a072ce;
 
 @font_main: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+
+.safebox() {
+  &::after,
+  &::before {
+    display: table;
+    content: "";
+  }
+  &::after {
+    clear: both;
+  }
+}

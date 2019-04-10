@@ -177,6 +177,12 @@
 .build-card {
   height: 56px;
   margin-bottom: 12px;
+  &:hover {
+    z-index: 9;
+    .build-card-box {
+      max-height: 300px;
+    }
+  }
 }
 
 .score-text {
@@ -188,8 +194,6 @@
   transition: max-height 0.4s ease-in;
   max-height: 56px;
   margin-bottom: 8px;
-  position: absolute;
-  width: calc(100% - 12px);
   z-index: 8;
   text-align: center;
   cursor: pointer;
@@ -199,33 +203,52 @@
   border-radius: 27px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.12), transparent);
-  &:hover {
-    max-height: 300px;
-    z-index: 9;
+  &.n {
+    background-color: @mod_n;
+  }
+
+  &.c {
+    background-color: @mod_c;
+  }
+
+  &.r {
+    background-color: @mod_r;
+  }
+
+  &.g {
+    background-color: @mod_g;
+  }
+
+  &.l {
+    background-color: @mod_l;
+  }
+
+  &.x {
+    background-color: @mod_x;
   }
 }
 
-.build-card-box.n {
+&.n {
   background-color: @mod_n;
 }
 
-.build-card-box.c {
+&.c {
   background-color: @mod_c;
 }
 
-.build-card-box.r {
+&.r {
   background-color: @mod_r;
 }
 
-.build-card-box.g {
+&.g {
   background-color: @mod_g;
 }
 
-.build-card-box.l {
+&.l {
   background-color: @mod_l;
 }
 
-.build-card-box.x {
+&.x {
   background-color: @mod_x;
 }
 
@@ -248,23 +271,5 @@
     .rank-progress {
       display: none;
     }
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .build-card-box {
-    width: calc(50% - 12px);
-  }
-}
-
-@media only screen and (min-width: 992px) {
-  .build-card-box {
-    width: calc(25% - 12px);
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .build-card-box {
-    width: calc(12.5% - 12px);
   }
 }

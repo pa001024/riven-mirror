@@ -14,15 +14,6 @@
   }
 }
 
-.right-side {
-  float: right;
-  height: 2.8rem;
-
-  &.fill {
-    width: 50%;
-  }
-}
-
 .enemy-info {
   position: relative;
   overflow: hidden;
@@ -34,7 +25,7 @@
   .item {
     display: inline-block;
 
-    &>div {
+    & > div {
       display: inline-block;
       padding: 4px 8px;
       margin-right: 8px;
@@ -84,7 +75,7 @@
 }
 
 .enemy-sim-body {
-  >.el-form-item {
+  > .el-form-item {
     margin: 0;
   }
 }
@@ -120,7 +111,7 @@
     flex-wrap: wrap;
     margin-bottom: 12px;
 
-    >* {
+    > * {
       flex: 1;
     }
   }
@@ -143,7 +134,7 @@
   }
 }
 
-.editor-main>.el-dialog__wrapper {
+.editor-main > .el-dialog__wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -204,13 +195,13 @@
   align-items: center;
   border-left-color: #ffd6d6;
 
-  >.el-icon-plus {
+  > .el-icon-plus {
     font-size: 40px;
     color: @theme_leaf;
     padding: 20px;
   }
 
-  &:hover>.el-icon-plus,
+  &:hover > .el-icon-plus,
   .el-icon-close {
     color: @theme_main;
   }
@@ -304,10 +295,9 @@
 
 .buff-parm {
   .el-input-number {
-
     .el-input-number__decrease,
     .el-input-number__increase,
-    .el-input>input {
+    .el-input > input {
       background: none;
       border: 0;
     }
@@ -315,14 +305,14 @@
 }
 
 @media only screen and (max-width: 1366px) {
-  .editor-main>.el-dialog__wrapper>.el-dialog {
+  .editor-main > .el-dialog__wrapper > .el-dialog {
     width: 70%;
     margin: 0 !important;
   }
 }
 
 @media only screen and (max-width: 992px) {
-  .editor-main>.el-dialog__wrapper>.el-dialog {
+  .editor-main > .el-dialog__wrapper > .el-dialog {
     width: 90%;
     margin: 0 !important;
   }

@@ -3,6 +3,7 @@ import { Vue, Watch } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import { NormalMod, Buff, Weapon, RivenWeapon, BuffData, DamageModelList, SimpleDamageModel, BuffList } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
+import { Getter } from "vuex-class";
 import localStorage from "universal-localstorage";
 
 declare interface BuildSelectorTab {
@@ -13,6 +14,7 @@ declare interface BuildSelectorTab {
   buffs: Buff[];
 }
 export abstract class BaseBuildEditor extends Vue {
+  @Getter("bigScreen") bigScreen: boolean;
   get code() {
     return this.$route.params.code;
   }

@@ -212,7 +212,7 @@
   padding: 0 10px;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.25);
   text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.2);
-  z-index: 999;
+  z-index: 1999;
 
   h1 {
     margin: 0 0 0 16px;
@@ -253,6 +253,15 @@
   display: flex;
   align-items: inherit;
   cursor: pointer;
+}
+
+.right-side {
+  float: right;
+  height: 40px;
+
+  &.fill {
+    width: 50%;
+  }
 }
 
 .header-watch {
@@ -345,10 +354,7 @@ h3 {
 
 /* 移动端缩小字体 */
 @media only screen and (max-width: 444px) {
-  html {
-    font-size: 13px;
-  }
-
+  html,
   body {
     font-size: 13px;
   }
@@ -356,6 +362,15 @@ h3 {
 
 .el-popover {
   max-width: calc(100vw - 35px);
+}
+
+@media only screen and (max-width: 444px) {
+  .bigmode {
+    zoom: 0.95;
+    .autozoom {
+      zoom: 0.73;
+    }
+  }
 }
 
 .invert-theme {

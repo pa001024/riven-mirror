@@ -1,5 +1,5 @@
 <template>
-  <el-container id="app" :class="{fullpage:isFullPage, nosidebar:isIndexPage}">
+  <el-container id="app" :class="{fullpage:isFullPage, nosidebar:isIndexPage, 'bigmode': bigScreen}">
     <header class="main-header" v-if="!isFullPage">
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
@@ -85,6 +85,7 @@ export default class App extends Vue {
   updateMessageVisible = false;
 
   @Getter("invert") invert: boolean;
+  @Getter("bigScreen") bigScreen: boolean;
 
   @Watch("invert")
   themeChange() {

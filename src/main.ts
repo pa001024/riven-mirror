@@ -12,6 +12,8 @@ import qrcode from "@/components/QRCode";
 Vue.component("qrcode", qrcode);
 import WfIcon from "./components/WfIcon.vue";
 Vue.component("WfIcon", WfIcon);
+import Tip from "./components/Tip.vue";
+Vue.component("Tip", Tip);
 
 // Element UI
 import Element from 'element-ui'

@@ -1275,7 +1275,9 @@ let po = {
     lang: "Language Setting",
     default: "Default",
     bugreport: "Bug Report",
-    nightmode: "Night Mode"
+    ui: "User Interface",
+    nightmode: "Night Mode",
+    bigmode: "High DPI Mode"
   },
   modular: {
     damage: "Damage",

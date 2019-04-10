@@ -100,18 +100,18 @@
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
             <!-- MOD区域 -->
-            <el-row type="flex" class="mod-slot-container" :gutter="12">
+            <el-row type="flex" class="mod-slot-container autozoom" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
-                <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
+                <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
                   <component :is="levelSetting ? 'LeveledModSlot' : 'ModSlot'"  @level="refleshMods()" @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
                 </el-col>
               </draggable>
             </el-row>
             <div class="buff-head">{{$t('build.buff')}}</div>
             <!-- Buff区域 -->
-            <el-row type="flex" class="buff-slot-container" :gutter="12">
+            <el-row type="flex" class="buff-slot-container autozoom" :gutter="12">
               <div class="block">
-                <el-col class="list-complete-item" :sm="12" :md="12" :lg="6" v-for="(buff, index) in item.buffs" :key="index">
+                <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6" v-for="(buff, index) in item.buffs" :key="index">
                   <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)" :data-v-step="index===0&&'3'">
                     <template v-if="buff">
                       <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">

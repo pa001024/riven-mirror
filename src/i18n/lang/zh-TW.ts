@@ -2903,7 +2903,9 @@ let po = {
     lang: "語言設定",
     default: "預設",
     bugreport: "BUG反饋",
-    nightmode: "夜間模式"
+    ui: "介面設定",
+    nightmode: "夜間模式",
+    bigmode: "大屏模式"
   },
   modular: {
     damage: "傷害",
