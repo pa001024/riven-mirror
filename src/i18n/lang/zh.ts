@@ -1158,7 +1158,7 @@ let po = {
     tazicor: "泰瑟步枪",
     wolfSledge: "恶狼战锤",
     tatsu: "龙辰",
-    korrudo: "Korrudo",
+    korrudo: "库鲁多",
 
     none: "无",
     balla: "宝拉",

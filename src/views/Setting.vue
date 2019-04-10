@@ -45,6 +45,7 @@ export default class Setting extends Vue {
   setlang(lang: string) {
     changeLocale(lang);
     HMT.langSelect(lang);
+    Vue.nextTick(() => location.reload());
   }
   setDefaultLang() {
     changeLocale(null);

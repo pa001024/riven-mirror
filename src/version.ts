@@ -6,7 +6,7 @@ export const updateLogs = [
     date: "2019/4/9",
     md: {
       en: `- Add range support of melee weapons`,
-      cn: `- 添加近战范围显示`
+      cn: `- 添加近战范围显示 [查看详细](https://shimo.im/sheets/gPCoXxkrEHMzVf5h/)`
     }
   },
   {

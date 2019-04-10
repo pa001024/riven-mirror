@@ -47,7 +47,7 @@ import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import ZawBuilder from "@/components/ZawBuilder.vue";
 import KitgunBuilder from "@/components/KitgunBuilder.vue";
 import AmpBuilder from "@/components/AmpBuilder.vue";
-import { ModTypeTable, RivenWeapon, RivenWeaponDataBase, RivenDataBase, Zaw, Kitgun, Amp } from "@/warframe/codex";
+import { ModTypeTable, RivenWeapon, RivenDataBase, Zaw, Kitgun, Amp } from "@/warframe/codex";
 
 declare interface WeaponSelectorTab {
   id: string;
@@ -74,7 +74,7 @@ export default class WeaponSelector extends Vue {
       id,
       name,
       // 筛选
-      rivens: RivenWeaponDataBase.filter(v => include.includes(v.mod) && v.weapons.length > 0),
+      rivens: RivenDataBase.Weapons.filter(v => include.includes(v.mod) && v.weapons.length > 0),
       weapons: []
     }));
   }

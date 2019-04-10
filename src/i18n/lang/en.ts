@@ -90,7 +90,7 @@ let po = {
     kronenPrime: "Kronen Prime",
     kama: "Kama",
     brokenScepter: "Broken Scepter",
-    brokenWar: "Broken-War",
+    brokenWar: "Broken War",
     kogake: "Kogake",
     kogakePrime: "Kogake Prime",
     skana: "Skana",

@@ -2,6 +2,7 @@ import _ from "lodash";
 import { GunWeaponDataBase, MeleeWeaponDataBase, Weapon } from ".";
 import { strSimilarity } from "../util";
 import { i18n } from "@/i18n";
+import { _rivenDataBaseWeapons, _rivenDataBaseWeaponsCY } from "./riven.data";
 
 /**MOD上的裂罅属性 */
 export interface RivenPropertyValue {
@@ -276,337 +277,6 @@ export class RivenWeapon {
   }
 }
 
-const _rivenWeaponDataBase = [
-  // 步枪 Rifle
-  ["Flux Rifle", "Rifle", 1.55],
-  ["Harpak", "Rifle", 1.55],
-  ["Miter", "Rifle", 1.55],
-  ["Mutalist Quanta", "Rifle", 1.55],
-  ["Tetra", "Rifle", 1.5],
-  ["Deth Machine Rifle", "Rifle", 1.46],
-  ["Phage", "Shotgun", 1.46],
-  ["Buzlok", "Rifle", 1.45],
-  ["Attica", "Rifle", 1.42],
-  ["Hind", "Rifle", 1.42],
-  ["Gorgon", "Rifle", 1.4],
-  ["Panthera", "Rifle", 1.4],
-  ["Vulkar", "Rifle", 1.4],
-  ["Glaxion", "Rifle", 1.35],
-  ["Mutalist Cernos", "Rifle", 1.35],
-  ["Paracyst", "Rifle", 1.31],
-  ["Stinger", "Rifle", 1.31],
-  ["Synapse", "Rifle", 1.31],
-  ["Burston", "Rifle", 1.3],
-  ["Daikyu", "Rifle", 1.3],
-  ["Dera", "Rifle", 1.3],
-  ["Ogris", "Rifle", 1.3],
-  ["Penta", "Rifle", 1.3],
-  ["Torid", "Rifle", 1.3],
-  ["Karak", "Rifle", 1.28],
-  ["Grinlok", "Rifle", 1.25],
-  ["Latron", "Rifle", 1.25],
-  ["Quartakk", "Rifle", 1.25],
-  ["Snipetron", "Rifle", 1.25],
-  ["Vulklok", "Rifle", 1.25],
-  ["Zhuge", "Rifle", 1.25],
-  ["Laser Rifle", "Rifle", 1.21],
-  ["Argonak", "Rifle", 1.2],
-  ["Grakata", "Rifle", 1.2],
-  ["Hema", "Rifle", 1.2],
-  ["Javlok", "Rifle", 1.2],
-  ["Paris", "Rifle", 1.2],
-  ["Veldt", "Rifle", 1.2],
-  ["Ferrox", "Rifle", 1.15],
-  ["Opticor", "Rifle", 1.15],
-  ["Scourge", "Rifle", 1.15],
-  ["Stradavar", "Rifle", 1.15],
-  ["Zarr", "Rifle", 1.15],
-  ["Braton", "Rifle", 1.1],
-  ["Cernos", "Rifle", 1.1],
-  ["Dread", "Rifle", 1.1],
-  ["Quanta", "Rifle", 1.1],
-  ["Tiberon", "Rifle", 1.1],
-  ["Zenith", "Rifle", 1.1],
-  ["Nagantaka", "Rifle", 1.05],
-  ["Tenora", "Rifle", 1.05],
-  ["Artax", "Rifle", 1],
-  ["Battacor", "Rifle", 1],
-  ["Baza", "Rifle", 1],
-  ["Cryotra", "Rifle", 1],
-  ["Multron", "Rifle", 1],
-  ["Sybaris", "Rifle", 1],
-  ["Tazicor", "Rifle", 1],
-  ["Vulcax", "Rifle", 1],
-  ["Boltor", "Rifle", 0.95],
-  ["Tonkor", "Rifle", 0.95],
-  ["Lenz", "Rifle", 0.9],
-  ["Lanka", "Rifle", 0.85],
-  ["Simulor", "Rifle", 0.85],
-  ["Supra", "Rifle", 0.85],
-  ["Vectis", "Rifle", 0.85],
-  ["Rubico", "Rifle", 0.8],
-  ["Soma", "Rifle", 0.75],
-  ["Amprex", "Rifle", 0.7],
-  ["Ignis", "Rifle", 0.6],
-
-  // 霰弹枪 Shotgun
-  ["Drakgoon", "Shotgun", 1.48],
-  ["Convectrix", "Shotgun", 1.46],
-  ["Kohm", "Shotgun", 1.4],
-  ["Strun", "Shotgun", 1.35],
-  ["Boar", "Shotgun", 1.34],
-  ["Sobek", "Shotgun", 1.33],
-  ["Astilla", "Shotgun", 1.1],
-  ["Exergis", "Shotgun", 1],
-  ["Phantasma", "Shotgun", 1],
-  ["Sweeper", "Shotgun", 1],
-  ["Corinth", "Shotgun", 0.95],
-  ["Hek", "Shotgun", 0.85],
-  ["Arca Plasmor", "Shotgun", 0.6],
-  ["Tigris", "Shotgun", 0.5],
-
-  // 手枪 Pistol
-  ["Kraken", "Pistol", 1.53],
-  ["Magnus", "Pistol", 1.53],
-  ["Aklato", "Pistol", 1.52],
-  ["Akzani", "Pistol", 1.52],
-  ["Cestra", "Pistol", 1.52],
-  ["Bolto", "Pistol", 1.51],
-  ["Kunai", "Pistol", 1.51],
-  ["Tysis", "Pistol", 1.51],
-  ["Seer", "Pistol", 1.5],
-  ["Spectra", "Pistol", 1.49],
-  ["Stug", "Pistol", 1.48],
-  ["Burst Laser", "Pistol", 1.45],
-  ["Embolist", "Pistol", 1.45],
-  ["Nukor", "Pistol", 1.45],
-  ["Viper", "Pistol", 1.45],
-  ["Talons", "Pistol", 1.44],
-  ["Twin Vipers", "Pistol", 1.41],
-  ["Afuris", "Pistol", 1.39],
-  ["Bronco", "Pistol", 1.35],
-  ["Castanas", "Pistol", 1.35],
-  ["Furis", "Pistol", 1.35],
-  ["Kohmak", "Pistol", 1.35],
-  ["Lato", "Pistol", 1.35],
-  ["Vasto", "Pistol", 1.35],
-  ["Acrid", "Pistol", 1.33],
-  ["Angstrum", "Pistol", 1.3],
-  ["Despair", "Pistol", 1.3],
-  ["Dual Cestra", "Pistol", 1.3],
-  ["Dual Toxocyst", "Pistol", 1.3],
-  ["Fusilai", "Pistol", 1.3],
-  ["Stubba", "Pistol", 1.3],
-  ["Twin Gremlins", "Pistol", 1.3],
-  ["Akmagnus", "Pistol", 1.28],
-  ["Akbronco", "Pistol", 1.25],
-  ["Akjagara", "Pistol", 1.25],
-  ["Azima", "Pistol", 1.25],
-  ["Kulstar", "Pistol", 1.25],
-  ["Twin Kohmak", "Pistol", 1.25],
-  ["Aksomati", "Pistol", 1.2],
-  ["Akvasto", "Pistol", 1.2],
-  ["Twin Rogga", "Pistol", 1.2],
-  ["Zakti", "Pistol", 1.2],
-  ["Knell", "Pistol", 1.15],
-  ["Sicarus", "Pistol", 1.15],
-  ["Zylok", "Pistol", 1.15],
-  ["Brakk", "Pistol", 1.1],
-  ["Cycron", "Pistol", 1.1],
-  ["Hystrix", "Pistol", 1.1],
-  ["Ocucor", "Pistol", 1.1],
-  ["Plinx", "Pistol", 1.1],
-  ["Ballistica", "Pistol", 1.05],
-  ["Lex", "Pistol", 1.05],
-  ["Pox", "Pistol", 1.05],
-  ["Arca Scisco", "Pistol", 1],
-  ["Detron", "Pistol", 1],
-  ["Gaze", "Kitgun", 1],
-  ["Spira", "Pistol", 1],
-  ["Twin Grakatas", "Pistol", 1],
-  ["Hikou", "Pistol", 0.95],
-  ["Pandero", "Pistol", 0.95],
-  ["Rattleguts", "Kitgun", 0.9],
-  ["Aklex", "Pistol", 0.85],
-  ["Tombfinger", "Kitgun", 0.85],
-  ["Akbolto", "Pistol", 0.8],
-  ["Atomos", "Pistol", 0.8],
-  ["Catchmoon", "Kitgun", 0.8],
-  ["Gammacor", "Pistol", 0.8],
-  ["Marelok", "Pistol", 0.8],
-  ["Pyrana", "Pistol", 0.8],
-  ["Sonicor", "Pistol", 0.8],
-  ["Euphona Prime", "Pistol", 0.7],
-  ["Staticor", "Pistol", 0.53],
-  ["Akstiletto", "Pistol", 0.5],
-
-  // 近战 Melee
-  ["Amphis", "Melee", 1.5],
-  ["Ether Daggers", "Melee", 1.49],
-  ["Dark Sword", "Melee", 1.48],
-  ["Cronus", "Melee", 1.48],
-  ["Plasma Sword", "Melee", 1.48],
-  ["Heat Sword", "Melee", 1.48],
-  ["Twin Krohkur", "Melee", 1.48],
-  ["Dual Keres", "Melee", 1.48],
-  ["Dual Skana", "Melee", 1.48],
-  ["Jaw Sword", "Melee", 1.47],
-  ["Pangolin Sword", "Melee", 1.47],
-  ["Kama", "Melee", 1.47],
-  ["Anku", "Melee", 1.46],
-  ["Kogake", "Melee", 1.46],
-  ["Dual Ether", "Melee", 1.45],
-  ["Machete", "Melee", 1.45],
-  ["Ankyros", "Melee", 1.45],
-  ["Ether Reaper", "Melee", 1.45],
-  ["Kestrel", "Melee", 1.45],
-  ["Halikar", "Melee", 1.44],
-  ["Dual Zoren", "Melee", 1.44],
-  ["Ether Sword", "Melee", 1.44],
-  ["Heat Dagger", "Melee", 1.44],
-  ["Dual Heat Swords", "Melee", 1.44],
-  ["Gram", "Melee", 1.44],
-  ["Ceramic Dagger", "Melee", 1.43],
-  ["Kronen", "Melee", 1.43],
-  ["Mire", "Melee", 1.43],
-  ["Nami Solo", "Melee", 1.43],
-  ["Ninkondi", "Melee", 1.41],
-  ["Tekko", "Melee", 1.4],
-  ["Dual Raza", "Melee", 1.4],
-  ["Tonbo", "Melee", 1.38],
-  ["Serro", "Melee", 1.38],
-  ["Ripkas", "Melee", 1.38],
-  ["Furax", "Melee", 1.38],
-  ["Fang", "Melee", 1.36],
-  ["Cerata", "Melee", 1.36],
-  ["Hate", "Melee", 1.36],
-  ["Dragon Nikana", "Melee", 1.35],
-  ["Shaku", "Melee", 1.35],
-  ["Sibear", "Melee", 1.35],
-  ["Gazal Machete", "Melee", 1.35],
-  ["Scoliac", "Melee", 1.32],
-  ["Okina", "Melee", 1.31],
-  ["Tipedo", "Melee", 1.31],
-  ["Lacera", "Melee", 1.31],
-  ["Caustacyst", "Melee", 1.3],
-  ["Prova", "Melee", 1.29],
-  ["Bo", "Melee", 1.29],
-  ["Karyst", "Melee", 1.29],
-  ["Reaper Prime", "Melee", 1.29],
-  ["Deconstructor", "Melee", 1.25],
-  ["Sheev", "Melee", 1.25],
-  ["Kesheg", "Melee", 1.24],
-  ["Sarpa", "Melee", 1.24],
-  ["Skana", "Melee", 1.22],
-  ["Krohkur", "Melee", 1.22],
-  ["Glaive", "Melee", 1.22],
-  ["Dark Split-Sword", "Melee", 1.21],
-  ["Volnus", "Melee", 1.2],
-  ["Broken Scepter", "Melee", 1.19],
-  ["Twin Basolk", "Melee", 1.18],
-  ["Nami Skyla", "Melee", 1.175],
-  ["Redeemer", "Melee", 1.17],
-  ["Dual Ichor", "Melee", 1.16],
-  ["Orvius", "Melee", 1.15],
-  ["Dakra Prime", "Melee", 1.15],
-  ["Dex Dakra", "Melee", 1.15],
-  ["Destreza", "Melee", 1.14],
-  ["Obex", "Melee", 1.1],
-  ["Magistar", "Melee", 1.09],
-
-  ["Balla", "Zaw", 1],
-  ["Cyath", "Zaw", 1],
-  ["Dehtat", "Zaw", 1],
-  ["Dokrahm", "Zaw", 1],
-  ["Rabvee", "Zaw", 1],
-  ["Mewan", "Zaw", 1],
-  ["Kronsh", "Zaw", 1],
-  ["Ooltha", "Zaw", 1],
-  ["Plague Keewar", "Zaw", 1],
-  ["Plague Kripath", "Zaw", 1],
-
-  ["Tatsu", "Melee", 1],
-  ["Wolf Sledge", "Melee", 1],
-  ["Galvacord", "Melee", 1],
-  ["Cadus", "Melee", 1],
-  ["Kreska", "Melee", 1],
-  ["Paracesis", "Melee", 1],
-  ["Pupacyst", "Melee", 1],
-  ["Falcor", "Melee", 1],
-  ["Gunsen", "Melee", 1],
-  ["Cobra & Crane", "Melee", 1],
-  ["Silva & Aegis", "Melee", 1],
-  ["Sigma & Octantis", "Melee", 1],
-  ["Dual Cleavers", "Melee", 1],
-  ["Arca Titron", "Melee", 1],
-  ["Endura", "Melee", 1],
-  ["Scindo", "Melee", 1],
-  ["Sepfahn", "Melee", 1],
-  ["Cassowar", "Melee", 1],
-  ["Boltace", "Melee", 1],
-  ["Skiajati", "Melee", 1],
-  ["Ohma", "Melee", 0.97],
-  ["Fragor", "Melee", 0.96],
-  ["Mios", "Melee", 0.95],
-  ["Heliocor", "Melee", 0.94],
-  ["Guandao", "Melee", 0.9],
-  ["Ack & Brunt", "Melee", 0.9],
-  ["Sydon", "Melee", 0.84],
-  ["Jat Kusar", "Melee", 0.81],
-  ["Dual Kamas", "Melee", 0.81],
-  ["Broken War", "Melee", 0.79],
-  ["Jat Kittag", "Melee", 0.75],
-  ["War", "Melee", 0.5],
-  ["Atterax", "Melee", 0.5],
-  ["Dark Dagger", "Melee", 0.5],
-  ["Galatine", "Melee", 0.5],
-  ["Lesion", "Melee", 0.5],
-  ["Hirudo", "Melee", 0.5],
-  ["Zenistar", "Melee", 0.5],
-  ["Lecta", "Melee", 0.5],
-  ["Venka", "Melee", 0.5],
-  ["Nikana", "Melee", 0.5],
-  ["Orthos", "Melee", 0.5],
-  ["Korrudo", "Melee", 0.5],
-
-  // 技能武器 Exalted Weapon
-  ["Regulators", "Pistol", 0],
-  ["Iron Staff", "Melee", 0],
-  ["Valkyr Talons", "Melee", 0],
-  ["Exalted Blade", "Melee", 0],
-  ["Diwata", "Melee", 0],
-  ["Artemis Bow", "Rifle", 0],
-  ["Dex Pixia", "Pistol", 0],
-  ["Whipclaw", "Melee", 0],
-  ["Shattered Lash", "Melee", 0],
-  ["Desert Wind", "Melee", 0],
-  ["Landslide", "Melee", 0],
-  ["Balefire", "Pistol", 0],
-
-  // Archgun
-  ["Larkspur", "Archgun", 1],
-  ["Phaedra", "Archgun", 1],
-  ["Velocitus", "Archgun", 1],
-  ["Imperator", "Archgun", 1],
-  ["Dual Decurion", "Archgun", 1],
-  ["Fluctus", "Archgun", 1],
-  ["Grattler", "Archgun", 1],
-  ["Cyngas", "Archgun", 1],
-  ["Corvas", "Archgun", 1],
-
-  // Archmelee
-  ["Agkuza", "Archmelee", 0],
-  ["Centaur", "Archmelee", 0],
-  ["Kaszas", "Archmelee", 0],
-  ["Knux", "Archmelee", 0],
-  ["Onorix", "Archmelee", 0],
-  ["Rathbone", "Archmelee", 0],
-  ["Veritux", "Archmelee", 0],
-
-  // Amp
-  ["Amp", "Amp", 0]
-] as [string, string, number][];
-
 export const ModTypeTable = {
   Rifle: { name: "rifle", include: ["Rifle"] },
   Shotgun: { name: "shotgun", include: ["Shotgun"] },
@@ -614,8 +284,6 @@ export const ModTypeTable = {
   Melee: { name: "melee", include: ["Melee", "Zaw"] },
   Archwing: { name: "archwing", include: ["Archgun", "Archmelee"] }
 };
-
-export const RivenWeaponDataBase = _rivenWeaponDataBase.map(v => new RivenWeapon(v[0], v[1], v[2]));
 
 const propRegExpsFactory = (name: string) =>
   new RegExp(
@@ -652,9 +320,12 @@ export class RivenDataBase {
     this.reload();
   }
 
+  Weapons: RivenWeapon[];
+
   reload() {
+    this.Weapons = (i18n.locale === "zh-CY" ? _rivenDataBaseWeaponsCY : _rivenDataBaseWeapons).map(v => new RivenWeapon(v[0], v[1], v[2]));
     // 同时添加中英文名称
-    RivenWeaponDataBase.forEach((v, i) => {
+    this.Weapons.forEach((v, i) => {
       this.rWeaponDict.set(v.id, i);
       this.rWeaponDict.set(v.name, i);
     });
@@ -670,10 +341,14 @@ export class RivenDataBase {
     this.instance.reload();
   }
 
+  static get Weapons() {
+    return this.instance.Weapons;
+  }
+
   addWeapon(weapon: Weapon, index: number) {
     this.nWeaponDict.set(weapon.id, index);
     if (!this.nWeaponDict.has(i18n.t(`messages.${weapon.name}`))) this.nWeaponDict.set(i18n.t(`messages.${weapon.name}`), index);
-    let riven = RivenWeaponDataBase[this.rWeaponDict.get(weapon.rivenName || weapon.id)];
+    let riven = this.Weapons[this.rWeaponDict.get(weapon.rivenName || weapon.id)];
     if (!riven) {
       // 部分技能武器
       return;
@@ -726,7 +401,7 @@ export class RivenDataBase {
    * @param name 武器通用名称
    */
   static getRivenWeaponByName(name: string) {
-    return RivenWeaponDataBase[this.instance.rWeaponDict.get(name)];
+    return this.Weapons[this.instance.rWeaponDict.get(name)];
   }
   /**
    * 模糊识别武器名称
@@ -735,7 +410,7 @@ export class RivenDataBase {
   static findMostSimRivenWeapon(name: string) {
     name = name.trim();
     if (this.hasWeapon(name)) return this.getRivenWeaponByName(name);
-    let weaponFinded = _.maxBy(RivenWeaponDataBase, v => _.max([strSimilarity(name, v.id), strSimilarity(name, v.name)]));
+    let weaponFinded = _.maxBy(this.Weapons, v => _.max([strSimilarity(name, v.id), strSimilarity(name, v.name)]));
     return weaponFinded;
   }
   /**

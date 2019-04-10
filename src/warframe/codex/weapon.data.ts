@@ -4966,7 +4966,7 @@ export const meleeWeaponData = [
     slideDmg: 167,
     status: 0.25,
     pol: "r",
-    range: [1.45, 1.65]
+    range: [1.48, 1.57]
   },
   {
     id: "Dual Kamas",
@@ -5101,7 +5101,7 @@ export const meleeWeaponData = [
     slideDmg: 260,
     status: 0.25,
     pol: "r-",
-    range: [1.3, 1.5]
+    range: [2, 1.1]
   },
   {
     id: "Fang",
@@ -5205,7 +5205,7 @@ export const meleeWeaponData = [
     slideDmg: 107,
     status: 0.2,
     pol: "d",
-    range: [1.15, 1.25]
+    range: [0.66, 1.25]
   },
   {
     id: "MK1-Bo",
@@ -5219,7 +5219,7 @@ export const meleeWeaponData = [
     slideDmg: 96,
     status: 0.2,
     pol: "d",
-    range: [1.15, 1.25]
+    range: [0.66, 1.25]
   },
   {
     id: "Bo Prime",
@@ -5233,7 +5233,7 @@ export const meleeWeaponData = [
     slideDmg: 161,
     status: 0.25,
     pol: "dr",
-    range: [1.15, 1.25]
+    range: [0.66, 1.25]
   },
   {
     id: "Fragor",
@@ -5429,7 +5429,7 @@ export const meleeWeaponData = [
     slideDmg: 360,
     status: 0.38,
     pol: "r-",
-    range: [1.76, 1.24]
+    range: [2, 1.1]
   },
   {
     id: "Dual Raza",
@@ -5596,7 +5596,7 @@ export const meleeWeaponData = [
     fireRate: 0.917,
     slideDmg: 167,
     status: 0.25,
-    range: [1.45, 1.65]
+    range: [1.48, 1.57]
   },
   {
     id: "Kronen",
@@ -5635,7 +5635,7 @@ export const meleeWeaponData = [
     slideDmg: 178,
     status: 0.25,
     pol: "r",
-    range: [1.45, 1.65]
+    range: [1.48, 1.57]
   },
   {
     id: "Obex",
@@ -5674,7 +5674,7 @@ export const meleeWeaponData = [
     slideDmg: 189,
     status: 0.25,
     pol: "r",
-    range: [1.45, 1.65]
+    range: [1.48, 1.57]
   },
   {
     id: "Ankyros",
@@ -6308,7 +6308,7 @@ export const meleeWeaponData = [
     slideDmg: 233,
     status: 0.1,
     pol: "r",
-    range: [1.45, 1.65]
+    range: [1.48, 1.57]
   },
   {
     id: "Mire",

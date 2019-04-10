@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Base64, randomNormalDistribution, strSimilarity } from "./util";
 import { base62, debase62 } from "./lib/base62";
-import { Polarity, RivenProperty, RivenDataBase, MeleeWeaponDataBase, GunWeaponDataBase, RivenPropertyDataBase, RivenWeaponDataBase, NormalMod } from "./codex";
+import { Polarity, RivenProperty, RivenDataBase, MeleeWeaponDataBase, GunWeaponDataBase, RivenPropertyDataBase, NormalMod } from "./codex";
 import { HH } from "@/var";
 import { i18n } from "@/i18n";
 
@@ -326,7 +326,7 @@ A段位12023
    */
   random(stype: string = "") {
     const robList = ["Burst Laser", "Vulklok", "Artax", "Vulcax", "Sweeper", "Stinger", "Multron", "Laser Rifle", "Deth Machine", "Cryotra", "Tazicor"];
-    let db = RivenWeaponDataBase.filter(v => v.ratio > 0 && !robList.includes(v.id));
+    let db = RivenDataBase.Weapons.filter(v => v.ratio > 0 && !robList.includes(v.id));
     let data = stype ? db.filter(v => v.mod === stype) : db;
     let { id, name, mod } = data[~~(Math.random() * data.length)];
     let rank = ~~(Math.random() * 8) + 9;
