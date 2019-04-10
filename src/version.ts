@@ -1,6 +1,20 @@
 export const magic = "ALPHA";
-export const version = "1.5.2";
+export const version = "1.5.3";
 export const updateLogs = [
+  {
+    version: "1.5.3",
+    date: "2019/4/11",
+    md: {
+      en: `- UI: add High DPI Mode
+- Riven/Setting: update riven editor
+- Build/Setting: add global burst sample size
+- Build: add build auto save`,
+      cn: `- - UI: 添加移动端部分界面缩放的选项
+- 紫卡: 更新紫卡输入界面
+- 配装: 添加一个爆发伤害计算的采样选项
+- 配装: 添加配装页自动保存功能`
+    }
+  },
   {
     version: "1.5.2",
     date: "2019/4/9",
@@ -19,6 +33,7 @@ export const updateLogs = [
 - MOD "凝固汽油榴弹" 支持`
     }
   },
+  /*
   {
     version: "1.4.22",
     date: "2019/3/30",
@@ -29,7 +44,6 @@ export const updateLogs = [
 - 设置: 添加夜间模式`
     }
   },
-  /*
   {
     version: "1.4.21",
     date: "2019/3/25",
