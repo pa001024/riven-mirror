@@ -1281,7 +1281,7 @@ let po = {
     bigmodeTip: "Scale more small when use High DPI Phone",
     legacyriven: "Old Riven Editor",
     legacyrivenTip: "Use old riven editor using text input",
-    burstsamplesize: "Global Burst Sample Size",
+    burstsamplesize: "Burst Sample Size",
     burstsamplesizeTip: "Calculate the average damage of the weapon for a specified number of seconds (the △t in △D/△t, default is 0)",
     savedBuilds: "Saved builds",
     clear: "CLEAR ALL"

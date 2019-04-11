@@ -2909,7 +2909,7 @@ let po = {
     bigmodeTip: "在高DPI的手機上讓某些介面變得更小",
     legacyriven: "老版紫卡編輯器",
     legacyrivenTip: "使用一個老的文字輸入框版本",
-    burstsamplesize: "全局爆發取樣大小",
+    burstsamplesize: "爆發取樣大小",
     burstsamplesizeTip: "計算該武器在指定秒數內的平均輸出 (△D/△t公式中△t的大小 預設為0)",
     savedBuilds: "儲存的配置",
     clear: "全部清除"

@@ -156,19 +156,23 @@ export default class Setting extends Vue {
 
 .setting {
   margin: 8px;
-  min-width: 200px;
-  .lang {
-    margin: 5px;
-    color: @theme_main;
-    cursor: pointer;
-    &:hover {
-      text-decoration: underline;
+  min-width: 20px;
+  .switch-lang {
+    margin: 0 -5px;
+    .lang {
+      margin: 5px;
+      color: @theme_main;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
   .setting-items {
     margin: -16px 0;
     .setting-item {
       display: flex;
+      flex-wrap: wrap;
       padding: 8px 0;
       margin: 0;
       border-bottom: 1px solid @text_sliver_light;

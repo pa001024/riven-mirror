@@ -1,5 +1,5 @@
 <template>
-  <el-container id="app" :class="{fullpage:isFullPage, nosidebar:isIndexPage, 'bigmode': bigScreen}">
+  <el-container id="app" :class="{fullpage:isFullPage, nosidebar:isIndexPage}">
     <header class="main-header" v-if="!isFullPage">
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
@@ -88,8 +88,9 @@ export default class App extends Vue {
   @Getter("bigScreen") bigScreen: boolean;
 
   @Watch("invert")
+  @Watch("bigScreen")
   themeChange() {
-    document.body.className = this.invert ? "invert-theme" : "";
+    document.querySelector("html").className = [this.invert && "invert-theme", this.bigScreen && "bigmode"].filter(Boolean).join(" ");
   }
 
   get isIndexPage() {
@@ -129,6 +130,7 @@ export default class App extends Vue {
     localStorage.setItem("lastVersion", version);
   }
   mounted() {
+    this.themeChange();
     RivenDataBase.reload();
     const lastVersion = localStorage.getItem("lastVersion") || "0.0.0";
     if (lastVersion !== version) this.updateMessageVisible = true;

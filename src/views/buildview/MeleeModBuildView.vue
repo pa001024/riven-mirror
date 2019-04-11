@@ -50,10 +50,10 @@
     </div>
     <!-- 设置区域 -->
     <div class="setting">
-      <el-form :inline="true" class="build-form-inline">
+      <el-form :inline="true" class="build-form-inline" :size="bigScreen ? 'mini' : 'small'">
         <!-- 选择武器 -->
         <el-form-item :label="$t('buildview.weapon')">
-          <el-select size="small" v-model="selectWeapon" @change="debouncedRecalc" :placeholder="$t('buildview.selectWeapon')">
+          <el-select v-model="selectWeapon" @change="debouncedRecalc" :placeholder="$t('buildview.selectWeapon')">
             <el-option v-for="weapon in riven.weapons" :key="weapon.id" :label="weapon.displayName" :value="weapon.id">
             </el-option>
             <el-option v-for="weapon in vistualWeapons" :key="weapon.id" :label="weapon.displayName" :value="weapon.id">
@@ -62,18 +62,18 @@
         </el-form-item>
         <!-- 选择ZAW组件 -->
         <el-form-item :label="$t('buildview.components')" v-if="riven.isZaw">
-          <el-select style="width:140px" size="small" v-model="gripId" @change="zawPartChange" :placeholder="$t('buildview.selectZawGrip')">
+          <el-select style="width:140px" v-model="gripId" @change="zawPartChange" :placeholder="$t('buildview.selectZawGrip')">
             <el-option v-for="grip in gripList" :key="grip.id" :label="$t(`messages.${grip.name}`)" :value="grip.id">
             </el-option>
           </el-select>
-          <el-select style="width:160px" size="small" v-model="linksId" @change="zawPartChange" :placeholder="$t('buildview.selectZawLinks')">
+          <el-select style="width:160px" v-model="linksId" @change="zawPartChange" :placeholder="$t('buildview.selectZawLinks')">
             <el-option v-for="links in linksList" :key="links.id" :label="$t(`messages.${links.name}`)" :value="links.id">
             </el-option>
           </el-select>
         </el-form-item>
         <!-- 选择比较类型 -->
         <el-form-item>
-          <el-radio-group v-if="!isVirtualWeaponSelected" size="small" v-model="selectCompMethod" @change="debouncedRecalc">
+          <el-radio-group v-if="!isVirtualWeaponSelected" v-model="selectCompMethod" @change="debouncedRecalc">
             <el-radio-button :label="0">{{$t("buildview.attackDamage")}}</el-radio-button>
             <el-radio-button :label="1">{{$t("buildview.slideDamage")}}</el-radio-button>
             <el-radio-button :label="2">{{$t("buildview.attackDamagePS")}}</el-radio-button>
@@ -83,19 +83,19 @@
         <!-- 限制MOD槽位 -->
         <el-form-item :label="$t('buildview.limitSlots')">
           <el-tooltip effect="dark" :content="$t('buildview.limitSlotsTip')" placement="bottom">
-            <el-input-number size="small" v-model="slots" :min="4" :max="8"></el-input-number>
+            <el-input-number v-model="slots" :min="4" :max="8"></el-input-number>
           </el-tooltip>
         </el-form-item>
         <!-- 连击倍率 -->
         <el-form-item :label="$t('buildview.comboMul')">
           <el-tooltip effect="dark" :content="$t('buildview.comboMulTip')" placement="bottom">
-            <el-input-number size="small" v-model="comboMul" @change="debouncedRecalc" :min="1" :max="6" :step="0.5"></el-input-number>
+            <el-input-number v-model="comboMul" @change="debouncedRecalc" :min="1" :max="6" :step="0.5"></el-input-number>
           </el-tooltip>
         </el-form-item>
         <!-- 限制元素类型 -->
         <el-form-item :label="$t('buildview.limitElementsType')">
           <el-tooltip effect="dark" :content="$t('buildview.limitElementsTypeTip')" placement="bottom">
-            <el-select size="small" v-model="selectDamageType" @change="selectDamageTypeChange()" :placeholder="$t('buildview.unlimited')" clearable style="width: 120px;">
+            <el-select v-model="selectDamageType" @change="selectDamageTypeChange()" :placeholder="$t('buildview.unlimited')" clearable style="width: 120px;">
               <el-option v-for="(value, name) in elementTypes" :key="name" :label="$t(`elements.${name}`)" :value="name">
               </el-option>
             </el-select>
@@ -107,7 +107,7 @@
             <div slot="content">
               <div v-html="$t('buildview.extraBaseDamageTip')"></div>
             </div>
-            <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" style="width:120px">
+            <el-input class="chroma-dmg" v-model="extraBaseDamage" style="width:120px">
               <template slot="append">%</template>
             </el-input>
           </el-tooltip>
@@ -118,7 +118,7 @@
             <div slot="content">
               <div v-html="$t('buildview.extraOverallTip')"></div>
             </div>
-            <el-input size="small" class="chroma-dmg" v-model="extraOverall" style="width:120px">
+            <el-input class="chroma-dmg" v-model="extraOverall" style="width:120px">
               <template slot="append">%</template>
             </el-input>
           </el-tooltip>

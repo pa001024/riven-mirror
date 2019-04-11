@@ -53,28 +53,28 @@
     </div>
     <!-- 设置区域 -->
     <div class="setting">
-      <el-form :inline="true" class="build-form-inline">
+      <el-form :inline="true" class="build-form-inline" :size="bigScreen ? 'mini' : 'small'">
         <!-- 选择武器 -->
         <el-form-item :label="$t('buildview.weapon')" v-if="riven.weapons.length > 1">
-          <el-select size="small" v-model="selectWeapon" @change="debouncedRecalc" :placeholder="$t('buildview.selectWeapon')">
+          <el-select v-model="selectWeapon" @change="debouncedRecalc" :placeholder="$t('buildview.selectWeapon')">
             <el-option v-for="weapon in riven.weapons" :key="weapon.id" :label="weapon.displayName" :value="weapon.id">
             </el-option>
           </el-select>
         </el-form-item>
         <!-- 选择KITGUN组件 -->
         <el-form-item :label="$t('buildview.components')" v-if="riven.isKitgun">
-          <el-select style="width:120px" size="small" v-model="gripId" @change="kitgunPartChange" :placeholder="$t('buildview.selectKitgunGrip')">
+          <el-select style="width:120px" v-model="gripId" @change="kitgunPartChange" :placeholder="$t('buildview.selectKitgunGrip')">
             <el-option v-for="grip in gripList" :key="grip.id" :label="$t(`messages.${grip.name}`)" :value="grip.id">
             </el-option>
           </el-select>
-          <el-select style="width:120px" size="small" v-model="loaderId" @change="kitgunPartChange" :placeholder="$t('buildview.selectKitgunLoader')">
+          <el-select style="width:120px" v-model="loaderId" @change="kitgunPartChange" :placeholder="$t('buildview.selectKitgunLoader')">
             <el-option v-for="loader in loaderList" :key="loader.id" :label="$t(`messages.${loader.name}`)" :value="loader.id">
             </el-option>
           </el-select>
         </el-form-item>
         <!-- 选择比较类型 -->
         <el-form-item>
-          <el-radio-group size="small" v-model="selectCompMethod" @change="debouncedRecalc">
+          <el-radio-group v-model="selectCompMethod" @change="debouncedRecalc">
             <el-tooltip effect="dark" :content="$t('buildview.totalDamageTip')" placement="bottom">
               <el-radio-button :label="0">{{$t("buildview.totalDamage")}}</el-radio-button>
             </el-tooltip>
@@ -92,13 +92,13 @@
         <!-- 限制MOD槽位 -->
         <el-form-item :label="$t('buildview.limitSlots')">
           <el-tooltip effect="dark" :content="$t('buildview.limitSlotsTip')" placement="bottom">
-            <el-input-number size="small" v-model="slots" :min="4" :max="8"></el-input-number>
+            <el-input-number v-model="slots" :min="4" :max="8"></el-input-number>
           </el-tooltip>
         </el-form-item>
         <!-- 限制元素类型 -->
         <el-form-item :label="$t('buildview.limitElementsType')">
           <el-tooltip effect="dark" :content="$t('buildview.limitElementsTypeTip')" placement="bottom">
-            <el-select size="small" v-model="selectDamageType" @change="selectDamageTypeChange()" :placeholder="$t('buildview.unlimited')" clearable style="width: 120px;">
+            <el-select v-model="selectDamageType" @change="selectDamageTypeChange()" :placeholder="$t('buildview.unlimited')" clearable style="width: 120px;">
               <el-option v-for="(value, name) in elementTypes" :key="name" :label="$t(`elements.${name}`)" :value="name">
               </el-option>
             </el-select>
@@ -116,7 +116,7 @@
             <div slot="content">
               <div v-html="$t('buildview.extraBaseDamageTip')"></div>
             </div>
-            <el-input size="small" class="chroma-dmg" v-model="extraBaseDamage" style="width:120px">
+            <el-input class="chroma-dmg" v-model="extraBaseDamage" style="width:120px">
               <template slot="append">%</template>
             </el-input>
           </el-tooltip>
@@ -127,7 +127,7 @@
             <div slot="content">
               <div v-html="$t('buildview.extraOverallTip')"></div>
             </div>
-            <el-input size="small" class="chroma-dmg" v-model="extraOverall" style="width:120px">
+            <el-input class="chroma-dmg" v-model="extraOverall" style="width:120px">
               <template slot="append">%</template>
             </el-input>
           </el-tooltip>

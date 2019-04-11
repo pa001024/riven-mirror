@@ -103,7 +103,12 @@ export default class RivenEditor extends Vue {
       hasNegative = !lastProp.prop.negative !== lastProp.value >= 0;
     let pUpLevel = toUpLevel(props.length, hasNegative),
       nUpLevel = toNegaUpLevel(props.length, hasNegative);
-    this.props[index].value = (hasNegative && index === props.length - 1 ? -nUpLevel : pUpLevel) * RivenDataBase.getPropBaseValue(this.riven.id, id);
+    let mid = (hasNegative && index === props.length - 1 ? -nUpLevel : pUpLevel) * RivenDataBase.getPropBaseValue(this.riven.id, id);
+    if (this.props[index].min != +((mid > 0 ? 0.89 : 1.11) * mid).toFixed(1)) {
+      this.props[index].min = +((mid > 0 ? 0.89 : 1.11) * mid).toFixed(1);
+      this.props[index].max = +((mid > 0 ? 1.11 : 0.89) * mid).toFixed(1);
+      this.props[index].value = mid;
+    }
     if (this.props.length < 4 && !this.props.filter(v => !v.id).length) this.props.push(defalutEditorProp());
     if (index >= props.length - 1) this.refill();
     this.updateRiven();
