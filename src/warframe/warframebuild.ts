@@ -189,6 +189,11 @@ export class WarframeBuild {
   get abilityEfficiencyUnlimited() {
     return ((1 + this._abilityEfficiencyAdd / 100) * this._abilityEfficiencyMul) / 100;
   }
+  /** 技能效率(持续) */
+  get abilityEfficiencyContinuous() {
+    const unlimited = 2 - (2 - this.abilityEfficiencyUnlimited) / this.abilityDuration;
+    return unlimited > 1.75 ? 1.75 : unlimited;
+  }
   /** 技能效率 */
   get abilityEfficiency() {
     return this.abilityEfficiencyUnlimited > 1.75 ? 1.75 : this.abilityEfficiencyUnlimited;
@@ -945,7 +950,7 @@ export class RenderedAbilities {
     return this.data.energyCost * (2 - this.build.abilityEfficiency);
   }
   get energyCostPS() {
-    return (this.data.energyCostPS * (2 - this.build.abilityEfficiencyUnlimited)) / this.build.abilityDuration;
+    return this.data.energyCostPS * (2 - this.build.abilityEfficiencyContinuous);
   }
   get energyCostN() {
     return this.data.energyCostN * (2 - this.build.abilityEfficiency);

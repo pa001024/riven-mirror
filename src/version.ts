@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.5.3";
+export const version = "1.5.4";
 export const updateLogs = [
+  {
+    version: "1.5.4",
+    date: "2019/4/11",
+    md: {
+      en: `- Zaw builder: Plague damage data reworks`,
+      cn: `- Zaw 模拟: 瘟疫伤害数据重置 [查看详细](https://warframe.huijiwiki.com/p/29884)`
+    }
+  },
   {
     version: "1.5.3",
     date: "2019/4/11",

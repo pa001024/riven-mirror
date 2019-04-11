@@ -60,7 +60,7 @@
         <!-- MOD区域 -->
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
-            <el-row type="flex" class="mod-slot-container" :gutter="12">
+            <el-row type="flex" class="mod-slot-container autozoom" :gutter="12">
               <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6">
                 <LeveledModSlot icon="aura" @level="refleshMods()" @change="slotClick(-2)" @remove="slotRemove(-2)" :mod="item.aura" :build="item.build" :polarization="item.build.auraPol"/>
               </el-col>
@@ -68,7 +68,7 @@
                 <LeveledModSlot icon="exilus" @level="refleshMods()" @change="slotClick(-1)" @remove="slotRemove(-1)" :mod="item.exilus" :build="item.build" :polarization="item.build.exilusPol"/>
               </el-col>
             </el-row>
-            <el-row type="flex" class="mod-slot-container" :gutter="12">
+            <el-row type="flex" class="mod-slot-container autozoom" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
                   <LeveledModSlot @level="refleshMods()" @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
@@ -77,7 +77,7 @@
             </el-row>
             <div class="buff-head">{{$t('build.buff')}}</div>
             <!-- Buff区域 -->
-            <el-row type="flex" class="buff-slot-container" :gutter="12">
+            <el-row type="flex" class="buff-slot-container autozoom" :gutter="12">
               <div class="block">
                 <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6" v-for="(buff, index) in item.buffs" :key="index">
                   <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)">

@@ -35,8 +35,8 @@
             {{$t(`zaw.${strike[item.twoHand ? 'twoHand' : 'oneHand'].type}`)}}
           </div>
           <div class="prop">
-            <span>{{item.speed >= 1 ? "+" : ""}}{{+(item.speed - 1).toFixed(3)}} {{$t(`modular.fireRate`)}}</span>
-            <span>{{item.dmg >= 0 ? "+" : ""}}{{item.dmg}} {{$t(`modular.damage`)}}</span>
+            <span>{{+((60+strike.speed+item.speed)/60).toFixed(3)}} {{$t(`modular.fireRate`)}}</span>
+            <span>{{gripDmg(item)}} {{$t(`modular.damage`)}}</span>
           </div>
         </el-radio>
       </div>
@@ -52,10 +52,10 @@
             {{$t(`messages.${item.name}`)}}
           </div>
           <div class="prop">
-            <span>{{item.speed >= 0 ? "+" : ""}}{{item.speed}} {{$t(`modular.fireRate`)}}</span>
-            <span>{{item.dmg >= 0 ? "+" : ""}}{{item.dmg}} {{$t(`modular.damage`)}}</span>
-            <span>{{item.crit >= 0 ? "+" : ""}}{{(item.crit*100).toFixed()}}% {{$t(`modular.critChance`)}}</span>
-            <span>{{item.status >= 0 ? "+" : ""}}{{(item.status*100).toFixed()}}% {{$t(`modular.status`)}}</span>
+            <span>{{+((60+strike.speed+grip.speed+item.speed)/60).toFixed(3)}} {{$t(`modular.fireRate`)}}</span>
+            <span>{{linkDmg(item)}} {{$t(`modular.damage`)}}</span>
+            <span>{{10+strike.crit+item.crit}}% {{$t(`modular.critChance`)}}</span>
+            <span>{{10+strike.status+item.status}}% {{$t(`modular.status`)}}</span>
           </div>
         </el-radio>
       </div>
@@ -96,12 +96,22 @@ export default class extends Vue {
   grip: ZawGrip = null;
   links: ZawLinks = null;
 
-  get zaw() { return new Zaw(this.strike, this.grip, this.links); }
+  get zaw() {
+    return new Zaw(this.strike, this.grip, this.links);
+  }
 
   finish() {
     this.$emit("finish", this.zaw);
   }
 
-}
+  gripDmg(grip: ZawGrip) {
+    let modify = grip.twoHand ? this.strike.twoHand : this.strike.oneHand;
+    return ((72 + this.strike.dmg + grip.dmg) * modify.dmg).toFixed();
+  }
 
+  linkDmg(link: ZawLinks) {
+    let modify = this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand;
+    return ((72 + this.strike.dmg + this.grip.dmg + link.dmg) * modify.dmg).toFixed();
+  }
+}
 </script>

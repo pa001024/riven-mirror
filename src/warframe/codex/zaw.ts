@@ -1,6 +1,7 @@
 import { hAccSum } from "@/warframe/util";
 import { MeleeWeapon } from "@/warframe/codex/weapon";
 import { i18n } from "@/i18n";
+import _ from "lodash";
 
 export enum Stance {
   Daggers, // 匕首
@@ -16,18 +17,18 @@ export enum Stance {
 }
 
 const _zawStrike = [
-  ["0", "Balla", "balla", [["Impact", 3.4], ["Puncture", 40.8], ["Slash", 23.8]], 0.083, 0.18, 0.18, "Daggers", "Staves"],
-  ["1", "Dokrahm", "dokrahm", [["Impact", 10.2], ["Puncture", 23.8], ["Slash", 34]], 0.083, 0.18, 0.18, "Scythes", "HeavyBlade"],
-  ["2", "Kronsh", "kronsh", [["Impact", 60.2], ["Slash", 25.8]], -0.067, 0.18, 0.18, "Machetes", "Polearms"],
-  ["3", "Ooltha", "ooltha", [["Impact", 7.2], ["Puncture", 28.8], ["Slash", 36]], 0.0, 0.18, 0.18, "Swords", "Staves"],
-  ["4", "Rabvee", "rabvee", [["Impact", 51.6], ["Puncture", 4.3], ["Slash", 30.1]], -0.067, 0.18, 0.18, "Machetes", "Hammers"],
-  ["5", "Sepfahn", "sepfahn", [["Impact", 7.2], ["Puncture", 18], ["Slash", 46.8]], 0.0, 0.2, 0.2, "Nikanas", "Staves"],
-  ["6", "Dehtat", "dehtat", [["Impact", 6.8], ["Puncture", 34], ["Slash", 27.2]], 0.083, 0.18, 0.18, "Rapiers", "Polearms"],
-  ["7", "Cyath", "cyath", [["Impact", 14.4], ["Puncture", 3.6], ["Slash", 54]], 0.0, 0.18, 0.18, "Machetes", "Polearms"],
-  ["8", "Mewan", "mewan", [["Impact", 21.5], ["Puncture", 30.1], ["Slash", 34.4]], -0.067, 0.18, 0.18, "Swords", "Polearms"],
-  ["9", "Plague Keewar", "plagueKeewar", [["Impact", 22], ["Puncture", 11], ["Slash", 26], ["Viral", 20.0]], -0.033, 0.18, 0.22, "Scythes", "Staves"],
-  ["A", "Plague Kripath", "plagueKripath", [["Impact", 10], ["Puncture", 25], ["Slash", 15], ["Viral", 20]], 0.033, 0.22, 0.18, "Rapiers", "Polearms"]
-] as [string, string, string, [string, number][], number, number, number, string, string][];
+  ["0", "Balla", -4, [12, 1, 7], 5, 8, 8, "Daggers", "Staves"],
+  ["1", "Dokrahm", -4, [7, 3, 10], 5, 8, 8, "Scythes", "HeavyBlade"],
+  ["2", "Kronsh", 14, [0, 14, 6], -4, 8, 8, "Machetes", "Polearms"],
+  ["3", "Ooltha", 0, [8, 2, 10], 0, 8, 8, "Swords", "Staves"],
+  ["4", "Rabvee", 14, [1, 12, 7], -4, 8, 8, "Machetes", "Hammers"],
+  ["5", "Sepfahn", 0, [5, 2, 13], 0, 10, 10, "Nikanas", "Staves"],
+  ["6", "Dehtat", -4, [10, 2, 8], 5, 8, 8, "Rapiers", "Polearms"],
+  ["7", "Cyath", 0, [1, 4, 15], 0, 8, 8, "Machetes", "Polearms"],
+  ["8", "Mewan", 14, [7, 5, 8], -4, 8, 8, "Swords", "Polearms"],
+  ["9", "Plague Keewar", 0, [-7, 4, 8, 2], -2, 8, 12, "Scythes", "Staves"],
+  ["A", "Plague Kripath", 0, [7, -8, -3, 2], 2, 12, 8, "Rapiers", "Polearms"]
+] as [string, string, number, number[], number, number, number, string, string][];
 
 export const StanceData = {
   Daggers: [1, 2.14286],
@@ -59,7 +60,8 @@ export interface ZawStrike {
   idx: string;
   id: string;
   name: string;
-  dmgs: [string, number][];
+  dmg: number;
+  dmgs: number[];
   speed: number;
   crit: number;
   status: number;
@@ -76,7 +78,8 @@ export interface ZawStrikeModify {
 export const ZawStrikeData: ZawStrike[] = _zawStrike.map(v => ({
   idx: v[0],
   id: v[1],
-  name: v[2],
+  name: _.camelCase(v[1]),
+  dmg: v[2],
   dmgs: v[3],
   speed: v[4],
   crit: v[5],
@@ -86,17 +89,17 @@ export const ZawStrikeData: ZawStrike[] = _zawStrike.map(v => ({
 }));
 
 const _zawGrip = [
-  ["1", "Peye", "peye", 0, -4, 1],
-  ["2", "Plague Akwin", "plagueAkwin", 0, -2, 0.95],
-  ["3", "Laka", "laka", 0, 0, 0.917],
-  ["4", "Kwath", "kwath", 0, 14, 0.85],
-  ["0", "Korb", "korb", 0, 28, 0.784],
-  ["6", "Seekalla", "seekalla", 1, -4, 1],
-  ["8", "Jayap", "jayap", 1, 0, 0.917],
-  ["5", "Plague Bokwin", "plagueBokwin", 1, 7, 0.883],
-  ["9", "Kroostra", "kroostra", 1, 14, 0.85],
-  ["7", "Shtung", "shtung", 1, 28, 0.784]
-] as [string, string, string, number, number, number][];
+  ["1", "Peye", 0, -4, 0],
+  ["2", "Plague Akwin", 0, -2, -3],
+  ["3", "Laka", 0, 0, -5],
+  ["4", "Kwath", 0, 14, -9],
+  ["0", "Korb", 0, 28, -13],
+  ["6", "Seekalla", 1, -4, 0],
+  ["8", "Jayap", 1, 0, -5],
+  ["5", "Plague Bokwin", 1, 7, -10],
+  ["9", "Kroostra", 1, 14, -9],
+  ["7", "Shtung", 1, 28, -13]
+] as [string, string, number, number, number][];
 
 export interface ZawGrip {
   idx: string;
@@ -110,10 +113,10 @@ export interface ZawGrip {
 export const ZawGripData: ZawGrip[] = _zawGrip.map(v => ({
   idx: v[0],
   id: v[1],
-  name: v[2],
-  twoHand: !!v[3],
-  dmg: v[4],
-  speed: v[5]
+  name: _.camelCase(v[1]),
+  twoHand: !!v[2],
+  dmg: v[3],
+  speed: v[4]
 }));
 
 export const NoneZawGripData = {
@@ -122,27 +125,27 @@ export const NoneZawGripData = {
   name: "none",
   twoHand: false,
   dmg: 0,
-  speed: 1
+  speed: 0
 };
 
 const _zawLinks = [
-  ["0", "Jai", "jai", -4, 0.083, 0, 0],
-  ["1", "Jai II", "jaiIi", -8, 0.167, 0, 0],
-  ["2", "Ruhang", "ruhang", 14, -0.067, 0, 0],
-  ["3", "Ruhang II", "ruhangIi", 28, -0.133, 0, 0],
-  ["4", "Ekwana Jai", "ekwanaJai", -4, 0.083, -0.04, 0.07],
-  ["5", "Ekwana Ruhang", "ekwanaRuhang", 14, -0.067, -0.04, 0.07],
-  ["6", "Vargeet Jai", "vargeetJai", -4, 0.083, 0.07, -0.04],
-  ["7", "Vargeet Ruhang", "vargeetRuhang", 14, -0.067, 0.07, -0.04],
-  ["8", "Ekwana II Jai", "ekwanaIiJai", -4, 0.083, -0.08, 0.14],
-  ["9", "Ekwana II Ruhang", "ekwanaIiRuhang", 14, -0.067, -0.08, 0.14],
-  ["A", "Vargeet II Jai", "vargeetIiJai", -4, 0.083, 0.14, -0.08],
-  ["B", "Vargeet II Ruhang", "vargeetIiRuhang", 14, -0.067, 0.14, -0.08],
-  ["C", "Ekwana Jai II", "ekwanaJaiIi", -8, 0.167, -0.04, 0.07],
-  ["D", "Ekwana Ruhang II", "ekwanaRuhangIi", 28, -0.133, -0.04, 0.07],
-  ["E", "Vargeet Jai II", "vargeetJaiIi", -8, 0.167, 0.07, -0.04],
-  ["F", "Vargeet Ruhang II", "vargeetRuhangIi", 28, -0.133, 0.07, -0.04]
-] as [string, string, string, number, number, number, number][];
+  ["0", "Jai", -4, 5, 0, 0],
+  ["1", "Jai II", -8, 10, 0, 0],
+  ["2", "Ruhang", 14, -4, 0, 0],
+  ["3", "Ruhang II", 28, -8, 0, 0],
+  ["4", "Ekwana Jai", -4, 5, -4, 7],
+  ["5", "Ekwana Ruhang", 14, -4, -4, 7],
+  ["6", "Vargeet Jai", -4, 5, 7, -4],
+  ["7", "Vargeet Ruhang", 14, -4, 7, -4],
+  ["8", "Ekwana II Jai", -4, 5, -8, 14],
+  ["9", "Ekwana II Ruhang", 14, -4, -8, 14],
+  ["A", "Vargeet II Jai", -4, 5, 14, -8],
+  ["B", "Vargeet II Ruhang", 14, -4, 14, -8],
+  ["C", "Ekwana Jai II", -8, 10, -4, 7],
+  ["D", "Ekwana Ruhang II", 28, -8, -4, 7],
+  ["E", "Vargeet Jai II", -8, 10, 7, -4],
+  ["F", "Vargeet Ruhang II", 28, -8, 7, -4]
+] as [string, string, number, number, number, number][];
 
 export interface ZawLinks {
   idx: string;
@@ -157,14 +160,14 @@ export interface ZawLinks {
 export const ZawLinksData: ZawLinks[] = _zawLinks.map(v => ({
   idx: v[0],
   id: v[1],
-  name: v[2],
-  dmg: v[3],
-  speed: v[4],
-  crit: v[5],
-  status: v[6]
+  name: _.camelCase(v[1]),
+  dmg: v[2],
+  speed: v[3],
+  crit: v[4],
+  status: v[5]
 }));
 
-export const NoneZawLinksData = {
+export const NoneZawLinksData: ZawLinks = {
   idx: "",
   id: "None",
   name: "none",
@@ -230,14 +233,38 @@ export class Zaw implements MeleeWeapon {
   recalc() {
     this.id = this.strike.id;
     this.name = this.strike.name;
-    let totalDmg = this.strike.dmgs.reduce((a, b) => a + b[1], 0);
     let modify = this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand;
     this.stance = modify.type;
     this.range = modify.range;
-    this.dmg = this.strike.dmgs.map(([vn, vv]) => [vn, +((vv * modify.dmg * (totalDmg + this.grip.dmg + this.links.dmg)) / totalDmg).toFixed(1)] as [string, number]);
-    this.fireRate = hAccSum(this.strike.speed, this.grip.speed, this.links.speed);
-    this.critChance = hAccSum(this.strike.crit, this.links.crit);
-    this.status = hAccSum(this.strike.status, this.links.status);
+    // 60 为基础值 12为镀金加成
+    this.fireRate = +((60 + this.strike.speed + this.grip.speed + this.links.speed) / 60).toFixed(3);
+    this.critChance = (10 + this.strike.crit + this.links.crit) / 100;
+    this.status = (10 + this.strike.status + this.links.status) / 100;
+
+    //  ZAW 计算方法
+
+    //  普通ZAW:
+    //  比例固定 分成20等分 将最后计算结果乘以 基伤/20 即可得到单独属性的值
+
+    //  举例: 原比例 12, 1, 7
+    //  则总计 60伤害时 分配为 36, 3, 21
+
+    //  瘟疫类:
+    //  比例不固定 将最后计算结果等值加到单独属性的基础值上去
+
+    //  举例: 基础值 7, -8, -3, 2
+    //  则总计 46伤害时(+30) 分配为 22.5, 7.5, 12.5, 17.5
+    //  (每项各加30/4=7.5)
+    const dmg = Math.round((60 + 12 + this.strike.dmg + this.grip.dmg + this.links.dmg) * modify.dmg);
+    const DamageTypes = ["Puncture", "Impact", "Slash", "Viral"];
+    let calced: [string, number][];
+    if (this.strike.dmgs.length === 4) {
+      // let totalDmg = this.strike.dmgs.reduce((a, b) => a + b[1], 0);
+      calced = this.strike.dmgs.map((v, i) => [DamageTypes[i], +(v + dmg / 4).toFixed(1)]);
+    } else {
+      calced = this.strike.dmgs.map((v, i) => [DamageTypes[i], +((v * dmg) / 20).toFixed(1)]);
+    }
+    this.dmg = calced.filter(v => v[1] > 0);
   }
   get displayName() {
     return `${i18n.t(`messages.${this.strike.name}`)}-${i18n.t(`messages.${this.grip.name}`)}-${i18n.t(`messages.${this.links.name}`)}` as string;
