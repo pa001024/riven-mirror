@@ -25,7 +25,7 @@
             <el-input-number v-if="legacyRivenEditor"
               class="prop-number" v-model="prop.value" :disabled="!prop.id" @input="handleInput"
               controls-position="right" :placeholder="$t('rivenedit.inputValue')"
-              :precision="1" :step="0.1" :min="prop.min" :max="prop.max" size="medium"/>
+              :precision="1" :step="0.1" size="medium"/>
             <el-slider v-else
               class="prop-slider" v-model="prop.value" :disabled="!prop.id" @change="handleInput"
               :precision="1" :step="0.1" :min="prop.min" :max="prop.max" size="medium" :format-tooltip="v=>v+'%'"/>
