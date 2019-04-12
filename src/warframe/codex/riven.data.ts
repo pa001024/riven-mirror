@@ -250,7 +250,6 @@ export const _rivenDataBaseWeapons = [
 
   ["Korrudo", "Melee", 1],
   ["Tatsu", "Melee", 1],
-  ["Wolf Sledge", "Melee", 1],
   ["Galvacord", "Melee", 1],
   ["Cadus", "Melee", 1],
   ["Kreska", "Melee", 1],
@@ -270,6 +269,7 @@ export const _rivenDataBaseWeapons = [
   ["Boltace", "Melee", 1],
   ["Skiajati", "Melee", 1],
   ["Ohma", "Melee", 0.97],
+  ["Wolf Sledge", "Melee", 0.96],
   ["Fragor", "Melee", 0.96],
   ["Mios", "Melee", 0.95],
   ["Heliocor", "Melee", 0.94],
@@ -580,7 +580,6 @@ export const _rivenDataBaseWeaponsCY = [
   ["Plague Kripath", "Zaw", 1],
 
   ["Tatsu", "Melee", 1],
-  ["Wolf Sledge", "Melee", 1],
   ["Galvacord", "Melee", 1],
   ["Cadus", "Melee", 1],
   ["Kreska", "Melee", 1],
@@ -600,6 +599,7 @@ export const _rivenDataBaseWeaponsCY = [
   ["Boltace", "Melee", 1],
   ["Skiajati", "Melee", 1],
   ["Ohma", "Melee", 0.97],
+  ["Wolf Sledge", "Melee", 0.96],
   ["Fragor", "Melee", 0.96],
   ["Mios", "Melee", 0.95],
   ["Heliocor", "Melee", 0.94],
