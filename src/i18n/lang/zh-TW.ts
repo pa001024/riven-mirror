@@ -2613,6 +2613,7 @@ let po = {
       grineerUnarmored: "Grineer (複製肉體)",
       grineerElite: "Grineer (複製肉體 + 合金裝甲)",
       corpus: "Corpus (肉體)",
+      corpusRobotic: "Corpus (機器)",
       corpusShield: "Corpus (護盾)",
       corpusElite: "Corpus (肉體 + 合金裝甲)",
       corpusEliteShield: "Corpus (原型護盾)",

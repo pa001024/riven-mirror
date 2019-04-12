@@ -275,6 +275,7 @@ const _damageModelList = [
   ["Grineer Unarmored", 1, 1, , , 0, 0],
   ["Grineer Elite", 1, 1, , 1, 0, 0],
   ["Corpus", 2, 0, , , 0, 0],
+  ["Corpus Robotic", 2, 1, , , 0, 0],
   ["Corpus Shield", 2, , 0, , 0, 0],
   ["Corpus Elite", 2, 0, , 1, 0, 0],
   ["Corpus Elite Shield", 2, , 1, , 0, 0],

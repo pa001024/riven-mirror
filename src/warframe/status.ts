@@ -9,7 +9,7 @@ export const procDurationMap = {
   Toxin: 8,
   Blast: 2,
   Corrosive: 6,
-  Gas: 0,
+  Gas: 8,
   Magnetic: 4,
   Radiation: 12,
   Viral: 6,

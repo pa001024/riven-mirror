@@ -1081,6 +1081,7 @@ let po = {
       grineerUnarmored: "Grineer (Cloned Flesh)",
       grineerElite: "Grineer (Cloned Flesh + Alloy Armor)",
       corpus: "Corpus (Flesh)",
+      corpusRobotic: "Corpus (Robotic)",
       corpusShield: "Corpus (Shield)",
       corpusElite: "Corpus (Flesh + Alloy Armor)",
       corpusEliteShield: "Corpus (Proto Shield)",

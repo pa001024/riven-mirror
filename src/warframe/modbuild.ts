@@ -504,9 +504,10 @@ export abstract class ModBuild {
     this._statusInfo = {};
     let { bullets, fireRate, dutyCycle } = this;
     this.procChanceMap.forEach(([vn, vv]) => {
+      if (vv <= 0) return;
       let dur = procDurationMap[vn] * this.procDurationMul;
       let durTick = Math.max(0, ~~dur) + 1;
-      let cor = Math.min(1, Math.max(vv * bullets * this.fireRate * dur, 0));
+      let cor = Math.min(1, Math.max(vv * bullets * fireRate * dur, 0));
       this._statusInfo[vn] = {
         proportion: vv / pwAll,
         duration: dur,
@@ -691,8 +692,7 @@ export abstract class ModBuild {
 
   /** 无多重触发基伤(各属性) */
   get dotBaseDamageMap() {
-    let procs = this.procChanceMap;
-    return procs
+    let procs = this.procChanceMap
       .map(([vn]) => {
         switch (vn) {
           // 切割伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Slash_Damage
@@ -714,6 +714,8 @@ export abstract class ModBuild {
         return null;
       })
       .filter(Boolean) as [DamageType, number][];
+    if (this.damageModel) return this.damageModel.mapDamage(procs, 0, 300) as [string, number][];
+    return procs;
   }
   /** 无多重触发伤害(各属性) */
   get dotDamageMap() {
@@ -759,7 +761,8 @@ export abstract class ModBuild {
     });
     Object.keys(mergedMap).forEach(v => {
       let single = mergedMap[v] * procDurationMap[v] * this.procDurationMul;
-      asQE += single > 1 ? 1 : single;
+      // 爆炸双倍异况
+      asQE += (v === "Blast" ? 2 : 1) * (single > 1 ? 1 : single);
     });
     return asQE;
   }
