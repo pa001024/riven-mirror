@@ -106,6 +106,7 @@ export abstract class ModBuild {
   protected _extraDmgMul = 100;
   protected _critChanceMul = 100;
   protected _critChanceAdd = 0;
+  protected _critWhenHeadshotAdd = 0;
   protected _critMulMul = 100;
   protected _procChanceMul = 100;
   protected _procChanceAdd = 0;
@@ -147,6 +148,10 @@ export abstract class ModBuild {
   /** 加法暴击率增幅倍率 */
   get critChanceAdd() {
     return this._critChanceAdd / 100;
+  }
+  /** 爆头加法暴击率增幅倍率 */
+  get critWhenHeadshotAdd() {
+    return this._critWhenHeadshotAdd / 100;
   }
   /** 暴击伤害增幅倍率 */
   get critMulMul() {
@@ -330,7 +335,8 @@ export abstract class ModBuild {
   }
   /** 暴击率 */
   get critChance() {
-    return Math.max(0, this.critChanceLock != -1 ? this.critChanceLock : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd));
+    if (this.critChanceLock != -1) return this.critChanceLock;
+    return Math.max(0, hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.headShotChance * this.critWhenHeadshotAdd));
   }
   /** 暴击倍率 */
   get critMul() {
@@ -413,7 +419,15 @@ export abstract class ModBuild {
   }
   /** 所有元素增幅倍率 */
   public get elementsMul() {
-    return { Heat: this.heatMul, Cold: this.coldMul, Toxin: this.toxinMul, Electricity: this.electricityMul, Impact: this.impactMul, Puncture: this.punctureMul, Slash: this.slashMul };
+    return {
+      Heat: this.heatMul,
+      Cold: this.coldMul,
+      Toxin: this.toxinMul,
+      Electricity: this.electricityMul,
+      Impact: this.impactMul,
+      Puncture: this.punctureMul,
+      Slash: this.slashMul
+    };
   }
   /** 独立元素 */
   public standaloneElements: [string, number][] = [];
@@ -965,6 +979,7 @@ export abstract class ModBuild {
     this._critChanceMul = 100;
     this._critMulMul = 100;
     this._critChanceAdd = 0;
+    this._critWhenHeadshotAdd = 0;
     this._procChanceMul = 100;
     this._procChanceAdd = 0;
     this._procDurationMul = 100;
@@ -1424,6 +1439,9 @@ export abstract class ModBuild {
         break;
       case "i0":
         /* 加法暴击 critChanceAdd */ this._critChanceAdd = hAccSum(this._critChanceAdd, pValue);
+        break;
+      case "cwh":
+        /* 爆头加法暴击 critWhenHeadshotAdd */ this._critWhenHeadshotAdd = hAccSum(this._critWhenHeadshotAdd, pValue);
         break;
       case "dmg":
         /* 伤害 baseDamageMul */ this._baseDamageMul = hAccSum(this._baseDamageMul, pValue);

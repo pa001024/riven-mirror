@@ -222,7 +222,7 @@ export class GunModBuild extends ModBuild {
   get reloadTime() {
     // 一发发装的武器随弹匣变化
     const perReloadWeapons = ["Zarr", "Corinth", "Strun"];
-    if (perReloadWeapons.includes(this.weapon.rivenName || this.weapon.id)) {
+    if (perReloadWeapons.includes(this.baseId)) {
       return hAccMul(this.magazineSize / this.weapon.magazine, hAccDiv(this.weapon.reload, this.reloadSpeedMul));
     }
     return hAccDiv(this.weapon.reload, this.reloadSpeedMul);
@@ -243,16 +243,6 @@ export class GunModBuild extends ModBuild {
   /** [overwrite] 空占比 */
   get dutyCycle() {
     return this.reloadTime / (this.magazineSize / this.fireRate + this.reloadTime);
-  }
-
-  /** [overwrite] 暴击率 */
-  get critChance() {
-    // 兰卡开镜暴击
-    if (this.critChanceLock != -1) return this.critChanceLock;
-    if ((this.weapon.rivenName || this.weapon.id) === "Lanka") {
-      return Math.max(0, hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, 0.5));
-    }
-    return Math.max(0, hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd));
   }
   /** [overwrite] 暴击倍率 */
   get critMul() {
@@ -451,6 +441,12 @@ export class GunModBuild extends ModBuild {
     this._critLevelUpChance = 0;
     this._firstAmmoMul = 100;
     this._slashWhenCrit = 0;
+
+    // 兰卡开镜暴击
+
+    if (this.baseId === "Lanka") {
+      this._critChanceAdd = 50;
+    }
   }
   /**
    * 自动按武器属性填充MOD
