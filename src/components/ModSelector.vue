@@ -160,7 +160,6 @@ export default class ModSelector extends Vue {
           !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id) &&
           (!(!isVirtual && isExalted) || !AcolyteMods.includes(v.id))) // 近战显赫武器不接受追随者MOD
     );
-    console.log(this.build.options);
     let benefits = mods
       .filter(v => v.props.some(k => v.id === "Berserker" || v.id === "Condition Overload" || "01DSKEGICO456789ARLFJ".indexOf(k[0]) >= 0))
       .map(v => [v, this.build.testMod(v)] as [NormalMod, number])

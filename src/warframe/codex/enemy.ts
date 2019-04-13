@@ -451,7 +451,7 @@ export class SimpleDamageModel extends DamageModelData {
     let eidolonCritDmg = totalDmg + totalDmg * (critChance > 1 ? 1 : critChance);
     // 目标夜灵 无视护盾
     let eidolonDmg = eidolonCritDmg > threshold ? threshold + eidolonCritDmg / 10 : eidolonCritDmg;
-    return mapped.map(([vn, vv]) => [vn, (vv / totalDmg) * eidolonDmg]);
+    return mapped.map(([vn, vv]) => [vn, (vv / totalDmg) * eidolonDmg] as [string, number]);
   }
 }
 export class Procs {
@@ -732,8 +732,7 @@ export class Enemy extends EnemyData {
    *
    * @param {[string, number][]} dmgs 伤害表
    * @param {number} critChance 暴击率
-   * @param {number} threshold 阈值
-   * @returns this
+   * @param {number} [threshold=300] 阈值
    * @memberof Enemy
    */
   applyEidolonDmg(dmgs: [string, number][], critChance: number, threshold = 300) {
@@ -766,7 +765,7 @@ export class Enemy extends EnemyData {
           return [DamageType.Toxin, vv];
         // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
         case "Gas":
-          this.currentProcs.push(DamageType.Toxin, vv * procDamageMul ** 2, durationMul);
+          this.currentProcs.push(DamageType.Toxin, vv * procDamageMul * procDamageMul, durationMul);
           return [DamageType.Toxin, vv];
         // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
         // 注:火焰触发不会叠加
@@ -779,7 +778,7 @@ export class Enemy extends EnemyData {
           return [DamageType.Electricity, vv];
       }
     }) as [DamageType, number][];
-    this.applyDmg(immediateDamages);
+    return this.applyDmg(immediateDamages);
   }
 
   /**

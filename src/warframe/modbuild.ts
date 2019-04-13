@@ -540,9 +540,10 @@ export abstract class ModBuild {
         let dd = dotMap.get(vn);
         // [切割 毒 毒气 电]
         if (vn !== "Heat") {
-          if (bullets > 1) this._statusInfo[vn].instantProcDamage = dd / bullets;
-          this._statusInfo[vn].instantProcDamagePerHit = dd;
-          this._statusInfo[vn].instantProcDamagePerSecond = dd * fireRate;
+          let id = vn === "Gas" ? dotMap.get("Toxin") : dd;
+          if (bullets > 1) this._statusInfo[vn].instantProcDamage = id / bullets;
+          this._statusInfo[vn].instantProcDamagePerHit = id;
+          this._statusInfo[vn].instantProcDamagePerSecond = id * fireRate;
         }
         // [切割 毒 毒气]
         if (vn !== "Electricity" && vn !== "Heat") {
@@ -618,6 +619,7 @@ export abstract class ModBuild {
   set damageModel(value) {
     this._damageModel = value;
     this.enemyDmgType = value && value.faction ? "TGCIOS"[value.faction] : this.enemyDmgType;
+    this.recalcStatusInfo();
   }
   /** 所有伤害类型面板 */
   get dmgRaw() {
@@ -706,29 +708,19 @@ export abstract class ModBuild {
 
   /** 无多重触发基伤(各属性) */
   get dotBaseDamageMap() {
-    let procs = this.procChanceMap
-      .map(([vn]) => {
-        switch (vn) {
-          // 切割伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Slash_Damage
-          case "Slash":
-            return [vn, this.baseDamage * 0.35];
-          // 毒素伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Toxin_Damage
-          case "Toxin":
-            return [vn, this.toxinBaseDamage * 0.5];
-          // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
-          case "Gas":
-            return [vn, this.toxinBaseDamage * this.procDamageMul * 0.5];
-          // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
-          case "Heat":
-            return [vn, this.heatBaseDamage * 0.5];
-          // 电击伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Electricity_Damage
-          case "Electricity":
-            return [vn, this.electricityBaseDamage * 0.5];
-        }
-        return null;
-      })
-      .filter(Boolean) as [DamageType, number][];
-    if (this.damageModel) return this.damageModel.mapDamage(procs, 0, 300) as [string, number][];
+    let procs = [
+      // 切割伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Slash_Damage
+      ["Slash", this.baseDamage * 0.35 * this.procDamageMul],
+      // 毒素伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Toxin_Damage
+      ["Toxin", this.toxinBaseDamage * 0.5 * this.procDamageMul],
+      // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
+      ["Gas", this.gasBaseDamage * 0.5 * this.procDamageMul * this.procDamageMul],
+      // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
+      ["Heat", this.heatBaseDamage * 0.5 * this.procDamageMul],
+      // 电击伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Electricity_Damage
+      ["Electricity", this.electricityBaseDamage * 0.5 * this.procDamageMul]
+    ] as [DamageType, number][];
+    if (this.damageModel) return this.damageModel.mapDamage(procs, 0, 300);
     return procs;
   }
   /** 无多重触发伤害(各属性) */
@@ -745,7 +737,7 @@ export abstract class ModBuild {
             return [vn, vv * this.toxinBaseDamage * 0.5];
           // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
           case "Gas":
-            return [vn, vv * this.gasBaseDamage * this.procDamageMul * 0.5];
+            return [vn, vv * this.gasBaseDamage * 0.5];
           // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
           case "Heat":
             return [vn, vv * this.heatBaseDamage * 0.5];
