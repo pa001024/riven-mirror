@@ -1,4 +1,5 @@
 import { ValuedProperty } from "./prop";
+import { i18n } from "@/i18n";
 
 /**
  * 加成
@@ -56,6 +57,10 @@ export class Buff {
   get name() {
     return this.data.name;
   }
+  get shortName() {
+    return i18n.t(`buff.${this.name}`).replace(/ \(.+?\)/, "");
+  }
+
   get props() {
     let pout = [];
     if (this.data.props) pout = pout.concat(this.data.props);

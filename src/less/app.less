@@ -233,7 +233,7 @@
   min-height: calc(100vh - 60px);
   width: calc(100vw - 60px);
 
-  >* {
+  > * {
     margin: 14px;
   }
 
@@ -358,7 +358,6 @@ h3 {
 
 /* 移动端缩小字体 */
 @media only screen and (max-width: 444px) {
-
   html,
   body {
     font-size: 13px;
@@ -371,7 +370,6 @@ h3 {
 
 @media only screen and (max-width: 444px) {
   .bigmode {
-
     &,
     body {
       font-size: 11px;
@@ -401,7 +399,7 @@ h3 {
   .el-radio__input,
   .copytext-input,
   .prop-number,
-  .other-info>section {
+  .other-info > section {
     filter: invert(100%);
   }
 
@@ -455,5 +453,32 @@ body {
 
   .el-message-box {
     max-width: 98vw;
+  }
+}
+
+.setting-items {
+  margin: -16px 0;
+  .setting-item {
+    padding: 8px 0;
+    border-bottom: 1px solid @text_sliver_light;
+    &:last-child {
+      margin-bottom: 0;
+      border-bottom: 0;
+    }
+    line-height: 40px;
+  }
+}
+
+.setting-item {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+
+  .title {
+    text-align: right;
+    float: left;
+    padding: 0 12px 0 0;
+    color: @text_grey;
+    vertical-align: middle;
   }
 }

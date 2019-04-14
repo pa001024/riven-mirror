@@ -18,7 +18,7 @@
     <section class="buffs" v-if="buffs.length > 0">
       <header v-t="`minimap.buffs`"></header>
       <div class="minimod" v-for="(buff, i) in buffs" :key="i">
-        {{$t(`buff.${buff.name}`)}}: {{buff.value}}
+        {{buff.shortName}}: {{buff.value}}
       </div>
     </section>
     <section class="data">
@@ -33,7 +33,7 @@
       </div>
       <div class="minidata">
         <div class="title">{{$t(`build.crit`)}}</div>
-        <div class="value">{{toPercent(build.critChance)}}% / {{build.critMul}}x</div>
+        <div class="value">{{toPercent(build.critChance)}}% / {{toFixed(build.critMul, 1)}}x</div>
       </div>
       <div class="minidata">
         <div class="title">{{$t(`build.proc`)}}</div>

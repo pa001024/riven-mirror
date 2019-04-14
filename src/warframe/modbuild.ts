@@ -860,7 +860,7 @@ export abstract class ModBuild {
   }
   /** 毒气DoT的基伤 */
   get gasBaseDamage() {
-    return hAccMul(this.baseDamage, (1 + this.toxinMul) ** 2 / 2);
+    return hAccMul(this.baseDamage, ((1 + this.toxinMul) / 2) ** 2);
   }
   /** 火DoT的基伤 */
   get heatBaseDamage() {
