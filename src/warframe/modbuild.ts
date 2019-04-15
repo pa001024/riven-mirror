@@ -527,7 +527,7 @@ export abstract class ModBuild {
         duration: dur,
         coverage: cor
       };
-      if (bullets > 1) this._statusInfo[vn].appearRate = vv;
+      if (bullets !== 1) this._statusInfo[vn].appearRate = vv;
       // [腐蚀 磁力]
       if (vn === "Corrosive" || vn === "Magnetic") {
         this._statusInfo[vn].procPerHit = vv * bullets;
@@ -541,23 +541,24 @@ export abstract class ModBuild {
         // [切割 毒 毒气 电]
         if (vn !== "Heat") {
           let id = vn === "Gas" ? dotMap.get("Toxin") : dd;
-          if (bullets > 1) this._statusInfo[vn].instantProcDamage = id / bullets;
-          this._statusInfo[vn].instantProcDamagePerHit = id;
-          this._statusInfo[vn].instantProcDamagePerSecond = id * fireRate;
+          if (bullets !== 1) this._statusInfo[vn].instantProcDamage = (id + dd) / bullets;
+          this._statusInfo[vn].instantProcDamagePerHit = id + dd;
+          this._statusInfo[vn].instantProcDamagePerSecond = (id + dd) * fireRate;
         }
         // [切割 毒 毒气]
         if (vn !== "Electricity" && vn !== "Heat") {
-          if (bullets > 1) this._statusInfo[vn].latentProcDamage = (dd / bullets) * durTick;
-          this._statusInfo[vn].latentProcDamagePerHit = dd * durTick;
-          this._statusInfo[vn].latentProcDamagePerSecond = dd * fireRate * durTick;
+          let id = vn === "Gas" ? dotMap.get("Toxin") : 0;
+          if (bullets !== 1) this._statusInfo[vn].latentProcDamage = id + (dd / bullets) * durTick;
+          this._statusInfo[vn].latentProcDamagePerHit = id + dd * durTick;
+          this._statusInfo[vn].latentProcDamagePerSecond = id + dd * fireRate * durTick;
         }
         // [切割 毒 毒气 火]
         if (vn === "Heat") {
-          if (bullets > 1) this._statusInfo[vn].averageProcDamage = (cor * dd) / bullets;
+          if (bullets !== 1) this._statusInfo[vn].averageProcDamage = (cor * dd) / bullets;
           this._statusInfo[vn].averageProcDamagePerHit = cor * dd;
           this._statusInfo[vn].averageProcDamagePerSecond = cor * dd * fireRate;
         } else if (vn !== "Electricity") {
-          if (bullets > 1) this._statusInfo[vn].averageProcDamage = ((vv * dd) / bullets) * durTick * (1 - dutyCycle);
+          if (bullets !== 1) this._statusInfo[vn].averageProcDamage = ((vv * dd) / bullets) * durTick * (1 - dutyCycle);
           this._statusInfo[vn].averageProcDamagePerHit = vv * dd * durTick * (1 - dutyCycle);
           this._statusInfo[vn].averageProcDamagePerSecond = vv * dd * fireRate * durTick * (1 - dutyCycle);
         }
@@ -710,15 +711,15 @@ export abstract class ModBuild {
   get dotBaseDamageMap() {
     let procs = [
       // 切割伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Slash_Damage
-      ["Slash", this.baseDamage * 0.35 * this.procDamageMul],
+      ["Slash", this.slashBaseDamage * this.procDamageMul],
       // 毒素伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Toxin_Damage
-      ["Toxin", this.toxinBaseDamage * 0.5 * this.procDamageMul],
+      ["Toxin", this.toxinBaseDamage * this.procDamageMul],
       // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
-      ["Gas", this.gasBaseDamage * 0.5 * this.procDamageMul * this.procDamageMul],
+      ["Gas", this.gasBaseDamage * this.procDamageMul * this.procDamageMul],
       // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
-      ["Heat", this.heatBaseDamage * 0.5 * this.procDamageMul],
+      ["Heat", this.heatBaseDamage * this.procDamageMul],
       // 电击伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Electricity_Damage
-      ["Electricity", this.electricityBaseDamage * 0.5 * this.procDamageMul]
+      ["Electricity", this.electricityBaseDamage * this.procDamageMul]
     ] as [DamageType, number][];
     if (this.damageModel) return this.damageModel.mapDamage(procs, 0, 300);
     return procs;
@@ -731,19 +732,19 @@ export abstract class ModBuild {
         switch (vn) {
           // 切割伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Slash_Damage
           case "Slash":
-            return [vn, vv * this.baseDamage * 0.35];
+            return [vn, vv * this.slashBaseDamage];
           // 毒素伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Toxin_Damage
           case "Toxin":
-            return [vn, vv * this.toxinBaseDamage * 0.5];
+            return [vn, vv * this.toxinBaseDamage];
           // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
           case "Gas":
-            return [vn, vv * this.gasBaseDamage * 0.5];
+            return [vn, vv * this.gasBaseDamage];
           // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
           case "Heat":
-            return [vn, vv * this.heatBaseDamage * 0.5];
+            return [vn, vv * this.heatBaseDamage];
           // 电击伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Electricity_Damage
           case "Electricity":
-            return [vn, vv * this.electricityBaseDamage * 0.5];
+            return [vn, vv * this.electricityBaseDamage];
         }
         return null;
       })
@@ -854,21 +855,25 @@ export abstract class ModBuild {
   get baseDamage() {
     return hAccMul(this.originalDamage, this.panelBaseDamageMul, this.critDamageMul, this.headShotDmgMul, this.overallMul, this.enemyDmgMul);
   }
+  /** 切割DoT的基伤 */
+  get slashBaseDamage() {
+    return hAccMul(this.baseDamage, 0.35);
+  }
   /** 毒DoT的基伤 */
   get toxinBaseDamage() {
-    return hAccMul(this.baseDamage, 1 + this.toxinMul);
+    return hAccMul(this.baseDamage, 1 + this.toxinMul, 0.5);
   }
   /** 毒气DoT的基伤 */
   get gasBaseDamage() {
-    return hAccMul(this.baseDamage, ((1 + this.toxinMul) / 2) ** 2);
+    return hAccMul(this.baseDamage, (1 + this.toxinMul) ** 2, 0.25);
   }
   /** 火DoT的基伤 */
   get heatBaseDamage() {
-    return hAccMul(this.baseDamage, 1 + this.heatMul);
+    return hAccMul(this.baseDamage, 1 + this.heatMul, 0.5);
   }
   /** 电DoT的基伤 */
   get electricityBaseDamage() {
-    return hAccMul(this.baseDamage, 1 + this.electricityMul);
+    return hAccMul(this.baseDamage, 1 + this.electricityMul, 0.5);
   }
   /** 攻速 */
   get fireRate() {
