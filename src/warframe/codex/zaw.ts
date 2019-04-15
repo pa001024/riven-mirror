@@ -52,7 +52,7 @@ export const RangeData = {
   Rapiers: [0.91, 1.29],
   Staves: [3.09, 0.61],
   Polearms: [3.09, 0.11],
-  Hammers: [3.09, 0.61],
+  Hammers: [3.09, 0.81],
   HeavyBlade: [3.09, 0.81]
 };
 

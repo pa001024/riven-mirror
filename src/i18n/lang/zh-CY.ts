@@ -576,6 +576,9 @@ let po = {
     baza: "苍鹰冲锋枪",
     quartakk: "夸塔克四管突击步枪",
     stubba: "斯图巴冲锋手枪"
+  },
+  zaw: {
+    title: "天工造武"
   }
 };
 

@@ -39,7 +39,7 @@
             <el-tag>{{$t("buildview.panelDamage")}} {{build[1].panelDamage.toFixed(1)}} </el-tag>
             <el-tag>{{$t("buildview.critChance")}} {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
             <el-tag>{{$t("buildview.critMul")}} {{(build[1].critMul).toFixed(1)}}x </el-tag>
-            <el-tag>{{$t("build.range")}} {{(build[1].range).toFixed(1)}}m </el-tag>
+            <el-tag v-if="build[1].range">{{$t("build.range")}} {{(build[1].range).toFixed(1)}}m </el-tag>
             <el-tag>{{$t("buildview.fireRate")}} {{(build[1].fireRate).toFixed(1)}} </el-tag>
           </el-row>
         </el-collapse-item>

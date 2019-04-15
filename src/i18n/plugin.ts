@@ -104,8 +104,7 @@ export async function changeLocale(locale: string) {
       break;
     case "zh-CY":
       let [{ default: zh2 }, { default: zhCY }] = await Promise.all([import(/* webpackChunkName: "lang-zh" */ "./lang/zh"), import(/* webpackChunkName: "lang-zhCY" */ "./lang/zh-CY")]);
-      let newMessage = _.assign({}, zh2.messages, zhCY.messages);
-      const chCY = _.assign({}, elLang_zh, zh2, { messages: newMessage });
+      const chCY = _.merge({}, elLang_zh, zh2, zhCY);
       vi18n.setLocaleMessage(locale, chCY);
       break;
     case "zh-TW":
