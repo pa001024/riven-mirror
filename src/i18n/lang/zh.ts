@@ -1666,6 +1666,9 @@ let po = {
     mirageImmortalSkin: "Mirage 不朽外观",
     taxonDesertCamoSkin: "塔克桑 沙漠迷彩外观",
     infestedMeleeDangle: "Coccyst Sugatra",
+    paracystZebraSkin: "附肢寄生者 斑纹外观",
+    fluctusRahkSkin: "悲痛之刃 轻蔑外观",
+    acolyteStalkerMios: "巨浪 拉克外观",
 
     captainVor: "VOR 上尉",
     councilorVayHek: "Vay Hek 委员",
