@@ -8,7 +8,10 @@
             <!-- 二维码和名称 -->
             <div slot="header" class="core-name">
               <span class="title">{{core.name}}</span>
-              <span class="forma">{{$t("build.formaCount", [build.formaCount])}}</span>
+              [
+              <span class="forma"> {{$t("build.formaCount", [build.formaCount])}} </span>
+              <span class="umbra" v-if="build.umbraCount"> + {{build.umbraCount}}U </span>
+              ]
               <ShareQR :url="build.miniCodeURL"/>
             </div>
             <div class="warframe-props">

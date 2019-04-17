@@ -826,9 +826,14 @@ export class WarframeBuild {
     return 60 - this.getCost(-2);
   }
   _formaCount = 0;
+  _umbraCount = 0;
   /** 极化次数 */
   get formaCount() {
     return this._formaCount;
+  }
+  /** 暗影极化次数 */
+  get umbraCount() {
+    return this._umbraCount;
   }
   /** 重新计算极化次数 */
   recalcPolarizations() {
@@ -836,6 +841,7 @@ export class WarframeBuild {
     let defaultPolarities = this.data.polarities.slice();
     [this._auraPol, this._exilusPol, this._polarizations] = [this.data.aura, this.data.exilus, Array(8).fill(null)];
     this._formaCount = 0;
+    this._umbraCount = 0;
     // 匹配自带槽位
     // - 正面极性
     const deltaSeq = this._mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1]);
@@ -875,7 +881,7 @@ export class WarframeBuild {
 
     // 按容量需求量排序
     const mods = this.allMods;
-    const delta = mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1]);
+    const delta = mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1] || b[0] - a[0]); // 点数相同优先极化后面的
     // 最多极化10次
     for (let i = 0; this.totalCost > this.maxCost && i < delta.length && mods[delta[i][0]]; ++i) {
       const [modIndex] = delta[i];
@@ -904,6 +910,19 @@ export class WarframeBuild {
           // console.log(`set null [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to null`)
           this._polarizations[modIndex - 2] = "";
           thetaMod = thetaMod.filter(v => v != modIndex - 2);
+        }
+      }
+    }
+    // 如果还是负的 测试U福马数量
+    if (this.totalCost > this.maxCost) {
+      for (let i = 0; this.totalCost > this.maxCost && i < delta.length && mods[delta[i][0]]; ++i) {
+        const [modIndex] = delta[i];
+        const pol = mods[modIndex].polarity;
+        if (pol === "w") {
+          if (this._polarizations[modIndex - 2] !== pol) {
+            this._polarizations[modIndex - 2] = pol;
+            ++this._umbraCount;
+          }
         }
       }
     }

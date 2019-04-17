@@ -18,7 +18,7 @@
     <section class="buffs" v-if="buffs.length > 0">
       <header v-t="`minimap.buffs`"></header>
       <div class="minimod" v-for="(buff, i) in buffs" :key="i">
-        {{buff.shortName}}: {{buff.value}}
+        {{buff.name}}: {{buff.value}}
       </div>
     </section>
     <section class="data">
@@ -114,7 +114,7 @@ export default class BuildMinimap extends Vue {
     return this.build.buffs.filter(Boolean).map(v => {
       return {
         id: v.data.id, //
-        name: v.name,
+        name: v.shortName,
         value: v.layerEnable ? v.layer : v.power
       };
     });

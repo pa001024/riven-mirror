@@ -2571,7 +2571,7 @@ let po = {
     abilityDuration: "技能持续",
     abilityEfficiency: "技能效率",
     abilityRange: "技能范围",
-    formaCount: " [ {0}极化 ]",
+    formaCount: "{0}极化",
     damageModel: "伤害模型",
     damageModelArmor: "护甲数值",
     damageModelTip: "请选择伤害模型",

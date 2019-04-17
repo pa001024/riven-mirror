@@ -1039,7 +1039,7 @@ let po = {
     abilityDuration: "Duration",
     abilityEfficiency: "Efficiency",
     abilityRange: "Range",
-    formaCount: " [ {0} Forma ]",
+    formaCount: "{0} Forma",
     damageModel: "Damage Model",
     damageModelArmor: "Armor Amount",
     damageModelTip: "Select Damage Model",

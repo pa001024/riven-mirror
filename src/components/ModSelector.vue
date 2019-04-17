@@ -146,6 +146,7 @@ export default class ModSelector extends Vue {
   }
 
   @Watch("build")
+  @Watch("build.damageModel")
   reload() {
     let selected = _.compact(this.build.mods);
     const { isVirtual, isExalted } = this;
@@ -157,7 +158,7 @@ export default class ModSelector extends Vue {
         (this.build.weapon.tags // 普通
           .concat([this.build.rivenWeapon.id])
           .includes(v.type) &&
-          !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id) &&
+          this.build.isValidMod(v) &&
           (!(!isVirtual && isExalted) || !AcolyteMods.includes(v.id))) // 近战显赫武器不接受追随者MOD
     );
     let benefits = mods
