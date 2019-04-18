@@ -1,4 +1,5 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   chainWebpack: config => {
@@ -20,7 +21,15 @@ module.exports = {
       });
   },
   configureWebpack: {
-    devtool: "inline-source-map"
+    devtool: "inline-source-map",
+    plugins: [
+      new HtmlWebpackPlugin({
+        filename: "index.cn.html",
+        template: "public/index.cn.html",
+        inject: true,
+        minify: true
+      })
+    ]
   },
   productionSourceMap: false,
   pwa: {

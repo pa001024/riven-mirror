@@ -159,7 +159,7 @@ const data = [
   ["5Y", "Primed Ravage", [["1", 10]], Shotgun, "r", "l", 4, 10],
   ["5Z", "Shrapnel Shot", [["onKill"], ["1", 16.5]], Shotgun, "r", "n", 4],
   ["5a", "Narrow Barrel", [["onHit"], ["acc", 5]], Shotgun, "r", "r", 2],
-  ["5b", "Shattering Justice", [["2", 5], ["vj", 0.3]], "Sobek", "-", "r", 4, 3],
+  ["5b", "Shattering Justice", [["i2", 5], ["vj", 0.3]], "Sobek", "-", "r", 4, 3],
   ["5c", "Seeking Force", [["P", 0.4]], Shotgun, "-", "r", 10],
   ["5d", "Nano-Applicator", [["onAbilityCast"], ["2", 15]], Shotgun, "r", "r", 4],
   ["5e", "Fatal Acceleration", [["V", 10]], Shotgun, "r", "c", 4, 3],
