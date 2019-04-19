@@ -1665,10 +1665,13 @@ let po = {
     prismaRostamKubrowArmor: "棱晶 洛斯塔姆库狛护甲",
     mirageImmortalSkin: "Mirage 不朽外观",
     taxonDesertCamoSkin: "塔克桑 沙漠迷彩外观",
-    infestedMeleeDangle: "Coccyst Sugatra",
+    coccystSugatra: "尾骨坠饰",
     paracystZebraSkin: "附肢寄生者 斑纹外观",
     fluctusRahkSkin: "悲痛之刃 轻蔑外观",
     acolyteStalkerMios: "巨浪 拉克外观",
+    prismaFurisAArmor: "棱晶飞空臂甲",
+    prismaFurisCArmor: "棱晶飞空胸甲",
+    prismaFurisLArmor: "棱晶飞空腿甲",
 
     captainVor: "VOR 上尉",
     councilorVayHek: "Vay Hek 委员",
@@ -1968,7 +1971,8 @@ let po = {
     harness: "外甲",
     fuselage: "机身",
     engines: "引擎",
-    avionics: "飞航系统"
+    avionics: "飞航系统",
+    mask: "面具"
   },
   mods: {
     primedReach: "剑风P",
@@ -2014,12 +2018,12 @@ let po = {
     heatedCharge: "银火", // 火焰装填
     moltenImpact: "银火", // 熔岩冲击
     blazingSteel: "银火", // 炽烈坚刃
-    magmaChamber: "银火", // 熔岩弹膛
+    combustionRounds: "银火", // 燃烧弹头
     thermiteRounds: "金火", // 铝热焊弹
     scatteringInferno: "金火", // 炼狱轰击
     scorch: "金火", // 灼痕焦点
     volcanicEdge: "金火", // 爆裂刀刃
-    combustionRounds: "金火", // 燃烧弹头
+    magmaChamber: "金火", // 熔岩弹膛
     searingSteel: "金火", // 炽燃钢铁
     stormbringer: "银电", // 暴风使者
     chargedShell: "银电", // 充电弹头

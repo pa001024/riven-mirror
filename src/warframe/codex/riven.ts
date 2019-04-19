@@ -82,7 +82,7 @@ export const RivenPropertyDataBase: { [key: string]: RivenProperty[] } = {
   ),
   Pistol: baseProperty.concat(gunProperty),
   Kitgun: baseProperty.concat(gunProperty),
-  Archgun: baseProperty.concat(gunProperty),
+  Archgun: baseProperty.concat(gunProperty.filter(v => v.id != "H")),
   Melee: baseProperty.concat(meleeProperty),
   Zaw: baseProperty.concat(meleeProperty),
   all: baseProperty.concat(gunProperty, meleeProperty)
@@ -105,7 +105,6 @@ const RPVBRifle = {
   G: 4.5, // 对Grineer伤害
   I: 4.5, // 对Infested伤害
   C: 4.5, // 对Corpus伤害
-  O: 4.5, // 对堕落者伤害
   D: 16.5, // 伤害
   S: 9, // 多重射击
   R: 6, // 射速（弓类武器效果加倍）
@@ -132,7 +131,6 @@ const RPVBShotgun = {
   G: 4.5, // 对Grineer伤害
   I: 4.5, // 对Infested伤害
   C: 4.5, // 对Corpus伤害
-  O: 4.5, // 对堕落者伤害
   D: 16.5, // 伤害
   S: 12, // 多重射击
   R: 9, // 射速
@@ -159,7 +157,6 @@ const RPVBPistol = {
   G: 4.5, // 对Grineer伤害
   I: 4.5, // 对Infested伤害
   C: 4.5, // 对Corpus伤害
-  O: 4.5, // 对堕落者伤害
   D: 22, // 伤害
   S: 12, // 多重射击
   R: 7.5, // 射速
@@ -168,6 +165,32 @@ const RPVBPistol = {
   M: 9, // 弹药最大值
   P: 27, // 穿透
   H: 8, // 变焦
+  V: 9, // 弹道飞行速度
+  Z: -9 // 后坐力
+};
+const RPVBArchgun = {
+  0: 10, // 暴击率
+  1: 8, // 暴击伤害
+  2: 9, // 触发几率
+  3: 10, // 触发时间
+  4: 12, // 火焰伤害
+  5: 12, // 冰冻伤害
+  6: 12, // 毒素伤害
+  7: 12, // 电击伤害
+  8: 12, // 冲击伤害
+  9: 12, // 穿刺伤害
+  A: 12, // 切割伤害
+  G: 4.5, // 对Grineer伤害
+  I: 4.5, // 对Infested伤害
+  C: 4.5, // 对Corpus伤害
+  D: 10, // 伤害
+  S: 6, // 多重射击
+  R: 6, // 射速
+  L: 5, // 弹匣容量
+  F: 5, // 装填速度
+  M: 9, // 弹药最大值
+  P: 27, // 穿透
+  // H: 8, // 变焦
   V: 9, // 弹道飞行速度
   Z: -9 // 后坐力
 };
@@ -186,7 +209,6 @@ const RPVBMelee = {
   G: 4.5, // 对Grineer伤害
   I: 4.5, // 对Infested伤害
   C: 4.5, // 对Corpus伤害
-  O: 4.5, // 对堕落者伤害
   K: 16.5, // 近战伤害
   T: 12, // 攻击范围
   J: 5.5, // 攻击速度
@@ -205,7 +227,8 @@ export const RivenPropertyValueBaseDataBase = {
   Pistol: RPVBPistol,
   Kitgun: RPVBPistol,
   Melee: RPVBMelee,
-  Zaw: RPVBMelee
+  Zaw: RPVBMelee,
+  Archgun: RPVBArchgun
 };
 
 /**

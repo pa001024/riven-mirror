@@ -3,7 +3,7 @@ let po = {
   title: {
     main: "Riven.IM - 極鏡",
     sub: "{0} - Riven.IM - 極鏡",
-    weapon: "{0} 配裝"
+    weapon: "{0} 配卡"
   },
   messages: {
     primedContinuity: "持久力 Prime",
@@ -25,7 +25,7 @@ let po = {
     intensify: "聚精會神",
     corrosiveProjection: "腐蝕投射",
     coactionDrift: "協力竄升",
-    diamondSkin: "鑽石皮膚",
+    diamondSkin: "鑽石面板",
     enemySense: "敵人感應",
     rejuvenation: "返老還童",
     physique: "體魄",
@@ -1537,7 +1537,7 @@ let po = {
     daggerZorenSkin: "佐倫雙斧 戈刃外觀",
     scindoManticoreAxeSkin: "分裂斬斧 蠍尾獅外觀",
     daggerAxeScindoSkin: "分裂斬斧 戈刃外觀",
-    exilusAdapter: "特殊功能槽連接器",
+    exilusAdapter: "特殊功能槽連線器",
     encryptedJournalFragment: "加密的日記碎片",
     mercury: "水星",
     lua: "月球",
@@ -1665,10 +1665,13 @@ let po = {
     prismaRostamKubrowArmor: "稜晶 洛斯塔姆庫狛護甲",
     mirageImmortalSkin: "Mirage 不朽外觀",
     taxonDesertCamoSkin: "塔克桑 沙漠迷彩外觀",
-    infestedMeleeDangle: "Coccyst Sugatra",
+    coccystSugatra: "尾骨墜飾",
     paracystZebraSkin: "附肢寄生者 斑紋外觀",
     fluctusRahkSkin: "悲痛之刃 輕蔑外觀",
     acolyteStalkerMios: "巨浪 拉克外觀",
+    prismaFurisAArmor: "稜晶飛空臂甲",
+    prismaFurisCArmor: "稜晶飛空胸甲",
+    prismaFurisLArmor: "稜晶飛空腿甲",
 
     captainVor: "VOR 上尉",
     councilorVayHek: "Vay Hek 委員",
@@ -1861,7 +1864,7 @@ let po = {
     divineSpears: "聖火尖槍",
     virulence: "致病力",
     larva: "幼體",
-    parasiticLink: "寄生鏈接",
+    parasiticLink: "寄生連結",
     ravenous: "貪婪",
     nullStar: "湮滅流星群",
     antimatterDrop: "反物質釋放",
@@ -1884,7 +1887,7 @@ let po = {
     reave: "精華掠奪",
     danseMacabre: "死亡之舞",
     rhinoCharge: "犀牛衝鋒",
-    ironSkin: "鋼化皮膚",
+    ironSkin: "鋼化面板",
     roar: "戰吼",
     rhinoStomp: "犀牛踐踏",
     spores: "毒性孢子",
@@ -1897,7 +1900,7 @@ let po = {
     razorwing: "剃刀之翼",
     wellOfLife: "生命之井",
     energyVampire: "能量吸取",
-    link: "鏈接",
+    link: "連結",
     blessing: "祝福",
     ripLine: "撕裂鉤索",
     warcry: "咆哮",
@@ -1968,7 +1971,8 @@ let po = {
     harness: "外甲",
     fuselage: "機身",
     engines: "引擎",
-    avionics: "飛航系統"
+    avionics: "飛航系統",
+    mask: "面具"
   },
   mods: {
     primedReach: "劍風P",
@@ -2014,12 +2018,12 @@ let po = {
     heatedCharge: "銀火", // 火焰裝填
     moltenImpact: "銀火", // 熔岩衝擊
     blazingSteel: "銀火", // 熾烈堅刃
-    magmaChamber: "銀火", // 熔岩彈膛
+    combustionRounds: "銀火", // 燃燒彈頭
     thermiteRounds: "金火", // 鋁熱焊彈
     scatteringInferno: "金火", // 煉獄轟擊
     scorch: "金火", // 灼痕焦點
     volcanicEdge: "金火", // 爆裂刀刃
-    combustionRounds: "金火", // 燃燒彈頭
+    magmaChamber: "金火", // 熔岩彈膛
     searingSteel: "金火", // 熾燃鋼鐵
     stormbringer: "銀電", // 暴風使者
     chargedShell: "銀電", // 充電彈頭
@@ -2085,7 +2089,7 @@ let po = {
     aura: "光環"
   },
   alerting: {
-    sortie: "突襲",
+    sortie: "突擊",
     alerts: "警報",
     news: "新聞",
     fissures: "裂縫",
@@ -2646,7 +2650,7 @@ let po = {
       eviscerator: "開膛者",
       hellion: "惡徒",
       lancer: "槍兵",
-      eliteLancer: "菁英槍兵",
+      eliteLancer: "精英槍兵",
       scorch: "怒焚者",
       seeker: "追蹤者",
       trooper: "騎兵",
@@ -2668,7 +2672,7 @@ let po = {
       roboticOfAnyoCorp: "指數之場機器敵人",
       crewman: "船員",
       detronCrewman: "德特昂船員",
-      eliteCrewman: "菁英船員",
+      eliteCrewman: "精英船員",
       nullifierCrewman: "虛能船員",
       prodCrewman: "監工船員",
       sniperCrewman: "狙擊手船員",
@@ -3135,7 +3139,7 @@ let po = {
     charm: "招福",
     unairu: "UNAIRU 虛靈",
     zaw: "ZAW 加成",
-    parasiticLink: "寄生鏈接 (Nidus)",
+    parasiticLink: "寄生連結 (Nidus)",
     commonResistance: "通用減傷",
     paxBolt: "和平電閃",
     corruption: "墮落化",
