@@ -115,7 +115,7 @@ export class GunModBuild extends ModBuild {
   /** 使用金首发 */
   usePrimedChamber = false;
   /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
-  useHunterMunitions = 0;
+  useHunterMunitions = 1;
 
   constructor(weapon: GunWeapon = null, riven: RivenMod = null, options: GunModBuildOptions = null, fast = false) {
     super(riven, fast);
