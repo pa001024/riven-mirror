@@ -320,26 +320,22 @@ export class DamageModelData implements IDamageModelData {
   constructor(data: IDamageModelData | DamageModelDataArray) {
     if (Array.isArray(data)) {
       const [id, faction, fleshType, shieldType, armorType, resistence, ignoreProc] = data;
-      [this.id, this.faction, this.fleshType, this.shieldType, this.armorType, this.resistence, this.ignoreProc] = [
-        id, // -
-        faction,
-        fleshType || 0,
-        shieldType && shieldType + 9,
-        armorType && armorType + 11,
-        resistence,
-        ignoreProc
-      ];
+      this.id = id;
+      this.faction = faction;
+      this.fleshType = fleshType || 0;
+      if (typeof shieldType === "number") this.shieldType = shieldType + 9;
+      if (typeof armorType === "number") this.armorType = armorType + 11;
+      this.resistence = resistence;
+      this.ignoreProc = ignoreProc;
     } else {
       const { id, faction, fleshType, shieldType, armorType, resistence, ignoreProc } = data;
-      [this.id, this.faction, this.fleshType, this.shieldType, this.armorType, this.resistence, this.ignoreProc] = [
-        id, // -
-        faction,
-        fleshType,
-        shieldType,
-        armorType,
-        resistence,
-        ignoreProc
-      ];
+      this.id = id;
+      this.faction = faction;
+      this.fleshType = fleshType || 0;
+      this.shieldType = shieldType;
+      this.armorType = armorType;
+      this.resistence = resistence;
+      this.ignoreProc = ignoreProc;
     }
   }
 }
