@@ -262,6 +262,7 @@ export const _rivenDataBaseWeapons = [
   ["Pupacyst", "Melee", 1],
   ["Rabvee", "Zaw", 1],
   ["Scindo", "Melee", 1],
+  ["Sepfahn", "Zaw", 1],
   ["Sigma & Octantis", "Melee", 1],
   ["Silva & Aegis", "Melee", 1],
   ["Skiajati", "Melee", 1],
@@ -312,13 +313,13 @@ export const _rivenDataBaseWeapons = [
   ["Fluctus", "Archgun", 0.75],
   ["Imperator", "Archgun", 0.7],
   // Archmelee
-  ["Agkuza", "Archmelee", 1],
-  ["Centaur", "Archmelee", 1],
-  ["Kaszas", "Archmelee", 1],
-  ["Knux", "Archmelee", 1],
-  ["Onorix", "Archmelee", 1],
-  ["Rathbone", "Archmelee", 1],
-  ["Veritux", "Archmelee", 1],
+  // ["Agkuza", "Archmelee", 1],
+  // ["Centaur", "Archmelee", 1],
+  // ["Kaszas", "Archmelee", 1],
+  // ["Knux", "Archmelee", 1],
+  // ["Onorix", "Archmelee", 1],
+  // ["Rathbone", "Archmelee", 1],
+  // ["Veritux", "Archmelee", 1],
   // Amp
   ["Amp", "Amp", 0]
 ] as [string, string, number][];
@@ -569,6 +570,7 @@ export const _rivenDataBaseWeaponsCY = [
   ["Mewan", "Zaw", 1],
   ["Kronsh", "Zaw", 1],
   ["Ooltha", "Zaw", 1],
+  ["Sepfahn", "Zaw", 1],
   ["Plague Keewar", "Zaw", 1],
   ["Plague Kripath", "Zaw", 1],
 
@@ -587,7 +589,6 @@ export const _rivenDataBaseWeaponsCY = [
   ["Arca Titron", "Melee", 1],
   ["Endura", "Melee", 1],
   ["Scindo", "Melee", 1],
-  ["Sepfahn", "Melee", 1],
   ["Cassowar", "Melee", 1],
   ["Boltace", "Melee", 1],
   ["Skiajati", "Melee", 1],
@@ -630,24 +631,24 @@ export const _rivenDataBaseWeaponsCY = [
   ["Balefire", "Pistol", 0],
 
   // Archgun
+  ["Cyngas", "Archgun", 1.4],
+  ["Dual Decurion", "Archgun", 1.3],
+  ["Phaedra", "Archgun", 1.15],
+  ["Corvas", "Archgun", 1.05],
   ["Larkspur", "Archgun", 1],
-  ["Phaedra", "Archgun", 1],
-  ["Velocitus", "Archgun", 1],
-  ["Imperator", "Archgun", 1],
-  ["Dual Decurion", "Archgun", 1],
-  ["Fluctus", "Archgun", 1],
-  ["Grattler", "Archgun", 1],
-  ["Cyngas", "Archgun", 1],
-  ["Corvas", "Archgun", 1],
+  ["Velocitus", "Archgun", 0.95],
+  ["Grattler", "Archgun", 0.9],
+  ["Fluctus", "Archgun", 0.75],
+  ["Imperator", "Archgun", 0.7],
 
   // Archmelee
-  ["Agkuza", "Archmelee", 0],
-  ["Centaur", "Archmelee", 0],
-  ["Kaszas", "Archmelee", 0],
-  ["Knux", "Archmelee", 0],
-  ["Onorix", "Archmelee", 0],
-  ["Rathbone", "Archmelee", 0],
-  ["Veritux", "Archmelee", 0],
+  // ["Agkuza", "Archmelee", 0],
+  // ["Centaur", "Archmelee", 0],
+  // ["Kaszas", "Archmelee", 0],
+  // ["Knux", "Archmelee", 0],
+  // ["Onorix", "Archmelee", 0],
+  // ["Rathbone", "Archmelee", 0],
+  // ["Veritux", "Archmelee", 0],
 
   // Amp
   ["Amp", "Amp", 0]

@@ -1,5 +1,5 @@
 <template>
-  <div class="riven-price">
+  <div class="riven-price" v-if="enable">
     <el-collapse>
       <el-collapse-item :title="$t(`riven.viewprice`)" name="1">
         <el-row class="price-box">
@@ -46,6 +46,10 @@ export default class BuildMinimap extends Vue {
   @Prop() rolledPrice: WeeklyRivenInfo;
   @Prop() unrolledPrice: WeeklyRivenInfo;
 
+  get enable() {
+    return this.veliedPrice && this.rolledPrice && this.unrolledPrice;
+  }
+
   get prices() {
     return [
       { name: "veliedPrice", ...this.veliedPrice }, //
@@ -55,6 +59,7 @@ export default class BuildMinimap extends Vue {
   }
 
   formatPrice(n: number) {
+    if (!n) return;
     const base = n < 0 ? n.toFixed(1).substr(1) : n.toFixed(1);
     if (base.length < 5) return (n < 0 ? "-" : "") + base;
     const head = base.substr(0, (base.length - 2) % 3 || 3);
