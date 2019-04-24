@@ -212,11 +212,11 @@ export class GunModBuild extends ModBuild {
   }
   /** 是否是射线武器 */
   get isLaser() {
-    return !(this.weapon.bullets > 1) && this.weapon.tags.includes("Continuous");
+    return this.weapon.tags.includes("Continuous");
   }
   /** [overwrite] 弹片数 */
   get bullets() {
-    return this.isLaser ? 1 : hAccMul(this.weapon.bullets, this.multishotMul);
+    return this.isLaser ? this.weapon.bullets : hAccMul(this.weapon.bullets, this.multishotMul);
   }
   /** 换弹时间 */
   get reloadTime() {
@@ -253,7 +253,7 @@ export class GunModBuild extends ModBuild {
 
   /** [overwrite] 每发触发率 */
   get procChancePerHit() {
-    return this.weapon.tags.includes("Continuous") ? this.procChance : 1 - (1 - this.procChance) ** this.multishotMul;
+    return this.isLaser ? this.procChance : 1 - (1 - this.procChance) ** this.multishotMul;
   }
 
   /** [overwrite] 面板基础伤害增幅倍率 */

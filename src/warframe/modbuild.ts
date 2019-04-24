@@ -516,12 +516,13 @@ export abstract class ModBuild {
     let dotMap = new Map(this.dotBaseDamageMap as [string, number][]);
     let pwAll = this.procChanceMap.reduce((a, b) => a + b[1], 0);
     this._statusInfo = {};
-    let { bullets, fireRate, dutyCycle } = this;
+    const { bullets, fireRate, dutyCycle } = this;
+    const hits = this.weapon.tags.includes("Continuous") ? 1 : bullets;
     this.procChanceMap.forEach(([vn, vv]) => {
       if (vv <= 0) return;
       let dur = procDurationMap[vn] * this.procDurationMul;
       let durTick = Math.max(0, ~~dur) + 1;
-      let cor = Math.min(1, Math.max(vv * bullets * fireRate * dur, 0));
+      let cor = Math.min(1, Math.max(vv * hits * fireRate * dur, 0));
       this._statusInfo[vn] = {
         proportion: vv / pwAll,
         duration: dur,
@@ -530,35 +531,35 @@ export abstract class ModBuild {
       if (bullets !== 1) this._statusInfo[vn].appearRate = vv;
       // [腐蚀 磁力]
       if (vn === "Corrosive" || vn === "Magnetic") {
-        this._statusInfo[vn].procPerHit = vv * bullets;
-        this._statusInfo[vn].procPerSecond = vv * bullets * fireRate;
+        this._statusInfo[vn].procPerHit = vv * hits;
+        this._statusInfo[vn].procPerSecond = vv * hits * fireRate;
       } else {
-        this._statusInfo[vn].appearRatePerHit = 1 - (1 - vv) ** bullets;
-        this._statusInfo[vn].appearRatePerSecond = 1 - (1 - vv) ** (bullets * fireRate);
+        this._statusInfo[vn].appearRatePerHit = 1 - (1 - vv) ** hits;
+        this._statusInfo[vn].appearRatePerSecond = 1 - (1 - vv) ** (hits * fireRate);
       }
       if (vn === "Slash" || vn === "Toxin" || vn === "Gas" || vn === "Electricity" || vn === "Heat") {
         let dd = dotMap.get(vn);
         // [切割 毒 毒气 电]
         if (vn !== "Heat") {
           let id = vn === "Gas" ? dotMap.get("Toxin") : dd;
-          if (bullets !== 1) this._statusInfo[vn].instantProcDamage = (id + dd) / bullets;
+          if (hits !== 1) this._statusInfo[vn].instantProcDamage = (id + dd) / hits;
           this._statusInfo[vn].instantProcDamagePerHit = id + dd;
           this._statusInfo[vn].instantProcDamagePerSecond = (id + dd) * fireRate;
         }
         // [切割 毒 毒气]
         if (vn !== "Electricity" && vn !== "Heat") {
           let id = vn === "Gas" ? dotMap.get("Toxin") : 0;
-          if (bullets !== 1) this._statusInfo[vn].latentProcDamage = id + (dd / bullets) * durTick;
+          if (hits !== 1) this._statusInfo[vn].latentProcDamage = id + (dd / hits) * durTick;
           this._statusInfo[vn].latentProcDamagePerHit = id + dd * durTick;
           this._statusInfo[vn].latentProcDamagePerSecond = id + dd * fireRate * durTick;
         }
         // [切割 毒 毒气 火]
         if (vn === "Heat") {
-          if (bullets !== 1) this._statusInfo[vn].averageProcDamage = (cor * dd) / bullets;
+          if (hits !== 1) this._statusInfo[vn].averageProcDamage = (cor * dd) / hits;
           this._statusInfo[vn].averageProcDamagePerHit = cor * dd;
           this._statusInfo[vn].averageProcDamagePerSecond = cor * dd * fireRate;
         } else if (vn !== "Electricity") {
-          if (bullets !== 1) this._statusInfo[vn].averageProcDamage = ((vv * dd) / bullets) * durTick * (1 - dutyCycle);
+          if (hits !== 1) this._statusInfo[vn].averageProcDamage = ((vv * dd) / hits) * durTick * (1 - dutyCycle);
           this._statusInfo[vn].averageProcDamagePerHit = vv * dd * durTick * (1 - dutyCycle);
           this._statusInfo[vn].averageProcDamagePerSecond = vv * dd * fireRate * durTick * (1 - dutyCycle);
         }
