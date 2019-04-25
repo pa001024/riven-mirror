@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.5.5";
+export const version = "1.5.6";
 export const updateLogs = [
+  {
+    version: "1.5.6",
+    date: "2019/4/25",
+    md: {
+      en: `- Arch-Gun riven`,
+      cn: `- 空战武器紫卡`
+    }
+  },
   {
     version: "1.5.5",
     date: "2019/4/19",
