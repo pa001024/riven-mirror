@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.5.5";
+export const version = "1.5.6";
 export const updateLogs = [
+  {
+    version: "1.5.6",
+    date: "2019/4/25",
+    md: {
+      en: `- Arch-Gun riven
+- add Deadly Efficiency swtich (disable by default)`,
+      cn: `- 空战武器紫卡
+- 添加是否使用致命效率开关 (默认禁用)`
+    }
+  },
   {
     version: "1.5.5",
     date: "2019/4/19",
@@ -31,6 +41,7 @@ export const updateLogs = [
 - 配装: 添加配装页自动保存功能`
     }
   },
+  /*
   {
     version: "1.5.2",
     date: "2019/4/9",
@@ -49,7 +60,6 @@ export const updateLogs = [
 - MOD "凝固汽油榴弹" 支持`
     }
   },
-  /*
   {
     version: "1.4.22",
     date: "2019/3/30",

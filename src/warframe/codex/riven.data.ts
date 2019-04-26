@@ -303,15 +303,15 @@ export const _rivenDataBaseWeapons = [
   ["Balefire", "Pistol", 0],
 
   // Archgun
-  ["Cyngas", "Archgun", 1.4],
-  ["Dual Decurion", "Archgun", 1.3],
+  ["Cyngas", "Archgun", 1.3],
+  ["Dual Decurion", "Archgun", 1.25],
   ["Phaedra", "Archgun", 1.15],
   ["Corvas", "Archgun", 1.05],
-  ["Larkspur", "Archgun", 1],
-  ["Velocitus", "Archgun", 0.95],
-  ["Grattler", "Archgun", 0.9],
-  ["Fluctus", "Archgun", 0.75],
-  ["Imperator", "Archgun", 0.7],
+  ["Velocitus", "Archgun", 1.05],
+  ["Grattler", "Archgun", 0.95],
+  ["Fluctus", "Archgun", 0.9],
+  ["Imperator", "Archgun", 0.85],
+  ["Larkspur", "Archgun", 0.8],
   // Archmelee
   // ["Agkuza", "Archmelee", 1],
   // ["Centaur", "Archmelee", 1],
@@ -620,15 +620,15 @@ export const _rivenDataBaseWeaponsCY = [
   ["Balefire", "Pistol", 0],
 
   // Archgun
-  ["Cyngas", "Archgun", 1.4],
-  ["Dual Decurion", "Archgun", 1.3],
+  ["Cyngas", "Archgun", 1.3],
+  ["Dual Decurion", "Archgun", 1.25],
   ["Phaedra", "Archgun", 1.15],
   ["Corvas", "Archgun", 1.05],
-  ["Larkspur", "Archgun", 1],
-  ["Velocitus", "Archgun", 0.95],
-  ["Grattler", "Archgun", 0.9],
-  ["Fluctus", "Archgun", 0.75],
-  ["Imperator", "Archgun", 0.7],
+  ["Velocitus", "Archgun", 1.05],
+  ["Grattler", "Archgun", 0.95],
+  ["Fluctus", "Archgun", 0.9],
+  ["Imperator", "Archgun", 0.85],
+  ["Larkspur", "Archgun", 0.8],
 
   // Archmelee
   // ["Agkuza", "Archmelee", 0],

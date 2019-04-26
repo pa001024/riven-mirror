@@ -106,7 +106,7 @@ export default class extends Vue {
 
   gripDmg(grip: ZawGrip) {
     let modify = grip.twoHand ? this.strike.twoHand : this.strike.oneHand;
-    return ((72 + this.strike.dmg + grip.dmg) * modify.dmg).toFixed();
+    return ((72 + this.strike.dmg + grip.dmg + (this.links ? this.links.dmg : 0)) * modify.dmg).toFixed();
   }
 
   linkDmg(link: ZawLinks) {

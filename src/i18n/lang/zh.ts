@@ -2777,6 +2777,7 @@ let po = {
     scoreResult: "可提升 <span class='score-text'>{0}%</span> {1}",
     heavyCaliber: "重口径",
     primedChamber: "金首发",
+    deadlyEfficiency: "致命效率",
     acolyteMods: "追随者MOD",
     acolyteModsTip: "如尖刃弹头等需要瞄准的MOD",
     requireRange: "需要范围",

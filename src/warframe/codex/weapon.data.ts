@@ -576,9 +576,9 @@ export const gunWeaponData = [
     dmg: [["Slash", 2.5], ["Puncture", 20], ["Impact", 2.5]],
     accuracy: 4,
     fireRate: 11.43,
-    critChance: 0.15,
+    critChance: 0.0375,
     critMul: 1.5,
-    status: 0.1,
+    status: 0.025,
     magazine: 16,
     reload: 2,
     ammo: 210,
@@ -593,7 +593,8 @@ export const gunWeaponData = [
     tags: ["Gun", "Secondary", "Charge"],
     dmg: [["Slash", 10], ["Puncture", 80], ["Impact", 10]],
     accuracy: 4,
-    fireRate: 3.33,
+    bullets: 4,
+    fireRate: 1,
     critChance: 0.15,
     critMul: 1.5,
     status: 0.1,
@@ -611,9 +612,9 @@ export const gunWeaponData = [
     dmg: [["Slash", 3.75], ["Puncture", 67.5], ["Impact", 3.75]],
     accuracy: 4,
     fireRate: 11.43,
-    critChance: 0.2,
+    critChance: 0.05,
     critMul: 1.5,
-    status: 0.1,
+    status: 0.025,
     magazine: 20,
     reload: 2,
     ammo: 210,
@@ -644,15 +645,17 @@ export const gunWeaponData = [
     name: "ballisticaPrime",
     rivenName: "Ballistica",
     tags: ["Gun", "Secondary"],
-    dmg: [["Slash", 15.2], ["Puncture", 20.9], ["Impact", 1.9]],
+    dmg: [["Slash", 60.8], ["Puncture", 83.6], ["Impact", 7.6]],
     accuracy: 4,
-    fireRate: 11.43,
+    bullets: 4,
+    fireRate: 3.33,
     critChance: 0.2,
     critMul: 2,
     status: 0.2,
     magazine: 32,
     reload: 1.2,
     ammo: 210,
+    ammoCost: 4,
     prjSpeed: 100,
     pol: "-rr"
   },
@@ -4128,7 +4131,8 @@ export const gunWeaponData = [
     status: 0.25,
     accuracy: 28.6,
     magazine: 100,
-    reload: 100 / 25
+    reload: 100 / 25,
+    prjSpeed: 400
   },
   {
     id: "Larkspur",
@@ -4314,7 +4318,8 @@ export const gunWeaponData = [
     accuracy: 28.6,
     magazine: 10,
     reload: 2,
-    ammo: 60
+    ammo: 60,
+    prjSpeed: 400
   },
   {
     id: "Velocitus (charged-Atmosphere)",
@@ -4330,7 +4335,8 @@ export const gunWeaponData = [
     accuracy: 28.6,
     magazine: 10,
     reload: 2,
-    ammo: 60
+    ammo: 60,
+    prjSpeed: 400
   },
   {
     id: "Larkspur (Atmosphere)",

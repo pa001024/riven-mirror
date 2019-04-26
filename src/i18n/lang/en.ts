@@ -1144,6 +1144,7 @@ let po = {
     scoreResult: "Improve <span class='score-text'>{0}%</span> {1}",
     heavyCaliber: "Heavy Caliber",
     primedChamber: "Primed Chamber",
+    deadlyEfficiency: "Deadly Efficiency",
     acolyteMods: "Acolyte Mods",
     acolyteModsTip: "e.g. Argon Scope",
     requireRange: "Require Range",

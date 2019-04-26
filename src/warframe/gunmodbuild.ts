@@ -25,6 +25,7 @@ export interface GunModBuildOptions {
   useAcolyteMods?: boolean;
   useHeavyCaliber?: boolean;
   usePrimedChamber?: boolean;
+  useDeadlyEfficiency?: boolean;
   useHunterMunitions?: number;
   headShotChance?: number;
   allowElementTypes?: string[];
@@ -114,6 +115,8 @@ export class GunModBuild extends ModBuild {
   useHeavyCaliber = true;
   /** 使用金首发 */
   usePrimedChamber = false;
+  /** 使用致命效率 */
+  useDeadlyEfficiency = false;
   /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
   useHunterMunitions = 1;
 
@@ -132,6 +135,7 @@ export class GunModBuild extends ModBuild {
     this.useAcolyteMods = typeof options.useAcolyteMods !== "undefined" ? options.useAcolyteMods : this.useAcolyteMods;
     this.useHeavyCaliber = typeof options.useHeavyCaliber !== "undefined" ? options.useHeavyCaliber : this.useHeavyCaliber;
     this.usePrimedChamber = typeof options.usePrimedChamber !== "undefined" ? options.usePrimedChamber : this.usePrimedChamber;
+    this.useDeadlyEfficiency = typeof options.useDeadlyEfficiency !== "undefined" ? options.useDeadlyEfficiency : this.useDeadlyEfficiency;
     this.useHunterMunitions = typeof options.useHunterMunitions !== "undefined" ? options.useHunterMunitions : this.useHunterMunitions;
     this.headShotChance = typeof options.headShotChance !== "undefined" ? options.headShotChance : this.headShotChance;
     this.allowElementTypes = typeof options.allowElementTypes !== "undefined" ? options.allowElementTypes : this.allowElementTypes;
@@ -149,6 +153,7 @@ export class GunModBuild extends ModBuild {
       useHeavyCaliber: this.useHeavyCaliber,
       usePrimedChamber: this.usePrimedChamber,
       useHunterMunitions: this.useHunterMunitions,
+      useDeadlyEfficiency: this.useDeadlyEfficiency,
       headShotChance: this.headShotChance,
       allowElementTypes: this.allowElementTypes,
       extraBaseDamage: this.extraBaseDamage,
@@ -419,11 +424,10 @@ export class GunModBuild extends ModBuild {
     if (!this.useAcolyteMods && AcolyteModsList.some(v => v === mod.id)) return false;
     if (!this.useHeavyCaliber && "Heavy Caliber" === mod.id) return false;
     if (!this.usePrimedChamber && "Primed Chamber" === mod.id) return false;
+    if (!this.useDeadlyEfficiency && "Deadly Efficiency" === mod.id) return false;
     if (!this.useHunterMunitions && "Hunter Munitions" === mod.id) return false;
     // 集团海克屏蔽散射正义
-    if (this.weapon.id === "Vaykor Hek" && mod.id === "Scattered Justice") {
-      return false;
-    }
+    if (this.weapon.id === "Vaykor Hek" && mod.id === "Scattered Justice") return false;
     return true;
   }
 

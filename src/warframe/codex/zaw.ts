@@ -96,7 +96,7 @@ const _zawGrip = [
   ["0", "Korb", 0, 28, -13],
   ["6", "Seekalla", 1, -4, 0],
   ["8", "Jayap", 1, 0, -5],
-  ["5", "Plague Bokwin", 1, 7, -10],
+  ["5", "Plague Bokwin", 1, 7, -7],
   ["9", "Kroostra", 1, 14, -9],
   ["7", "Shtung", 1, 28, -13]
 ] as [string, string, number, number, number][];
