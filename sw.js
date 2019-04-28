@@ -27,7 +27,7 @@ workbox.routing.registerRoute(
   workbox.strategies.staleWhileRevalidate()
 );
 workbox.routing.registerRoute(
-  new RegExp("^https://cdn.riven.im/"),
+  new RegExp("^https://cdn\.riven\.im/.+"),
   workbox.strategies.cacheFirst()
 );
 workbox.routing.registerRoute(/.*\/$/, workbox.strategies.networkFirst());

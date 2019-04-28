@@ -23,17 +23,17 @@
         </template>
       </div>
     </el-tab-pane>
-    <el-tab-pane name="KITGUN">
+    <el-tab-pane name="KITGUN" lazy>
       <span slot="label" class="weapon-tablabel">{{$t('kitgun.title')}}</span>
       <KitgunBuilder @finish="newKITGUN">
       </KitgunBuilder>
     </el-tab-pane>
-    <el-tab-pane name="ZAW">
+    <el-tab-pane name="ZAW" lazy>
       <span slot="label" class="weapon-tablabel">{{$t('zaw.title')}}</span>
       <ZawBuilder @finish="newZAW">
       </ZawBuilder>
     </el-tab-pane>
-    <el-tab-pane name="AMP">
+    <el-tab-pane name="AMP" lazy>
       <span slot="label" class="weapon-tablabel">{{$t('amp.title')}}</span>
       <AmpBuilder @finish="newAMP">
       </AmpBuilder>
