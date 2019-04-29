@@ -418,17 +418,22 @@ export class GunModBuild extends ModBuild {
 
   // ### 基类方法 ###
 
-  /** 检测当前MOD是否可用 */
+  /** [overwrite] 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
     if (!super.isValidMod(mod)) return false;
     if (!this.useAcolyteMods && AcolyteModsList.some(v => v === mod.id)) return false;
     if (!this.useHeavyCaliber && "Heavy Caliber" === mod.id) return false;
-    if (!this.usePrimedChamber && "Primed Chamber" === mod.id) return false;
-    if (!this.useDeadlyEfficiency && "Deadly Efficiency" === mod.id) return false;
     if (!this.useHunterMunitions && "Hunter Munitions" === mod.id) return false;
     // 集团海克屏蔽散射正义
     if (this.weapon.id === "Vaykor Hek" && mod.id === "Scattered Justice") return false;
     return true;
+  }
+
+  /** [overwrite] 检测当前MOD是否不自动使用 */
+  isNoNeedMod(mod: NormalMod) {
+    if (!this.usePrimedChamber && "Primed Chamber" === mod.id) return true;
+    if (!this.useDeadlyEfficiency && "Deadly Efficiency" === mod.id) return true;
+    return false;
   }
 
   /** 重置所有属性增幅器 */

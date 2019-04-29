@@ -1032,6 +1032,11 @@ export abstract class ModBuild {
     return true;
   }
 
+  /** 检测当前MOD是否不自动使用 */
+  isNoNeedMod(mod: NormalMod) {
+    return false;
+  }
+
   /**
    * [纯函数] 映射组合MOD加成
    *
@@ -1100,6 +1105,7 @@ export abstract class ModBuild {
   testMod(mod: NormalMod) {
     // MOD查重
     if (!this.isValidMod(mod)) return -1;
+    if (this.isNoNeedMod(mod)) return -1;
     // 效率优化
     let props = mod.vProps ? mod.vProps.filter(v => v.dmg) : [null, null];
     if (props.length === 0) return -1;
