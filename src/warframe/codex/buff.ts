@@ -247,26 +247,27 @@ export const BuffList: BuffData[] = [
     name: "baseDamage", // 通用基伤
     type: BuffType.BaseDamage,
     target: "Weapon",
-    dynamicProps: [["dmg", 100, 0]],
-    parms: ["power", "%"]
+    dynamicProps: [["dmg", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100
   },
   {
     id: "B",
     name: "ballisticBattery", // 女枪1 弹道蓄能 (加数值)
     type: BuffType.BaseDamage,
     target: "Gun",
-    dynamicProps: [["apd", 1600, 0]],
+    dynamicProps: [["apd", 16, 0]],
     parms: ["power", "%"],
-    defaultValue: 2
+    defaultValue: 200
   },
   {
     id: "G",
     name: "shootingGallery", // 女枪2 靶场
     type: BuffType.BaseDamage,
     target: "All",
-    dynamicProps: [["dmg", 50, 0]],
+    dynamicProps: [["dmg", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 2
+    defaultValue: 200
   },
   {
     id: "A",
@@ -391,14 +392,14 @@ export const BuffList: BuffData[] = [
   },
   {
     id: "K",
-    name: "zaw", // zaw 加成
+    name: "block", // 格挡加成
     type: BuffType.TotalDamage,
-    target: "Virtual",
+    target: "Ack & Brunt",
     multiLayer: {
-      maxStack: 2,
-      unstackableProps: [[["oad", 14]], [["oad", 70]]]
+      maxStack: 4,
+      stackableProps: [["oad", 17.5]]
     },
-    defaultLayer: 2
+    defaultLayer: 4
   },
   {
     id: "N",
@@ -481,6 +482,15 @@ export const BuffList: BuffData[] = [
     dynamicProps: [["ecd", 1, 0]],
     parms: ["power", "%"],
     defaultValue: 348
+  },
+  {
+    id: "s",
+    name: "toxin", // 米尔的加成
+    type: BuffType.ElementDamage,
+    target: "Weapon",
+    dynamicProps: [["etd", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 10
   },
   // 速度类
   // 电男2 女汉子2 毒龙2

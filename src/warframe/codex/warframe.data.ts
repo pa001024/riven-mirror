@@ -163,7 +163,7 @@ export let _abilityData: AbilityData[] = [
     id: "World On Fire",
     tags: 1,
     energyCost: 25,
-    energyCostPS: 5,
+    energyCostPS: 3,
     props: {
       Damage: {
         range: R(15),
@@ -677,7 +677,7 @@ export let _abilityData: AbilityData[] = [
     id: "Peacemaker",
     tags: 1,
     energyCost: 25,
-    energyCostPS: 4,
+    energyCostPS: 15,
     props: {
       ExaltedWeapon: { weaponName: "Regulators", effect: [["D", S(150)]] }
     }

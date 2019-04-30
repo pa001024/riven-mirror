@@ -725,7 +725,7 @@ export class WarframeBuild {
     let mods = [this.aura, this.exilus, ...this.mods];
     while (mods.length < 10) mods.push(null);
     let normal = mods.map(v => (v && v.key + (v.level !== v.maxLevel ? "@" + base62(v.level) : "")) || "00").join("");
-    let buffseq = this.buffs.map(v => `_${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 100) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
+    let buffseq = this.buffs.map(v => `_${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 10) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
     if (normal === "00000000000000000000") return buffseq;
     else return normal + buffseq;
   }
@@ -743,7 +743,7 @@ export class WarframeBuild {
       let bdata = BuffList.find(v => v.id === w[0]);
       if (bdata) {
         let newBuff = new Buff(bdata);
-        if (w[1]) newBuff.power = debase62(w[1]) / 100;
+        if (w[1]) newBuff.power = debase62(w[1]) / 10;
         if (w[2]) newBuff.layer = +w[2];
         bufflist.push(newBuff);
       }
@@ -1040,22 +1040,15 @@ export class RenderedAbilities {
           return resolveBind(o);
         } else {
           // speical
-          return _.mapValues(o as any, val => trans(val)) as typeof o;
+          return _.mapValues(o, val => trans(val)) as typeof o;
         }
       }
       return o;
     };
     return _.map(this.data.props, (v, type) => {
-      let rst = _.mapValues(v as any, val => trans(val)) as typeof v;
+      let rst = _.mapValues(v, val => trans(val)) as typeof v;
       switch (type) {
         case "Damage":
-          const { ...r } = rst as AbilityPropTypes.Damage;
-          return [
-            _.camelCase(type),
-            {
-              ...r
-            }
-          ];
         case "Buff":
         case "Debuff":
         case "Summon":
@@ -1065,11 +1058,10 @@ export class RenderedAbilities {
         case "Move":
         case "ExaltedWeapon":
           break;
-
         default:
           break;
       }
-      return [_.camelCase(type), rst];
+      return [_.camelCase(type), rst] as [string, typeof v];
     });
   }
 }

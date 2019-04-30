@@ -143,12 +143,14 @@
                   <div class="skill-effect" :key="index" v-for="([name, effect], index) in abi.props">
                     <div class="effect-name">{{$t(`ability.effects.${name}`)}}</div>
                     <div class="effect-detail">
+                      <!-- special -->
                       <template v-if="effect[0]">
                         <div class="effect-prop special" :key="vn" v-for="(vv, vn) in effect">
                           <div class="prop-name">{{$t(`ability.props.${vv.desc}`)}}</div>
                           <div class="prop-value normal">{{vv.val}}</div>
                         </div>
                       </template>
+                      <!-- normal -->
                       <template v-else>
                         <div class="effect-prop" :key="vn" v-for="(vv, vn) in effect">
                           <div class="prop-name">{{$t(`ability.props.${vn}`)}}</div>
@@ -164,6 +166,10 @@
                                 {{renderProps([pname, pvalue]).fullString}}
                               </div>
                             </template>
+                          </div>
+                          <!-- Exalted Weapon -->
+                          <div class="prop-value weapon" v-else-if="vn==='weaponName'">
+                            <a class="link-btn" :href="`/weapon/${vv}/${renderWeaponProps(abi)}`">{{renderWeapon(vv)}}</a>
                           </div>
                           <div class="prop-value normal" v-else>
                             {{vv}}
@@ -196,10 +202,11 @@ import LeveledModSelector from "@/components/LeveledModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import ShareQR from "@/components/ShareQR.vue";
-import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty, BuffData } from "@/warframe/codex";
+import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty, BuffData, RivenDataBase, AbilityPropTypes } from "@/warframe/codex";
 import "@/less/builder.less";
 import { i18n } from "@/i18n";
-import { Getter } from "vuex-class";
+import { Getter, Action } from "vuex-class";
+import { base62 } from "../warframe/lib/base62";
 
 interface BuildSelectorTab {
   title: string;
@@ -225,12 +232,14 @@ export default class WarframeEditor extends Vue {
   @Getter("bigScreen") bigScreen: boolean;
   modDialogVisible = false;
   buffDialogVisible = false;
+  @Getter("savedBuilds") savedBuilds: { [key: string]: string };
+  @Action("setBuild") setBuild: (build: WarframeBuild) => void;
 
   get id() {
     return this.$route.params.id;
   }
   get code() {
-    return this.$route.params.code;
+    return this.$route.params.code || this.savedBuilds[this.core.id];
   }
 
   tabs: BuildSelectorTab[] = [];
@@ -254,6 +263,14 @@ export default class WarframeEditor extends Vue {
 
   renderProps([vn, vv]: [string, number]) {
     return ValuedProperty.parse([vn, vv]);
+  }
+  renderWeapon(name: string) {
+    return RivenDataBase.getNormalWeaponsByName(name).displayName;
+  }
+  renderWeaponProps(abi: WarframeBuild["Abilities"][number]) {
+    const p = this.build.abilityStrength * 1e3;
+    if (abi.name === "Peacemaker") return `_z:${base62(p)}`;
+    return `_Z:${base62(p)}`;
   }
   changeMode(mode: number) {
     this.build.compareMode = mode;
@@ -325,8 +342,10 @@ export default class WarframeEditor extends Vue {
 
   pushState() {
     let code = this.build.miniCode;
-    if (code) this.$router.push({ name: "WarframeEditorWithCode", params: { code } });
-    else this.$router.push({ name: "WarframeEditor" });
+    if (code) {
+      this.$router.push({ name: "WarframeEditorWithCode", params: { code } });
+      this.setBuild(this.build);
+    } else this.$router.push({ name: "WarframeEditor" });
   }
 
   slotClick(modIndex: number) {

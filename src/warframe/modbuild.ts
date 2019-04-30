@@ -287,7 +287,7 @@ export abstract class ModBuild {
     let mods = this.mods;
     while (mods.length < 8) mods.push(null);
     let normal = mods.map(v => (v && v.key + (v.level !== v.maxLevel ? "@" + base62(v.level) : "")) || "00").join("");
-    let buffseq = this.buffs.map(v => `_${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 100) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
+    let buffseq = this.buffs.map(v => `_${v.data.id}:${v.powerEnable && v.power ? base62(v.power * 10) : ""}${v.layerEnable ? ":" + v.layer : ""}`).join("");
     if (this.riven && mods.some(v => v && v.key === "01") && this.riven.properties.length > 1) return normal + this.riven.qrCodeBase64 + buffseq;
     if (normal === "0000000000000000") return buffseq;
     else return normal + buffseq;
@@ -307,7 +307,7 @@ export abstract class ModBuild {
       let bdata = BuffList.find(v => v.id === w[0]);
       if (bdata) {
         let newBuff = new Buff(bdata);
-        if (w[1]) newBuff.power = debase62(w[1]) / 100;
+        if (w[1]) newBuff.power = debase62(w[1]) / 10;
         if (w[2]) newBuff.layer = +w[2];
         bufflist.push(newBuff);
       }
