@@ -33,12 +33,12 @@ export interface DamageTypeData {
 
 const _damageTypeDatabase = {
   Impact: ["Physical", null, [-0.25, -0.25, 0, 0, 0, 0, 0.25, 0, 0, 0.5, 0.25, 0, 0]],
-  Puncture: ["Physical", null, [0, 0, 0, 0, 0, 0.25, 0, 0.25, 0, -0.25, -0.5, 0.5, 0.25]],
-  Slash: ["Physical", null, [0.25, 0.25, 0.25, 0.25, 0.5, 0, 0, -0.25, 0, 0, 0, -0.25, -0.5]],
+  Puncture: ["Physical", null, [0, 0, 0, 0, 0, 0.25, 0, 0.25, 0, -0.2, -0.5, 0.5, 0.15]],
+  Slash: ["Physical", null, [0.25, 0.25, 0.15, 0.25, 0.5, 0, 0, -0.25, 0, 0, 0, -0.15, -0.5]],
   Cold: ["Elemental", null, [0, 0, -0.25, 0, -0.5, 0.25, 0, 0, 0, 0.5, 0, 0, 0.25]],
   Electricity: ["Elemental", null, [0, 0, 0, 0, 0, 0, 0.5, 0.5, 0, 0, 0, 0, -0.5]],
   Heat: ["Elemental", null, [0, 0.25, 0, 0.25, 0.5, 0, 0, 0, 0, 0, -0.5, 0, 0]],
-  Toxin: ["Elemental", null, [0.5, 0, -0.5, 0, 0, 0, -0.25, -0.25, 0, NaN, 0.25, 0.25, 0]],
+  Toxin: ["Elemental", null, [0.5, 0, -0.5, 0, 0, 0, -0.25, -0.25, 0, NaN, NaN, 0.25, 0]],
   Blast: ["Combined", "Cold+Heat", [0, 0, 0.5, 0, 0, -0.5, 0.75, 0, 0, 0, 0, -0.25, 0]],
   Corrosive: ["Combined", "Electricity+Toxin", [0, 0, 0.75, 0, 0, 0, 0, 0, 0, 0, -0.5, 0.75, 0]],
   Gas: ["Combined", "Heat+Toxin", [-0.25, -0.5, 0, 0.75, 0.5, 0, 0, 0, 0, 0, 0, 0, 0]],

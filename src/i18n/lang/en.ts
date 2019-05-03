@@ -326,7 +326,7 @@ let po = {
     kunai: "Kunai",
     akzani: "AkZani",
     viper: "Viper",
-    wraithViper: "Viper Wraith",
+    viperWraith: "Viper Wraith",
     akbolto: "Akbolto",
     akboltoPrime: "Akbolto Prime",
     bolto: "Bolto",

@@ -257,9 +257,13 @@ export abstract class ModBuild {
 
   /** 武器原本伤害 */
   get initialDamage() {
-    if (this.initialDamageMul === 1 && !this._absExtra.length) return this.weapon.dmg;
+    if (this.initialDamageMul === 1 && !this._absExtra.length) {
+      this._originalDamage = 0;
+      return this.weapon.dmg;
+    }
     let dmg = this.weapon.dmg.map(([n, v]) => [n, v * this.initialDamageMul] as [string, number]);
     if (this._absExtra.length) dmg = dmg.concat(this._absExtra);
+    this._originalDamage = 0;
     return dmg;
   }
 

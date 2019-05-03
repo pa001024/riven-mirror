@@ -3781,7 +3781,7 @@ export const gunWeaponData = [
   },
   {
     id: "Viper Wraith",
-    name: "wraithViper",
+    name: "viperWraith",
     rivenName: "Viper",
     tags: ["Gun", "Secondary"],
     dmg: [["Slash", 1.8], ["Puncture", 1.8], ["Impact", 14.4]],
