@@ -53,7 +53,7 @@
       <el-form :inline="true" class="build-form-inline" :size="bigScreen ? 'mini' : 'small'">
         <!-- 选择武器 -->
         <el-form-item :label="$t('buildview.weapon')">
-          <el-select v-model="selectWeapon" @change="debouncedRecalc" :placeholder="$t('buildview.selectWeapon')">
+          <el-select v-model="selectWeapon" @change="weaponchanged" :placeholder="$t('buildview.selectWeapon')">
             <el-option v-for="weapon in riven.weapons" :key="weapon.id" :label="weapon.displayName" :value="weapon.id">
             </el-option>
             <el-option v-for="weapon in vistualWeapons" :key="weapon.id" :label="weapon.displayName" :value="weapon.id">
@@ -274,6 +274,13 @@ export default class MeleeModBuildView extends BaseModBuildView {
       arcanes: this.arcanes
     };
     super.recalc(MeleeModBuild, options);
+  }
+  weaponchanged() {
+    const weapon = this.weapon as MeleeWeapon;
+    // 自动配卡优化
+    this.requireCombo = !weapon.tags.includes("Virtual");
+    this.requireRange = weapon.range && weapon.range[1] > 1;
+    this.debouncedRecalc();
   }
 }
 </script>

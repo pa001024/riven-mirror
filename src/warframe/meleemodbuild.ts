@@ -100,6 +100,9 @@ export class MeleeModBuild extends ModBuild {
     if ((this.weapon = weapon)) {
       this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.id]).includes(v.type));
     }
+    // 自动配卡优化
+    this.requireCombo = !this.weapon.tags.includes("Virtual");
+    this.requireRange = this.weapon.range && this.weapon.range[1] > 1;
     if (options) {
       this.options = options;
     }
