@@ -5,7 +5,9 @@
         <el-row class="price-box">
           <el-col :xs="24" :md="8" v-for="price in prices" :key="price.name" class="price-view" :class=[price.name]>
             <div class="price avg">
-              <div class="header" v-t="`riven.${price.name}`"></div>
+              <div class="header">
+                {{price.name === "veliedPrice" ? $t(`weaponselector.${mod.weapon.modcn.name}`) : mod.weapon.name}} {{$t(`riven.${price.name}`)}}
+              </div>
               <div class="value">{{formatPrice(price.avg)}}</div>
               <div class="title" v-t="'riven.avg'"></div>
             </div>
@@ -39,15 +41,29 @@ import { ModBuild } from "@/warframe/modbuild";
 import { CachedWikiApi } from "@/service/wiki";
 import { RivenMod } from "@/warframe/rivenmod";
 import { WeeklyRivenInfo } from "@/warframe/weeklyriven";
+import { Getter, Action } from "vuex-class";
 
 @Component({ components: {} })
-export default class BuildMinimap extends Vue {
-  @Prop() veliedPrice: WeeklyRivenInfo;
-  @Prop() rolledPrice: WeeklyRivenInfo;
-  @Prop() unrolledPrice: WeeklyRivenInfo;
+export default class RivenPrice extends Vue {
+  @Prop() mod: RivenMod;
+  @Getter("priceData") priceData: WeeklyRivenInfo[];
 
   get enable() {
-    return this.veliedPrice && this.rolledPrice && this.unrolledPrice;
+    return this.priceData;
+  }
+
+  // 未开价格
+  get veliedPrice() {
+    const query = `${this.mod.weapon.mod} Riven Mod`;
+    return this.priceData.find(v => v.itemType === query && !v.compatibility);
+  }
+  // 普卡
+  get rolledPrice() {
+    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && v.rerolled);
+  }
+  // 未洗
+  get unrolledPrice() {
+    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && !v.rerolled);
   }
 
   get prices() {
@@ -67,7 +83,6 @@ export default class BuildMinimap extends Vue {
     const body = base.substr(head.length, base.length - head.length - tail.length);
     return (n < 0 ? "-" : "") + head + body.replace(/\d{3}(?=)/g, v => "," + v) + tail;
   }
-
   // mounted() {}
 }
 </script>

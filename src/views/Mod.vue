@@ -82,7 +82,7 @@
         <el-row>
           <!-- 价格区域 -->
           <el-col :span="24" v-if="priceData.length > 0">
-            <RivenPrice :veliedPrice="veliedPrice" :rolledPrice="rolledPrice" :unrolledPrice="unrolledPrice" />
+            <RivenPrice :mod="mod"/>
           </el-col>
           <el-col :span="24">
             <component :riven="mod" :is="mod.isGun ? 'GunModBuildView' : 'MeleeModBuildView'"></component>
@@ -133,26 +133,12 @@ export default class Mod extends Vue {
   editorRivenCode = "";
   @Getter("mod") mod: RivenMod;
   @Getter("modHistoty") modHistoty: RivenMod[];
-  @Getter("priceData") priceData: WeeklyRivenInfo[];
-  @Getter("lastWeekly") lastWeekly: number;
   @Action("newBase64Text") newBase64Text: (text: string) => void;
   @Action("newModTextInput") newModTextInput: (text: string) => void;
   @Action("removeHistory") removeHistory: (qrcode: string) => void;
+  @Getter("priceData") priceData: WeeklyRivenInfo[];
+  @Getter("lastWeekly") lastWeekly: number;
   @Action("getWeekly") getWeekly: () => void;
-
-  // 未开价格
-  get veliedPrice() {
-    const query = `${this.mod.weapon.mod} Riven Mod`;
-    return this.priceData.find(v => v.itemType === query && !v.compatibility);
-  }
-  // 普卡
-  get rolledPrice() {
-    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && v.rerolled);
-  }
-  // 未洗
-  get unrolledPrice() {
-    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && !v.rerolled);
-  }
 
   readQRCode(file: File) {
     return new Promise((resolve: (msg: string) => void, reject) => {

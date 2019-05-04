@@ -45,7 +45,7 @@ export class Weapon implements WeaponData {
   }
   /** WM URL */
   get wmurl() {
-    return this.realID.toLowerCase().replace(/ /g, "-");
+    return this.realID.toLowerCase().replace(/ /g, "_") + "_set";
   }
   get displayName() {
     let name = i18n.t(`messages.${this.name}`) as string;

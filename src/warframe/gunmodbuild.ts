@@ -285,12 +285,12 @@ export class GunModBuild extends ModBuild {
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }
-  /** 原平均射速=1/(1/射速+装填/弹匣) */
+  /** 原平均射速 = 弹匣 ÷ ((弹匣 − 1) ÷ 射速 + 装填) */
   get oriSustainedFireRate() {
     const { fireRate: f, reload: r, magazine } = this.weapon;
     const m = ~~(magazine / this.ammoCost);
     if (this.weapon.tags.includes("Charge")) return 1 / (1 / f + r / m);
-    return (m * f) / (m - 1 + Math.max(1, r * f));
+    return (m * f) / (m - 1 + r * f);
   }
 
   /** 有效弹匣容量 */
@@ -304,7 +304,7 @@ export class GunModBuild extends ModBuild {
   get sustainedFireRate() {
     const { fireRate: f, reloadTime: r, effectiveMagazineSize: m } = this;
     if (this.weapon.tags.includes("Charge")) return 1 / (1 / f + r / m);
-    return (m * f) / (m - 1 + Math.max(1, r * f));
+    return (m * f) / (m - 1 + r * f);
   }
   /** 持续伤害增幅倍率  */
   get sustainedDamageMul() {

@@ -511,7 +511,7 @@ export const BuffList: BuffData[] = [
     target: "Melee",
     dynamicProps: [["J", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 250
   },
   {
     id: "w",
@@ -520,7 +520,7 @@ export const BuffList: BuffData[] = [
     target: "Gun",
     dynamicProps: [["F", 0.35, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 171.4
   },
   // 暴击类
   {
