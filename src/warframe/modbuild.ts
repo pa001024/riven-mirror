@@ -726,7 +726,7 @@ export abstract class ModBuild {
       // 电击伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Electricity_Damage
       ["Electricity", this.electricityBaseDamage * this.procDamageMul]
     ] as [DamageType, number][];
-    if (this.damageModel) return this.damageModel.mapDamage(procs, 0, 300);
+    if (this.damageModel) return this.damageModel.mapProcDamage(procs);
     return procs;
   }
   /** 无多重触发伤害(各属性) */

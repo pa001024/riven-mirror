@@ -45,7 +45,7 @@ const _damageTypeDatabase = {
   Magnetic: ["Combined", "Cold+Electricity", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0.75, 0.75, 0, -0.5]],
   Radiation: ["Combined", "Electricity+Heat", [0, 0, -0.75, -0.5, 0, 0.5, 0, 0.25, 0, -0.25, 0, 0, 0.75]],
   Viral: ["Combined", "Cold+Toxin", [0.5, 0.75, 0, -0.5, 0, 0, -0.25, 0, 0, 0, 0, 0, 0]],
-  Void: ["Standalone", null, [0, -0.5, 0, 0, 0, 0, -0.5, 0, 0, 0, 0, 0, 0]]
+  Void: ["Standalone", null, [0, -0.5, -0.5, 0, 0, 0, -0.5, 0, 0, 0, 0, 0, 0]]
 } as { [key: string]: [string, string, number[]] };
 
 /**
@@ -365,16 +365,30 @@ export class SimpleDamageModel extends DamageModelData {
   }
 
   /**
+   * 根据克制修正系数计算触发伤害模型
+   *
+   * @param {[string, number][]} dmgs
+   * @param critChance 暴击几率
+   * @param threshold 阈值
+   * @returns 映射后的伤害数值
+   * @memberof Enemy
+   */
+  mapProcDamage(dmgs: [string, number][]) {
+    if (this.ignoreProc > 1) return dmgs.map(([vn, vv]) => [vn, 0] as [string, number]);
+    else return this.mapDamageNormal(dmgs, true);
+  }
+
+  /**
    * 根据克制修正系数计算伤害模型
    *
    * @param {[string, number][]} dmgs
    * @returns 映射后的伤害数值
    * @memberof Enemy
    */
-  mapDamageNormal(dmgs: [string, number][]) {
-    if (typeof this.shieldType === "number") return this.mapDamageShield(dmgs);
-    if (typeof this.armorType === "number") return this.mapDamageArmor(dmgs);
-    if (typeof this.fleshType === "number") return this.mapDamageHealth(dmgs);
+  mapDamageNormal(dmgs: [string, number][], dot = false) {
+    if (typeof this.shieldType === "number") return this.mapDamageShield(dmgs, dot);
+    if (typeof this.armorType === "number") return this.mapDamageArmor(dmgs, dot);
+    if (typeof this.fleshType === "number") return this.mapDamageHealth(dmgs, dot);
     return dmgs;
   }
 
@@ -385,9 +399,9 @@ export class SimpleDamageModel extends DamageModelData {
    * @returns 映射后的伤害数值
    * @memberof Enemy
    */
-  mapDamageShield(dmgs: [string, number][]) {
+  mapDamageShield(dmgs: [string, number][], dot = false) {
     return dmgs.map(([id, dmg]) => {
-      let dtype = Damage2_0.getDamageType(id as DamageType);
+      let dtype = Damage2_0.getDamageType((dot && id === "Gas" ? "Toxin" : id) as DamageType);
       if (!dtype) return [id, dmg];
       let SM = dtype.dmgMul[this.shieldType];
       // 毒素伤害直接穿透护盾对血量进行打击, 不计算对护盾的伤害
@@ -403,9 +417,9 @@ export class SimpleDamageModel extends DamageModelData {
    * @returns 映射后的伤害数值
    * @memberof Enemy
    */
-  mapDamageArmor(dmgs: [string, number][]) {
+  mapDamageArmor(dmgs: [string, number][], dot = false) {
     return dmgs.map(([id, dmg]) => {
-      let dtype = Damage2_0.getDamageType(id as DamageType);
+      let dtype = Damage2_0.getDamageType((dot && id === "Gas" ? "Toxin" : id) as DamageType);
       if (!dtype) return [id, dmg];
       let HM = dtype.dmgMul[this.fleshType];
       let AM = dtype.dmgMul[this.armorType];
@@ -421,9 +435,9 @@ export class SimpleDamageModel extends DamageModelData {
    * @returns 映射后的伤害数值
    * @memberof Enemy
    */
-  mapDamageHealth(dmgs: [string, number][]) {
+  mapDamageHealth(dmgs: [string, number][], dot = false) {
     return dmgs.map(([id, dmg]) => {
-      let dtype = Damage2_0.getDamageType(id as DamageType);
+      let dtype = Damage2_0.getDamageType((dot && id === "Gas" ? "Toxin" : id) as DamageType);
       if (!dtype) return [id, dmg];
       let HM = dtype.dmgMul[this.fleshType];
       let DM = 1 + HM;
