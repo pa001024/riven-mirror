@@ -18,6 +18,10 @@
           <div class="type">
             {{$t(`zaw.${item.oneHand.type}`)}} / {{$t(`zaw.${item.twoHand.type}`)}}
           </div>
+          <div class="prop" v-if="grip || links">
+            <span>{{+((60+item.speed+(grip?grip.speed:0)+(links?links.speed:0))/60).toFixed(3)}} {{$t(`modular.fireRate`)}}</span>
+            <span>{{strikeDmg(item)}} {{$t(`modular.damage`)}}</span>
+          </div>
         </el-radio>
       </div>
     </div>
@@ -35,7 +39,7 @@
             {{$t(`zaw.${strike[item.twoHand ? 'twoHand' : 'oneHand'].type}`)}}
           </div>
           <div class="prop">
-            <span>{{+((60+strike.speed+item.speed)/60).toFixed(3)}} {{$t(`modular.fireRate`)}}</span>
+            <span>{{+((60+strike.speed+item.speed+(links?links.speed:0))/60).toFixed(3)}} {{$t(`modular.fireRate`)}}</span>
             <span>{{gripDmg(item)}} {{$t(`modular.damage`)}}</span>
           </div>
         </el-radio>
@@ -102,6 +106,11 @@ export default class extends Vue {
 
   finish() {
     this.$emit("finish", this.zaw);
+  }
+
+  strikeDmg(strike: ZawStrike) {
+    let modify = this.grip && this.grip.twoHand ? strike.twoHand : strike.oneHand;
+    return +((72 + strike.dmg + (this.grip ? this.grip.dmg : 0) + (this.links ? this.links.dmg : 0)) * modify.dmg).toFixed(1);
   }
 
   gripDmg(grip: ZawGrip) {

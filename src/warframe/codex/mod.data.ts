@@ -402,7 +402,7 @@ const data = [
   ["HB", "Antitoxin", [["pr", 7.5]], Warframe, "d", "c", 4],
   ["HC", "Diamond Skin", [["rr", 7.5]], Warframe, "d", "c", 4],
   ["HD", "Rapid Resilience", [["sds", -12.5]], Warframe, "d", "r", 6],
-  ["HE", "Health Conversion", [["hc", 50]], Warframe, "d", "r", 10],
+  ["HE", "Health Conversion", [["hc", 75]], Warframe, "d", "r", 10],
   ["HF", "Energy Conversion", [["ec", 50 / 6]], Warframe, "r", "r", 10],
   ["HG", "Equilibrium", [["eq", 10]], Warframe, "-", "c", 4, 10],
   ["HH", "Fast Deflection", [["r", 15]], Warframe, "d", "c", 4],

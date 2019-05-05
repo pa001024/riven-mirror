@@ -55,6 +55,16 @@
               <el-button type="primary" size="small" @click="fillEmpty()">{{$t("build.fillEmpty")}}</el-button>
               <el-button type="primary" size="small" @click="clear()">{{$t("build.clear")}}</el-button>
             </el-button-group>
+            <el-form class="build-form-editor">
+              <!-- 生命球 -->
+              <el-form-item :label="$t('build.healthBall')" v-if="currentTab.mods.some(v=>v&&v.id==='Health Conversion')">
+                <el-input-number class="right-side" size="small" v-model="healthBall" @change="optionChange" :min="0" :max="3"/>
+              </el-form-item>
+              <!-- 能量球 -->
+              <el-form-item :label="$t('build.energyBall')" v-if="currentTab.mods.some(v=>v&&v.id==='Energy Conversion')">
+                <el-switch class="right-side" size="small" v-model="energyBall" @change="optionChange"/>
+              </el-form-item>
+            </el-form>
           </el-card>
         </div>
       </el-col>
@@ -249,6 +259,10 @@ export default class WarframeEditor extends Vue {
   private _core: Warframe = null;
   selectModIndex = 0;
   selectBuffIndex = 0;
+
+  healthBall = 3;
+  energyBall = true;
+
   get selectModType() {
     return this.selectModIndex === -2 ? "Aura" : this.selectModIndex === -1 ? "Exilus" : "Warframe";
   }
@@ -369,8 +383,20 @@ export default class WarframeEditor extends Vue {
     this.refleshMods();
     this.reloadSelector();
   }
+  get options() {
+    return {
+      healthBall: ~~this.healthBall,
+      energyBall: this.energyBall
+    };
+  }
 
   // === 事件处理 ===
+  optionChange() {
+    if (!this.build) return;
+    this.build.options = this.options;
+    this.build.calcMods();
+    this.reloadSelector();
+  }
   modSelect(mod: NormalMod | NormalMod[]) {
     if (Array.isArray(mod)) {
       if (mod.length > 0 && mod[0]) {

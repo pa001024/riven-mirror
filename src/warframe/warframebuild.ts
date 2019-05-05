@@ -20,7 +20,8 @@ export enum WarframeCompareMode {
 }
 export interface WarframeBuildOptions {
   compareMode?: WarframeCompareMode;
-  usrEnergyConversion?: boolean;
+  energyBall?: boolean;
+  healthBall?: number;
   arcanes?: Arcane[];
 }
 
@@ -147,8 +148,9 @@ export class WarframeBuild {
 
   // ### 参数 ###
 
-  /** 是否计算能量转换 */
-  usrEnergyConversion = true;
+  /** 能量球 */
+  energyBall = true;
+  healthBall = 3;
   compareMode = WarframeCompareMode.EffectiveHealth;
 
   // ### 基础属性 ###
@@ -163,7 +165,7 @@ export class WarframeBuild {
   }
   /** 护甲 */
   get armor() {
-    return (this.data.armor * this._armorMul) / 100 + this._armorAdd;
+    return (this.data.armor * this._armorMul) / 100 + this._armorAdd + this.healthBall * this.healthConversion;
   }
   /** 能量 */
   get energy() {
@@ -179,7 +181,7 @@ export class WarframeBuild {
   }
   /** 技能强度 */
   get abilityStrength() {
-    return (this.usrEnergyConversion ? this.energyConversion : 0) + ((1 + this._abilityStrengthAdd / 100) * this._abilityStrengthMul) / 100;
+    return (this.energyBall ? this.energyConversion : 0) + ((1 + this._abilityStrengthAdd / 100) * this._abilityStrengthMul) / 100;
   }
   /** 技能持续 */
   get abilityDuration() {
@@ -236,7 +238,7 @@ export class WarframeBuild {
   }
   /** 生命转换 */
   get healthConversion() {
-    return this._healthConversionAdd / 100;
+    return this._healthConversionAdd;
   }
   /** 能量转换 */
   get energyConversion() {
@@ -313,13 +315,15 @@ export class WarframeBuild {
 
   set options(options: WarframeBuildOptions) {
     this.compareMode = typeof options.compareMode !== "undefined" ? options.compareMode : this.compareMode;
-    this.usrEnergyConversion = typeof options.usrEnergyConversion !== "undefined" ? options.usrEnergyConversion : this.usrEnergyConversion;
+    this.energyBall = typeof options.energyBall !== "undefined" ? options.energyBall : this.energyBall;
+    this.healthBall = typeof options.healthBall !== "undefined" ? options.healthBall : this.healthBall;
     this.arcanes = typeof options.arcanes !== "undefined" ? options.arcanes : this.arcanes;
   }
   get options(): WarframeBuildOptions {
     return {
       compareMode: this.compareMode,
-      usrEnergyConversion: this.usrEnergyConversion,
+      energyBall: this.energyBall,
+      healthBall: this.healthBall,
       arcanes: this.arcanes
     };
   }

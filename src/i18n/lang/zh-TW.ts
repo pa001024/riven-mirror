@@ -2589,7 +2589,9 @@ let po = {
     provislabel: "{0} 彈片 {1} 暴擊等級",
     provislabel0: "{0} 暴擊等級",
     otherinfo: "其他資訊",
-    minimap: "縮圖"
+    minimap: "縮圖",
+    healthBall: "生命球",
+    energyBall: "能量球"
   },
   enemy: {
     name: "敵人",
