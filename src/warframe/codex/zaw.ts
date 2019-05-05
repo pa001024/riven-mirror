@@ -26,8 +26,8 @@ const _zawStrike = [
   ["6", "Dehtat", -4, [10, 2, 8], 5, 8, 8, "Rapiers", "Polearms"],
   ["7", "Cyath", 0, [1, 4, 15], 0, 8, 8, "Machetes", "Polearms"],
   ["8", "Mewan", 14, [7, 5, 8], -4, 8, 8, "Swords", "Polearms"],
-  ["9", "Plague Keewar", 0, [-7, 4, 8, 2], -2, 8, 12, "Scythes", "Staves"],
-  ["A", "Plague Kripath", 0, [7, -8, -3, 2], 2, 12, 8, "Rapiers", "Polearms"]
+  ["9", "Plague Keewar", 7, [-7, 4, 8, 2], -2, 8, 12, "Scythes", "Staves"],
+  ["A", "Plague Kripath", -2, [7, -8, -3, 2], 2, 12, 8, "Rapiers", "Polearms"]
 ] as [string, string, number, number[], number, number, number, string, string][];
 
 export const StanceData = {
@@ -255,12 +255,12 @@ export class Zaw implements MeleeWeapon {
     //  举例: 基础值 7, -8, -3, 2
     //  则总计 46伤害时(+30) 分配为 22.5, 7.5, 12.5, 17.5
     //  (每项各加30/4=7.5)
-    const dmg = Math.round((60 + 12 + this.strike.dmg + this.grip.dmg + this.links.dmg) * modify.dmg);
+    const dmg = (60 + 12 + this.strike.dmg + this.grip.dmg + this.links.dmg) * modify.dmg;
     const DamageTypes = ["Puncture", "Impact", "Slash", "Viral"];
     let calced: [string, number][];
     if (this.strike.dmgs.length === 4) {
       // let totalDmg = this.strike.dmgs.reduce((a, b) => a + b[1], 0);
-      calced = this.strike.dmgs.map((v, i) => [DamageTypes[i], +(v + dmg / 4).toFixed(1)]);
+      calced = this.strike.dmgs.map((v, i) => [DamageTypes[i], +(v + (dmg - this.strike.dmg) / 4).toFixed(1)]);
     } else {
       calced = this.strike.dmgs.map((v, i) => [DamageTypes[i], +((v * dmg) / 20).toFixed(1)]);
     }
