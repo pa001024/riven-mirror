@@ -128,7 +128,8 @@
                   <el-col>
                     <el-row>
                       <el-col class="skill-name">
-                        <a class="skill-wiki" target="_blank" :href="$t('zh') ? `https://warframe.huijiwiki.com/wiki/${abi.name}` : `https://warframe.fandom.com/wiki/${abi.name}`">{{abi.name}}</a>
+                        <a class="skill-wiki" target="_blank" :href="$t('zh') ? `https://warframe.huijiwiki.com/wiki/${abi.name}` : `https://warframe.fandom.com/wiki/${abi.url}`">{{abi.name}}</a>
+                        <a class="skill-wiki en" target="_blank" v-if="$t('zh')" :href="`https://warframe.fandom.com/wiki/${abi.url}`">EN</a>
                       </el-col>
                       <el-col class="skill-tags">
                         <div class="skill-tag" :key="index" v-for="(tag, index) in abi.tags">{{tag}}</div>
@@ -179,7 +180,7 @@
                           </div>
                           <!-- Exalted Weapon -->
                           <div class="prop-value weapon" v-else-if="vn==='weaponName'">
-                            <a class="link-btn" :href="`/weapon/${vv}/${renderWeaponProps(abi)}`">{{renderWeapon(vv)}}</a>
+                            <router-link class="link-btn" :to="`/weapon/${vv}/${renderWeaponProps(abi)}`">{{renderWeapon(vv)}}</router-link>
                           </div>
                           <div class="prop-value normal" v-else>
                             {{vv}}
@@ -520,6 +521,11 @@ export default class WarframeEditor extends Vue {
       &:hover {
         text-decoration: underline;
       }
+    }
+    .en {
+      margin-left: 0.6em;
+      font-size: 0.6em;
+      color: @text_sliver;
     }
   }
   .skill-costs {

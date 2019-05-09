@@ -37,7 +37,7 @@
       </div>
       <div class="minidata">
         <div class="title">{{$t(`build.proc`)}}</div>
-        <div class="value">{{toPercent(build.procChance)}}%{{build.bullets > 1 ? ` / ${build.bullets}` : ''}}</div>
+        <div class="value">{{toPercent(build.procChance)}}%{{build.bullets > 1 ? ` / ${toFixed(build.bullets, 1)}` : ''}}</div>
       </div>
     </section>
   </div>

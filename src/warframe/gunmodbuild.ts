@@ -2,6 +2,7 @@ import { hAccSum, hAccMul, hAccDiv } from "@/warframe/util";
 import { Arcane, Enemy, GunWeapon, NormalModDatabase, NormalMod, AcolyteModsList } from "./codex";
 import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
+import { i18n } from "@/i18n";
 
 /*
  * MOD自动配置模块
@@ -273,7 +274,7 @@ export class GunModBuild extends ModBuild {
   }
   /** 每个弹片触发几率 */
   get realProcChance() {
-    return hAccSum(1, -((1 - this.procChance) ** (1 / this.weapon.bullets)));
+    return 1 - (1 - this.procChance) ** (1 / this.weapon.bullets);
   }
   /** 平均射速增幅倍率  */
   get sustainedFireRateMul() {
@@ -422,8 +423,8 @@ export class GunModBuild extends ModBuild {
   isValidMod(mod: NormalMod) {
     if (!super.isValidMod(mod)) return false;
     if (!this.useAcolyteMods && AcolyteModsList.some(v => v === mod.id)) return false;
-    if (!this.useHeavyCaliber && "Heavy Caliber" === mod.id) return false;
     if (!this.useHunterMunitions && "Hunter Munitions" === mod.id) return false;
+    if (i18n.locale !== "zh-CY" && "Primed Charged Chamber" === mod.id) return false;
     // 集团海克屏蔽散射正义
     if (this.weapon.id === "Vaykor Hek" && mod.id === "Scattered Justice") return false;
     return true;
@@ -431,7 +432,8 @@ export class GunModBuild extends ModBuild {
 
   /** [overwrite] 检测当前MOD是否不自动使用 */
   isNoNeedMod(mod: NormalMod) {
-    if (!this.usePrimedChamber && "Primed Chamber" === mod.id) return true;
+    if (!this.useHeavyCaliber && "Heavy Caliber" === mod.id) return true;
+    if (!this.usePrimedChamber && ("Primed Chamber" === mod.id || "Primed Charged Chamber" === mod.id)) return true;
     if (!this.useDeadlyEfficiency && "Deadly Efficiency" === mod.id) return true;
     return false;
   }

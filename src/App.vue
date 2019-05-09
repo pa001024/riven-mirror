@@ -76,6 +76,8 @@ import { magic, version, updateLogs } from "@/version";
 import localStorage from "universal-localstorage";
 import { Getter, Action } from "vuex-class";
 import "./less/app.less";
+import { changeLocale } from "./i18n/plugin";
+import { HMT } from "./service/HMT";
 
 const md = markdown();
 
@@ -134,6 +136,51 @@ export default class App extends Vue {
     RivenDataBase.reload();
     const lastVersion = localStorage.getItem("lastVersion") || "0.0.0";
     if (lastVersion !== version) this.updateMessageVisible = true;
+    if (this.$i18n.locale === "zh-CN" && !localStorage.getItem("cn")) {
+      this.$confirm("如果你是星际战甲国服玩家，可切换到国服中文以获得更好体验(可自行在设置内切换)", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "忽略",
+        type: "warning"
+      })
+        .then(v => {
+          const lang = "zh-CY";
+          changeLocale(lang);
+          HMT.langSelect(lang);
+          Vue.nextTick(() => location.reload());
+        })
+        .catch(v => {
+          localStorage.setItem("cn", "yes");
+        });
+    }
+    // emmmm 讨饭
+    if (!localStorage.getItem("114514"))
+      if (localStorage.getItem("since")) {
+        // 7天后
+        if ((i18n.locale === "zh-CN" || i18n.locale === "zh-CY") && Date.now() - localStorage.getItem("since") > 7 * 864e5) {
+          this.$confirm("你已经使用一段时间本工具了，如果你觉得本工具对你有帮助，前往捐助页面进行捐助吗（非强制性）?", "暗示", {
+            confirmButtonText: "我已支持",
+            cancelButtonText: "忽略",
+            type: "warning"
+          })
+            .then(() => {
+              this.$message({
+                type: "success",
+                message: "Nice!"
+              });
+              open("https://afdian.net/@rivenmirror/plan"); // open("https://www.patreon.com/join/RivenMirror?");
+              localStorage.setItem("114514", "1919");
+            })
+            .catch(() => {
+              this.$message({
+                type: "info",
+                message: "......."
+              });
+              localStorage.setItem("114514", "114");
+            });
+        }
+      } else {
+        localStorage.setItem("since", Date.now());
+      }
   }
 }
 </script>

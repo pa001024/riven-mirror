@@ -246,7 +246,7 @@ export let _abilityData: AbilityData[] = [
   {
     id: "Freeze",
     tags: 17,
-    energyCost: 50,
+    energyCost: 25,
     props: {
       Damage: { damage: [["Cold", S(350)]], rangeDamage: [["Cold", S(150)]] },
       Control: { duration: D(15) },
@@ -257,7 +257,7 @@ export let _abilityData: AbilityData[] = [
   {
     id: "Ice Wave",
     tags: 17,
-    energyCost: 75,
+    energyCost: 50,
     props: {
       Damage: { damage: [["Cold", S(700)]], angel: R(45), distance: R(20) }
     }
@@ -265,7 +265,7 @@ export let _abilityData: AbilityData[] = [
   {
     id: "Snow Globe",
     tags: 49,
-    energyCost: 100,
+    energyCost: 75,
     props: {
       Summon: { health: S(5000) },
       Damage: { damage: [["Blast", S(150)]] }
@@ -274,7 +274,7 @@ export let _abilityData: AbilityData[] = [
   {
     id: "Avalanche",
     tags: 17,
-    energyCost: 25,
+    energyCost: 100,
     props: {
       Damage: {
         damage: [["Cold", S(1500)]],
@@ -287,7 +287,7 @@ export let _abilityData: AbilityData[] = [
   {
     id: "Shattered Lash",
     tags: 1,
-    energyCost: 50,
+    energyCost: 25,
     props: {
       Damage: {
         damage: [["Puncture", S(800)]],

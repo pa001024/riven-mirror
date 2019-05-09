@@ -35,7 +35,20 @@
               <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
               <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
               <PropDiff :name="$t('build.bullets')" v-if="weapon.bullets != 1 || build.bullets != 1" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
-              <PropDiff :name="$t('build.ratio')" v-if="rWeapon.ratio" :ori="rWeapon.ratio" :val="rWeapon.ratio"></PropDiff>
+              <div>
+                <el-row :gutter="4" class="prop-diff">
+                  <el-col :span="8" class="title">
+                    {{$t('build.ratio')}}
+                  </el-col>
+                  <el-col :span="7" class="diff diff-ori">
+                    {{rWeapon.ratio}}
+                  </el-col>
+                    <el-col :span="2" class="diff-arrow">&nbsp;</el-col>
+                    <el-col :span="7" class="diff diff-val">
+                      {{rWeapon.starText}}
+                    </el-col>
+                </el-row>
+              </div>
               <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
               <PropDiff data-v-step="1" :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
               <!-- 伤害模型 -->

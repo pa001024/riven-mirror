@@ -227,7 +227,7 @@ export class MeleeModBuild extends ModBuild {
   }
   /** [overwrite] 真实触发几率 */
   get realProcChance() {
-    return this.procChance;
+    return 1 - (1 - this.procChance) ** (1 / this.weapon.bullets);
   }
   /** [overwrite] 平均暴击区增幅倍率 */
   get critDamageMul() {

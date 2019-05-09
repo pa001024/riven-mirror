@@ -1127,7 +1127,7 @@ let po = {
     extraOverall: "Extra overall damage",
     extraBaseDamageTip: 'e.g. Chroma\'s "Vex Armor" and Mirage\'s "Eclipse"',
     extraOverallTip: "e.g. Rhino's \"Roar\" and Sniper's Shot Combo",
-    melee30: "Melee 3.0",
+    melee30: "Melee 3.0 (Tmp)",
     melee30Tip: "Disable combo damage multiply when selected.",
     usemods: "Use mods",
     normal: "Normal Set",
@@ -1286,7 +1286,7 @@ let po = {
     legacyriven: "Old Riven Editor",
     legacyrivenTip: "Use old riven editor using text input",
     burstsamplesize: "Burst Sample Size",
-    burstsamplesizeTip: "Calculate the average damage of the weapon for a specified number of seconds (the △t in △D/△t, default is 0)",
+    burstsamplesizeTip: "Calculate the average damage of the weapon for a specified number of seconds (△t in △x/△t)",
     savedBuilds: "Saved builds",
     clear: "CLEAR ALL"
   },

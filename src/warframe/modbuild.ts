@@ -720,7 +720,7 @@ export abstract class ModBuild {
       // 毒素伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Toxin_Damage
       ["Toxin", this.toxinBaseDamage * this.procDamageMul],
       // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
-      ["Gas", this.gasBaseDamage * this.procDamageMul * this.procDamageMul],
+      ["Gas", this.gasBaseDamage * this.procDamageMul * this.enemyDmgMul],
       // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
       ["Heat", this.heatBaseDamage * this.procDamageMul],
       // 电击伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Electricity_Damage
@@ -1603,7 +1603,21 @@ export abstract class ModBuild {
 
     // 按容量需求量排序
     const mods = this.mods;
-    const delta = mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1] || b[0] - a[0]); // 点数相同优先极化后面的
+    enum polSeq {
+      r,
+      "-",
+      d,
+      "=",
+      "w"
+    }
+    const delta = mods
+      .map((v, i) => [i, v ? v.delta : 0])
+      .sort((a, b) => {
+        const costD = b[1] - a[1];
+        if (costD) return costD;
+        if (mods[b[0]] && mods[a[0]]) return polSeq[mods[a[0]].polarity] - polSeq[mods[b[0]].polarity] || a[0] - b[0]; // 先极化常用槽
+        return a[0] - b[0]; // 点数相同优先极化前面
+      });
     // 最多极化10次
     for (let i = 0; this.totalCost > this.maxCost && i < delta.length && mods[delta[i][0]]; ++i) {
       const [modIndex] = delta[i];

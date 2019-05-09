@@ -127,7 +127,7 @@
               <a href="https://github.com/pa001024/riven-mirror/issues/new/choose" target="_blank" v-t="'setting.bugreport'"></a>
             </li>
             <li>
-              <a href="https://afdian.net/@rivenmirror" target="_blank" v-t="'intro.fw6'"></a>
+              <a :href="$t('zh') ? 'https://afdian.net/@rivenmirror' : 'https://www.patreon.com/RivenMirror'" target="_blank" v-t="'intro.fw6'"></a>
             </li>
           </ul>
         </div>

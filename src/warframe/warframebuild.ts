@@ -885,7 +885,21 @@ export class WarframeBuild {
 
     // 按容量需求量排序
     const mods = this.allMods;
-    const delta = mods.map((v, i) => [i, v ? v.delta : 0]).sort((a, b) => b[1] - a[1] || b[0] - a[0]); // 点数相同优先极化后面的
+    enum polSeq {
+      r,
+      "-",
+      d,
+      "=",
+      "w"
+    }
+    const delta = mods
+      .map((v, i) => [i, v ? v.delta : 0])
+      .sort((a, b) => {
+        const costD = b[1] - a[1];
+        if (costD) return costD;
+        if (mods[b[0]] && mods[a[0]]) return polSeq[mods[a[0]].polarity] - polSeq[mods[b[0]].polarity] || a[0] - b[0]; // 先极化常用槽
+        return a[0] - b[0]; // 点数相同优先极化前面
+      });
     // 最多极化10次
     for (let i = 0; this.totalCost > this.maxCost && i < delta.length && mods[delta[i][0]]; ++i) {
       const [modIndex] = delta[i];
@@ -950,6 +964,9 @@ export class RenderedAbilities {
   data: AbilityData;
   get id() {
     return this.data.id;
+  }
+  get url() {
+    return this.id.replace(/ /g, "_");
   }
   get name() {
     const key = `skill.${_.camelCase(this.id)}`;

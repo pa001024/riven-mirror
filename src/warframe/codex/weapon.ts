@@ -45,6 +45,8 @@ export class Weapon implements WeaponData {
   }
   /** WM URL */
   get wmurl() {
+    const slist = ["Prisma ", "Secura ", "Vaykor ", "Sancti ", "Synoid ", "Telos ", "Mara "];
+    if (slist.some(v => this.id.includes(v))) return this.realID.toLowerCase().replace(/ /g, "_");
     return this.realID.toLowerCase().replace(/ /g, "_") + "_set";
   }
   get displayName() {

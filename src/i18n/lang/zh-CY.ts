@@ -579,6 +579,9 @@ let po = {
   },
   zaw: {
     title: "天工造武"
+  },
+  build: {
+    ratio: "裂隙共鸣"
   }
 };
 

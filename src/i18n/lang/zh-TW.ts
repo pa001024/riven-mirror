@@ -2762,7 +2762,7 @@ let po = {
     extraOverall: "總傷加成",
     extraBaseDamageTip: 'Chroma的"怨怒護甲"和Mirage的"黯然失色"等技能可對武器基傷進行大量加成，<br>步槍增幅、死亡之眼等光環MOD也屬於這個加成',
     extraOverallTip: "如Rhino的戰吼和狙擊槍的連擊等屬於這個加成",
-    melee30: "近戰3.0",
+    melee30: "近戰3.0 (暫)",
     melee30Tip: "啟用後連擊數不再直接加成傷害",
     usemods: "使用MOD",
     normal: "標準配置",
@@ -2923,7 +2923,7 @@ let po = {
     legacyriven: "老版紫卡編輯器",
     legacyrivenTip: "使用一個老的文字輸入框版本",
     burstsamplesize: "爆發取樣大小",
-    burstsamplesizeTip: "計算該武器在指定秒數內的平均輸出 (△D/△t公式中△t的大小 預設為0)",
+    burstsamplesizeTip: "計算該武器在指定秒數內的平均輸出 (△x/△t公式中△t的大小)",
     savedBuilds: "儲存的配置",
     clear: "全部清除"
   },
