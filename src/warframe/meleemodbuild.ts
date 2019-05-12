@@ -166,8 +166,9 @@ export class MeleeModBuild extends ModBuild {
 
   /** [overwrite] 全局伤害增幅倍率 */
   get overallMul() {
-    if (this.damagePerStatus > 0) return (this._overallMul / 100) * (1 + this.damagePerStatus) ** (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount);
-    return this._overallMul / 100;
+    const combo = this.melee30 ? 1 : this.comboMul;
+    if (this.damagePerStatus > 0) return combo * (this._overallMul / 100) * (1 + this.damagePerStatus) ** (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount);
+    return (combo * this._overallMul) / 100;
   }
 
   get slideMode() {
@@ -254,25 +255,13 @@ export class MeleeModBuild extends ModBuild {
     return this.calcCritDamage(this.slideCritChance, this.critMul, 0, 2, this.stealthDamageMul);
   }
 
-  /** [overwrite] 总伤增幅倍率 */
-  get totalDamageMul() {
-    return hAccMul(this.critDamageMul, this.overallMul, this.melee30 ? 1 : this.comboMul, this.enemyDmgMul);
-  }
-  /** [overwrite] 总伤增幅倍率(暴击向下取整) */
-  get totalDamageMulFloor() {
-    return hAccMul(this.critDamageMulFloor, this.overallMul, this.melee30 ? 1 : this.comboMul, this.enemyDmgMul);
-  }
-  /** [overwrite] 总伤增幅倍率(暴击向上取整) */
-  get totalDamageMulCeil() {
-    return hAccMul(this.critDamageMulCeil, this.overallMul, this.melee30 ? 1 : this.comboMul, this.enemyDmgMul);
-  }
   /** 平砍总伤增幅倍率 */
   get normalTotalDamageMul() {
-    return hAccMul(this.normalCritDamageMul, this.overallMul, this.melee30 ? 1 : this.comboMul, this.enemyDmgMul);
+    return hAccMul(this.normalCritDamageMul, this.overallMul, this.enemyDmgMul);
   }
   /** 滑行总伤增幅倍率 */
   get slideTotalDamageMul() {
-    return hAccMul(this.slideCritDamageMul, this.overallMul, this.melee30 ? 1 : this.comboMul, this.enemyDmgMul);
+    return hAccMul(this.slideCritDamageMul, this.overallMul, this.enemyDmgMul);
   }
 
   /** 每秒总伤害 */
