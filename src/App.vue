@@ -137,19 +137,19 @@ export default class App extends Vue {
     const lastVersion = localStorage.getItem("lastVersion") || "0.0.0";
     if (lastVersion !== version) this.updateMessageVisible = true;
     if (this.$i18n.locale === "zh-CN" && !localStorage.getItem("cn")) {
-      this.$confirm("如果你是星际战甲国服玩家，可切换到国服中文以获得更好体验(可自行在设置内切换)", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "忽略",
+      this.$confirm("简体用户：请选择翻译版本(可自行在设置内切换)", "提示", {
+        confirmButtonText: "国际服语言",
+        cancelButtonText: "国服语言",
         type: "warning"
       })
         .then(v => {
+          localStorage.setItem("cn", "yes");
+        })
+        .catch(v => {
           const lang = "zh-CY";
           changeLocale(lang);
           HMT.langSelect(lang);
           Vue.nextTick(() => location.reload());
-        })
-        .catch(v => {
-          localStorage.setItem("cn", "yes");
         });
     }
     // emmmm 讨饭
