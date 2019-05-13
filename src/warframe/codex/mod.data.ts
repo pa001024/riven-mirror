@@ -409,7 +409,7 @@ const data = [
   ["HI", "Provoked", [["ddb", 10]], Warframe, "r", "c", 4, 10],
   ["HJ", "Undying Will", [["br", 7]], Warframe, "d", "r", 2],
   ["HK", "Reflex Guard", [["apc", 5]], Warframe, "d", "r", 4, 10],
-  ["HL", "Vigorous Swap", [["onEquip"], ["dmg", 15], ["hr", 15]], Warframe, "-", "r", 2, 10],
+  ["HL", "Vigorous Swap", [["onEquip"], ["dmg", 15], ["hr", 9], ["!hr", 1]], Warframe, "-", "r", 2, 10],
   ["HM", "Rolling Guard", [["onDodge"], ["Become invulnerable for 2s and remove all Status Effects. 12s cooldown."]], Warframe, "d", "r", 2, 10],
   ["HN", "Adaptation", [["!res", 90]], Warframe, "d", "r", 2, 10],
   ["HO", "Natural Talent", [["c", 12.5]], Warframe, "-", "r", 6, 3],

@@ -35,7 +35,7 @@
               <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
               <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
               <PropDiff :name="$t('build.bullets')" v-if="weapon.bullets != 1 || build.bullets != 1" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
-              <div>
+              <div v-if="rWeapon.ratio > 0">
                 <el-row :gutter="4" class="prop-diff">
                   <el-col :span="8" class="title">
                     {{$t('build.ratio')}}

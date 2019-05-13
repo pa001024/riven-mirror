@@ -132,6 +132,7 @@
                         <a class="skill-wiki en" target="_blank" v-if="$t('zh')" :href="`https://warframe.fandom.com/wiki/${abi.url}`">EN</a>
                       </el-col>
                       <el-col class="skill-tags">
+                        <div class="skill-tag" v-if="abi.oneHand">{{$t("ability.oneHand")}}</div>
                         <div class="skill-tag" :key="index" v-for="(tag, index) in abi.tags">{{tag}}</div>
                       </el-col>
                     </el-row>
@@ -182,8 +183,14 @@
                           <div class="prop-value weapon" v-else-if="vn==='weaponName'">
                             <router-link class="link-btn" :to="`/weapon/${vv}/${renderWeaponProps(abi)}`">{{renderWeapon(vv)}}</router-link>
                           </div>
+                          <div class="prop-value normal" v-else-if="vn === 'directive'">
+                            {{$t(`ability.directives.${vv}`)}}
+                          </div>
+                          <div class="prop-value normal" v-else-if="vn === 'target'">
+                            {{$t(`ability.targets.${vv}`)}}
+                          </div>
                           <div class="prop-value normal" v-else>
-                            {{vv}}
+                            {{$te(`ability.props.${vv}`) && $t(`ability.props.${vv}`) || vv}}
                           </div>
                         </div>
                       </template>

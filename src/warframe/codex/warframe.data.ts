@@ -63,7 +63,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 75,
     props: {
       Control: { range: R(14), angel: 60, duration: D(20) },
-      Buff: { effect: [["oad", 0.5]] }
+      Buff: { effect: [["oad", 50]] }
     }
   },
   { id: "Rumblers", tags: 32, energyCost: 100, props: {} },
@@ -109,13 +109,13 @@ export let _abilityData: AbilityData[] = [
     id: "Elemental Ward",
     tags: 2,
     energyCost: 50,
-    props: { Buff: { effect: [["h", S(2)]] } }
+    props: { Buff: { effect: [["h", S(200)]] } }
   },
   {
     id: "Vex Armor",
     tags: 2,
     energyCost: 75,
-    props: { Buff: { effect: [["a", S(3.5)], ["dmg", S(2.75)]] } }
+    props: { Buff: { effect: [["a", S(350)], ["dmg", S(275)]] } }
   },
   {
     id: "Effigy",
@@ -146,8 +146,8 @@ export let _abilityData: AbilityData[] = [
     energyCost: 50,
     props: {
       Control: { range: R(20) },
-      Buff: { effect: [["c", S(0.5)]], duration: D(30) },
-      Debuff: { duration: D(15), effect: [["fed", S(2.5)]] }
+      Buff: { effect: [["c", S(50)]], duration: D(30) },
+      Debuff: { duration: D(15), effect: [["fed", S(250)]] }
     }
   },
   {
@@ -156,7 +156,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 75,
     props: {
       Damage: { range: R(15), damage: [["Heat", S(200)]] },
-      Buff: { range: R(4), effect: [["efd", 0.5]] }
+      Buff: { range: R(4), effect: [["efd", 50]] }
     }
   },
   {
@@ -176,7 +176,7 @@ export let _abilityData: AbilityData[] = [
     id: "Metamorphosis",
     tags: 2,
     energyCost: 25,
-    props: { Buff: { duration: D(25), effect: [["a", 2.5], ["s", 1.5]] } }
+    props: { Buff: { duration: D(25), effect: [["a", 250], ["s", 150]] } }
   },
   {
     id: "Rest & Rage",
@@ -292,6 +292,10 @@ export let _abilityData: AbilityData[] = [
       Damage: {
         damage: [["Puncture", S(800)]],
         rangeDamage: [["Slash", S(800)]]
+      },
+      ExaltedWeapon: {
+        weaponName: "Shattered Lash",
+        effect: [["oad", S(100, -100)]]
       }
     }
   },
@@ -325,7 +329,7 @@ export let _abilityData: AbilityData[] = [
     props: {
       Summon: {
         health: S(2225),
-        rangeDamage: [["Puncture", S(600)]],
+        rangeDamage: [["Physical", S(600)]],
         range: R(8),
         distance: R(11),
         duration: D(3)
@@ -1313,7 +1317,7 @@ export let _abilityData: AbilityData[] = [
         range: R(2)
       },
       Move: {
-        directive: "1",
+        directive: "2",
         distance: R(30)
       },
       Control: {
@@ -1340,7 +1344,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 75,
     props: {
       Buff: {
-        desc: "偏转子弹",
+        desc: "deflectionBullet",
         duration: D(20),
         target: 1,
         range: R(6)
@@ -1372,7 +1376,7 @@ export let _abilityData: AbilityData[] = [
     props: {
       Buff: {
         angel: { value: 180, bind: [["g", 0]], maxValue: 360 },
-        desc: "闪避",
+        desc: "dodgeAttack",
         target: 1
       }
     }
@@ -1411,7 +1415,15 @@ export let _abilityData: AbilityData[] = [
     id: "Shield Pillage",
     tags: 2,
     energyCost: 150,
-    props: { Debuff: { desc: "消耗护盾和护甲", duration: D(2), range: R(8), effect: [["s", { value: -25, bind: [["t", 0]] }]] }, Special: [{ desc: "清除负面状态" }] }
+    props: {
+      Debuff: {
+        desc: "deprivationOfShieldAndArmor",
+        duration: D(2),
+        range: R(8),
+        effect: [["s", { value: -25, bind: [["t", 0]] }]]
+      },
+      Special: [{ desc: "clearNegativeState" }]
+    }
   },
   {
     id: "Haven",

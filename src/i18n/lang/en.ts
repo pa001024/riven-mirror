@@ -1578,14 +1578,23 @@ let po = {
       attractionRadius: "Attraction Radius",
       explosionRadius: "Explosion Radius",
       chainDistance: "Chain Distance",
-      invincibleTime: "Invincible Time"
+      invincibleTime: "Invincible Time",
+      deflectionBullet: "Deflection bullet",
+      dodgeAttack: "Dodge attack",
+      clearNegativeState: "Clear negative state",
+      deprivationOfShieldAndArmor: "Deprivation of shield and armor"
     },
     target: "Target",
     targets: {
-      all: "All",
-      range: "Range",
-      melee: "Melee",
-      projectile: "Projectile"
+      "0": "All",
+      "1": "Range",
+      "2": "Melee",
+      "3": "Projectile"
+    },
+    directives: {
+      "0": "No Directive",
+      "1": "Weak Directive",
+      "2": "Directive"
     }
   },
   update: {

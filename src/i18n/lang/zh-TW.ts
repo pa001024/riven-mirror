@@ -2589,7 +2589,7 @@ let po = {
     provislabel: "{0} 彈片 {1} 暴擊等級",
     provislabel0: "{0} 暴擊等級",
     otherinfo: "其他資訊",
-    minimap: "縮圖",
+    minimap: "概要",
     healthBall: "生命球",
     energyBall: "能量球"
   },
@@ -3214,14 +3214,23 @@ let po = {
       attractionRadius: "吸引半徑",
       explosionRadius: "爆炸半徑",
       chainDistance: "連鎖距離",
-      invincibleTime: "無敵時間"
+      invincibleTime: "無敵時間",
+      deflectionBullet: "偏轉子彈",
+      dodgeAttack: "閃避攻擊",
+      clearNegativeState: "清除負面狀態",
+      deprivationOfShieldAndArmor: "剝奪護盾和護甲"
     },
     target: "物件",
     targets: {
-      all: "所有",
-      range: "遠端攻擊",
-      melee: "近戰",
-      projectile: "拋射物"
+      "0": "所有",
+      "1": "遠端攻擊",
+      "2": "近戰",
+      "3": "拋射物"
+    },
+    directives: {
+      "0": "非指向性",
+      "1": "非強制指向",
+      "2": "強制指向",
     }
   },
   update: {
