@@ -2043,14 +2043,14 @@ let po = {
     chillingGrasp: "銀冰", // 急凍控場
     deepFreeze: "銀冰", // 深層冷凍
     northWind: "銀冰", // 北風
-    hypothermicShell: "銀冰", // 低溫外殼
+    polarMagazine: "銀冰", // 極地彈倉
     glacialEdge: "銀冰", // 冰冷刃緣
     rimeRounds: "金冰", // 白霜彈頭
     frigidBlast: "金冰", // 冰冷疾風
     frostbite: "金冰", // 結霜侵蝕
     viciousFrost: "金冰", // 蝕骨寒霜
     cryoCoatin: "金冰", // 冷凍包覆
-    polarMagazine: "金冰", // 極地彈倉
+    hypothermicShell: "金冰", // 低溫外殼
     infectedClip: "銀毒", // 汙染彈匣
     contagiousSpread: "銀毒", // 傳染蔓延
     pathogenRounds: "銀毒", // 病原彈頭
@@ -2620,6 +2620,7 @@ let po = {
     models: {
       eidolon: "夜靈 (機器 + 合金裝甲)",
       eidolonUnarmored: "夜靈 (機器)",
+      orb: "园蛛 (机器 + 合金装甲)",
       grineer: "Grineer (複製肉體 + 鐵質裝甲)",
       grineerUnarmored: "Grineer (複製肉體)",
       grineerElite: "Grineer (複製肉體 + 合金裝甲)",
@@ -2839,6 +2840,7 @@ let po = {
       gas: "毒氣",
       slideCrit: "滑砍雙暴",
       allStatus: "四活動",
+      allElem: "四元素",
       condiCombo: "異況漂移",
       maxStrength: "強度最大化",
       maxDuration: "持續最大化",
@@ -3144,7 +3146,7 @@ let po = {
     charm: "招福",
     unairu: "UNAIRU 虛靈",
     block: "格擋加成",
-    toxin: "毒素加成",
+    toxin: "毒素加成 (米爾)",
     parasiticLink: "寄生連結 (Nidus)",
     commonResistance: "通用減傷",
     paxBolt: "和平電閃",
@@ -3230,7 +3232,7 @@ let po = {
     directives: {
       "0": "非指向性",
       "1": "非強制指向",
-      "2": "強制指向",
+      "2": "強制指向"
     }
   },
   update: {

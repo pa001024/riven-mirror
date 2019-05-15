@@ -82,7 +82,8 @@ export default class ModSelector extends Vue {
       silverViral: ["Primed Cryo Rounds", "Infected Clip"],
       goldCorrosive: ["Malignant Force", "High Voltage"],
       gas: ["Malignant Force", "Thermite Rounds", "Infected Clip"],
-      allStatus: ["High Voltage", "Malignant Force", "Thermite Rounds", "Rime Rounds"]
+      allStatus: ["High Voltage", "Malignant Force", "Thermite Rounds", "Rime Rounds"],
+      allElem: ["Primed Cryo Rounds", "Hellfire", "Stormbringer", "Infected Clip"]
     },
     Shotgun: {
       baseDmg: ["Primed Point Blank", "Hell's Chamber"],
@@ -93,7 +94,8 @@ export default class ModSelector extends Vue {
       silverViral: ["Chilling Grasp", "Contagious Spread"],
       goldCorrosive: ["Shell Shock", "Toxic Barrage"],
       gas: ["Toxic Barrage", "Scattering Inferno", "Contagious Spread"],
-      allStatus: ["Shell Shock", "Toxic Barrage", "Scattering Inferno", "Frigid Blast"]
+      allStatus: ["Shell Shock", "Toxic Barrage", "Scattering Inferno", "Frigid Blast"],
+      allElem: ["Primed Charged Shell", "Contagious Spread", "Incendiary Coat", "Chilling Grasp"]
     },
     Pistol: {
       baseDmg: ["Hornet Strike", "Barrel Diffusion", "Lethal Torrent"],
@@ -104,7 +106,8 @@ export default class ModSelector extends Vue {
       silverViral: ["Deep Freeze", "Pathogen Rounds"],
       goldCorrosive: ["Jolt", "Pistol Pestilence"],
       gas: ["Pistol Pestilence", "Scorch", "Pathogen Rounds"],
-      allStatus: ["Jolt", "Pistol Pestilence", "Scorch", "Frostbite"]
+      allStatus: ["Jolt", "Pistol Pestilence", "Scorch", "Frostbite"],
+      allElem: ["Primed Heated Charge", "Deep Freeze", "Convulsion", "Pathogen Rounds"]
     },
     Melee: {
       baseDmgRange: ["Primed Pressure Point", "Primed Reach"],
@@ -116,7 +119,8 @@ export default class ModSelector extends Vue {
       goldCorrosive: ["Voltaic Strike", "Virulent Scourge"],
       gas: ["Primed Fever Strike", "Volcanic Edge", "Virulent Scourge"],
       allStatus: ["Voltaic Strike", "Virulent Scourge", "Volcanic Edge", "Vicious Frost"],
-      condiCombo: ["Drifting Contact", "Condition Overload"]
+      condiCombo: ["Drifting Contact", "Condition Overload"],
+      allElem: ["Primed Fever Strike", "Shocking Touch", "Molten Impact", "Shocking Touch"]
     },
     Archgun: {
       baseDmg: ["Rubedo-Lined Barrel", "Dual Rounds"],
@@ -127,7 +131,8 @@ export default class ModSelector extends Vue {
       silverViral: ["Polar Magazine", "Venomous Clip"],
       goldCorrosive: ["Charged Bullets", "Contamination Casing"],
       gas: ["Venomous Clip", "Magma Chamber", "Contamination Casing"],
-      allStatus: ["Contamination Casing", "Magma Chamber", "Charged Bullets", "Hypothermic Shell"]
+      allStatus: ["Contamination Casing", "Magma Chamber", "Charged Bullets", "Hypothermic Shell"],
+      allElem: ["Electrified Barrel", "Venomous Clip", "Combustion Rounds", "Polar Magazine"]
     }
   };
   get fast() {

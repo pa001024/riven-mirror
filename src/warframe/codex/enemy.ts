@@ -152,7 +152,7 @@ export class EnemyData implements IEnemyData {
 
 /** 敌人列表 [id, faction, baseLevel, baseHealth, baseShield, baseArmor, fleshType, shieldType, armorType, resistence, ignoreProc] */
 const _enemyList = [
-  ["Wolf of Saturn Six", 1, , 20000, , 2500, 12, , 1, 0.6, 3],
+  ["Wolf of Saturn Six", 5, , 20000, , 2500, 12, , 1, , 2],
   ["Eidolon Teralyst", 5, , 15000, , 200, 7, , 1, 0.6, 3],
   ["Eidolon Gantulyst", 5, , 15000, , 200, 7, , 1, 0.6, 3],
   ["Eidolon Hydrolyst", 5, , 15000, , 200, 7, , 1, 0.6, 3],
@@ -271,6 +271,7 @@ const _damageModelList = [
   // 伤害模型列表
   ["Eidolon", 5, 6, , 1, 0.6, 3],
   ["Eidolon Unarmored", 5, 6, , , 0.6, 3],
+  ["Orb", 5, 6, , 1, 0, 2],
   ["Grineer", 1, 1, , 0, 0, 0],
   ["Grineer Unarmored", 1, 1, , , 0, 0],
   ["Grineer Elite", 1, 1, , 1, 0, 0],

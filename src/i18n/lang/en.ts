@@ -1077,8 +1077,9 @@ let po = {
       12: "Alloy Armor"
     },
     models: {
-      eidolon: "Eidolon (Robotic + Alloy Armor)",
+      eidolon: "Eidolon (Robotic + Alloy Armor + Crit-More)",
       eidolonUnarmored: "Eidolon (Robotic)",
+      orb: "Orb (Robotic + Alloy Armor)",
       grineer: "Grineer (Cloned Flesh + Ferrite Armor)",
       grineerUnarmored: "Grineer (Cloned Flesh)",
       grineerElite: "Grineer (Cloned Flesh + Alloy Armor)",
@@ -1202,6 +1203,7 @@ let po = {
       gas: "GAS",
       slideCrit: "Slide CC/CD",
       allStatus: "4 Gold Elements",
+      allElem: "4 Elements",
       condiCombo: "Cond-Over & Drif-Cont",
       maxStrength: "MAX Strength",
       maxDuration: "MAX Duration",
@@ -1508,7 +1510,7 @@ let po = {
     charm: "Charm",
     unairu: "Unairu Wisp",
     block: "Block Bonus",
-    toxin: "Toxin Bonus",
+    toxin: "Toxin Bonus (Mire)",
     parasiticLink: "Parasitic Link (Nidus)",
     commonResistance: "Resistance (Common)",
     paxBolt: "Pax Bolt",
