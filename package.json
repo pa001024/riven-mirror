@@ -40,7 +40,7 @@
     "@types/animejs": "^2.0.1",
     "@types/lodash": "^4.14.116",
     "@vue/cli-plugin-babel": "^3.0.5",
-    "@vue/cli-plugin-pwa": "^3.0.5",
+    "@vue/cli-plugin-pwa": "^3.7.0",
     "@vue/cli-plugin-typescript": "^3.0.5",
     "@vue/cli-service": "^3.0.5",
     "babel-plugin-import": "^1.8.0",

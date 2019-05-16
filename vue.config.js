@@ -38,6 +38,7 @@ module.exports = {
     msTileColor: "#000000",
     appleMobileWebAppCapable: true,
     appleMobileWebAppStatusBarStyle: "black",
+    manifestPath: "manifest.json",
     iconPaths: {
       favicon32: "favicon.ico",
       favicon16: "favicon.ico",
