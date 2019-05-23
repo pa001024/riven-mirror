@@ -1640,6 +1640,7 @@ export const gunWeaponData = [
   {
     id: "Glaxion Vandal",
     name: "glaxionVandal",
+    rivenName: "Glaxion",
     tags: ["Gun", "Primary", "Rifle", "Continuous"],
     dmg: [["Cold", 29]],
     accuracy: 100,
@@ -3124,6 +3125,7 @@ export const gunWeaponData = [
   {
     id: "Spectra Vandal",
     name: "spectraVandal",
+    rivenName: "Spectra",
     tags: ["Gun", "Secondary", "Continuous"],
     dmg: [["Slash", 12.8], ["Puncture", 9.2]],
     accuracy: 100,
