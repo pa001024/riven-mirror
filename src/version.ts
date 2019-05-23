@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.5.6";
+export const version = "1.5.7";
 export const updateLogs = [
+  {
+    version: "1.5.7",
+    date: "2019/5/23",
+    md: {
+      en: `- add new weapons/warframes`,
+      cn: `- 添加新武器和战甲`
+    }
+  },
   {
     version: "1.5.6",
     date: "2019/4/25",
@@ -9,14 +17,6 @@ export const updateLogs = [
 - add Deadly Efficiency swtich (disable by default)`,
       cn: `- 空战武器紫卡
 - 添加是否使用致命效率开关 (默认禁用)`
-    }
-  },
-  {
-    version: "1.5.5",
-    date: "2019/4/19",
-    md: {
-      en: `- Arch-Gun riven preview (maybe incorrect)`,
-      cn: `- 空战武器紫卡预览 (可能不准确)`
     }
   },
   {

@@ -1141,6 +1141,34 @@ export const gunWeaponData = [
     pol: "rr"
   },
   {
+    id: "Cyanex",
+    name: "cyanex",
+    tags: ["Gun", "Secondary"],
+    dmg: [["Impact", 50], ["Gas", 41]],
+    critMul: 1.4,
+    critChance: 0.08,
+    fireRate: 4.67,
+    status: 0.32,
+    accuracy: 1.8,
+    magazine: 11,
+    reload: 2.2
+  },
+  {
+    id: "Cyanex (burst)",
+    name: "cyanex",
+    mode: "burst",
+    rivenName: "Cyanex",
+    tags: ["Gun", "Secondary"],
+    dmg: [["Slash", 38.9], ["Puncture", 30.2], ["Impact", 2.9]],
+    critMul: 1.4,
+    critChance: 0.08,
+    fireRate: 10.05,
+    status: 0.32,
+    accuracy: 80,
+    magazine: 11,
+    reload: 2.2
+  },
+  {
     id: "Cycron",
     name: "cycron",
     tags: ["Gun", "Secondary", "Continuous"],
@@ -1530,6 +1558,38 @@ export const gunWeaponData = [
     pol: "r"
   },
   {
+    id: "Fulmin",
+    name: "fulmin",
+    tags: ["Gun", "Primary", "Rifle", "AssaultRifle"],
+    dmg: [["Electricity", 400], ["Impact", 100]],
+    accuracy: 9.1,
+    fireRate: 2.17,
+    critChance: 0.3,
+    critMul: 2.2,
+    status: 0.16,
+    magazine: 60,
+    reload: 1,
+    ammo: 540,
+    prjSpeed: 100,
+    rangeLimit: 24
+  },
+  {
+    id: "Fulmin (full-auto)",
+    name: "fulmin",
+    rivenName: "Fulmin",
+    mode: "fullAuto",
+    tags: ["Gun", "Primary", "Rifle", "AssaultRifle"],
+    dmg: [["Electricity", 25], ["Puncture", 8]],
+    accuracy: 9.1,
+    fireRate: 9.33,
+    critChance: 0.28,
+    critMul: 2.4,
+    status: 0.1,
+    magazine: 60,
+    reload: 1,
+    ammo: 540
+  },
+  {
     id: "Gammacor",
     name: "gammacor",
     tags: ["Gun", "Secondary"],
@@ -1576,6 +1636,21 @@ export const gunWeaponData = [
     reload: 2.2,
     ammo: 720,
     rangeLimit: 24
+  },
+  {
+    id: "Glaxion Vandal",
+    name: "glaxionVandal",
+    tags: ["Gun", "Primary", "Rifle", "Continuous"],
+    dmg: [["Cold", 29]],
+    accuracy: 100,
+    fireRate: 12,
+    critChance: 0.14,
+    critMul: 2,
+    status: 0.38,
+    magazine: 100,
+    reload: 1.8,
+    ammo: 720,
+    rangeLimit: 28
   },
   {
     id: "Gorgon",
@@ -1967,6 +2042,20 @@ export const gunWeaponData = [
     magazine: 40,
     reload: 2,
     ammo: 210
+  },
+  {
+    id: "Komorex",
+    name: "komorex",
+    tags: ["Gun", "Primary", "Rifle", "Sniper"],
+    dmg: [["Slash", 41.8], ["Puncture", 8.7], ["Impact", 36.5]],
+    accuracy: 20,
+    fireRate: 6,
+    critChance: 0.16,
+    critMul: 2.1,
+    status: 0.35,
+    magazine: 20,
+    reload: 3,
+    ammo: 72
   },
   {
     id: "Kraken",
@@ -3029,6 +3118,21 @@ export const gunWeaponData = [
     status: 0.22,
     magazine: 60,
     reload: 1.8,
+    ammo: 360,
+    rangeLimit: 18
+  },
+  {
+    id: "Spectra Vandal",
+    name: "spectraVandal",
+    tags: ["Gun", "Secondary", "Continuous"],
+    dmg: [["Slash", 12.8], ["Puncture", 9.2]],
+    accuracy: 100,
+    fireRate: 12,
+    critChance: 0.2,
+    critMul: 2,
+    status: 0.28,
+    magazine: 80,
+    reload: 1.2,
     ammo: 360,
     rangeLimit: 18
   },
@@ -4103,7 +4207,7 @@ export const gunWeaponData = [
     status: 0.3,
     accuracy: 33.3,
     magazine: 30,
-    reload: 30 / 0
+    reload: 30 / 50
   },
   {
     id: "Dual Decurion",

@@ -145,8 +145,8 @@ export default class App extends Vue {
       if (localStorage.getItem("since")) {
         // 7天后
         if ((i18n.locale === "zh-CN" || i18n.locale === "zh-CY") && Date.now() - localStorage.getItem("since") > 7 * 864e5) {
-          this.$confirm("你已经使用一段时间本工具了，如果你觉得本工具对你有帮助，前往捐助页面进行捐助吗（非强制性）?", "暗示", {
-            confirmButtonText: "我已支持",
+          this.$confirm("你已经使用一段时间本工具了，如果你觉得本工具对你有帮助，要发电支持一下吗?", "暗示", {
+            confirmButtonText: "支持一下",
             cancelButtonText: "忽略",
             type: "warning"
           })

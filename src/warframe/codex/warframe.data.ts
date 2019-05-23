@@ -2469,6 +2469,23 @@ export const _warframeData: WarframeData[] = [
     estimatedVaultDate: "2017 02 28"
   },
   {
+    id: "Wisp",
+    // name: "wisp",
+    tags: [],
+    // description: "",
+    health: 100,
+    shield: 75,
+    armor: 150,
+    energy: 200,
+    sprint: 1.2,
+    passiveDescription: "",
+    abilities: [], // TODO
+    aura: "-",
+    introduced: "24",
+    polarities: ["r", "d"],
+    sex: "Female"
+  },
+  {
     id: "Wukong",
     // name: "wukong",
     tags: ["Tank"],
