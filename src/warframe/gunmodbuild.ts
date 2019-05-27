@@ -1,5 +1,5 @@
 import { hAccSum, hAccMul, hAccDiv } from "@/warframe/util";
-import { Arcane, Enemy, GunWeapon, NormalModDatabase, NormalMod, AcolyteModsList } from "./codex";
+import { Arcane, Enemy, NormalModDatabase, NormalMod, AcolyteModsList, Weapon } from "./codex";
 import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
 import { i18n } from "@/i18n";
@@ -39,7 +39,7 @@ export interface GunModBuildOptions {
 }
 /** 枪类 */
 export class GunModBuild extends ModBuild {
-  weapon: GunWeapon;
+  weapon: Weapon;
   // 属性增幅器
   private _magazineMul = 100;
   private _reloadSpeedMul = 100;
@@ -99,12 +99,12 @@ export class GunModBuild extends ModBuild {
   }
   /** 子弹消耗速度 */
   get ammoCost() {
-    return this.weapon.ammoCost || (this.weapon.tags.includes("Continuous") ? 0.5 : 1);
+    return this.mode.ammoCost || (this.weapon.tags.includes("Continuous") ? 0.5 : 1);
   }
   /** 距离限制 */
   get rangeLimit() {
-    let raw = this.weapon.rangeLimit ? this.weapon.rangeLimit + this._rangeLimitAdd : 0;
-    if (this.weapon.prjSpeed) return (this.prjSpeed / this.weapon.prjSpeed) * raw;
+    let raw = this.mode.range ? this.mode.range + this._rangeLimitAdd : 0;
+    if (this.mode.prjSpeed) return (this.prjSpeed / this.mode.prjSpeed) * raw;
     return raw;
   }
 
@@ -121,7 +121,7 @@ export class GunModBuild extends ModBuild {
   /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
   useHunterMunitions = 1;
 
-  constructor(weapon: GunWeapon = null, riven: RivenMod = null, options: GunModBuildOptions = null, fast = false) {
+  constructor(weapon: Weapon = null, riven: RivenMod = null, options: GunModBuildOptions = null, fast = false) {
     super(riven, fast);
     if ((this.weapon = weapon)) {
       this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.id]).includes(v.type));
@@ -142,7 +142,6 @@ export class GunModBuild extends ModBuild {
     this.allowElementTypes = typeof options.allowElementTypes !== "undefined" ? options.allowElementTypes : this.allowElementTypes;
     this.extraBaseDamage = typeof options.extraBaseDamage !== "undefined" ? options.extraBaseDamage : this.extraBaseDamage;
     this.extraOverall = typeof options.extraOverall !== "undefined" ? options.extraOverall : this.extraOverall;
-    this.arcanes = typeof options.arcanes !== "undefined" ? options.arcanes : this.arcanes;
     this.target = typeof options.target !== "undefined" ? options.target : this.target;
     this.amrorReduce = typeof options.amrorReduce !== "undefined" ? options.amrorReduce : this.amrorReduce;
     this.burstSampleSize = typeof options.burstSampleSize !== "undefined" ? options.burstSampleSize : this.burstSampleSize;
@@ -159,7 +158,6 @@ export class GunModBuild extends ModBuild {
       allowElementTypes: this.allowElementTypes,
       extraBaseDamage: this.extraBaseDamage,
       extraOverall: this.extraOverall,
-      arcanes: this.arcanes,
       target: this.target,
       amrorReduce: this.amrorReduce,
       burstSampleSize: this.burstSampleSize
@@ -192,7 +190,7 @@ export class GunModBuild extends ModBuild {
           remaingMag === this.magazineSize ? this.totalDmgFirstRaw : this.totalDmgRaw,
           this.procChanceMap,
           this.dotDamageMap,
-          this.bullets,
+          this.pellets,
           this.procDurationMul,
           this.critChance,
           this.weapon.tags.includes("Sniper") ? 750 : 750 / (this.fireRate < 1 ? 1 : this.fireRate),
@@ -214,15 +212,15 @@ export class GunModBuild extends ModBuild {
   // ### 计算属性 ###
   /** 精准度 */
   get accuracy() {
-    return this.weapon.accuracy;
+    return this.mode.accuracy;
   }
   /** 是否是射线武器 */
   get isLaser() {
     return this.weapon.tags.includes("Continuous");
   }
   /** [overwrite] 弹片数 */
-  get bullets() {
-    return this.isLaser ? this.weapon.bullets : hAccMul(this.weapon.bullets, this.multishotMul);
+  get pellets() {
+    return this.isLaser ? this.mode.pellets : hAccMul(this.mode.pellets, this.multishotMul);
   }
   /** 换弹时间 */
   get reloadTime() {
@@ -240,11 +238,11 @@ export class GunModBuild extends ModBuild {
   }
   /** 最大弹药 */
   get maxAmmo() {
-    return Math.round(this.weapon.ammo * this.maxAmmoMul);
+    return Math.round(this.weapon.maxAmmo * this.maxAmmoMul);
   }
   /** 飞行速度 */
   get prjSpeed() {
-    return this.weapon.prjSpeed * this.projectileSpeedMul;
+    return this.mode.prjSpeed * this.projectileSpeedMul;
   }
   /** [overwrite] 空占比 */
   get dutyCycle() {
@@ -253,8 +251,8 @@ export class GunModBuild extends ModBuild {
   /** [overwrite] 暴击倍率 */
   get critMul() {
     // 绝路 / 丧钟开镜暴伤
-    if (this.baseId === "Rubico" || this.baseId === "Knell") return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul) + 1.5;
-    return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul);
+    if (this.baseId === "Rubico" || this.baseId === "Knell") return hAccMul(this.mode.critMul, this.critMulMul, this.finalCritMulMul) + 1.5;
+    return hAccMul(this.mode.critMul, this.critMulMul, this.finalCritMulMul);
   }
 
   /** [overwrite] 每发触发率 */
@@ -274,21 +272,22 @@ export class GunModBuild extends ModBuild {
   }
   /** 每个弹片触发几率 */
   get realProcChance() {
-    return 1 - (1 - this.procChance) ** (1 / this.weapon.bullets);
+    return 1 - (1 - this.procChance) ** (1 / this.mode.pellets);
   }
   /** 平均射速增幅倍率  */
   get sustainedFireRateMul() {
-    return (1 / this.weapon.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate;
+    return (1 / this.mode.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate;
   }
   /** [overwrite] 射速 */
   get fireRate() {
-    let fr = hAccMul(this.weapon.fireRate, this.fireRateMul);
+    let fr = hAccMul(this.mode.fireRate, this.fireRateMul);
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }
   /** 原平均射速 = 弹匣 ÷ ((弹匣 − 1) ÷ 射速 + 装填) */
   get oriSustainedFireRate() {
-    const { fireRate: f, reload: r, magazine } = this.weapon;
+    const { reload: r, magazine } = this.weapon;
+    const { fireRate: f } = this.mode;
     const m = ~~(magazine / this.ammoCost);
     if (this.weapon.tags.includes("Charge")) return 1 / (1 / f + r / m);
     return (m * f) / (m - 1 + r * f);
@@ -370,7 +369,8 @@ export class GunModBuild extends ModBuild {
 
   /** 原爆发取样等效射速 */
   get oriBurstSampleFireRate() {
-    const { fireRate: f, reload: r, magazine } = this.weapon;
+    const { reload: r, magazine } = this.weapon;
+    const { fireRate: f } = this.mode;
     const b = this.burstSampleSize;
     if (!b) return f;
     const m = ~~(magazine / this.ammoCost);
@@ -426,7 +426,7 @@ export class GunModBuild extends ModBuild {
     if (!this.useHunterMunitions && "Hunter Munitions" === mod.id) return false;
     if (i18n.locale !== "zh-CY" && "Primed Charged Chamber" === mod.id) return false;
     // 集团海克屏蔽散射正义
-    if (this.weapon.id === "Vaykor Hek" && mod.id === "Scattered Justice") return false;
+    if (this.weapon.name === "Vaykor Hek" && mod.id === "Scattered Justice") return false;
     return true;
   }
 
@@ -516,13 +516,13 @@ export class GunModBuild extends ModBuild {
         /* 第一发子弹伤害加成 firstAmmoMul */ this._firstAmmoMul = hAccSum(this._firstAmmoMul, pValue);
         break;
       case "eed":
-        /* 电击伤害 */ this.weapon.prjSpeed ? (this.electricityMul = hAccSum(this._electricityMul, pValue)) : this.applyStandaloneElement("Electricity", pValue / 100);
+        /* 电击伤害 */ this.mode.prjSpeed ? (this.electricityMul = hAccSum(this._electricityMul, pValue)) : this.applyStandaloneElement("Electricity", pValue / 100);
         break;
       case "efd":
-        /* 火焰伤害 */ this.weapon.prjSpeed ? (this.heatMul = hAccSum(this._heatMul, pValue)) : this.applyStandaloneElement("Heat", pValue / 100);
+        /* 火焰伤害 */ this.mode.prjSpeed ? (this.heatMul = hAccSum(this._heatMul, pValue)) : this.applyStandaloneElement("Heat", pValue / 100);
         break;
       case "etd":
-        /* 毒素伤害 */ this.weapon.prjSpeed ? (this.toxinMul = hAccSum(this._toxinMul, pValue)) : this.applyStandaloneElement("Toxin", pValue / 100);
+        /* 毒素伤害 */ this.mode.prjSpeed ? (this.toxinMul = hAccSum(this._toxinMul, pValue)) : this.applyStandaloneElement("Toxin", pValue / 100);
         break;
       case "ar":
         /* + Range (nopercent) */ this._rangeLimitAdd = hAccSum(this._rangeLimitAdd, pValue);

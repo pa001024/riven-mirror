@@ -4,14 +4,13 @@ import { RivenDataBase } from "@/warframe/codex";
 import { ModBuild } from "@/warframe/modbuild";
 import { GunModBuild } from "@/warframe/gunmodbuild";
 import { Getter } from "vuex-class";
-import localStorage from "universal-localstorage";
 
 export abstract class BaseModBuildView extends Vue {
   @Getter("bigScreen") bigScreen: boolean;
   @Prop() riven: RivenMod;
   selectWeapon = "";
   get weapon() {
-    return RivenDataBase.getNormalWeaponsByName(this.selectWeapon);
+    return RivenDataBase.getNormalWeaponByName(this.selectWeapon);
   }
   selectCompMethod: number = 0;
   selectDamageType: string = "Corrosive";

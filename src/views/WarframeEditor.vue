@@ -287,7 +287,7 @@ export default class WarframeEditor extends Vue {
     return ValuedProperty.parse([vn, vv]);
   }
   renderWeapon(name: string) {
-    return RivenDataBase.getNormalWeaponsByName(name).displayName;
+    return RivenDataBase.getNormalWeaponByName(name).displayName;
   }
   renderWeaponProps(abi: WarframeBuild["Abilities"][number]) {
     const p = this.build.abilityStrength * 1e3;

@@ -1,7 +1,8 @@
 import { hAccSum } from "@/warframe/util";
-import { MeleeWeapon } from "@/warframe/codex/weapon";
+import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import _ from "lodash";
+import { WeaponMode } from "./weapon.i";
 
 export enum Stance {
   Daggers, // 匕首
@@ -177,31 +178,18 @@ export const NoneZawLinksData: ZawLinks = {
   status: 0
 };
 
-export class Zaw implements MeleeWeapon {
+export class Zaw extends Weapon {
   strike: ZawStrike;
   grip: ZawGrip;
   links: ZawLinks;
 
-  id: string;
-  name: string;
-  dmg: [string, number][];
-  fireRate: number;
-  critChance: number;
-  status: number;
   stance: string;
-  fltSpeed: number;
-  pol = "";
-  bullets = 1;
-  range: [number, number];
 
   get oneHand() {
     return !this.grip.twoHand;
   }
   get twoHand() {
     return this.grip.twoHand;
-  }
-  get panelDamage() {
-    return this.dmg.reduce((a, b) => a + b[1], 0);
   }
   get slideDmg() {
     return this.panelDamage * (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
@@ -223,6 +211,7 @@ export class Zaw implements MeleeWeapon {
     this.recalc();
   }
   constructor(strike: ZawStrike | string, grip: ZawGrip = null, links: ZawLinks = null) {
+    super();
     if (typeof strike === "string") {
       this.url = strike;
     } else {
@@ -231,15 +220,11 @@ export class Zaw implements MeleeWeapon {
     }
   }
   recalc() {
-    this.id = this.strike.id;
     this.name = this.strike.name;
+
     let modify = this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand;
     this.stance = modify.type;
-    this.range = modify.range;
-    // 60 为基础值 12为镀金加成
-    this.fireRate = +((60 + this.strike.speed + this.grip.speed + this.links.speed) / 60).toFixed(3);
-    this.critChance = (10 + this.strike.crit + this.links.crit) / 100;
-    this.status = (10 + this.strike.status + this.links.status) / 100;
+    this.reach = modify.range;
 
     //  ZAW 计算方法
 
@@ -264,21 +249,16 @@ export class Zaw implements MeleeWeapon {
     } else {
       calced = this.strike.dmgs.map((v, i) => [DamageTypes[i], +((v * dmg) / 20).toFixed(1)]);
     }
-    this.dmg = calced.filter(v => v[1] > 0);
+    const mode = {
+      // 60 为基础值 12为镀金加成
+      damage: calced.filter(v => v[1] > 0),
+      fireRate: +((60 + this.strike.speed + this.grip.speed + this.links.speed) / 60).toFixed(3),
+      critChance: (10 + this.strike.crit + this.links.crit) / 100,
+      procChance: (10 + this.strike.status + this.links.status) / 100
+    } as WeaponMode;
+    this.modes = [mode];
   }
   get displayName() {
-    return `${i18n.t(`messages.${this.strike.name}`)}-${i18n.t(`messages.${this.grip.name}`)}-${i18n.t(`messages.${this.links.name}`)}` as string;
-  }
-  /** 真实ID */
-  get realID() {
-    return this.id;
-  }
-  /** 真实URL */
-  get realURL() {
-    return this.realID.replace(/ /g, "_");
-  }
-  /** WM URL */
-  get wmurl() {
-    return this.realID.toLowerCase().replace(/ /g, "-");
+    return `${i18n.t(`messages.${_.camelCase(this.strike.name)}`)}-${i18n.t(`messages.${_.camelCase(this.grip.name)}`)}-${i18n.t(`messages.${_.camelCase(this.links.name)}`)}`;
   }
 }

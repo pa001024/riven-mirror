@@ -50,12 +50,12 @@ export default class ModModule implements Module<ModState, RootState> {
   actions: ActionTree<ModState, RootState> = {
     async newModTextInput(ctx, newModText: string) {
       let rm = new RivenMod(newModText);
-      if (rm.id) ctx.commit(SET_NEW_RIVEN, rm);
+      if (rm.name) ctx.commit(SET_NEW_RIVEN, rm);
     },
     async newBase64Text(ctx, text: string) {
       let rm = new RivenMod();
       rm.qrCodeBase64 = text;
-      if (rm.id) ctx.commit(SET_NEW_RIVEN, rm);
+      if (rm.name) ctx.commit(SET_NEW_RIVEN, rm);
     },
     async removeHistory(ctx, qrcode: string) {
       ctx.commit(DELETE_HISTORY, qrcode);

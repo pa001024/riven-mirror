@@ -1,95 +1,164 @@
 import { i18n } from "@/i18n";
-import { WeaponData, GunWeaponData, MeleeWeaponData } from "./weapon.i";
+import { ProtoWeapon, Zoom, WeaponMode } from "./weapon.i";
+import Axios from "axios";
+import _ from "lodash";
 
-export class Weapon implements WeaponData {
-  id: string;
+export enum MainTag {
+  Rifle,
+  Shotgun,
+  Pistol,
+  Kitgun,
+  Melee,
+  Zaw,
+  "Arch-Gun",
+  "Arch-Melee",
+  Amp
+}
+export class Weapon {
+  // 裂罅基础名称
+  base?: string;
+  // base
   name: string;
-  mode?: string;
-  rivenName?: string;
-  tags: string[];
-  dmg: [string, number][];
-  critMul: number;
-  critChance: number;
-  fireRate: number;
-  status: number;
-  defaultMode?: number;
-  pol: string;
-  bullets: number;
+  /** MOD中可能出现的词缀 */
+  tags: string[] = [];
+  /** 次要tag Tenno/G/C/I/Prime 等 */
+  traits?: string[];
+  /** 段位 */
+  mastery?: number;
+  /** 极性 */
+  polarities?: string;
+  /** 裂罅倾向 */
+  disposition: number = 0;
+  /** 主Tag Rifle/Melee 等 */
+  mainTag: MainTag;
 
-  constructor(data: WeaponData) {
-    this.id = data.id;
-    this.name = data.name;
-    this.mode = data.mode;
-    this.rivenName = data.rivenName;
-    this.tags = data.tags;
-    this.dmg = data.dmg;
-    this.critMul = data.critMul;
-    this.critChance = data.critChance;
-    this.fireRate = data.fireRate;
-    this.status = data.status;
-    this.defaultMode = data.defaultMode;
-    this.pol = data.pol;
-    this.bullets = data.bullets || 1;
+  // gun
+  reload?: number;
+  magazine?: number;
+  maxAmmo?: number;
+  reloadStyle?: number; // Normal=0 Regenerate=1 ByRound=2
+  // deep extra
+  sniperComboMin?: number;
+  sniperComboReset?: number;
+  /** 缩放 */
+  zoom?: Zoom[]; // "3x (+20% Critical Chance)"
+
+  // melee
+  stancePolarity?: string;
+  blockResist?: number;
+  finisherDamage?: number;
+  channelCost?: number;
+  channelMult?: number;
+  spinAttack?: number;
+  jumpAttack?: number;
+  leapAttack?: number;
+  wallAttack?: number;
+  /** 近战范围 */
+  reach?: number[];
+
+  // attack
+  modes: WeaponMode[];
+
+  constructor(data?: ProtoWeapon, base?: string) {
+    if (data) {
+      const { variants, modes, ...weapon } = data;
+      // TODO 是否有问题需检验
+      Object.assign(this, weapon);
+      if (weapon.tags) this.mainTag = MainTag[weapon.tags.filter(v => v != "Robotic" && v != "Secondary")[0]];
+      const defaultMode = modes[0];
+      // 根据默认补全属性
+      this.modes = modes.map(mode => {
+        if (typeof mode.critChance === "undefined") mode.critChance = defaultMode.critChance || 0;
+        if (typeof mode.critMul === "undefined") mode.critMul = defaultMode.critMul || 2;
+        if (typeof mode.procChance === "undefined") mode.procChance = defaultMode.procChance || 0;
+        return mode;
+      });
+    }
+    if (this.base) this.base = base;
   }
+
+  // 辅助函数
   /** URL */
   get url() {
-    return this.id.replace(/ /g, "_");
-  }
-  /** 真实ID */
-  get realID() {
-    return this.id.replace(/ \(.+?\)$/g, "");
-  }
-  /** 真实URL */
-  get realURL() {
-    return this.realID.replace(/ /g, "_");
+    return this.name.replace(/ /g, "_");
   }
   /** WM URL */
   get wmurl() {
     const slist = ["Prisma ", "Secura ", "Vaykor ", "Sancti ", "Synoid ", "Telos ", "Mara "];
-    if (slist.some(v => this.id.includes(v))) return this.realID.toLowerCase().replace(/ /g, "_");
-    return this.realID.toLowerCase().replace(/ /g, "_") + "_set";
+    if (slist.some(v => this.name.includes(v))) return this.name.toLowerCase().replace(/ /g, "_");
+    return this.name.toLowerCase().replace(/ /g, "_") + "_set";
   }
   get displayName() {
-    let name = i18n.t(`messages.${this.name}`) as string;
-    if (!this.mode) return name;
-    let mode = (this.mode && i18n.t("weaponmode.format", [i18n.t(`weaponmode.${this.mode}`)])) || "";
-    return name + mode;
+    const key = `messages.${_.camelCase(this.name)}`;
+    if (i18n.te(key)) return i18n.t(key);
+    else {
+      console.warn(`missing i18n: ${key}:"${this.name}"`);
+      return this.name;
+    }
+  }
+
+  /** 武器倾向星数 */
+  get star() {
+    return [0.1, 0.7, 0.875, 1.125, 1.305, Infinity].findIndex(v => this.disposition < v);
+  }
+  get starText() {
+    return _.repeat("●", this.star) + _.repeat("○", 5 - this.star);
+  }
+  /** 是否是Gun */
+  get isGun() {
+    return this.mainTag !== MainTag.Melee && this.mainTag !== MainTag.Zaw && this.mainTag !== MainTag["Arch-Melee"];
+  }
+  /** 是否是Melee */
+  get isMelee() {
+    return this.mainTag === MainTag.Melee || this.mainTag === MainTag.Zaw;
+  }
+  /** 是否是Pistol */
+  get isPistol() {
+    return this.mainTag === MainTag.Pistol || this.mainTag === MainTag.Kitgun;
+  }
+  /** 是否是Rifle */
+  get isRifle() {
+    return this.mainTag === MainTag.Rifle;
+  }
+  /** 是否是Sniper */
+  get isSniper() {
+    return this.isRifle && this.tags.includes("Sniper");
+  }
+  /** 是否是Zaw */
+  get isZaw() {
+    return this.mainTag === MainTag.Zaw;
+  }
+  /** 是否是Kitgun */
+  get isKitgun() {
+    return this.mainTag === MainTag.Kitgun;
+  }
+
+  get panelDamage() {
+    return _.reduce(this.modes[0].damage, (a, b) => a + b[1], 0);
   }
 }
 
-export class GunWeapon extends Weapon implements GunWeaponData {
-  accuracy: number;
-  magazine: number;
-  reload: number;
-  ammo: number;
-  ammoCost?: number;
-  prjSpeed?: number;
-  rangeLimit?: number;
-  constructor(data: GunWeaponData) {
-    super(data);
-    this.accuracy = data.accuracy;
-    this.magazine = data.magazine;
-    this.reload = data.reload;
-    this.ammo = data.ammo;
-    this.ammoCost = data.ammoCost;
-    this.prjSpeed = data.prjSpeed;
-    this.rangeLimit = data.rangeLimit;
+import data from "@/data/weapons.data";
+import Weapons from "@/proto/weapons.proto";
+
+/** split variants format to normal format */
+export class WeaponDatabase {
+  static weapons: Weapon[];
+
+  static async loadDataOnline() {
+    const rst = await Axios.get(data, { responseType: "arraybuffer" });
+    const msg = Weapons.decode(rst.data);
+    const decoded = Weapons.toObject(msg);
+    // this.data = decoded.weapons;
+    this.load(decoded.weapons as ProtoWeapon[]);
+  }
+  static load(weapons: ProtoWeapon[]) {
+    let rst: Weapon[] = [];
+    weapons.forEach(root => {
+      const { variants, ...weapon } = root;
+      rst.push(new Weapon(weapon));
+      rst.push(new Weapon(weapon, weapon.name));
+    });
+    return (this.weapons = rst);
   }
 }
-export class MeleeWeapon extends Weapon implements MeleeWeaponData {
-  slideDmg: number;
-  fltSpeed?: number;
-  range?: [number, number];
-  constructor(data: MeleeWeaponData) {
-    super(data);
-    this.slideDmg = data.slideDmg;
-    this.fltSpeed = data.fltSpeed;
-    this.range = data.range;
-  }
-}
-
-import { gunWeaponData, meleeWeaponData } from "./weapon.data";
-
-export const GunWeaponDataBase: GunWeapon[] = gunWeaponData.map(v => new GunWeapon(v));
-
-export const MeleeWeaponDataBase: MeleeWeapon[] = meleeWeaponData.map(v => new MeleeWeapon(v));

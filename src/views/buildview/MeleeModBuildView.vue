@@ -154,7 +154,7 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { BaseModBuildView } from "./BaseModBuildView";
 import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
-import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDataBase, Codex, MeleeWeapon, MeleeWeaponDataBase } from "@/warframe/codex";
+import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDataBase, Codex } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import "@/less/buildview.less";
 import localStorage from "universal-localstorage";
@@ -188,7 +188,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
   gripId: string = null;
   linksId: string = null;
 
-  vistualWeapons = MeleeWeaponDataBase.filter(v => v.tags.includes("Virtual"));
+  vistualWeapons = RivenDataBase.getNormalWeaponByTags(["Virtual", "Melee"]);
 
   get isVirtualWeaponSelected() {
     return this.weapon.tags.includes("Virtual");
@@ -196,8 +196,8 @@ export default class MeleeModBuildView extends BaseModBuildView {
 
   /** [overwrite] 武器 */
   get weapon() {
-    if (this.riven.isZaw) return new Zaw(this.strike, this.grip, this.links);
-    else return RivenDataBase.getNormalWeaponsByName(this.selectWeapon);
+    if (this.riven.weapon.isZaw) return new Zaw(this.strike, this.grip, this.links);
+    else return RivenDataBase.getNormalWeaponByName(this.selectWeapon);
   }
 
   get availableArcanes() {
@@ -215,7 +215,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
    * else 攻击伤害
    */
   get defalutMode() {
-    let melee = this.weapon as MeleeWeapon;
+    let melee = this.weapon;
     let slideList = ["Whip", "Polearm", "Staff"];
     if (melee.tags.some(v => slideList.includes(v))) return MeleeCompareMode.SlideDamagePS;
     return MeleeCompareMode.TotalDamagePS;
@@ -232,18 +232,18 @@ export default class MeleeModBuildView extends BaseModBuildView {
 
   @Watch("riven")
   rivenChange(riven?: RivenMod, oldRiven?: RivenMod) {
-    if (this.riven.isZaw) {
-      this.strike = ZawStrikeData.find(v => v.id === this.riven.id);
-      this.selectWeapon = this.riven.id;
+    if (this.riven.weapon.isZaw) {
+      this.strike = ZawStrikeData.find(v => v.id === this.riven.name);
+      this.selectWeapon = this.riven.name;
     } else {
-      let weapons = this.riven.weapons;
+      let weapons = this.riven.weapon.weapons;
       if (!weapons || weapons.length === 0) {
         console.warn("warn: weapons.length === 0");
         return;
       }
-      this.selectWeapon = weapons[weapons.length - 1].id;
+      this.selectWeapon = weapons[weapons.length - 1].name;
     }
-    if (!oldRiven || (this.riven && oldRiven.id !== this.riven.id)) this.selectCompMethod = this.defalutMode;
+    if (!oldRiven || (this.riven && oldRiven.name !== this.riven.name)) this.selectCompMethod = this.defalutMode;
     this.debouncedRecalc();
   }
   zawPartChange() {
@@ -276,10 +276,10 @@ export default class MeleeModBuildView extends BaseModBuildView {
     super.recalc(MeleeModBuild, options);
   }
   weaponchanged() {
-    const weapon = this.weapon as MeleeWeapon;
+    const weapon = this.weapon ;
     // 自动配卡优化
     this.requireCombo = !weapon.tags.includes("Virtual");
-    this.requireRange = weapon.range && weapon.range[1] > 1;
+    this.requireRange = weapon.reach && weapon.reach[0] > 1.5;
     this.debouncedRecalc();
   }
 }

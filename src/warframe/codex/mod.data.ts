@@ -11,8 +11,8 @@ const Aura = "Aura";
 const Warframe = "Warframe";
 const Exilus = "Exilus";
 const Archwing = "Archwing";
-const Archgun = "Archgun";
-const Archmelee = "Archmelee";
+const Archgun = "Arch-Gun";
+const Archmelee = "Arch-Melee";
 
 const data = [
   // 00 为空槽 01 为紫卡

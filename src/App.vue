@@ -3,10 +3,11 @@
     <header class="main-header" v-if="!isFullPage">
       <router-link tag="div" class="site-logo" to="/">
         <i class="i-mirror-logo"></i>
-        <h1>Riven.IM
+        <!-- <h1>Riven.IM
           <span class="beta">{{magic}} {{version}}</span>
-        </h1>
+        </h1> -->
       </router-link>
+      <Search style="margin-left: 8px"/>
       <MiniClock v-if="!isIndexPage" class="hidden-xs-only header-watch"/>
       <!-- padding -->
       <div class="app-nav-pad"></div>
@@ -69,6 +70,7 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import MiniClock from "@/components/MiniClock.vue";
 import WfIcon from "@/components/WfIcon.vue";
+import Search from "@/components/Search.vue";
 import { RivenDataBase } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import markdown from "markdown-it";
@@ -81,7 +83,7 @@ import { HMT } from "./service/HMT";
 
 const md = markdown();
 
-@Component({ components: { MiniClock, WfIcon } })
+@Component({ components: { MiniClock, WfIcon, Search } })
 export default class App extends Vue {
   menuOpen = false;
   updateMessageVisible = false;

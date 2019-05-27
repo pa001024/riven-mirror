@@ -1,14 +1,14 @@
 import _ from "lodash";
 import { hAccSum } from "@/warframe/util";
-import { GunWeapon, Weapon } from "@/warframe/codex/weapon";
+import { Weapon } from "@/warframe/codex/weapon";
 import { i18n } from "@/i18n";
+import { WeaponMode, Damage } from "./weapon.i";
 
 /**
  * 棱镜
  */
 export interface AmpPrism {
   index: number;
-  id: string;
   name: string;
   dmgs: [string, number][];
   critChance: number;
@@ -26,7 +26,6 @@ export interface AmpPrism {
  */
 export interface AmpScaffold {
   index: number;
-  id: string;
   name: string;
   dmgs: [string, number][];
   critChance: number;
@@ -44,7 +43,6 @@ export interface AmpScaffold {
  */
 export interface AmpBrace {
   index: number;
-  id: string;
   name: string;
   critChance: number;
   procChance: number;
@@ -61,7 +59,7 @@ const _ampPrism = [
   [4, "Rahn Prism", [["Void", 1000]], 0.3, 2, 0.04, 5.67, 32, 2, 100],
   [5, "Cantic Prism", [["Void", 1460]], 0.34, 2.2, 0.1, 4.88, 32, 3, 100],
   [6, "Lega Prism", [["Void", 600]], 0.08, 1.6, 0.34, 7.5, 100, 60, 28],
-  [7, "Klamora Prism", [["Void", 600]], 0.38, 2.4, 0.1, 12, 100, 25, 13],
+  [7, "Klamora Prism", [["Void", 600]], 0.38, 2.4, 0.1, 12, 100, 25, 13]
 ] as [number, string, [string, number][], number, number, number, number, number, number, number, number?][];
 
 const _ampScaffold = [
@@ -70,9 +68,9 @@ const _ampScaffold = [
   [2, "Shraksun Scaffold", [["Void", 7500]], 0.2, 2.5, 0.2, 1.33, 9.1, 10, 15, /* prjSpeed */ 40],
   [3, "Klebrik Scaffold", [["Void", 320]], 0.16, 1.6, 0.14, 12, 100, 3, 25],
   [4, "Phahd Scaffold", [["Void", 6100]], 0.34, 2.6, 0.12, 1.33, 9.1, 20, 300, /* prjSpeed */ 100],
-  [5, "Exard Scaffold", [/*["Impact", 200], */["Void", 2600]], 0.17, 1.9, 0.33, 8.26, 10, 20, 40, /* prjSpeed */ 100],
-  [6, "Dissic Scaffold", [/*["Impact", 15], */["Void", 6600]], 0.03, 1.5, 0.37, 1, 100, 50, /* prjSpeed */ 100],
-  [7, "Propa Scaffold", [["Void", 9000]], 0.3, 2, 0, 2, 9.1, 50, 10, /* prjSpeed */ 40],
+  [5, "Exard Scaffold", [/*["Impact", 200], */ ["Void", 2600]], 0.17, 1.9, 0.33, 8.26, 10, 20, 40, /* prjSpeed */ 100],
+  [6, "Dissic Scaffold", [/*["Impact", 15], */ ["Void", 6600]], 0.03, 1.5, 0.37, 1, 100, 50, /* prjSpeed */ 100],
+  [7, "Propa Scaffold", [["Void", 9000]], 0.3, 2, 0, 2, 9.1, 50, 10, /* prjSpeed */ 40]
 ] as [number, string, [string, number][], number, number, number, number, number, number, number, number?][];
 
 const _ampBrace = [
@@ -83,7 +81,7 @@ const _ampBrace = [
   [4, "Anspatha Brace", 0, 0, 0, 0, 15],
   [5, "Suo Brace", 0, 0, 100, 2, 0],
   [6, "Plaga Brace", 0, 0, -20, -1.5, 0],
-  [7, "Certus Brace", 0.2, 0, 0, 0, 0],
+  [7, "Certus Brace", 0.2, 0, 0, 0, 0]
 ] as [number, string, number, number, number, number, number][];
 
 export const NoneBraceData = {
@@ -94,14 +92,13 @@ export const NoneBraceData = {
   procChance: 0,
   magazine: 0,
   reloadDelay: 0,
-  reloadSpeed: 0,
-}
+  reloadSpeed: 0
+};
 
 /** 棱镜数据 */
 export const AmpPrismData: AmpPrism[] = _ampPrism.map(v => ({
   index: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  name: v[1],
   dmgs: v[2],
   critChance: v[3],
   critDamage: v[4],
@@ -110,14 +107,13 @@ export const AmpPrismData: AmpPrism[] = _ampPrism.map(v => ({
   accuracy: v[7],
   ammoCost: v[8],
   rangeLimit: v[9],
-  prjSpeed: v[10],
+  prjSpeed: v[10]
 }));
 
 /** 支架数据 */
 export const AmpScaffoldData: AmpScaffold[] = _ampScaffold.map(v => ({
   index: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  name: v[1],
   dmgs: v[2],
   critChance: v[3],
   critDamage: v[4],
@@ -126,56 +122,46 @@ export const AmpScaffoldData: AmpScaffold[] = _ampScaffold.map(v => ({
   accuracy: v[7],
   ammoCost: v[8],
   rangeLimit: v[9],
-  prjSpeed: v[10],
+  prjSpeed: v[10]
 }));
 
 /** 曲柄数据 */
 export const AmpBraceData: AmpBrace[] = _ampBrace.map(v => ({
   index: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  name: v[1],
   critChance: v[2],
   procChance: v[3],
   magazine: v[4],
   reloadDelay: v[5],
-  reloadSpeed: v[6],
+  reloadSpeed: v[6]
 }));
 
-export class Amp implements GunWeapon {
+export class Amp extends Weapon {
   prism: AmpPrism;
   scaffold: AmpScaffold;
   brace: AmpBrace;
 
-  bullets: number = 1;
-  ammo: number = 0;
-  ammoCost: number;
-  prjSpeed?: number;
-  rangeLimit?: number;
-
-  id: string;
   buildName: string;
-  name: string;
-  dmg: [string, number][];
-  fireRate: number;
-  critMul: number;
-  critChance: number;
-  status: number;
-  accuracy: number;
-  /** 弹匣 基础100 */
-  magazine: number;
   /** 充能延迟 基础2秒 */
   reloadDelay: number;
   /** 充能速度 基础30点每秒 */
   reloadSpeed: number;
   pol = "";
-  get reload() { return this.reloadDelay + this.magazine / this.reloadSpeed; }
+  get reload() {
+    return this.reloadDelay + this.magazine / this.reloadSpeed;
+  }
 
   /** 是否是棱镜 */
-  get isPrism() { return !!this.prism }
+  get isPrism() {
+    return !!this.prism;
+  }
 
-  get panelDamage() { return this.dmg.reduce((a, b) => a + b[1], 0); }
-  get tags() { return (this.scaffold && this.scaffold.id === "Klebrik Scaffold" || this.prism && this.prism.id === "Klamora Prism") ? ["Amp", "Continuous"] : ["Amp"]; }
-  get url() { return `AMP-${this.buildName}`; }
+  get tags() {
+    return (this.scaffold && this.scaffold.name === "Klebrik Scaffold") || (this.prism && this.prism.name === "Klamora Prism") ? ["Amp", "Continuous"] : ["Amp"];
+  }
+  get url() {
+    return `AMP-${this.buildName}`;
+  }
   set url(value) {
     try {
       let parts = value.split("-")[1];
@@ -183,16 +169,15 @@ export class Amp implements GunWeapon {
       this.scaffold = AmpScaffoldData.find(v => v.index === +parts[1]);
       this.brace = AmpBraceData.find(v => v.index === +parts[2]) || NoneBraceData;
       this.recalc();
-    }
-    catch (e) {
-      console.error("AMP parse URL fail:", value)
+    } catch (e) {
+      console.error("AMP parse URL fail:", value);
     }
   }
   constructor(prism: AmpPrism | string, scaffold: AmpScaffold = null, brace: AmpBrace = null) {
+    super();
     if (typeof prism === "string") {
       this.url = prism;
-    }
-    else {
+    } else {
       [this.prism, this.scaffold, this.brace] = [prism, scaffold, brace];
       if (prism || scaffold) this.recalc();
     }
@@ -201,31 +186,29 @@ export class Amp implements GunWeapon {
     let mainPart = this.isPrism ? this.prism : this.scaffold;
     if (!mainPart) return;
     let brace = this.brace || NoneBraceData;
-    this.id = "Amp";
+    this.name = "Amp";
     this.buildName = `${this.prism ? this.prism.index : "x"}${this.scaffold ? this.scaffold.index : "x"}${brace.index}`;
-    this.critMul = mainPart.critDamage;
-    this.critChance = hAccSum(mainPart.critChance, brace.critChance);
-    this.status = hAccSum(mainPart.procChance, brace.procChance);
-    this.fireRate = mainPart.fireRate;
-    this.dmg = mainPart.dmgs;
+    const mode = {
+      damage: mainPart.dmgs.reduce((rst, [vn, vv]) => ((rst[vn] = vv), rst), {} as Damage),
+      critMul: mainPart.critDamage,
+      critChance: hAccSum(mainPart.critChance, brace.critChance),
+      procChance: hAccSum(mainPart.procChance, brace.procChance),
+      fireRate: mainPart.fireRate,
+      ammoCost: mainPart.ammoCost,
+      accuracy: mainPart.accuracy,
+      range: mainPart.rangeLimit,
+      prjSpeed: mainPart.prjSpeed
+    } as WeaponMode;
     this.reloadSpeed = 30 + brace.reloadSpeed;
     this.reloadDelay = 2 + brace.reloadDelay;
     this.magazine = 100 + brace.magazine;
-    this.ammoCost = mainPart.ammoCost;
-    this.accuracy = mainPart.accuracy;
-    this.rangeLimit = mainPart.rangeLimit;
-    this.prjSpeed = mainPart.prjSpeed;
+    this.modes = [mode];
   }
   get displayName() {
     if (this.prism || this.scaffold)
-      return `${this.isPrism ? i18n.t(`messages.${this.prism.name}`) : i18n.t(`messages.${this.scaffold.name}`)}-${i18n.t(`messages.${this.brace.name}`)} ( ${this.buildName} )` as string;
-    else
-      return "Amp";
+      return `${this.isPrism ? i18n.t(`messages.${_.camelCase(this.prism.name)}`) : i18n.t(`messages.${_.camelCase(this.scaffold.name)}`)}-${i18n.t(`messages.${_.camelCase(this.brace.name)}`)} ( ${
+        this.buildName
+      } )`;
+    else return "Amp";
   }
-  /** 真实ID */
-  get realID() { return this.id.replace(/ \(.+?\)$/g, "") }
-  /** 真实URL */
-  get realURL() { return this.realID.replace(/ /g, "_") }
-  /** WM URL */
-  get wmurl() { return this.realID.toLowerCase().replace(/ /g, "-") }
 }

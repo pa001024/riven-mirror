@@ -2,10 +2,18 @@ export const magic = "ALPHA";
 export const version = "1.5.7";
 export const updateLogs = [
   {
+    version: "1.6.0",
+    date: "2019/5/19",
+    md: {
+      en: `- [NEW] Search tools (including weapons/mods/warframes)`,
+      cn: `- [新] 搜索工具 (搜索中英文武器/MOD/战甲名字)`
+    }
+  },
+  {
     version: "1.5.7",
     date: "2019/5/23",
     md: {
-      en: `- add new weapons/warframes`,
+      en: `- Add new weapons/warframes`,
       cn: `- 添加新武器和战甲`
     }
   },
@@ -40,7 +48,7 @@ export const updateLogs = [
 - 配装: 添加一个爆发伤害计算的采样大小选项
 - 配装: 添加配装页自动保存功能`
     }
-  },
+  }
   /*
   {
     version: "1.5.2",

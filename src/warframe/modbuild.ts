@@ -22,6 +22,7 @@ import {
 } from "./codex";
 import { RivenMod, toUpLevel, toNegaUpLevel, ValuedRivenProperty } from "./rivenmod";
 import { HH } from "@/var";
+import { WeaponMode, Damage } from "./codex/weapon.i";
 
 // 基础类
 export abstract class ModBuild {
@@ -30,46 +31,35 @@ export abstract class ModBuild {
   public abstract weapon: Weapon;
   public riven: RivenMod;
   public get rivenWeapon() {
-    return RivenDataBase.getRivenWeaponByName(this.weapon.rivenName || this.weapon.id);
+    return RivenDataBase.getRivenWeaponByName(this.weapon.base || this.weapon.name);
+  }
+  protected _modeName = "";
+  protected _mode: WeaponMode;
+  get modeName() {
+    return this._modeName;
+  }
+  set modeName(value: string) {
+    this._modeName = value;
+    this._mode = this.weapon.modes.find(v => v.type === this._modeName) || this.weapon.modes[0];
+  }
+  get mode() {
+    return this._mode;
   }
 
   /** 所有适用的MOD */
   protected avaliableMods: NormalMod[] = [];
   protected _rawmods: NormalMod[] = [];
   protected _mods: NormalMod[] = [];
-  protected _arcanes: Arcane[] = [];
   protected _buffs: Buff[] = [];
 
-  /**
-   * 配置id
-   *
-   * @readonly
-   * @memberof ModBuild
-   */
+  /** 配置id */
   get id() {
-    return this.weapon.id;
+    return this.weapon.name;
   }
-
-  /**
-   * 纯id 不包含模式及括号
-   *
-   * @readonly
-   * @memberof ModBuild
-   */
-  get pureId() {
-    return this.id.replace(/ \(.+?\)$/, "");
-  }
-
-  /**
-   * 基本id
-   *
-   * @readonly
-   * @memberof ModBuild
-   */
+  /** 基本id */
   get baseId() {
-    return this.weapon.rivenName || this.weapon.id;
+    return this.weapon.base || this.weapon.name;
   }
-
   /** 原型MOD列表 */
   get rawMods() {
     return this._rawmods;
@@ -83,14 +73,6 @@ export abstract class ModBuild {
     this._mods = this.mapRankUpMods(value);
     this.calcMods();
     this.fastMode || this.recalcPolarizations();
-  }
-  /** 赋能列表 */
-  get arcanes() {
-    return _.cloneDeep(this._arcanes);
-  }
-  set arcanes(value) {
-    this._arcanes = _.cloneDeep(value);
-    this.calcMods();
   }
   /** 加成列表 */
   get buffs() {
@@ -203,8 +185,8 @@ export abstract class ModBuild {
     return this._extraProcChance.map(v => [v[0], v[1] / 100] as [string, number]);
   }
   /** 弹片数 */
-  get bullets() {
-    return this.weapon.bullets;
+  get pellets() {
+    return this.mode.pellets || 1;
   }
   /** 空占比 */
   get dutyCycle() {
@@ -257,11 +239,11 @@ export abstract class ModBuild {
 
   /** 武器原本伤害 */
   get initialDamage() {
-    if (this.initialDamageMul === 1 && !this._absExtra.length) {
+    if (this.initialDamageMul === 1 && !Object.keys(this._absExtra).length) {
       this._originalDamage = 0;
-      return this.weapon.dmg;
+      return _.map(this.mode.damage, (v, n) => [n, v] as [string, number]);
     }
-    let dmg = this.weapon.dmg.map(([n, v]) => [n, v * this.initialDamageMul] as [string, number]);
+    let dmg = _.map(this.mode.damage, (v, n) => [n, v * this.initialDamageMul] as [string, number]);
     if (this._absExtra.length) dmg = dmg.concat(this._absExtra);
     this._originalDamage = 0;
     return dmg;
@@ -340,11 +322,11 @@ export abstract class ModBuild {
   /** 暴击率 */
   get critChance() {
     if (this.critChanceLock != -1) return this.critChanceLock;
-    return Math.max(0, hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.headShotChance * this.critWhenHeadshotAdd));
+    return Math.max(0, hAccSum(hAccMul(this.mode.critChance, this.critChanceMul), this.critChanceAdd, this.headShotChance * this.critWhenHeadshotAdd));
   }
   /** 暴击倍率 */
   get critMul() {
-    return hAccMul(this.weapon.critMul, this.critMulMul, this.finalCritMulMul);
+    return hAccMul(this.mode.critMul, this.critMulMul, this.finalCritMulMul);
   }
   /** 平均暴击区增幅倍率 */
   get critDamageMul() {
@@ -520,7 +502,7 @@ export abstract class ModBuild {
     let dotMap = new Map(this.dotBaseDamageMap as [string, number][]);
     let pwAll = this.procChanceMap.reduce((a, b) => a + b[1], 0);
     this._statusInfo = {};
-    const { bullets, fireRate, dutyCycle } = this;
+    const { pellets: bullets, fireRate, dutyCycle } = this;
     const hits = this.weapon.tags.includes("Continuous") ? 1 : bullets;
     this.procChanceMap.forEach(([vn, vv]) => {
       if (vv <= 0) return;
@@ -670,7 +652,7 @@ export abstract class ModBuild {
 
   /** 触发率是否存在跃迁 */
   get isStatusJump() {
-    let neededMul = (1 - this.weapon.status) / this.weapon.status;
+    let neededMul = (1 - this.mode.procChance) / this.mode.procChance;
     let procChanceProp = this.riven.properties.find(v => v.prop.id === "2");
     if (procChanceProp) return procChanceProp.value + 2.4 > neededMul;
     return 2.4 > neededMul;
@@ -678,7 +660,7 @@ export abstract class ModBuild {
 
   /** 触发几率 */
   get procChance() {
-    let s = hAccSum(hAccMul(this.weapon.status, this.procChanceMul), this.procChanceAdd);
+    let s = hAccSum(hAccMul(this.mode.procChance, this.procChanceMul), this.procChanceAdd);
     return s > 1 ? 1 : s < 0 ? 0 : s;
   }
   /** 真实触发几率 */
@@ -882,13 +864,13 @@ export abstract class ModBuild {
   }
   /** 攻速 */
   get fireRate() {
-    let fr = hAccMul(this.weapon.fireRate, this.fireRateMul, this.finalSpeedMul);
+    let fr = hAccMul(this.mode.fireRate, this.fireRateMul, this.finalSpeedMul);
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }
   /** 原平均暴击区增幅倍率 */
   get oriCritDamageMul() {
-    return this.calcCritDamage(this.weapon.critChance, this.weapon.critMul, this.headShotChance, this.oriHeadShotMul);
+    return this.calcCritDamage(this.mode.critChance, this.mode.critMul, this.headShotChance, this.oriHeadShotMul);
   }
 
   protected _originalDamage: number;
@@ -938,13 +920,6 @@ export abstract class ModBuild {
     return this;
   }
 
-  /** 应用赋能 */
-  applyArcane(arc: Arcane) {
-    this._arcanes.push(arc);
-    this.calcMods();
-    return this;
-  }
-
   /** 应用加成 */
   applyBuff(buff: Buff) {
     this._buffs.push(buff);
@@ -959,10 +934,6 @@ export abstract class ModBuild {
     this._mods.forEach(mod => {
       // 后者优先 主要用于紫卡有多个元素词条时
       mod && _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
-    });
-    // 加载赋能
-    this._arcanes.forEach(arc => {
-      arc && this.applyProp(arc, arc.props[0][0], arc.props[0][1]);
     });
     // 加载Buff
     this._buffs.forEach(buff => {
@@ -1258,17 +1229,17 @@ export abstract class ModBuild {
         return true;
       })
       .map(v => {
-        let base = RivenDataBase.getPropBaseValue(this.riven.id, v.id) * upLevel;
+        let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id) * upLevel;
         return new ValuedRivenProperty(v, base, base, upLevel);
       });
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(
-      v => v.id === (this.weapon.id === "Vectis Prime" ? "L" : "H") || v.id === "U" || ((this.riven.mod === "Shotgun" || this.riven.mod === "Archgun") && v.id === "Z")
+      v => v.id === (this.weapon.name === "Vectis Prime" ? "L" : "H") || v.id === "U" || ((this.riven.mod === "Shotgun" || this.riven.mod === "Arch-Gun") && v.id === "Z")
     );
     let valuedNegativeProp = new ValuedRivenProperty(
       negativeProp,
-      this.weapon.id === "Vectis Prime" ? -28 : RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id) * -negaUpLevel,
-      RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id),
+      this.weapon.name === "Vectis Prime" ? -28 : RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel,
+      RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id),
       upLevel
     );
 
@@ -1338,16 +1309,16 @@ export abstract class ModBuild {
         return true;
       })
       .map(v => {
-        let base = RivenDataBase.getPropBaseValue(this.riven.id, v.id) * upLevel;
+        let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id) * upLevel;
         return new ValuedRivenProperty(v, base, base, upLevel);
       });
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
     // 负面属性
-    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.id === "Vectis Prime" ? "L" : "H") || v.id === "U");
+    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.name === "Vectis Prime" ? "L" : "H") || v.id === "U");
     let valuedNegativeProp = new ValuedRivenProperty(
       negativeProp,
-      RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id) * -negaUpLevel,
-      RivenDataBase.getPropBaseValue(this.riven.id, negativeProp.id),
+      RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel,
+      RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id),
       upLevel
     );
 
@@ -1560,7 +1531,7 @@ export abstract class ModBuild {
   /** 重新计算极化次数 */
   recalcPolarizations() {
     // 自带的极性
-    let defaultPolarities = (this.weapon.pol || "").split("");
+    let defaultPolarities = (this.weapon.polarities || "").split("");
     this._polarizations = Array(8).fill(null);
     this._formaCount = 0;
     this._umbraCount = 0;

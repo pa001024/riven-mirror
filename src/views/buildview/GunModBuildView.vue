@@ -157,7 +157,7 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { BaseModBuildView } from "./BaseModBuildView";
 import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
-import { KitgunChamberData, KitgunGripData, KitgunLoaderData, KitgunChamber, KitgunGrip, KitgunLoader, Kitgun, RivenDataBase, Codex, GunWeapon } from "@/warframe/codex";
+import { KitgunChamberData, KitgunGripData, KitgunLoaderData, KitgunChamber, KitgunGrip, KitgunLoader, Kitgun, RivenDataBase, Codex } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import "@/less/buildview.less";
 import localStorage from "universal-localstorage";
@@ -196,11 +196,11 @@ export default class GunModBuildView extends BaseModBuildView {
 
   /** [overwrite] 武器 */
   get weapon() {
-    if (this.riven.isKitgun) {
+    if (this.riven.weapon.isKitgun) {
       return new Kitgun(this.chamber, this.grip, this.loader);
     }
     else
-      return RivenDataBase.getNormalWeaponsByName(this.selectWeapon);
+      return RivenDataBase.getNormalWeaponByName(this.selectWeapon);
   }
 
   get availableArcanes() {
@@ -219,7 +219,7 @@ export default class GunModBuildView extends BaseModBuildView {
    * else 默认为单发伤害
    */
   get defalutMode() {
-    let gun = this.weapon as GunWeapon;
+    let gun = this.weapon ;
     if (gun.tags.includes("Sniper") && gun.magazine <= 2) return GunCompareMode.FirstAmmoDamage;
     if (gun.magazine / (gun.tags.includes("Secondary") ? gun.fireRate * 1.6 : gun.fireRate) < gun.reload * 1.8) return GunCompareMode.SustainedDamage;
     if (gun.fireRate > 2) return GunCompareMode.BurstDamage;
@@ -254,25 +254,25 @@ export default class GunModBuildView extends BaseModBuildView {
 
   @Watch("riven")
   rivenChange(riven?: RivenMod, oldRiven?: RivenMod) {
-    if (this.riven.isKitgun) {
-      this.chamber = KitgunChamberData.find(v => v.id === this.riven.id);
-      this.selectWeapon = this.riven.id;
+    if (this.riven.weapon.isKitgun) {
+      this.chamber = KitgunChamberData.find(v => v.name === this.riven.name);
+      this.selectWeapon = this.riven.name;
     } else {
-      let weapons = this.riven.weapons;
+      let weapons = this.riven.weapon.weapons;
       if (!weapons || weapons.length === 0) {
         console.warn("warn: weapons.length === 0");
         return;
       }
-      this.selectWeapon = weapons[weapons.length - 1].id;
+      this.selectWeapon = weapons[weapons.length - 1].name;
     }
-    if (!oldRiven || this.riven && oldRiven.id !== this.riven.id)
+    if (!oldRiven || this.riven && oldRiven.name !== this.riven.name)
       this.selectCompMethod = this.defalutMode;
     this.debouncedRecalc();
   }
 
   kitgunPartChange() {
-    this.grip = this.gripList.find(v => v.id === this.gripId);
-    this.loader = this.loaderList.find(v => v.id === this.loaderId);
+    this.grip = this.gripList.find(v => v.name === this.gripId);
+    this.loader = this.loaderList.find(v => v.name === this.loaderId);
     this.debouncedRecalc();
   }
   // === 生命周期钩子 ===

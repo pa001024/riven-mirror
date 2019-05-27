@@ -1293,6 +1293,7 @@ let po = {
     detoniteInjector: "爆燃噴射器",
     fieldron: "電磁力場裝置",
     mutagenMass: "突變原聚合物",
+    cetusWisp: "希圖斯幽魂",
 
     amesha: "AMESHA",
     elytron: "ELYTRON",
@@ -1593,7 +1594,6 @@ let po = {
     rightPrismaDaedalusKneePlates: "稜晶 代達羅斯 右護膝板",
     leftPrismaDaedalusShoulder: "稜晶 代達羅斯 左護肩",
     rightPrismaDaedalusShoulder: "稜晶 代達羅斯 右護肩",
-    zephyrImmortalSkin: "ZEPHYR 不朽外觀",
     noggleStatueBaroKiteer: "BARO KI'TEER 搖頭娃娃",
     twinGrakataTowsunSkin: "雙子葛拉卡達 夏至外觀",
     kiteerLegPlates: "KI'TEER 腿部護甲",
@@ -1614,7 +1614,6 @@ let po = {
     prismaEdoChestPlate: "稜晶 江戶 胸甲",
     anpuStaffSkin: "安普長棍外觀",
     anpuSugatra: "安普墜飾",
-    hydroidImmortalSkin: "Hydroid 不朽外觀",
     lisetPrismaSkin: "LISET 稜晶外觀",
     kiteerAtmosDiadem: "KI'TEER 大氣頭飾",
     kiteerCornuDiadem: "KI'TEER 角型頭盔",
@@ -1670,7 +1669,6 @@ let po = {
     eminencePalette: "顯赫色板",
     tennoKindredRug: "TENNO 血緣小地毯",
     prismaRostamKubrowArmor: "稜晶 洛斯塔姆庫狛護甲",
-    mirageImmortalSkin: "Mirage 不朽外觀",
     taxonDesertCamoSkin: "塔克桑 沙漠迷彩外觀",
     coccystSugatra: "尾骨墜飾",
     paracystZebraSkin: "附肢寄生者 斑紋外觀",
@@ -1678,7 +1676,9 @@ let po = {
     acolyteStalkerMios: "巨浪 拉克外觀",
     prismaAviaShoulderPlates: "稜晶飛空肩甲",
     prismaAviaChestArmor: "稜晶飛空胸甲",
-    prismaAviaLegsArmor: "稜晶飛空腿甲",
+    prismaAviaLegPlates: "稜晶飛空腿甲",
+    packLeaderSigil: "領袖紋章",
+    glaringSigil: "耀目紋章",
 
     captainVor: "VOR 上尉",
     councilorVayHek: "Vay Hek 委員",
@@ -1979,7 +1979,8 @@ let po = {
     fuselage: "機身",
     engines: "引擎",
     avionics: "飛航系統",
-    mask: "面具"
+    mask: "面具",
+    immortalSkin: "不朽外觀"
   },
   mods: {
     primedReach: "劍風P",

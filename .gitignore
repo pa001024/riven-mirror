@@ -23,3 +23,6 @@ backend/config.json
 deploy.*
 *.cache.json
 pb
+
+# protobuf
+*.data

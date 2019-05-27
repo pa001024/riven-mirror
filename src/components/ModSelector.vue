@@ -46,7 +46,7 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import RivenEditor from "@/components/RivenEditor.vue";
 import { Getter } from "vuex-class";
-import { NormalMod, NormalModDatabase, VirtualMeleeMods, Codex, AcolyteModsList } from "@/warframe/codex";
+import { NormalMod, NormalModDatabase, VirtualMeleeMods, Codex, AcolyteModsList, MainTag } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import { ModBuild } from "@/warframe/modbuild";
 
@@ -137,13 +137,13 @@ export default class ModSelector extends Vue {
   };
   get fast() {
     const mod = this.build.rivenWeapon.mod;
-    return _.map(this.fastSelect[mod === "Zaw" ? "Melee" : mod === "Kitgun" ? "Pistol" : mod], (v, i) => ({ name: i, id: v } as any));
+    return _.map(this.fastSelect[mod === MainTag.Zaw ? "Melee" : mod === MainTag.Kitgun ? "Pistol" : mod], (v, i) => ({ name: i, id: v } as any));
   }
 
   newRiven(code?: string) {
     let riven = new RivenMod();
     riven.qrCodeBase64 = code || this.editorRivenCode;
-    if (!this.isVirtual && riven.id !== this.build.rivenWeapon.id)
+    if (!this.isVirtual && riven.name !== this.build.rivenWeapon.id)
       this.$confirm(this.$t("modselector.weaponWarnTip") as string, this.$t("modselector.weaponWarn") as string, { type: "warning" }).then(() => {
         this.$emit("command", riven.normalMod);
       });

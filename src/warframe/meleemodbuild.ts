@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { hAccMul, hAccSum } from "@/warframe/util";
-import { Arcane, Enemy, MeleeWeapon, NormalModDatabase, NormalMod } from "./codex";
+import { Arcane, Enemy, NormalModDatabase, NormalMod, Weapon } from "./codex";
 import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
 
@@ -27,7 +27,7 @@ export interface MeleeModBuildOptions {
 }
 
 export class MeleeModBuild extends ModBuild {
-  weapon: MeleeWeapon;
+  weapon: Weapon;
   // 属性增幅器
   private _rangeMul = 100;
   private _chargeMulMul = 100;
@@ -95,14 +95,14 @@ export class MeleeModBuild extends ModBuild {
   /** 属性期望套用到异况加成 */
   calcCondiOver = true;
 
-  constructor(weapon: MeleeWeapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null, fast = false) {
+  constructor(weapon: Weapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null, fast = false) {
     super(riven, fast);
     if ((this.weapon = weapon)) {
       this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.id]).includes(v.type));
     }
     // 自动配卡优化
     this.requireCombo = !this.weapon.tags.includes("Virtual");
-    this.requireRange = this.weapon.range && this.weapon.range[1] > 1;
+    this.requireRange = this.weapon.reach && this.weapon.reach[1] > 1;
     if (options) {
       this.options = options;
     }
@@ -114,7 +114,6 @@ export class MeleeModBuild extends ModBuild {
     this.allowElementTypes = typeof options.allowElementTypes !== "undefined" ? options.allowElementTypes : this.allowElementTypes;
     this.extraBaseDamage = typeof options.extraBaseDamage !== "undefined" ? options.extraBaseDamage : this.extraBaseDamage;
     this.extraOverall = typeof options.extraOverall !== "undefined" ? options.extraOverall : this.extraOverall;
-    this.arcanes = typeof options.arcanes !== "undefined" ? options.arcanes : this.arcanes;
     this.target = typeof options.target !== "undefined" ? options.target : this.target;
     this.requireRange = typeof options.requireRange !== "undefined" ? options.requireRange : this.requireRange;
     this.requireCombo = typeof options.requireCombo !== "undefined" ? options.requireCombo : this.requireCombo;
@@ -129,7 +128,6 @@ export class MeleeModBuild extends ModBuild {
       allowElementTypes: this.allowElementTypes,
       extraBaseDamage: this.extraBaseDamage,
       extraOverall: this.extraOverall,
-      arcanes: this.arcanes,
       target: this.target,
       requireRange: this.requireRange,
       requireCombo: this.requireCombo,
@@ -154,14 +152,14 @@ export class MeleeModBuild extends ModBuild {
 
   /** 范围 */
   get range() {
-    if (!this.weapon.range) return 0;
-    return this.weapon.range[0] * this.rangeMul + this.weapon.range[1];
+    if (!this.weapon.reach) return 0;
+    return this.weapon.reach[0] * this.rangeMul + this.weapon.reach[1];
   }
 
   /** 原范围 */
   get originalRange() {
-    if (!this.weapon.range) return 0;
-    return this.weapon.range[0] + this.weapon.range[1];
+    if (!this.weapon.reach) return 0;
+    return this.weapon.reach[0] + this.weapon.reach[1];
   }
 
   /** [overwrite] 全局伤害增幅倍率 */
@@ -176,12 +174,12 @@ export class MeleeModBuild extends ModBuild {
   }
   /** 滑行攻击倍率 */
   get slideAttackMul() {
-    return this.weapon.slideDmg / this.originalDamage;
+    return this.weapon.spinAttack;
   }
 
   /** 连击倍率 */
   get comboMul() {
-    if (this.weapon.id === "Venka Prime") return this.comboLevel * 0.75 + 1;
+    if (this.weapon.name === "Venka Prime") return this.comboLevel * 0.75 + 1;
     else return this.comboLevel * 0.5 + 1;
   }
   /** 连击数增加暴击率 */
@@ -203,7 +201,7 @@ export class MeleeModBuild extends ModBuild {
       hAccMul(
         this.critChanceLock != -1
           ? this.critChanceLock // Locked
-          : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd),
+          : hAccSum(hAccMul(this.mode.critChance, this.critChanceMul), this.critChanceAdd),
         this.comboCritChance
       )
     );
@@ -215,7 +213,7 @@ export class MeleeModBuild extends ModBuild {
       hAccMul(
         this.critChanceLock != -1
           ? this.critChanceLock // Locked
-          : hAccSum(hAccMul(this.weapon.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd),
+          : hAccSum(hAccMul(this.mode.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd),
         this.comboCritChance
       )
     );
@@ -223,12 +221,12 @@ export class MeleeModBuild extends ModBuild {
 
   /** [overwrite] 触发几率 */
   get procChance() {
-    let s = hAccMul(hAccSum(hAccMul(this.weapon.status, this.procChanceMul), this.procChanceAdd), this.comboProcChance);
+    let s = hAccMul(hAccSum(hAccMul(this.mode.procChance, this.procChanceMul), this.procChanceAdd), this.comboProcChance);
     return s > 1 ? 1 : s < 0 ? 0 : s;
   }
   /** [overwrite] 真实触发几率 */
   get realProcChance() {
-    return 1 - (1 - this.procChance) ** (1 / this.weapon.bullets);
+    return 1 - (1 - this.procChance) ** (1 / this.mode.pellets);
   }
   /** [overwrite] 平均暴击区增幅倍率 */
   get critDamageMul() {
@@ -270,7 +268,7 @@ export class MeleeModBuild extends ModBuild {
   }
   /** 原每秒总伤害 */
   get oriTotalDamagePS() {
-    return hAccMul(this.oriTotalDamage, this.weapon.fireRate);
+    return hAccMul(this.oriTotalDamage, this.mode.fireRate);
   }
 
   /** 原滑行攻击伤害 */
@@ -279,7 +277,7 @@ export class MeleeModBuild extends ModBuild {
   }
   /** 原每秒滑行攻击伤害 */
   get oriSlideDamagePS() {
-    return hAccMul(this.oriSlideDamage, this.weapon.fireRate);
+    return hAccMul(this.oriSlideDamage, this.mode.fireRate);
   }
 
   /** 攻击伤害 */
@@ -436,6 +434,6 @@ export class MeleeModBuild extends ModBuild {
   /** [overwrite] 最大容量 */
   get maxCost() {
     if (this.weapon.tags.includes("Exalted")) return this.weapon.tags.includes("Virtual") ? 70 : 60;
-    return this.weapon.tags.includes("Robotic") ? 60 : this.weapon.id === "Paracesis" ? 80 : 70;
+    return this.weapon.tags.includes("Robotic") ? 60 : this.weapon.name === "Paracesis" ? 80 : 70;
   }
 }

@@ -37,29 +37,29 @@ function convertSkills(src: string) {
     .replace(/\{"value":([\d\.]+),"bind":\[\["u",0\]\]\}/g, "D($1)")
     .replace(/\{"value":([\d\.]+),"bind":\[\["x",0\]\]\}/g, "E($1)")
     .replace(/\{"value":([\d\.]+),"bind":\[\["g",0\]\]\}/g, "R($1)")
-    .replace(/"(\w+?)":/g, "$1:")
+    .replace(/"(\w+?)":/g, "$1:");
 }
 @Component({ components: { VisualSkill } })
 export default class VisualSkillEditor extends Vue {
-  skills: AbilityData[] = null
-  skillNameMap: { [name: string]: number } = null
-  wfClass = "Ash"
-  saveRaw = false
+  skills: AbilityData[] = null;
+  skillNameMap: { [name: string]: number } = null;
+  wfClass = "Ash";
+  saveRaw = false;
   get wfClasses() {
-    return _.uniq(_warframeData.map(v => v.className || v.id))
+    return _.uniq(_warframeData.map(v => v.className || v.id));
   }
   get showSkills() {
-    let wf = _warframeData.find(v => v.id === this.wfClass)
-    let skills = this.skills.filter(v => wf.abilities.includes(v.id))
+    let wf = _warframeData.find(v => v.id === this.wfClass);
+    let skills = this.skills.filter(v => wf.abilities.includes(v.id));
     // console.log(this.wfClass, skills)
-    return skills
+    return skills;
   }
   apply() {
-    registerAbilityData(this.skills)
+    registerAbilityData(this.skills);
   }
   save() {
-    let wf = _warframeData.find(v => v.id === this.wfClass)
-    let skills = this.skills.filter(v => wf.abilities.includes(v.id))
+    let wf = _warframeData.find(v => v.id === this.wfClass);
+    let skills = this.skills.filter(v => wf.abilities.includes(v.id));
     console.log(skills);
     let data = JSON.stringify(skills);
     let blob = new Blob([this.saveRaw ? data : convertSkills(data)], { type: "application/json" });
@@ -82,23 +82,16 @@ export default class VisualSkillEditor extends Vue {
   beforeMount() {
     this.skills = _abilityData.map(v => {
       let a = _.cloneDeep(v);
+      const mappv = (pv: any) => {
+        if (Array.isArray(pv)) return pv.map(([vn, vv]) => (typeof vv === "number" ? [vn, { value: vv }] : [vn, vv]));
+        return typeof pv === "number" ? { value: pv } : pv;
+      };
       a.props = _.mapValues(a.props, prop => {
-        if (Array.isArray(prop))
-          return prop.map(prop => _.mapValues(prop, (pv: any) => {
-            if (Array.isArray(pv))
-              return pv.map(([vn, vv]) => typeof vv === "number" ? [vn, { value: vv }] : [vn, vv])
-            return typeof pv === "number" ? { value: pv } : pv
-          }))
-        else
-          return _.mapValues(prop, (pv: any) => {
-            if (Array.isArray(pv))
-              return pv.map(([vn, vv]) => typeof vv === "number" ? [vn, { value: vv }] : [vn, vv])
-            return typeof pv === "number" ? { value: pv } : pv
-          })
-      })
-      return a
-    })
-    this.skillNameMap = this.skills.reduce((a, b, i) => (a[b.id] = i, a), {})
+        return Array.isArray(prop) ? prop.map(prop => _.mapValues(prop, mappv)) : _.mapValues(prop, mappv);
+      }) as any;
+      return a;
+    });
+    this.skillNameMap = this.skills.reduce((a, b, i) => ((a[b.id] = i), a), {});
   }
 }
 </script>

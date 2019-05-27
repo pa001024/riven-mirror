@@ -1,8 +1,9 @@
 import _ from "lodash";
-import { GunWeaponDataBase, MeleeWeaponDataBase, Weapon } from ".";
+import { Weapon } from ".";
 import { strSimilarity } from "../util";
 import { i18n } from "@/i18n";
 import { _rivenDataBaseWeapons, _rivenDataBaseWeaponsCY } from "./riven.data";
+import { WeaponDatabase, MainTag } from "./weapon";
 
 /**MOD上的裂罅属性 */
 export interface RivenPropertyValue {
@@ -56,7 +57,7 @@ const gunProperty: RivenProperty[] = [
   { id: "M", sName: "弹药", eName: "Ammo Maximum", name: "弹药最大值", prefix: "ampi", subfix: "bin", noDmg: true }, //
   { id: "P", sName: "穿透", eName: "Punch Through", name: "穿透", prefix: "lexi", subfix: "nok", onlyPositive: true, nopercent: true, noDmg: true }, //
   { id: "H", sName: "变焦", eName: "Zoom", name: "变焦", prefix: "hera", subfix: "lis", noDmg: true }, //
-  { id: "V", sName: "弹道", eName: "Projectile Flight Speed", name: "弹道飞行速度", prefix: "conci", subfix: "nak", noDmg: true }, //
+  { id: "V", sName: "弹道", eName: "Projectile Speed", name: "投射物速度", prefix: "conci", subfix: "nak", noDmg: true }, //
   { id: "Z", sName: "后坐", eName: "Weapon Recoil", name: "后坐力", prefix: "zeti", subfix: "mag", negative: true, noDmg: true } //
 ];
 
@@ -246,18 +247,15 @@ export class RivenWeapon {
     return name || "";
   }
   /** 武器MOD类型 */
-  mod: string;
+  mod: MainTag;
   /** 武器裂罅倾向 */
   ratio: number;
-  /** 武器MOD类型 */
-  price: number;
   /** 武器MOD类型中文 */
-  get modcn() {
+  get modType() {
     return ModTypeTable[this.mod];
   }
   get weapons() {
-    if (this.mod === "Melee" || this.mod === "Zaw") return MeleeWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
-    else return GunWeaponDataBase.filter(v => this.id === (v.rivenName || v.id));
+    return RivenDataBase.getNormalWeaponsByRivenName(this.id);
   }
   /** 武器倾向星数 */
   get star() {
@@ -268,37 +266,36 @@ export class RivenWeapon {
   }
   /** 是否是Gun */
   get isGun() {
-    return this.mod !== "Melee" && this.mod !== "Zaw";
+    return this.mod !== MainTag.Melee && this.mod !== MainTag.Zaw && this.mod !== MainTag["Arch-Melee"];
   }
   /** 是否是Melee */
   get isMelee() {
-    return this.mod === "Melee" || this.mod === "Zaw";
+    return this.mod === MainTag.Melee || this.mod === MainTag.Zaw;
   }
   /** 是否是Pistol */
   get isPistol() {
-    return this.mod === "Pistol" || this.mod === "Kitgun";
+    return this.mod === MainTag.Pistol || this.mod === MainTag.Kitgun;
   }
   /** 是否是Rifle */
   get isRifle() {
-    return this.mod === "Rifle";
+    return this.mod === MainTag.Rifle;
   }
   /** 是否是Sniper */
   get isSniper() {
-    return this.mod === "Rifle" && this.weapons[0].tags.includes("Sniper");
+    return this.isRifle && this.weapons[0].tags.includes("Sniper");
   }
   /** 是否是Zaw */
   get isZaw() {
-    return this.mod === "Zaw";
+    return this.mod === MainTag.Zaw;
   }
   /** 是否是Kitgun */
   get isKitgun() {
-    return this.mod === "Kitgun";
+    return this.mod === MainTag.Kitgun;
   }
-  constructor(id: string, mod: string, ratio: number, price: number = 0) {
+  constructor(id: string, mod: number, ratio: number) {
     this.id = id;
     this.mod = mod;
     this.ratio = ratio;
-    this.price = price;
   }
 }
 
@@ -307,7 +304,7 @@ export const ModTypeTable = {
   Shotgun: { name: "shotgun", include: ["Shotgun"] },
   Pistol: { name: "pistol", include: ["Pistol", "Kitgun"] },
   Melee: { name: "melee", include: ["Melee", "Zaw"] },
-  Archwing: { name: "archwing", include: ["Archgun", "Archmelee"] }
+  Archwing: { name: "archwing", include: ["Arch-Gun", "Arch-Melee"] }
 };
 
 const propRegExpsFactory = (name: string) =>
@@ -359,7 +356,7 @@ export class RivenDataBase {
       this.propDict.set(v.eName, i);
       this.propDict.set(v.name, i);
     });
-    (GunWeaponDataBase as Weapon[]).concat(MeleeWeaponDataBase).forEach((v, i) => this.addWeapon(v, i));
+    WeaponDatabase.weapons.forEach((v, i) => this.addWeapon(v, i));
   }
 
   static reload() {
@@ -371,9 +368,9 @@ export class RivenDataBase {
   }
 
   addWeapon(weapon: Weapon, index: number) {
-    this.nWeaponDict.set(weapon.id, index);
+    this.nWeaponDict.set(weapon.name, index);
     if (!this.nWeaponDict.has(i18n.t(`messages.${weapon.name}`))) this.nWeaponDict.set(i18n.t(`messages.${weapon.name}`), index);
-    let riven = this.Weapons[this.rWeaponDict.get(weapon.rivenName || weapon.id)];
+    let riven = this.Weapons[this.rWeaponDict.get(weapon.base || weapon.name)];
     if (!riven) {
       // 部分技能武器
       return;
@@ -391,12 +388,17 @@ export class RivenDataBase {
    * 通过武器具体名称获取武器实例
    * @param name 武器具体名称
    */
-  static getNormalWeaponsByName(name: string) {
-    let rst = this.instance.nWeaponDict.get(name),
-      gunCount = GunWeaponDataBase.length;
+  static getNormalWeaponByName(name: string) {
+    let rst = this.instance.nWeaponDict.get(name);
     if (rst < 0) return null;
-    if (rst < gunCount) return GunWeaponDataBase[rst];
-    else return MeleeWeaponDataBase[rst - gunCount];
+    return WeaponDatabase.weapons[rst];
+  }
+  /**
+   * 通过武器具体名称获取武器实例
+   * @param name 武器具体名称
+   */
+  static getNormalWeaponByTags(tags: string[]) {
+    return WeaponDatabase.weapons.filter(v => tags.every(tag => v.tags.includes(tag)));
   }
 
   /**
@@ -404,14 +406,9 @@ export class RivenDataBase {
    * @param name 武器通用名称
    */
   static getNormalWeaponsByRivenName(name: string) {
-    let rst = this.instance.ccWeaponDict.get(name),
-      gunCount = GunWeaponDataBase.length;
-    if (rst) {
-      if (rst[0] < gunCount) return rst.map(v => GunWeaponDataBase[v]);
-      else return rst.map(v => MeleeWeaponDataBase[v - gunCount]);
-    } else {
-      return [];
-    }
+    let rst = this.instance.ccWeaponDict.get(name);
+    if (!rst) return [];
+    return rst.map(v => WeaponDatabase.weapons[v]);
   }
   /**
    * 查询是否有这个武器

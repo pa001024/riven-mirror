@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Base64, randomNormalDistribution, strSimilarity } from "./util";
 import { base62, debase62 } from "./lib/base62";
-import { Polarity, RivenProperty, RivenDataBase, MeleeWeaponDataBase, GunWeaponDataBase, RivenPropertyDataBase, NormalMod } from "./codex";
+import { Polarity, RivenProperty, RivenDataBase, RivenPropertyDataBase, NormalMod, RivenWeapon, MainTag } from "./codex";
 import { HH } from "@/var";
 import { i18n } from "@/i18n";
 
@@ -69,9 +69,23 @@ export class ValuedRivenProperty {
 
 export class RivenMod {
   /** 武器ID */
-  id: string;
-  /** 武器本地化名称 */
   name: string;
+  /** 等级 */
+  level: number = 8;
+  /** 极性 */
+  polarity: Polarity;
+  /** 根据卡面所带来的提升值 一共三种 0.8 | 1 | 1.2 分别代表 3+; 2+/3+1-; 2+1- */
+  upLevel = 1;
+  /** 属性列表 */
+  properties: ValuedRivenProperty[] = [];
+  /** 是否有负面属性 */
+  hasNegativeProp: boolean;
+  /** 循环次数 */
+  recycleTimes = 0;
+  /** 段位 */
+  rank: number;
+  /** 类型 */
+  mod: string;
   /** 后缀 */
   private _subfix: string;
   get subfix(): string {
@@ -90,12 +104,6 @@ export class RivenMod {
   get readableSubfix() {
     return this.properties.map(v => (v.isNegative ? "-" : "") + i18n.t(`prop.shortName.${v.id}`)).join("");
   }
-  /** 等级 */
-  level: number = 8;
-  /** 极性 */
-  polarity: Polarity;
-  /** 根据卡面所带来的提升值 一共三种 0.8 | 1 | 1.2 分别代表 3+; 2+/3+1-; 2+1- */
-  upLevel = 1;
   /** 全名 如: 西诺斯 Critacan*/
   get fullName() {
     return this.name + " " + this.subfix;
@@ -107,25 +115,15 @@ export class RivenMod {
   }
   /** 英文全名 如: Cernos Critacan*/
   get fullId() {
-    return this.id + " " + this.subfix;
+    return this.name + " " + this.subfix;
   }
   set fullId(value) {
     let v = value.split(" ");
-    this.id = v[0];
+    this.name = v[0];
     this.subfix = v[1];
   }
-  /** 属性列表 */
-  properties: ValuedRivenProperty[] = [];
-  /** 是否有负面属性 */
-  hasNegativeProp: boolean;
-  /** 循环次数 */
-  recycleTimes = 0;
-  /** 段位 */
-  rank: number;
-  /** 类型 */
-  mod: string;
   get weapon() {
-    return RivenDataBase.getRivenWeaponByName(this.id);
+    return RivenDataBase.getRivenWeaponByName(this.name);
   }
   get ratio() {
     return this.weapon.ratio;
@@ -143,7 +141,7 @@ export class RivenMod {
       else if (base64) this.qrCodeBase64 = parm;
       else this.parseString(parm);
     } else if (parm) {
-      this.id = parm.id;
+      this.name = parm.name;
       this.name = parm.name;
       this.subfix = parm.subfix;
       this.level = parm.level;
@@ -153,36 +151,8 @@ export class RivenMod {
       this.hasNegativeProp = parm.hasNegativeProp;
       this.recycleTimes = parm.recycleTimes;
       this.rank = parm.rank;
-      this.mod = parm.mod;
+      this.mod = MainTag[parm.weapon.mod];
     }
-  }
-  /** 是否是Gun */
-  get isGun() {
-    return this.mod !== "Melee" && this.mod !== "Zaw";
-  }
-  /** 是否是Melee */
-  get isMelee() {
-    return this.mod === "Melee" || this.mod === "Zaw";
-  }
-  /** 是否是Pistol */
-  get isPistol() {
-    return this.mod === "Pistol" || this.mod === "Kitgun";
-  }
-  /** 是否是Rifle */
-  get isRifle() {
-    return this.mod === "Rifle";
-  }
-  /** 是否是Sniper */
-  get isSniper() {
-    return this.mod === "Rifle" && this.weapons[0].tags.includes("Sniper");
-  }
-  /** 是否是Zaw */
-  get isZaw() {
-    return this.mod === "Zaw";
-  }
-  /** 是否是Kitgun */
-  get isKitgun() {
-    return this.mod === "Kitgun";
   }
   /**
    * 读取OCR识别的MOD文本
@@ -200,7 +170,7 @@ Pleci-loctitis
 -34.9%对Infested伤害
 A段位12023
     */
-    this.id = this.name = "";
+    this.name = "";
     this.hasNegativeProp = false;
     this.rank = this.recycleTimes = 0;
     let lines = modText
@@ -223,11 +193,11 @@ A段位12023
     let rawName = lines[subfixIndex - 1];
     // 查询名称最接近的武器
     let weapon = RivenDataBase.findMostSimRivenWeapon(rawName);
-    this.mod = weapon.mod;
+    this.mod = MainTag[weapon.mod];
     this.subfix = lines[subfixIndex];
     // 识别到的名字是否正确, 否则模糊匹配
     this.name = weapon.name;
-    this.id = weapon.id;
+    this.name = weapon.id;
     // 获取后缀属性
     let rivenProps = this.parseSubfix(this.subfix, this.mod);
     let propRegExp = /([+\-]?\d+(?:\.\d+)?)%? *.*?([A-Zc\u4e00-\u9fa5]\D+)/;
@@ -318,7 +288,7 @@ A段位12023
     this.properties = props.map((v, i) => {
       let prop = RivenDataBase.getPropByName(v[0]);
       if (i >= 3 || (prop.negative ? -v[1] : v[1]) < 0) this.hasNegativeProp = true;
-      return new ValuedRivenProperty(prop, v[1], RivenDataBase.getPropBaseValue(this.id, prop.name), this.upLevel).normalize();
+      return new ValuedRivenProperty(prop, v[1], RivenDataBase.getPropBaseValue(this.name, prop.name), this.upLevel).normalize();
     });
   }
   /**
@@ -327,10 +297,10 @@ A段位12023
   random(stype: string = "") {
     const robList = ["Burst Laser", "Vulklok", "Artax", "Vulcax", "Sweeper", "Stinger", "Multron", "Laser Rifle", "Deth Machine", "Cryotra", "Tazicor"];
     let db = RivenDataBase.Weapons.filter(v => v.ratio > 0 && !robList.includes(v.id));
-    let data = stype ? db.filter(v => v.mod === stype) : db;
+    let data = stype ? db.filter(v => v.mod === MainTag[stype]) : db;
     let { id, name, mod } = data[~~(Math.random() * data.length)];
     let rank = ~~(Math.random() * 8) + 9;
-    [this.id, this.name, this.mod, this.rank, this.recycleTimes] = [id, name, mod, rank, 0];
+    [this.name, this.name, this.mod, this.rank, this.recycleTimes] = [id, name, MainTag[mod], rank, 0];
     this.randomProp();
   }
   /**
@@ -345,10 +315,10 @@ A段位12023
     let negaUplvl = toNegaUpLevel(totalCount, this.hasNegativeProp);
     // 偏差值 正态分布 标准差=5
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
-    let props = _.sampleSize(RivenPropertyDataBase[this.mod], count).map(v => [v.id, _.round(devi() * this.upLevel * RivenDataBase.getPropBaseValue(this.id, v.id), 1)]) as [string, number][];
+    let props = _.sampleSize(RivenPropertyDataBase[this.mod], count).map(v => [v.id, _.round(devi() * this.upLevel * RivenDataBase.getPropBaseValue(this.name, v.id), 1)]) as [string, number][];
     if (this.hasNegativeProp) {
       let neProp = _.sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
-      props.push([neProp.id, _.round(devi() * -negaUplvl * RivenDataBase.getPropBaseValue(this.id, neProp.id), 1)]);
+      props.push([neProp.id, _.round(devi() * -negaUplvl * RivenDataBase.getPropBaseValue(this.name, neProp.id), 1)]);
     }
     this.parseProps(props);
   }
@@ -361,10 +331,6 @@ A段位12023
     let newMod = new RivenMod(this);
     newMod.randomProp();
     return newMod;
-  }
-  /** 返回适用的武器列表 */
-  get weapons() {
-    return RivenDataBase.getNormalWeaponsByRivenName(this.id);
   }
   /** 返回一个标准MOD对象 */
   get normalMod(): NormalMod {
@@ -394,17 +360,17 @@ A段位12023
   }
   /** 返回二维码使用的序列化字符串 */
   get qrCode() {
-    return [this.id, this.shortSubfix, base62(this.rank) + base62(this.recycleTimes), this.properties.map(v => v.prop.id + base62(+(v.value * 10).toFixed(0))).join(".")].join("|");
+    return [this.name, this.shortSubfix, base62(this.rank) + base62(this.recycleTimes), this.properties.map(v => v.prop.id + base62(+(v.value * 10).toFixed(0))).join(".")].join("|");
   }
   /** 读取二维码识别后的序列化字符串 */
   set qrCode(value) {
     let d = value.split("|");
     if (!d[0]) return;
-    this.id = d[0];
+    this.name = d[0];
     if (d[1]) this.shortSubfix = d[1];
-    let weapon = RivenDataBase.getRivenWeaponByName(this.id);
+    let weapon = RivenDataBase.getRivenWeaponByName(this.name);
     this.name = weapon.name;
-    this.mod = weapon.mod;
+    this.mod = MainTag[weapon.mod];
     this.rank = debase62(d[2][0]);
     this.recycleTimes = debase62(d[2].substr(1));
     let props = d[3].split(".").map(v => {
@@ -414,7 +380,7 @@ A段位12023
     let lastProp = props[props.length - 1];
     this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == lastProp[1] < 0;
     this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
-    this.properties = props.map(v => new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.id, v[0].name), this.upLevel).normalize());
+    this.properties = props.map(v => new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel).normalize());
   }
   /** Base64形式的二维码 */
   get qrCodeBase64() {

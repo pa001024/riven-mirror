@@ -1,0 +1,87 @@
+syntax = "proto3";
+package im.riven;
+
+// ver 1.0
+
+message Weapons {
+  message Weapon {
+    message Zoom {
+      float ratio = 1;
+      map<string, float> props = 2;
+    }
+    message WeaponMode {
+      message Damage {
+        float Impact = 1;
+        float Puncture = 2;
+        float Slash = 3;
+        float Heat = 4;
+        float Cold = 5;
+        float Electricity = 6;
+        float Toxin = 7;
+        float Blast = 8;
+        float Radiation = 9;
+        float Magnetic = 10;
+        float Gas = 11;
+        float Viral = 12;
+        float Corrosive = 13;
+        float Void = 14;
+        float True = 15;
+      }
+      string type = 1;
+      string name = 2;
+      Damage damage = 3;
+      int32 fireRate = 4;
+      float critChance = 5;
+      float critMul = 6;
+      float procChance = 7;
+      float accuracy = 8;
+      float punchThrough = 9;
+      int32 pellets = 10;
+      float radius = 11;
+      float range = 12;
+      int32 ammoCost = 13;
+      float chargeTime = 14;
+      string trigger = 15;
+      float burstCount = 16;
+      float prjSpeed = 17;
+      int32 spool = 18;
+      bool silent = 19;
+      repeated float falloff = 20;
+    }
+    // base
+    string name = 1;
+    repeated string tags = 2;
+    repeated string traits = 3;
+    int32 mastery = 4;
+    float disposition = 5;
+    string polarities = 6;
+
+    // gun
+    float reload = 7;
+    int32 magazine = 8;
+    int32 maxAmmo = 9;
+    int32 reloadStyle = 10;
+    // deep extra
+    int32 sniperComboMin = 11;
+    int32 sniperComboReset = 12;
+    // "3x (+20% Critical Chance)"
+    repeated Zoom zoom = 13;
+
+    // melee
+    string stancePolarity = 14;
+    float blockResist = 15;
+    int32 finisherDamage = 16;
+    int32 channelCost = 17;
+    float channelMult = 18;
+    float spinAttack = 19;
+    float jumpAttack = 20;
+    float leapAttack = 21;
+    float wallAttack = 22;
+    repeated float reach = 23;
+
+    // attack
+    repeated WeaponMode modes = 24;
+    repeated Weapon variants = 25;
+  }
+  repeated Weapon weapons = 1;
+}

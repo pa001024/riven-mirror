@@ -22,6 +22,44 @@ module.exports = {
   },
   configureWebpack: {
     devtool: "inline-source-map",
+    module: {
+      rules: [
+        {
+          test: /\.proto$/,
+          use: {
+            loader: "protobufjs-loader",
+            options: {
+              /* controls the "target" flag to pbjs - true for
+               * json-module, false for static-module.
+               * default: false
+               */
+              json: false,
+
+              /* import paths provided to pbjs.
+               * default: webpack import paths (i.e. config.resolve.modules)
+               */
+              paths: ["src/proto"],
+
+              /* additional command line arguments passed to
+               * pbjs, see https://github.com/dcodeIO/ProtoBuf.js/#pbjs-for-javascript
+               * for a list of what's available.
+               * default: []
+               */
+              pbjsArgs: ["--no-encode"]
+            }
+          }
+        },
+        {
+          test: /\.data$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {},
+            },
+          ],
+        },
+      ]
+    },
     plugins: [
       new HtmlWebpackPlugin({
         filename: "index.cn.html",

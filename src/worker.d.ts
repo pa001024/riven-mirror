@@ -5,3 +5,16 @@ declare module "worker-loader!*" {
 
   export default WebpackWorker;
 }
+
+declare module "*.proto" {
+  import { Type } from "protobufjs";
+  const proto: Type;
+
+  export default proto;
+}
+
+declare module "*.data" {
+  const data: string;
+
+  export default data;
+}

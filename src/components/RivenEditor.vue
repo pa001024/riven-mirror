@@ -51,7 +51,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
-import { RivenWeapon, RivenProperty, RivenPropertyDataBase, RivenDataBase, ModTypeTable } from "@/warframe/codex";
+import { RivenWeapon, RivenProperty, RivenPropertyDataBase, RivenDataBase, ModTypeTable, MainTag } from "@/warframe/codex";
 import { RivenMod, toNegaUpLevel, toUpLevel } from "@/warframe/rivenmod";
 import { Getter, Action } from "vuex-class";
 
@@ -103,8 +103,8 @@ export default class RivenEditor extends Vue {
   handleChange() {
     let rWeapon = RivenDataBase.getRivenWeaponByName(this.weapon ? this.weapon.id : _.last(this.selectWeapon));
     this.riven = new RivenMod();
-    [this.riven.id, this.riven.name, this.riven.mod] = [rWeapon.id, rWeapon.name, rWeapon.mod];
-    this.mod = rWeapon.mod;
+    [this.riven.name, this.riven.mod] = [rWeapon.name, MainTag[rWeapon.mod]];
+    this.mod = MainTag[rWeapon.mod];
     this.is21Negative = false;
     this.props = [defalutEditorProp()];
     this.updateRiven();
@@ -123,7 +123,7 @@ export default class RivenEditor extends Vue {
       hasNegative = !lastProp.prop.negative !== lastProp.value >= 0;
     let pUpLevel = toUpLevel(props.length, hasNegative),
       nUpLevel = toNegaUpLevel(props.length, hasNegative);
-    let mid = (hasNegative && index === props.length - 1 ? -nUpLevel : pUpLevel) * RivenDataBase.getPropBaseValue(this.riven.id, id);
+    let mid = (hasNegative && index === props.length - 1 ? -nUpLevel : pUpLevel) * RivenDataBase.getPropBaseValue(this.riven.name, id);
     if (this.props[index].min != +((mid > 0 ? 0.89 : 1.11) * mid).toFixed(1)) {
       this.props[index].min = +((mid > 0 ? 0.89 : 1.11) * mid).toFixed(1);
       this.props[index].max = +((mid > 0 ? 1.11 : 0.89) * mid).toFixed(1);
@@ -154,7 +154,7 @@ export default class RivenEditor extends Vue {
       let pUpLevel = toUpLevel(props.length, hasNegative),
         nUpLevel = toNegaUpLevel(props.length, hasNegative);
       props.forEach((v, i) => {
-        let base = RivenDataBase.getPropBaseValue(this.riven.id, v.id);
+        let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id);
         let mid = base * (hasNegative && i === props.length - 1 ? -nUpLevel : pUpLevel);
         this.props[i].value = +mid.toFixed(1);
         this.props[i].min = +((mid > 0 ? 0.89 : 1.11) * mid).toFixed(1);
@@ -170,7 +170,7 @@ export default class RivenEditor extends Vue {
   // === 生命周期钩子 ===
   beforeMount() {
     _.forEach(ModTypeTable, ({ name, include }, id) => {
-      let rWeapons = RivenDataBase.Weapons.filter(v => include.includes(v.mod) && v.ratio > 0.1).map(v => ({ value: v.id, label: v.name }));
+      let rWeapons = RivenDataBase.Weapons.filter(v => include.includes(MainTag[v.mod]) && v.ratio > 0.1).map(v => ({ value: v.id, label: v.name }));
       if (rWeapons.length > 0) this.nameOptions.push({ value: id, label: this.$t(`weaponselector.${name}`) as string, children: rWeapons });
     });
     if (this.weapon) this.handleChange();

@@ -86,9 +86,12 @@ FastClick.attach(document.body);
 
 const langParameter = location.search.match(/(?:\?|&)lang=(en|zh-CN|zh-TW|zh-CY)(?=$|&)/);
 
+import { WeaponDatabase } from "@/warframe/codex/weapon";
+
 createApp({
   async beforeApp({ router }) {
     // await loadAsyncComponents({ router });
+    await WeaponDatabase.loadDataOnline();
   },
 
   afterApp({ app, store }) {
