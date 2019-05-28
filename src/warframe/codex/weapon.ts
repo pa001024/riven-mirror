@@ -14,13 +14,32 @@ export enum MainTag {
   "Arch-Melee",
   Amp
 }
+
+export class WeaponTag extends Array<string> {
+  private _set: Set<string>;
+  constructor(init?: string[]) {
+    init ? super(...init) : super();
+    this._set = new Set(init || []);
+  }
+  has(...tags: string[]) {
+    if (tags.length === 1) return this._set.has(tags[0]);
+    return tags.every(v => this._set.has(v));
+  }
+  toArray() {
+    return this;
+  }
+  get mainTag() {
+    return MainTag[this.filter(v => v != "Robotic" && v != "Secondary")[0]];
+  }
+}
+
 export class Weapon {
   // 裂罅基础名称
   base?: string;
   // base
   name: string;
   /** MOD中可能出现的词缀 */
-  tags: string[] = [];
+  tags = new WeaponTag();
   /** 次要tag Tenno/G/C/I/Prime 等 */
   traits?: string[];
   /** 段位 */
@@ -61,10 +80,13 @@ export class Weapon {
 
   constructor(data?: ProtoWeapon, base?: string) {
     if (data) {
-      const { variants, modes, ...weapon } = data;
+      const { variants, modes, tags, ...weapon } = data;
       // TODO 是否有问题需检验
       Object.assign(this, weapon);
-      if (weapon.tags) this.mainTag = MainTag[weapon.tags.filter(v => v != "Robotic" && v != "Secondary")[0]];
+      if (tags) {
+        this.tags = new WeaponTag(tags);
+        this.mainTag = this.tags.mainTag;
+      }
       const defaultMode = modes[0];
       // 根据默认补全属性
       this.modes = modes.map(mode => {
@@ -136,10 +158,14 @@ export class Weapon {
   get panelDamage() {
     return _.reduce(this.modes[0].damage, (a, b) => a + b[1], 0);
   }
+
+  get defalutMode() {
+    return this.modes[0];
+  }
 }
 
 import data from "@/data/weapons.data";
-import Weapons from "@/proto/weapons.proto";
+import proto from "@/proto/weapon";
 
 /** split variants format to normal format */
 export class WeaponDatabase {
@@ -147,8 +173,8 @@ export class WeaponDatabase {
 
   static async loadDataOnline() {
     const rst = await Axios.get(data, { responseType: "arraybuffer" });
-    const msg = Weapons.decode(rst.data);
-    const decoded = Weapons.toObject(msg);
+    const msg = proto.Weapons.decode(new Uint8Array(rst.data));
+    const decoded = proto.Weapons.toObject(msg);
     // this.data = decoded.weapons;
     this.load(decoded.weapons as ProtoWeapon[]);
   }
@@ -157,7 +183,10 @@ export class WeaponDatabase {
     weapons.forEach(root => {
       const { variants, ...weapon } = root;
       rst.push(new Weapon(weapon));
-      rst.push(new Weapon(weapon, weapon.name));
+      if (variants)
+        variants.forEach(subweapon => {
+          rst.push(new Weapon(subweapon, weapon.name));
+        });
     });
     return (this.weapons = rst);
   }

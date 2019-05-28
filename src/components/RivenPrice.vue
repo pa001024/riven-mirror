@@ -59,11 +59,11 @@ export default class RivenPrice extends Vue {
   }
   // 普卡
   get rolledPrice() {
-    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && v.rerolled);
+    return this.priceData.find(v => v.compatibility === this.mod.name.toUpperCase() && v.rerolled);
   }
   // 未洗
   get unrolledPrice() {
-    return this.priceData.find(v => v.compatibility === this.mod.id.toUpperCase() && !v.rerolled);
+    return this.priceData.find(v => v.compatibility === this.mod.name.toUpperCase() && !v.rerolled);
   }
 
   get prices() {

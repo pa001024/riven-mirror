@@ -50,7 +50,7 @@ export default class OtherInfoDisplay extends Vue {
   @Prop() build: ModBuild;
 
   get weaponWiki() {
-    return this.$t("otherinfo.wikiurl", [this.build.weapon.realURL])
+    return this.$t("otherinfo.wikiurl", [this.build.weapon.url])
   }
   get weaponWM() {
     return this.$t("otherinfo.wmurl", [this.build.weapon.wmurl])

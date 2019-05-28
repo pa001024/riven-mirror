@@ -300,11 +300,11 @@ export class RivenWeapon {
 }
 
 export const ModTypeTable = {
-  Rifle: { name: "rifle", include: ["Rifle"] },
-  Shotgun: { name: "shotgun", include: ["Shotgun"] },
-  Pistol: { name: "pistol", include: ["Pistol", "Kitgun"] },
-  Melee: { name: "melee", include: ["Melee", "Zaw"] },
-  Archwing: { name: "archwing", include: ["Arch-Gun", "Arch-Melee"] }
+  Rifle: { name: "rifle", include: [MainTag.Rifle] },
+  Shotgun: { name: "shotgun", include: [MainTag.Shotgun] },
+  Pistol: { name: "pistol", include: [MainTag.Pistol, MainTag.Kitgun] },
+  Melee: { name: "melee", include: [MainTag.Melee, MainTag.Zaw] },
+  Archwing: { name: "archwing", include: [MainTag["Arch-Gun"], MainTag["Arch-Melee"]] }
 };
 
 const propRegExpsFactory = (name: string) =>
@@ -356,7 +356,7 @@ export class RivenDataBase {
       this.propDict.set(v.eName, i);
       this.propDict.set(v.name, i);
     });
-    WeaponDatabase.weapons.forEach((v, i) => this.addWeapon(v, i));
+    if (WeaponDatabase.weapons) WeaponDatabase.weapons.forEach((v, i) => this.addWeapon(v, i));
   }
 
   static reload() {

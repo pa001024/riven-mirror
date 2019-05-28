@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { hAccSum } from "@/warframe/util";
-import { Weapon } from "@/warframe/codex/weapon";
+import { Weapon, WeaponTag } from "@/warframe/codex/weapon";
 import { i18n } from "@/i18n";
 import { WeaponMode, Damage } from "./weapon.i";
 
@@ -157,7 +157,7 @@ export class Amp extends Weapon {
   }
 
   get tags() {
-    return (this.scaffold && this.scaffold.name === "Klebrik Scaffold") || (this.prism && this.prism.name === "Klamora Prism") ? ["Amp", "Continuous"] : ["Amp"];
+    return new WeaponTag((this.scaffold && this.scaffold.name === "Klebrik Scaffold") || (this.prism && this.prism.name === "Klamora Prism") ? ["Amp", "Continuous"] : ["Amp"]);
   }
   get url() {
     return `AMP-${this.buildName}`;

@@ -164,15 +164,15 @@ import localStorage from "universal-localstorage";
 
 @Component
 export default class GunModBuildView extends BaseModBuildView {
-  builds: [string, GunModBuild][] = []
+  builds: [string, GunModBuild][] = [];
   /** 使用追随者MOD */
-  useAcolyteMods = false
+  useAcolyteMods = false;
   /** 使用重口径 */
-  useHeavyCaliber = true
+  useHeavyCaliber = true;
   /** 使用致命效率 */
-  useDeadlyEfficiency = false
+  useDeadlyEfficiency = false;
   /** 使用金首发 */
-  usePrimedChamber = false
+  usePrimedChamber = false;
   /** 使用猎人战备 */
   useHunterMunitions = false;
   notMustUseHunterMunitions = false;
@@ -182,8 +182,6 @@ export default class GunModBuildView extends BaseModBuildView {
   extraBaseDamage = 0;
   /** 总伤加成 */
   extraOverall = 0;
-  /** 赋能 */
-  arcanes = [];
 
   chamberList = KitgunChamberData;
   gripList = KitgunGripData;
@@ -198,9 +196,7 @@ export default class GunModBuildView extends BaseModBuildView {
   get weapon() {
     if (this.riven.weapon.isKitgun) {
       return new Kitgun(this.chamber, this.grip, this.loader);
-    }
-    else
-      return RivenDataBase.getNormalWeaponByName(this.selectWeapon);
+    } else return RivenDataBase.getNormalWeaponByName(this.selectWeapon);
   }
 
   get availableArcanes() {
@@ -219,10 +215,10 @@ export default class GunModBuildView extends BaseModBuildView {
    * else 默认为单发伤害
    */
   get defalutMode() {
-    let gun = this.weapon ;
+    let gun = this.weapon;
     if (gun.tags.includes("Sniper") && gun.magazine <= 2) return GunCompareMode.FirstAmmoDamage;
-    if (gun.magazine / (gun.tags.includes("Secondary") ? gun.fireRate * 1.6 : gun.fireRate) < gun.reload * 1.8) return GunCompareMode.SustainedDamage;
-    if (gun.fireRate > 2) return GunCompareMode.BurstDamage;
+    if (gun.magazine / (gun.tags.includes("Secondary") ? gun.defalutMode.fireRate * 1.6 : gun.defalutMode.fireRate) < gun.reload * 1.8) return GunCompareMode.SustainedDamage;
+    if (gun.defalutMode.fireRate > 2) return GunCompareMode.BurstDamage;
     return GunCompareMode.TotalDamage;
   }
 
@@ -233,8 +229,7 @@ export default class GunModBuildView extends BaseModBuildView {
       this.notMustUseHunterMunitions = false;
       this.useHunterMunitions = true;
     } else {
-      if (newVal)
-        this.notMustUseHunterMunitions = true;
+      if (newVal) this.notMustUseHunterMunitions = true;
     }
     this.debouncedRecalc();
   }
@@ -265,8 +260,7 @@ export default class GunModBuildView extends BaseModBuildView {
       }
       this.selectWeapon = weapons[weapons.length - 1].name;
     }
-    if (!oldRiven || this.riven && oldRiven.name !== this.riven.name)
-      this.selectCompMethod = this.defalutMode;
+    if (!oldRiven || (this.riven && oldRiven.name !== this.riven.name)) this.selectCompMethod = this.defalutMode;
     this.debouncedRecalc();
   }
 
@@ -277,7 +271,9 @@ export default class GunModBuildView extends BaseModBuildView {
   }
   // === 生命周期钩子 ===
   beforeMount() {
-    this._debouncedRecalc = _.debounce(() => { this.recalc(); }, 150);
+    this._debouncedRecalc = _.debounce(() => {
+      this.recalc();
+    }, 150);
     this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "Radiation";
     this.useAcolyteMods = JSON.parse(localStorage.getItem("useAcolyteMods"));
     this.rivenChange();
@@ -291,12 +287,11 @@ export default class GunModBuildView extends BaseModBuildView {
       useHeavyCaliber: this.useHeavyCaliber,
       useDeadlyEfficiency: this.useDeadlyEfficiency,
       usePrimedChamber: this.usePrimedChamber,
-      useHunterMunitions: this.useHunterMunitions ? this.notMustUseHunterMunitions ? 1 : 2 : 0,
+      useHunterMunitions: this.useHunterMunitions ? (this.notMustUseHunterMunitions ? 1 : 2) : 0,
       headShotChance: this.headShotChance / 100,
-      allowElementTypes: this.selectDamageType && this.elementTypes[this.selectDamageType] || null,
+      allowElementTypes: (this.selectDamageType && this.elementTypes[this.selectDamageType]) || null,
       extraBaseDamage: +this.extraBaseDamage,
-      extraOverall: +this.extraOverall,
-      arcanes: this.arcanes
+      extraOverall: +this.extraOverall
     };
     super.recalc(GunModBuild, options);
   }

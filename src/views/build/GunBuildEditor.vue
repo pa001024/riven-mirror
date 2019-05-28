@@ -240,7 +240,7 @@ import ShareQR from "@/components/ShareQR.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
-import { GunWeapon, RivenWeapon, EnemyData, Codex, Enemy } from "@/warframe/codex";
+import { Weapon, RivenWeapon, EnemyData, Codex, Enemy } from "@/warframe/codex";
 import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
 import "@/less/builder.less";
 
@@ -248,7 +248,7 @@ import "@/less/builder.less";
   components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, LeveledModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR, BuildMinimap }
 })
 export default class GunBuildEditor extends BaseBuildEditor {
-  @Prop() weapon: GunWeapon;
+  @Prop() weapon: Weapon;
   @Prop() rWeapon: RivenWeapon;
 
   headShotChance = 0;
@@ -292,14 +292,14 @@ export default class GunBuildEditor extends BaseBuildEditor {
   }
 
   get defalutMode() {
-    let gun = this.weapon as GunWeapon;
+    let gun = this.weapon ;
     if (gun.tags.includes("Sniper") && gun.magazine <= 2) return GunCompareMode.FirstAmmoDamage;
-    if (gun.magazine / (gun.tags.includes("Secondary") ? gun.fireRate * 1.6 : gun.fireRate) < gun.reload * 1.8) return GunCompareMode.SustainedDamage;
-    if (gun.fireRate > 2) return GunCompareMode.BurstDamage;
+    if (gun.magazine / (gun.tags.includes("Secondary") ? gun.defalutMode.fireRate * 1.6 : gun.defalutMode.fireRate) < gun.reload * 1.8) return GunCompareMode.SustainedDamage;
+    if (gun.defalutMode.fireRate > 2) return GunCompareMode.BurstDamage;
     return GunCompareMode.TotalDamage;
   }
 
-  newBuild(weapon: GunWeapon) {
+  newBuild(weapon: Weapon) {
     let b = new GunModBuild(weapon, null, this.options);
     b.fastMode = false;
     b.compareMode = this.defalutMode;

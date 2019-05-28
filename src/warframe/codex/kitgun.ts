@@ -3,6 +3,7 @@ import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import { WeaponMode, Damage } from "./weapon.i";
 import _ from "lodash";
+import { WeaponTag } from "./weapon";
 
 /**
  * 枪膛
@@ -155,7 +156,7 @@ export class Kitgun extends Weapon {
     } as KitgunLoaderDisplay;
   }
   get tags() {
-    return this.name === "Gaze" ? ["Gun", "Secondary", "Kitgun", "Continuous"] : ["Gun", "Secondary", "Kitgun"];
+    return new WeaponTag(this.name === "Gaze" ? ["Gun", "Secondary", "Kitgun", "Continuous"] : ["Gun", "Secondary", "Kitgun"]);
   }
   get url() {
     return `KITGUN-${this.chamber.name}-${this.grip.name}-${this.loader.name}`;

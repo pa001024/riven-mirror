@@ -19,7 +19,7 @@ interface BasicResult {
 const SET_USER_LOADING = "SET_USER_LOADING";
 const SET_USER_SESSION = "SET_USER_SESSION";
 
-axios.defaults.baseURL = "https://api.riven.im"
+// axios.defaults.baseURL = "https://api.riven.im"
 axios.defaults.timeout = 15e3
 // axios.defaults.xsrfHeaderName = "x-csrf-token"
 // axios.defaults.xsrfCookieName = "csrfToken"

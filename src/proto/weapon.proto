@@ -1,7 +1,8 @@
 syntax = "proto3";
-package im.riven;
-
 // ver 1.0
+// complie with:
+// npx pbjs -t static-module --no-encode -w es6 -o weapon.js weapon.proto
+// npx pbts -o weapon.d.ts weapon.js
 
 message Weapons {
   message Weapon {

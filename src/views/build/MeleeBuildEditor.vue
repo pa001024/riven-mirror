@@ -202,7 +202,7 @@ import ModSlot from "@/components/ModSlot.vue";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
 import { ModBuild } from "@/warframe/modbuild";
-import { NormalMod, MeleeWeapon, RivenWeapon, Codex } from "@/warframe/codex";
+import { NormalMod, Weapon, RivenWeapon, Codex } from "@/warframe/codex";
 import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
 import "@/less/builder.less";
 
@@ -217,7 +217,7 @@ declare interface BuildSelectorTab {
   components: { ModSelector, LeveledModSlot, PropDiff, BuffSelector, StatusInfoDisplay, ModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR, BuildMinimap }
 })
 export default class MeleeBuildEditor extends BaseBuildEditor {
-  @Prop() weapon: MeleeWeapon;
+  @Prop() weapon: Weapon;
   @Prop() rWeapon: RivenWeapon;
 
   comboMul = 1.5;
@@ -253,13 +253,13 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   }
 
   get defalutMode() {
-    let melee = this.weapon as MeleeWeapon;
+    let melee = this.weapon;
     let slideList = ["Whip", "Polearm", "Staff"];
     if (melee.tags.some(v => slideList.includes(v))) return MeleeCompareMode.SlideDamagePS;
     return melee.tags.includes("Virtual") ? MeleeCompareMode.TotalDamage : MeleeCompareMode.TotalDamagePS;
   }
 
-  newBuild(weapon: MeleeWeapon) {
+  newBuild(weapon: Weapon) {
     if (weapon.tags.includes("Virtual")) this.comboMul = 1;
     let b = new MeleeModBuild(weapon, null, this.options);
     b.fastMode = false;

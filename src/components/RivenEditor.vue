@@ -170,7 +170,7 @@ export default class RivenEditor extends Vue {
   // === 生命周期钩子 ===
   beforeMount() {
     _.forEach(ModTypeTable, ({ name, include }, id) => {
-      let rWeapons = RivenDataBase.Weapons.filter(v => include.includes(MainTag[v.mod]) && v.ratio > 0.1).map(v => ({ value: v.id, label: v.name }));
+      let rWeapons = RivenDataBase.Weapons.filter(v => include.includes(v.mod) && v.ratio > 0.1).map(v => ({ value: v.id, label: v.name }));
       if (rWeapons.length > 0) this.nameOptions.push({ value: id, label: this.$t(`weaponselector.${name}`) as string, children: rWeapons });
     });
     if (this.weapon) this.handleChange();

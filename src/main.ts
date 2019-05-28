@@ -45,7 +45,7 @@ import App from "./App.vue";
 
 // worker.addEventListener("message", (event) => { });
 
-export async function createApp({ beforeApp = () => {}, afterApp = () => {}, locale }: any = {}) {
+export async function createApp({ beforeApp = () => { }, afterApp = () => { }, locale }: any = {}) {
   const store = createStore();
   const router = createRouter();
   // load extra i18n file

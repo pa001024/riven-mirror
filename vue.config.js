@@ -19,47 +19,39 @@ module.exports = {
       .options({
         exclude: /(node_modules)/
       });
+    config.module
+      .rule("data")
+      .test(/\.data$/)
+      .use("file-loader")
+      .loader("file-loader")
+      .options({});
+    config.module
+      .rule("proto")
+      .test(/\.proto$/)
+      .use("protobufjs-loader")
+      .loader("protobufjs-loader")
+      .options({
+        /* controls the "target" flag to pbjs - true for
+         * json-module, false for static-module.
+         * default: false
+         */
+        json: false,
+
+        /* import paths provided to pbjs.
+         * default: webpack import paths (i.e. config.resolve.modules)
+         */
+        paths: ["src/proto"],
+
+        /* additional command line arguments passed to
+         * pbjs, see https://github.com/dcodeIO/ProtoBuf.js/#pbjs-for-javascript
+         * for a list of what's available.
+         * default: []
+         */
+        pbjsArgs: ["--no-encode"]
+      });
   },
   configureWebpack: {
     devtool: "inline-source-map",
-    module: {
-      rules: [
-        {
-          test: /\.proto$/,
-          use: {
-            loader: "protobufjs-loader",
-            options: {
-              /* controls the "target" flag to pbjs - true for
-               * json-module, false for static-module.
-               * default: false
-               */
-              json: false,
-
-              /* import paths provided to pbjs.
-               * default: webpack import paths (i.e. config.resolve.modules)
-               */
-              paths: ["src/proto"],
-
-              /* additional command line arguments passed to
-               * pbjs, see https://github.com/dcodeIO/ProtoBuf.js/#pbjs-for-javascript
-               * for a list of what's available.
-               * default: []
-               */
-              pbjsArgs: ["--no-encode"]
-            }
-          }
-        },
-        {
-          test: /\.data$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {},
-            },
-          ],
-        },
-      ]
-    },
     plugins: [
       new HtmlWebpackPlugin({
         filename: "index.cn.html",

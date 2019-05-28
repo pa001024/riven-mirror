@@ -3,6 +3,7 @@ import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import _ from "lodash";
 import { WeaponMode } from "./weapon.i";
+import { WeaponTag } from "./weapon";
 
 export enum Stance {
   Daggers, // 匕首
@@ -195,7 +196,7 @@ export class Zaw extends Weapon {
     return this.panelDamage * (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
   }
   get tags() {
-    return ["Melee", "ZAW", this.stance];
+    return new WeaponTag(["Melee", "ZAW", this.stance]);
   }
   get critMul() {
     return this.strike.idx === "A" ? 2.2 : 2;

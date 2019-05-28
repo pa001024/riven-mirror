@@ -19,7 +19,7 @@ export abstract class BaseBuildEditor extends Vue {
   @Getter("savedBuilds") savedBuilds: { [key: string]: string };
   @Action("setBuild") setBuild: (build: ModBuild) => void;
   get code() {
-    return this.$route.params.code || this.savedBuilds[this.weapon.id];
+    return this.$route.params.code || this.savedBuilds[this.weapon.name];
   }
 
   abstract get weapon(): Weapon;
@@ -28,6 +28,7 @@ export abstract class BaseBuildEditor extends Vue {
   tabValue = "SET A";
   selectModIndex = 0;
   selectBuffIndex = 0;
+  modeIndex = 0;
   get modelArmor() {
     return this.build.modelArmor || "";
   }
@@ -74,7 +75,7 @@ export abstract class BaseBuildEditor extends Vue {
     if (this.weapon) {
       let buffs = [null];
       if (this.weapon.tags.includes("Exalted")) {
-        if (this.weapon.id === "Regulators") {
+        if (this.weapon.name === "Regulators") {
           buffs = [new Buff(BuffList.find(v => v.id === "z")), null];
         } else {
           buffs = [new Buff(BuffList.find(v => v.id === "Z")), null];
@@ -103,10 +104,10 @@ export abstract class BaseBuildEditor extends Vue {
     return this.currentTab.build;
   }
   get mergedDmg() {
-    let lD = this.weapon.dmg;
+    let lD = this.weapon.modes[this.modeIndex].damage;
     let nD = this.build.dmg;
     let rst: { [v: string]: [number, number] } = {};
-    lD.forEach(([vn, vv]) => {
+    _.forEach(lD, (vv, vn) => {
       rst[vn] = [vv, 0];
     });
     nD.forEach(([vn, vv]) => {

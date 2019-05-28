@@ -122,9 +122,9 @@ export default class BuildMinimap extends Vue {
 
   imgSrc = "";
 
-  @Watch("build.pureId")
+  @Watch("build.weapon.name")
   async onIdChange() {
-    const id = this.build.pureId;
+    const id = this.build.weapon.name;
     if (id) {
       this.imgSrc = await CachedWikiApi.instance.getMainImage(id);
       console.log("fetched", id, this.imgSrc);
