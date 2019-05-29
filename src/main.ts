@@ -87,11 +87,13 @@ FastClick.attach(document.body);
 const langParameter = location.search.match(/(?:\?|&)lang=(en|zh-CN|zh-TW|zh-CY)(?=$|&)/);
 
 import { WeaponDatabase } from "@/warframe/codex/weapon";
+import { RivenDataBase } from "@/warframe/codex";
 
 createApp({
   async beforeApp({ router }) {
     // await loadAsyncComponents({ router });
     await WeaponDatabase.loadDataOnline();
+    await RivenDataBase.loadDataOnline();
   },
 
   afterApp({ app, store }) {

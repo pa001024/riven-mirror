@@ -356,7 +356,10 @@ export class RivenDataBase {
       this.propDict.set(v.eName, i);
       this.propDict.set(v.name, i);
     });
-    if (WeaponDatabase.weapons) WeaponDatabase.weapons.forEach((v, i) => this.addWeapon(v, i));
+  }
+
+  static async loadDataOnline() {
+    if (WeaponDatabase.weapons) WeaponDatabase.weapons.forEach((v, i) => this.instance.addWeapon(v, i));
   }
 
   static reload() {
