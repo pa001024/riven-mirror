@@ -78,7 +78,7 @@ const _ampBrace = [
   [1, "Clapkra Brace", 0, 0, 40, 0, 0],
   [2, "Juttni Brace", 0, 0, 0, -1, 0],
   [3, "Lohrin Brace", 0.12, 0.12, 0, 0, 0],
-  [4, "Anspatha Brace", 0, 0, 0, 0, 15],
+  [4, "Anspatha Brace", 0, 0, 20, 0, 15],
   [5, "Suo Brace", 0, 0, 100, 2, 0],
   [6, "Plaga Brace", 0, 0, -20, -1.5, 0],
   [7, "Certus Brace", 0.2, 0, 0, 0, 0]

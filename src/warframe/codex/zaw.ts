@@ -193,7 +193,7 @@ export class Zaw extends Weapon {
     return this.grip.twoHand;
   }
   get slideDmg() {
-    return this.panelDamage * (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
+    return this.defaultMode.panelDamage * (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
   }
   get tags() {
     return new WeaponTag(["Melee", "ZAW", this.stance]);

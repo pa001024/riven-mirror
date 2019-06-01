@@ -42,11 +42,11 @@ export default class extends Vue {
   @Watch("build.weapon")
   reload() {
     if (this.build.weapon) {
-      const isAmp = this.build.weapon.tags.includes("Amp");
+      const isAmp = this.build.weapon.tags.has("Amp");
       let buffList = BuffList.filter(v =>
         v.target === "Ranged"
-          ? !this.build.weapon.tags.includes("Melee") //
-          : v.target === "All" || (!isAmp && ["Weapon", "Weapon+"].includes(v.target)) || this.build.weapon.tags.includes(v.target)
+          ? !this.build.weapon.tags.has("Melee") //
+          : v.target === "All" || (!isAmp && ["Weapon", "Weapon+"].includes(v.target)) || this.build.weapon.tags.has(v.target)
       );
       this.tabs = [
         { id: "arcane", name: this.$t("buff.types.arcane") as string, buffs: buffList.filter(k => k.type === BuffType.Arcane) }, //

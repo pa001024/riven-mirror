@@ -1,9 +1,7 @@
 import _ from "lodash";
-import { Weapon } from ".";
 import { strSimilarity } from "../util";
 import { i18n } from "@/i18n";
 import { _rivenDataBaseWeapons, _rivenDataBaseWeaponsCY } from "./riven.data";
-import { WeaponDatabase, MainTag } from "./weapon";
 
 /**MOD上的裂罅属性 */
 export interface RivenPropertyValue {
@@ -68,23 +66,38 @@ const meleeProperty: RivenProperty[] = [
   { id: "B", sName: "导引伤害", eName: "Channeling Damage", name: "导引伤害", prefix: "tori", subfix: "bo", noDmg: true, onlyPositive: true }, //
   { id: "U", sName: "导引效率", eName: "Channeling Efficiency", name: "导引效率", prefix: "uti", subfix: "tia", noDmg: true, onlyPositive: true }, //
   { id: "N", sName: "连击时间", eName: "Combo Duration", name: "连击持续时间", prefix: "tempi", subfix: "nem", nopercent: true, noDmg: true }, //
-  { id: "E", sName: "滑行暴击", eName: "chance to be a Critical Hit.", eDisplayPre: "Slide Attack has", displayPre: "滑行攻击有", name: "的几率造成暴击", prefix: "pleci", subfix: "nent" }, //
+  {
+    id: "E",
+    sName: "滑行暴击",
+    eName: "chance to be a Critical Hit.",
+    eDisplayPre: "Slide Attack has",
+    displayPre: "滑行攻击有",
+    name: "的几率造成暴击",
+    prefix: "pleci",
+    subfix: "nent"
+  }, //
   { id: "X", sName: "处决伤害", eName: "Finisher Damage", name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true } //
 ];
 
 export const RivenPropertyDataBase: { [key: string]: RivenProperty[] } = {
   Rifle: baseProperty.concat(
-    gunProperty.map(v => (v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v))
+    gunProperty.map(v =>
+      v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v
+    )
   ),
   Shotgun: baseProperty.concat(
     gunProperty
       .filter(v => v.id != "H")
-      .map(v => (v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v))
+      .map(v =>
+        v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v
+      )
   ),
   Pistol: baseProperty.concat(gunProperty),
   Kitgun: baseProperty.concat(gunProperty),
   Archgun: baseProperty.concat(
-    gunProperty.map(v => (v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v))
+    gunProperty.map(v =>
+      v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v
+    )
   ),
   Melee: baseProperty.concat(meleeProperty),
   Zaw: baseProperty.concat(meleeProperty),
@@ -234,99 +247,32 @@ export const RivenPropertyValueBaseDataBase = {
   Archgun: RPVBArchgun
 };
 
-/**
- * 武器名称及裂罅倾向
- */
-export class RivenWeapon {
-  /** 武器英文名 */
-  id: string;
-  /** 武器本地化名称 */
-  get name() {
-    const ikey = `messages.${_.camelCase(this.id)}`;
-    const name = i18n.te(ikey) ? i18n.t(ikey) : this.id;
-    return name || "";
-  }
-  /** 武器MOD类型 */
-  mod: MainTag;
-  /** 武器裂罅倾向 */
-  ratio: number;
-  /** 武器MOD类型中文 */
-  get modType() {
-    return ModTypeTable[this.mod];
-  }
-  get weapons() {
-    return RivenDataBase.getNormalWeaponsByRivenName(this.id);
-  }
-  /** 武器倾向星数 */
-  get star() {
-    return [0.1, 0.7, 0.875, 1.125, 1.305, Infinity].findIndex(v => this.ratio < v);
-  }
-  get starText() {
-    return _.repeat("●", this.star) + _.repeat("○", 5 - this.star);
-  }
-  /** 是否是Gun */
-  get isGun() {
-    return this.mod !== MainTag.Melee && this.mod !== MainTag.Zaw && this.mod !== MainTag["Arch-Melee"];
-  }
-  /** 是否是Melee */
-  get isMelee() {
-    return this.mod === MainTag.Melee || this.mod === MainTag.Zaw;
-  }
-  /** 是否是Pistol */
-  get isPistol() {
-    return this.mod === MainTag.Pistol || this.mod === MainTag.Kitgun;
-  }
-  /** 是否是Rifle */
-  get isRifle() {
-    return this.mod === MainTag.Rifle;
-  }
-  /** 是否是Sniper */
-  get isSniper() {
-    return this.isRifle && this.weapons[0].tags.includes("Sniper");
-  }
-  /** 是否是Zaw */
-  get isZaw() {
-    return this.mod === MainTag.Zaw;
-  }
-  /** 是否是Kitgun */
-  get isKitgun() {
-    return this.mod === MainTag.Kitgun;
-  }
-  constructor(id: string, mod: number, ratio: number) {
-    this.id = id;
-    this.mod = mod;
-    this.ratio = ratio;
-  }
-}
-
 export const ModTypeTable = {
-  Rifle: { name: "rifle", include: [MainTag.Rifle] },
-  Shotgun: { name: "shotgun", include: [MainTag.Shotgun] },
-  Pistol: { name: "pistol", include: [MainTag.Pistol, MainTag.Kitgun] },
-  Melee: { name: "melee", include: [MainTag.Melee, MainTag.Zaw] },
-  Archwing: { name: "archwing", include: [MainTag["Arch-Gun"], MainTag["Arch-Melee"]] }
+  Rifle: { name: "rifle", include: [0 /* MainTag.Rifle */] },
+  Shotgun: { name: "shotgun", include: [1 /* MainTag.Shotgun */] },
+  Pistol: { name: "pistol", include: [2, 3 /* MainTag.Pistol, MainTag.Kitgun */] },
+  Melee: { name: "melee", include: [4, 5 /* MainTag.Melee, MainTag.Zaw */] },
+  Archwing: { name: "archwing", include: [6, 7 /* MainTag["Arch-Gun"], MainTag["Arch-Melee"] */] }
 };
 
 const propRegExpsFactory = (name: string) =>
   new RegExp(
-    `(?:(${RivenPropertyDataBase[name].map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase[name].map(v => v.prefix).join("|")})(${RivenPropertyDataBase[name].map(v => v.subfix).join("|")})`,
+    `(?:(${RivenPropertyDataBase[name].map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase[name].map(v => v.prefix).join("|")})(${RivenPropertyDataBase[
+      name
+    ]
+      .map(v => v.subfix)
+      .join("|")})`,
     "i"
   );
 
 /**
  * 主要工具类
  */
-export class RivenDataBase {
-  /** 通用名称 -> index */
-  private rWeaponDict = new Map<string, number>();
-  /** 武器名称 -> index */
-  private nWeaponDict = new Map<string, number>();
-  /** 通用名称 -> 武器名称 index list */
-  private ccWeaponDict = new Map<string, number[]>();
+export class RivenDatabase {
   /** 属性名称 -> 属性 index */
   private propDict = new Map<string, number>();
 
-  private static instance = new RivenDataBase();
+  private static instance = new RivenDatabase();
 
   static PropRegExps = {
     Rifle: propRegExpsFactory("Rifle"),
@@ -342,102 +288,21 @@ export class RivenDataBase {
     this.reload();
   }
 
-  Weapons: RivenWeapon[];
-
   reload() {
-    this.Weapons = (i18n.locale === "zh-CY" ? _rivenDataBaseWeaponsCY : _rivenDataBaseWeapons).map(v => new RivenWeapon(v[0], v[1], v[2]));
-    // 同时添加中英文名称
-    this.Weapons.forEach((v, i) => {
-      this.rWeaponDict.set(v.id, i);
-      this.rWeaponDict.set(v.name, i);
-    });
     RivenPropertyDataBase.all.forEach((v, i) => {
       this.propDict.set(v.id, i);
       this.propDict.set(v.eName, i);
       this.propDict.set(v.name, i);
     });
-  }
-
-  static async loadDataOnline() {
-    if (WeaponDatabase.weapons) WeaponDatabase.weapons.forEach((v, i) => this.instance.addWeapon(v, i));
+    // TODO 覆盖国服倾向性
+    if (i18n.locale === "zh-CY") {
+    }
   }
 
   static reload() {
     this.instance.reload();
   }
 
-  static get Weapons() {
-    return this.instance.Weapons;
-  }
-
-  addWeapon(weapon: Weapon, index: number) {
-    this.nWeaponDict.set(weapon.name, index);
-    if (!this.nWeaponDict.has(i18n.t(`messages.${weapon.name}`))) this.nWeaponDict.set(i18n.t(`messages.${weapon.name}`), index);
-    let riven = this.Weapons[this.rWeaponDict.get(weapon.base || weapon.name)];
-    if (!riven) {
-      // 部分技能武器
-      return;
-    }
-    if (this.ccWeaponDict.has(riven.name)) {
-      if (riven.id !== riven.name) this.ccWeaponDict.get(riven.id).push(index);
-      this.ccWeaponDict.get(riven.name).push(index);
-    } else {
-      if (riven.id !== riven.name) this.ccWeaponDict.set(riven.id, [index]);
-      this.ccWeaponDict.set(riven.name, [index]);
-    }
-  }
-
-  /**
-   * 通过武器具体名称获取武器实例
-   * @param name 武器具体名称
-   */
-  static getNormalWeaponByName(name: string) {
-    let rst = this.instance.nWeaponDict.get(name);
-    if (rst < 0) return null;
-    return WeaponDatabase.weapons[rst];
-  }
-  /**
-   * 通过武器具体名称获取武器实例
-   * @param name 武器具体名称
-   */
-  static getNormalWeaponByTags(tags: string[]) {
-    return WeaponDatabase.weapons.filter(v => tags.every(tag => v.tags.includes(tag)));
-  }
-
-  /**
-   * 通过武器通用名称获取武器实例
-   * @param name 武器通用名称
-   */
-  static getNormalWeaponsByRivenName(name: string) {
-    let rst = this.instance.ccWeaponDict.get(name);
-    if (!rst) return [];
-    return rst.map(v => WeaponDatabase.weapons[v]);
-  }
-  /**
-   * 查询是否有这个武器
-   * @param name 武器通用名称
-   */
-  static hasWeapon(name: string) {
-    return this.instance.rWeaponDict.has(name);
-  }
-
-  /**
-   * 获取武器
-   * @param name 武器通用名称
-   */
-  static getRivenWeaponByName(name: string) {
-    return this.Weapons[this.instance.rWeaponDict.get(name)];
-  }
-  /**
-   * 模糊识别武器名称
-   * @param name 模糊匹配的名称
-   */
-  static findMostSimRivenWeapon(name: string) {
-    name = name.trim();
-    if (this.hasWeapon(name)) return this.getRivenWeaponByName(name);
-    let weaponFinded = _.maxBy(this.Weapons, v => _.max([strSimilarity(name, v.id), strSimilarity(name, v.name)]));
-    return weaponFinded;
-  }
   /**
    * 查询是否有这个属性
    * @param name 属性名称
@@ -474,14 +339,13 @@ export class RivenDataBase {
 
   /**
    * 获取属性基础值
-   * @param weaponName 武器通用名称
+   * @param weaponType 武器通用名称
    * @param prop
    * @return 返回基础值 如果为-1说明错误
    */
-  static getPropBaseValue(weaponName: string, propName: string): number {
-    let weapon = this.getRivenWeaponByName(weaponName);
+  static getPropBaseValue(ratio: number, weaponType: string, propName: string): number {
     let prop = this.getPropByName(propName);
-    if (weapon && prop) return RivenPropertyValueBaseDataBase[weapon.mod][prop.id] * weapon.ratio * (prop.nopercent ? 0.1 : 10);
+    if (weaponType in RivenPropertyValueBaseDataBase && prop) return RivenPropertyValueBaseDataBase[weaponType][prop.id] * ratio * (prop.nopercent ? 0.1 : 10);
     else return -1;
   }
 }

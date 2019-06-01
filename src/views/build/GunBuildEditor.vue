@@ -28,29 +28,29 @@
                   </el-col>
                 </template>
               </el-row>
-              <PropDiff :name="$t('build.magazine')" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
-              <PropDiff :name="$t('build.prjSpeed')" v-if="weapon.prjSpeed" :ori="weapon.prjSpeed" :val="build.prjSpeed" subfix=" m/s" :preci="1"></PropDiff>
-              <PropDiff :name="$t('build.rangeLimit')" v-if="weapon.rangeLimit" :ori="weapon.rangeLimit" :val="build.rangeLimit" subfix=" m" :preci="1"></PropDiff>
-              <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="3"></PropDiff>
-              <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
-              <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
-              <PropDiff :name="$t('build.bullets')" v-if="weapon.bullets != 1 || build.bullets != 1" :ori="weapon.bullets" :val="build.bullets"></PropDiff>
-              <div v-if="rWeapon.ratio > 0">
+              <PropDiff :name="$t('build.magazine')" :ori="mode.magazine" :val="build.magazineSize"></PropDiff>
+              <PropDiff :name="$t('build.prjSpeed')" v-if="mode.prjSpeed" :ori="mode.prjSpeed" :val="build.prjSpeed" subfix=" m/s" :preci="1"></PropDiff>
+              <PropDiff :name="$t('build.rangeLimit')" v-if="mode.rangeLimit" :ori="mode.rangeLimit" :val="build.rangeLimit" subfix=" m" :preci="1"></PropDiff>
+              <PropDiff :name="$t('build.fireRate')" :ori="mode.fireRate" :val="build.fireRate" :preci="3"></PropDiff>
+              <PropDiff :name="$t('build.critMul')" :ori="mode.critMul" :val="build.critMul" subfix="x"></PropDiff>
+              <PropDiff :name="$t('build.critChance')" :ori="mode.critChance" :val="build.critChance" percent></PropDiff>
+              <PropDiff :name="$t('build.pellets')" v-if="mode.pellets != 1 || build.pellets != 1" :ori="mode.pellets" :val="build.pellets"></PropDiff>
+              <div v-if="weapon.disposition > 0">
                 <el-row :gutter="4" class="prop-diff">
                   <el-col :span="8" class="title">
                     {{$t('build.ratio')}}
                   </el-col>
                   <el-col :span="7" class="diff diff-ori">
-                    {{rWeapon.ratio}}
+                    {{weapon.disposition}}
                   </el-col>
                     <el-col :span="2" class="diff-arrow">&nbsp;</el-col>
                     <el-col :span="7" class="diff diff-val">
-                      {{rWeapon.starText}}
+                      {{weapon.starText}}
                     </el-col>
                 </el-row>
               </div>
-              <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
-              <PropDiff data-v-step="1" :name="$t('build.status')" :ori="weapon.status" :val="build.procChancePerHit" percent></PropDiff>
+              <PropDiff :name="$t('build.reload')" :ori="mode.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
+              <PropDiff data-v-step="1" :name="$t('build.status')" :ori="mode.procChance" :val="build.procChancePerHit" percent></PropDiff>
               <!-- 伤害模型 -->
               <el-row :gutter="4" class="prop-diff model-selector">
                 <el-col :span="8" class="title" v-t="'build.damageModel'"></el-col>
@@ -71,7 +71,7 @@
               <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
               <PropDiff :name="$t('build.totalDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
-              <PropDiff v-if="weapon.tags.includes('Sniper')" :name="$t('build.firstAmmoDamage')" :ori="build.oriTotalDamage" :val="build.firstAmmoDamage"
+              <PropDiff v-if="weapon.tags.has('Sniper')" :name="$t('build.firstAmmoDamage')" :ori="build.oriTotalDamage" :val="build.firstAmmoDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
               <PropDiff data-v-step="2" :name="$t('build.burstDamage')" :ori="build.oriBurstDamage" :val="build.burstDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
@@ -207,7 +207,7 @@
           </el-tab-pane>
           <!-- 概率可视化 -->
           <el-tab-pane class="provis" :label="$t('build.provis')" name="provis">
-            <ProbabilityVisualization :criti="build.critChance" :critMul="build.critMul" :multi="build.bullets" :totalDamageFloor="build.totalDamageFloor" :totalDamageCeil="build.totalDamageCeil"/>
+            <ProbabilityVisualization :criti="build.critChance" :critMul="build.critMul" :multi="build.pellets" :totalDamageFloor="build.totalDamageFloor" :totalDamageCeil="build.totalDamageCeil"/>
           </el-tab-pane>
           <!-- 其他信息 -->
           <el-tab-pane class="otherinfo" :label="$t('build.otherinfo')" name="otherinfo">
@@ -240,16 +240,28 @@ import ShareQR from "@/components/ShareQR.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
-import { Weapon, RivenWeapon, EnemyData, Codex, Enemy } from "@/warframe/codex";
+import { Weapon, EnemyData, Codex, Enemy, WeaponBuildMode } from "@/warframe/codex";
 import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
 import "@/less/builder.less";
 
 @Component({
-  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, LeveledModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR, BuildMinimap }
+  components: {
+    ModSelector,
+    BuffSelector,
+    PropDiff,
+    EnemySelector,
+    EnemyTimeline,
+    StatusInfoDisplay,
+    ModSlot,
+    LeveledModSlot,
+    ProbabilityVisualization,
+    OtherInfoDisplay,
+    ShareQR,
+    BuildMinimap
+  }
 })
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: Weapon;
-  @Prop() rWeapon: RivenWeapon;
 
   headShotChance = 0;
   extraBaseDamage = 0;
@@ -277,7 +289,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   }
 
   get isAMP() {
-    return this.weapon.tags.includes("Amp");
+    return this.weapon.tags.has("Amp");
   }
 
   get options() {
@@ -292,10 +304,11 @@ export default class GunBuildEditor extends BaseBuildEditor {
   }
 
   get defalutMode() {
-    let gun = this.weapon ;
-    if (gun.tags.includes("Sniper") && gun.magazine <= 2) return GunCompareMode.FirstAmmoDamage;
-    if (gun.magazine / (gun.tags.includes("Secondary") ? gun.defalutMode.fireRate * 1.6 : gun.defalutMode.fireRate) < gun.reload * 1.8) return GunCompareMode.SustainedDamage;
-    if (gun.defalutMode.fireRate > 2) return GunCompareMode.BurstDamage;
+    let gun = this.weapon;
+    if (gun.tags.has("Sniper") && gun.magazine <= 2) return GunCompareMode.FirstAmmoDamage;
+    if (gun.magazine / (gun.tags.has("Secondary") ? gun.defaultMode.fireRate * 1.6 : gun.defaultMode.fireRate) < gun.reload * 1.8)
+      return GunCompareMode.SustainedDamage;
+    if (gun.defaultMode.fireRate > 2) return GunCompareMode.BurstDamage;
     return GunCompareMode.TotalDamage;
   }
 

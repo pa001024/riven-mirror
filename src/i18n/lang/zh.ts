@@ -2564,7 +2564,7 @@ let po = {
     attackDamagePS: "每秒攻击",
     slideDamagePS: "每秒滑砍",
     magazine: "弹匣",
-    bullets: "弹片数",
+    pellets: "弹片数",
     reload: "装填",
     totalDamage: "单发伤害",
     burstDamage: "爆发伤害",
@@ -2934,7 +2934,8 @@ let po = {
     burstsamplesize: "爆发采样大小",
     burstsamplesizeTip: "计算该武器在指定秒数内的平均输出 (△x/△t公式中△t的大小)",
     savedBuilds: "储存的配置",
-    clear: "全部清除"
+    clear: "全部清除",
+    cleared: "已清除"
   },
   modular: {
     damage: "伤害",

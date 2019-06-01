@@ -52,12 +52,13 @@ export async function createApp({ beforeApp = () => { }, afterApp = () => { }, l
   await changeLocale(locale);
   if (!locale) console.log("using lang", locale || vi18n.locale);
   i18n.inject(vi18n);
-  store.dispatch("load");
 
   await beforeApp({
     router,
     store
   });
+
+  store.dispatch("load");
 
   let app = new Vue({
     i18n: vi18n,
@@ -87,13 +88,11 @@ FastClick.attach(document.body);
 const langParameter = location.search.match(/(?:\?|&)lang=(en|zh-CN|zh-TW|zh-CY)(?=$|&)/);
 
 import { WeaponDatabase } from "@/warframe/codex/weapon";
-import { RivenDataBase } from "@/warframe/codex";
 
 createApp({
   async beforeApp({ router }) {
     // await loadAsyncComponents({ router });
     await WeaponDatabase.loadDataOnline();
-    await RivenDataBase.loadDataOnline();
   },
 
   afterApp({ app, store }) {

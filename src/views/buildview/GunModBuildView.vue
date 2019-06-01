@@ -78,7 +78,7 @@
             <el-tooltip effect="dark" :content="$t('buildview.totalDamageTip')" placement="bottom">
               <el-radio-button :label="0">{{$t("buildview.totalDamage")}}</el-radio-button>
             </el-tooltip>
-            <el-tooltip v-if="weapon.tags.includes('Sniper')" effect="dark" :content="$t('buildview.firstAmmoDamageTip')" placement="bottom">
+            <el-tooltip v-if="weapon.tags.has('Sniper')" effect="dark" :content="$t('buildview.firstAmmoDamageTip')" placement="bottom">
               <el-radio-button :label="3">{{$t("buildview.firstAmmoDamage")}}</el-radio-button>
             </el-tooltip>
             <el-tooltip effect="dark" :content="$t('buildview.burstDamageTip')" placement="bottom">
@@ -136,7 +136,7 @@
         <el-form-item :label="$t('buildview.usemods')">
           <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="debouncedRecalc">{{$t("buildview.heavyCaliber")}}</el-checkbox>
           <el-checkbox v-if="riven.mod === 'Archgun'" v-model="useDeadlyEfficiency" @change="debouncedRecalc">{{$t("buildview.deadlyEfficiency")}}</el-checkbox>
-          <el-checkbox v-if="weapon.tags.includes('Sniper')" v-model="usePrimedChamber" @change="debouncedRecalc">{{$t("buildview.primedChamber")}}</el-checkbox>
+          <el-checkbox v-if="weapon.tags.has('Sniper')" v-model="usePrimedChamber" @change="debouncedRecalc">{{$t("buildview.primedChamber")}}</el-checkbox>
           <el-tooltip effect="dark" :content="$t('buildview.acolyteModsTip')" placement="bottom">
             <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">{{$t("buildview.acolyteMods")}}</el-checkbox>
           </el-tooltip>
@@ -157,7 +157,7 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { BaseModBuildView } from "./BaseModBuildView";
 import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
-import { KitgunChamberData, KitgunGripData, KitgunLoaderData, KitgunChamber, KitgunGrip, KitgunLoader, Kitgun, RivenDataBase, Codex } from "@/warframe/codex";
+import { KitgunChamberData, KitgunGripData, KitgunLoaderData, KitgunChamber, KitgunGrip, KitgunLoader, Kitgun, RivenDatabase, Codex, WeaponDatabase } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import "@/less/buildview.less";
 import localStorage from "universal-localstorage";
@@ -196,7 +196,7 @@ export default class GunModBuildView extends BaseModBuildView {
   get weapon() {
     if (this.riven.weapon.isKitgun) {
       return new Kitgun(this.chamber, this.grip, this.loader);
-    } else return RivenDataBase.getNormalWeaponByName(this.selectWeapon);
+    } else return WeaponDatabase.getWeaponByName(this.selectWeapon);
   }
 
   get availableArcanes() {
@@ -216,9 +216,9 @@ export default class GunModBuildView extends BaseModBuildView {
    */
   get defalutMode() {
     let gun = this.weapon;
-    if (gun.tags.includes("Sniper") && gun.magazine <= 2) return GunCompareMode.FirstAmmoDamage;
-    if (gun.magazine / (gun.tags.includes("Secondary") ? gun.defalutMode.fireRate * 1.6 : gun.defalutMode.fireRate) < gun.reload * 1.8) return GunCompareMode.SustainedDamage;
-    if (gun.defalutMode.fireRate > 2) return GunCompareMode.BurstDamage;
+    if (gun.tags.has("Sniper") && gun.magazine <= 2) return GunCompareMode.FirstAmmoDamage;
+    if (gun.magazine / (gun.tags.has("Secondary") ? gun.defaultMode.fireRate * 1.6 : gun.defaultMode.fireRate) < gun.reload * 1.8) return GunCompareMode.SustainedDamage;
+    if (gun.defaultMode.fireRate > 2) return GunCompareMode.BurstDamage;
     return GunCompareMode.TotalDamage;
   }
 
@@ -253,7 +253,7 @@ export default class GunModBuildView extends BaseModBuildView {
       this.chamber = KitgunChamberData.find(v => v.name === this.riven.name);
       this.selectWeapon = this.riven.name;
     } else {
-      let weapons = this.riven.weapon.weapons;
+      let weapons = this.riven.weapon.variants;
       if (!weapons || weapons.length === 0) {
         console.warn("warn: weapons.length === 0");
         return;

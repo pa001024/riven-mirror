@@ -154,7 +154,7 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { BaseModBuildView } from "./BaseModBuildView";
 import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
-import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDataBase, Codex } from "@/warframe/codex";
+import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDatabase, Codex, WeaponDatabase } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import "@/less/buildview.less";
 import localStorage from "universal-localstorage";
@@ -188,16 +188,16 @@ export default class MeleeModBuildView extends BaseModBuildView {
   gripId: string = null;
   linksId: string = null;
 
-  vistualWeapons = RivenDataBase.getNormalWeaponByTags(["Virtual", "Melee"]);
+  vistualWeapons = WeaponDatabase.getProtosByTags(["Virtual", "Melee"]);
 
   get isVirtualWeaponSelected() {
-    return this.weapon.tags.includes("Virtual");
+    return this.weapon.tags.has("Virtual");
   }
 
   /** [overwrite] 武器 */
   get weapon() {
     if (this.riven.weapon.isZaw) return new Zaw(this.strike, this.grip, this.links);
-    else return RivenDataBase.getNormalWeaponByName(this.selectWeapon);
+    else return WeaponDatabase.getWeaponByName(this.selectWeapon);
   }
 
   get availableArcanes() {
@@ -217,7 +217,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
   get defalutMode() {
     let melee = this.weapon;
     let slideList = ["Whip", "Polearm", "Staff"];
-    if (melee.tags.some(v => slideList.includes(v))) return MeleeCompareMode.SlideDamagePS;
+    if (melee.tags.has(...slideList)) return MeleeCompareMode.SlideDamagePS;
     return MeleeCompareMode.TotalDamagePS;
   }
 
@@ -236,7 +236,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
       this.strike = ZawStrikeData.find(v => v.id === this.riven.name);
       this.selectWeapon = this.riven.name;
     } else {
-      let weapons = this.riven.weapon.weapons;
+      let weapons = this.riven.weapon.variants;
       if (!weapons || weapons.length === 0) {
         console.warn("warn: weapons.length === 0");
         return;
@@ -276,9 +276,9 @@ export default class MeleeModBuildView extends BaseModBuildView {
     super.recalc(MeleeModBuild, options);
   }
   weaponchanged() {
-    const weapon = this.weapon ;
+    const weapon = this.weapon;
     // 自动配卡优化
-    this.requireCombo = !weapon.tags.includes("Virtual");
+    this.requireCombo = !weapon.tags.has("Virtual");
     this.requireRange = weapon.reach && weapon.reach[0] > 1.5;
     this.debouncedRecalc();
   }

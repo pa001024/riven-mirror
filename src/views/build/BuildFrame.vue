@@ -28,11 +28,12 @@
                   </el-col>
                 </template>
               </el-row>
-              <PropDiff :name="$t('build.range')" v-if="build.originalRange" :ori="build.originalRange" :val="build.range" subfix="m"></PropDiff>
+              <PropDiff :name="$t('build.magazine')" :ori="weapon.magazine" :val="build.magazineSize"></PropDiff>
+              <PropDiff :name="$t('build.prjSpeed')" v-if="weapon.prjSpeed" :ori="weapon.prjSpeed" :val="build.prjSpeed" subfix=" m/s" :preci="1"></PropDiff>
+              <PropDiff :name="$t('build.rangeLimit')" v-if="weapon.rangeLimit" :ori="weapon.rangeLimit" :val="build.rangeLimit" subfix=" m" :preci="1"></PropDiff>
               <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="3"></PropDiff>
               <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
               <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
-              <PropDiff :name="$t('build.slideDmg')" v-if="weapon.slideDmg" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
               <PropDiff :name="$t('build.pellets')" v-if="weapon.pellets != 1 || build.pellets != 1" :ori="weapon.pellets" :val="build.pellets"></PropDiff>
               <div v-if="weapon.disposition > 0">
                 <el-row :gutter="4" class="prop-diff">
@@ -48,7 +49,8 @@
                     </el-col>
                 </el-row>
               </div>
-              <PropDiff :name="$t('build.status')" :ori="mode.procChance" :val="build.procChancePerHit" percent data-v-step="1"></PropDiff>
+              <PropDiff :name="$t('build.reload')" :ori="weapon.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
+              <PropDiff data-v-step="1" :name="$t('build.status')" :ori="mode.procChance" :val="build.procChancePerHit" percent></PropDiff>
               <!-- 伤害模型 -->
               <el-row :gutter="4" class="prop-diff model-selector">
                 <el-col :span="8" class="title" v-t="'build.damageModel'"></el-col>
@@ -67,14 +69,14 @@
               <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :icon="dname.toLowerCase()" :name="$t(`elements.${dname}`)" :ori="ori" :val="val"></PropDiff>
               <br>
               <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
-              <PropDiff :name="$t('build.attackDamage')" :ori="build.oriTotalDamage" :val="build.normalDamage"
+              <PropDiff :name="$t('build.totalDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
-              <PropDiff data-v-step="2" :name="$t('build.slideDamage')" v-if="weapon.slideDmg" :ori="build.oriSlideDamage" :val="build.slideDamage"
-                  class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
-              <PropDiff :name="$t('build.attackDamagePS')" :ori="build.oriTotalDamagePS" :val="build.normalDamagePS"
-                  class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
-              <PropDiff :name="$t('build.slideDamagePS')" v-if="weapon.slideDmg" :ori="build.oriSlideDamagePS" :val="build.slideDamagePS"
+              <PropDiff v-if="weapon.tags.has('Sniper')" :name="$t('build.firstAmmoDamage')" :ori="build.oriTotalDamage" :val="build.firstAmmoDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
+              <PropDiff data-v-step="2" :name="$t('build.burstDamage')" :ori="build.oriBurstDamage" :val="build.burstDamage"
+                  class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
+              <PropDiff :name="$t('build.sustainedDamage')" :ori="build.oriSustainedDamage" :val="build.sustainedDamage"
+                  class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
             </div>
           </el-card>
           <!-- 选项区域 -->
@@ -85,27 +87,15 @@
               <el-button type="primary" size="small" @click="clear()">{{$t("build.clear")}}</el-button>
             </el-button-group>
             <el-form class="build-form-editor">
-              <!-- 连击加成 -->
-              <el-form-item :label="$t('buildview.comboMul')">
-                <el-tooltip effect="dark" :content="$t('buildview.comboMulTip')" placement="bottom">
-                  <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="1" :max="6" :step="0.5"></el-input-number>
-                </el-tooltip>
-              </el-form-item>
-              <!-- 异况数字化 -->
-              <el-form-item :label="$t('buildview.condiOver')">
-                <el-tooltip effect="dark" :content="$t('buildview.condiOverTip')" placement="bottom">
-                  <el-switch class="right-side" size="small" v-model="calcCondiOver" @change="optionChange"></el-switch>
+              <!-- 爆头几率 -->
+              <el-form-item :label="$t('buildview.headshotChance')">
+                <el-tooltip effect="dark" :content="$t('buildview.headshotChanceTip')" placement="bottom">
+                  <el-slider class="right-side fill" v-model="headShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
                 </el-tooltip>
               </el-form-item>
               <!-- 等级调整 -->
               <el-form-item :label="$t('buildview.levelSetting')">
                 <el-switch class="right-side" size="small" v-model="levelSetting"></el-switch>
-              </el-form-item>
-              <!-- 近战3.0 -->
-              <el-form-item :label="$t('buildview.melee30')">
-                <el-tooltip effect="dark" :content="$t('buildview.melee30Tip')" placement="bottom">
-                  <el-switch class="right-side" size="small" v-model="melee30" @change="optionChange"></el-switch>
-                </el-tooltip>
               </el-form-item>
             </el-form>
           </el-card>
@@ -116,7 +106,7 @@
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
             <!-- MOD区域 -->
-            <el-row type="flex" class="mod-slot-container autozoom" :gutter="12">
+            <el-row type="flex" class="mod-slot-container autozoom" :gutter="12" v-if="!isAMP">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
                   <component :is="levelSetting ? 'LeveledModSlot' : 'ModSlot'"  @level="refleshMods()" @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
@@ -160,13 +150,12 @@
           <el-tab-pane class="minimap" :label="$t('build.minimap')" name="minimap">
             <BuildMinimap :build="build"/>
           </el-tab-pane>
-          <!-- 触发计算 -->
           <el-tab-pane class="statusinfo" :label="$t('build.statusinfo')" name="statusinfo">
             <StatusInfoDisplay :info="build.statusInfo" :common="build.commonStatusInfo" />
           </el-tab-pane>
           <!-- 幻影装置-->
           <el-tab-pane class="enemy-sim" :label="$t('build.simulacrum')" name="simulacrum">
-            <h2>melee is unsupport!</h2>
+            <Simulacrum>
           </el-tab-pane>
           <!-- 概率可视化 -->
           <el-tab-pane class="provis" :label="$t('build.provis')" name="provis">
@@ -188,11 +177,15 @@
     <v-tour name="baseTour" :steps="steps" :options="{labels:$t('tour.labels')}" :callbacks="{onStop:onTourStop}"></v-tour>
   </div>
 </template>
+
+
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import PropDiff from "@/components/PropDiff.vue";
 import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
+import PropDiff from "@/components/PropDiff.vue";
+import EnemySelector from "@/components/EnemySelector.vue";
+import EnemyTimeline from "@/components/EnemyTimeline.vue";
 import StatusInfoDisplay from "@/components/StatusInfoDisplay.vue";
 import ProbabilityVisualization from "@/components/ProbabilityVisualization";
 import OtherInfoDisplay from "@/components/OtherInfoDisplay.vue";
@@ -201,100 +194,17 @@ import ShareQR from "@/components/ShareQR.vue";
 import ModSlot from "@/components/ModSlot.vue";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import { BaseBuildEditor } from "./BaseBuildEditor";
+import { Weapon, EnemyData, Codex, Enemy } from "@/warframe/codex";
+import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
 import { ModBuild } from "@/warframe/modbuild";
-import { NormalMod, Weapon, Codex } from "@/warframe/codex";
-import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
 import "@/less/builder.less";
 
-declare interface BuildSelectorTab {
-  title: string;
-  name: string;
-  build: ModBuild;
-  mods: NormalMod[];
-}
-
 @Component({
-  components: {
-    ModSelector,
-    LeveledModSlot,
-    PropDiff,
-    BuffSelector,
-    StatusInfoDisplay,
-    ModSlot,
-    ProbabilityVisualization,
-    OtherInfoDisplay,
-    ShareQR,
-    BuildMinimap
-  }
+  components: { ModSelector, BuffSelector, PropDiff, EnemySelector, EnemyTimeline, StatusInfoDisplay, ModSlot, LeveledModSlot, ProbabilityVisualization, OtherInfoDisplay, ShareQR, BuildMinimap }
 })
-export default class MeleeBuildEditor extends BaseBuildEditor {
+export default class BuildFrame extends Vue {
   @Prop() weapon: Weapon;
-
-  comboMul = 1.5;
-  extraBaseDamage = 0;
-  extraOverall = 0;
-  calcCondiOver = true;
-  melee30 = false;
-  /** 赋能 */
-  arcanes = [];
-  get availableArcanes() {
-    return Codex.getAvailableArcanes(this.weapon);
-  }
-
-  @Watch("weapon")
-  reload() {
-    this.comboMul = this.weapon.tags.has("Virtual") ? 1 : 1.5;
-    super.reload();
-  }
-  reloadSelector() {
-    this.$refs.selector && (this.$refs.selector as any).reload();
-    this.$refs.buffselector && (this.$refs.buffselector as any).reload();
-  }
-
-  get options() {
-    return {
-      comboLevel: ~~((this.comboMul - 1) * 2),
-      extraBaseDamage: +this.extraBaseDamage,
-      extraOverall: +this.extraOverall,
-      calcCondiOver: this.calcCondiOver,
-      melee30: this.melee30,
-      arcanes: this.arcanes
-    };
-  }
-
-  get defalutMode() {
-    let melee = this.weapon;
-    let slideList = ["Whip", "Polearm", "Staff"];
-    if (melee.tags.has(...slideList)) return MeleeCompareMode.SlideDamagePS;
-    return melee.tags.has("Virtual") ? MeleeCompareMode.TotalDamage : MeleeCompareMode.TotalDamagePS;
-  }
-
-  newBuild(weapon: Weapon) {
-    if (weapon.tags.has("Virtual")) this.comboMul = 1;
-    let b = new MeleeModBuild(weapon, null, this.options);
-    b.fastMode = false;
-    b.compareMode = this.defalutMode;
-    return b;
-  }
-  // === 事件处理 ===
-  @Watch("extraBaseDamage")
-  @Watch("extraOverall")
-  optionChange() {
-    if (!this.weapon) return;
-    this.build.options = this.options;
-    this.build.calcMods();
-    this.reloadSelector();
-  }
-  // 子类不实现会报错
-  handleTabsEdit(targetName, action: "add" | "remove") {
-    super.handleTabsEdit(targetName, action);
-  }
-  // === 生命周期钩子 ===
-  beforeMount() {
-    this.reload();
-  }
-  mounted() {
-    super.onMounted();
-  }
+  @Prop() build: ModBuild;
 }
+
 </script>

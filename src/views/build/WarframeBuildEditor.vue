@@ -220,11 +220,11 @@ import LeveledModSelector from "@/components/LeveledModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import ShareQR from "@/components/ShareQR.vue";
-import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty, BuffData, RivenDataBase, AbilityPropTypes } from "@/warframe/codex";
+import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty, BuffData, RivenDatabase, AbilityPropTypes, WeaponDatabase } from "@/warframe/codex";
 import "@/less/builder.less";
 import { i18n } from "@/i18n";
 import { Getter, Action } from "vuex-class";
-import { base62 } from "../warframe/lib/base62";
+import { base62 } from "@/warframe/lib/base62";
 
 interface BuildSelectorTab {
   title: string;
@@ -287,7 +287,7 @@ export default class WarframeEditor extends Vue {
     return ValuedProperty.parse([vn, vv]);
   }
   renderWeapon(name: string) {
-    return RivenDataBase.getNormalWeaponByName(name).displayName;
+    return WeaponDatabase.getWeaponByName(name).displayName;
   }
   renderWeaponProps(abi: WarframeBuild["Abilities"][number]) {
     const p = this.build.abilityStrength * 1e3;
@@ -483,125 +483,3 @@ export default class WarframeEditor extends Vue {
   }
 }
 </script>
-
-<style lang="less">
-@import "../less/common.less";
-
-.team-editor-main {
-  .warframe-props {
-    width: 100%;
-    border-spacing: 0;
-    border-collapse: separate;
-    font-size: 1em;
-    th {
-      color: @text_grey;
-      font-weight: inherit;
-      text-align: left;
-    }
-  }
-  .core-info {
-    margin-bottom: 8px;
-  }
-  .core-name {
-    font-size: 1.1rem;
-  }
-  .share-icon {
-    float: right;
-    line-height: 23px;
-    cursor: pointer;
-    transition: 0.5s;
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-  .mod-slot-container {
-    justify-content: center;
-  }
-}
-
-.skill-container {
-  .skill-name {
-    font-size: 1.4em;
-    a {
-      color: unset;
-      text-decoration: unset;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-    .en {
-      margin-left: 0.6em;
-      font-size: 0.6em;
-      color: @text_sliver;
-    }
-  }
-  .skill-costs {
-    text-align: right;
-    white-space: nowrap;
-    .skill-cost {
-      background: @theme_main;
-      color: @theme_back;
-      font-size: 1.2em;
-      padding: 8px 16px;
-      display: inline-block;
-      & + .skill-cost {
-        border-left: 1px solid @theme_back;
-      }
-    }
-    .skill-cost:first-child {
-      border-radius: 4px 0 0 4px;
-    }
-    .skill-cost:last-child {
-      margin-right: -20px;
-    }
-  }
-  .skill-tags {
-    .skill-tag {
-      display: inline-block;
-      margin: 4px 4px 0 0;
-      padding: 2px 10px;
-      border: 1px solid #e3e4ea;
-      border-radius: 2px;
-      box-shadow: 2px 4px 4px @shadow;
-    }
-  }
-}
-
-.skill-effects {
-  .effect-name {
-    font-size: 1.2em;
-    margin: 4px 8px;
-    &::before {
-      content: "";
-      display: inline-block;
-      width: 4px;
-      height: 24px;
-      background: @theme_main;
-      vertical-align: bottom;
-      border-radius: 4px;
-      margin-right: 8px;
-    }
-  }
-  .effect-detail {
-    .effect-prop {
-      display: inline-block;
-      padding: 8px 16px;
-      margin: 4px;
-      background: @theme_back;
-      border-radius: 4px;
-      .prop-name {
-        height: 17px;
-        line-height: 17px;
-        color: @half_greyblue;
-        font-size: 12px;
-      }
-      .prop-value {
-        height: 22px;
-        line-height: 22px;
-        color: @text_darkerblue;
-        font-size: 16px;
-      }
-    }
-  }
-}
-</style>

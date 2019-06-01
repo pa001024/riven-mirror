@@ -81,7 +81,7 @@
             </div>
             <div class="padding"></div>
             <div class="content">
-              <el-button type="danger" size="mini">{{$t('setting.clear')}}</el-button>
+              <el-button type="danger" size="mini" @click="handleClearBuilds">{{$t('setting.clear')}}</el-button>
             </div>
           </div>
         </div>
@@ -149,6 +149,11 @@ export default class Setting extends Vue {
   }
 
   @Action("clearBuilds") clearBuilds: () => void;
+
+  handleClearBuilds() {
+    this.clearBuilds();
+    this.$message.success(this.$t("setting.cleared") as string);
+  }
 }
 </script>
 <style lang="less">

@@ -98,10 +98,11 @@ export class MeleeModBuild extends ModBuild {
   constructor(weapon: Weapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null, fast = false) {
     super(riven, fast);
     if ((this.weapon = weapon)) {
-      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.id]).includes(v.type));
+      this._mode = this.weapon.defaultMode;
+      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.toArray().concat([this.weapon.name]).includes(v.type));
     }
     // 自动配卡优化
-    this.requireCombo = !this.weapon.tags.includes("Virtual");
+    this.requireCombo = !this.weapon.tags.has("Virtual");
     this.requireRange = this.weapon.reach && this.weapon.reach[1] > 1;
     if (options) {
       this.options = options;
@@ -165,7 +166,12 @@ export class MeleeModBuild extends ModBuild {
   /** [overwrite] 全局伤害增幅倍率 */
   get overallMul() {
     const combo = this.melee30 ? 1 : this.comboMul;
-    if (this.damagePerStatus > 0) return combo * (this._overallMul / 100) * (1 + this.damagePerStatus) ** (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount);
+    if (this.damagePerStatus > 0)
+      return (
+        combo *
+        (this._overallMul / 100) *
+        (1 + this.damagePerStatus) ** (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount)
+      );
     return (combo * this._overallMul) / 100;
   }
 
@@ -341,7 +347,7 @@ export class MeleeModBuild extends ModBuild {
       ("Primed Pressure Point" === mod.id && this._mods.some(v => v && v.id === "Sacrificial Pressure"))
     )
       return false;
-    if (this.weapon.tags.includes("Exalted")) {
+    if (this.weapon.tags.has("Exalted")) {
       return !["Weeping Wounds", "Blood Rush", "Maiming Strike", "Focused Defense"].includes(mod.id);
     }
     return true;
@@ -426,14 +432,21 @@ export class MeleeModBuild extends ModBuild {
     const comboMod = this.avaliableMods.find(v => v.id === "Drifting Contact");
     let mods = (this._mods = _.compact(this._mods));
     if (useRiven == 2) this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
-    if (this.requireRange && rangeMod && !mods.some(v => v.id === rangeMod.id) && (useRiven === 0 || !this.riven.shortSubfix.includes("T"))) this.applyMod(rangeMod);
-    if (this.requireCombo && comboMod && !mods.some(v => v.id === comboMod.id || v.id === "Body Count") && (useRiven === 0 || !this.riven.shortSubfix.includes("N"))) this.applyMod(comboMod);
+    if (this.requireRange && rangeMod && !mods.some(v => v.id === rangeMod.id) && (useRiven === 0 || !this.riven.shortSubfix.includes("T")))
+      this.applyMod(rangeMod);
+    if (
+      this.requireCombo &&
+      comboMod &&
+      !mods.some(v => v.id === comboMod.id || v.id === "Body Count") &&
+      (useRiven === 0 || !this.riven.shortSubfix.includes("N"))
+    )
+      this.applyMod(comboMod);
     super.fillEmpty(slots, 0, lib, rivenLimit);
   }
 
   /** [overwrite] 最大容量 */
   get maxCost() {
-    if (this.weapon.tags.includes("Exalted")) return this.weapon.tags.includes("Virtual") ? 70 : 60;
-    return this.weapon.tags.includes("Robotic") ? 60 : this.weapon.name === "Paracesis" ? 80 : 70;
+    if (this.weapon.tags.has("Exalted")) return this.weapon.tags.has("Virtual") ? 70 : 60;
+    return this.weapon.tags.has("Robotic") ? 60 : this.weapon.name === "Paracesis" ? 80 : 70;
   }
 }

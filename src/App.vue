@@ -71,7 +71,7 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 import MiniClock from "@/components/MiniClock.vue";
 import WfIcon from "@/components/WfIcon.vue";
 import Search from "@/components/Search.vue";
-import { RivenDataBase } from "@/warframe/codex";
+import { RivenDatabase } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import markdown from "markdown-it";
 import { magic, version, updateLogs } from "@/version";
@@ -135,7 +135,7 @@ export default class App extends Vue {
   }
   mounted() {
     this.themeChange();
-    RivenDataBase.reload();
+    RivenDatabase.reload();
     const lastVersion = localStorage.getItem("lastVersion") || "0.0.0";
     if (lastVersion !== version) this.updateMessageVisible = true;
     if (this.$i18n.locale === "zh-CN" && !localStorage.getItem("cn")) {

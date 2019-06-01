@@ -99,7 +99,7 @@ export class GunModBuild extends ModBuild {
   }
   /** 子弹消耗速度 */
   get ammoCost() {
-    return this.mode.ammoCost || (this.weapon.tags.includes("Continuous") ? 0.5 : 1);
+    return this.mode.ammoCost || (this.weapon.tags.has("Continuous") ? 0.5 : 1);
   }
   /** 距离限制 */
   get rangeLimit() {
@@ -124,7 +124,13 @@ export class GunModBuild extends ModBuild {
   constructor(weapon: Weapon = null, riven: RivenMod = null, options: GunModBuildOptions = null, fast = false) {
     super(riven, fast);
     if ((this.weapon = weapon)) {
-      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.concat([this.rivenWeapon.id]).includes(v.type));
+      this._mode = this.weapon.defaultMode;
+      this.avaliableMods = NormalModDatabase.filter(v =>
+        this.weapon.tags
+          .toArray()
+          .concat([this.weapon.name])
+          .includes(v.type)
+      );
     }
     if (options) {
       this.options = options;
@@ -163,13 +169,7 @@ export class GunModBuild extends ModBuild {
       burstSampleSize: this.burstSampleSize
     };
   }
-  /**
-   * 生成伤害时间线
-   *
-   * @param {number} [timeLimit=10]
-   * @returns {EnemyTimelineState[]} 敌人时间线
-   * @memberof GunModBuild
-   */
+  /** 生成伤害时间线 */
   getTimeline(timeLimit = 300) {
     let enemy = new Enemy(this.target.data, this.target.level);
     enemy.amrorReduce = this.amrorReduce;
@@ -179,7 +179,7 @@ export class GunModBuild extends ModBuild {
     let remaingMag = this.magazineSize; // 剩余子弹数
     let shotAmmoCost = this.ammoCost; // 射击消耗子弹数
     let nextDoTTick = enemy.TICKCYCLE;
-    const isCharge = this.weapon.tags.includes("Charge");
+    const isCharge = this.weapon.tags.has("Charge");
     let nextDmgTick = isCharge ? ticks : 0;
     // 敌人死亡或者到时间停止
     for (let seconds = 0; enemy.currentHealth > 0 && seconds < timeLimit; ++seconds) {
@@ -193,11 +193,12 @@ export class GunModBuild extends ModBuild {
           this.pellets,
           this.procDurationMul,
           this.critChance,
-          this.weapon.tags.includes("Sniper") ? 750 : 750 / (this.fireRate < 1 ? 1 : this.fireRate),
+          this.weapon.tags.has("Sniper") ? 750 : 750 / (this.fireRate < 1 ? 1 : this.fireRate),
           this.procDamageMul,
           shotAmmoCost
         );
-        nextDmgTick += (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : ((remaingMag = this.magazineSize), isCharge ? reloadTicks + ticks : reloadTicks || ticks);
+        nextDmgTick +=
+          (remaingMag = remaingMag - shotAmmoCost) > 0 ? ticks : ((remaingMag = this.magazineSize), isCharge ? reloadTicks + ticks : reloadTicks || ticks);
       }
       // DoT
       if (enemy.currentHealth > 0) {
@@ -216,7 +217,7 @@ export class GunModBuild extends ModBuild {
   }
   /** 是否是射线武器 */
   get isLaser() {
-    return this.weapon.tags.includes("Continuous");
+    return this.weapon.tags.has("Continuous");
   }
   /** [overwrite] 弹片数 */
   get pellets() {
@@ -289,7 +290,7 @@ export class GunModBuild extends ModBuild {
     const { reload: r, magazine } = this.weapon;
     const { fireRate: f } = this.mode;
     const m = ~~(magazine / this.ammoCost);
-    if (this.weapon.tags.includes("Charge")) return 1 / (1 / f + r / m);
+    if (this.weapon.tags.has("Charge")) return 1 / (1 / f + r / m);
     return (m * f) / (m - 1 + r * f);
   }
 
@@ -303,7 +304,7 @@ export class GunModBuild extends ModBuild {
    */
   get sustainedFireRate() {
     const { fireRate: f, reloadTime: r, effectiveMagazineSize: m } = this;
-    if (this.weapon.tags.includes("Charge")) return 1 / (1 / f + r / m);
+    if (this.weapon.tags.has("Charge")) return 1 / (1 / f + r / m);
     return (m * f) / (m - 1 + r * f);
   }
   /** 持续伤害增幅倍率  */
@@ -350,7 +351,7 @@ export class GunModBuild extends ModBuild {
   get burstSampleFireRate() {
     const { fireRate: f, reloadTime: r, effectiveMagazineSize: m, burstSampleSize: b } = this;
     if (!b) return f;
-    const isCharge = this.weapon.tags.includes("Charge");
+    const isCharge = this.weapon.tags.has("Charge");
     let ar = isCharge ? m / f : (m - 1) / f, // 射完子弹需要的时间
       rt = isCharge ? m / f + r : (m - 1) / f + r; // 整个周期需要的时间
     // 时间不足射完弹匣
@@ -374,7 +375,7 @@ export class GunModBuild extends ModBuild {
     const b = this.burstSampleSize;
     if (!b) return f;
     const m = ~~(magazine / this.ammoCost);
-    const isCharge = this.weapon.tags.includes("Charge");
+    const isCharge = this.weapon.tags.has("Charge");
     let ar = isCharge ? m / f : (m - 1) / f, // 射完子弹需要的时间
       rt = isCharge ? m / f + r : (m - 1) / f + r; // 整个周期需要的时间
     // 时间不足射完弹匣
@@ -480,7 +481,7 @@ export class GunModBuild extends ModBuild {
         /* 多重射击 multiShot */ this._multishotMul = hAccSum(this._multishotMul, pValue);
         break;
       case "R":
-        /* 射速 fireRate */ this._fireRateMul = hAccSum(this._fireRateMul, this.weapon.tags.includes("Bow") ? 2 * pValue : pValue);
+        /* 射速 fireRate */ this._fireRateMul = hAccSum(this._fireRateMul, this.weapon.tags.has("Bow") ? 2 * pValue : pValue);
         break;
       case "L":
         /* 弹匣容量 magazine */ this._magazineMul = hAccSum(this._magazineMul, pValue);
@@ -516,7 +517,9 @@ export class GunModBuild extends ModBuild {
         /* 第一发子弹伤害加成 firstAmmoMul */ this._firstAmmoMul = hAccSum(this._firstAmmoMul, pValue);
         break;
       case "eed":
-        /* 电击伤害 */ this.mode.prjSpeed ? (this.electricityMul = hAccSum(this._electricityMul, pValue)) : this.applyStandaloneElement("Electricity", pValue / 100);
+        /* 电击伤害 */ this.mode.prjSpeed
+          ? (this.electricityMul = hAccSum(this._electricityMul, pValue))
+          : this.applyStandaloneElement("Electricity", pValue / 100);
         break;
       case "efd":
         /* 火焰伤害 */ this.mode.prjSpeed ? (this.heatMul = hAccSum(this._heatMul, pValue)) : this.applyStandaloneElement("Heat", pValue / 100);

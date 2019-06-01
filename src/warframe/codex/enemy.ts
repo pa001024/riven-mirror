@@ -798,7 +798,7 @@ export class Enemy extends EnemyData {
    * @param {[string, number][]} dmgs 伤害表
    * @param {[string, number][]} procChanceMap 触发几率表(真实触发)
    * @param {[string, number][]} dotDamageMap 触发伤害表(DoT)
-   * @param {number} [bullets=1] 弹片数
+   * @param {number} [pellets=1] 弹片数
    * @param {number} [durationMul=1]
    * @param {number} [durationMul=1]
    * @param {number} [critChance=0]
@@ -807,24 +807,24 @@ export class Enemy extends EnemyData {
    * @param {number} [ammo=1]
    * @memberof Enemy
    */
-  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], bullets = 1, durationMul = 1, critChance = 0, threshold = 300, procDamageMul = 1, ammo = 1) {
+  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], pellets = 1, durationMul = 1, critChance = 0, threshold = 300, procDamageMul = 1, ammo = 1) {
     let procChance = procChanceMap.reduce((a, [id, val]) => ((a[id] = val), a), {});
     // [0.每个弹片单独计算]
-    let bls = bullets;
+    let bls = pellets;
     while (bls > 0) {
       // [0.将伤害平分给每个弹片 不满整个的按比例计算]
       let bh = bls >= 1 ? 1 : bls;
       // 夜灵算法 https://warframe.huijiwiki.com/wiki/%E5%8D%9A%E5%AE%A2:%E5%A4%9C%E7%81%B5%E5%85%86%E5%8A%9B%E4%BD%BF%E4%BC%A4%E5%AE%B3%E6%9C%BA%E5%88%B6
       if (this.ignoreProc === 3) {
-        this.applyEidolonDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / bullets] as [string, number]), critChance, threshold * this.resistence * bh); // 不足一个的乘以阈值
+        this.applyEidolonDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]), critChance, threshold * this.resistence * bh); // 不足一个的乘以阈值
       } else if (this.ignoreProc === 2) {
-        this.applyDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / bullets] as [string, number]));
+        this.applyDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]));
       } else {
         // [1.按当前病毒触发比例减少血上限]
         let currentViral = this.currentProcs.Viral;
         this.currentHealth *= 1 - 0.5 * currentViral;
         // [2.直接伤害]
-        this.applyDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / bullets] as [string, number]));
+        this.applyDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]));
         // [3.腐蚀扒皮] 计算腐蚀触发(连续)
         if (procChance[DamageType.Corrosive] > 0) {
           this.currentArmor *= 0.75 ** (procChance[DamageType.Corrosive] * bh);
@@ -840,7 +840,7 @@ export class Enemy extends EnemyData {
           this.currentProcs.Viral = newViral > 1 ? 1 : newViral;
         }
         // [5.DoT伤害]
-        if (this.ignoreProc === 0) this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, (vv * bh) / bullets] as [string, number]), durationMul, procDamageMul);
+        if (this.ignoreProc === 0) this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]), durationMul, procDamageMul);
         // [6.将病毒下降的血量恢复]
         this.currentHealth /= 1 - 0.5 * currentViral;
       }

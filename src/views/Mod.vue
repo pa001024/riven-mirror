@@ -110,7 +110,7 @@ import localStorage from "universal-localstorage";
 // import jsQR from "jsqr";
 import RivenEditor from "@/components/RivenEditor.vue";
 import { RivenMod } from "@/warframe/rivenmod";
-import { RivenDataBase } from "@/warframe/codex";
+import { RivenDatabase } from "@/warframe/codex";
 import { WeeklyRivenInfo } from "@/warframe/weeklyriven";
 
 interface OCRResult {

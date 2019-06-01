@@ -5,7 +5,7 @@ import { procDurationMap, SpecialStatusInfo } from "./status";
 import {
   Weapon,
   NormalMod,
-  RivenDataBase,
+  RivenDatabase,
   Arcane,
   Buff,
   Enemy,
@@ -18,11 +18,11 @@ import {
   ExtraDmgSet,
   NormalCardDependTable,
   RivenPropertyDataBase,
-  SimpleDamageModel
+  SimpleDamageModel,
+  WeaponBuildMode
 } from "./codex";
 import { RivenMod, toUpLevel, toNegaUpLevel, ValuedRivenProperty } from "./rivenmod";
 import { HH } from "@/var";
-import { WeaponMode, Damage } from "./codex/weapon.i";
 
 // 基础类
 export abstract class ModBuild {
@@ -30,17 +30,14 @@ export abstract class ModBuild {
 
   public abstract weapon: Weapon;
   public riven: RivenMod;
-  public get rivenWeapon() {
-    return RivenDataBase.getRivenWeaponByName(this.weapon.base || this.weapon.name);
-  }
   protected _modeName = "";
-  protected _mode: WeaponMode;
+  protected _mode: WeaponBuildMode;
   get modeName() {
     return this._modeName;
   }
   set modeName(value: string) {
     this._modeName = value;
-    this._mode = this.weapon.modes.find(v => v.type === this._modeName) || this.weapon.modes[0];
+    this._mode = this.weapon.getMode(value);
   }
   get mode() {
     return this._mode;
@@ -161,7 +158,8 @@ export abstract class ModBuild {
   }
   /** 种族伤害增幅倍率 */
   get enemyDmgMul() {
-    if (this.enemyDmgTypeIndex >= 0) return this.allEnemyDmgMul + (this._enemyDmgMul[this.enemyDmgTypeIndex] <= 0 ? 0 : this._enemyDmgMul[this.enemyDmgTypeIndex] / 100);
+    if (this.enemyDmgTypeIndex >= 0)
+      return this.allEnemyDmgMul + (this._enemyDmgMul[this.enemyDmgTypeIndex] <= 0 ? 0 : this._enemyDmgMul[this.enemyDmgTypeIndex] / 100);
     else return this.allEnemyDmgMul + 1;
   }
   /** 攻速增幅倍率 */
@@ -239,7 +237,7 @@ export abstract class ModBuild {
 
   /** 武器原本伤害 */
   get initialDamage() {
-    if (this.initialDamageMul === 1 && !Object.keys(this._absExtra).length) {
+    if (this.initialDamageMul === 1 && !this._absExtra.length) {
       this._originalDamage = 0;
       return _.map(this.mode.damage, (v, n) => [n, v] as [string, number]);
     }
@@ -421,6 +419,7 @@ export abstract class ModBuild {
   private _combElementsOrder: [string, number][] = [];
   /** 复合元素顺序 */
   public get combElementsOrder(): [string, number][] {
+    if (!this._combElementsOrder.length) this.recalcElements();
     return this._combElementsOrder;
   }
 
@@ -502,8 +501,8 @@ export abstract class ModBuild {
     let dotMap = new Map(this.dotBaseDamageMap as [string, number][]);
     let pwAll = this.procChanceMap.reduce((a, b) => a + b[1], 0);
     this._statusInfo = {};
-    const { pellets: bullets, fireRate, dutyCycle } = this;
-    const hits = this.weapon.tags.includes("Continuous") ? 1 : bullets;
+    const { pellets, fireRate, dutyCycle } = this;
+    const hits = this.weapon.tags.has("Continuous") ? 1 : pellets;
     this.procChanceMap.forEach(([vn, vv]) => {
       if (vv <= 0) return;
       let dur = procDurationMap[vn] * this.procDurationMul;
@@ -514,7 +513,7 @@ export abstract class ModBuild {
         duration: dur,
         coverage: cor
       };
-      if (bullets !== 1) this._statusInfo[vn].appearRate = vv;
+      if (pellets !== 1) this._statusInfo[vn].appearRate = vv;
       // [腐蚀 磁力]
       if (vn === "Corrosive" || vn === "Magnetic") {
         this._statusInfo[vn].procPerHit = vv * hits;
@@ -615,17 +614,26 @@ export abstract class ModBuild {
   }
   /** 真实伤害模型映射输出 */
   get dmg() {
-    if (this.damageModel) return this.damageModel.mapDamage(this.dmgRaw, this.critChance, this.weapon.tags.includes("Sniper") ? 300 : 300 / this.fireRate) as [string, number][];
+    if (this.damageModel)
+      return this.damageModel.mapDamage(this.dmgRaw, this.critChance, this.weapon.tags.has("Sniper") ? 300 : 300 / this.fireRate) as [string, number][];
     return this.dmgRaw;
   }
   /** 真实伤害模型映射输出(暴击向下取整) */
   get dmgFloor() {
-    if (this.damageModel) return this.damageModel.mapDamage(this.dmgRaw, Math.floor(this.critChance), this.weapon.tags.includes("Sniper") ? 300 : 300 / this.fireRate) as [string, number][];
+    if (this.damageModel)
+      return this.damageModel.mapDamage(this.dmgRaw, Math.floor(this.critChance), this.weapon.tags.has("Sniper") ? 300 : 300 / this.fireRate) as [
+        string,
+        number
+      ][];
     return this.dmgRaw;
   }
   /** 真实伤害模型映射输出(暴击向上取整) */
   get dmgCeil() {
-    if (this.damageModel) return this.damageModel.mapDamage(this.dmgRaw, Math.ceil(this.critChance), this.weapon.tags.includes("Sniper") ? 300 : 300 / this.fireRate) as [string, number][];
+    if (this.damageModel)
+      return this.damageModel.mapDamage(this.dmgRaw, Math.ceil(this.critChance), this.weapon.tags.has("Sniper") ? 300 : 300 / this.fireRate) as [
+        string,
+        number
+      ][];
     return this.dmgRaw;
   }
 
@@ -994,7 +1002,8 @@ export abstract class ModBuild {
   isValidMod(mod: NormalMod) {
     let mods = _.compact(this._mods);
     // 如果相应的P卡已经存在则不使用
-    if (mods.some(v => (mod.id !== "RIVENFAKE" && v.id === mod.id) || v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed))) return false;
+    if (mods.some(v => (mod.id !== "RIVENFAKE" && v.id === mod.id) || v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed)))
+      return false;
     // 只允许选择的元素
     if (this.allowElementTypes) if (mod.props.some(v => ExtraDmgSet.has(v[0]))) if (!mod.props.some(v => this.allowElementTypes.includes(v[0]))) return false;
     // 过滤一些需要前置MOD的MOD
@@ -1229,17 +1238,20 @@ export abstract class ModBuild {
         return true;
       })
       .map(v => {
-        let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id) * upLevel;
+        let base = this.weapon.getPropBaseValue(v.id) * upLevel;
         return new ValuedRivenProperty(v, base, base, upLevel);
       });
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(
-      v => v.id === (this.weapon.name === "Vectis Prime" ? "L" : "H") || v.id === "U" || ((this.riven.mod === "Shotgun" || this.riven.mod === "Arch-Gun") && v.id === "Z")
+      v =>
+        v.id === (this.weapon.name === "Vectis Prime" ? "L" : "H") ||
+        v.id === "U" ||
+        ((this.riven.mod === "Shotgun" || this.riven.mod === "Arch-Gun") && v.id === "Z")
     );
     let valuedNegativeProp = new ValuedRivenProperty(
       negativeProp,
-      this.weapon.name === "Vectis Prime" ? -28 : RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel,
-      RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id),
+      this.weapon.name === "Vectis Prime" ? -28 : this.weapon.getPropBaseValue(negativeProp.id) * -negaUpLevel,
+      this.weapon.getPropBaseValue(negativeProp.id),
       upLevel
     );
 
@@ -1270,7 +1282,9 @@ export abstract class ModBuild {
     newBuild.calcMods();
     newBuild.fillEmpty(slots, 0, fakeMods, 3);
     // 结算 生成紫卡
-    let resultProps = newBuild.mods.filter(v => v.id === "RIVENFAKE").map(v => new ValuedRivenProperty(RivenDataBase.getPropByName(v.props[0][0]), v.props[0][1], v.props[0][1], 1));
+    let resultProps = newBuild.mods
+      .filter(v => v.id === "RIVENFAKE")
+      .map(v => new ValuedRivenProperty(RivenDatabase.getPropByName(v.props[0][0]), v.props[0][1], v.props[0][1], 1));
     // console.log(newBuild.mods.map(v => v.name).join(","));
     let newRiven = new RivenMod(this.riven);
     newRiven.properties = resultProps;
@@ -1309,7 +1323,7 @@ export abstract class ModBuild {
         return true;
       })
       .map(v => {
-        let base = RivenDataBase.getPropBaseValue(this.riven.name, v.id) * upLevel;
+        let base = this.weapon.getPropBaseValue(v.id) * upLevel;
         return new ValuedRivenProperty(v, base, base, upLevel);
       });
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
@@ -1317,8 +1331,8 @@ export abstract class ModBuild {
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.name === "Vectis Prime" ? "L" : "H") || v.id === "U");
     let valuedNegativeProp = new ValuedRivenProperty(
       negativeProp,
-      RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id) * -negaUpLevel,
-      RivenDataBase.getPropBaseValue(this.riven.name, negativeProp.id),
+      this.weapon.getPropBaseValue(negativeProp.id) * -negaUpLevel,
+      this.weapon.getPropBaseValue(negativeProp.id),
       upLevel
     );
 

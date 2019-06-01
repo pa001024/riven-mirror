@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Base64, randomNormalDistribution, strSimilarity } from "./util";
 import { base62, debase62 } from "./lib/base62";
-import { Polarity, RivenProperty, RivenDataBase, RivenPropertyDataBase, NormalMod, RivenWeapon, MainTag } from "./codex";
+import { Polarity, RivenProperty, RivenDatabase, RivenPropertyDataBase, NormalMod, MainTag, WeaponDatabase } from "./codex";
 import { HH } from "@/var";
 import { i18n } from "@/i18n";
 
@@ -123,10 +123,10 @@ export class RivenMod {
     this.subfix = v[1];
   }
   get weapon() {
-    return RivenDataBase.getRivenWeaponByName(this.name);
+    return WeaponDatabase.getWeaponByName(this.name);
   }
   get ratio() {
-    return this.weapon.ratio;
+    return this.weapon.disposition;
   }
   get star() {
     return this.weapon.star;
@@ -180,10 +180,10 @@ A段位12023
       .replace(/lgni/g, "Igni")
       .split(/\n+/g);
     console.log("lines=>", lines);
-    let subfixIndex = lines.findIndex(v => v.match(RivenDataBase.PrefixAll) != null);
+    let subfixIndex = lines.findIndex(v => v.match(RivenDatabase.PrefixAll) != null);
     if (subfixIndex < 0) return new Error("紫卡属性识别错误: 找不到后缀");
     else {
-      let idt = lines[subfixIndex].match(RivenDataBase.PrefixAll).index;
+      let idt = lines[subfixIndex].match(RivenDatabase.PrefixAll).index;
       if (idt > 0) {
         let subfix = lines[subfixIndex].substr(idt).trim();
         lines[subfixIndex] = lines[subfixIndex].substr(0, idt).trim();
@@ -192,7 +192,7 @@ A段位12023
     }
     let rawName = lines[subfixIndex - 1];
     // 查询名称最接近的武器
-    let weapon = RivenDataBase.findMostSimRivenWeapon(rawName);
+    let weapon = WeaponDatabase.findMostSimRivenWeapon(rawName);
     this.mod = MainTag[weapon.mod];
     this.subfix = lines[subfixIndex];
     // 识别到的名字是否正确, 否则模糊匹配
@@ -215,7 +215,7 @@ A段位12023
               return s;
             })[0]) ||
           // 识别到的属性是否正确, 否则模糊匹配
-          RivenDataBase.findMostSimProp(propLine[2]);
+          RivenDatabase.findMostSimProp(propLine[2]);
         // 判断前缀不是+或者-就加上-
         let propValue = +(v => (v[0] != "-" && v[0] != "+" ? -v : v))(propLine[1]);
         console.log(propLine[0], "prop=", prop, "propValue=", propValue);
@@ -273,7 +273,7 @@ A段位12023
    */
   parseSubfix(subfix: string, stype: string): [RivenProperty, string][] {
     if (!subfix) return;
-    let rst = subfix.toLowerCase().match(RivenDataBase.PropRegExps[stype]);
+    let rst = subfix.toLowerCase().match(RivenDatabase.PropRegExps[stype]);
     if (rst) {
       let fixs = rst.slice(rst[1] ? 1 : 2, 4);
       return fixs.map((v, i): [RivenProperty, string] => [RivenPropertyDataBase[stype].find(p => v == p[i < fixs.length - 1 ? "prefix" : "subfix"]), v]);
@@ -284,11 +284,12 @@ A段位12023
    * 识别普通MOD格式的属性
    */
   parseProps(props: [string, number][]) {
+    const weapon = this.weapon;
     this.hasNegativeProp = false;
     this.properties = props.map((v, i) => {
-      let prop = RivenDataBase.getPropByName(v[0]);
+      let prop = RivenDatabase.getPropByName(v[0]);
       if (i >= 3 || (prop.negative ? -v[1] : v[1]) < 0) this.hasNegativeProp = true;
-      return new ValuedRivenProperty(prop, v[1], RivenDataBase.getPropBaseValue(this.name, prop.name), this.upLevel).normalize();
+      return new ValuedRivenProperty(prop, v[1], weapon.getPropBaseValue(prop.name), this.upLevel).normalize();
     });
   }
   /**
@@ -296,7 +297,7 @@ A段位12023
    */
   random(stype: string = "") {
     const robList = ["Burst Laser", "Vulklok", "Artax", "Vulcax", "Sweeper", "Stinger", "Multron", "Laser Rifle", "Deth Machine", "Cryotra", "Tazicor"];
-    let db = RivenDataBase.Weapons.filter(v => v.ratio > 0 && !robList.includes(v.id));
+    let db = WeaponDatabase.weapons.filter(v => v.disposition > 0 && !robList.includes(v.id));
     let data = stype ? db.filter(v => v.mod === MainTag[stype]) : db;
     let { id, name, mod } = data[~~(Math.random() * data.length)];
     let rank = ~~(Math.random() * 8) + 9;
@@ -315,10 +316,11 @@ A段位12023
     let negaUplvl = toNegaUpLevel(totalCount, this.hasNegativeProp);
     // 偏差值 正态分布 标准差=5
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
-    let props = _.sampleSize(RivenPropertyDataBase[this.mod], count).map(v => [v.id, _.round(devi() * this.upLevel * RivenDataBase.getPropBaseValue(this.name, v.id), 1)]) as [string, number][];
+    const weapon = this.weapon;
+    let props = _.sampleSize(RivenPropertyDataBase[this.mod], count).map(v => [v.id, _.round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1)]) as [string, number][];
     if (this.hasNegativeProp) {
       let neProp = _.sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
-      props.push([neProp.id, _.round(devi() * -negaUplvl * RivenDataBase.getPropBaseValue(this.name, neProp.id), 1)]);
+      props.push([neProp.id, _.round(devi() * -negaUplvl * weapon.getPropBaseValue(neProp.id), 1)]);
     }
     this.parseProps(props);
   }
@@ -354,7 +356,7 @@ A段位12023
     return "";
   }
   set shortSubfix(value) {
-    let props = value.split("").map(v => RivenDataBase.getPropByName(v));
+    let props = value.split("").map(v => RivenDatabase.getPropByName(v));
     if (props.length === 3) this.subfix = _.startCase(props[0].prefix) + "-" + props[1].prefix + props[2].subfix;
     else if (props.length === 2) this.subfix = _.startCase(props[0].prefix) + props[1].subfix;
   }
@@ -368,19 +370,19 @@ A段位12023
     if (!d[0]) return;
     this.name = d[0];
     if (d[1]) this.shortSubfix = d[1];
-    let weapon = RivenDataBase.getRivenWeaponByName(this.name);
+    let weapon = WeaponDatabase.getWeaponByName(this.name);
     this.name = weapon.name;
     this.mod = MainTag[weapon.mod];
     this.rank = debase62(d[2][0]);
     this.recycleTimes = debase62(d[2].substr(1));
     let props = d[3].split(".").map(v => {
       let vv = debase62(v.substr(1)) / 10;
-      return [RivenDataBase.getPropByName(v[0]), vv];
+      return [RivenDatabase.getPropByName(v[0]), vv];
     }) as [RivenProperty, number][];
     let lastProp = props[props.length - 1];
     this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == lastProp[1] < 0;
     this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
-    this.properties = props.map(v => new ValuedRivenProperty(v[0], v[1], RivenDataBase.getPropBaseValue(this.name, v[0].name), this.upLevel).normalize());
+    this.properties = props.map(v => new ValuedRivenProperty(v[0], v[1], RivenDatabase.getPropBaseValue(weapon.disposition, this.mod, v[0].name), this.upLevel).normalize());
   }
   /** Base64形式的二维码 */
   get qrCodeBase64() {

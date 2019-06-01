@@ -1,12 +1,13 @@
 export const magic = "ALPHA";
-export const version = "1.5.7";
+export const version = "1.6.0";
 export const updateLogs = [
   {
     version: "1.6.0",
     date: "2019/5/19",
     md: {
       en: `- [NEW] Search tools (including weapons/mods/warframes)`,
-      cn: `- [新] 搜索工具 (搜索中英文武器/MOD/战甲名字)`
+      cn: `- [新] 搜索工具 (搜索中英文武器/MOD/战甲名字)
+- 武器配装改版 同一个武器的不同模式现在可以更方便的切换了!`
     }
   },
   {

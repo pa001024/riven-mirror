@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Vue, Watch } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
-import { NormalMod, Buff, Weapon, RivenWeapon, BuffData, DamageModelList, SimpleDamageModel, BuffList } from "@/warframe/codex";
+import { NormalMod, Buff, Weapon, BuffData, DamageModelList, SimpleDamageModel, BuffList, WeaponBuildMode } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import { Getter, Action } from "vuex-class";
 import localStorage from "universal-localstorage";
@@ -23,7 +23,10 @@ export abstract class BaseBuildEditor extends Vue {
   }
 
   abstract get weapon(): Weapon;
-  abstract get rWeapon(): RivenWeapon;
+  get mode() {
+    return this.weapon.getMode(this.modeIndex);
+  }
+
   tabs: BuildSelectorTab[] = [];
   tabValue = "SET A";
   selectModIndex = 0;
@@ -74,7 +77,7 @@ export abstract class BaseBuildEditor extends Vue {
   reload() {
     if (this.weapon) {
       let buffs = [null];
-      if (this.weapon.tags.includes("Exalted")) {
+      if (this.weapon.tags.has("Exalted")) {
         if (this.weapon.name === "Regulators") {
           buffs = [new Buff(BuffList.find(v => v.id === "z")), null];
         } else {

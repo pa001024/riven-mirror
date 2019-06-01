@@ -2,7 +2,7 @@
   <div class="build-minimap">
     <header>
       <img class="weapon-img" :src="imgSrc">
-      {{$t(`messages.${build.weapon.name}`)}}
+      {{$t(build.weapon.id)}}
     </header>
     <section class="mods">
       <header v-t="`minimap.mods`"></header>
@@ -37,7 +37,7 @@
       </div>
       <div class="minidata">
         <div class="title">{{$t(`build.proc`)}}</div>
-        <div class="value">{{toPercent(build.procChance)}}%{{build.bullets > 1 ? ` / ${toFixed(build.bullets, 1)}` : ''}}</div>
+        <div class="value">{{toPercent(build.procChance)}}%{{build.pellets > 1 ? ` / ${toFixed(build.pellets, 1)}` : ''}}</div>
       </div>
     </section>
   </div>
@@ -55,7 +55,7 @@ export default class BuildMinimap extends Vue {
   @Prop() build: ModBuild;
 
   get isMelee() {
-    return this.build.weapon.tags.includes("Melee");
+    return this.build.weapon.tags.has("Melee");
   }
 
   toFixed(val: number, num: number) {

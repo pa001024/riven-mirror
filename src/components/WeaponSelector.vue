@@ -3,21 +3,21 @@
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
       <span slot="label" class="weapon-tablabel">{{$t(`weaponselector.${tab.name}`)}}</span>
       <div class="weapon-select">
-        <template v-for="(riven, index) in tab.rivens">
-          <div class="weapon-group-header" v-if="!tab.rivens[index-1] || tab.rivens[index-1].star != riven.star" :key="riven.star">
-            {{riven.starText}}
+        <template v-for="(weapon, index) in tab.weapons">
+          <div class="weapon-group-header" v-if="!tab.weapons[index-1] || tab.weapons[index-1].star != weapon.star" :key="weapon.star">
+            {{weapon.starText}}
           </div>
-          <div class="weapon-item-container" :key="riven.id">
-            <el-dropdown v-if="riven.weapons.length > 1" trigger="click" @command="handleCommand" placement="bottom-start">
+          <div class="weapon-item-container" :key="weapon.name">
+            <el-dropdown v-if="weapon.variants.length > 1" trigger="click" @command="handleCommand" placement="bottom-start">
               <div class="weapon-item">
-                {{riven.name}} {{riven.ratio}}
+                {{$t(weapon.id)}} {{weapon.disposition}}
               </div>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="weapon in riven.weapons" :key="weapon.id" :command="weapon.id">{{weapon.displayName}}</el-dropdown-item>
+                <el-dropdown-item v-for="weapon in weapon.variants" :key="weapon.name" :command="weapon.name">{{weapon.displayName}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <div v-else class="weapon-item el-dropdown" @click="handleClick(riven.id)">
-              {{riven.name}} {{riven.ratio}}
+            <div v-else class="weapon-item el-dropdown" @click="handleClick(weapon.name)">
+              {{$t(weapon.id)}} {{weapon.disposition}}
             </div>
           </div>
         </template>
@@ -47,13 +47,12 @@ import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import ZawBuilder from "@/components/ZawBuilder.vue";
 import KitgunBuilder from "@/components/KitgunBuilder.vue";
 import AmpBuilder from "@/components/AmpBuilder.vue";
-import { ModTypeTable, RivenWeapon, RivenDataBase, Zaw, Kitgun, Amp } from "@/warframe/codex";
+import { ModTypeTable, RivenDatabase, Zaw, Kitgun, Amp, Weapon, WeaponDatabase } from "@/warframe/codex";
 
 declare interface WeaponSelectorTab {
   id: string;
   name: string;
-  rivens: RivenWeapon[];
-  weapons: string[][];
+  weapons: Weapon[];
 }
 
 const AllTabs = Object.assign({}, ModTypeTable, { KITGUN: "KITGUN", ZAW: "ZAW", AMP: "AMP" });
@@ -70,12 +69,12 @@ export default class WeaponSelector extends Vue {
   }
   tabs: WeaponSelectorTab[] = [];
   beforeMount() {
+    console.log(WeaponDatabase.weapons, WeaponDatabase);
     this.tabs = _.map(ModTypeTable, ({ name, include }, id) => ({
       id,
       name,
       // 筛选
-      rivens: RivenDataBase.Weapons.filter(v => include.includes(v.mod) && v.weapons.length > 0),
-      weapons: []
+      weapons: WeaponDatabase.getProtosByMultiTags(include).sort((a, b) => b.disposition - a.disposition)
     }));
   }
   handleCommand(id: string) {
@@ -83,8 +82,9 @@ export default class WeaponSelector extends Vue {
     this.$router.push({ name: "BuildEditor", params: { id: id.replace(/ /g, "_") } });
   }
   handleClick(id: string) {
-    let weapon = RivenDataBase.getRivenWeaponByName(id);
-    let weapons = weapon.weapons;
+    let weapon = WeaponDatabase.getWeaponByName(id);
+    weapon.variants;
+    let weapons = weapon.variants;
     if (weapons.length === 0) {
       this.$message.error(this.$t("weaponselector.notfound") as string);
     } else if (weapons.length === 1) {

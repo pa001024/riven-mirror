@@ -15,7 +15,7 @@
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { i18n } from "@/i18n";
-import { Zaw, Kitgun, Amp, RivenDataBase, Weapon, RivenWeapon } from "@/warframe/codex";
+import { Zaw, Kitgun, Amp, RivenDatabase, Weapon, WeaponDatabase } from "@/warframe/codex";
 import InfoRadar from "@/components/InfoRadar.vue";
 
 function loadWeapon(id: string) {
@@ -26,23 +26,18 @@ function loadWeapon(id: string) {
   } else if (id.startsWith("AMP-")) {
     return new Amp(id);
   } else {
-    return RivenDataBase.getNormalWeaponByName(id.replace(/_/g, " "));
+    return WeaponDatabase.getWeaponByName(id.replace(/_/g, " "));
   }
 }
 @Component({ components: { InfoRadar } })
 export default class WeaponInfo extends Vue {
   @Prop() id: string;
   private _weapon: Weapon;
-  private _rWeapon: RivenWeapon;
   private _lastid = "";
 
   get weapon() {
     if (this.id !== this._lastid) this.reload();
     return this._weapon;
-  }
-  get rWeapon() {
-    if (this.id !== this._lastid) this.reload();
-    return this._rWeapon;
   }
 
   @Watch("id")
@@ -50,7 +45,6 @@ export default class WeaponInfo extends Vue {
     if (!this.id || this._lastid === this.id || this.$route.name !== "Info") return;
     this._lastid = this.id;
     this._weapon = loadWeapon(this.id);
-    this._rWeapon = RivenDataBase.getRivenWeaponByName(this._weapon.base || this._weapon.name);
   }
 }
 </script>

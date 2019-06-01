@@ -65,10 +65,10 @@ export default class ModSelector extends Vue {
   selectTab = "fast";
   editorRivenCode = "";
   get isExalted() {
-    return this.build.weapon.tags.includes("Exalted");
+    return this.build.weapon.tags.has("Exalted");
   }
   get isVirtual() {
-    return this.build.weapon.tags.includes("Virtual");
+    return this.build.weapon.tags.has("Virtual");
   }
 
   /** MOD快速选择 */
@@ -136,14 +136,14 @@ export default class ModSelector extends Vue {
     }
   };
   get fast() {
-    const mod = this.build.rivenWeapon.mod;
+    const mod = this.build.weapon.mod;
     return _.map(this.fastSelect[mod === MainTag.Zaw ? "Melee" : mod === MainTag.Kitgun ? "Pistol" : mod], (v, i) => ({ name: i, id: v } as any));
   }
 
   newRiven(code?: string) {
     let riven = new RivenMod();
     riven.qrCodeBase64 = code || this.editorRivenCode;
-    if (!this.isVirtual && riven.name !== this.build.rivenWeapon.id)
+    if (!this.isVirtual && riven.name !== this.build.weapon.name)
       this.$confirm(this.$t("modselector.weaponWarnTip") as string, this.$t("modselector.weaponWarn") as string, { type: "warning" }).then(() => {
         this.$emit("command", riven.normalMod);
       });
@@ -160,8 +160,8 @@ export default class ModSelector extends Vue {
     let mods = NormalModDatabase.filter(
       v =>
         (isVirtual && VirtualMeleeMods.includes(v.key)) || // 虚拟技能武器接受所有mod
-        (this.build.weapon.tags // 普通
-          .concat([this.build.rivenWeapon.id])
+        (this.build.weapon.tags.toArray() // 普通
+          .concat([this.build.weapon.name])
           .includes(v.type) &&
           this.build.isValidMod(v) &&
           (!(!isVirtual && isExalted) || !AcolyteMods.includes(v.id))) // 近战显赫武器不接受追随者MOD
@@ -189,7 +189,7 @@ export default class ModSelector extends Vue {
     else {
       let selected = _.compact(this.build.mods);
       let mods = NormalModDatabase.filter(
-        v => this.build.weapon.tags.concat([this.build.rivenWeapon.id]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id)
+        v => this.build.weapon.tags.toArray().concat([this.build.weapon.name]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id)
       );
       let found = id.map(v => mods.find(k => k.id === v)).filter(Boolean);
       this.$emit("command", found);

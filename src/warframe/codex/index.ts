@@ -27,7 +27,7 @@ export class Codex {
     return this.instance.buffDict.get(id);
   }
   static getAvailableArcanes(weapon: Weapon) {
-    return ArcaneList.filter(v => v.type === "Weapon" || weapon.tags.includes(v.type));
+    return ArcaneList.filter(v => v.type === "Weapon" || weapon.tags.has(v.type));
   }
 }
 

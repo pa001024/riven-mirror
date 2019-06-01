@@ -1021,7 +1021,7 @@ let po = {
     attackDamagePS: "Attack DPS",
     slideDamagePS: "Slide DPS",
     magazine: "Magazine",
-    bullets: "Bullets",
+    pellets: "Bullets",
     reload: "Reload",
     totalDamage: "Total DMG",
     burstDamage: "Burst DMG",
@@ -1295,7 +1295,8 @@ let po = {
     burstsamplesize: "Burst Sample Size",
     burstsamplesizeTip: "Calculate the average damage of the weapon for a specified number of seconds (△t in △x/△t)",
     savedBuilds: "Saved builds",
-    clear: "CLEAR ALL"
+    clear: "CLEAR ALL",
+    cleared: "Cleared"
   },
   modular: {
     damage: "Damage",
@@ -1576,7 +1577,7 @@ let po = {
       damagePercent: "Damage percent",
       storePerAttack: "Store per attack",
       traction: "Traction",
-      attractBullets: "Attract bullets",
+      attractBullets: "Attract pellets",
       recoverShield: "Recover shield",
       disarm: "Disarm",
       banish: "Banish",

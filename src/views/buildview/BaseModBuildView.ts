@@ -1,6 +1,6 @@
 import { Vue, Watch, Prop } from "vue-property-decorator";
 import { RivenMod } from "@/warframe/rivenmod";
-import { RivenDataBase } from "@/warframe/codex";
+import { WeaponDatabase } from "@/warframe/codex";
 import { ModBuild } from "@/warframe/modbuild";
 import { GunModBuild } from "@/warframe/gunmodbuild";
 import { Getter } from "vuex-class";
@@ -10,7 +10,7 @@ export abstract class BaseModBuildView extends Vue {
   @Prop() riven: RivenMod;
   selectWeapon = "";
   get weapon() {
-    return RivenDataBase.getNormalWeaponByName(this.selectWeapon);
+    return WeaponDatabase.getWeaponByName(this.selectWeapon);
   }
   selectCompMethod: number = 0;
   selectDamageType: string = "Corrosive";
