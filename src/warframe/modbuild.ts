@@ -239,9 +239,9 @@ export abstract class ModBuild {
   get initialDamage() {
     if (this.initialDamageMul === 1 && !this._absExtra.length) {
       this._originalDamage = 0;
-      return _.map(this.mode.damage, (v, n) => [n, v] as [string, number]);
+      return this.mode.damage;
     }
-    let dmg = _.map(this.mode.damage, (v, n) => [n, v * this.initialDamageMul] as [string, number]);
+    let dmg = _.map(this.mode.damage, ([n, v]) => [n, v * this.initialDamageMul] as [string, number]);
     if (this._absExtra.length) dmg = dmg.concat(this._absExtra);
     this._originalDamage = 0;
     return dmg;

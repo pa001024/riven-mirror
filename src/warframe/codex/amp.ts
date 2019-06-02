@@ -1,8 +1,7 @@
 import _ from "lodash";
 import { hAccSum } from "@/warframe/util";
-import { Weapon, WeaponTag } from "@/warframe/codex/weapon";
+import { Weapon, WeaponTag, CoreWeaponMode } from "@/warframe/codex/weapon";
 import { i18n } from "@/i18n";
-import { WeaponMode, Damage } from "./weapon.i";
 
 /**
  * 棱镜
@@ -189,7 +188,7 @@ export class Amp extends Weapon {
     this.name = "Amp";
     this.buildName = `${this.prism ? this.prism.index : "x"}${this.scaffold ? this.scaffold.index : "x"}${brace.index}`;
     const mode = {
-      damage: mainPart.dmgs.reduce((rst, [vn, vv]) => ((rst[vn] = vv), rst), {} as Damage),
+      damage: mainPart.dmgs,
       critMul: mainPart.critDamage,
       critChance: hAccSum(mainPart.critChance, brace.critChance),
       procChance: hAccSum(mainPart.procChance, brace.procChance),
@@ -198,7 +197,7 @@ export class Amp extends Weapon {
       accuracy: mainPart.accuracy,
       range: mainPart.rangeLimit,
       prjSpeed: mainPart.prjSpeed
-    } as WeaponMode;
+    } as CoreWeaponMode;
     this.reloadSpeed = 30 + brace.reloadSpeed;
     this.reloadDelay = 2 + brace.reloadDelay;
     this.magazine = 100 + brace.magazine;

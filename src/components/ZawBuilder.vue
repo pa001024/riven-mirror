@@ -79,7 +79,7 @@
    --><div class="prop">{{$t("modular.fireRate")}}: {{zaw.fireRate}}</div><!--
    --><div class="prop">{{$t("modular.critDamage")}}: {{zaw.critMul}}x</div><!--
    --><div class="prop">{{$t("modular.critChance")}}: {{(zaw.critChance*100).toFixed()}}%</div><!--
-   --><div class="prop">{{$t("modular.status")}}: {{(zaw.status*100).toFixed()}}%</div>
+   --><div class="prop">{{$t("modular.status")}}: {{(zaw.procChance*100).toFixed()}}%</div>
     </div>
     <el-button class="stepctl" :disabled="part === 0" @click="part = part > 0 ? part - 1 : 0">{{$t("modular.lastStep")}}</el-button>
     <el-button class="stepctl" :disabled="part === 0 && !strike || part === 1 && !grip || part === 2 && !links" @click="part = part < 2 ? part + 1 : (finish(),2)">{{part === 2 ? $t("modular.finish") : $t("modular.nextStep")}}</el-button>

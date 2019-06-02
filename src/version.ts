@@ -131,7 +131,7 @@ export const updateLogs = [
   - New MOD: "Amalgam" series
   - New Weapon: Prisma Grinlok, Tatsu, Larkspur(Archwing), Opticor Vandal
   - New Warframe: Hildryn
-  - New Exalted: Balefire
+  - New Exalted: Balefire Charger
 - Melee3.0: Add a swtich to control combo damage multiply`,
       cn: `- Warframe 更新 24.4.0:
   - 新增MOD: "并合"系列

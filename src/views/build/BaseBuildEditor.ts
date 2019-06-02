@@ -110,7 +110,7 @@ export abstract class BaseBuildEditor extends Vue {
     let lD = this.weapon.modes[this.modeIndex].damage;
     let nD = this.build.dmg;
     let rst: { [v: string]: [number, number] } = {};
-    _.forEach(lD, (vv, vn) => {
+    lD.forEach(([vn, vv]) => {
       rst[vn] = [vv, 0];
     });
     nD.forEach(([vn, vv]) => {

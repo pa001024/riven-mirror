@@ -14,11 +14,14 @@
       <template slot-scope="{ item }">
         <div class="name">
           <span class="search-tag type">
-            {{ item.type }}
+            {{ $t(item.type) }}
           </span>
           {{ item.name }}
         </div>
-        <span class="desc">{{ item.desc }}</span>
+        <span class="desc" v-if="item.desc">{{ item.desc }}</span>
+        <div class="tags" v-if="item.tags">
+          <span class="tag" v-for="(tag, i) in item.tags" :key="i">{{ tag }}</span>
+        </div>
       </template>
     </el-autocomplete>
   </div>
@@ -80,6 +83,14 @@ export default class Search extends Vue {
   }
   .el-autocomplete-suggestion__wrap {
     padding: 8px 0;
+  }
+  .tags {
+    .tag {
+      font-size: 0.7em;
+    }
+    .tag + .tag {
+      margin-left: 8px;
+    }
   }
 }
 .search {

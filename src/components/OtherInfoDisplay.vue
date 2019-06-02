@@ -1,7 +1,7 @@
 <template>
   <div class="other-info">
     <section class="weapon">
-      <header>{{$t(`messages.${build.weapon.name}`)}}</header>
+      <header>{{$t(build.weapon.id)}}</header>
       <div class="links">
         <a :href="weaponWiki" target="_blank" rel="noopener noreferrer">
           <el-button size="mini" type="info" icon="el-icon-location">
@@ -14,7 +14,7 @@
           </el-button>
         </a>
         <div class="wikitmpl">
-          <CopyText :text="`\{\{Weapon|${build.weapon.realID}\}\}`" size="mini"/>
+          <CopyText :text="`\{\{Weapon|${build.weapon.name}\}\}`" size="mini"/>
         </div>
       </div>
     </section>

@@ -79,7 +79,7 @@ class WikiApi extends HttpApi {
   async getMainImage(id: string) {
     let raw = await this.getPageRaw(id);
     if (raw) {
-      let m = raw.match(/#重定向 \[\[(.+?)]]/);
+      let m = raw.match(/#(?:重定向|Redirect) \[\[(.+?)]]/);
       if (m && m[1]) id = m[1];
     }
     let imgname = await this.getPageImageProp(id);

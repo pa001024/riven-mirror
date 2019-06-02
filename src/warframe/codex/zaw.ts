@@ -1,9 +1,7 @@
-import { hAccSum } from "@/warframe/util";
 import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import _ from "lodash";
-import { WeaponMode } from "./weapon.i";
-import { WeaponTag } from "./weapon";
+import { WeaponTag, CoreWeaponMode } from "./weapon";
 
 export enum Stance {
   Daggers, // 匕首
@@ -256,7 +254,7 @@ export class Zaw extends Weapon {
       fireRate: +((60 + this.strike.speed + this.grip.speed + this.links.speed) / 60).toFixed(3),
       critChance: (10 + this.strike.crit + this.links.crit) / 100,
       procChance: (10 + this.strike.status + this.links.status) / 100
-    } as WeaponMode;
+    } as CoreWeaponMode;
     this.modes = [mode];
   }
   get displayName() {

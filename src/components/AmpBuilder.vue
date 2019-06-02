@@ -68,7 +68,7 @@
    --><div class="prop">{{$t("modular.fireRate")}}: {{amp.fireRate}}</div><!--
    --><div class="prop">{{$t("modular.critDamage")}}: {{amp.critMul}}x</div><!--
    --><div class="prop">{{$t("modular.critChance")}}: {{(amp.critChance*100).toFixed()}}%</div><!--
-   --><div class="prop">{{$t("modular.status")}}: {{(amp.status*100).toFixed()}}%</div><!--
+   --><div class="prop">{{$t("modular.status")}}: {{(amp.procChance*100).toFixed()}}%</div><!--
    --><div class="prop">{{$t("modular.magazine")}}: {{amp.magazine}}</div><!--
    --><div class="prop">{{$t("modular.reloadSpeed")}}: {{amp.reloadSpeed}}</div><!--
    --><div class="prop">{{$t("modular.reloadDelay")}}: {{amp.reloadDelay}}</div><!--

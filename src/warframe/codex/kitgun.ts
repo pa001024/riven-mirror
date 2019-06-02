@@ -1,15 +1,15 @@
 import { hAccSum } from "@/warframe/util";
 import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
-import { WeaponMode, Damage } from "./weapon.i";
 import _ from "lodash";
-import { WeaponTag } from "./weapon";
+import { WeaponTag, CoreWeaponMode } from "./weapon";
 
 /**
  * 枪膛
  */
 export interface KitgunChamber {
   index: number;
+  id: string;
   name: string;
   dmgs: [string, number][];
   critChance: number;
@@ -24,6 +24,7 @@ export interface KitgunChamber {
  */
 export interface KitgunGrip {
   index: number;
+  id: string;
   name: string;
   chambersData: GripChamberData[];
 }
@@ -41,6 +42,7 @@ export interface GripChamberData {
  */
 export interface KitgunLoader {
   index: number;
+  id: string;
   name: string;
   critDamage: number;
   critChance: number;
@@ -104,6 +106,7 @@ const _kitgunLoader = [
 
 export const KitgunChamberData: KitgunChamber[] = _kitgunChamber.map(v => ({
   index: v[0],
+  id: _.camelCase(v[1]),
   name: v[1],
   dmgs: v[2],
   critChance: v[3],
@@ -114,6 +117,7 @@ export const KitgunChamberData: KitgunChamber[] = _kitgunChamber.map(v => ({
 
 export const KitgunGripData: KitgunGrip[] = _kitgunGrip.map(v => ({
   index: v[0],
+  id: _.camelCase(v[1]),
   name: v[1],
   chambersData: v[2].map(k => ({
     dmgAdd: k[0],
@@ -123,6 +127,7 @@ export const KitgunGripData: KitgunGrip[] = _kitgunGrip.map(v => ({
 
 export const KitgunLoaderData: KitgunLoader[] = _kitgunLoader.map(v => ({
   index: v[0],
+  id: _.camelCase(v[1]),
   name: v[1],
   critDamage: v[2],
   critChance: v[3],
@@ -182,11 +187,10 @@ export class Kitgun extends Weapon {
     const loader = Kitgun.loadLoader(this.chamber, this.loader);
 
     this.name = this.chamber.name;
-    const mode = {} as WeaponMode;
+    const mode = {} as CoreWeaponMode;
     mode.damage = this.chamber.dmgs
       .map(([n, v]) => [n, hAccSum(v, (this.name === "Tombfinger" && n === "Radiation" ? 4 : 1) * grip.dmgAdd)] as [string, number])
       .filter(v => v[1] > 0)
-      .reduce((rst, [vn, vv]) => ((rst[vn] = vv), rst), {} as Damage);
     mode.critMul = hAccSum(loader.critDamage, 2);
     mode.critChance = hAccSum(this.chamber.critChance, loader.critChance);
     mode.procChance = hAccSum(this.chamber.procChance, loader.procChance);
@@ -209,6 +213,6 @@ export class Kitgun extends Weapon {
     this.modes = [mode];
   }
   get displayName() {
-    return `${i18n.t(`messages.${this.chamber.name}`)}-${i18n.t(`messages.${this.grip.name}`)}-${i18n.t(`messages.${this.loader.name}`)}` as string;
+    return `${i18n.t(`messages.${this.chamber.id}`)}-${i18n.t(`messages.${this.grip.id}`)}-${i18n.t(`messages.${this.loader.id}`)}` as string;
   }
 }

@@ -1,7 +1,7 @@
 import { i18n } from "@/i18n";
 import { ProtoWeapon, Zoom, WeaponMode } from "./weapon.i";
 import Axios from "axios";
-import _ from "lodash";
+import _, { Omit } from "lodash";
 
 export enum MainTag {
   Rifle,
@@ -29,6 +29,11 @@ export class WeaponTag {
   toArray() {
     return Array.from(this._set);
   }
+}
+
+export interface CoreWeaponMode extends Omit<WeaponMode, "damage"> {
+  /** 伤害 */
+  damage: [string, number][];
 }
 
 export class Weapon {
@@ -74,15 +79,15 @@ export class Weapon {
   reach?: number[];
 
   // attack
-  modes: WeaponMode[];
+  modes: CoreWeaponMode[];
 
   constructor(data?: ProtoWeapon, base?: ProtoWeapon) {
     if (data) {
       const { variants, modes, tags, ...weapon } = data;
       // 修复过高精度
-      const fixBuf = (v: any) => {
+      const fixBuf = <T>(v: T) => {
         if (typeof v === "number") return +v.toFixed(3);
-        if (typeof v === "object") return _.mapValues(v, fixBuf);
+        if (typeof v === "object") return _.mapValues(v as any, fixBuf);
         return v;
       };
       Object.assign(this, fixBuf(weapon));
@@ -93,11 +98,15 @@ export class Weapon {
       }
       const defaultMode = modes[0];
       // 根据默认补全属性
-      this.modes = modes.map(mode => {
-        if (typeof mode.critChance === "undefined") mode.critChance = defaultMode.critChance || 0;
-        if (typeof mode.critMul === "undefined") mode.critMul = defaultMode.critMul || 2;
-        if (typeof mode.procChance === "undefined") mode.procChance = defaultMode.procChance || 0;
-        return mode;
+      this.modes = modes.map(({ damage, ...mode }) => {
+        const newMode = {
+          damage: _.map(damage, (vv, vn) => [vn, fixBuf(vv)] as [string, number]),
+          ...mode
+        } as CoreWeaponMode;
+        if (typeof newMode.critChance === "undefined") newMode.critChance = defaultMode.critChance || 0;
+        if (typeof newMode.critMul === "undefined") newMode.critMul = defaultMode.critMul || 2;
+        if (typeof newMode.procChance === "undefined") newMode.procChance = defaultMode.procChance || 0;
+        return newMode;
       });
     }
     if (this.base) {
@@ -189,7 +198,7 @@ export class Weapon {
 /**
  * 包含某一种射击模式中全部数据的类
  */
-export class WeaponBuildMode implements WeaponMode {
+export class WeaponBuildMode implements CoreWeaponMode {
   weapon: Weapon;
   mode: number;
 

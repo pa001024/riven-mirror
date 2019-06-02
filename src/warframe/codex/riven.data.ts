@@ -304,7 +304,7 @@ export const _rivenDataBaseWeapons = [
   ["Shattered Lash", 4, 0],
   ["Desert Wind", 4, 0],
   ["Landslide", 4, 0],
-  ["Balefire", 2, 0],
+  ["Balefire Charger", 2, 0],
 
   // Archgun
   ["Cyngas", 6, 1.3],
@@ -622,7 +622,7 @@ export const _rivenDataBaseWeaponsCY = [
   ["Shattered Lash", 4, 0],
   ["Desert Wind", 4, 0],
   ["Landslide", 4, 0],
-  ["Balefire", 2, 0],
+  ["Balefire Charger", 2, 0],
 
   // Archgun
   ["Cyngas", 6, 1.3],

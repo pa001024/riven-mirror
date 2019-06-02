@@ -10,13 +10,13 @@
       <div class="part-box" v-for="item in chamberList" :key="item.id">
         <el-radio class="part" v-model="chamber" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunChamber${$t(`messages.${item.name}`, 'en')}.m.png`" :alt="item.name" width="100%">
+            <img :src="`https://cdn.riven.im/img/kitgunChamber${item.name}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
-            {{$t(`messages.${item.name}`)}}
+            {{$t(`messages.${item.id}`)}}
           </div>
           <div class="type">
-            {{$t(`kitgun.type.${item.name}`)}}
+            {{$t(`kitgun.type.${item.id}`)}}
           </div>
         </el-radio>
       </div>
@@ -26,10 +26,10 @@
       <div class="part-box" v-for="item in gripList" :key="item.id">
         <el-radio class="part" v-model="grip" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunGrip${$t(`messages.${item.name}`, 'en')}.m.png`" :alt="item.name" width="100%">
+            <img :src="`https://cdn.riven.im/img/kitgunGrip${item.name}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
-            {{$t(`messages.${item.name}`)}}
+            {{$t(`messages.${item.id}`)}}
           </div>
           <div class="prop">
             <span>{{loadGrip(item).fireRate}} {{$t(`modular.fireRate`)}}</span>
@@ -43,10 +43,10 @@
       <div class="part-box" v-for="item in loaderList" :key="item.id">
         <el-radio class="part" v-model="loader" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunLoader${$t(`messages.${item.name}`, 'en')}.m.png`" :alt="item.name" width="100%">
+            <img :src="`https://cdn.riven.im/img/kitgunLoader${item.name}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
-            {{$t(`messages.${item.name}`)}}
+            {{$t(`messages.${item.id}`)}}
           </div>
           <div class="prop">
             <span>{{loadLoader(item).critDamage+2}}x {{$t(`modular.critDamage`)}}</span>
@@ -60,21 +60,21 @@
     </div>
     <!-- 部件 -->
     <div class="parts">
-      <div class="part" v-if="chamber">{{$t("kitgun.chamber")}}: {{$t(`messages.${chamber.name}`)}}</div><!--
-   --><div class="part" v-if="grip">{{$t("kitgun.grip")}}: {{$t(`messages.${grip.name}`)}}</div><!--
-   --><div class="part" v-if="loader">{{$t("kitgun.loader")}}: {{$t(`messages.${loader.name}`)}}</div>
+      <div class="part" v-if="chamber">{{$t("kitgun.chamber")}}: {{$t(`messages.${chamber.id}`)}}</div><!--
+   --><div class="part" v-if="grip">{{$t("kitgun.grip")}}: {{$t(`messages.${grip.id}`)}}</div><!--
+   --><div class="part" v-if="loader">{{$t("kitgun.loader")}}: {{$t(`messages.${loader.id}`)}}</div>
     </div>
     <!-- 预览 -->
     <div class="preview" v-if="chamber">
-      <div class="prop">{{$t("modular.damage")}}: {{+kitgun.panelDamage.toFixed(1)}}</div><!--
-   --><div class="prop" v-for="dmg in kitgun.dmg" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
+      <div class="prop">{{$t("modular.damage")}}: {{+kitgun.defaultMode.panelDamage.toFixed(1)}}</div><!--
+   --><div class="prop" v-for="dmg in kitgun.defaultMode.damage" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
    --><div class="prop" v-if="kitgun.rangeLimit">{{$t("modular.rangeLimit")}}: {{kitgun.rangeLimit}} m</div><!--
-   --><div class="prop">{{$t("modular.fireRate")}}: {{kitgun.fireRate}}</div><!--
-   --><div class="prop">{{$t("modular.status")}}: {{(kitgun.status*100).toFixed()}}%</div><!--
-   --><div class="prop">{{$t("modular.critDamage")}}: {{kitgun.critMul}}x</div><!--
-   --><div class="prop">{{$t("modular.critChance")}}: {{(kitgun.critChance*100).toFixed()}}%</div><!--
-   --><div class="prop">{{$t("modular.magazine")}}: {{kitgun.magazine}}</div><!--
-   --><div class="prop">{{$t("modular.reload")}}: {{kitgun.reload}}</div>
+   --><div class="prop">{{$t("modular.fireRate")}}: {{kitgun.defaultMode.fireRate}}</div><!--
+   --><div class="prop">{{$t("modular.status")}}: {{(kitgun.defaultMode.procChance*100).toFixed()}}%</div><!--
+   --><div class="prop">{{$t("modular.critDamage")}}: {{kitgun.defaultMode.critMul}}x</div><!--
+   --><div class="prop">{{$t("modular.critChance")}}: {{(kitgun.defaultMode.critChance*100).toFixed()}}%</div><!--
+   --><div class="prop">{{$t("modular.magazine")}}: {{kitgun.defaultMode.magazine}}</div><!--
+   --><div class="prop">{{$t("modular.reload")}}: {{kitgun.defaultMode.reload}}</div>
     </div>
     <el-button class="stepctl" :disabled="part === 0" @click="part = part > 0 ? part - 1 : 0">{{$t("modular.lastStep")}}</el-button>
     <el-button class="stepctl" :disabled="part === 0 && !chamber || part === 1 && !grip || part === 2 && !loader" @click="part = part < 2 ? part + 1 : (finish(),2)">{{part === 2 ? $t("modular.finish") : $t("modular.nextStep")}}</el-button>

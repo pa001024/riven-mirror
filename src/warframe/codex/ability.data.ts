@@ -1409,7 +1409,7 @@ export let _abilityData: AbilityData[] = [
     tags: 1,
     energyCost: 50,
     energyCostN: 100,
-    props: { Damage: { damage: [["Electricity", S(500)]] }, ExaltedWeapon: { weaponName: "Balefire" } }
+    props: { Damage: { damage: [["Electricity", S(500)]] }, ExaltedWeapon: { weaponName: "Balefire Charger" } }
   },
   {
     id: "Shield Pillage",
