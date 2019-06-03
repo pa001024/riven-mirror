@@ -395,7 +395,6 @@ const data = [
   ["H4", "Constitution", [["y", 10], ["u", 7]], Warframe, "-", "r", 10, 3],
   ["H5", "Quick Thinking", [["z", 40]], Warframe, "d", "r", 10],
   ["H6", "Rage", [["rg", 10]], Warframe, "r", "r", 6, 3],
-  ["H7", "Warm Coat", [["wc", 3]], Warframe, "d", "n", 6, 3],
   ["H8", "Insulation", [["cr", 10]], Warframe, "d", "n", 4],
   ["H9", "Flame Repellent", [["fr", 10]], Warframe, "d", "n", 4],
   ["HA", "Lightning Rod", [["ir", 10]], Warframe, "d", "n", 4],

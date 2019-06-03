@@ -872,7 +872,7 @@ export abstract class ModBuild {
   }
   /** 攻速 */
   get fireRate() {
-    let fr = hAccMul(this.mode.fireRate, this.fireRateMul, this.finalSpeedMul);
+    let fr = (this.mode.fireRate * this.fireRateMul * this.finalSpeedMul) / 60;
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
   }

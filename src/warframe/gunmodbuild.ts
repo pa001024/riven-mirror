@@ -277,18 +277,12 @@ export class GunModBuild extends ModBuild {
   }
   /** 平均射速增幅倍率  */
   get sustainedFireRateMul() {
-    return (1 / this.mode.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate;
-  }
-  /** [overwrite] 射速 */
-  get fireRate() {
-    let fr = hAccMul(this.mode.fireRate, this.fireRateMul);
-    // 攻速下限
-    return fr < 0.05 ? 0.05 : fr;
+    return (60 / this.mode.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate;
   }
   /** 原平均射速 = 弹匣 ÷ ((弹匣 − 1) ÷ 射速 + 装填) */
   get oriSustainedFireRate() {
     const { reload: r, magazine } = this.weapon;
-    const { fireRate: f } = this.mode;
+    const f = this.mode.fireRate / 60;
     const m = ~~(magazine / this.ammoCost);
     if (this.weapon.tags.has("Charge")) return 1 / (1 / f + r / m);
     return (m * f) / (m - 1 + r * f);
@@ -371,7 +365,7 @@ export class GunModBuild extends ModBuild {
   /** 原爆发取样等效射速 */
   get oriBurstSampleFireRate() {
     const { reload: r, magazine } = this.weapon;
-    const { fireRate: f } = this.mode;
+    const f = this.mode.fireRate / 60;
     const b = this.burstSampleSize;
     if (!b) return f;
     const m = ~~(magazine / this.ammoCost);

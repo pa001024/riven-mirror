@@ -33,7 +33,7 @@
             <div v-show="mod.name" class="mod-display">
               <div class="mod-props-box">
                 <div class="mod-name">
-                  <span>{{mod.name}} {{mod.subfix}}</span>
+                  <span>{{mod.fullLocName}}</span>
                   <ShareQR :url="mod.qrCodeURL"/>
                 </div>
                 <div class="mod-props">
@@ -69,7 +69,7 @@
               </div>
               <div class="mod-history-list">
                 <div v-for="(hiRiven, index) in modHistoty" :key="index" @click="newBase64Text(hiRiven.qrCodeBase64)" class="mod-history-item">
-                  {{hiRiven.fullName}}
+                  {{hiRiven.fullLocName}}
                   <span class="history-delete" @click.stop="removeHistory(hiRiven.qrCode)"><i class="el-icon-close"></i></span>
                 </div>
               </div>
@@ -170,7 +170,7 @@ export default class Mod extends Vue {
         if (rst) {
           console.log("readOCR=>", rst);
           this.modText = rst.result.map(v => v.trim()).join("\n");
-          HMT.newModOCR(this.mod.fullId);
+          HMT.newModOCR(this.mod.fullName);
         }
       })
       .catch(error => {
@@ -182,7 +182,7 @@ export default class Mod extends Vue {
   newRiven() {
     this.editorVisible = false;
     this.newBase64Text(this.editorRivenCode);
-    HMT.newMod(this.mod.fullId);
+    HMT.newMod(this.mod.fullName);
   }
   handlePaste(ev: ClipboardEvent) {
     let items = ev.clipboardData.items;

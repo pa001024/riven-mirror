@@ -51,7 +51,7 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
-import { RivenProperty, RivenPropertyDataBase, RivenDatabase, ModTypeTable, MainTag, Weapon, WeaponDatabase } from "@/warframe/codex";
+import { RivenProperty, RivenPropertyDataBase, RivenDatabase, ModTypeTable, MainTag, Weapon, WeaponDatabase, RivenTypes } from "@/warframe/codex";
 import { RivenMod, toNegaUpLevel, toUpLevel } from "@/warframe/rivenmod";
 import { Getter, Action } from "vuex-class";
 
@@ -102,7 +102,7 @@ export default class RivenEditor extends Vue {
   @Watch("weapon")
   handleChange() {
     this.riven = new RivenMod();
-    [this.riven.name, this.riven.mod] = [this.weapon.name, MainTag[this.weapon.mod]];
+    [this.riven.name, this.riven.mod] = [this.weapon.name, MainTag[this.weapon.mod] as RivenTypes];
     this.mod = MainTag[this.weapon.mod];
     this.is21Negative = false;
     this.props = [defalutEditorProp()];

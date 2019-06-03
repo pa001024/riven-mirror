@@ -6,7 +6,7 @@ import _, { Omit } from "lodash";
 export enum MainTag {
   Rifle,
   Shotgun,
-  Pistol,
+  Secondary,
   Kitgun,
   Melee,
   Zaw,
@@ -109,12 +109,15 @@ export class Weapon {
         return newMode;
       });
     }
-    if (this.base) {
+    if (base) {
       this.base = base.name;
       this.disposition = base.disposition;
     }
   }
-
+  /** proto名 */
+  get baseName() {
+    return this.base || this.name;
+  }
   // 辅助函数
   /** URL */
   get url() {
@@ -155,7 +158,7 @@ export class Weapon {
   }
   /** 是否是Pistol */
   get isPistol() {
-    return this.mod === MainTag.Pistol || this.mod === MainTag.Kitgun;
+    return this.mod === MainTag.Secondary || this.mod === MainTag.Kitgun;
   }
   /** 是否是Rifle */
   get isRifle() {

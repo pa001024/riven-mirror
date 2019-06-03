@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Base64, randomNormalDistribution, strSimilarity } from "./util";
 import { base62, debase62 } from "./lib/base62";
-import { Polarity, RivenProperty, RivenDatabase, RivenPropertyDataBase, NormalMod, MainTag, WeaponDatabase } from "./codex";
+import { Polarity, RivenProperty, RivenDatabase, RivenPropertyDataBase, NormalMod, MainTag, WeaponDatabase, RivenTypes } from "./codex";
 import { HH } from "@/var";
 import { i18n } from "@/i18n";
 
@@ -85,7 +85,7 @@ export class RivenMod {
   /** 段位 */
   rank: number;
   /** 类型 */
-  mod: string;
+  mod: RivenTypes;
   /** 后缀 */
   private _subfix: string;
   get subfix(): string {
@@ -104,7 +104,20 @@ export class RivenMod {
   get readableSubfix() {
     return this.properties.map(v => (v.isNegative ? "-" : "") + i18n.t(`prop.shortName.${v.id}`)).join("");
   }
+
+  /** 本地化ID */
+  get id() {
+    return `messages.${_.camelCase(this.name)}`;
+  }
+  /** 本地化名称 */
+  get locName() {
+    return i18n.te(this.id) ? i18n.t(this.id) : this.name;
+  }
   /** 全名 如: 西诺斯 Critacan*/
+  get fullLocName() {
+    return this.locName + " " + this.subfix;
+  }
+  /** 英文全名 如: Cernos Critacan*/
   get fullName() {
     return this.name + " " + this.subfix;
   }
@@ -113,17 +126,11 @@ export class RivenMod {
     this.name = v[0];
     this.subfix = v[1];
   }
-  /** 英文全名 如: Cernos Critacan*/
-  get fullId() {
-    return this.name + " " + this.subfix;
-  }
-  set fullId(value) {
-    let v = value.split(" ");
-    this.name = v[0];
-    this.subfix = v[1];
-  }
   get weapon() {
     return WeaponDatabase.getWeaponByName(this.name);
+  }
+  get weapons() {
+    return WeaponDatabase.getWeaponsByBase(this.name);
   }
   get ratio() {
     return this.weapon.disposition;
@@ -151,7 +158,7 @@ export class RivenMod {
       this.hasNegativeProp = parm.hasNegativeProp;
       this.recycleTimes = parm.recycleTimes;
       this.rank = parm.rank;
-      this.mod = MainTag[parm.weapon.mod];
+      this.mod = MainTag[parm.weapon.mod] as RivenTypes;
     }
   }
   /**
@@ -193,11 +200,10 @@ A段位12023
     let rawName = lines[subfixIndex - 1];
     // 查询名称最接近的武器
     let weapon = WeaponDatabase.findMostSimRivenWeapon(rawName);
-    this.mod = MainTag[weapon.mod];
+    this.mod = MainTag[weapon.mod] as RivenTypes;
     this.subfix = lines[subfixIndex];
     // 识别到的名字是否正确, 否则模糊匹配
     this.name = weapon.name;
-    this.name = weapon.id;
     // 获取后缀属性
     let rivenProps = this.parseSubfix(this.subfix, this.mod);
     let propRegExp = /([+\-]?\d+(?:\.\d+)?)%? *.*?([A-Zc\u4e00-\u9fa5]\D+)/;
@@ -301,7 +307,7 @@ A段位12023
     let data = stype ? db.filter(v => v.mod === MainTag[stype]) : db;
     let { id, name, mod } = data[~~(Math.random() * data.length)];
     let rank = ~~(Math.random() * 8) + 9;
-    [this.name, this.name, this.mod, this.rank, this.recycleTimes] = [id, name, MainTag[mod], rank, 0];
+    [this.name, this.name, this.mod, this.rank, this.recycleTimes] = [id, name, MainTag[mod] as RivenTypes, rank, 0];
     this.randomProp();
   }
   /**
@@ -317,7 +323,10 @@ A段位12023
     // 偏差值 正态分布 标准差=5
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
     const weapon = this.weapon;
-    let props = _.sampleSize(RivenPropertyDataBase[this.mod], count).map(v => [v.id, _.round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1)]) as [string, number][];
+    let props = _.sampleSize(RivenPropertyDataBase[this.mod], count).map(v => [v.id, _.round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1)]) as [
+      string,
+      number
+    ][];
     if (this.hasNegativeProp) {
       let neProp = _.sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
       props.push([neProp.id, _.round(devi() * -negaUplvl * weapon.getPropBaseValue(neProp.id), 1)]);
@@ -338,8 +347,8 @@ A段位12023
   get normalMod(): NormalMod {
     return new NormalMod({
       key: "01",
-      id: this.fullId,
-      name: this.fullName,
+      id: this.fullName,
+      name: this.fullLocName,
       type: this.name,
       polarity: this.polarity || "r",
       cost: 10,
@@ -362,7 +371,12 @@ A段位12023
   }
   /** 返回二维码使用的序列化字符串 */
   get qrCode() {
-    return [this.name, this.shortSubfix, base62(this.rank) + base62(this.recycleTimes), this.properties.map(v => v.prop.id + base62(+(v.value * 10).toFixed(0))).join(".")].join("|");
+    return [
+      this.name,
+      this.shortSubfix,
+      base62(this.rank) + base62(this.recycleTimes),
+      this.properties.map(v => v.prop.id + base62(+(v.value * 10).toFixed(0))).join(".")
+    ].join("|");
   }
   /** 读取二维码识别后的序列化字符串 */
   set qrCode(value) {
@@ -372,7 +386,7 @@ A段位12023
     if (d[1]) this.shortSubfix = d[1];
     let weapon = WeaponDatabase.getWeaponByName(this.name);
     this.name = weapon.name;
-    this.mod = MainTag[weapon.mod];
+    this.mod = MainTag[weapon.mod] as RivenTypes;
     this.rank = debase62(d[2][0]);
     this.recycleTimes = debase62(d[2].substr(1));
     let props = d[3].split(".").map(v => {
@@ -382,7 +396,9 @@ A段位12023
     let lastProp = props[props.length - 1];
     this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == lastProp[1] < 0;
     this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
-    this.properties = props.map(v => new ValuedRivenProperty(v[0], v[1], RivenDatabase.getPropBaseValue(weapon.disposition, this.mod, v[0].name), this.upLevel).normalize());
+    this.properties = props.map(v =>
+      new ValuedRivenProperty(v[0], v[1], RivenDatabase.getPropBaseValue(weapon.disposition, this.mod, v[0].name), this.upLevel).normalize()
+    );
   }
   /** Base64形式的二维码 */
   get qrCodeBase64() {
@@ -400,7 +416,7 @@ A段位12023
   }
   /** 返回完整的modText */
   get modText() {
-    return [this.fullName, ...this.properties.map(v => v.displayValue + v.name), this.rank + "O" + this.recycleTimes].join("\n");
+    return [this.fullLocName, ...this.properties.map(v => v.displayValue + v.name), this.rank + "O" + this.recycleTimes].join("\n");
   }
   set modText(value) {
     this.parseString(value);

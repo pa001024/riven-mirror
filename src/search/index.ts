@@ -65,8 +65,13 @@ export class SearchEngine {
         return entity;
       })
     );
-    console.log(Array.from(tagSet).map(v => `"${_.camelCase(v)}":"${v}",`).join("\n"));
+    // console.log(
+    //   Array.from(tagSet)
+    //     .map(v => `"${_.camelCase(v)}":"${v}",`)
+    //     .join("\n")
+    // );
     // MOD
+    const propSet = new Set<string>();
     searchData = searchData.concat(
       NormalModDatabase.map(mod => {
         const entity = {
@@ -74,7 +79,10 @@ export class SearchEngine {
           name: mod.name,
           type: "search.mod",
           // decs: ""
-          tags: mod.vProps.map(v => v.shortName)
+          tags: mod.vProps.map(v => {
+            if (v.id === v.shortName && v.id.length < 10) propSet.add(v.id);
+            return (v.value > 0 ? "+" : v.value < 0 ? "-" : "") + v.shortName;
+          })
         } as SearchResult;
         // 中文优化
         if (i18n.locale.startsWith("zh")) {
@@ -82,6 +90,11 @@ export class SearchEngine {
         }
         return entity;
       })
+    );
+    console.log(
+      Array.from(propSet)
+        .map(v => `"${_.camelCase(v)}":"${v}",`)
+        .join("\n")
     );
     // Warframe
     // Resource

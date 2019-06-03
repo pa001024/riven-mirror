@@ -2283,6 +2283,8 @@ let po = {
       e8: "{0} 初始衝擊",
       e9: "{0} 初始穿刺",
       eA: "{0} 初始切割",
+      adr: "{0} 空中全抗",
+      ev: "{0} 迴避",
 
       ify: "如果目標距離 {0} 米外",
       onHeadshot: "爆頭後:",
@@ -2451,7 +2453,26 @@ let po = {
       rvs: "復活速度",
       dgs: "翻滾速度",
       fca: "蓄力速度",
-      eid: "初始傷害"
+      eid: "初始傷害",
+      adr: "空中全抗",
+      ev: "迴避",
+
+      ify: "遠距離",
+      onHeadshot: "爆頭",
+      onHeadshotKill: "爆頭擊殺",
+      onKill: "擊殺",
+      onReload: "裝填",
+      onHit: "擊中",
+      onAbilityCast: "使用技能後",
+      onMeleeChannelKill: "導引擊殺",
+      onReloadFromEmpty: "耗盡裝填",
+      onDodge: "翻滾",
+      onEquip: "切換",
+      onDamaged: "受到傷害",
+      onFinish: "處決",
+      onWalllatch: "壁面攀附",
+      onBlock: "格擋",
+      augment: "技能強化"
     }
   },
   elements: {

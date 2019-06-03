@@ -767,6 +767,8 @@ let po = {
       e8: "{0} Initial Impact",
       e9: "{0} Initial Puncture",
       eA: "{0} Initial Slash",
+      adr: "Reduces damage by {0} when Airborne.",
+      ev: "{0} Evasion",
 
       ify: "if the target is over {0}m away",
       onHeadshot: "On Headshot:",
@@ -934,7 +936,27 @@ let po = {
       erc: "Amp Energy Regen",
       rvs: "Revive Speed",
       dgs: "Dodge Speed",
-      fca: "Faster Charge Attack"
+      fca: "Faster Charge Attack",
+      eid: "Initial damage",
+      adr: "Reduces damage when Airborne.",
+      ev: "Evasion",
+
+      ify: "On Far",
+      onHeadshot: "On Headshot",
+      onHeadshotKill: "On Headshot Kill",
+      onKill: "On Kill",
+      onReload: "On Reload",
+      onHit: "On Hit",
+      onAbilityCast: "On Ability Cast",
+      onMeleeChannelKill: "On Melee Channel Kill",
+      onReloadFromEmpty: "On Reload From Empty",
+      onDodge: "On Dodge",
+      onEquip: "On Equip",
+      onDamaged: "On Damaged",
+      onFinish: "On Finish",
+      onWalllatch: "On Walllatch",
+      onBlock: "On Block",
+      augment: "Augment"
     }
   },
   elements: {

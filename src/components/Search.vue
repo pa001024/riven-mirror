@@ -13,10 +13,8 @@
       </i>
       <template slot-scope="{ item }">
         <div class="name">
-          <span class="search-tag type">
-            {{ $t(item.type) }}
-          </span>
-          {{ item.name }}
+          <span class="search-tag type">{{ $t(item.type) }}</span>
+          <span class="search-title">{{ item.name }}</span>
         </div>
         <span class="desc" v-if="item.desc">{{ item.desc }}</span>
         <div class="tags" v-if="item.tags">
@@ -29,8 +27,9 @@
 <script lang="ts">
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
 
-import { SearchEngine } from "@/search";
+import { SearchEngine, SearchResult } from "@/search";
 import { version } from "@/version";
+import { WeaponDatabase } from "../warframe/codex";
 
 @Component({ components: {} })
 export default class Search extends Vue {
@@ -41,7 +40,19 @@ export default class Search extends Vue {
     // 调用 callback 返回建议列表的数据
     cb(results);
   }
-  handleSelect() {}
+  handleSelect(item: SearchResult) {
+    if (!item) {
+      console.error("handle null when serach");
+      return;
+    }
+    switch (item.type) {
+      case "search.weapon":
+        const weapon = WeaponDatabase.getWeaponByName(item.name);
+        this.$router.push(weapon.url);
+        break;
+    }
+    console.log(item);
+  }
   handleIconClick() {}
 
   get version() {
@@ -61,6 +72,8 @@ export default class Search extends Vue {
       padding: 2px 0;
       text-overflow: ellipsis;
       overflow: hidden;
+      display: flex;
+      align-items: center;
     }
     .desc {
       font-size: 0.7em;
@@ -72,7 +85,7 @@ export default class Search extends Vue {
     }
   }
   .search-tag {
-    font-size: 0.6em;
+    font-size: 0.9em;
     vertical-align: text-bottom;
     display: inline-block;
     margin: 0 0;
@@ -81,12 +94,17 @@ export default class Search extends Vue {
     border-radius: 2px;
     box-shadow: 1px 1px 2px @shadow;
   }
+  .search-title {
+    margin-left: 4px;
+  }
   .el-autocomplete-suggestion__wrap {
     padding: 8px 0;
   }
   .tags {
     .tag {
-      font-size: 0.7em;
+      color: @text_halfgrey;
+      font-size: 0.86em;
+      border-bottom: 1px solid @text_sliver;
     }
     .tag + .tag {
       margin-left: 8px;

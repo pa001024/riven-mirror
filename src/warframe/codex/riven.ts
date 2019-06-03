@@ -79,7 +79,22 @@ const meleeProperty: RivenProperty[] = [
   { id: "X", sName: "处决伤害", eName: "Finisher Damage", name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true } //
 ];
 
-export const RivenPropertyDataBase: { [key: string]: RivenProperty[] } = {
+export interface RivenProperties {
+  Rifle: RivenProperty[];
+  Shotgun: RivenProperty[];
+  Secondary: RivenProperty[];
+  Kitgun: RivenProperty[];
+  Melee: RivenProperty[];
+  Zaw: RivenProperty[];
+  "Arch-Gun": RivenProperty[];
+  "Arch-Melee": RivenProperty[];
+  Amp: RivenProperty[];
+  all: RivenProperty[];
+}
+
+export type RivenTypes = keyof RivenProperties;
+
+export const RivenPropertyDataBase: RivenProperties = {
   Rifle: baseProperty.concat(
     gunProperty.map(v =>
       v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v
@@ -92,13 +107,15 @@ export const RivenPropertyDataBase: { [key: string]: RivenProperty[] } = {
         v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v
       )
   ),
-  Pistol: baseProperty.concat(gunProperty),
+  Secondary: baseProperty.concat(gunProperty),
   Kitgun: baseProperty.concat(gunProperty),
-  Archgun: baseProperty.concat(
+  "Arch-Gun": baseProperty.concat(
     gunProperty.map(v =>
       v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v
     )
   ),
+  "Arch-Melee": [],
+  Amp: [],
   Melee: baseProperty.concat(meleeProperty),
   Zaw: baseProperty.concat(meleeProperty),
   all: baseProperty.concat(gunProperty, meleeProperty)
@@ -240,22 +257,22 @@ const RPVBMelee = {
 export const RivenPropertyValueBaseDataBase = {
   Rifle: RPVBRifle,
   Shotgun: RPVBShotgun,
-  Pistol: RPVBPistol,
+  Secondary: RPVBPistol,
   Kitgun: RPVBPistol,
   Melee: RPVBMelee,
   Zaw: RPVBMelee,
-  Archgun: RPVBArchgun
+  "Arch-Gun": RPVBArchgun
 };
 
 export const ModTypeTable = {
   Rifle: { name: "rifle", include: [0 /* MainTag.Rifle */] },
   Shotgun: { name: "shotgun", include: [1 /* MainTag.Shotgun */] },
-  Pistol: { name: "pistol", include: [2, 3 /* MainTag.Pistol, MainTag.Kitgun */] },
+  Secondary: { name: "pistol", include: [2, 3 /* MainTag.Secondary, MainTag.Kitgun */] },
   Melee: { name: "melee", include: [4, 5 /* MainTag.Melee, MainTag.Zaw */] },
   Archwing: { name: "archwing", include: [6, 7 /* MainTag["Arch-Gun"], MainTag["Arch-Melee"] */] }
 };
 
-const propRegExpsFactory = (name: string) =>
+const propRegExpsFactory = (name: RivenTypes) =>
   new RegExp(
     `(?:(${RivenPropertyDataBase[name].map(v => v.prefix).join("|")})-)?(${RivenPropertyDataBase[name].map(v => v.prefix).join("|")})(${RivenPropertyDataBase[
       name
@@ -277,7 +294,7 @@ export class RivenDatabase {
   static PropRegExps = {
     Rifle: propRegExpsFactory("Rifle"),
     Shotgun: propRegExpsFactory("Shotgun"),
-    Pistol: propRegExpsFactory("Pistol"),
+    Secondary: propRegExpsFactory("Secondary"),
     Kitgun: propRegExpsFactory("Kitgun"),
     Melee: propRegExpsFactory("Melee"),
     Zaw: propRegExpsFactory("Zaw")

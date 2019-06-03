@@ -54,9 +54,9 @@
         <!-- 选择武器 -->
         <el-form-item :label="$t('buildview.weapon')">
           <el-select v-model="selectWeapon" @change="weaponchanged" :placeholder="$t('buildview.selectWeapon')">
-            <el-option v-for="weapon in riven.weapons" :key="weapon.id" :label="weapon.displayName" :value="weapon.id">
+            <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.displayName" :value="weapon.name">
             </el-option>
-            <el-option v-for="weapon in vistualWeapons" :key="weapon.id" :label="weapon.displayName" :value="weapon.id">
+            <el-option v-for="weapon in vistualWeapons" :key="weapon.name" :label="weapon.displayName" :value="weapon.name">
             </el-option>
           </el-select>
         </el-form-item>
