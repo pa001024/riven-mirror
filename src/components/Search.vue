@@ -1,6 +1,7 @@
 <template>
   <div class="search">
     <el-autocomplete
+      class="search-input"
       popper-class="search-complete"
       v-model="data"
       :fetch-suggestions="querySearch"
@@ -49,7 +50,7 @@ export default class Search extends Vue {
     switch (item.type) {
       case "search.weapon":
         const weapon = WeaponDatabase.getWeaponByName(item.id);
-        this.$router.push("info/" + weapon.url);
+        this.$router.push("/info/" + weapon.url);
         break;
     }
   }
@@ -115,6 +116,7 @@ export default class Search extends Vue {
   .el-input__inner {
     border: 0;
     border-radius: 2px;
+    width: 240px;
   }
 }
 </style>

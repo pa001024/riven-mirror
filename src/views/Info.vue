@@ -5,9 +5,6 @@
       <header class="info-header">
         {{$t(weapon.id)}}
       </header>
-      <div class="info-radar">
-        <InfoRadar style="height:300px;" :val="[['暴击',12],['触发',33],['基伤',66],['射速',12]]"/>
-      </div>
 
     </template>
   </div>
@@ -16,7 +13,7 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { i18n } from "@/i18n";
 import { Zaw, Kitgun, Amp, RivenDatabase, Weapon, WeaponDatabase } from "@/warframe/codex";
-import InfoRadar from "@/components/InfoRadar.vue";
+// import InfoRadar from "@/components/InfoRadar.vue";
 
 function loadWeapon(id: string) {
   if (id.startsWith("ZAW-")) {
@@ -29,7 +26,7 @@ function loadWeapon(id: string) {
     return WeaponDatabase.getWeaponByName(id.replace(/_/g, " "));
   }
 }
-@Component({ components: { InfoRadar } })
+@Component({ components: {  } })
 export default class WeaponInfo extends Vue {
   @Prop() id: string;
   private _weapon: Weapon;
