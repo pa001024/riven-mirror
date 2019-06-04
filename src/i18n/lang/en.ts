@@ -515,6 +515,9 @@ let po = {
     landslide: "Landslide",
     exaltedBlade: "Exalted Blade",
     exaltedBladeUmbra: "Exalted Blade Umbra",
+    regulatorsPrime: "Regulators Prime",
+    garudasTalons: "Garuda's Talons",
+    darkSplitSwordHeavyBlade: "Dark Split-Sword (Heavy Blade)",
 
     lanzo: "Lanzo",
     peram: "Peram",
@@ -527,7 +530,9 @@ let po = {
     velocitusAtmosphere: "Velocitus (Atmosphere)",
     grattlerAtmosphere: "Grattler (Atmosphere)",
     fluctusAtmosphere: "Fluctus (Atmosphere)",
-    imperatorAtmosphere: "Imperator (Atmosphere)"
+    imperatorAtmosphere: "Imperator (Atmosphere)",
+    imperatorVandalAtmosphere: "Imperator Vandal (Atmosphere)",
+    larkspurAtmosphere: "Larkspur (Atmosphere)"
   },
   messagesExtend: {
     blueprint: "Blueprint",
@@ -769,6 +774,23 @@ let po = {
       eA: "{0} Initial Slash",
       adr: "Reduces damage by {0} when Airborne.",
       ev: "{0} Evasion",
+      cc: "{0} Counter Chance",
+      tt: "{0} Team Ability Strength",
+      pr: "{0} Toxin Resistance",
+      ap: "{0} Ammo Pickup",
+      cr: "{0} Cold Resistance",
+      fr: "{0} Heat Resistance",
+      ir: "{0} Electricity Resistance",
+      rr: "{0} Radiation Resistance",
+      eq: "{0} Convert Health/Energy Ball",
+      ddb: "{0} Damage during Bleedout",
+      br: "{0} Bleedout Reduction",
+      apc: "{0} Parry Angle",
+      drk: "{0} Damage Resistance on Knockdown",
+      wc: "{0} Shield Resistance to Ice Levels",
+      ll: "{0} chance to unlock locked lockers",
+      sr: "{0} Faster Stagger Recovery",
+      fl: "{0} Flight Speed",
 
       ify: "if the target is over {0}m away",
       onHeadshot: "On Headshot:",
@@ -940,6 +962,23 @@ let po = {
       eid: "Initial damage",
       adr: "Reduces damage when Airborne.",
       ev: "Evasion",
+      cc: "Counter Chance",
+      tt: "Team Ability Strength",
+      pr: "Toxin Resistance",
+      ap: "Ammo Pickup",
+      cr: "Cold Resistance",
+      fr: "Heat Resistance",
+      ir: "Electricity Resistance",
+      rr: "Radiation Resistance",
+      eq: "Convert Health/Energy Ball",
+      ddb: "Damage during Bleedout",
+      br: "Bleedout Reduction",
+      apc: "Parry Angle",
+      drk: "Damage Resistance on Knockdown",
+      wc: "Shield Resistance to Ice Levels",
+      ll: "chance to unlock locked lockers",
+      sr: "Faster Stagger Recovery",
+      fl: "Flight Speed",
 
       ify: "On Far",
       onHeadshot: "On Headshot",
@@ -1729,6 +1768,14 @@ let po = {
     buffs: "Buffs",
     data: "Data"
   },
+  droptable: {
+    title: "Drop Table"
+  },
+  search: {
+    weapon: "WEAPON",
+    mod: "MOD",
+    wf: "WARFRAME"
+  },
   tags: {
     melee: "Melee",
     swordAndShield: "Sword and Shield",
@@ -1776,7 +1823,12 @@ let po = {
     launcher: "Launcher",
     gunblade: "Gunblade",
     claws: "Claws",
-    twoHandedNikana: "Two-Handed Nikana"
+    twoHandedNikana: "Two-Handed Nikana",
+    dps: "DPS",
+    tactics: "Tactics",
+    tank: "Tank",
+    support: "Support",
+    control: "Control"
   }
 };
 

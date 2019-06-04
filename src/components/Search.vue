@@ -45,13 +45,13 @@ export default class Search extends Vue {
       console.error("handle null when serach");
       return;
     }
+    console.log(item);
     switch (item.type) {
       case "search.weapon":
-        const weapon = WeaponDatabase.getWeaponByName(item.name);
-        this.$router.push(weapon.url);
+        const weapon = WeaponDatabase.getWeaponByName(item.id);
+        this.$router.push("info/" + weapon.url);
         break;
     }
-    console.log(item);
   }
   handleIconClick() {}
 

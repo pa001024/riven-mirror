@@ -3,7 +3,7 @@
     <div class="has-error" v-if="!weapon">找不到该武器</div>
     <template v-else>
       <header class="info-header">
-        {{$t(`messages.${weapon.name}`)}}
+        {{$t(weapon.id)}}
       </header>
       <div class="info-radar">
         <InfoRadar style="height:300px;" :val="[['暴击',12],['触发',33],['基伤',66],['射速',12]]"/>

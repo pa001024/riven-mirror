@@ -1,5 +1,5 @@
 import Fuse from "fuse.js";
-import { WeaponDatabase, NormalModDatabase } from "@/warframe/codex";
+import { WeaponDatabase, NormalModDatabase, WarframeDataBase } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import pinyin from "./pinyin";
 import _ from "lodash";
@@ -23,6 +23,8 @@ export interface SearchResult {
   tags?: string[];
   /** 拼音首字母 */
   pinyin?: string;
+  /** 其他昵称 */
+  alias?: string[];
 }
 
 /**
@@ -91,12 +93,28 @@ export class SearchEngine {
         return entity;
       })
     );
-    console.log(
-      Array.from(propSet)
-        .map(v => `"${_.camelCase(v)}":"${v}",`)
-        .join("\n")
-    );
+    // console.log(
+    //   Array.from(propSet)
+    //     .map(v => `"${_.camelCase(v)}":"${v}",`)
+    //     .join("\n")
+    // );
     // Warframe
+    searchData = searchData.concat(
+      WarframeDataBase.All.map(wf => {
+        const entity = {
+          id: wf.id,
+          name: wf.name,
+          type: "search.wf",
+          // decs: ""
+          tags: wf.tags.map(v => v)
+        } as SearchResult;
+        // 黑话
+        if (i18n.locale.startsWith("zh") && i18n.te(`alias.${_.camelCase(wf.id)}`)) {
+          entity.alias = i18n.t(`alias.${_.camelCase(wf.id)}`).split(",");
+        }
+        return entity;
+      })
+    );
     // Resource
     // Mission
     // 守护
@@ -113,13 +131,12 @@ export class SearchEngine {
       distance: 100,
       maxPatternLength: 32,
       minMatchCharLength: 1,
-      keys: ["id", "name", "pinyin", "tags"]
+      keys: ["id", "name", "pinyin", "tags", "alias"]
     };
     this.engine = new Fuse(searchData, options); // "list" is the item array
   }
   search(query: string): SearchResult[] {
     const raw = this.engine.search(query);
-    console.log(raw);
     return raw;
   }
 }

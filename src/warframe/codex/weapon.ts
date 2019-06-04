@@ -133,6 +133,10 @@ export class Weapon {
   get id() {
     return `messages.${_.camelCase(this.name)}`;
   }
+  /** 是否是陆地用 */
+  get isAtmosphere() {
+    return this.name.endsWith(" (Atmosphere)");
+  }
   get displayName() {
     if (i18n.te(this.id)) return i18n.t(this.id);
     else {

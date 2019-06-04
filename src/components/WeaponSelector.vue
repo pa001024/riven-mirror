@@ -69,7 +69,6 @@ export default class WeaponSelector extends Vue {
   }
   tabs: WeaponSelectorTab[] = [];
   beforeMount() {
-    console.log(WeaponDatabase.weapons, WeaponDatabase);
     this.tabs = _.map(ModTypeTable, ({ name, include }, id) => ({
       id,
       name,

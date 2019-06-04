@@ -147,12 +147,13 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "ir" }, // Electricity Resistance
   { id: "ll" }, // chance to unlock locked lockers
   { id: "br" }, // Bleedout Reduction
-  { id: "apc" }, // Auto Parry Chance
+  { id: "apc" }, // Parry Angle
   { id: "sr" }, // Faster Stagger Recovery
   { id: "fl" }, // Flight Speed (Archwing)
   { id: "es" }, // Energy Rate (Aura)
   { id: "ap" }, // Ammo Pickup (Aura)
   { id: "ev" }, // Evasion
+  { id: "eq" }, // Convert Health/Energy Ball
   { id: "m" }, // Movement Speed when Aiming
   { id: "wc" }, // Shield Resistance to Ice Levels
   { id: "adr" }, // Reduces damage by |val|% when Airborne.
