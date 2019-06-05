@@ -117,7 +117,7 @@ const data = [
   ["2R", "Harkonar Scope", [["N", 2]], Sniper, "-", "c", 4],
   ["2S", "Tainted Mag", [["L", 6], ["F", -3]], Rifle, "-", "r", 4, 10],
   ["2T", "Wild Frenzy", [["!R", 160], ["R", 40]], "Grakata", "-", "r", 4],
-  ["2U", "Bursting Mass", [["err"]], "Mutalist Quanta", "-", "r", 4],
+  ["2U", "Bursting Mass", [["The infested mass accumulates 50% of the damage that goes through it and deals it in 15m radius when it expires. Secondary fire will manually detonate an existing mass."]], "Mutalist Quanta", "-", "r", 4],
   ["2V", "Napalm Grenades", [["i2", 5], ["!eid", -100], ["!e4", 700]], "Penta", "-", "r", 4],
   ["2W", "Amalgam Serration", [["D", 14], ["!D", 1], ["f", 2.2], ["!f", 0.8]], Rifle, "r", "g", 6, 10],
 

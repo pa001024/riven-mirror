@@ -547,6 +547,7 @@ let po = {
     primedPistolAmmoMutation: "高阶手枪弹药转换",
     primedPistolGambit: "高阶手枪精通",
     primedMorphicTransformer: "高阶无态晶变压器",
+    primedChargedChamber: "高阶充能弹膛",
     peculiarBloom: "奇异绽放",
     peculiarGrowth: "奇异增长",
     augurMessage: "预言者的启示",

@@ -220,6 +220,11 @@ let po = {
     razorwingBlitz: "刀翼閃擊",
     sprintBoost: "衝刺提升",
     conductor: "指揮家",
+    mendingSplinters: "治癒玻片",
+    accumulatingWhipclaw: "蓄積長鞭",
+    counterPulse: "反轉脈衝",
+    envelopingCloud: "包覆遊雲",
+    targetFixation: "目標入定",
 
     primedRegen: "重生 Prime",
     coolantLeak: "冷卻液外洩",

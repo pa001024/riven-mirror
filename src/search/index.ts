@@ -27,6 +27,16 @@ export interface SearchResult {
   alias?: string[];
 }
 
+export interface IndexedSearchResult {
+  item: SearchResult;
+  matches: {
+    indices: [number, number][];
+    value: string;
+    key: string;
+    arrayIndex: number;
+  }[];
+}
+
 /**
  * 资源搜索引擎
  *
@@ -64,6 +74,10 @@ export class SearchEngine {
         if (i18n.locale.startsWith("zh")) {
           entity.pinyin = pinyin.getCamelChars(entity.name);
         }
+        // 黑话
+        if (i18n.locale.startsWith("zh") && i18n.te(`alias.${_.camelCase(weapon.name)}`)) {
+          entity.alias = i18n.t(`alias.${_.camelCase(weapon.name)}`).split(",");
+        }
         return entity;
       })
     );
@@ -90,6 +104,9 @@ export class SearchEngine {
         if (i18n.locale.startsWith("zh")) {
           entity.pinyin = pinyin.getCamelChars(entity.name);
         }
+        if (mod.id === mod.name) {
+          console.log("i18n error:", mod.id);
+        }
         return entity;
       })
     );
@@ -106,7 +123,7 @@ export class SearchEngine {
           name: wf.name,
           type: "search.wf",
           // decs: ""
-          tags: wf.tags.map(v => v)
+          tags: wf.tags.map(v => i18n.t(`tags.${_.camelCase(v)}`))
         } as SearchResult;
         // 黑话
         if (i18n.locale.startsWith("zh") && i18n.te(`alias.${_.camelCase(wf.id)}`)) {
@@ -115,9 +132,10 @@ export class SearchEngine {
         return entity;
       })
     );
+    // Enemy
     // Resource
     // Mission
-    // 守护
+    // Sentinel
     // Zaw
     // Kitgun
     // Amp
@@ -126,7 +144,8 @@ export class SearchEngine {
 
     const options = {
       shouldSort: true,
-      threshold: 0.6,
+      includeMatches: true,
+      threshold: 0.4,
       location: 0,
       distance: 100,
       maxPatternLength: 32,

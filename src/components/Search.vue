@@ -13,14 +13,7 @@
         @click="handleIconClick">
       </i>
       <template slot-scope="{ item }">
-        <div class="name">
-          <span class="search-tag type">{{ $t(item.type) }}</span>
-          <span class="search-title">{{ item.name }}</span>
-        </div>
-        <span class="desc" v-if="item.desc">{{ item.desc }}</span>
-        <div class="tags" v-if="item.tags">
-          <span class="tag" v-for="(tag, i) in item.tags" :key="i">{{ tag }}</span>
-        </div>
+        <HighlightedSearchResult :data="item"/>
       </template>
     </el-autocomplete>
   </div>
@@ -28,11 +21,12 @@
 <script lang="ts">
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
 
-import { SearchEngine, SearchResult } from "@/search";
+import { SearchEngine, SearchResult, IndexedSearchResult } from "@/search";
 import { version } from "@/version";
-import { WeaponDatabase } from "../warframe/codex";
+import { WeaponDatabase } from "@/warframe/codex";
+import HighlightedSearchResult from "./HighlightedSearchResult";
 
-@Component({ components: {} })
+@Component({ components: { HighlightedSearchResult } })
 export default class Search extends Vue {
   data = "";
   engine = new SearchEngine();
@@ -84,6 +78,9 @@ export default class Search extends Vue {
     .highlighted .desc {
       color: #ddd;
     }
+  }
+  span.highlight {
+    background: #ecebff;
   }
   .search-tag {
     font-size: 0.9em;
