@@ -139,7 +139,12 @@ export default class App extends Vue {
     const lastVersion = localStorage.getItem("lastVersion") || "0.0.0";
     if (lastVersion !== version) this.updateMessageVisible = true;
     if (this.$i18n.locale === "zh-CN" && !localStorage.getItem("cn")) {
-      this.$message("国服用户可在设置中切换国服翻译");
+      this.$message({
+        showClose: true,
+        message: "国服用户可在设置中切换国服翻译",
+        type: "success",
+        duration: 0
+      });
       localStorage.setItem("cn", "yes");
     }
     // emmmm 讨饭
