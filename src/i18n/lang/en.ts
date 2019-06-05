@@ -1,9 +1,10 @@
 let po = {
   zh: "",
   title: {
-    main: "Riven.IM - Riven Mirror ALPHA",
-    sub: "{0} - Riven.IM - Riven Mirror ALPHA",
-    weapon: "{0} Build"
+    main: "Riven Mirror (Riven.IM)",
+    sub: "{0} - Riven Mirror (Riven.IM)",
+    weapon: "{0} Build",
+    info: "{0} Info"
   },
   messages: {
     legendaryFusionCore: "Legendary Fusion Core",

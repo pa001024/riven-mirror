@@ -35,15 +35,15 @@ export default class Search extends Vue {
     // 调用 callback 返回建议列表的数据
     cb(results);
   }
-  handleSelect(item: SearchResult) {
+  handleSelect(item: IndexedSearchResult) {
     if (!item) {
       console.error("handle null when serach");
       return;
     }
-    console.log(item);
-    switch (item.type) {
+    // console.log(item);
+    switch (item.item.type) {
       case "search.weapon":
-        const weapon = WeaponDatabase.getWeaponByName(item.id);
+        const weapon = WeaponDatabase.getWeaponByName(item.item.id);
         this.$router.push("/info/" + weapon.url);
         break;
     }
@@ -102,7 +102,7 @@ export default class Search extends Vue {
     .tag {
       color: @text_halfgrey;
       font-size: 0.86em;
-      border-bottom: 1px solid @text_sliver;
+      // border-bottom: 1px solid @text_sliver;
     }
     .tag + .tag {
       margin-left: 8px;

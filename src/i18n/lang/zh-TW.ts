@@ -3,7 +3,8 @@ let po = {
   title: {
     main: "Riven.IM - 極鏡",
     sub: "{0} - Riven.IM - 極鏡",
-    weapon: "{0} 配卡"
+    weapon: "{0} 配卡",
+    info: "{0} 資料"
   },
   messages: {
     primedContinuity: "持久力 Prime",

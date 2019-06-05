@@ -96,15 +96,15 @@ export function createRouter() {
         break;
       case "WarframeEditorWithCode":
         // 交给组件处理
-        return;
+        break;
       case "WeaponSelector":
         document.title = i18n.t("title.sub", [i18n.t("navigate.weapon")]);
         break;
+      case "Info":
       case "BuildEditor":
-        break;
       case "BuildEditorWithCode":
         // 交给组件处理
-        return;
+        break;
       case "Mod":
       case "ModWithSource":
         document.title = i18n.t("title.sub", [i18n.t("navigate.riven")]);

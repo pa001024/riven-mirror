@@ -1,9 +1,10 @@
 let po = {
   zh: "true",
   title: {
-    main: "Riven.IM - 极镜",
-    sub: "{0} - Riven.IM - 极镜",
-    weapon: "{0} 配卡"
+    main: "极镜 (Riven.IM)",
+    sub: "{0} - 极镜 (Riven.IM)",
+    weapon: "{0} 配卡",
+    info: "{0} 资料"
   },
   messages: {
     primedContinuity: "持久力 Prime",
