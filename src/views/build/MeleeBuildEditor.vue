@@ -29,11 +29,11 @@
                 </template>
               </el-row>
               <PropDiff :name="$t('build.range')" v-if="build.originalRange" :ori="build.originalRange" :val="build.range" subfix="m"></PropDiff>
-              <PropDiff :name="$t('build.fireRate')" :ori="weapon.fireRate" :val="build.fireRate" :preci="3"></PropDiff>
-              <PropDiff :name="$t('build.critMul')" :ori="weapon.critMul" :val="build.critMul" subfix="x"></PropDiff>
-              <PropDiff :name="$t('build.critChance')" :ori="weapon.critChance" :val="build.critChance" percent></PropDiff>
+              <PropDiff :name="$t('build.fireRate')" :ori="mode.fireRate/60" :val="build.fireRate" :preci="3"></PropDiff>
+              <PropDiff :name="$t('build.critMul')" :ori="mode.critMul" :val="build.critMul" subfix="x"></PropDiff>
+              <PropDiff :name="$t('build.critChance')" :ori="mode.critChance" :val="build.critChance" percent></PropDiff>
               <PropDiff :name="$t('build.slideDmg')" v-if="weapon.slideDmg" :ori="weapon.slideDmg" :val="build.panelSlideDamage"></PropDiff>
-              <PropDiff :name="$t('build.pellets')" v-if="weapon.pellets != 1 || build.pellets != 1" :ori="weapon.pellets" :val="build.pellets"></PropDiff>
+              <PropDiff :name="$t('build.pellets')" v-if="mode.pellets != 1 || build.pellets != 1" :ori="mode.pellets" :val="build.pellets"></PropDiff>
               <div v-if="weapon.disposition > 0">
                 <el-row :gutter="4" class="prop-diff">
                   <el-col :span="8" class="title">

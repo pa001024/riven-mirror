@@ -1748,7 +1748,8 @@ let po = {
     fav2: "HUIJI WIKI",
     fav3: "WfLoveBBS (Chinese)",
     fav4: "WIKIA",
-    fav5: "WFA"
+    fav5: "WFA",
+    sponser: "Sponser"
   },
   tour: {
     labels: {

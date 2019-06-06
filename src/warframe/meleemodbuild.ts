@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { hAccMul, hAccSum } from "@/warframe/util";
 import { Arcane, Enemy, NormalModDatabase, NormalMod, Weapon } from "./codex";
 import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
@@ -99,7 +98,12 @@ export class MeleeModBuild extends ModBuild {
     super(riven, fast);
     if ((this.weapon = weapon)) {
       this._mode = this.weapon.defaultMode;
-      this.avaliableMods = NormalModDatabase.filter(v => this.weapon.tags.toArray().concat([this.weapon.name]).includes(v.type));
+      this.avaliableMods = NormalModDatabase.filter(v =>
+        this.weapon.tags
+          .toArray()
+          .concat([this.weapon.name])
+          .includes(v.type)
+      );
     }
     // 自动配卡优化
     this.requireCombo = !this.weapon.tags.has("Virtual");
@@ -190,11 +194,11 @@ export class MeleeModBuild extends ModBuild {
   }
   /** 连击数增加暴击率 */
   get comboCritChance() {
-    return this.comboMul > 1 ? 1 + hAccMul(this.comboMul, this.comboCritChanceMul) : 1;
+    return this.comboMul > 1 ? 1 + this.comboMul * this.comboCritChanceMul : 1;
   }
   /** 连击数增加触发率 */
   get comboProcChance() {
-    return this.comboMul > 1 ? 1 + hAccMul(this.comboMul, this.comboProcChanceMul) : 1;
+    return this.comboMul > 1 ? 1 + this.comboMul * this.comboProcChanceMul : 1;
   }
   /** [overwrite] 暴击率 */
   get critChance() {
@@ -204,30 +208,24 @@ export class MeleeModBuild extends ModBuild {
   get normalCritChance() {
     return Math.max(
       0,
-      hAccMul(
-        this.critChanceLock != -1
-          ? this.critChanceLock // Locked
-          : hAccSum(hAccMul(this.mode.critChance, this.critChanceMul), this.critChanceAdd),
-        this.comboCritChance
-      )
+      (this.critChanceLock != -1
+        ? this.critChanceLock // Locked
+        : this.mode.critChance * this.critChanceMul + this.critChanceAdd) * this.comboCritChance
     );
   }
   /** 滑行暴击率 */
   get slideCritChance() {
     return Math.max(
       0,
-      hAccMul(
-        this.critChanceLock != -1
-          ? this.critChanceLock // Locked
-          : hAccSum(hAccMul(this.mode.critChance, this.critChanceMul), this.critChanceAdd, this.slideCritChanceAdd),
-        this.comboCritChance
-      )
+      (this.critChanceLock != -1
+        ? this.critChanceLock // Locked
+        : this.mode.critChance * this.critChanceMul + this.critChanceAdd + this.slideCritChanceAdd) * this.comboCritChance
     );
   }
 
   /** [overwrite] 触发几率 */
   get procChance() {
-    let s = hAccMul(hAccSum(hAccMul(this.mode.procChance, this.procChanceMul), this.procChanceAdd), this.comboProcChance);
+    let s = (this.mode.procChance * this.procChanceMul + this.procChanceAdd) * this.comboProcChance;
     return s > 1 ? 1 : s < 0 ? 0 : s;
   }
   /** [overwrite] 真实触发几率 */
@@ -261,51 +259,51 @@ export class MeleeModBuild extends ModBuild {
 
   /** 平砍总伤增幅倍率 */
   get normalTotalDamageMul() {
-    return hAccMul(this.normalCritDamageMul, this.overallMul, this.enemyDmgMul);
+    return this.normalCritDamageMul * this.overallMul * this.enemyDmgMul;
   }
   /** 滑行总伤增幅倍率 */
   get slideTotalDamageMul() {
-    return hAccMul(this.slideCritDamageMul, this.overallMul, this.enemyDmgMul);
+    return this.slideCritDamageMul * this.overallMul * this.enemyDmgMul;
   }
 
   /** 每秒总伤害 */
   get totalDamagePS() {
-    return hAccMul(this.totalDamage, this.fireRate);
+    return this.totalDamage * this.fireRate;
   }
   /** 原每秒总伤害 */
   get oriTotalDamagePS() {
-    return hAccMul(this.oriTotalDamage, this.mode.fireRate);
+    return (this.oriTotalDamage * this.mode.fireRate) / 60;
   }
 
   /** 原滑行攻击伤害 */
   get oriSlideDamage() {
-    return hAccMul(this.oriTotalDamage, this.slideAttackMul);
+    return this.oriTotalDamage * this.slideAttackMul;
   }
   /** 原每秒滑行攻击伤害 */
   get oriSlideDamagePS() {
-    return hAccMul(this.oriSlideDamage, this.mode.fireRate);
+    return (this.oriSlideDamage * this.mode.fireRate) / 60;
   }
 
   /** 攻击伤害 */
   get normalDamage() {
-    return hAccMul(this.panelDamage, this.normalTotalDamageMul);
+    return this.panelDamage * this.normalTotalDamageMul;
   }
   /** 每秒攻击伤害 */
   get normalDamagePS() {
-    return hAccMul(this.normalDamage, this.fireRate);
+    return this.normalDamage * this.fireRate;
   }
   /** 滑行攻击伤害 */
   get slideDamage() {
-    return hAccMul(this.panelDamage, this.slideAttackMul, this.slideTotalDamageMul);
+    return this.panelDamage * this.slideAttackMul * this.slideTotalDamageMul;
   }
   /** 每秒滑行攻击伤害 */
   get slideDamagePS() {
-    return hAccMul(this.slideDamage, this.fireRate);
+    return this.slideDamage * this.fireRate;
   }
 
   /** 面板滑行伤害 */
   get panelSlideDamage() {
-    return hAccMul(this.panelDamage, this.slideAttackMul);
+    return this.panelDamage * this.slideAttackMul;
   }
 
   /** [overwrite] 用于比较的伤害 */
@@ -334,9 +332,9 @@ export class MeleeModBuild extends ModBuild {
    * @param s 偷袭倍率 [=0]
    */
   calcCritDamage(m: number, n: number, p = 0, v = 2, s = 0) {
-    if (v != 2) return ((1 + (1 - v) * p) * (hAccMul(m, n - 1) + 1) + m * n * p * v) / (p + 1) + s;
-    if (p != 0) return hAccMul(m, n - 1) + s + 1 + (2 * m * n * p) / (p + 1);
-    return hAccMul(m, n - 1) + s + 1;
+    if (v != 2) return ((1 + (1 - v) * p) * (m * (n - 1) + 1) + m * n * p * v) / (p + 1) + s;
+    if (p != 0) return m * (n - 1) + s + 1 + (2 * m * n * p) / (p + 1);
+    return m * (n - 1) + s + 1;
   }
 
   /** [overwrite] 检测当前MOD是否可用 */

@@ -1,7 +1,7 @@
 import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import _ from "lodash";
-import { WeaponTag, CoreWeaponMode } from "./weapon";
+import { WeaponTag, CoreWeaponMode, MainTag } from "./weapon";
 
 export enum Stance {
   Daggers, // 匕首
@@ -183,6 +183,7 @@ export class Zaw extends Weapon {
   links: ZawLinks;
 
   stance: string;
+  mod = MainTag.Zaw;
 
   get oneHand() {
     return !this.grip.twoHand;
@@ -190,14 +191,11 @@ export class Zaw extends Weapon {
   get twoHand() {
     return this.grip.twoHand;
   }
-  get slideDmg() {
-    return this.defaultMode.panelDamage * (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
+  get spinAttack() {
+    return (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
   }
   get tags() {
     return new WeaponTag(["Melee", "ZAW", this.stance]);
-  }
-  get critMul() {
-    return this.strike.idx === "A" ? 2.2 : 2;
   }
   get url() {
     return `ZAW-${this.strike.idx}-${this.grip.idx}-${this.links.idx}`;
@@ -251,13 +249,16 @@ export class Zaw extends Weapon {
     const mode = {
       // 60 为基础值 12为镀金加成
       damage: calced.filter(v => v[1] > 0),
-      fireRate: +((60 + this.strike.speed + this.grip.speed + this.links.speed) / 60).toFixed(3),
+      fireRate: 60 + this.strike.speed + this.grip.speed + this.links.speed,
       critChance: (10 + this.strike.crit + this.links.crit) / 100,
-      procChance: (10 + this.strike.status + this.links.status) / 100
+      procChance: (10 + this.strike.status + this.links.status) / 100,
+      critMul: this.strike.idx === "A" ? 2.2 : 2
     } as CoreWeaponMode;
     this.modes = [mode];
   }
   get displayName() {
-    return `${i18n.t(`messages.${_.camelCase(this.strike.name)}`)}-${i18n.t(`messages.${_.camelCase(this.grip.name)}`)}-${i18n.t(`messages.${_.camelCase(this.links.name)}`)}`;
+    return `${i18n.t(`messages.${_.camelCase(this.strike.name)}`)}-${i18n.t(`messages.${_.camelCase(this.grip.name)}`)}-${i18n.t(
+      `messages.${_.camelCase(this.links.name)}`
+    )}`;
   }
 }

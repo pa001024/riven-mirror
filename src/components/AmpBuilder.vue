@@ -65,7 +65,7 @@
     <!-- 预览 -->
     <div class="preview" v-if="prism || scaffold">
       <div class="prop" v-for="dmg in amp.dmg" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
-   --><div class="prop">{{$t("modular.fireRate")}}: {{amp.fireRate}}</div><!--
+   --><div class="prop">{{$t("modular.fireRate")}}: {{amp.fireRate/60}}</div><!--
    --><div class="prop">{{$t("modular.critDamage")}}: {{amp.critMul}}x</div><!--
    --><div class="prop">{{$t("modular.critChance")}}: {{(amp.critChance*100).toFixed()}}%</div><!--
    --><div class="prop">{{$t("modular.status")}}: {{(amp.procChance*100).toFixed()}}%</div><!--

@@ -103,6 +103,21 @@
         </el-row>
       </div>
     </div>
+    <div class="section sponser">
+      <div class="container">
+        <h1 class="title" v-t="'intro.sponser'"></h1>
+        <div class="sponser-list">
+          <div class="sponser-item">
+            <a href="http://morimoose.com/" target="_blank" rel="noopener">
+              <img width="100" height="100" src="/img/sponser1.png" alt="Mori Moose">
+              <div class="text">
+                Mori Moose
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="section footer white-bg">
       <div class="container">
         <div class="line">
@@ -168,6 +183,31 @@ export default class extends Vue {
 }
 </script>
 <style lang="less">
+.sponser {
+  text-align: center;
+  margin: 0 auto;
+  .title {
+    text-align: left;
+    color: #999;
+    margin: 0 0 10px;
+    font-size: 1.22em;
+  }
+  .sponser-item {
+    display: inline-block;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 14px 22px;
+    opacity: 0.5;
+    transition: 1s opacity;
+    a {
+      color: #333;
+      text-decoration: none;
+    }
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
 .intro-container {
   .tool-section {
     cursor: pointer;

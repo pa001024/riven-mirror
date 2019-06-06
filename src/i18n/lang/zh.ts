@@ -3411,7 +3411,8 @@ let po = {
     fav2: "中文维基",
     fav3: "中文论坛",
     fav4: "英文维基",
-    fav5: "WFA"
+    fav5: "WFA",
+    sponser: "友情赞助"
   },
   tour: {
     labels: {

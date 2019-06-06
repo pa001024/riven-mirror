@@ -72,14 +72,14 @@
     </div>
     <!-- 预览 -->
     <div class="preview" v-if="strike">
-      <div class="prop">{{$t("modular.damage")}}: {{+zaw.panelDamage.toFixed(1)}}</div><!--
+      <div class="prop">{{$t("modular.damage")}}: {{+zaw.defaultMode.panelDamage.toFixed(1)}}</div><!--
    --><div class="prop">{{$t("modular.slideDamage")}}: {{+zaw.slideDmg.toFixed(1)}}</div><!--
    --><div class="prop" v-for="dmg in zaw.dmg" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
-   --><div class="prop" v-if="zaw.range">{{$t("modular.range")}}: {{+(zaw.range[0]+zaw.range[1]).toFixed(1)}}m</div><!--
-   --><div class="prop">{{$t("modular.fireRate")}}: {{zaw.fireRate}}</div><!--
-   --><div class="prop">{{$t("modular.critDamage")}}: {{zaw.critMul}}x</div><!--
-   --><div class="prop">{{$t("modular.critChance")}}: {{(zaw.critChance*100).toFixed()}}%</div><!--
-   --><div class="prop">{{$t("modular.status")}}: {{(zaw.procChance*100).toFixed()}}%</div>
+   --><div class="prop" v-if="zaw.reach">{{$t("modular.range")}}: {{+(zaw.reach[0]+zaw.reach[1]).toFixed(1)}}m</div><!--
+   --><div class="prop">{{$t("modular.fireRate")}}: {{+(zaw.defaultMode.fireRate/60).toFixed(3)}}</div><!--
+   --><div class="prop">{{$t("modular.critDamage")}}: {{zaw.defaultMode.critMul}}x</div><!--
+   --><div class="prop">{{$t("modular.critChance")}}: {{(zaw.defaultMode.critChance*100).toFixed()}}%</div><!--
+   --><div class="prop">{{$t("modular.status")}}: {{(zaw.defaultMode.procChance*100).toFixed()}}%</div>
     </div>
     <el-button class="stepctl" :disabled="part === 0" @click="part = part > 0 ? part - 1 : 0">{{$t("modular.lastStep")}}</el-button>
     <el-button class="stepctl" :disabled="part === 0 && !strike || part === 1 && !grip || part === 2 && !links" @click="part = part < 2 ? part + 1 : (finish(),2)">{{part === 2 ? $t("modular.finish") : $t("modular.nextStep")}}</el-button>

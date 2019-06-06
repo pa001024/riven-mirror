@@ -79,10 +79,10 @@ const _kitgunChamber = [
 ] as [number, string, [string, number][], number, number, number[], number][];
 
 const _kitgunGrip = [
-  [0, "Gibber", [[-48, 3.17], [0, 12], [0, 11], [-4, 4.5]]],
-  [1, "Ramble", [[-24, 2.5], [0.5, 12], [1.5, 8.83], [0, 3.67]]],
-  [2, "Lovetap", [[51, 1.5], [1.5, 12], [7.8, 5.17], [12, 2.5]]],
-  [3, "Haymaker", [[102, 1.17], [2, 12], [12.5, 3.67], [20, 2.17]]]
+  [0, "Gibber", [[-48, 190], [0, 720], [0, 660], [-4, 270]]],
+  [1, "Ramble", [[-24, 150], [0.5, 720], [1.5, 618], [0, 220]]],
+  [2, "Lovetap", [[51, 90], [1.5, 720], [7.8, 310], [12, 150]]],
+  [3, "Haymaker", [[102, 70], [2, 720], [12.5, 220], [20, 130]]]
 ] as [number, string, [number, number][]][];
 
 const _kitgunLoader = [
@@ -190,7 +190,7 @@ export class Kitgun extends Weapon {
     const mode = {} as CoreWeaponMode;
     mode.damage = this.chamber.dmgs
       .map(([n, v]) => [n, hAccSum(v, (this.name === "Tombfinger" && n === "Radiation" ? 4 : 1) * grip.dmgAdd)] as [string, number])
-      .filter(v => v[1] > 0)
+      .filter(v => v[1] > 0);
     mode.critMul = hAccSum(loader.critDamage, 2);
     mode.critChance = hAccSum(this.chamber.critChance, loader.critChance);
     mode.procChance = hAccSum(this.chamber.procChance, loader.procChance);

@@ -200,6 +200,13 @@ export class Weapon {
   get defaultMode() {
     return this.getMode();
   }
+
+  // melee
+
+  /** 滑砍伤害 */
+  get slideDmg() {
+    return this.defaultMode.panelDamage * this.spinAttack;
+  }
 }
 
 /**

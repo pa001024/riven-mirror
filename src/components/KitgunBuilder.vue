@@ -32,7 +32,7 @@
             {{$t(`messages.${item.id}`)}}
           </div>
           <div class="prop">
-            <span>{{loadGrip(item).fireRate}} {{$t(`modular.fireRate`)}}</span>
+            <span>{{+(loadGrip(item).fireRate/60).toFixed(3)}} {{$t(`modular.fireRate`)}}</span>
             <span>{{loadGrip(item).dmgAdd >= 0 ? "+" : ""}}{{loadGrip(item).dmgAdd}} {{$t(`modular.damage`)}}</span>
           </div>
         </el-radio>
@@ -69,7 +69,7 @@
       <div class="prop">{{$t("modular.damage")}}: {{+kitgun.defaultMode.panelDamage.toFixed(1)}}</div><!--
    --><div class="prop" v-for="dmg in kitgun.defaultMode.damage" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
    --><div class="prop" v-if="kitgun.rangeLimit">{{$t("modular.rangeLimit")}}: {{kitgun.rangeLimit}} m</div><!--
-   --><div class="prop">{{$t("modular.fireRate")}}: {{kitgun.defaultMode.fireRate}}</div><!--
+   --><div class="prop">{{$t("modular.fireRate")}}: {{+(kitgun.defaultMode.fireRate/60).toFixed(3)}}</div><!--
    --><div class="prop">{{$t("modular.status")}}: {{(kitgun.defaultMode.procChance*100).toFixed()}}%</div><!--
    --><div class="prop">{{$t("modular.critDamage")}}: {{kitgun.defaultMode.critMul}}x</div><!--
    --><div class="prop">{{$t("modular.critChance")}}: {{(kitgun.defaultMode.critChance*100).toFixed()}}%</div><!--
