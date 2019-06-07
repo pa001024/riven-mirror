@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { hAccSum } from "@/warframe/util";
-import { Weapon, WeaponTag, CoreWeaponMode } from "@/warframe/codex/weapon";
+import { Weapon, WeaponTag, CoreWeaponMode, MainTag } from "@/warframe/codex/weapon";
 import { i18n } from "@/i18n";
 
 /**
@@ -52,24 +52,24 @@ export interface AmpBrace {
 
 const _ampPrism = [
   // index, id, dmgs, critChance, critDamage, procChance, fireRate, accuracy, ammoCost, rangeLimit
-  [1, "Raplak Prism", [["Void", 3000]], 0.38, 2.6, 0.1, 2, 32, 5, 100],
-  [2, "Shwaak Prism", [["Void", 3500]], 0.1, 1.6, 0.2, 1.33, 9.1, 10, 30, /* prjSpeed */ 100],
-  [3, "Granmu Prism", [["Void", 2400]], 0.26, 2, 0.12, 2.07, 100, 15, 70, /* prjSpeed */ 80],
-  [4, "Rahn Prism", [["Void", 1000]], 0.3, 2, 0.04, 5.67, 32, 2, 100],
-  [5, "Cantic Prism", [["Void", 1460]], 0.34, 2.2, 0.1, 4.88, 32, 3, 100],
-  [6, "Lega Prism", [["Void", 600]], 0.08, 1.6, 0.34, 7.5, 100, 60, 28],
-  [7, "Klamora Prism", [["Void", 600]], 0.38, 2.4, 0.1, 12, 100, 25, 13]
+  [1, "Raplak Prism", [["Void", 3000]], 0.38, 2.6, 0.1, 120, 32, 5, 100],
+  [2, "Shwaak Prism", [["Void", 3500]], 0.1, 1.6, 0.2, 80, 9.1, 10, 30, /* prjSpeed */ 100],
+  [3, "Granmu Prism", [["Void", 2400]], 0.26, 2, 0.12, 125, 100, 15, 70, /* prjSpeed */ 80],
+  [4, "Rahn Prism", [["Void", 1000]], 0.3, 2, 0.04, 340, 32, 2, 100],
+  [5, "Cantic Prism", [["Void", 1460]], 0.34, 2.2, 0.1, 293, 32, 3, 100],
+  [6, "Lega Prism", [["Void", 600]], 0.08, 1.6, 0.34, 450, 100, 60, 28],
+  [7, "Klamora Prism", [["Void", 600]], 0.38, 2.4, 0.1, 720, 100, 25, 13]
 ] as [number, string, [string, number][], number, number, number, number, number, number, number, number?][];
 
 const _ampScaffold = [
   // index, id, dmgs, critChance, critDamage, procChance, fireRate, accuracy, ammoCost, rangeLimit
-  [1, "Pencha Scaffold", [["Void", 9000]], 0.14, 1.6, 0.18, 1.25, 100, 10, 41],
-  [2, "Shraksun Scaffold", [["Void", 7500]], 0.2, 2.5, 0.2, 1.33, 9.1, 10, 15, /* prjSpeed */ 40],
-  [3, "Klebrik Scaffold", [["Void", 320]], 0.16, 1.6, 0.14, 12, 100, 3, 25],
-  [4, "Phahd Scaffold", [["Void", 6100]], 0.34, 2.6, 0.12, 1.33, 9.1, 20, 300, /* prjSpeed */ 100],
-  [5, "Exard Scaffold", [/*["Impact", 200], */ ["Void", 2600]], 0.17, 1.9, 0.33, 8.26, 10, 20, 40, /* prjSpeed */ 100],
-  [6, "Dissic Scaffold", [/*["Impact", 15], */ ["Void", 6600]], 0.03, 1.5, 0.37, 1, 100, 50, /* prjSpeed */ 100],
-  [7, "Propa Scaffold", [["Void", 9000]], 0.3, 2, 0, 2, 9.1, 50, 10, /* prjSpeed */ 40]
+  [1, "Pencha Scaffold", [["Void", 9000]], 0.14, 1.6, 0.18, 75, 100, 10, 41],
+  [2, "Shraksun Scaffold", [["Void", 7500]], 0.2, 2.5, 0.2, 80, 9.1, 10, 15, /* prjSpeed */ 40],
+  [3, "Klebrik Scaffold", [["Void", 320]], 0.16, 1.6, 0.14, 720, 100, 3, 25],
+  [4, "Phahd Scaffold", [["Void", 6100]], 0.34, 2.6, 0.12, 80, 9.1, 20, 300, /* prjSpeed */ 100],
+  [5, "Exard Scaffold", [/*["Impact", 200], */ ["Void", 2600]], 0.17, 1.9, 0.33, 496, 10, 20, 40, /* prjSpeed */ 100],
+  [6, "Dissic Scaffold", [/*["Impact", 15], */ ["Void", 6600]], 0.03, 1.5, 0.37, 60, 100, 50, /* prjSpeed */ 100],
+  [7, "Propa Scaffold", [["Void", 9000]], 0.3, 2, 0, 120, 9.1, 50, 10, /* prjSpeed */ 40]
 ] as [number, string, [string, number][], number, number, number, number, number, number, number, number?][];
 
 const _ampBrace = [
@@ -97,7 +97,8 @@ export const NoneBraceData = {
 /** 棱镜数据 */
 export const AmpPrismData: AmpPrism[] = _ampPrism.map(v => ({
   index: v[0],
-  name: v[1],
+  id: v[1],
+  name: _.camelCase(v[1]),
   dmgs: v[2],
   critChance: v[3],
   critDamage: v[4],
@@ -112,7 +113,8 @@ export const AmpPrismData: AmpPrism[] = _ampPrism.map(v => ({
 /** 支架数据 */
 export const AmpScaffoldData: AmpScaffold[] = _ampScaffold.map(v => ({
   index: v[0],
-  name: v[1],
+  id: v[1],
+  name: _.camelCase(v[1]),
   dmgs: v[2],
   critChance: v[3],
   critDamage: v[4],
@@ -127,7 +129,8 @@ export const AmpScaffoldData: AmpScaffold[] = _ampScaffold.map(v => ({
 /** 曲柄数据 */
 export const AmpBraceData: AmpBrace[] = _ampBrace.map(v => ({
   index: v[0],
-  name: v[1],
+  id: v[1],
+  name: _.camelCase(v[1]),
   critChance: v[2],
   procChance: v[3],
   magazine: v[4],
@@ -156,7 +159,9 @@ export class Amp extends Weapon {
   }
 
   get tags() {
-    return new WeaponTag((this.scaffold && this.scaffold.name === "Klebrik Scaffold") || (this.prism && this.prism.name === "Klamora Prism") ? ["Amp", "Continuous"] : ["Amp"]);
+    return new WeaponTag(
+      (this.scaffold && this.scaffold.name === "Klebrik Scaffold") || (this.prism && this.prism.name === "Klamora Prism") ? ["Amp", "Continuous"] : ["Amp"]
+    );
   }
   get url() {
     return `AMP-${this.buildName}`;
@@ -186,6 +191,7 @@ export class Amp extends Weapon {
     if (!mainPart) return;
     let brace = this.brace || NoneBraceData;
     this.name = "Amp";
+    this.mod = MainTag.Amp;
     this.buildName = `${this.prism ? this.prism.index : "x"}${this.scaffold ? this.scaffold.index : "x"}${brace.index}`;
     const mode = {
       damage: mainPart.dmgs,
@@ -205,9 +211,9 @@ export class Amp extends Weapon {
   }
   get displayName() {
     if (this.prism || this.scaffold)
-      return `${this.isPrism ? i18n.t(`messages.${_.camelCase(this.prism.name)}`) : i18n.t(`messages.${_.camelCase(this.scaffold.name)}`)}-${i18n.t(`messages.${_.camelCase(this.brace.name)}`)} ( ${
-        this.buildName
-      } )`;
+      return `${this.isPrism ? i18n.t(`messages.${_.camelCase(this.prism.name)}`) : i18n.t(`messages.${_.camelCase(this.scaffold.name)}`)}-${i18n.t(
+        `messages.${_.camelCase(this.brace.name)}`
+      )} ( ${this.buildName} )`;
     else return "Amp";
   }
 }

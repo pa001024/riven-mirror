@@ -82,14 +82,14 @@ export class Weapon {
   modes: CoreWeaponMode[];
 
   constructor(data?: ProtoWeapon, base?: ProtoWeapon) {
+    // 修复过高精度
+    const fixBuf = <T>(v: T) => {
+      if (typeof v === "number") return +v.toFixed(3);
+      if (typeof v === "object") return _.mapValues(v as any, fixBuf);
+      return v;
+    };
     if (data) {
       const { variants, modes, tags, ...weapon } = data;
-      // 修复过高精度
-      const fixBuf = <T>(v: T) => {
-        if (typeof v === "number") return +v.toFixed(3);
-        if (typeof v === "object") return _.mapValues(v as any, fixBuf);
-        return v;
-      };
       Object.assign(this, fixBuf(weapon));
 
       if (tags) {
@@ -111,7 +111,7 @@ export class Weapon {
     }
     if (base) {
       this.base = base.name;
-      this.disposition = base.disposition;
+      this.disposition = fixBuf(base.disposition);
     }
   }
   /** proto名 */
@@ -179,6 +179,10 @@ export class Weapon {
   /** 是否是Kitgun */
   get isKitgun() {
     return this.mod === MainTag.Kitgun;
+  }
+  /** 是否是Amp */
+  get isAmp() {
+    return this.mod === MainTag.Amp;
   }
 
   /** 获取武器对应紫卡属性范围 */

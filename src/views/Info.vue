@@ -75,6 +75,10 @@ export default class WeaponInfo extends Vue {
     this._lastid = this.id;
     this._weapon = loadWeapon(this.id);
   }
+
+  mounted() {
+    this.reload();
+  }
 }
 </script>
 

@@ -7,10 +7,12 @@
           <el-card class="weapon-box">
             <div slot="header" class="weapon-name">
               <span class="title">{{weapon.displayName}}</span>
+              <template v-if="!weapon.isAmp">
               [
               <span class="forma"> {{$t("build.formaCount", [build.formaCount])}} </span>
               <span class="umbra" v-if="build.umbraCount"> + {{build.umbraCount}}U </span>
               ]
+              </template>
               <ShareQR :url="build.miniCodeURL"/>
             </div>
             <div class="weapon-capacity"></div>
@@ -106,7 +108,7 @@
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
             <!-- MOD区域 -->
-            <el-row type="flex" class="mod-slot-container autozoom" :gutter="12" v-if="!isAMP">
+            <el-row type="flex" class="mod-slot-container autozoom" :gutter="12" v-if="!weapon.isAmp">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :options="{ animation: 250, handle:'.mod-title' }">
                 <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
                   <component :is="levelSetting ? 'LeveledModSlot' : 'ModSlot'"  @level="refleshMods()" @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
@@ -286,10 +288,6 @@ export default class GunBuildEditor extends BaseBuildEditor {
   reloadSelector() {
     this.$refs.selector && (this.$refs.selector as any).reload();
     this.$refs.buffselector && (this.$refs.buffselector as any).reload();
-  }
-
-  get isAMP() {
-    return this.weapon.tags.has("Amp");
   }
 
   get options() {

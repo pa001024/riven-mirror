@@ -523,6 +523,8 @@ let po = {
     lanzo: "Lanzo",
     peram: "Peram",
     tulok: "Tulok",
+    unarmed: "Unarmed",
+    amp: "Amp",
 
     cyngasAtmosphere: "Cyngas (Atmosphere)",
     dualDecurionAtmosphere: "Dual Decurion (Atmosphere)",

@@ -1285,6 +1285,7 @@ let po = {
     peram: "佩拉姆鱼叉",
     tulok: "图洛克鱼叉",
     unarmed: "空手",
+    amp: "增幅器",
 
     cyngasAtmosphere: "合成燃气炮 (大气层内)",
     dualDecurionAtmosphere: "什长双枪 (大气层内)",
@@ -1423,6 +1424,7 @@ let po = {
     baruuk: "BARUUK",
     mesaPrime: "MESA PRIME",
     hildryn: "HILDRYN",
+    wisp: "WISP",
 
     maduraiLens: "MADURAI晶体",
     naramonLens: "NARAMON晶体",
@@ -2728,6 +2730,7 @@ let po = {
     models: {
       eidolon: "夜灵 (机器 + 合金装甲)",
       eidolonUnarmored: "夜灵 (机器)",
+      eidolonShield: "夜灵 (护盾)",
       orb: "园蛛 (机器 + 合金装甲)",
       grineer: "Grineer (复制肉体 + 铁质装甲)",
       grineerUnarmored: "Grineer (复制肉体)",

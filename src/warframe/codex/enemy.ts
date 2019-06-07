@@ -45,7 +45,7 @@ const _damageTypeDatabase = {
   Magnetic: ["Combined", "Cold+Electricity", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0.75, 0.75, 0, -0.5]],
   Radiation: ["Combined", "Electricity+Heat", [0, 0, -0.75, -0.5, 0, 0.5, 0, 0.25, 0, -0.25, 0, 0, 0.75]],
   Viral: ["Combined", "Cold+Toxin", [0.5, 0.75, 0, -0.5, 0, 0, -0.25, 0, 0, 0, 0, 0, 0]],
-  Void: ["Standalone", null, [0, -0.5, -0.5, 0, 0, 0, -0.5, 0, 0, 0, 0, 0, 0]]
+  Void: ["Standalone", null, [0, -0.5, -0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 } as { [key: string]: [string, string, number[]] };
 
 /**
@@ -271,6 +271,7 @@ const _damageModelList = [
   // 伤害模型列表
   ["Eidolon", 5, 6, , 1, 0.6, 3],
   ["Eidolon Unarmored", 5, 6, , , 0.6, 3],
+  ["Eidolon Shield", 5, 10, , , 0.6, 4],
   ["Orb", 5, 6, , 1, 0, 2],
   ["Grineer", 1, 1, , 0, 0, 0],
   ["Grineer Unarmored", 1, 1, , , 0, 0],
@@ -361,7 +362,8 @@ export class SimpleDamageModel extends DamageModelData {
    * @memberof Enemy
    */
   mapDamage(dmgs: [string, number][], critChance: number = 0, threshold = 300) {
-    if (this.ignoreProc === 3) return this.mapEidolonDmg(dmgs, critChance, threshold > 300 ? 300 : threshold);
+    if (this.ignoreProc > 3) return this.mapEidolonDmg(dmgs.filter(v => v[0] === "Void"), critChance, threshold > 300 ? 300 : threshold);
+    if (this.ignoreProc > 2) return this.mapEidolonDmg(dmgs, critChance, threshold > 300 ? 300 : threshold);
     else return this.mapDamageNormal(dmgs);
   }
 
@@ -807,7 +809,17 @@ export class Enemy extends EnemyData {
    * @param {number} [ammo=1]
    * @memberof Enemy
    */
-  applyHit(dmgs: [string, number][], procChanceMap: [string, number][], dotDamageMap: [string, number][], pellets = 1, durationMul = 1, critChance = 0, threshold = 300, procDamageMul = 1, ammo = 1) {
+  applyHit(
+    dmgs: [string, number][],
+    procChanceMap: [string, number][],
+    dotDamageMap: [string, number][],
+    pellets = 1,
+    durationMul = 1,
+    critChance = 0,
+    threshold = 300,
+    procDamageMul = 1,
+    ammo = 1
+  ) {
     let procChance = procChanceMap.reduce((a, [id, val]) => ((a[id] = val), a), {});
     // [0.每个弹片单独计算]
     let bls = pellets;
@@ -815,7 +827,7 @@ export class Enemy extends EnemyData {
       // [0.将伤害平分给每个弹片 不满整个的按比例计算]
       let bh = bls >= 1 ? 1 : bls;
       // 夜灵算法 https://warframe.huijiwiki.com/wiki/%E5%8D%9A%E5%AE%A2:%E5%A4%9C%E7%81%B5%E5%85%86%E5%8A%9B%E4%BD%BF%E4%BC%A4%E5%AE%B3%E6%9C%BA%E5%88%B6
-      if (this.ignoreProc === 3) {
+      if (this.ignoreProc > 2) {
         this.applyEidolonDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]), critChance, threshold * this.resistence * bh); // 不足一个的乘以阈值
       } else if (this.ignoreProc === 2) {
         this.applyDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]));

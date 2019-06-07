@@ -1,6 +1,6 @@
 <template>
   <div class="weapon-infobox">
-    <div class="pic"><img :src="weaponimg" alt="Loading..."></div>
+    <div class="pic"><img :src="imgSrc" :alt="name"></div>
     <div class="name">{{$t(weapon.id)}}</div>
   </div>
 </template>
@@ -9,6 +9,7 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { i18n } from "@/i18n";
 import { Weapon } from "@/warframe/codex";
+import { CachedWikiApi } from "@/service/wiki";
 // import InfoRadar from "@/components/InfoRadar.vue";
 
 @Component({
@@ -16,11 +17,17 @@ import { Weapon } from "@/warframe/codex";
 })
 export default class WeaponInfobox extends Vue {
   @Prop() weapon: Weapon;
-  weaponimg = "/img/LOGO@4x.png";
+  imgSrc = "/img/LOGO@4x.png";
+  name = "Loading...";
 
   @Watch("weapon")
-  loadImgFromOnline() {
-    // this.weaponimg=
+  async loadImgFromOnline() {
+    this.name = "Loading...";
+    this.imgSrc = await CachedWikiApi.instance.getMainImage(this.weapon.name);
+    this.name = this.weapon.name;
+  }
+  mounted() {
+    this.loadImgFromOnline();
   }
 }
 </script>

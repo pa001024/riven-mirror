@@ -25,7 +25,7 @@
             <div v-show="mod.name" class="mod-display">
               <el-card class="mod-props-box index-card">
                 <h3 slot="header" class="mod-name">
-                  <span>{{mod.name}} {{mod.subfix}}</span>
+                  <span>{{mod.fullLocName}}</span>
                   <span class="mod-recycle"><i class="el-icon-refresh"></i>{{mod.recycleTimes}}</span>
                 </h3>
                 <ul>
