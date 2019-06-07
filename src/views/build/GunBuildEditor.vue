@@ -17,6 +17,15 @@
             </div>
             <div class="weapon-capacity"></div>
             <div class="weapon-props">
+              <!-- 武器模式 -->
+              <el-row :gutter="4" class="prop-diff model-selector" v-if="weapon.modes.length>1">
+                <el-col :span="8" class="title" v-t="'build.weaponMode'"></el-col>
+                <el-col :span="16">
+                  <el-select size="mini" class="model-name" v-model="build.modeIndex" :placeholder="$t('build.weaponModeTip')">
+                    <el-option v-for="(item, k) in weapon.modes" :key="k" :label="item.locName" :value="k" />
+                  </el-select>
+                </el-col>
+              </el-row>
               <!-- 容量 -->
               <el-row :gutter="4" class="prop-diff cost-show">
                 <el-col :span="8" class="title">{{$t('build.cost')}}</el-col>
@@ -73,7 +82,7 @@
               <PropDiff :name="$t('build.panelDamage')" :ori="build.originalDamage" :val="build.panelDamage"></PropDiff>
               <PropDiff :name="$t('build.totalDamage')" :ori="build.oriTotalDamage" :val="build.totalDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"></PropDiff>
-              <PropDiff v-if="weapon.tags.has('Sniper')" :name="$t('build.firstAmmoDamage')" :ori="build.oriTotalDamage" :val="build.firstAmmoDamage"
+              <PropDiff v-if="weapon.isSniper" :name="$t('build.firstAmmoDamage')" :ori="build.oriTotalDamage" :val="build.firstAmmoDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
               <PropDiff data-v-step="2" :name="$t('build.burstDamage')" :ori="build.oriBurstDamage" :val="build.burstDamage"
                   class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"></PropDiff>
@@ -282,6 +291,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
   @Watch("weapon")
   reload() {
     super.reload();
+
     this.build.target = this.enemy;
   }
   // [overwrite]

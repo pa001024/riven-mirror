@@ -20,7 +20,7 @@ export class WeaponTag {
   mainTag: MainTag;
   constructor(init?: string[]) {
     this._set = new Set(init || []);
-    this.mainTag = MainTag[init.find(v => v != "Primary" && v != "Robotic" && v != "Secondary")];
+    this.mainTag = MainTag[init.find(v => v != "Primary" && v != "Robotic")];
   }
   has(...tags: string[]) {
     if (tags.length === 1) return this._set.has(tags[0]);
@@ -32,6 +32,8 @@ export class WeaponTag {
 }
 
 export interface CoreWeaponMode extends Omit<WeaponMode, "damage"> {
+  /** 本地化名称 */
+  locName: string;
   /** 伤害 */
   damage: [string, number][];
 }
@@ -103,6 +105,16 @@ export class Weapon {
           damage: _.map(damage, (vv, vn) => [vn, fixBuf(vv)] as [string, number]),
           ...mode
         } as CoreWeaponMode;
+        if (mode.name) {
+          const locKey = `weaponmode.${_.camelCase(mode.name)}`;
+          if (i18n.te(locKey)) {
+            newMode.locName = i18n.t(locKey);
+          } else {
+            console.log("missing", locKey);
+            newMode.locName = mode.name;
+          }
+        } else newMode.locName = "default";
+
         if (typeof newMode.critChance === "undefined") newMode.critChance = defaultMode.critChance || 0;
         if (typeof newMode.critMul === "undefined") newMode.critMul = defaultMode.critMul || 2;
         if (typeof newMode.procChance === "undefined") newMode.procChance = defaultMode.procChance || 0;
@@ -282,6 +294,10 @@ export class WeaponBuildMode implements CoreWeaponMode {
   /** 名字 */
   get name() {
     return this.weapon.modes[this.mode].name;
+  }
+  /** 本地化名字 */
+  get locName() {
+    return this.weapon.modes[this.mode].locName;
   }
   /** 伤害 {Heat:100} */
   get damage() {

@@ -399,7 +399,8 @@ export const _warframeData: WarframeData[] = [
     armor: 200,
     energy: 100,
     sprint: 1,
-    passiveDescription: "While bleeding-out, Inaros becomes entombed in a protective Sarcophagus. He can revive himself by draining the life-force from nearby enemies and allies.",
+    passiveDescription:
+      "While bleeding-out, Inaros becomes entombed in a protective Sarcophagus. He can revive himself by draining the life-force from nearby enemies and allies.",
     abilities: ["Desiccation", "Devour", "Sandstorm", "Scarab Swarm"],
     aura: "-",
     exilus: "-",
@@ -435,7 +436,8 @@ export const _warframeData: WarframeData[] = [
     armor: 275,
     energy: 125,
     sprint: 1.05,
-    passiveDescription: "The ferocious kavat, Venari, fights by Khora’s side and provides her with a speed boost while active. If killed, Venari will reappear after a short time.",
+    passiveDescription:
+      "The ferocious kavat, Venari, fights by Khora’s side and provides her with a speed boost while active. If killed, Venari will reappear after a short time.",
     abilities: ["Whipclaw", "Ensnare", "Venari", "Strangledome"],
     aura: "d",
     exilus: "-",
@@ -453,7 +455,8 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 150,
     sprint: 1.15,
-    passiveDescription: "Dodge to enter and exit the Rift. Entering leaves behind a small Rift portal. Energy slowly recharges in the Rift, and each enemy killed in there also gives energy.",
+    passiveDescription:
+      "Dodge to enter and exit the Rift. Entering leaves behind a small Rift portal. Energy slowly recharges in the Rift, and each enemy killed in there also gives energy.",
     abilities: ["Banish", "Stasis", "Rift Surge", "Cataclysm"],
     aura: "-",
     introduced: "15",
@@ -667,7 +670,8 @@ export const _warframeData: WarframeData[] = [
     armor: 300,
     energy: 100,
     sprint: 1,
-    passiveDescription: "If Nidus is killed with at least 15 stacks of Mutation, those 15 stacks are consumed; this grants 5 seconds of invulnerability and restores health to 50%.",
+    passiveDescription:
+      "If Nidus is killed with at least 15 stacks of Mutation, those 15 stacks are consumed; this grants 5 seconds of invulnerability and restores health to 50%.",
     abilities: ["Virulence", "Larva", "Parasitic Link", "Ravenous"],
     aura: "r",
     introduced: "19.5",
@@ -1034,8 +1038,8 @@ export const _warframeData: WarframeData[] = [
     armor: 150,
     energy: 200,
     sprint: 1.2,
-    passiveDescription: "",
-    abilities: [], // TODO
+    passiveDescription: "Flowing between dimensions Wisp becomes invisible to enemies while in the air. ",
+    abilities: ["Reservoirs", "Wil-O-Wisp", "Breach Surge", "Sol Gate"],
     aura: "-",
     introduced: "24",
     polarities: ["r", "d"],

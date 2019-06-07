@@ -24,14 +24,13 @@ export abstract class BaseBuildEditor extends Vue {
 
   abstract get weapon(): Weapon;
   get mode() {
-    return this.weapon.getMode(this.modeIndex);
+    return this.build.mode;
   }
 
   tabs: BuildSelectorTab[] = [];
   tabValue = "SET A";
   selectModIndex = 0;
   selectBuffIndex = 0;
-  modeIndex = 0;
   get modelArmor() {
     return this.build.modelArmor || "";
   }
@@ -107,7 +106,7 @@ export abstract class BaseBuildEditor extends Vue {
     return this.currentTab.build;
   }
   get mergedDmg() {
-    let lD = this.weapon.modes[this.modeIndex].damage;
+    let lD = this.build.mode.damage;
     let nD = this.build.dmg;
     let rst: { [v: string]: [number, number] } = {};
     lD.forEach(([vn, vv]) => {

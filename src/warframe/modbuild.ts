@@ -30,14 +30,22 @@ export abstract class ModBuild {
 
   public abstract weapon: Weapon;
   public riven: RivenMod;
-  protected _modeName = "";
+  protected _modeIndex = 0;
   protected _mode: WeaponBuildMode;
   get modeName() {
-    return this._modeName;
+    return this.mode.name;
   }
   set modeName(value: string) {
-    this._modeName = value;
     this._mode = this.weapon.getMode(value);
+    this.recalcElements();
+  }
+  get modeIndex() {
+    return this._modeIndex;
+  }
+  set modeIndex(value: number) {
+    this._modeIndex = value;
+    this._mode = this.weapon.getMode(value);
+    this.recalcElements();
   }
   get mode() {
     return this._mode;
@@ -1171,6 +1179,12 @@ export abstract class ModBuild {
       // 1. 将紫卡直接插入
       else othermods.push(this.riven.normalMod); // 1. 将紫卡作为一张普卡进行计算
     }
+    // 有目标时计算复合元素收益
+    if (this.damageModel || this.target) {
+      const elmMods = lib.filter(v => v.isElement);
+      console.log(elmMods);
+    }
+
     let sortableMods = othermods.map(v => [v, 0] as [NormalMod, number]);
     while (mods.length < rivenSlots && sortableMods.length > 0) {
       // 2. 计算收益

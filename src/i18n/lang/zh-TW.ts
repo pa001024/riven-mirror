@@ -1964,7 +1964,11 @@ let po = {
     balefire: "野火燎原",
     shieldPillage: "護盾掠奪",
     haven: "和平之地",
-    aegisStorm: "神盾風暴"
+    aegisStorm: "神盾風暴",
+    reservoirs: "儲能池",
+    wilOWisp: "幻影鬼火",
+    breachSurge: "裂口湧流",
+    solGate: "太陽之門"
   },
   messagesExtend: {
     blueprint: "藍圖",
@@ -3015,7 +3019,7 @@ let po = {
     random: "隨機",
     rifle: "步槍",
     shotgun: "霰彈",
-    pistol: "手槍",
+    secondary: "手槍",
     melee: "近戰",
     pleaseWait: "請等待{0}秒",
     open: "開卡：{0}",

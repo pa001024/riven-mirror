@@ -1437,6 +1437,37 @@ export let _abilityData: AbilityData[] = [
     energyCost: 100,
     energyCostPS: 25,
     props: { Damage: { damage: [["Radiation", S(200)]], rangeDamage: [["Impact", S(500)]] } }
+  },
+  {
+    id: "Reservoirs",
+    tags: 2,
+    energyCost: 25
+  },
+  {
+    id: "Reservoirs",
+    tags: 2,
+    energyCost: 25,
+    props: { Buff: { duration: D(30), effect: [["hps", S(30)], ["ckm", S(20)], ["J", S(30)]], range: R(5) } }
+  },
+  {
+    id: "Wil-O-Wisp",
+    tags: 36,
+    energyCost: 35,
+    props: { Summon: { duration: D(4) } },
+    oneHand: true
+  },
+  {
+    id: "Breach Surge",
+    tags: 16,
+    energyCost: 50,
+    props: { Control: { duration: D(16), range: R(15) } }
+  },
+  {
+    id: "Sol Gate",
+    tags: 1,
+    energyCost: 25,
+    energyCostPS: 12,
+    props: { Damage: { damage: [["Heat", S(500)], ["Radiation", S(1000)]], range: R(40) } }
   }
 ];
 

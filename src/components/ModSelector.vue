@@ -73,7 +73,7 @@ export default class ModSelector extends Vue {
 
   /** MOD快速选择 */
   fastSelect = {
-    Rifle: {
+    [MainTag.Rifle]: {
       baseDmg: ["Serration", "Split Chamber", "Heavy Caliber"],
       crit: ["Point Strike", "Vital Sense"],
       aimCrit: ["Argon Scope", "Bladed Rounds"],
@@ -85,7 +85,7 @@ export default class ModSelector extends Vue {
       allStatus: ["High Voltage", "Malignant Force", "Thermite Rounds", "Rime Rounds"],
       allElem: ["Primed Cryo Rounds", "Hellfire", "Stormbringer", "Infected Clip"]
     },
-    Shotgun: {
+    [MainTag.Shotgun]: {
       baseDmg: ["Primed Point Blank", "Hell's Chamber"],
       crit: ["Primed Ravage", "Blunderbuss"],
       aimCrit: ["Laser Sight", "Shrapnel Shot"],
@@ -97,7 +97,7 @@ export default class ModSelector extends Vue {
       allStatus: ["Shell Shock", "Toxic Barrage", "Scattering Inferno", "Frigid Blast"],
       allElem: ["Primed Charged Shell", "Contagious Spread", "Incendiary Coat", "Chilling Grasp"]
     },
-    Pistol: {
+    [MainTag.Secondary]: {
       baseDmg: ["Hornet Strike", "Barrel Diffusion", "Lethal Torrent"],
       crit: ["Primed Pistol Gambit", "Primed Target Cracker"],
       aimCrit: ["Hydraulic Crosshairs", "Sharpened Bullets"],
@@ -109,7 +109,7 @@ export default class ModSelector extends Vue {
       allStatus: ["Jolt", "Pistol Pestilence", "Scorch", "Frostbite"],
       allElem: ["Primed Heated Charge", "Deep Freeze", "Convulsion", "Pathogen Rounds"]
     },
-    Melee: {
+    [MainTag.Melee]: {
       baseDmgRange: ["Primed Pressure Point", "Primed Reach"],
       crit: ["Blood Rush", "Organ Shatter", "Sacrificial Steel"],
       slideCrit: ["Maiming Strike", "Blood Rush", "Organ Shatter"],
@@ -122,7 +122,7 @@ export default class ModSelector extends Vue {
       condiCombo: ["Drifting Contact", "Condition Overload"],
       allElem: ["Primed Fever Strike", "Shocking Touch", "Molten Impact", "Shocking Touch"]
     },
-    Archgun: {
+    [MainTag["Arch-Gun"]]: {
       baseDmg: ["Rubedo-Lined Barrel", "Dual Rounds"],
       crit: ["Parallax Scope", "Hollowed Bullets"],
       aimCrit: ["Critical Focus"],
@@ -136,8 +136,10 @@ export default class ModSelector extends Vue {
     }
   };
   get fast() {
-    const mod = this.build.weapon.mod;
-    return _.map(this.fastSelect[mod === MainTag.Zaw ? "Melee" : mod === MainTag.Kitgun ? "Pistol" : mod], (v, i) => ({ name: i, id: v } as any));
+    let mod = this.build.weapon.mod;
+    if (mod === MainTag.Zaw) mod = MainTag.Melee;
+    if (mod === MainTag.Kitgun) mod = MainTag.Secondary;
+    return _.map(this.fastSelect[mod], (v, i) => ({ name: i, id: v } as any));
   }
 
   newRiven(code?: string) {
@@ -160,7 +162,8 @@ export default class ModSelector extends Vue {
     let mods = NormalModDatabase.filter(
       v =>
         (isVirtual && VirtualMeleeMods.includes(v.key)) || // 虚拟技能武器接受所有mod
-        (this.build.weapon.tags.toArray() // 普通
+        (this.build.weapon.tags
+          .toArray() // 普通
           .concat([this.build.weapon.name])
           .includes(v.type) &&
           this.build.isValidMod(v) &&
@@ -174,10 +177,22 @@ export default class ModSelector extends Vue {
     this.tabs = [
       // { id: "Fast", name: this.$t("modselector.fastSelect") as string, mods: _.map(this.fastSelect[this.build.rivenWeapon.mod], (v, i) => ({ name: i, id: v } as any)) },
       { id: "benefit", name: this.$t("modselector.sorted") as string, mods: benefits },
-      { id: "damage", name: this.$t("modselector.damage") as string, mods: mods.filter(v => v.id === "Condition Overload" || v.props.some(k => k[1] > 0 && "01DSKEGICO".indexOf(k[0]) >= 0)) },
+      {
+        id: "damage",
+        name: this.$t("modselector.damage") as string,
+        mods: mods.filter(v => v.id === "Condition Overload" || v.props.some(k => k[1] > 0 && "01DSKEGICO".indexOf(k[0]) >= 0))
+      },
       { id: "elements", name: this.$t("modselector.element") as string, mods: mods.filter(v => v.props.some(k => "456789A".indexOf(k[0]) >= 0)) },
-      { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.id === "Berserker" || v.props.some(k => "RLFJ".indexOf(k[0]) >= 0)) },
-      { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => v.id !== "Berserker" && v.props.every(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) < 0)) }
+      {
+        id: "speed",
+        name: this.$t("modselector.speed") as string,
+        mods: mods.filter(v => v.id === "Berserker" || v.props.some(k => "RLFJ".indexOf(k[0]) >= 0))
+      },
+      {
+        id: "other",
+        name: this.$t("modselector.other") as string,
+        mods: mods.filter(v => v.id !== "Berserker" && v.props.every(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) < 0))
+      }
     ];
     this.selectTab = "fast";
   }
@@ -189,7 +204,11 @@ export default class ModSelector extends Vue {
     else {
       let selected = _.compact(this.build.mods);
       let mods = NormalModDatabase.filter(
-        v => this.build.weapon.tags.toArray().concat([this.build.weapon.name]).includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id)
+        v =>
+          this.build.weapon.tags
+            .toArray()
+            .concat([this.build.weapon.name])
+            .includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id)
       );
       let found = id.map(v => mods.find(k => k.id === v)).filter(Boolean);
       this.$emit("command", found);

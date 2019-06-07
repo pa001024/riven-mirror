@@ -1352,7 +1352,7 @@ let po = {
     random: "Random",
     rifle: "Rifle",
     shotgun: "Shotgun",
-    pistol: "Pistol",
+    secondary: "Pistol",
     melee: "Melee",
     pleaseWait: "Please wait {0} seconds",
     open: "Open: {0}",

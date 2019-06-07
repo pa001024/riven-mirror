@@ -9,7 +9,7 @@
               <el-dropdown-item command="">{{$t("simulator.random")}}</el-dropdown-item>
               <el-dropdown-item command="Rifle">{{$t("simulator.rifle")}}</el-dropdown-item>
               <el-dropdown-item command="Shotgun">{{$t("simulator.shotgun")}}</el-dropdown-item>
-              <el-dropdown-item command="Pistol">{{$t("simulator.pistol")}}</el-dropdown-item>
+              <el-dropdown-item command="Secondary">{{$t("simulator.secondary")}}</el-dropdown-item>
               <el-dropdown-item command="Melee">{{$t("simulator.melee")}}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -55,7 +55,7 @@
             <div class="mod-display">
               <el-card class="mod-props-box index-card">
                 <h3 slot="header" class="mod-name">
-                  <span>{{newMod.name}} {{newMod.subfix}}</span>
+                  <span>{{newMod.fullLocName}}</span>
                   <span class="mod-recycle"><i class="el-icon-refresh"></i>{{newMod.recycleTimes}}</span>
                 </h3>
                 <ul class="mod-ul">

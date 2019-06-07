@@ -303,11 +303,11 @@ A段位12023
    */
   random(stype: string = "") {
     const robList = ["Burst Laser", "Vulklok", "Artax", "Vulcax", "Sweeper", "Stinger", "Multron", "Laser Rifle", "Deth Machine", "Cryotra", "Tazicor"];
-    let db = WeaponDatabase.weapons.filter(v => v.disposition > 0 && !robList.includes(v.id));
+    let db = WeaponDatabase.protos.filter(v => v.disposition > 0 && !robList.includes(v.id));
     let data = stype ? db.filter(v => v.mod === MainTag[stype]) : db;
-    let { id, name, mod } = data[~~(Math.random() * data.length)];
+    let { name, mod } = data[~~(Math.random() * data.length)];
     let rank = ~~(Math.random() * 8) + 9;
-    [this.name, this.name, this.mod, this.rank, this.recycleTimes] = [id, name, MainTag[mod] as RivenTypes, rank, 0];
+    [this.name, this.mod, this.rank, this.recycleTimes] = [name, MainTag[mod] as RivenTypes, rank, 0];
     this.randomProp();
   }
   /**
@@ -323,6 +323,7 @@ A段位12023
     // 偏差值 正态分布 标准差=5
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
     const weapon = this.weapon;
+    console.log(weapon, RivenPropertyDataBase[this.mod]);
     let props = _.sampleSize(RivenPropertyDataBase[this.mod], count).map(v => [v.id, _.round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1)]) as [
       string,
       number
