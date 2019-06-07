@@ -28,7 +28,7 @@
       <div class="mod-select">
         <div class="mod-item-container" v-for="(hiRiven, index) in modHistoty" :key="index">
           <div class="mod-item el-dropdown" @click="newRiven(hiRiven.qrCodeBase64)">
-            {{hiRiven.fullName}}
+            {{hiRiven.fullLocName}}
           </div>
         </div>
       </div>

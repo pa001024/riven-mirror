@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <el-cascader v-if="!weapon" filterable class="weapon-picker"
-          expand-trigger="hover" size="small" :placeholder="$t('rivenedit.selectWeapon')"
+          :props="{ expandTrigger: 'hover' }" size="small" :placeholder="$t('rivenedit.selectWeapon')"
           :options="nameOptions" :show-all-levels="false" v-model="selectWeapon" @change="handleChange"/>
         <template v-if="mod">
           <div class="prop-picker" v-for="(prop, index) in props" :key="index">
@@ -101,9 +101,10 @@ export default class RivenEditor extends Vue {
   /** 武器变更 */
   @Watch("weapon")
   handleChange() {
+    const weapon = this.weapon || WeaponDatabase.getWeaponByName(_.last(this.selectWeapon));
     this.riven = new RivenMod();
-    [this.riven.name, this.riven.mod] = [this.weapon.name, MainTag[this.weapon.mod] as RivenTypes];
-    this.mod = MainTag[this.weapon.mod];
+    [this.riven.name, this.riven.mod] = [weapon.name, MainTag[weapon.mod] as RivenTypes];
+    this.mod = MainTag[weapon.mod];
     this.is21Negative = false;
     this.props = [defalutEditorProp()];
     this.updateRiven();
@@ -113,6 +114,7 @@ export default class RivenEditor extends Vue {
   }
   /** 选择属性 */
   propClick(index: number, id: string) {
+    const weapon = this.weapon || WeaponDatabase.getWeaponByName(_.last(this.selectWeapon));
     this.props[index].id = id;
     this.props[index].prop = RivenDatabase.getPropByName(id);
     this.props[index].visable = false;
@@ -122,7 +124,7 @@ export default class RivenEditor extends Vue {
       hasNegative = !lastProp.prop.negative !== lastProp.value >= 0;
     let pUpLevel = toUpLevel(props.length, hasNegative),
       nUpLevel = toNegaUpLevel(props.length, hasNegative);
-    let mid = (hasNegative && index === props.length - 1 ? -nUpLevel : pUpLevel) * this.weapon.getPropBaseValue(id);
+    let mid = (hasNegative && index === props.length - 1 ? -nUpLevel : pUpLevel) * weapon.getPropBaseValue(id);
     if (this.props[index].min != +((mid > 0 ? 0.89 : 1.11) * mid).toFixed(1)) {
       this.props[index].min = +((mid > 0 ? 0.89 : 1.11) * mid).toFixed(1);
       this.props[index].max = +((mid > 0 ? 1.11 : 0.89) * mid).toFixed(1);
@@ -144,16 +146,17 @@ export default class RivenEditor extends Vue {
   }
   /** 重新自动填充数值 */
   refill() {
+    const weapon = this.weapon || WeaponDatabase.getWeaponByName(_.last(this.selectWeapon));
     let props = this.props.filter(v => v.prop);
     if (props.length > 1) {
       let lastProp = _.last(props),
-        hasNegative = this.is21Negative || !lastProp.prop.negative !== lastProp.value >= 0;
+        hasNegative = this.is21Negative || !lastProp.prop.negative !== lastProp.value >= 0 || props.length > 3;
       this.is21Negative = false;
       // 正面属性增幅, 负面属性增幅
       let pUpLevel = toUpLevel(props.length, hasNegative),
         nUpLevel = toNegaUpLevel(props.length, hasNegative);
       props.forEach((v, i) => {
-        let base = this.weapon.getPropBaseValue(v.id);
+        let base = weapon.getPropBaseValue(v.id);
         let mid = base * (hasNegative && i === props.length - 1 ? -nUpLevel : pUpLevel);
         this.props[i].value = +mid.toFixed(1);
         this.props[i].min = +((mid > 0 ? 0.89 : 1.11) * mid).toFixed(1);
@@ -169,8 +172,18 @@ export default class RivenEditor extends Vue {
   // === 生命周期钩子 ===
   beforeMount() {
     _.forEach(ModTypeTable, ({ name, include }, id) => {
-      let protos = WeaponDatabase.weapons.filter(v => include.includes(v.mod) && v.disposition > 0.1).map(v => ({ value: v.name, label: v.id }));
-      if (protos.length > 0) this.nameOptions.push({ value: id, label: this.$t(`weaponselector.${name}`) as string, children: protos });
+      let protos = WeaponDatabase.protos
+        .filter(v => include.includes(v.mod) && v.disposition > 0.1)
+        .map(v => ({
+          value: v.name,
+          label: this.$t(v.id) as string
+        }));
+      if (protos.length > 0)
+        this.nameOptions.push({
+          value: id,
+          label: this.$t(`weaponselector.${name}`) as string,
+          children: protos
+        });
     });
     if (this.weapon) this.handleChange();
   }

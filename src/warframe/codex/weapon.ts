@@ -106,14 +106,14 @@ export class Weapon {
           ...mode
         } as CoreWeaponMode;
         if (mode.name) {
-          const locKey = `weaponmode.${_.camelCase(mode.name)}`;
+          const locKey = `weaponmode.${_.camelCase(mode.name || mode.type || "default")}`;
           if (i18n.te(locKey)) {
             newMode.locName = i18n.t(locKey);
           } else {
             console.log("missing", locKey);
             newMode.locName = mode.name;
           }
-        } else newMode.locName = "default";
+        } else newMode.locName = i18n.t("weaponmode.default");
 
         if (typeof newMode.critChance === "undefined") newMode.critChance = defaultMode.critChance || 0;
         if (typeof newMode.critMul === "undefined") newMode.critMul = defaultMode.critMul || 2;

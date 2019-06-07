@@ -2117,7 +2117,9 @@ let po = {
   },
   weaponmode: {
     format: " ({0})",
+    default: "默认",
     charged: "蓄力",
+    charge: "蓄力",
     shotgun: "鹿弹",
     semiAutoMode: "半自动",
     fullAutoMode: "全自动",
