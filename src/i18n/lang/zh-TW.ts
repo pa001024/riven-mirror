@@ -1,8 +1,8 @@
 let po = {
   zh: "true",
   title: {
-    main: "Riven.IM - 極鏡",
-    sub: "{0} - Riven.IM - 極鏡",
+    main: "極鏡 (Riven.IM)",
+    sub: "{0} - 極鏡 (Riven.IM)",
     weapon: "{0} 配卡",
     info: "{0} 資料"
   },
@@ -410,6 +410,7 @@ let po = {
     serration: "膛線",
     fatalAcceleration: "致死加速",
     chargedChamber: "蓄力裝填",
+    primedChargedChamber: "蓄力裝填 Prime",
     primedChamber: "膛室 Prime",
     shotgunSpazz: "霰彈速射",
     repeaterClip: "轉輪彈匣",
@@ -1267,7 +1268,7 @@ let po = {
     ironStaff: "定海神針",
     regulators: "監察者雙槍",
     diwata: "仙女",
-    dexPixia: "Dex 妖精",
+    dexPixia: "DEX 妖精",
     desertWind: "沙漠之風",
     artemisBow: "月神狩弓",
     balefireCharger: "野火充能",
@@ -1458,7 +1459,7 @@ let po = {
     prismaYamakoSyandana: "稜晶 山越披飾",
     prismaArrows: "稜晶箭矢",
     prismaKoiSentinelTail: "稜晶 噴射尾翼",
-    prismaEdo: "稜晶 江戶",
+    prismaEdo: "稜晶江戶",
     leftPrismaEdoShoulderPlates: "稜晶江戶左肩甲",
     rightPrismaEdoShoulderPlates: "稜晶江戶右肩甲",
     prismaNaberus: "稜晶 惡魔納貝流士",
@@ -2328,6 +2329,10 @@ let po = {
       e5: "{0} 初始冰傷",
       e6: "{0} 初始毒傷",
       e7: "{0} 初始電傷",
+      p4: "{0} 物理轉火",
+      p5: "{0} 物理轉冰",
+      p6: "{0} 物理轉毒",
+      p7: "{0} 物理轉電",
       e8: "{0} 初始衝擊",
       e9: "{0} 初始穿刺",
       eA: "{0} 初始切割",
@@ -2725,7 +2730,9 @@ let po = {
     otherinfo: "其他資訊",
     minimap: "概要",
     healthBall: "生命球",
-    energyBall: "能量球"
+    energyBall: "能量球",
+    weaponMode: "模式",
+    weaponModeTip: "預設"
   },
   enemy: {
     name: "敵人",
@@ -2755,7 +2762,7 @@ let po = {
       eidolon: "夜靈 (機器 + 合金裝甲)",
       eidolonUnarmored: "夜靈 (機器)",
       eidolonShield: "夜靈 (護盾)",
-      orb: "园蛛 (机器 + 合金装甲)",
+      orb: "園蛛 (機器 + 合金裝甲)",
       grineer: "Grineer (複製肉體 + 鐵質裝甲)",
       grineerUnarmored: "Grineer (複製肉體)",
       grineerElite: "Grineer (複製肉體 + 合金裝甲)",
@@ -3221,6 +3228,11 @@ let po = {
     speed: "加速 (Volt)",
     warcry: "咆哮 (Valkyr)",
     provoke: "激怒 (Equinox)",
+    razorwingBlitz: "刀翼閃擊 (MOD)",
+    chromaticBlade4: "華彩刀劍 (火)",
+    chromaticBlade5: "華彩刀劍 (冰)",
+    chromaticBlade6: "華彩刀劍 (毒)",
+    chromaticBlade7: "華彩刀劍 (電)",
     mutalistQuanta: "異融量子槍球體",
     conditionOverlord: "異況超量",
     stealth: "偷襲 (武器等級)",
@@ -3403,8 +3415,8 @@ let po = {
     rmurl: "riven.market"
   },
   intro: {
-    ti1: "全新一站式工具應用",
-    ti2: "極鏡(Riven.IM)是先進的Warframe工具應用，為紫卡分析，配卡模擬等提供技術解決方案。",
+    ti1: "來試試極鏡吧!",
+    ti2: "測試映象 請勿作為主力使用 主站域名: riven.im",
     a1: "檢視文件",
     a2: "立即使用",
     d1: "突擊 / 警報 / 裂縫 / 賞金",
@@ -3438,7 +3450,8 @@ let po = {
     fav2: "中文維基",
     fav3: "中文論壇",
     fav4: "英文維基",
-    fav5: "WFA"
+    fav5: "WFA",
+    sponser: "友情贊助"
   },
   tour: {
     labels: {
@@ -3521,6 +3534,66 @@ let po = {
     tank: "坦克",
     support: "輔助",
     control: "控制"
+  },
+  alias: {
+    // 敵人
+    corruptedHeavyGunner: "白富美",
+    corruptedBombard: "高富帥",
+    // 武器
+    arcaPlasmor: "C噴",
+    astilla: "玻璃噴",
+    atterax: "G鞭",
+    brakk: "G炮",
+    ferrox: "C矛",
+    javlok: "G矛",
+    kohm: "吹風機",
+    maraDetron: "C炮",
+    opticor: "O炮",
+    scoliac: "I鞭",
+    securaLecta: "錢鞭",
+    telosBoltace: "集團拐",
+    volnus: "玻璃錘",
+    // MOD
+    corrosiveProjection: "CP",
+    // 戰甲
+    amesha: "奶翅",
+    ash: "阿屎",
+    atlas: "土甲",
+    banshee: "音媽,女妖",
+    baruuk: "武僧",
+    chroma: "龍甲",
+    elytron: "紅翅",
+    ember: "火雞",
+    equinox: "扶她",
+    excalibur: "咖哩",
+    frost: "冰男,冰隊",
+    gara: "玻璃甲",
+    garuda: "血媽",
+    harrow: "主教",
+    hydroid: "水男",
+    inaros: "沙甲",
+    itzal: "黑翅",
+    ivara: "弓妹",
+    khora: "蜘蛛甲",
+    limbo: "李明博,小明",
+    mag: "磁妹",
+    mesa: "女槍",
+    mirage: "小丑",
+    nekros: "摸屍",
+    nidus: "蛆甲,蛆爹",
+    nova: "諾娃,加速娃,減速娃",
+    nyx: "腦溢血",
+    oberon: "奶爸",
+    octavia: "DJ，DJ甲",
+    odonata: "O翅,白翅",
+    rhino: "犀牛,踩牛",
+    saryn: "毒媽",
+    titania: "蝶妹，蝶甲",
+    trinity: "奶媽",
+    valkyr: "女漢子,瓦喵",
+    vauban: "工程",
+    volt: "電男,電隊",
+    zephyr: "鳥姐"
   }
 };
 

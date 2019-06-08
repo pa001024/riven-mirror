@@ -106,7 +106,6 @@ export abstract class ModBuild {
   protected _finalCritMulMul = 100;
   protected _allEnemyDmgMul = 0;
   protected _multishotMul = 100;
-  protected _voidConvs: [string, number][] = [];
   protected _critChanceLock = -100;
   protected _finalSpeedMul = 100;
   protected _initialDamageMul = 100;
@@ -237,6 +236,10 @@ export abstract class ModBuild {
 
   // abs-extra prop
   _absExtra: [string, number][] = [];
+  // 物理转伤
+  _physicalConv: [string, number][] = [];
+  // 虚空转伤
+  _voidConvs: [string, number][] = [];
 
   /** 武器原本伤害增幅倍率 */
   get initialDamageMul() {
@@ -443,6 +446,24 @@ export abstract class ModBuild {
       oridmg = oridmg.map(([vn, vv]) => {
         if (vn === "Void") {
           this._voidConvs.forEach(([cn, cv]) => {
+            extraDmg.push([cn, (vv * cv) / 100]);
+            vv = (vv * (100 - cv)) / 100;
+          });
+        }
+        return [vn, vv] as [string, number];
+      });
+      extraDmg.forEach(([vn, vv]) => {
+        let i = oridmg.findIndex(v => v[0] === vn);
+        if (i >= 0) oridmg[i][1] += vv;
+        else oridmg.push([vn, vv]);
+      });
+      oridmg = oridmg.filter(v => v[1]);
+    }
+    if (this._physicalConv.length > 0) {
+      let extraDmg = [];
+      oridmg = oridmg.map(([vn, vv]) => {
+        if (["Impact", "Puncture", "Slash"].includes(vn)) {
+          this._physicalConv.forEach(([cn, cv]) => {
             extraDmg.push([cn, (vv * cv) / 100]);
             vv = (vv * (100 - cv)) / 100;
           });
@@ -996,6 +1017,7 @@ export abstract class ModBuild {
     this.standaloneElements = [];
     this._voidConvs = [];
     this._absExtra = [];
+    this._physicalConv = [];
     if (this.baseId === "Knell") this._procChanceAdd = 60;
     this.recalcElements();
   }
@@ -1496,6 +1518,18 @@ export abstract class ModBuild {
         break;
       case "e7":
         /* Initial Electricity 初始电伤 */ this._absExtra.push(["Electricity", pValue]);
+        break;
+      case "p4":
+        /* Physical to Heat 物理转火 */ this._physicalConv.push(["Heat", pValue]);
+        break;
+      case "p5":
+        /* Physical to Cold 物理转冰 */ this._physicalConv.push(["Cold", pValue]);
+        break;
+      case "p6":
+        /* Physical to Toxin 物理转毒 */ this._physicalConv.push(["Toxin", pValue]);
+        break;
+      case "p7":
+        /* Physical to Electricity 物理转电 */ this._physicalConv.push(["Electricity", pValue]);
         break;
       case "e8":
         /* Initial Impact 初始冲击 */ this._absExtra.push(["Impact", pValue]);

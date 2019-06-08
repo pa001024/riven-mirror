@@ -100,6 +100,11 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "E", dmg: true }, // 滑暴 Critical Hit Chance for Slide Attack
   // abs-inc 绝对增加
   { id: "X" }, // 处决 Finisher Damage
+  // convert 伤害转换
+  { id: "p4", dmg: true }, // 物理转火伤 Physical to Heat
+  { id: "p5", dmg: true }, // 物理转冰伤 Physical to Cold
+  { id: "p6", dmg: true }, // 物理转毒伤 Physical to Toxin
+  { id: "p7", dmg: true }, // 物理转电伤 Physical to Electricity
   // 战甲
   { id: "h" }, // Health
   { id: "s" }, // Shield

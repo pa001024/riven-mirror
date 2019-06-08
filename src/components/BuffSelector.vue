@@ -46,7 +46,10 @@ export default class extends Vue {
       let buffList = BuffList.filter(v =>
         v.target === "Ranged"
           ? !this.build.weapon.tags.has("Melee") //
-          : v.target === "All" || (!isAmp && ["Weapon", "Weapon+"].includes(v.target)) || this.build.weapon.tags.has(v.target)
+          : v.target === "All" ||
+            (!isAmp && ["Weapon", "Weapon+"].includes(v.target)) ||
+            this.build.weapon.tags.has(v.target) ||
+            this.build.weapon.baseName === v.target
       );
       this.tabs = [
         { id: "arcane", name: this.$t("buff.types.arcane") as string, buffs: buffList.filter(k => k.type === BuffType.Arcane) }, //

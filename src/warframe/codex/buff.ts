@@ -65,7 +65,8 @@ export class Buff {
     let pout = [];
     if (this.data.props) pout = pout.concat(this.data.props);
     if (this.data.dynamicProps) pout = pout.concat(this.data.dynamicProps.map(([n, v, p]) => [n, v * this.power + p]));
-    if (this.data.multiLayer && this.data.multiLayer.stackableProps) pout = pout.concat(this.data.multiLayer.stackableProps.map(([n, v]) => [n, v * this.layer]));
+    if (this.data.multiLayer && this.data.multiLayer.stackableProps)
+      pout = pout.concat(this.data.multiLayer.stackableProps.map(([n, v]) => [n, v * this.layer]));
     if (this.data.multiLayer && this.data.multiLayer.unstackableProps) pout = pout.concat(this.data.multiLayer.unstackableProps[this.layer - 1]);
     return pout;
   }
@@ -196,6 +197,55 @@ export const BuffList: BuffData[] = [
         }
       } as BuffData)
   ),
+  {
+    id: "rb",
+    name: "razorwingBlitz", // 蝶 刀翼闪击
+    type: BuffType.Speed,
+    target: "Dex Pixia",
+    dynamicProps: [["R", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100
+  },
+  {
+    id: "cb4",
+    name: "chromaticBlade4", // Excalibur 华彩刀剑 火
+    type: BuffType.Other,
+    target: "Exalted Blade",
+    props: [["p4", 100]],
+    dynamicProps: [["i2", 0.5, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100
+  },
+  {
+    id: "cb5",
+    name: "chromaticBlade5", // Excalibur 华彩刀剑 冰
+    type: BuffType.Other,
+    target: "Exalted Blade",
+    props: [["p5", 100]],
+    dynamicProps: [["i2", 0.5, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100
+  },
+  {
+    id: "cb6",
+    name: "chromaticBlade6", // Excalibur 华彩刀剑 毒
+    type: BuffType.Other,
+    target: "Exalted Blade",
+    props: [["p6", 100]],
+    dynamicProps: [["i2", 0.5, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100
+  },
+  {
+    id: "cb7",
+    name: "chromaticBlade7", // Excalibur 华彩刀剑 电
+    type: BuffType.Other,
+    target: "Exalted Blade",
+    props: [["p7", 100]],
+    dynamicProps: [["i2", 0.5, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100
+  },
   {
     id: "Q",
     name: "parasiticLink", // 蛆3 寄生链接

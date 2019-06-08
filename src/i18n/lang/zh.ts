@@ -1265,7 +1265,7 @@ let po = {
     certusBrace: "瑟图斯曲柄",
 
     valkyrTalons: "Valkyr之爪",
-    ironStaff: "定海神針",
+    ironStaff: "定海神针",
     regulators: "监察者双枪",
     diwata: "仙女",
     dexPixia: "DEX 妖精",
@@ -2013,8 +2013,7 @@ let po = {
     engines: "引擎",
     avionics: "飞航系统",
     mask: "面具",
-    immortalSkin: "不朽外观",
-    immortallSkin: "不朽外观"
+    immortalSkin: "不朽外观"
   },
   mods: {
     primedReach: "剑风P",
@@ -2330,6 +2329,10 @@ let po = {
       e5: "{0} 初始冰伤",
       e6: "{0} 初始毒伤",
       e7: "{0} 初始电伤",
+      p4: "{0} 物理转火",
+      p5: "{0} 物理转冰",
+      p6: "{0} 物理转毒",
+      p7: "{0} 物理转电",
       e8: "{0} 初始冲击",
       e9: "{0} 初始穿刺",
       eA: "{0} 初始切割",
@@ -3225,6 +3228,11 @@ let po = {
     speed: "加速 (Volt)",
     warcry: "咆哮 (Valkyr)",
     provoke: "激怒 (Equinox)",
+    razorwingBlitz: "刀翼闪击 (MOD)",
+    chromaticBlade4: "华彩刀剑 (火)",
+    chromaticBlade5: "华彩刀剑 (冰)",
+    chromaticBlade6: "华彩刀剑 (毒)",
+    chromaticBlade7: "华彩刀剑 (电)",
     mutalistQuanta: "异融量子枪球体",
     conditionOverlord: "异况超量",
     stealth: "偷袭 (武器等级)",
