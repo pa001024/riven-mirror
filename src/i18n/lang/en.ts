@@ -580,19 +580,7 @@ let po = {
     avionics: "Avionics"
   },
   weaponmode: {
-    format: " ({0})",
-    charged: "charged",
-    shotgun: "shotgun",
-    semiAuto: "semi-auto",
-    fullAuto: "full-auto",
-    burst: "burst",
-    secondary: "secondary",
-    fastest: "fastest",
-    heavyBlade: "Heavy Blade",
-    dualSwords: "Dual Swords",
-    atmosphere: "Atmosphere",
-    atmosphereCharged: "charged-Atmosphere",
-    aura: "aura"
+    default: "Default"
   },
   alerting: {
     sortie: "Sortie",

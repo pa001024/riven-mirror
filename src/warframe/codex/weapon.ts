@@ -484,3 +484,5 @@ export class WeaponDatabase {
     return this.variantsMap.get(base) || [];
   }
 }
+
+(window as any).WeaponDatabase = WeaponDatabase;
