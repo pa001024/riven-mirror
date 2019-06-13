@@ -196,6 +196,14 @@ export class Weapon {
   get isAmp() {
     return this.mod === MainTag.Amp;
   }
+  /** 是否是Virtual */
+  get isVirtual() {
+    return this.tags.has("Virtual");
+  }
+  /** 是否是Exalted */
+  get isExalted() {
+    return this.tags.has("Exalted");
+  }
 
   /** 获取武器对应紫卡属性范围 */
   getPropBaseValue(prop: string) {

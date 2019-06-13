@@ -33,7 +33,7 @@
         </div>
       </div>
       <div style="margin: 8px;">{{$t("modselector.createRiven")}}</div>
-      <RivenEditor style="margin: 8px;" v-model="editorRivenCode" :weapon="!isVirtual && build.rivenWeapon"></RivenEditor>
+      <RivenEditor style="margin: 8px;" v-model="editorRivenCode" :weapon="!isVirtual && build.weapon"></RivenEditor>
       <div style="text-align: right; margin: 0">
         <el-button type="primary" size="medium" @click="newRiven()">{{$t("modselector.ok")}}</el-button>
       </div>
