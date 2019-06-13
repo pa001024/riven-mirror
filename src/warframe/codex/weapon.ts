@@ -105,7 +105,7 @@ export class Weapon {
           damage: _.map(damage, (vv, vn) => [vn, fixBuf(vv)] as [string, number]),
           ...mode
         } as CoreWeaponMode;
-        if (mode.name) {
+        if (mode.name || mode.type) {
           const locKey = `weaponmode.${_.camelCase(mode.name || mode.type || "default")}`;
           if (i18n.te(locKey)) {
             newMode.locName = i18n.t(locKey);

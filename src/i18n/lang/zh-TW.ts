@@ -2117,6 +2117,9 @@ let po = {
   weaponmode: {
     default: "預設",
     charge: "蓄力",
+    chargedThrow: "蓄力投擲",
+    throw: "投擲",
+    area: "範圍傷害",
     semiAutoMode: "半自動",
     fullAutoMode: "全自動",
     burstMode: "點射",

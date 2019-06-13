@@ -1,30 +1,32 @@
 <template>
   <el-container class="weapon-info">
     <el-header class="info-bar">
-      <el-row>
-        <el-col :span="8">
-          <header class="info-header">
-            <div class="header-block">
-              <h1 :class="{en:!$t('zh')}" v-t="weapon.id"></h1>
-              <h2 v-if="$t('zh')" v-text="weapon.name"></h2>
-            </div>
-          </header>
-        </el-col>
-        <el-col :span="16">
-          <el-tabs class="info-vistab" v-model="activeTab">
-            <el-tab-pane label="数据" name="data"></el-tab-pane>
-            <el-tab-pane label="市场" name="eco"></el-tab-pane>
-            <el-tab-pane label="配装" name="build"></el-tab-pane>
-          </el-tabs>
-        </el-col>
-      </el-row>
+      <div class="info-header-outer">
+        <header class="info-header">
+          <div class="header-block">
+            <h1 :class="{en:!$t('zh')}" v-t="weapon.id"></h1>
+            <h2 v-if="$t('zh')" v-text="weapon.name"></h2>
+          </div>
+        </header>
+      </div>
+      <div>
+        <el-tabs class="info-vistab" v-model="activeTab">
+          <el-tab-pane label="数据" name="data"></el-tab-pane>
+          <el-tab-pane label="市场" name="eco"></el-tab-pane>
+          <el-tab-pane label="配装" name="build"></el-tab-pane>
+        </el-tabs>
+      </div>
     </el-header>
     <el-row class="info-body">
-      <el-col :xs="24" :span="8">
+      <el-col :xs="24" :span="8" class="info-box">
         <WeaponInfobox :weapon="weapon"/>
       </el-col>
-      <el-col :xs="24" :span="16">
-        main
+      <el-col :xs="24" :span="16" class="info-data">
+        <header class="nav-header" v-t="'info.nav'"></header>
+        <router-link :to="'/weapon/'+weapon.url" class="info-btn">
+          <WfIcon type="extension"/>
+          {{$t("navigate.weapon")}}
+        </router-link>
       </el-col>
     </el-row>
   </el-container>
@@ -90,6 +92,11 @@ export default class WeaponInfo extends Vue {
     padding: 0;
     border-bottom: 2px solid #e4e7ed;
     background: @text_darkerblue;
+    display: flex;
+  }
+  .info-header-outer {
+    flex: 1;
+    max-width: 314px;
   }
   .info-header {
     text-align: center;
@@ -124,6 +131,7 @@ export default class WeaponInfo extends Vue {
   }
   .info-vistab {
     line-height: 60px;
+    padding-right: 20px;
     .el-tabs__item {
       font-size: 1.2rem;
       color: @light;
@@ -138,6 +146,40 @@ export default class WeaponInfo extends Vue {
   .info-body {
     .weapon-infobox {
       margin: 8px;
+    }
+  }
+  .info-box {
+    min-width: 314px;
+    width: 33.33333%;
+  }
+  .info-data {
+    flex: 1;
+    max-width: calc(100% - 330px);
+    padding: 8px;
+  }
+  .nav-header {
+    font-size: 22px;
+    font-weight: 600;
+    padding: 12px 8px 8px;
+  }
+}
+.info-btn {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 20px;
+  background: @theme_main;
+  color: @text_light;
+  text-decoration: none;
+  box-shadow: 4px 4px #fff;
+}
+@media only screen and (max-width: 767px) {
+  .weapon-info {
+    .info-box,
+    .info-data {
+      width: 100%;
+      max-width: unset;
     }
   }
 }

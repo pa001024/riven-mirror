@@ -580,7 +580,11 @@ let po = {
     avionics: "Avionics"
   },
   weaponmode: {
-    default: "Default"
+    default: "Default",
+    charge: "Charge",
+    chargedThrow: "Charged Throw",
+    throw: "Throw",
+    area: "Area"
   },
   alerting: {
     sortie: "Sortie",

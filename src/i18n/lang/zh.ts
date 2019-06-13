@@ -2117,6 +2117,9 @@ let po = {
   weaponmode: {
     default: "默认",
     charge: "蓄力",
+    chargedThrow: "蓄力投掷",
+    throw: "投掷",
+    area: "范围伤害",
     semiAutoMode: "半自动",
     fullAutoMode: "全自动",
     burstMode: "点射",
@@ -3628,6 +3631,9 @@ let po = {
     vauban: "工程",
     volt: "电男,电队",
     zephyr: "鸟姐"
+  },
+  info: {
+    nav: "导航"
   }
 };
 
