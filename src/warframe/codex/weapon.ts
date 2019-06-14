@@ -114,6 +114,9 @@ export class Weapon {
             newMode.locName = mode.name;
           }
         } else newMode.locName = i18n.t("weaponmode.default");
+        if (!newMode.fireRate) {
+          if (newMode.chargeTime) newMode.fireRate = (1 / (newMode.chargeTime + 0.5)) * 60;
+        }
 
         if (typeof newMode.critChance === "undefined") newMode.critChance = defaultMode.critChance || 0;
         if (typeof newMode.critMul === "undefined") newMode.critMul = defaultMode.critMul || 2;

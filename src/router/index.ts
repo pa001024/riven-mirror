@@ -43,6 +43,7 @@ export function createRouter() {
       { path: "/setting", name: "Setting", component: () => import(/* webpackChunkName: "main" */ "@/views/Setting.vue") },
       { path: "/sim", name: "Simulator", component: () => import(/* webpackChunkName: "main" */ "@/views/Simulator.vue") },
       { path: "/weapon", name: "WeaponSelector", component: () => import(/* webpackChunkName: "main" */ "@/components/WeaponSelector.vue") },
+      { path: "/fweapon", name: "FlexWeaponSelector", component: () => import(/* webpackChunkName: "main" */ "@/components/FlexWeaponSelector.vue") },
       { path: "/weapon/:id", name: "BuildEditor", component: () => import(/* webpackChunkName: "main" */ "@/views/BuildEditor.vue") },
       { path: "/weapon/:id/:code", name: "BuildEditorWithCode", component: () => import(/* webpackChunkName: "main" */ "@/views/BuildEditor.vue") },
       { path: "/huangli", name: "Huangli", component: () => import(/* webpackChunkName: "main" */ "@/views/Huangli.vue") },

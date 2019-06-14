@@ -66,7 +66,7 @@
             </div>
             <div class="padding"></div>
             <div class="content">
-              <el-radio-group v-model="burstSampleSize" size="mini">
+              <el-radio-group class="will-invert" v-model="burstSampleSize" size="mini">
                 <el-radio-button :label="0"></el-radio-button>
                 <el-radio-button :label="0.5"></el-radio-button>
                 <el-radio-button :label="1"></el-radio-button>

@@ -27,6 +27,12 @@
           <WfIcon type="extension"/>
           {{$t("navigate.weapon")}}
         </router-link>
+        <a :href="$t('otherinfo.wikiurl', [weapon.url])" target="_blank" rel="noopener noreferrer" class="info-btn">
+          {{$t("otherinfo.wiki")}}
+        </a>
+        <a :href="$t('otherinfo.wmurl', [weapon.wmurl])" target="_blank" rel="noopener noreferrer" class="info-btn">
+          {{$t("otherinfo.wm")}}
+        </a>
       </el-col>
     </el-row>
   </el-container>
@@ -134,9 +140,9 @@ export default class WeaponInfo extends Vue {
     padding-right: 20px;
     .el-tabs__item {
       font-size: 1.2rem;
-      color: @light;
+      color: #ffffff80;
       &.is-active {
-        color: @theme_main;
+        color: #6199ff;
       }
     }
     .el-tabs__active-bar {
@@ -165,14 +171,18 @@ export default class WeaponInfo extends Vue {
 }
 .info-btn {
   height: 40px;
-  display: inline-flex;
-  align-items: center;
+  height: 40px;
+  display: inline-block;
+  line-height: 40px;
   margin: 0 auto;
   padding: 0 20px;
   background: @theme_main;
   color: @text_light;
   text-decoration: none;
-  box-shadow: 4px 4px #fff;
+  box-shadow: 4px 4px @theme_back;
+  & + & {
+    margin-left: 8px;
+  }
 }
 @media only screen and (max-width: 767px) {
   .weapon-info {

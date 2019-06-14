@@ -11,7 +11,7 @@
       <el-tabs value="0" stretch>
         <el-tab-pane  class="mode" :label="mode.locName" :name="mid+''" :key="mid" v-for="(mode, mid) in weapon.modes">
           <div class="prop damage">
-            <div class="title">{{$t(`build.damage`)}}</div>
+            <div class="title">{{$t('build.damage')}}</div>
             <div class="value">
               <div class="elem" :style="{flex:d.val}" v-for="d in renderDamage(mode.damage)" :key="d.icon">
                 <div class="elem-name">
@@ -24,16 +24,20 @@
             </div>
           </div>
           <div class="prop" v-if="mode.fireRate">
-            <div class="title">{{$t(`build.fireRate`)}}</div>
+            <div class="title">{{$t('build.fireRate')}}</div>
             <div class="value">{{toFixed(mode.fireRate / 60, 2)}}</div>
           </div>
           <div class="prop">
-            <div class="title">{{$t(`build.crit`)}}</div>
+            <div class="title">{{$t('build.crit')}}</div>
             <div class="value">{{toPercent(mode.critChance)}}% / {{toFixed(mode.critMul, 1)}}x</div>
           </div>
           <div class="prop">
-            <div class="title">{{$t(`build.proc`)}}</div>
+            <div class="title">{{$t('build.proc')}}</div>
             <div class="value">{{toPercent(mode.procChance)}}%{{mode.pellets > 1 ? ` / ${toFixed(mode.pellets, 1)}` : ''}}</div>
+          </div>
+          <div class="prop" v-if="weapon.disposition > 0">
+            <div class="title">{{$t('build.ratio')}}</div>
+            <div class="value">{{weapon.starText}} {{weapon.disposition}}</div>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -144,7 +148,7 @@ export default class WeaponInfobox extends Vue {
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #fff;
+      background-color: @theme_mainback;
     }
   }
   .props {
