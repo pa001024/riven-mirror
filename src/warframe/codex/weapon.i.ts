@@ -104,7 +104,7 @@ export interface Weapon {
   reach?: number[];
 
   // attack
-  modes: WeaponMode[];
+  modes?: WeaponMode[];
   variants?: Weapon[];
 }
 

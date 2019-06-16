@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Vue, Watch } from "vue-property-decorator";
+import { Vue, Watch, Prop } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import { NormalMod, Buff, Weapon, BuffData, DamageModelList, SimpleDamageModel, BuffList, WeaponBuildMode } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
@@ -21,6 +21,7 @@ export abstract class BaseBuildEditor extends Vue {
   get code() {
     return this.$route.params.code || this.savedBuilds[this.weapon.name];
   }
+  @Prop({ default: 0 }) modeIndex: number;
 
   abstract get weapon(): Weapon;
   get mode() {
@@ -120,11 +121,19 @@ export abstract class BaseBuildEditor extends Vue {
     return emp;
   }
   pushState() {
-    let code = this.build.miniCode;
+    const code = this.build.miniCode;
+    const mode = this.build.modeIndex.toString();
     if (code) {
-      this.$router.push({ name: "BuildEditorWithCode", params: { code } });
+      if (this.build.modeIndex) this.$router.push({ name: "BuildEditorWithCodeMode", params: { code, mode } });
+      else this.$router.push({ name: "BuildEditorWithCode", params: { code } });
       this.setBuild(this.build);
-    } else this.$router.push({ name: "BuildEditor" });
+    } else {
+      if (this.build.modeIndex) this.$router.push({ name: "BuildEditorMode", params: { mode } });
+      else this.$router.push({ name: "BuildEditor" });
+    }
+  }
+  modeIndexChange() {
+    this.pushState();
   }
   fill() {
     this.build.fill(8, 0);

@@ -6,7 +6,7 @@
           <el-col :xs="24" :md="8" v-for="price in prices" :key="price.name" class="price-view" :class=[price.name]>
             <div class="price avg">
               <div class="header">
-                {{price.name === "veliedPrice" ? $t(`weaponselector.${mod.weapon.modcn.name}`) : mod.weapon.name}} {{$t(`riven.${price.name}`)}}
+                {{price.name === "veliedPrice" ? $t(`weaponselector.${mod.weapon.modText.toLowerCase()}`) : $t(mod.weapon.id)}} {{$t(`riven.${price.name}`)}}
               </div>
               <div class="value">{{formatPrice(price.avg)}}</div>
               <div class="title" v-t="'riven.avg'"></div>
@@ -42,6 +42,7 @@ import { CachedWikiApi } from "@/service/wiki";
 import { RivenMod } from "@/warframe/rivenmod";
 import { WeeklyRivenInfo } from "@/warframe/weeklyriven";
 import { Getter, Action } from "vuex-class";
+import { MainTag } from "@/warframe/codex";
 
 @Component({ components: {} })
 export default class RivenPrice extends Vue {
@@ -54,7 +55,7 @@ export default class RivenPrice extends Vue {
 
   // 未开价格
   get veliedPrice() {
-    const query = `${this.mod.weapon.mod} Riven Mod`;
+    const query = `${MainTag[this.mod.weapon.mod]} Riven Mod`;
     return this.priceData.find(v => v.itemType === query && !v.compatibility);
   }
   // 普卡

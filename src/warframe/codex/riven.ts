@@ -288,6 +288,8 @@ const propRegExpsFactory = (name: RivenTypes) =>
 export class RivenDatabase {
   /** 属性名称 -> 属性 index */
   private propDict = new Map<string, number>();
+  /** 武器名称 -> 倾向性 */
+  private ratioDict = new Map<string, number>();
 
   private static instance = new RivenDatabase();
 
@@ -311,9 +313,9 @@ export class RivenDatabase {
       this.propDict.set(v.eName, i);
       this.propDict.set(v.name, i);
     });
-    // TODO 覆盖国服倾向性
-    if (i18n.locale === "zh-CY") {
-    }
+    (i18n.locale === "zh-CY" ? _rivenDataBaseWeaponsCY : _rivenDataBaseWeapons).forEach(v => {
+      this.ratioDict.set(v[0], v[2]);
+    });
   }
 
   static reload() {
@@ -364,5 +366,14 @@ export class RivenDatabase {
     let prop = this.getPropByName(propName);
     if (weaponType in RivenPropertyValueBaseDataBase && prop) return RivenPropertyValueBaseDataBase[weaponType][prop.id] * ratio * (prop.nopercent ? 0.1 : 10);
     else return -1;
+  }
+
+  /**
+   * 获取武器倾向值
+   *
+   * @param {string} name
+   */
+  static getRatio(name: string) {
+    return this.instance.ratioDict.get(name);
   }
 }

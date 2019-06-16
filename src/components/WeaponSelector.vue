@@ -73,7 +73,9 @@ export default class WeaponSelector extends Vue {
       id,
       name,
       // 筛选
-      weapons: WeaponDatabase.getProtosByMultiTags(include).sort((a, b) => b.disposition - a.disposition)
+      weapons: WeaponDatabase.getProtosByMultiTags(include)
+        .filter(v => v.modes) // 给ZAW KITGUN加个链接
+        .sort((a, b) => b.disposition - a.disposition)
     }));
   }
   handleCommand(id: string) {

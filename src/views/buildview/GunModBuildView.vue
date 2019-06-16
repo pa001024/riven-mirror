@@ -62,13 +62,13 @@
           </el-select>
         </el-form-item>
         <!-- 选择KITGUN组件 -->
-        <el-form-item :label="$t('buildview.components')" v-if="riven.isKitgun">
+        <el-form-item :label="$t('buildview.components')" v-if="riven.weapon.isKitgun">
           <el-select style="width:120px" v-model="gripId" @change="kitgunPartChange" :placeholder="$t('buildview.selectKitgunGrip')">
-            <el-option v-for="grip in gripList" :key="grip.id" :label="$t(`messages.${grip.name}`)" :value="grip.id">
+            <el-option v-for="grip in gripList" :key="grip.name" :label="$t(`messages.${grip.id}`)" :value="grip.name">
             </el-option>
           </el-select>
           <el-select style="width:120px" v-model="loaderId" @change="kitgunPartChange" :placeholder="$t('buildview.selectKitgunLoader')">
-            <el-option v-for="loader in loaderList" :key="loader.id" :label="$t(`messages.${loader.name}`)" :value="loader.id">
+            <el-option v-for="loader in loaderList" :key="loader.name" :label="$t(`messages.${loader.id}`)" :value="loader.name">
             </el-option>
           </el-select>
         </el-form-item>
@@ -157,7 +157,18 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { BaseModBuildView } from "./BaseModBuildView";
 import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
-import { KitgunChamberData, KitgunGripData, KitgunLoaderData, KitgunChamber, KitgunGrip, KitgunLoader, Kitgun, RivenDatabase, Codex, WeaponDatabase } from "@/warframe/codex";
+import {
+  KitgunChamberData,
+  KitgunGripData,
+  KitgunLoaderData,
+  KitgunChamber,
+  KitgunGrip,
+  KitgunLoader,
+  Kitgun,
+  RivenDatabase,
+  Codex,
+  WeaponDatabase
+} from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import "@/less/buildview.less";
 import localStorage from "universal-localstorage";
@@ -182,6 +193,8 @@ export default class GunModBuildView extends BaseModBuildView {
   extraBaseDamage = 0;
   /** 总伤加成 */
   extraOverall = 0;
+  /** 赋能 */
+  arcanes = [];
 
   chamberList = KitgunChamberData;
   gripList = KitgunGripData;
@@ -205,7 +218,9 @@ export default class GunModBuildView extends BaseModBuildView {
 
   // === 计算属性 ===
   get selectCompMethodText() {
-    return [this.$t("buildview.totalDamage"), this.$t("buildview.burstDamage"), this.$t("buildview.sustainedDamage"), this.$t("buildview.firstAmmoDamage")][this.selectCompMethod];
+    return [this.$t("buildview.totalDamage"), this.$t("buildview.burstDamage"), this.$t("buildview.sustainedDamage"), this.$t("buildview.firstAmmoDamage")][
+      this.selectCompMethod
+    ];
   }
 
   /**
@@ -217,7 +232,8 @@ export default class GunModBuildView extends BaseModBuildView {
   get defalutMode() {
     let gun = this.weapon;
     if (gun.tags.has("Sniper") && gun.magazine <= 2) return GunCompareMode.FirstAmmoDamage;
-    if (gun.magazine / (gun.tags.has("Secondary") ? gun.defaultMode.fireRate * 1.6 : gun.defaultMode.fireRate) < gun.reload * 1.8) return GunCompareMode.SustainedDamage;
+    if (gun.magazine / (gun.tags.has("Secondary") ? gun.defaultMode.fireRate * 1.6 : gun.defaultMode.fireRate) < gun.reload * 1.8)
+      return GunCompareMode.SustainedDamage;
     if (gun.defaultMode.fireRate > 2) return GunCompareMode.BurstDamage;
     return GunCompareMode.TotalDamage;
   }
@@ -291,7 +307,8 @@ export default class GunModBuildView extends BaseModBuildView {
       headShotChance: this.headShotChance / 100,
       allowElementTypes: (this.selectDamageType && this.elementTypes[this.selectDamageType]) || null,
       extraBaseDamage: +this.extraBaseDamage,
-      extraOverall: +this.extraOverall
+      extraOverall: +this.extraOverall,
+      arcanes: this.arcanes
     };
     super.recalc(GunModBuild, options);
   }

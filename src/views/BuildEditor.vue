@@ -1,5 +1,5 @@
 <template>
-  <component :is="weapon.isGun ? 'GunBuildEditor' : 'MeleeBuildEditor'" :weapon="weapon"/>
+  <component :is="weapon.isGun ? 'GunBuildEditor' : 'MeleeBuildEditor'" :weapon="weapon" :modeIndex="modeIndex"/>
 </template>
 
 <script lang="ts">
@@ -34,6 +34,10 @@ export default class BuildEditor extends Vue {
   get id() {
     return this.$route.params.id;
   }
+  get modeIndex() {
+    const mode = this.$route.params.mode || "0";
+    return +mode;
+  }
 
   private _weapon: Weapon;
   private _lastid = "";
@@ -45,7 +49,7 @@ export default class BuildEditor extends Vue {
 
   @Watch("id")
   reload() {
-    if (!this.id || this._lastid === this.id || (this.$route.name !== "BuildEditorWithCode" && this.$route.name !== "BuildEditor")) return;
+    if (!this.id || this._lastid === this.id) return;
     this._lastid = this.id;
     this._weapon = loadWeapon(this.id);
   }

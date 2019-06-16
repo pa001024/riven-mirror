@@ -7,7 +7,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { SVGData } from "../assets/svgicons";
 
-const AliasTrans = {
+const AliasTable = {
   o: "koneksi",
   r: "madurai",
   "-": "naramon",
@@ -18,7 +18,8 @@ const AliasTrans = {
   w: "umbra",
   infestation: "infested",
   corrupted: "orokin",
-  fissure: "void"
+  fissure: "void",
+  prime: "orokin"
 };
 
 @Component({})
@@ -26,11 +27,12 @@ export default class WfIcon extends Vue {
   @Prop() type: string;
   @Prop({ type: Boolean }) shadow: boolean;
   get name() {
-    if (this.type in AliasTrans) return AliasTrans[this.type];
-    return this.type;
+    const type = this.type.toLowerCase();
+    if (type in AliasTable) return AliasTable[type];
+    return type;
   }
   get raw() {
-    return SVGData[this.name] || SVGData["true"];
+    return SVGData[this.name] || SVGData["tenno"];
   }
   get path() {
     return this.raw && this.raw.path;

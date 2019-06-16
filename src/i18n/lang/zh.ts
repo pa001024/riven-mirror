@@ -2169,7 +2169,7 @@ let po = {
     cannonModeExplosion: "炮击模式爆炸",
     clusterBombs: "子母弹",
     cubeHitsEnemy: "方块击中",
-    cubeShotByPlayer: "方块射击",
+    cubeShotByPlayer: "方块引爆",
     dartImpact: "飞镖撞击",
     discImpact: "圆盘撞击",
     poisonIceQuill: "毒/冰模式",
@@ -2982,6 +2982,8 @@ let po = {
     shotgun: "霰弹枪",
     pistol: "手枪",
     melee: "近战",
+    zaw: "ZAW",
+    kitgun: "组合枪",
     archwing: "ARCHWING"
   },
   warframeselector: {
@@ -3453,7 +3455,7 @@ let po = {
   },
   intro: {
     ti1: "来试试极镜吧!",
-    ti2: "测试镜像 请勿作为主力使用 主站域名: riven.im",
+    ti2: "极镜(Riven.IM)是多功能的Warframe工具应用，为紫卡分析，配卡模拟等提供技术解决方案。",
     a1: "查看文档",
     a2: "立即使用",
     d1: "突击 / 警报 / 裂缝 / 赏金",
@@ -3518,6 +3520,9 @@ let po = {
     wf: "战甲"
   },
   tags: {
+    zaw: "ZAW",
+    kitgun: "组合枪",
+    amp: "增幅器",
     melee: "近战",
     swordAndShield: "剑盾",
     secondary: "副武器",

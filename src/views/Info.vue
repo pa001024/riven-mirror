@@ -17,11 +17,11 @@
         </el-tabs>
       </div>
     </el-header>
-    <el-row class="info-body">
-      <el-col :xs="24" :span="8" class="info-box">
+    <div class="info-body">
+      <div class="info-box">
         <WeaponInfobox :weapon="weapon"/>
-      </el-col>
-      <el-col :xs="24" :span="16" class="info-data">
+      </div>
+      <div class="info-data">
         <header class="nav-header" v-t="'info.nav'"></header>
         <router-link :to="'/weapon/'+weapon.url" class="info-btn">
           <WfIcon type="extension"/>
@@ -30,11 +30,11 @@
         <a :href="$t('otherinfo.wikiurl', [weapon.url])" target="_blank" rel="noopener noreferrer" class="info-btn">
           {{$t("otherinfo.wiki")}}
         </a>
-        <a :href="$t('otherinfo.wmurl', [weapon.wmurl])" target="_blank" rel="noopener noreferrer" class="info-btn">
+        <a v-if="weapon.wmurl" :href="$t('otherinfo.wmurl', [weapon.wmurl])" target="_blank" rel="noopener noreferrer" class="info-btn">
           {{$t("otherinfo.wm")}}
         </a>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
   </el-container>
 </template>
 <script lang="ts">
@@ -153,14 +153,14 @@ export default class WeaponInfo extends Vue {
     .weapon-infobox {
       margin: 8px;
     }
+    display: flex;
+    flex-wrap: wrap;
   }
   .info-box {
-    min-width: 314px;
-    width: 33.33333%;
+    width: 314px;
   }
   .info-data {
     flex: 1;
-    max-width: calc(100% - 330px);
     padding: 8px;
   }
   .nav-header {

@@ -143,6 +143,8 @@ export class Amp extends Weapon {
   scaffold: AmpScaffold;
   brace: AmpBrace;
 
+  mod = MainTag.Amp;
+
   buildName: string;
   /** 充能延迟 基础2秒 */
   reloadDelay: number;
@@ -178,7 +180,7 @@ export class Amp extends Weapon {
     }
   }
   constructor(prism: AmpPrism | string, scaffold: AmpScaffold = null, brace: AmpBrace = null) {
-    super();
+    super({ name: typeof prism === "string" ? prism : prism.name });
     if (typeof prism === "string") {
       this.url = prism;
     } else {

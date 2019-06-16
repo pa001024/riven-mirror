@@ -85,7 +85,7 @@
             <RivenPrice :mod="mod"/>
           </el-col>
           <el-col :span="24">
-            <component :riven="mod" :is="mod.isGun ? 'GunModBuildView' : 'MeleeModBuildView'"></component>
+            <component :riven="mod" :is="mod.weapon.isGun ? 'GunModBuildView' : 'MeleeModBuildView'"></component>
           </el-col>
         </el-row>
       </el-col>

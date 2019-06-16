@@ -44,8 +44,8 @@ export default class Search extends Vue {
     switch (item.item.type) {
       case "search.weapon":
         const weapon = WeaponDatabase.getWeaponByName(item.item.id);
-        // this.$router.push("/info/" + weapon.url);
-        this.$router.push("/weapon/" + weapon.url);
+        this.$router.push("/info/" + weapon.url);
+        // this.$router.push("/weapon/" + weapon.url);
         break;
       case "search.wf":
         this.$router.push("/warframe/" + item.item.id);

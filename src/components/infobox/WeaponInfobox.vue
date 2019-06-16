@@ -6,6 +6,11 @@
           <img :src="imgSrc" :alt="name">
         </div>
       </div>
+      <div class="traits">
+        <el-tooltip :key="trait" v-for="trait in weapon.traits" :content="trait" placement="bottom" :enterable="false">
+          <WfIcon :type="trait" />
+        </el-tooltip>
+      </div>
     </div>
     <div class="props">
       <el-tabs value="0" stretch>
@@ -88,6 +93,22 @@ export default class WeaponInfobox extends Vue {
 .weapon-infobox {
   .showcase {
     padding: 50px;
+    position: relative;
+    .traits {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 30px;
+      color: @theme_main;
+      .icon {
+        margin-right: 4px;
+        opacity: 0.7;
+        transition: 0.4s;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
   }
   .pic {
     margin: 0 auto;

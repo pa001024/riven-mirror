@@ -887,7 +887,7 @@ export const _warframeData: WarframeData[] = [
     health: 100,
     shield: 100,
     armor: 65,
-    energy: 100,
+    energy: 150,
     sprint: 1,
     passiveDescription: "Bullet-jump creates a trampoline that enhances bullet-jump maneuvers when used by allies.",
     abilities: ["Spellbind", "Tribute", "Lantern", "Razorwing"],

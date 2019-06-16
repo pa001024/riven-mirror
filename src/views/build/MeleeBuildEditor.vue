@@ -11,10 +11,19 @@
               <span class="forma"> {{$t("build.formaCount", [build.formaCount])}} </span>
               <span class="umbra" v-if="build.umbraCount"> + {{build.umbraCount}}U </span>
               ]
-              <ShareQR :url="build.miniCodeURL"/>
+              <ShareQR :url="'https://riven.im'+$route.path"/>
             </div>
             <div class="weapon-capacity"></div>
             <div class="weapon-props">
+              <!-- 武器模式 -->
+              <el-row :gutter="4" class="prop-diff model-selector" v-if="weapon.modes.length>1">
+                <el-col :span="8" class="title" v-t="'build.weaponMode'"></el-col>
+                <el-col :span="16">
+                  <el-select size="mini" class="model-name" v-model="build.modeIndex" :placeholder="$t('build.weaponModeTip')" @change="modeIndexChange()">
+                    <el-option v-for="(item, k) in weapon.modes" :key="k" :label="item.locName" :value="k" />
+                  </el-select>
+                </el-col>
+              </el-row>
               <!-- 容量 -->
               <el-row :gutter="4" class="prop-diff cost-show">
                 <el-col :span="8" class="title">{{$t('build.cost')}}</el-col>
@@ -274,6 +283,9 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
     let b = new MeleeModBuild(weapon, null, this.options);
     b.fastMode = false;
     b.compareMode = this.defalutMode;
+    if (this.modeIndex) {
+      b.modeIndex = this.modeIndex;
+    }
     return b;
   }
   // === 事件处理 ===

@@ -2,7 +2,7 @@ import { hAccSum } from "@/warframe/util";
 import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import _ from "lodash";
-import { WeaponTag, CoreWeaponMode } from "./weapon";
+import { WeaponTag, CoreWeaponMode, MainTag } from "./weapon";
 
 /**
  * 枪膛
@@ -146,6 +146,8 @@ export class Kitgun extends Weapon {
   grip: KitgunGrip;
   loader: KitgunLoader;
 
+  mod = MainTag.Kitgun;
+
   static loadGrip(chamber: KitgunChamber, grip: KitgunGrip) {
     return grip.chambersData[chamber.index];
   }
@@ -174,7 +176,7 @@ export class Kitgun extends Weapon {
     this.recalc();
   }
   constructor(chamber: KitgunChamber | string, grip: KitgunGrip = null, loader: KitgunLoader = null) {
-    super();
+    super({ name: typeof chamber === "string" ? chamber : chamber.name });
     if (typeof chamber === "string") {
       this.url = chamber;
     } else {

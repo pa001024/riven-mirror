@@ -55,6 +55,9 @@ export class Weapon {
   disposition: number = 0;
   /** 主Tag Rifle/Melee 等 */
   mod: MainTag;
+  get modText() {
+    return MainTag[this.mod];
+  }
 
   // gun
   reload?: number;
@@ -83,10 +86,11 @@ export class Weapon {
   // attack
   modes: CoreWeaponMode[];
 
-  constructor(data?: ProtoWeapon, base?: ProtoWeapon) {
+  constructor(data: ProtoWeapon, base?: ProtoWeapon) {
     // 修复过高精度
     const fixBuf = <T>(v: T) => {
       if (typeof v === "number") return +v.toFixed(3);
+      if (Array.isArray(v)) return _.map(v, fixBuf);
       if (typeof v === "object") return _.mapValues(v as any, fixBuf);
       return v;
     };
@@ -98,36 +102,43 @@ export class Weapon {
         this.tags = new WeaponTag(tags);
         this.mod = this.tags.mainTag;
       }
-      const defaultMode = modes[0];
-      // 根据默认补全属性
-      this.modes = modes.map(({ damage, ...mode }) => {
-        const newMode = {
-          damage: _.map(damage, (vv, vn) => [vn, fixBuf(vv)] as [string, number]),
-          ...mode
-        } as CoreWeaponMode;
-        if (mode.name || mode.type) {
-          const locKey = `weaponmode.${_.camelCase(mode.name || mode.type || "default")}`;
-          if (i18n.te(locKey)) {
-            newMode.locName = i18n.t(locKey);
-          } else {
-            console.log("missing", locKey);
-            newMode.locName = mode.name;
+      if (modes) {
+        const defaultMode = modes[0];
+        // 根据默认补全属性
+        this.modes = modes.map(({ damage, ...mode }) => {
+          const newMode = {
+            damage: _.map(damage, (vv, vn) => [vn, fixBuf(vv)] as [string, number]),
+            ...mode
+          } as CoreWeaponMode;
+          if (mode.name || mode.type) {
+            const locKey = `weaponmode.${_.camelCase(mode.name || mode.type || "default")}`;
+            if (i18n.te(locKey)) {
+              newMode.locName = i18n.t(locKey);
+            } else {
+              console.log("missing", locKey);
+              newMode.locName = mode.name;
+            }
+          } else newMode.locName = i18n.t("weaponmode.default");
+          if (!newMode.fireRate) {
+            if (newMode.chargeTime) newMode.fireRate = (1 / (newMode.chargeTime + 0.5)) * 60;
           }
-        } else newMode.locName = i18n.t("weaponmode.default");
-        if (!newMode.fireRate) {
-          if (newMode.chargeTime) newMode.fireRate = (1 / (newMode.chargeTime + 0.5)) * 60;
-        }
 
-        if (typeof newMode.critChance === "undefined") newMode.critChance = defaultMode.critChance || 0;
-        if (typeof newMode.critMul === "undefined") newMode.critMul = defaultMode.critMul || 2;
-        if (typeof newMode.procChance === "undefined") newMode.procChance = defaultMode.procChance || 0;
-        return newMode;
-      });
+          if (!newMode.fireRate) {
+            if (newMode.chargeTime) newMode.fireRate = 1 / newMode.chargeTime;
+            else newMode.fireRate = 60;
+          }
+
+          if (typeof newMode.critChance === "undefined") newMode.critChance = defaultMode.critChance || 0;
+          if (typeof newMode.critMul === "undefined") newMode.critMul = defaultMode.critMul || 2;
+          if (typeof newMode.procChance === "undefined") newMode.procChance = defaultMode.procChance || 0;
+          return newMode;
+        });
+      }
     }
     if (base) {
       this.base = base.name;
-      this.disposition = fixBuf(base.disposition);
     }
+    this.disposition = RivenDatabase.getRatio(this.baseName) || 0;
   }
   /** proto名 */
   get baseName() {
@@ -140,9 +151,11 @@ export class Weapon {
   }
   /** WM URL */
   get wmurl() {
-    const slist = ["Prisma ", "Secura ", "Vaykor ", "Sancti ", "Synoid ", "Telos ", "Mara "];
+    const setlist = ["Lato Vandal", "Braton Vandal"];
+    if (this.name.includes(" Prime") || setlist.includes(this.name)) return this.name.toLowerCase().replace(/ /g, "_") + "_set";
+    const slist = ["Prisma ", "Secura ", "Vaykor ", "Sancti ", "Synoid ", "Telos ", "Mara ", " Vandal"];
     if (slist.some(v => this.name.includes(v))) return this.name.toLowerCase().replace(/ /g, "_");
-    return this.name.toLowerCase().replace(/ /g, "_") + "_set";
+    return "";
   }
   /** i18n的key */
   get id() {
@@ -210,7 +223,7 @@ export class Weapon {
 
   /** 获取武器对应紫卡属性范围 */
   getPropBaseValue(prop: string) {
-    return RivenDatabase.getPropBaseValue(this.disposition, MainTag[this.mod], prop);
+    return RivenDatabase.getPropBaseValue(this.disposition, this.modText, prop);
   }
 
   /** 获取全部变种 */
@@ -394,6 +407,28 @@ import proto from "@/proto/weapon";
 import { strSimilarity } from "../util";
 import { RivenDatabase } from "./riven";
 
+const extraDispositionTable = [
+  // kitguns
+  ["Gaze", "Kitgun", 1],
+  ["Rattleguts", "Kitgun", 0.9],
+  ["Tombfinger", "Kitgun", 0.85],
+  ["Catchmoon", "Kitgun", 0.8],
+  // zaw
+  ["Balla", "Zaw", 1],
+  ["Cyath", "Zaw", 1],
+  ["Dehtat", "Zaw", 1],
+  ["Dokrahm", "Zaw", 1],
+  ["Rabvee", "Zaw", 1],
+  ["Mewan", "Zaw", 1],
+  ["Kronsh", "Zaw", 1],
+  ["Ooltha", "Zaw", 1],
+  ["Sepfahn", "Zaw", 1],
+  ["Plague Keewar", "Zaw", 1],
+  ["Plague Kripath", "Zaw", 1],
+  // Amp
+  ["Amp", "Amp", 0]
+] as [string, string, number][];
+
 /** split variants format to normal format */
 export class WeaponDatabase {
   static weapons: Weapon[];
@@ -427,6 +462,15 @@ export class WeaponDatabase {
         this.variantsMap.set(p.name, [p]);
       }
     });
+    extraDispositionTable.forEach(weapon => {
+      const [name, tag, disposition] = weapon;
+      const p = new Weapon({ name, tags: [tag], disposition });
+      rst.push(p);
+      this.protos.push(p);
+      this.variantsMap.set(p.name, [p]);
+    });
+    // 按倾向性排序
+    this.protos.sort((a, b) => b.disposition - a.disposition);
     rst.forEach(weapon => {
       this.weaponMap.set(weapon.name, weapon);
     });

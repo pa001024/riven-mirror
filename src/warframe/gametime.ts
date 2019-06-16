@@ -25,7 +25,7 @@ export class EarthTime {
   }
 }
 export class CetusTime {
-  static offset = 3360;
+  static offset = 1500;
   /** 校准 */
   static calibration(dateString: string, isDay: boolean) {
     this.offset = new Date(dateString).getTime() % 9e6 / 1e3;

@@ -217,14 +217,14 @@ A段位12023
             rivenProps &&
             _.maxBy(rivenProps, v => {
               let s = _.max([strSimilarity(v[0].name, propLine[2]), strSimilarity(v[0].eName, propLine[2])]);
-              console.log("strSimilarity: ", v[0].name, propLine[2], "s=", s);
+              // console.log("strSimilarity: ", v[0].name, propLine[2], "s=", s);
               return s;
             })[0]) ||
           // 识别到的属性是否正确, 否则模糊匹配
           RivenDatabase.findMostSimProp(propLine[2]);
         // 判断前缀不是+或者-就加上-
         let propValue = +(v => (v[0] != "-" && v[0] != "+" ? -v : v))(propLine[1]);
-        console.log(propLine[0], "prop=", prop, "propValue=", propValue);
+        // console.log(propLine[0], "prop=", prop, "propValue=", propValue);
         // 对于只有正面的属性去除负号
         if (prop.onlyPositive && propValue < 0) propValue = -propValue;
         // 检测负属性

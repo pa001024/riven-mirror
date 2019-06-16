@@ -77,8 +77,8 @@ export interface ZawStrikeModify {
 
 export const ZawStrikeData: ZawStrike[] = _zawStrike.map(v => ({
   idx: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  id: _.camelCase(v[1]),
+  name: v[1],
   dmg: v[2],
   dmgs: v[3],
   speed: v[4],
@@ -112,8 +112,8 @@ export interface ZawGrip {
 
 export const ZawGripData: ZawGrip[] = _zawGrip.map(v => ({
   idx: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  id: _.camelCase(v[1]),
+  name: v[1],
   twoHand: !!v[2],
   dmg: v[3],
   speed: v[4]
@@ -121,8 +121,8 @@ export const ZawGripData: ZawGrip[] = _zawGrip.map(v => ({
 
 export const NoneZawGripData = {
   idx: "",
-  id: "None",
-  name: "none",
+  id: "none",
+  name: "None",
   twoHand: false,
   dmg: 0,
   speed: 0
@@ -159,8 +159,8 @@ export interface ZawLinks {
 
 export const ZawLinksData: ZawLinks[] = _zawLinks.map(v => ({
   idx: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  id: _.camelCase(v[1]),
+  name: v[1],
   dmg: v[2],
   speed: v[3],
   crit: v[4],
@@ -169,8 +169,8 @@ export const ZawLinksData: ZawLinks[] = _zawLinks.map(v => ({
 
 export const NoneZawLinksData: ZawLinks = {
   idx: "",
-  id: "None",
-  name: "none",
+  id: "none",
+  name: "None",
   dmg: 0,
   speed: 0,
   crit: 0,
@@ -208,7 +208,7 @@ export class Zaw extends Weapon {
     this.recalc();
   }
   constructor(strike: ZawStrike | string, grip: ZawGrip = null, links: ZawLinks = null) {
-    super();
+    super({ name: typeof strike === "string" ? strike : strike.name });
     if (typeof strike === "string") {
       this.url = strike;
     } else {
@@ -257,8 +257,8 @@ export class Zaw extends Weapon {
     this.modes = [mode];
   }
   get displayName() {
-    return `${i18n.t(`messages.${_.camelCase(this.strike.name)}`)}-${i18n.t(`messages.${_.camelCase(this.grip.name)}`)}-${i18n.t(
-      `messages.${_.camelCase(this.links.name)}`
+    return `${i18n.t(`messages.${_.camelCase(this.strike.id)}`)}-${i18n.t(`messages.${_.camelCase(this.grip.id)}`)}-${i18n.t(
+      `messages.${_.camelCase(this.links.id)}`
     )}`;
   }
 }
