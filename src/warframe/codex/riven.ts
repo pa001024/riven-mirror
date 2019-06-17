@@ -267,7 +267,7 @@ export const RivenPropertyValueBaseDataBase = {
 export const ModTypeTable = {
   Rifle: { name: "rifle", include: [0 /* MainTag.Rifle */] },
   Shotgun: { name: "shotgun", include: [1 /* MainTag.Shotgun */] },
-  Secondary: { name: "pistol", include: [2, 3 /* MainTag.Secondary, MainTag.Kitgun */] },
+  Secondary: { name: "secondary", include: [2, 3 /* MainTag.Secondary, MainTag.Kitgun */] },
   Melee: { name: "melee", include: [4, 5 /* MainTag.Melee, MainTag.Zaw */] },
   Archwing: { name: "archwing", include: [6, 7 /* MainTag["Arch-Gun"], MainTag["Arch-Melee"] */] }
 };

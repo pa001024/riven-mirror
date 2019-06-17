@@ -55,7 +55,8 @@ export default class RivenPrice extends Vue {
 
   // 未开价格
   get veliedPrice() {
-    const query = `${MainTag[this.mod.weapon.mod]} Riven Mod`;
+    const mod = this.mod.weapon.modText === "Secondary" ? "Pistol" : this.mod.weapon.modText;
+    const query = `${mod} Riven Mod`;
     return this.priceData.find(v => v.itemType === query && !v.compatibility);
   }
   // 普卡

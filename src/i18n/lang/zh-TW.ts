@@ -2032,7 +2032,7 @@ let po = {
     primedExpelCorrupted: "O歧視P",
     primedSlipMagazine: "串聯P",
     primedTargetCracker: "弱點P",
-    primedPistolGambit: "手槍P",
+    primedPistolGambit: "精通P",
     primedHeatedCharge: "火P",
     pointStrike: "致命",
     vitalSense: "弱點",
@@ -2102,6 +2102,8 @@ let po = {
     virulentScourge: "金毒", // 劇毒災害
     contaminationCasing: "金毒", // 毒染套管
     infectiousInjection: "金毒", // 傳染性注射
+    hornetStrike: "黃蜂",
+    barrelDiffusion: "擴散",
     lethalTorrent: "洪流",
     chillingReload: "激冷",
     viciousSpread: "惡性",
@@ -2980,7 +2982,7 @@ let po = {
     notfound: "暫無該武器資料",
     rifle: "步槍",
     shotgun: "霰彈槍",
-    pistol: "手槍",
+    secondary: "手槍",
     melee: "近戰",
     zaw: "ZAW",
     kitgun: "組合槍",
