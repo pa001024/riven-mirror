@@ -1,5 +1,5 @@
 import { hAccSum, hAccMul, hAccDiv } from "@/warframe/util";
-import { Arcane, Enemy, NormalModDatabase, NormalMod, AcolyteModsList, Weapon } from "./codex";
+import { Enemy, NormalModDatabase, NormalMod, AcolyteModsList, Weapon } from "./codex";
 import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
 import { i18n } from "@/i18n";
@@ -32,7 +32,6 @@ export interface GunModBuildOptions {
   allowElementTypes?: string[];
   extraBaseDamage?: number;
   extraOverall?: number;
-  arcanes?: Arcane[];
   target?: Enemy;
   amrorReduce?: number;
   burstSampleSize?: number;
@@ -469,7 +468,7 @@ export class GunModBuild extends ModBuild {
    * @param pName 属性id或名称
    * @param pValue 属性值
    */
-  applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
+  applyProp(mod: NormalMod, pName: string, pValue: number) {
     switch (pName) {
       case "S":
         /* 多重射击 multiShot */ this._multishotMul = hAccSum(this._multishotMul, pValue);

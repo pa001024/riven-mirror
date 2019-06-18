@@ -1,6 +1,6 @@
 import { Vue, Watch, Prop } from "vue-property-decorator";
 import { RivenMod } from "@/warframe/rivenmod";
-import { WeaponDatabase } from "@/warframe/codex";
+import { WeaponDatabase, Buff } from "@/warframe/codex";
 import { ModBuild } from "@/warframe/modbuild";
 import { GunModBuild } from "@/warframe/gunmodbuild";
 import { Getter } from "vuex-class";
@@ -22,6 +22,8 @@ export abstract class BaseModBuildView extends Vue {
   score = 0;
   /** 紫卡评级 */
   scoreLevel = 0;
+  /** 赋能 */
+  arcanes = [];
 
   /** 元素类型 */
   elementTypes = {
@@ -48,6 +50,14 @@ export abstract class BaseModBuildView extends Vue {
     // console.log(this.riven.normalMod);
     let best = stand.findBestRiven();
     let bestRiven = new cls(weapon, best, options);
+    // 赋能数据转buff
+    if (this.arcanes && this.arcanes.length > 0) {
+      [stand, riven, bestRiven].forEach((v: ModBuild) => {
+        this.arcanes.forEach(buff => {
+          v.applyBuff(new Buff(buff));
+        });
+      });
+    }
     stand.fill(this.slots, 0);
     riven.fill(this.slots, 2);
     bestRiven.fill(this.slots, 2);

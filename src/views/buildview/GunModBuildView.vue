@@ -22,7 +22,7 @@
             </div>
           </template>
           <el-row type="flex" :gutter="12" class="build-item autozoom" style="margin:8px;">
-            <el-col class="build-card" :span="bigScreen ? 12 : 24" :sm="12" :md="6" :lg="3" v-for="mod in build[1].mods" :key="mod.name">
+            <el-col class="build-card" :span="bigScreen ? 12 : 24" :sm="12" :md="6" :lg="3" v-for="mod in build[1].vmods" :key="mod.name">
               <div class="build-card-box" :class="[mod.rarity]">
                 <div class="build-card-header">
                   <div class="build-card-name">{{mod.name}}</div>
@@ -193,8 +193,6 @@ export default class GunModBuildView extends BaseModBuildView {
   extraBaseDamage = 0;
   /** 总伤加成 */
   extraOverall = 0;
-  /** 赋能 */
-  arcanes = [];
 
   chamberList = KitgunChamberData;
   gripList = KitgunGripData;
@@ -307,8 +305,7 @@ export default class GunModBuildView extends BaseModBuildView {
       headShotChance: this.headShotChance / 100,
       allowElementTypes: (this.selectDamageType && this.elementTypes[this.selectDamageType]) || null,
       extraBaseDamage: +this.extraBaseDamage,
-      extraOverall: +this.extraOverall,
-      arcanes: this.arcanes
+      extraOverall: +this.extraOverall
     };
     super.recalc(GunModBuild, options);
   }

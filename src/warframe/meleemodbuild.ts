@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Arcane, Enemy, NormalModDatabase, NormalMod, Weapon } from "./codex";
+import { Enemy, NormalModDatabase, NormalMod, Weapon } from "./codex";
 import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
 
@@ -17,7 +17,6 @@ export interface MeleeModBuildOptions {
   isUseStrike?: boolean;
   extraBaseDamage?: number;
   extraOverall?: number;
-  arcanes?: Arcane[];
   target?: Enemy;
   requireRange?: boolean;
   requireCombo?: boolean;
@@ -373,7 +372,7 @@ export class MeleeModBuild extends ModBuild {
    * @param pName 属性id或名称
    * @param pValue 属性值
    */
-  applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
+  applyProp(mod: NormalMod, pName: string, pValue: number) {
     switch (pName) {
       case "T":
         /* 攻击范围 range */ this._rangeMul += pValue;

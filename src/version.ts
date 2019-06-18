@@ -1,14 +1,30 @@
 export const magic = "ALPHA";
 export const version = "1.6.0";
 export const updateLogs = [
+  //   {
+  //     version: "1.6.1",
+  //     date: "2019/6/18",
+  //     md: {
+  //       en: `- [NEW] Search tools (including weapons/warframes)
+  // - Weapon build: The different modes of the same weapon now can be switched in build page.
+  // - Riven Analysis: improved the best riven calculation accuracy
+  // - The passive effects of some weapons are now explicitly displayed (such as the aim bonus of some sniper)`,
+  //       cn: `- [新] 搜索工具 (搜索中英文武器/战甲 **武器支持拼音首字母**)
+  // - 武器配装改版: 同一个武器的不同模式现在可以更方便的切换了
+  // - 紫卡分析: 最佳紫卡计算准确度提高了一些
+  // - 一些武器的被动效果现在显式的显示出来了 (如狙击枪的开镜加成)`
+  //     }
+  //   },
   {
     version: "1.6.0",
-    date: "2019/6/16",
+    date: "2019/6/18",
     md: {
       en: `- [NEW] Search tools (including weapons/warframes)
-- Weapon build: The different modes of the same weapon now can be switched in build page.`,
+- Weapon build: The different modes of the same weapon now can be switched in build page.
+- Riven Analysis: improved the best riven calculation accuracy`,
       cn: `- [新] 搜索工具 (搜索中英文武器/战甲 **武器支持拼音首字母**)
-- 武器配装改版: 同一个武器的不同模式现在可以更方便的切换了`
+- 武器配装改版: 同一个武器的不同模式现在可以更方便的切换了
+- 紫卡分析: 最佳紫卡计算准确度提高了一些`
     }
   },
   {
@@ -36,7 +52,8 @@ export const updateLogs = [
       en: `- Zaw builder: Plague damage data reworks`,
       cn: `- Zaw 模拟: 瘟疫伤害数据重置 [查看详细](https://warframe.huijiwiki.com/p/29884)`
     }
-  },
+  }
+  /*
   {
     version: "1.5.3",
     date: "2019/4/11",
@@ -51,7 +68,6 @@ export const updateLogs = [
 - 配装: 添加配装页自动保存功能`
     }
   }
-  /*
   {
     version: "1.5.2",
     date: "2019/4/9",

@@ -6,7 +6,6 @@ import {
   Weapon,
   NormalMod,
   RivenDatabase,
-  Arcane,
   Buff,
   Enemy,
   EnemyTimelineState,
@@ -72,6 +71,10 @@ export abstract class ModBuild {
   /** MOD列表 */
   get mods() {
     return _.cloneDeep(this._mods);
+  }
+  /** filtered mods */
+  get vmods() {
+    return this.mods.filter(Boolean);
   }
   set mods(value) {
     this._rawmods = _.cloneDeep(value);
@@ -1240,7 +1243,7 @@ export abstract class ModBuild {
    * 3. 返回最终结算结果的紫卡
    * @param slots 可用的插槽数
    */
-  findBestRiven(slots = 8): RivenMod {
+  findBestRiven4(slots = 8): RivenMod {
     let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options, true);
     let riven1 = this.findBestRivenSub(slots, 1),
       riven2 = this.findBestRivenSub(slots, 2);
@@ -1341,7 +1344,7 @@ export abstract class ModBuild {
    * 4. 返回收益最高的配置的紫卡
    * @param slots 可用的插槽数
    */
-  findBestRiven2(slots = 8): RivenMod {
+  findBestRiven(slots = 8): RivenMod {
     let newBuild: ModBuild = new (this.constructor as any)(this.weapon, this.riven, this.options);
     // 生成所有紫卡
     // 1. 列出所有属性
@@ -1351,9 +1354,8 @@ export abstract class ModBuild {
       .filter(v => {
         if (v.noDmg) return false;
         if (!this.enemyDmgType && ["G", "I", "C", "O"].includes(v.id)) return false;
-        if (this.allowElementTypes) {
-          if (["4", "5", "6", "7", "8", "9", "A"].includes(v.id)) if (!this.allowElementTypes.includes(v.id)) return false;
-        } else if (["4", "5", "6"].includes(v.id)) {
+        const dmgPropList = ["0", "1", "7", "D", "S", "R", "K"];
+        if (!dmgPropList.includes(v.id)) {
           return false;
         }
         return true;
@@ -1364,7 +1366,7 @@ export abstract class ModBuild {
       });
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
     // 负面属性
-    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.name === "Vectis Prime" ? "L" : "H") || v.id === "U");
+    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.name === "Vectis Prime" ? "L" : "H") || v.id === "X");
     let valuedNegativeProp = new ValuedRivenProperty(
       negativeProp,
       this.weapon.getPropBaseValue(negativeProp.id) * -negaUpLevel,
@@ -1396,7 +1398,7 @@ export abstract class ModBuild {
    * @param pName 属性id或名称
    * @param pValue 属性值
    */
-  applyProp(mod: NormalMod | Arcane, pName: string, pValue: number) {
+  applyProp(mod: NormalMod, pName: string, pValue: number) {
     let oriDmg: [string, number];
     switch (pName) {
       case "K": /* 近战伤害 baseDmg */

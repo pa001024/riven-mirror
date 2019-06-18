@@ -1,4 +1,4 @@
-import { Damage2_0, DamageType, EnemyData, EnemyList, NormalMod, NormalModDatabase, Weapon, ArcaneList, BuffData, BuffList } from "./";
+import { Damage2_0, DamageType, EnemyData, EnemyList, NormalMod, NormalModDatabase, Weapon, BuffData, BuffList, BuffType } from "./";
 
 /**
  * 原版数据库
@@ -27,12 +27,11 @@ export class Codex {
     return this.instance.buffDict.get(id);
   }
   static getAvailableArcanes(weapon: Weapon) {
-    return ArcaneList.filter(v => v.type === "Weapon" || weapon.tags.has(v.type));
+    return BuffList.filter(v => v.type === BuffType.Arcane && (v.target === "Weapon" || weapon.tags.has(v.target)));
   }
 }
 
 export * from "./enemy";
-export * from "./arcane";
 export * from "./weapon";
 export * from "./zaw";
 export * from "./riven";

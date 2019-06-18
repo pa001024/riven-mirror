@@ -21,7 +21,7 @@
             </div>
           </template>
           <el-row type="flex" :gutter="12" class="build-item autozoom" style="margin:8px;">
-            <el-col class="build-card" :span="bigScreen ? 12 : 24" :sm="12" :md="6" :lg="3" v-for="mod in build[1].mods" :key="mod.name">
+            <el-col class="build-card" :span="bigScreen ? 12 : 24" :sm="12" :md="6" :lg="3" v-for="mod in build[1].vmods" :key="mod.name">
               <div class="build-card-box" :class="[mod.rarity]">
                 <div class="build-card-header">
                   <div class="build-card-name">{{mod.name}}</div>
@@ -170,8 +170,6 @@ export default class MeleeModBuildView extends BaseModBuildView {
   extraBaseDamage = 0;
   /** 总伤加成 */
   extraOverall = 0;
-  /** 赋能 */
-  arcanes = [];
   /** 需求范围 */
   requireRange = true;
   /** 需求连击 */
@@ -270,8 +268,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
       extraOverall: +this.extraOverall,
       calcCondiOver: this.calcCondiOver,
       requireRange: this.requireRange,
-      requireCombo: this.requireCombo,
-      arcanes: this.arcanes
+      requireCombo: this.requireCombo
     };
     super.recalc(MeleeModBuild, options);
   }
