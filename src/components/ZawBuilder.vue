@@ -7,13 +7,13 @@
     </el-steps>
     <!-- 击打部 -->
     <div class="partlist" v-if="part === 0">
-      <div class="part-box" v-for="item in strikeList" :key="item.id">
+      <div class="part-box" v-for="item in strikeList" :key="item.name">
         <el-radio class="part" v-model="strike" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/zawStrike${item.id.replace(/ /g, '')}.m.png`" :alt="item.id" width="100%">
+            <img :src="`https://cdn.riven.im/img/zawStrike${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
-            {{$t(`messages.${item.name}`)}}
+            {{$t(`messages.${item.id}`)}}
           </div>
           <div class="type">
             {{$t(`zaw.${item.oneHand.type}`)}} / {{$t(`zaw.${item.twoHand.type}`)}}
@@ -27,13 +27,13 @@
     </div>
     <!-- 握柄部 -->
     <div class="partlist" v-if="part === 1">
-      <div class="part-box" v-for="item in gripList" :key="item.id">
+      <div class="part-box" v-for="item in gripList" :key="item.name">
         <el-radio class="part" v-model="grip" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/zawGrip${item.id.replace(/ /g, '')}.m.png`" :alt="item.id" width="100%">
+            <img :src="`https://cdn.riven.im/img/zawGrip${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
-            {{$t(`messages.${item.name}`)}}
+            {{$t(`messages.${item.id}`)}}
           </div>
           <div class="type">
             {{$t(`zaw.${strike[item.twoHand ? 'twoHand' : 'oneHand'].type}`)}}
@@ -47,13 +47,13 @@
     </div>
     <!-- 环接部 -->
     <div class="partlist" v-if="part === 2">
-      <div class="part-box" v-for="item in linksList" :key="item.id">
+      <div class="part-box" v-for="item in linksList" :key="item.name">
         <el-radio class="part" v-model="links" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/zawLink${item.id.replace(/II/g, '2').replace(/ /g, '')}.m.png`" :alt="item.id" width="100%">
+            <img :src="`https://cdn.riven.im/img/zawLink${item.name.replace(/II/g, '2').replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
-            {{$t(`messages.${item.name}`)}}
+            {{$t(`messages.${item.id}`)}}
           </div>
           <div class="prop">
             <span>{{+((60+strike.speed+grip.speed+item.speed)/60).toFixed(3)}} {{$t(`modular.fireRate`)}}</span>
@@ -66,9 +66,9 @@
     </div>
     <!-- 部件 -->
     <div class="parts">
-      <div class="part" v-if="strike">{{$t("zaw.strike")}}: {{$t(`messages.${strike.name}`)}}</div><!--
-   --><div class="part" v-if="grip">{{$t("zaw.grip")}}: {{$t(`messages.${grip.name}`)}}</div><!--
-   --><div class="part" v-if="links">{{$t("zaw.links")}}: {{$t(`messages.${links.name}`)}}</div>
+      <div class="part" v-if="strike">{{$t("zaw.strike")}}: {{$t(`messages.${strike.id}`)}}</div><!--
+   --><div class="part" v-if="grip">{{$t("zaw.grip")}}: {{$t(`messages.${grip.id}`)}}</div><!--
+   --><div class="part" v-if="links">{{$t("zaw.links")}}: {{$t(`messages.${links.id}`)}}</div>
     </div>
     <!-- 预览 -->
     <div class="preview" v-if="strike">
