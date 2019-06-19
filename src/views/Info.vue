@@ -11,9 +11,9 @@
       </div>
       <div>
         <el-tabs class="info-vistab" v-model="activeTab">
-          <el-tab-pane label="数据" name="data"></el-tab-pane>
-          <el-tab-pane label="市场" name="eco"></el-tab-pane>
-          <el-tab-pane label="配装" name="build"></el-tab-pane>
+          <el-tab-pane :label="$t('info.data')" name="data"></el-tab-pane>
+          <el-tab-pane :label="$t('info.eco')" name="eco"></el-tab-pane>
+          <el-tab-pane :label="$t('info.build')" name="build"></el-tab-pane>
         </el-tabs>
       </div>
     </el-header>

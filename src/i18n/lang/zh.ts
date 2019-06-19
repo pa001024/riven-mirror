@@ -2801,7 +2801,7 @@ let po = {
       eidolon: "夜灵 (机器 + 合金装甲)",
       eidolonUnarmored: "夜灵 (机器)",
       eidolonShield: "夜灵 (护盾)",
-      orb: "园蛛 (机器 + 合金装甲)",
+      orb: "圆蛛 (机器 + 合金装甲)",
       grineer: "Grineer (复制肉体 + 铁质装甲)",
       grineerUnarmored: "Grineer (复制肉体)",
       grineerElite: "Grineer (复制肉体 + 合金装甲)",
@@ -3640,7 +3640,10 @@ let po = {
     zephyr: "鸟姐"
   },
   info: {
-    nav: "导航"
+    nav: "导航",
+    data: "数据",
+    eco: "市场",
+    build: "配装"
   }
 };
 

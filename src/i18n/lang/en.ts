@@ -1076,7 +1076,7 @@ let po = {
     fireRate: "Fire Rate",
     rangeLimit: "Range Limit",
     prjSpeed: "Projectile Speed",
-    crit: "CRIT",
+    crit: "Crit",
     critMul: "Crit Multiplier",
     critChance: "Crit Chance",
     slideDmg: "Spin Attack",
@@ -1832,6 +1832,12 @@ let po = {
     tank: "Tank",
     support: "Support",
     control: "Control"
+  },
+  info: {
+    nav: "NAV",
+    data: "DATA",
+    eco: "ECO",
+    build: "BUILD"
   }
 };
 

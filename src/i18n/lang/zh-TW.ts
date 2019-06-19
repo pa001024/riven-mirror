@@ -2801,7 +2801,7 @@ let po = {
       eidolon: "夜靈 (機器 + 合金裝甲)",
       eidolonUnarmored: "夜靈 (機器)",
       eidolonShield: "夜靈 (護盾)",
-      orb: "園蛛 (機器 + 合金裝甲)",
+      orb: "圓蛛 (機器 + 合金裝甲)",
       grineer: "Grineer (複製肉體 + 鐵質裝甲)",
       grineerUnarmored: "Grineer (複製肉體)",
       grineerElite: "Grineer (複製肉體 + 合金裝甲)",
@@ -3638,6 +3638,12 @@ let po = {
     vauban: "工程",
     volt: "電男,電隊",
     zephyr: "鳥姐"
+  },
+  info: {
+    nav: "導航",
+    data: "資料",
+    eco: "市場",
+    build: "配裝"
   }
 };
 
