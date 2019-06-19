@@ -9,7 +9,7 @@ declare interface HMTStatic {
 declare global {
   // const _: _.LoDashStatic;
   const _hmt: HMTStatic;
-  const WeaponDatabase: WeaponDatabase;
+  // const WeaponDatabase: WeaponDatabase;
 }
 declare module "vue/types/vue" {
   interface Vue {

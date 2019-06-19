@@ -1,7 +1,7 @@
 import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import _ from "lodash";
-import { WeaponTag, CoreWeaponMode, MainTag } from "./weapon";
+import { WeaponTag, CoreWeaponMode, MainTag, WeaponDatabase } from "./weapon";
 
 export enum Stance {
   Daggers, // 匕首
@@ -177,6 +177,12 @@ export const NoneZawLinksData: ZawLinks = {
   status: 0
 };
 
+const getName = (url: string) => {
+  let parts = url.split("-");
+  const strike = ZawStrikeData.find(v => v.idx === parts[1]);
+  return strike.name;
+};
+
 export class Zaw extends Weapon {
   strike: ZawStrike;
   grip: ZawGrip;
@@ -207,8 +213,9 @@ export class Zaw extends Weapon {
     this.links = ZawLinksData.find(v => v.idx === parts[3]) || NoneZawLinksData;
     this.recalc();
   }
+
   constructor(strike: ZawStrike | string, grip: ZawGrip = null, links: ZawLinks = null) {
-    super({ name: typeof strike === "string" ? strike : strike.name });
+    super({ name: typeof strike === "string" ? getName(strike) : strike.name });
     if (typeof strike === "string") {
       this.url = strike;
     } else {

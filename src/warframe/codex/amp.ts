@@ -138,6 +138,13 @@ export const AmpBraceData: AmpBrace[] = _ampBrace.map(v => ({
   reloadSpeed: v[6]
 }));
 
+const getName = (url: string) => {
+  let parts = url.split("-")[1];
+  const prism = AmpPrismData.find(v => v.index === +parts[0]);
+  const scaffold = AmpScaffoldData.find(v => v.index === +parts[1]);
+  return (prism && prism.name) || (scaffold && scaffold.name);
+};
+
 export class Amp extends Weapon {
   prism: AmpPrism;
   scaffold: AmpScaffold;
@@ -180,7 +187,7 @@ export class Amp extends Weapon {
     }
   }
   constructor(prism: AmpPrism | string, scaffold: AmpScaffold = null, brace: AmpBrace = null) {
-    super({ name: typeof prism === "string" ? prism : prism.name });
+    super({ name: typeof prism === "string" ? getName(prism) : prism.name });
     if (typeof prism === "string") {
       this.url = prism;
     } else {

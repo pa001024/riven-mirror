@@ -104,7 +104,7 @@ export default class RivenEditor extends Vue {
     const weapon = this.weapon || WeaponDatabase.getWeaponByName(_.last(this.selectWeapon));
     this.riven = new RivenMod();
     [this.riven.name, this.riven.mod] = [weapon.name, MainTag[weapon.mod] as RivenTypes];
-    this.mod = MainTag[weapon.mod];
+    this.mod = weapon.modText;
     this.is21Negative = false;
     this.props = [defalutEditorProp()];
     this.updateRiven();

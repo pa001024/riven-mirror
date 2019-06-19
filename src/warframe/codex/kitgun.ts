@@ -141,6 +141,12 @@ export const NoneKitgunGripData: number[] = [3, 0, 2, 3];
 
 export const NoneKitgunLoaderData: KitgunLoader = KitgunLoaderData[14];
 
+const getName = (url: string) => {
+  let parts = url.split("-");
+  const chamber = KitgunChamberData.find(v => v.name === parts[1]);
+  return chamber.name;
+};
+
 export class Kitgun extends Weapon {
   chamber: KitgunChamber;
   grip: KitgunGrip;
@@ -176,7 +182,7 @@ export class Kitgun extends Weapon {
     this.recalc();
   }
   constructor(chamber: KitgunChamber | string, grip: KitgunGrip = null, loader: KitgunLoader = null) {
-    super({ name: typeof chamber === "string" ? chamber : chamber.name });
+    super({ name: typeof chamber === "string" ? getName(chamber) : chamber.name });
     if (typeof chamber === "string") {
       this.url = chamber;
     } else {
