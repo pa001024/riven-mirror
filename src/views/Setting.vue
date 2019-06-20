@@ -16,7 +16,10 @@
       <el-card class="setting">
         <span slot="header">{{$t("setting.bugreport")}}</span>
         <div class="bug-report">
-          <a class="link-btn" href="https://github.com/pa001024/riven-mirror/issues/new/choose" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="link-btn" v-if="$t('zh')" href="https://shimo.im/forms/asziAvyhSicaOQQy/fill" target="_blank" rel="noopener">极镜用户反馈单</a>
+          <a class="link-btn" v-else href="https://shimo.im/forms/olzb8RdscGgJzOZx/fill" target="_blank" rel="noopener">Riven.IM User Feedback</a>
+          |
+          <a class="link-btn" href="https://github.com/pa001024/riven-mirror/issues/new/choose" target="_blank" rel="noopener">GitHub</a>
         </div>
       </el-card>
     </el-col>
@@ -171,6 +174,12 @@ export default class Setting extends Vue {
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+  .bug-report {
+    margin: 0 -8px;
+    .link-btn {
+      margin: 0 8px;
     }
   }
 }
