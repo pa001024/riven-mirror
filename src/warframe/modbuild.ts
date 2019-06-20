@@ -1087,6 +1087,7 @@ export abstract class ModBuild {
     nb._buffs = this.buffs;
     nb.damageModel = this.damageModel;
     nb.modelArmor = this.modelArmor;
+    nb.modeIndex = this.modeIndex;
     nb._mods.splice(index, 1);
     let oldVal = this.compareDamage;
     nb.calcMods();
@@ -1107,6 +1108,7 @@ export abstract class ModBuild {
     nb._buffs = this.buffs;
     nb.damageModel = this.damageModel;
     nb.modelArmor = this.modelArmor;
+    nb.modeIndex = this.modeIndex;
     nb._buffs.splice(index, 1);
     let oldVal = this.compareDamage;
     nb.calcMods();

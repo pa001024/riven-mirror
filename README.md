@@ -42,3 +42,10 @@ Fork and send pull request!
 ## See also
 
 - [riven-mirror-data](https://github.com/pa001024/riven-mirror-data)
+
+## How to run
+
+```
+yarn
+yarn dev
+```

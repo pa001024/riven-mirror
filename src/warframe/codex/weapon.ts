@@ -23,8 +23,10 @@ export class WeaponTag {
     this.mainTag = MainTag[init.find(v => v != "Primary" && v != "Robotic")];
   }
   has(...tags: string[]) {
-    if (tags.length === 1) return this._set.has(tags[0]);
-    return tags.every(v => this._set.has(v));
+    return tags.every(v => {
+      if (v === "Gun") return ![MainTag.Melee, MainTag.Zaw, MainTag.Amp, MainTag["Arch-Melee"]].includes(this.mainTag);
+      return this._set.has(v);
+    });
   }
   toArray() {
     return Array.from(this._set);
