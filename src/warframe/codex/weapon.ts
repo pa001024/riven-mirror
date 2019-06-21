@@ -163,6 +163,9 @@ export class Weapon {
   get id() {
     return `messages.${_.camelCase(this.name)}`;
   }
+  get locName() {
+    return i18n.te(this.id) ? i18n.t(this.id) : this.name;
+  }
   /** 是否是陆地用 */
   get isAtmosphere() {
     return this.name.endsWith(" (Atmosphere)");
@@ -502,7 +505,7 @@ export class WeaponDatabase {
   static findMostSimRivenWeapon(name: string) {
     name = name.trim();
     if (this.hasWeapon(name)) return this.getWeaponByName(name);
-    let weaponFinded = _.maxBy(this.weapons, v => strSimilarity(name, v.name));
+    let weaponFinded = _.maxBy(this.weapons, v => Math.max(strSimilarity(name, v.locName), strSimilarity(name, v.name)));
     return weaponFinded;
   }
 
