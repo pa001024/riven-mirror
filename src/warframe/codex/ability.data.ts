@@ -1264,17 +1264,19 @@ export let _abilityData: AbilityData[] = [
     }
   },
   {
-    id: "Iron Jab",
-    tags: 1,
+    id: "Celestial Twin",
+    tags: 32,
     energyCost: 25,
     props: {
-      Damage: {
-        damage: [["Impact", S(800)]],
-        range: 10
-      },
-      Control: {
-        range: R(2)
-      }
+      Summon: { health: { value: 2, bind: [["h", 0]] } }
+    }
+  },
+  {
+    id: "Cloud Walker",
+    tags: 20,
+    energyCost: 25,
+    props: {
+      Control: { range: R(8) }
     }
   },
   {
@@ -1282,30 +1284,15 @@ export let _abilityData: AbilityData[] = [
     tags: 2,
     energyCost: 50,
     props: {
-      Special: [{ desc: "invincibleTime", val: D(5) }]
-    }
-  },
-  {
-    id: "Cloud Walker",
-    tags: 4,
-    energyCost: 75,
-    props: {
-      Control: {
-        range: R(8)
-      }
+      Buff: { effect: [["ivc", 1]], duration: D(5), range: R(12) }
     }
   },
   {
     id: "Primal Fury",
     tags: 0,
-    energyCost: 0,
-    energyCostPS: 3,
-    props: {
-      ExaltedWeapon: {
-        weaponName: "Iron Staff",
-        effect: [["oad", S(100, -100)]]
-      }
-    }
+    energyCost: 10,
+    energyCostPS: 5,
+    props: { ExaltedWeapon: { weaponName: "Iron Staff", effect: [["oad", { value: 100, bind: [["t", -100]] }]] } }
   },
   {
     id: "Tail Wind",

@@ -98,6 +98,10 @@
               <el-button type="primary" size="small" @click="clear()">{{$t("build.clear")}}</el-button>
             </el-button-group>
             <el-form class="build-form-editor">
+              <!-- 开镜倍率 -->
+              <el-form-item :label="$t('buildview.zoom')" v-if="weapon.maxZoomLevel">
+                <el-slider class="right-side fill" v-model="zoomLevel" size="small" :min="0" :max="weapon.maxZoomLevel" show-stops :format-tooltip="v=>(v?weapon.zoom[v-1].ratio:1)+'x'" @change="optionChange"></el-slider>
+              </el-form-item>
               <!-- 爆头几率 -->
               <el-form-item :label="$t('buildview.headshotChance')">
                 <el-tooltip effect="dark" :content="$t('buildview.headshotChanceTip')" placement="bottom">
@@ -274,9 +278,13 @@ import "@/less/builder.less";
 export default class GunBuildEditor extends BaseBuildEditor {
   @Prop() weapon: Weapon;
 
-  headShotChance = 0;
-  extraBaseDamage = 0;
-  extraOverall = 0;
+  get headShotChance() {
+    return ~~(this.build.headShotChance * 100);
+  }
+  set headShotChance(value) {
+    this.build.headShotChance = value / 100;
+  }
+
   amrorReduce = 0;
   /** 赋能 */
   arcanes = [];
@@ -300,11 +308,16 @@ export default class GunBuildEditor extends BaseBuildEditor {
     this.$refs.buffselector && (this.$refs.buffselector as any).reload();
   }
 
+  get zoomLevel() {
+    return (this.build as GunModBuild).zoomLevel;
+  }
+  set zoomLevel(value) {
+    (this.build as GunModBuild).zoomLevel = value;
+  }
+
   get options() {
     return {
-      headShotChance: this.headShotChance / 100,
-      extraBaseDamage: +this.extraBaseDamage,
-      extraOverall: +this.extraOverall,
+      // headShotChance: this.headShotChance / 100,
       arcanes: this.arcanes,
       amrorReduce: this.amrorReduce / 100,
       burstSampleSize: this.burstSampleSize

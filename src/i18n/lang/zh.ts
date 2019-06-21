@@ -801,7 +801,7 @@ let po = {
     sanctiMagistar: "圣洁 执法者",
     anku: "夺魂死神",
     obex: "奥比克斯",
-    scoliac: "嵴椎节鞭",
+    scoliac: "脊椎节鞭",
     sheev: "希芙",
     silvaAegis: "席瓦 & 神盾",
     silvaAegisPrime: "席瓦 & 神盾 Prime",
@@ -1950,9 +1950,9 @@ let po = {
     speed: "加速",
     electricShield: "电磁屏障",
     discharge: "电能释放",
-    ironJab: "神针突刺",
-    defy: "死命顽抗",
+    celestialTwin: "天圣双身",
     cloudWalker: "筋斗游云",
+    defy: "死命顽抗",
     primalFury: "原始狂怒",
     tailWind: "顺风",
     airburst: "空爆",
@@ -2976,7 +2976,8 @@ let po = {
     selectKitgunGrip: "选择握把",
     selectKitgunLoader: "选择填弹器",
     selectZawGrip: "选择握柄部",
-    selectZawLinks: "选择环接部"
+    selectZawLinks: "选择环接部",
+    zoom: "变焦"
   },
   weaponselector: {
     notfound: "暂无该武器资料",

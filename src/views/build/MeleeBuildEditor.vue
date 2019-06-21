@@ -100,6 +100,12 @@
                   <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="1" :max="6" :step="0.5"></el-input-number>
                 </el-tooltip>
               </el-form-item>
+              <!-- 爆头几率 -->
+              <el-form-item :label="$t('buildview.headshotChance')">
+                <el-tooltip effect="dark" :content="$t('buildview.headshotChanceTip')" placement="bottom">
+                  <el-slider class="right-side fill" v-model="headShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
+                </el-tooltip>
+              </el-form-item>
               <!-- 异况数字化 -->
               <el-form-item :label="$t('buildview.condiOver')">
                 <el-tooltip effect="dark" :content="$t('buildview.condiOverTip')" placement="bottom">
@@ -239,6 +245,13 @@ declare interface BuildSelectorTab {
 export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: Weapon;
 
+  get headShotChance() {
+    return ~~(this.build.headShotChance * 100);
+  }
+  set headShotChance(value) {
+    this.build.headShotChance = value / 100;
+  }
+
   comboMul = 1.5;
   extraBaseDamage = 0;
   extraOverall = 0;
@@ -253,6 +266,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   @Watch("weapon")
   reload() {
     this.comboMul = this.weapon.tags.has("Virtual") ? 1 : 1.5;
+    this.calcCondiOver = !this.weapon.tags.has("Virtual");
     super.reload();
   }
   reloadSelector() {

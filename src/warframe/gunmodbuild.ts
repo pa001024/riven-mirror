@@ -3,6 +3,7 @@ import { Enemy, NormalModDatabase, NormalMod, AcolyteModsList, Weapon } from "./
 import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
 import { i18n } from "@/i18n";
+import _ from "lodash";
 
 /*
  * MOD自动配置模块
@@ -35,6 +36,7 @@ export interface GunModBuildOptions {
   target?: Enemy;
   amrorReduce?: number;
   burstSampleSize?: number;
+  zoomLevel?: number;
 }
 /** 枪类 */
 export class GunModBuild extends ModBuild {
@@ -119,6 +121,8 @@ export class GunModBuild extends ModBuild {
   useDeadlyEfficiency = false;
   /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
   useHunterMunitions = 1;
+  /** 开镜倍率 */
+  zoomLevel = 0;
 
   constructor(weapon: Weapon = null, riven: RivenMod = null, options: GunModBuildOptions = null, fast = false) {
     super(riven, fast);
@@ -130,6 +134,10 @@ export class GunModBuild extends ModBuild {
           .concat([this.weapon.name])
           .includes(v.type)
       );
+    }
+    if (this.weapon.maxZoomLevel) {
+      this.zoomLevel = this.weapon.maxZoomLevel;
+      this.reset();
     }
     if (options) {
       this.options = options;
@@ -150,6 +158,7 @@ export class GunModBuild extends ModBuild {
     this.target = typeof options.target !== "undefined" ? options.target : this.target;
     this.amrorReduce = typeof options.amrorReduce !== "undefined" ? options.amrorReduce : this.amrorReduce;
     this.burstSampleSize = typeof options.burstSampleSize !== "undefined" ? options.burstSampleSize : this.burstSampleSize;
+    this.zoomLevel = typeof options.zoomLevel !== "undefined" ? options.zoomLevel : this.zoomLevel;
   }
   get options(): GunModBuildOptions {
     return {
@@ -165,7 +174,8 @@ export class GunModBuild extends ModBuild {
       extraOverall: this.extraOverall,
       target: this.target,
       amrorReduce: this.amrorReduce,
-      burstSampleSize: this.burstSampleSize
+      burstSampleSize: this.burstSampleSize,
+      zoomLevel: this.zoomLevel
     };
   }
   /** 生成伤害时间线 */
@@ -247,12 +257,6 @@ export class GunModBuild extends ModBuild {
   /** [overwrite] 空占比 */
   get dutyCycle() {
     return this.reloadTime / (this.magazineSize / this.fireRate + this.reloadTime);
-  }
-  /** [overwrite] 暴击倍率 */
-  get critMul() {
-    // 绝路 / 丧钟开镜暴伤
-    if (this.baseId === "Rubico" || this.baseId === "Knell") return hAccMul(this.mode.critMul, this.critMulMul, this.finalCritMulMul) + 1.5;
-    return hAccMul(this.mode.critMul, this.critMulMul, this.finalCritMulMul);
   }
 
   /** [overwrite] 每发触发率 */
@@ -447,10 +451,11 @@ export class GunModBuild extends ModBuild {
     this._firstAmmoMul = 100;
     this._slashWhenCrit = 0;
 
-    // 兰卡开镜暴击
+    // 开镜加成
 
-    if (this.baseId === "Lanka") {
-      this._critChanceAdd = 50;
+    if (this.zoomLevel) {
+      const zoom = this.weapon.zoom[this.zoomLevel - 1];
+      _.map(zoom.props, (v, n) => this.applyProp(null, n, v));
     }
   }
   /**

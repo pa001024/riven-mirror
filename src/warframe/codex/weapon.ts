@@ -72,6 +72,10 @@ export class Weapon {
   /** 缩放 */
   zoom?: Zoom[]; // "3x (+20% Critical Chance)"
 
+  /** 最大开镜等级 */
+  get maxZoomLevel() {
+    return (this.zoom && this.zoom.length) || 0;
+  }
   // melee
   stancePolarity?: string;
   blockResist?: number;

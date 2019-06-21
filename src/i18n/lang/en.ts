@@ -731,7 +731,7 @@ let po = {
       eac: "{0} Corpus Hit Chance",
       esp: "{0} Infested Speed",
       ivb: "Invisible",
-      ivc: "Invincible",
+      ivc: "Invulnerable",
       apd: "{0} first Pellet Damage additionally",
       m: "{0} Movement Speed when Aiming",
       her: "{0} Energy On Headshot",
@@ -1235,7 +1235,8 @@ let po = {
     selectKitgunGrip: "Select Grip",
     selectKitgunLoader: "Select Loader",
     selectZawGrip: "Select Grip",
-    selectZawLinks: "Select Links"
+    selectZawLinks: "Select Links",
+    zoom: "Zoom"
   },
   weaponselector: {
     notfound: "Can not find special weapon",

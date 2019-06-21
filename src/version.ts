@@ -1,20 +1,18 @@
 export const magic = "ALPHA";
-export const version = "1.6.0";
+export const version = "1.6.1";
 export const updateLogs = [
-  //   {
-  //     version: "1.6.1",
-  //     date: "2019/6/18",
-  //     md: {
-  //       en: `- [NEW] Search tools (including weapons/warframes)
-  // - Weapon build: The different modes of the same weapon now can be switched in build page.
-  // - Riven Analysis: improved the best riven calculation accuracy
-  // - The passive effects of some weapons are now explicitly displayed (such as the aim bonus of some sniper)`,
-  //       cn: `- [新] 搜索工具 (搜索中英文武器/战甲 **武器支持拼音首字母**)
-  // - 武器配装改版: 同一个武器的不同模式现在可以更方便的切换了
-  // - 紫卡分析: 最佳紫卡计算准确度提高了一些
-  // - 一些武器的被动效果现在显式的显示出来了 (如狙击枪的开镜加成)`
-  //     }
-  //   },
+  {
+    version: "1.6.1",
+    date: "2019/6/20",
+    md: {
+      en: `- add user feedback (in Setting)
+- The aim bonus of some sniper can be adjusted now
+- warframe data of Wukong rework`,
+      cn: `- 添加了独立的用户反馈 (在设置页面)
+- 狙击枪的开镜加成现在可以调整了
+- Wukong战甲数据重做`
+    }
+  },
   {
     version: "1.6.0",
     date: "2019/6/18",
@@ -44,7 +42,8 @@ export const updateLogs = [
       cn: `- 空战武器紫卡
 - 添加是否使用致命效率开关 (默认禁用)`
     }
-  },
+  }
+  /*
   {
     version: "1.5.4",
     date: "2019/4/11",
@@ -53,7 +52,6 @@ export const updateLogs = [
       cn: `- Zaw 模拟: 瘟疫伤害数据重置 [查看详细](https://warframe.huijiwiki.com/p/29884)`
     }
   }
-  /*
   {
     version: "1.5.3",
     date: "2019/4/11",

@@ -26,7 +26,7 @@ import AbilityPropValueEditor from "@/components/vse/AbilityPropValueEditor.vue"
 export default class EffectEditor extends Vue {
   @Model() effects: [string, AbilityPropValue][]
   get effectTypes() {
-    return "0,1,2,3,4,5,6,7,8,9,A,G,I,C,D,S,R,L,F,M,P,H,V,Z,K,T,J,B,U,N,E,X,h,s,a,e,f,r,t,u,x,g,c,k,y,l,i,v,z,rg,hc,ec,tr,as,ae,at,er,lr,acc,range,stick,aimm,ckm,od,kb,brad,sp,hr,fsb,am,hm,i2,da,oad,lal,spr,slc,bnc,exp,ls,bL,bldr,sccm,ccws,bsk,co,gdr,hlr,exd,amr,par,msd,fs,ce,ac,ds,sd,fcd,i0,smd,dmg,cwh,erd,ecd,eed,efd,aed,hps,ivb".split(",")
+    return "0,1,2,3,4,5,6,7,8,9,A,G,I,C,D,S,R,L,F,M,P,H,V,Z,K,T,J,B,U,N,E,X,h,s,a,e,f,r,t,u,x,g,c,k,y,l,i,v,z,rg,hc,ec,tr,as,ae,at,er,lr,acc,range,stick,aimm,ckm,od,kb,brad,sp,hr,fsb,am,hm,i2,da,oad,lal,spr,slc,bnc,exp,ls,bL,bldr,sccm,ccws,bsk,co,gdr,hlr,exd,amr,par,msd,fs,ce,ac,ds,sd,fcd,i0,smd,dmg,cwh,erd,ecd,eed,efd,aed,hps,ivb,ivc".split(",")
   }
   addneweffect() {
     this.effects.push(["ivb", { value: 1 }])

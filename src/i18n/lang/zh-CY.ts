@@ -259,6 +259,7 @@ let po = {
     vulkarWraith: "亡魂伏卡尔狙击枪",
     vulklok: "电弧步枪",
     war: "战争",
+    zakti: "猛毒镖枪",
     zarr: "煞皇",
     zenith: "天涯",
     baza: "苍鹰冲锋枪",

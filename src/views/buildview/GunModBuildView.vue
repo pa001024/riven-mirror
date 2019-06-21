@@ -104,6 +104,10 @@
             </el-select>
           </el-tooltip>
         </el-form-item>
+        <!-- 开镜倍率 -->
+        <el-form-item :label="$t('buildview.zoom')" v-if="weapon.maxZoomLevel">
+          <el-slider v-model="zoomLevel"  style="width:200px;margin-left: 8px;" :min="0" :max="weapon.maxZoomLevel" show-stops :format-tooltip="v=>(v?weapon.zoom[v-1].ratio:1)+'x'"></el-slider>
+        </el-form-item>
         <!-- 爆头几率 -->
         <el-form-item :label="$t('buildview.headshotChance')">
           <el-tooltip effect="dark" :content="$t('buildview.headshotChanceTip')" placement="bottom">
@@ -172,6 +176,7 @@ import {
 import { RivenMod } from "@/warframe/rivenmod";
 import "@/less/buildview.less";
 import localStorage from "universal-localstorage";
+import { Weapon } from "@/warframe/codex/weapon";
 
 @Component
 export default class GunModBuildView extends BaseModBuildView {
@@ -193,6 +198,8 @@ export default class GunModBuildView extends BaseModBuildView {
   extraBaseDamage = 0;
   /** 总伤加成 */
   extraOverall = 0;
+  /** 开镜倍率 */
+  zoomLevel = 0;
 
   chamberList = KitgunChamberData;
   gripList = KitgunGripData;
@@ -251,6 +258,7 @@ export default class GunModBuildView extends BaseModBuildView {
   @Watch("extraBaseDamage")
   @Watch("extraOverall")
   @Watch("headShotChance")
+  @Watch("zoomLevel")
   @Watch("slots")
   debouncedRecalc() {
     this.builds = [];
@@ -261,6 +269,10 @@ export default class GunModBuildView extends BaseModBuildView {
     localStorage.setItem("useAcolyteMods", JSON.stringify(this.useAcolyteMods));
   }
 
+  @Watch("weapon")
+  weaponChange(weapon: Weapon) {
+    if (weapon.maxZoomLevel) this.zoomLevel = weapon.maxZoomLevel;
+  }
   @Watch("riven")
   rivenChange(riven?: RivenMod, oldRiven?: RivenMod) {
     if (this.riven.weapon.isKitgun) {
@@ -305,7 +317,8 @@ export default class GunModBuildView extends BaseModBuildView {
       headShotChance: this.headShotChance / 100,
       allowElementTypes: (this.selectDamageType && this.elementTypes[this.selectDamageType]) || null,
       extraBaseDamage: +this.extraBaseDamage,
-      extraOverall: +this.extraOverall
+      extraOverall: +this.extraOverall,
+      zoomLevel: this.zoomLevel
     };
     super.recalc(GunModBuild, options);
   }

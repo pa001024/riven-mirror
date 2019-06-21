@@ -137,6 +137,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "psr" }, // persecond shield recovery
   { id: "phr" }, // persecond health recovery
   { id: "ivb" }, // invisible
+  { id: "ivc" }, // invulnerable
   { id: "ehb" }, // extra health orb
   { id: "eeb" }, // extra energy orb
   { id: "rgd" }, // range knockdown
