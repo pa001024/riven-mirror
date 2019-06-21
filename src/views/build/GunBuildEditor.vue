@@ -41,7 +41,7 @@
               </el-row>
               <PropDiff :name="$t('build.magazine')" :ori="mode.magazine" :val="build.magazineSize"></PropDiff>
               <PropDiff :name="$t('build.prjSpeed')" v-if="mode.prjSpeed" :ori="mode.prjSpeed" :val="build.prjSpeed" subfix=" m/s" :preci="1"></PropDiff>
-              <PropDiff :name="$t('build.rangeLimit')" v-if="mode.rangeLimit" :ori="mode.rangeLimit" :val="build.rangeLimit" subfix=" m" :preci="1"></PropDiff>
+              <PropDiff :name="$t('build.rangeLimit')" v-if="mode.range" :ori="mode.range" :val="build.range" subfix=" m" :preci="1"></PropDiff>
               <PropDiff :name="$t('build.fireRate')" :ori="mode.fireRate/60" :val="build.fireRate" :preci="3"></PropDiff>
               <PropDiff :name="$t('build.critMul')" :ori="mode.critMul" :val="build.critMul" subfix="x"></PropDiff>
               <PropDiff :name="$t('build.critChance')" :ori="mode.critChance" :val="build.critChance" percent></PropDiff>

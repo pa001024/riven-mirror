@@ -72,7 +72,7 @@
    --><div class="prop">{{$t("modular.magazine")}}: {{amp.defaultMode.magazine}}</div><!--
    --><div class="prop">{{$t("modular.reloadSpeed")}}: {{amp.reloadSpeed}}</div><!--
    --><div class="prop">{{$t("modular.reloadDelay")}}: {{amp.reloadDelay}}</div><!--
-   --><div class="prop" v-if="amp.rangeLimit">{{$t("modular.rangeLimit")}}: {{amp.rangeLimit}}m</div>
+   --><div class="prop" v-if="amp.defaultMode.range">{{$t("modular.rangeLimit")}}: {{amp.defaultMode.range}}m</div>
     </div>
     <el-button class="stepctl" :disabled="!(finished)" @click="finish">{{$t("modular.finish")}}</el-button>
   </div>

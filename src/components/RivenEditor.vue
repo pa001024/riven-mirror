@@ -2,7 +2,7 @@
   <div class="rivenedit">
     <el-row :gutter="20">
       <el-col :span="24">
-        <el-cascader v-if="!weapon" filterable class="weapon-picker"
+        <el-cascader v-if="!weapon" filterable :filter-method="handleSearch" class="weapon-picker"
           :props="{ expandTrigger: 'hover' }" size="small" :placeholder="$t('rivenedit.selectWeapon')"
           :options="nameOptions" :show-all-levels="false" v-model="selectWeapon" @change="handleChange"/>
         <template v-if="mod">
@@ -54,6 +54,7 @@ import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
 import { RivenProperty, RivenPropertyDataBase, RivenDatabase, ModTypeTable, MainTag, Weapon, WeaponDatabase, RivenTypes } from "@/warframe/codex";
 import { RivenMod, toNegaUpLevel, toUpLevel } from "@/warframe/rivenmod";
 import { Getter, Action } from "vuex-class";
+import pinyin from "../search/pinyin";
 
 interface CascaderValue {
   value: string;
@@ -108,6 +109,18 @@ export default class RivenEditor extends Vue {
     this.is21Negative = false;
     this.props = [defalutEditorProp()];
     this.updateRiven();
+  }
+  handleSearch(node: CascaderValue, keyword: string) {
+    const k = keyword.toLowerCase(),
+      v = node.value.toLowerCase();
+    if (this.$t("zh")) {
+      const py = this.$t("zh") && pinyin.getCamelChars(node.label);
+      const en = this.$t(WeaponDatabase.getWeaponByName(node.value).id) as string;
+      if (v.includes(k) || en.includes(k) || (py && v.includes(py))) return true;
+    } else {
+      if (v.includes(k)) return true;
+    }
+    return false;
   }
   handleInput() {
     this.updateRiven();
