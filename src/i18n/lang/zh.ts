@@ -2973,10 +2973,6 @@ let po = {
     loading: "努力加载中...",
     tobuild: "查看详细",
     components: "部件",
-    selectKitgunGrip: "选择握把",
-    selectKitgunLoader: "选择填弹器",
-    selectZawGrip: "选择握柄部",
-    selectZawLinks: "选择环接部",
     zoom: "变焦"
   },
   weaponselector: {

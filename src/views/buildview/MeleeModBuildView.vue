@@ -62,11 +62,11 @@
         </el-form-item>
         <!-- 选择ZAW组件 -->
         <el-form-item :label="$t('buildview.components')" v-if="riven.weapon.isZaw">
-          <el-select style="width:140px" v-model="gripId" @change="zawPartChange" :placeholder="$t('buildview.selectZawGrip')">
+          <el-select style="width:140px" v-model="gripId" @change="zawPartChange" :placeholder="$t('zaw.selectGrip')">
             <el-option v-for="grip in gripList" :key="grip.name" :label="$t(`messages.${grip.id}`)" :value="grip.name">
             </el-option>
           </el-select>
-          <el-select style="width:160px" v-model="linksId" @change="zawPartChange" :placeholder="$t('buildview.selectZawLinks')">
+          <el-select style="width:160px" v-model="linksId" @change="zawPartChange" :placeholder="$t('zaw.selectLinks')">
             <el-option v-for="links in linksList" :key="links.name" :label="$t(`messages.${links.id}`)" :value="links.name">
             </el-option>
           </el-select>

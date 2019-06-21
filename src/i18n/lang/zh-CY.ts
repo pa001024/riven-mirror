@@ -585,13 +585,34 @@ let po = {
     dualKeres: "灾厄双刀",
     rubicoPrime: "圣装绿陶狙击枪",
     argonak: "阿格那突击步枪",
-    fusilai: "琉璃飞刀"
+    fusilai: "琉璃飞刀",
+    garuda: "迦楼罗",
+    pupacyst: "蛹囊寄生者",
+    falcor: "猎鹰回旋刃",
+    nagantaka: "饮血弩",
+    battacor: "战争能量枪",
+    ocucor: "幽浮能量枪",
+    kreska: "克莱斯卡",
+    powerDonation: "能量奉献",
+    vigorousSwap: "活跃切换",
+    rollingGuard: "翻滚庇护",
+    adaptation: "适应抗性",
+    maraDetron: "玛拉迪特隆"
   },
   zaw: {
     title: "天工造武"
   },
   build: {
     ratio: "裂隙共鸣"
+  },
+  kitgun: {
+    title: "组件枪",
+    selectChamber: "选择弹膛",
+    selectGrip: "选择握柄",
+    selectLoader: "选择装弹器",
+    chamber: "弹膛",
+    grip: "握柄",
+    loader: "装弹器"
   }
 };
 

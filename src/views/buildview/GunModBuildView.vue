@@ -63,11 +63,11 @@
         </el-form-item>
         <!-- 选择KITGUN组件 -->
         <el-form-item :label="$t('buildview.components')" v-if="riven.weapon.isKitgun">
-          <el-select style="width:120px" v-model="gripId" @change="kitgunPartChange" :placeholder="$t('buildview.selectKitgunGrip')">
+          <el-select style="width:120px" v-model="gripId" @change="kitgunPartChange" :placeholder="$t('kitgun.selectGrip')">
             <el-option v-for="grip in gripList" :key="grip.name" :label="$t(`messages.${grip.id}`)" :value="grip.name">
             </el-option>
           </el-select>
-          <el-select style="width:120px" v-model="loaderId" @change="kitgunPartChange" :placeholder="$t('buildview.selectKitgunLoader')">
+          <el-select style="width:120px" v-model="loaderId" @change="kitgunPartChange" :placeholder="$t('kitgun.selectLoader')">
             <el-option v-for="loader in loaderList" :key="loader.name" :label="$t(`messages.${loader.id}`)" :value="loader.name">
             </el-option>
           </el-select>
