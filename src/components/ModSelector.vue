@@ -164,7 +164,7 @@ export default class ModSelector extends Vue {
         (isVirtual && VirtualMeleeMods.includes(v.key)) || // 虚拟技能武器接受所有mod
         (this.build.weapon.tags
           .toArray() // 普通
-          .concat([this.build.weapon.name])
+          .concat([this.build.weapon.name, this.build.weapon.baseName])
           .includes(v.type) &&
           this.build.isValidMod(v) &&
           (!(!isVirtual && isExalted) || !AcolyteMods.includes(v.id))) // 近战显赫武器不接受追随者MOD

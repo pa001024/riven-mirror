@@ -76,8 +76,8 @@ const data = [
   ["1m", "Fast Hands", [["F", 5]], Rifle, "-", "n", 2],
   ["1n", "Primed Fast Hands", [["F", 5]], Rifle, "-", "l", 2, 10],
   ["1o", "Stabilizer", [["Z", -15]], Rifle, "-", "r", 6, 3],
-  ["1p", "Guided Ordnance", [["onHit"], ["acc", 5]], "AssaultRifle", "r", "c", 2],
-  ["1q", "Spring-Loaded Chamber", [["onReload"], ["R", 12.5]], "AssaultRifle", "r", "c", 2],
+  ["1p", "Guided Ordnance", [["onHit"], ["acc", 5]], "Assault Rifle", "r", "c", 2],
+  ["1q", "Spring-Loaded Chamber", [["onReload"], ["R", 12.5]], "Assault Rifle", "r", "c", 2],
   ["1r", "Kinetic Ricochet", [["but", 1], ["V", 5]], "Tetra", "-", "r", 2],
   ["1s", "Tether Grenades", [["el", 2]], "Penta", "-", "r", 2],
   ["1t", "Catalyzer Link", [["onAbilityCast"], ["2", 10]], Rifle, "r", "n", 4],
@@ -87,7 +87,7 @@ const data = [
   ["1x", "Charged Chamber", [["fsb", 10]], Sniper, "r", "c", 6, 3],
   ["1y", "Primed Charged Chamber", [["fsb", 10]], Sniper, "r", "l", 6, 10],
   ["1z", "Primed Chamber", [["fsb", 25]], Sniper, "r", "r", 4, 3],
-  ["20", "Rifle Ammo Mutation", [["am", 37.5]], "AssaultRifle", "-", "r", 4],
+  ["20", "Rifle Ammo Mutation", [["am", 37.5]], "Assault Rifle", "-", "r", 4],
   ["21", "Arrow Mutation", [["am", 37.5]], "Bow", "-", "r", 4],
   ["22", "Sniper Ammo Mutation", [["am", 37.5]], Sniper, "-", "r", 4],
   ["23", "Target Acquired", [["hm", 10]], Sniper, "r", "r", 6],
@@ -103,13 +103,13 @@ const data = [
   ["2D", "Spring-Loaded Broadhead", [["!oad", 40], ["!ify", 45], ["ify", -5]], "Daikyu", "r", "r", 10],
   // ["2E", "Apex Predator", "顶级掠食者", [["PVP", 0]], "让被击中的目标暂时出现在小地图上（限武形秘仪）", "Rilfe", "-", "c", 7],
   // ["2F", "Lucky Shot", "幸运射击", [["PVP", 0]], "提升武器的抛射物飞行速度，降低精准度（限武形秘仪）", "Rilfe", "r", "c", 9],
-  // ["2G", "Vanquished Prey", "战无不克", [["PVP", 0]], "击败另一名玩家后降低一段时间的护盾回充延迟，降低生命球的回血量（限武形秘仪）", "AssaultRifle", "d", "r", 9],
+  // ["2G", "Vanquished Prey", "战无不克", [["PVP", 0]], "击败另一名玩家后降低一段时间的护盾回充延迟，降低生命球的回血量（限武形秘仪）", "Assault Rifle", "d", "r", 9],
   // ["2H", "Comet Rounds", "彗星弹头", [["PVP", 0]], "将一部分物理伤害转化为冲击伤害（限武形秘仪）", "Rilfe", "r", "c", 5],
   // ["2I", "Serrated Rounds", "锯刃弹头", [["PVP", 0]], "一部分物理伤害转换为切割伤害（限武形秘仪）", "Rilfe", "r", "c", 5],
   // ["2J", "Ripper Rounds", "撕裂弹头", [["PVP", 0]], "将一部分物理伤害转化为穿刺伤害（限武形秘仪）", "Rilfe", "r", "c", 5],
   ["2K", "Depleted Reload", [["L", -10], ["F", 8]], Sniper, "-", "r", 2],
   ["2L", "Primed Shred", [["R", 5], ["P", 0.2]], Rifle, "r", "l", 6, 10],
-  ["2M", "Primed Rifle Ammo Mutation", [["am", 68.75]], "AssaultRifle", "-", "l", 4, 10],
+  ["2M", "Primed Rifle Ammo Mutation", [["am", 68.75]], "Assault Rifle", "-", "l", 4, 10],
   // ["2N", "primedSniperAmmoMutation", [["am", 0.6875]], Sniper, "-", "l", 14, 10],
   ["2O", "Sharpshooter", [["onHeadshotKill"], ["!her", 4], ["her", 1]], Sniper, "-", "r", 2, 10],
   ["2P", "Thunderbolt", [["exp", 7.5]], "Bow", "r", "r", 6, 3],
@@ -250,7 +250,7 @@ const data = [
   ["A3", "Lethal Momentum", [["V", 10]], Secondary, "r", "c", 4, 3],
   ["A4", "Augur Seeker", [["3", 5]], Secondary, "r", "r", 2, 5],
   ["A5", "Perpetual Agony", [["3", 5]], Secondary, "r", "n", 6],
-  ["A6", "Thermagnetic Shells", [["Enemies explode on death, dealing 20 Magnetic Damage (+10% Enemy Max Health) in a 1.5m radius."]], "SECONDARY", "-", "r", 2, 3],
+  ["A6", "Thermagnetic Shells", [["Enemies explode on death, dealing 20 Magnetic Damage (+10% Enemy Max Health) in a 1.5m radius."]], Secondary, "-", "r", 2, 3],
   ["A7", "Fulmination", [["brad", 6]], "SecondUnique", "r", "r", 6, 3],
   ["A8", "Synth Charge", [["lsb", 50]], "Second6", "r", "r", 6, 3],
   ["A9", "Amalgam Barrel Diffusion", [["S", 18], ["!S", 2], ["dgs", 10]], Secondary, "r", "g", 10],
@@ -647,6 +647,8 @@ const data = [
   ["VC", "Astral Slash", [["A", 15]], Archmelee, "-", "r", 2],
   ["VD", "Nebula Bore", [["9", 15]], Archmelee, "-", "r", 2],
   ["VE", "Meteor Crash", [["8", 15]], Archmelee, "-", "r", 2]
-] as [string, string, [string, number][], string, Polarity, Rarity, number, number?][];
+] as [string, string, [string, number][], Tags, Polarity, Rarity, number, number?][];
+
+type Tags = string | string[];
 
 export default data;

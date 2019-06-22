@@ -213,6 +213,7 @@ export class Amp extends Weapon {
       range: mainPart.rangeLimit,
       prjSpeed: mainPart.prjSpeed
     } as CoreWeaponMode;
+    if ((this.scaffold && this.scaffold.name === "Klebrik Scaffold") || (this.prism && this.prism.name === "Klamora Prism")) mode.trigger = "Held";
     this.reloadSpeed = 30 + brace.reloadSpeed;
     this.reloadDelay = 2 + brace.reloadDelay;
     this.magazine = 100 + brace.magazine;

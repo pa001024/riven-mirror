@@ -146,7 +146,7 @@ const RPVBRifle = {
   M: 5, // 弹药最大值
   P: 27, // 穿透
   H: 6, // 变焦
-  V: 9, // 弹道飞行速度
+  V: 9, // 投射物速度
   Z: -9 // 后坐力
 };
 const RPVBShotgun = {
@@ -172,7 +172,7 @@ const RPVBShotgun = {
   M: 9, // 弹药最大值
   P: 27, // 穿透
   H: 6, // 变焦
-  V: 9, // 弹道飞行速度
+  V: 9, // 投射物速度
   Z: -9 // 后坐力
 };
 const RPVBPistol = {
@@ -198,7 +198,7 @@ const RPVBPistol = {
   M: 9, // 弹药最大值
   P: 27, // 穿透
   H: 8, // 变焦
-  V: 9, // 弹道飞行速度
+  V: 9, // 投射物速度
   Z: -9 // 后坐力
 };
 const RPVBArchgun = {
@@ -224,7 +224,7 @@ const RPVBArchgun = {
   M: 9, // 弹药最大值
   P: 27, // 穿透
   H: 6, // 变焦
-  V: 9, // 弹道飞行速度
+  V: 9, // 投射物速度
   Z: -9 // 后坐力
 };
 const RPVBMelee = {
@@ -303,10 +303,6 @@ export class RivenDatabase {
   };
   static PrefixAll = new RegExp(`(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})`, "i");
 
-  constructor() {
-    this.reload();
-  }
-
   reload() {
     RivenPropertyDataBase.all.forEach((v, i) => {
       this.propDict.set(v.id, i);
@@ -377,3 +373,5 @@ export class RivenDatabase {
     return this.instance.ratioDict.get(name);
   }
 }
+
+(window as any).RivenDatabase = RivenDatabase;

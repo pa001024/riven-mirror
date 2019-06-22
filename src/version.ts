@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.6.1";
+export const version = "1.6.2";
 export const updateLogs = [
+  {
+    version: "1.6.2",
+    date: "2019/6/23",
+    md: {
+      en: `- fix bugs`,
+      cn: `- BUG修复 [问题反馈的统一回复](https://afdian.net/p/f182b110951211e9875352540025c377)`
+    }
+  },
   {
     version: "1.6.1",
     date: "2019/6/20",

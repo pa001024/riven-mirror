@@ -74,7 +74,7 @@ export class GunModBuild extends ModBuild {
   get zoomMul() {
     return this._zoomMul / 100;
   }
-  /** 弹道飞行速度增幅倍率 */
+  /** 投射物速度增幅倍率 */
   get projectileSpeedMul() {
     return this._projectileSpeedMul / 100;
   }
@@ -100,7 +100,7 @@ export class GunModBuild extends ModBuild {
   }
   /** 子弹消耗速度 */
   get ammoCost() {
-    return this.mode.ammoCost || (this.weapon.tags.has("Continuous") ? 0.5 : 1);
+    return this.mode.ammoCost || (this.mode.trigger === "Held" ? 0.5 : 1);
   }
   /** 距离限制 */
   get rangeLimit() {
@@ -188,7 +188,7 @@ export class GunModBuild extends ModBuild {
     let remaingMag = this.magazineSize; // 剩余子弹数
     let shotAmmoCost = this.ammoCost; // 射击消耗子弹数
     let nextDoTTick = enemy.TICKCYCLE;
-    const isCharge = this.weapon.tags.has("Charge");
+    const isCharge = this.mode.type === "charge";
     let nextDmgTick = isCharge ? ticks : 0;
     // 敌人死亡或者到时间停止
     for (let seconds = 0; enemy.currentHealth > 0 && seconds < timeLimit; ++seconds) {
@@ -287,7 +287,7 @@ export class GunModBuild extends ModBuild {
     const { reload: r, magazine } = this.weapon;
     const f = this.mode.fireRate / 60;
     const m = ~~(magazine / this.ammoCost);
-    if (this.weapon.tags.has("Charge")) return 1 / (1 / f + r / m);
+    if (this.mode.type === "charge") return 1 / (1 / f + r / m);
     return (m * f) / (m - 1 + r * f);
   }
 
@@ -301,7 +301,7 @@ export class GunModBuild extends ModBuild {
    */
   get sustainedFireRate() {
     const { fireRate: f, reloadTime: r, effectiveMagazineSize: m } = this;
-    if (this.weapon.tags.has("Charge")) return 1 / (1 / f + r / m);
+    if (this.mode.type === "charge") return 1 / (1 / f + r / m);
     return (m * f) / (m - 1 + r * f);
   }
   /** 持续伤害增幅倍率  */
@@ -348,7 +348,7 @@ export class GunModBuild extends ModBuild {
   get burstSampleFireRate() {
     const { fireRate: f, reloadTime: r, effectiveMagazineSize: m, burstSampleSize: b } = this;
     if (!b) return f;
-    const isCharge = this.weapon.tags.has("Charge");
+    const isCharge = this.mode.type === "charge";
     let ar = isCharge ? m / f : (m - 1) / f, // 射完子弹需要的时间
       rt = isCharge ? m / f + r : (m - 1) / f + r; // 整个周期需要的时间
     // 时间不足射完弹匣
@@ -372,7 +372,7 @@ export class GunModBuild extends ModBuild {
     const b = this.burstSampleSize;
     if (!b) return f;
     const m = ~~(magazine / this.ammoCost);
-    const isCharge = this.weapon.tags.has("Charge");
+    const isCharge = this.mode.type === "charge";
     let ar = isCharge ? m / f : (m - 1) / f, // 射完子弹需要的时间
       rt = isCharge ? m / f + r : (m - 1) / f + r; // 整个周期需要的时间
     // 时间不足射完弹匣
@@ -500,7 +500,7 @@ export class GunModBuild extends ModBuild {
         /* 变焦 zoom */ this._zoomMul = hAccSum(this._zoomMul, pValue);
         break;
       case "V":
-        /* 弹道飞行速度 projectileSpeed */ this._projectileSpeedMul = hAccSum(this._projectileSpeedMul, pValue);
+        /* 投射物速度 projectileSpeed */ this._projectileSpeedMul = hAccSum(this._projectileSpeedMul, pValue);
         break;
       case "Z":
         /* 后坐力 recoil */ this._recoilMul = hAccSum(this._recoilMul, pValue);

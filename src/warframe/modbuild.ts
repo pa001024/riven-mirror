@@ -683,10 +683,12 @@ export abstract class ModBuild {
   // ### 计算属性 ###
   /** 原爆头倍率 */
   get oriHeadShotMul() {
+    if (this.target && this.target.ignoreProc === 3) return 1;
     return 2;
   }
   /** 爆头倍率 */
   get headShotMul() {
+    if (this.target && this.target.ignoreProc === 3) return 1;
     return this.oriHeadShotMul * this.headShotMulMul;
   }
 
@@ -805,14 +807,6 @@ export abstract class ModBuild {
   get panelBaseDamageMul() {
     return this.baseDamageMul;
   }
-  /** 原平均爆头增伤倍率 */
-  get oriHeadShotDmgMul() {
-    return this.headShotChance * (this.oriHeadShotMul - 1) + 1;
-  }
-  /** 平均爆头增伤倍率 */
-  get headShotDmgMul() {
-    return this.headShotChance * (this.headShotMul - 1) + 1;
-  }
   /** 面板伤害增幅倍率 */
   get panelDamageMul() {
     return this.panelBaseDamageMul * this.extraDmgMul;
@@ -848,15 +842,15 @@ export abstract class ModBuild {
   }
   /** 总伤增幅倍率 */
   get totalDamageMul() {
-    return this.critDamageMul * this.headShotDmgMul * this.overallMul * this.enemyDmgMul;
+    return this.critDamageMul * this.overallMul * this.enemyDmgMul;
   }
   /** 总伤增幅倍率(暴击向下取整) */
   get totalDamageMulFloor() {
-    return this.critDamageMulFloor * this.headShotDmgMul * this.overallMul * this.enemyDmgMul;
+    return this.critDamageMulFloor * this.overallMul * this.enemyDmgMul;
   }
   /** 总伤增幅倍率(暴击向上取整) */
   get totalDamageMulCeil() {
-    return this.critDamageMulCeil * this.headShotDmgMul * this.overallMul * this.enemyDmgMul;
+    return this.critDamageMulCeil * this.overallMul * this.enemyDmgMul;
   }
   /** 总伤害 */
   get totalDamage() {
@@ -876,11 +870,11 @@ export abstract class ModBuild {
   }
   /** 原总伤害 */
   get oriTotalDamage() {
-    return this.originalDamage * this.oriCritDamageMul * this.headShotDmgMul;
+    return this.originalDamage * this.oriCritDamageMul;
   }
   /** 基伤 触发计算中的基伤概念 包含多重暴击等 */
   get baseDamage() {
-    return this.originalDamage * this.panelBaseDamageMul * this.critDamageMul * this.headShotDmgMul * this.overallMul * this.enemyDmgMul;
+    return this.originalDamage * this.panelBaseDamageMul * this.critDamageMul * this.overallMul * this.enemyDmgMul;
   }
   /** 切割DoT的基伤 */
   get slashBaseDamage() {
@@ -948,8 +942,8 @@ export abstract class ModBuild {
    * @param v 爆头倍率 [=2]
    */
   calcCritDamage(m: number, n: number, p = 0, v = 2) {
-    if (v != 2) return ((1 + (1 - v) * p) * (m * (n - 1) + 1) + m * n * p * v) / (p + 1);
-    if (p != 0) return (p + 1) * (m * (3 * n - 1) + 1) - 2 * m * n; // (1+p)[m(3n-1)+1] - 2mn
+    if (v != 2) return m * (n * (p * (2 * v - 1) + 1) - p * (v - 1) - 1) + p * (v - 1) + 1; // m (n (p (2 v - 1) + 1) - p (v - 1) - 1) + p (v - 1) + 1
+    if (p != 0) return m * (n * (3 * p + 1) - p - 1) + p + 1;
     return m * (n - 1) + 1;
   }
 
@@ -1284,10 +1278,7 @@ export abstract class ModBuild {
       });
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(
-      v =>
-        v.id === (this.weapon.name === "Vectis Prime" ? "L" : "H") ||
-        v.id === "U" ||
-        ((this.riven.mod === "Shotgun" || this.riven.mod === "Arch-Gun") && v.id === "Z")
+      v => v.id === (this.weapon.name === "Vectis Prime" ? "L" : "H") || v.id === "U" || (this.riven.mod === "Shotgun" && v.id === "Z")
     );
     let valuedNegativeProp = new ValuedRivenProperty(
       negativeProp,
@@ -1368,7 +1359,9 @@ export abstract class ModBuild {
       });
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
     // 负面属性
-    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(v => v.id === (this.riven.name === "Vectis Prime" ? "L" : "H") || v.id === "X");
+    let negativeProp = RivenPropertyDataBase[this.riven.mod].find(
+      v => v.id === (this.weapon.name === "Vectis Prime" ? "L" : "H") || v.id === "X" || (this.riven.mod === "Shotgun" && v.id === "Z")
+    );
     let valuedNegativeProp = new ValuedRivenProperty(
       negativeProp,
       this.weapon.getPropBaseValue(negativeProp.id) * -negaUpLevel,

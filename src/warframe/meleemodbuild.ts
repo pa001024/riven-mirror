@@ -331,9 +331,7 @@ export class MeleeModBuild extends ModBuild {
    * @param s 偷袭倍率 [=0]
    */
   calcCritDamage(m: number, n: number, p = 0, v = 2, s = 0) {
-    if (v != 2) return ((1 + (1 - v) * p) * (m * (n - 1) + 1) + m * n * p * v) / (p + 1) + s;
-    if (p != 0) return m * (n - 1) + s + 1 + (2 * m * n * p) / (p + 1);
-    return m * (n - 1) + s + 1;
+    return super.calcCritDamage(m, n, p, v) + s;
   }
 
   /** [overwrite] 检测当前MOD是否可用 */

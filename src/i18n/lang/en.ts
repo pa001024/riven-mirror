@@ -1828,6 +1828,7 @@ let po = {
     gunblade: "Gunblade",
     claws: "Claws",
     twoHandedNikana: "Two-Handed Nikana",
+    continuous: "Continuous",
     dps: "DPS",
     tactics: "Tactics",
     tank: "Tank",

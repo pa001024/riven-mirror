@@ -153,7 +153,7 @@ export class Weapon {
   // 辅助函数
   /** URL */
   get url() {
-    return this.name.replace(/ /g, "_");
+    return this.name.replace(/ /g, "_").replace(" (Atmosphere)", "");
   }
   /** WM URL */
   get wmurl() {
