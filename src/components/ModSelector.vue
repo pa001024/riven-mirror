@@ -65,10 +65,10 @@ export default class ModSelector extends Vue {
   selectTab = "fast";
   editorRivenCode = "";
   get isExalted() {
-    return this.build.weapon.tags.has("Exalted");
+    return this.build.weapon.isExalted;
   }
   get isVirtual() {
-    return this.build.weapon.tags.has("Virtual");
+    return this.build.weapon.isVirtual;
   }
 
   /** MOD快速选择 */
@@ -145,7 +145,7 @@ export default class ModSelector extends Vue {
   newRiven(code?: string) {
     let riven = new RivenMod();
     riven.qrCodeBase64 = code || this.editorRivenCode;
-    if (!this.isVirtual && riven.name !== this.build.weapon.name)
+    if (!this.isVirtual && riven.name !== this.build.weapon.baseName)
       this.$confirm(this.$t("modselector.weaponWarnTip") as string, this.$t("modselector.weaponWarn") as string, { type: "warning" }).then(() => {
         this.$emit("command", riven.normalMod);
       });

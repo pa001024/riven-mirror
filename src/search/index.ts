@@ -128,7 +128,7 @@ export class SearchEngine {
     // Warframe
     if (this.config.wf) {
       searchData = searchData.concat(
-        WarframeDataBase.All.map(wf => {
+        WarframeDataBase.Warframes.map(wf => {
           const entity = {
             id: wf.id,
             name: wf.name,

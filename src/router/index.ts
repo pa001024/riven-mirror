@@ -51,6 +51,7 @@ export function createRouter() {
       { path: "/huangli", name: "Huangli", component: () => import(/* webpackChunkName: "main" */ "@/views/Huangli.vue") },
       { path: "/palette", name: "Palette", component: () => import(/* webpackChunkName: "main" */ "@/views/Palette.vue") },
       { path: "/debug", name: "Debug", component: () => import(/* webpackChunkName: "main" */ "@/views/Debug.vue") },
+      // { path: "/master", name: "Master", component: () => import(/* webpackChunkName: "master" */ "@/views/Master.vue") },
       // { path: '/alerts', name: 'Alerts', component: Alerts },
       // { path: '/riven', name: 'Mod', component: Mod },
       // { path: '/riven/:source', name: 'ModWithSource', component: Mod, props: true },

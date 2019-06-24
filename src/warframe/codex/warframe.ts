@@ -33,7 +33,7 @@ export class Warframe implements WarframeData {
   estimatedVaultDate?: string;
 
   constructor(data: WarframeData) {
-    let base = data.className ? _warframeData.find(v => v.id === data.className) : {} as WarframeData;
+    let base = data.className ? _warframeData.find(v => v.id === data.className) : ({} as WarframeData);
     this.id = data.id;
     const ikey = `messages.${_.camelCase(data.id)}`;
     this.name = i18n.te(ikey) ? i18n.t(ikey) : data.id;
@@ -63,16 +63,28 @@ export class Warframe implements WarframeData {
     return this.id.replace(/ /g, "_");
   }
 
-  get isBase() { return !this.className }
-  get warframes() { return WarframeDataBase.getWarframeByClassName(this.className || this.id) }
+  get isBase() {
+    return !this.className;
+  }
+  get warframes() {
+    return WarframeDataBase.getWarframeByClassName(this.className || this.id);
+  }
 
-  get abilityStrength() { return 1 }
-  get abilityDuration() { return 1 }
-  get abilityEfficiency() { return 1 }
-  get abilityRange() { return 1 }
+  get abilityStrength() {
+    return 1;
+  }
+  get abilityDuration() {
+    return 1;
+  }
+  get abilityEfficiency() {
+    return 1;
+  }
+  get abilityRange() {
+    return 1;
+  }
   /** 有效生命 */
   get effectiveHealth() {
-    return this.shield + (this.health * (1 + this.armor / 300));
+    return this.shield + this.health * (1 + this.armor / 300);
   }
 }
 
@@ -86,29 +98,58 @@ export class WarframeDataBase {
     this._warframes = _warframeData;
     this._i2w = new Map(this._warframes.map(v => [v.id, v] as [string, WarframeData]));
     this._i2a = new Map(_abilityData.map(v => [v.id, v] as [string, AbilityData]));
-    this._f2w = _warframeData.reduce((a, b) => {
-      let cn = b.className || b.id;
-      if (cn in a) a[cn].push(b.id);
-      else a[cn] = [b.id];
-      return a;
-    }, {} as { [key: string]: string[] });
+    this._f2w = _warframeData.reduce(
+      (a, b) => {
+        let cn = b.className || b.id;
+        if (cn in a) a[cn].push(b.id);
+        else a[cn] = [b.id];
+        return a;
+      },
+      {} as { [key: string]: string[] }
+    );
   }
   protected static instance = new WarframeDataBase();
-  static reload() { this.instance = new WarframeDataBase() }
-  static getWarframeById(id: string) { return new Warframe(this.instance._i2w.get(id)) }
-  static getWarframeByClassName(className: string) { return this.instance._f2w[className].map(v => this.getWarframeById(v)) }
+  static reload() {
+    this.instance = new WarframeDataBase();
+  }
+  static getWarframeById(id: string) {
+    return new Warframe(this.instance._i2w.get(id));
+  }
+  static getWarframeByClassName(className: string) {
+    return this.instance._f2w[className].map(v => this.getWarframeById(v));
+  }
   /** 所有战甲 */
-  static get All() { return this.instance._warframes.filter(v => !v.className).map(v => new Warframe(v)) }
+  static get Warframes() {
+    return this.instance._warframes.map(v => new Warframe(v));
+  }
+  static get All() {
+    return this.instance._warframes.filter(v => !v.className).map(v => new Warframe(v));
+  }
   /** 所有种类 */
-  static get ClassNames() { return Object.keys(this.instance._f2w) }
+  static get ClassNames() {
+    return Object.keys(this.instance._f2w);
+  }
   // 查询类
-  static get DPS() { return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.DPS)).map(v => new Warframe(v)) }
-  static get Tactics() { return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.Tactics)).map(v => new Warframe(v)) }
-  static get Tank() { return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.Tank)).map(v => new Warframe(v)) }
-  static get Support() { return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.Support)).map(v => new Warframe(v)) }
-  static get Control() { return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.Control)).map(v => new Warframe(v)) }
+  static get DPS() {
+    return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.DPS)).map(v => new Warframe(v));
+  }
+  static get Tactics() {
+    return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.Tactics)).map(v => new Warframe(v));
+  }
+  static get Tank() {
+    return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.Tank)).map(v => new Warframe(v));
+  }
+  static get Support() {
+    return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.Support)).map(v => new Warframe(v));
+  }
+  static get Control() {
+    return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.Control)).map(v => new Warframe(v));
+  }
 
-  static get Abilities() { return _abilityData }
-  static getAbility(name: string) { return this.instance._i2a.get(name) }
+  static get Abilities() {
+    return _abilityData;
+  }
+  static getAbility(name: string) {
+    return this.instance._i2a.get(name);
+  }
 }
-

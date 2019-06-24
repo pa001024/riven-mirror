@@ -19,7 +19,8 @@ const AliasTable = {
   infestation: "infested",
   corrupted: "orokin",
   fissure: "void",
-  prime: "orokin"
+  prime: "orokin",
+  vaulted: "void"
 };
 
 @Component({})

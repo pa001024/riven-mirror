@@ -1,5 +1,17 @@
 import _ from "lodash";
-import { WarframeDataBase, Warframe, Codex, AbilityData, AbilityEnhance, AbilityProp, AbilityFormData, AbilityType, AdvancedAbilityPropValue, WarframeProperty, AbilityPropTypes } from "./codex";
+import {
+  WarframeDataBase,
+  Warframe,
+  Codex,
+  AbilityData,
+  AbilityEnhance,
+  AbilityProp,
+  AbilityFormData,
+  AbilityType,
+  AdvancedAbilityPropValue,
+  WarframeProperty,
+  AbilityPropTypes
+} from "./codex";
 import { i18n } from "@/i18n";
 import { NormalMod, NormalModDatabase } from "./codex/mod";
 import { hAccSum } from "./util";
@@ -97,7 +109,7 @@ export class WarframeBuild {
 
   /** ID */
   get id() {
-    return this.data.name;
+    return this.data.id;
   }
   /** 本地化名称 */
   get name() {
@@ -181,7 +193,7 @@ export class WarframeBuild {
   }
   /** 技能强度 */
   get abilityStrength() {
-    return (this.energyBall ? this.energyConversion : 0) + ((1 + this._abilityStrengthAdd / 100) * this._abilityStrengthMul) / 100;
+    return ((1 + this._abilityStrengthAdd / 100 + (this.energyBall ? this.energyConversion : 0)) * this._abilityStrengthMul) / 100;
   }
   /** 技能持续 */
   get abilityDuration() {

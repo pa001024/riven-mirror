@@ -957,10 +957,10 @@
     tslint "^5.15.0"
     webpack ">=4 < 4.29"
 
-"@vue/cli-service@^3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@vue/cli-service/-/cli-service-3.8.0.tgz#47eaa169a7bd96522c1a0df89214f1afee843cd6"
-  integrity sha512-ipJF4RHjyLyLC4oLx+JM1Jk6tiIG0KjCFAqfOscQ44K4CdyS03oFMAUR+SZYy/UXKccMnoeY6Ld4YrGXSytQsg==
+"@vue/cli-service@^3.8.4":
+  version "3.8.4"
+  resolved "https://registry.npm.taobao.org/@vue/cli-service/download/@vue/cli-service-3.8.4.tgz#fecf63c8e0a838e2468d2a79059e39f2cbb1fdc5"
+  integrity sha1-/s9jyOCoOOJGjSp5BZ458sux/cU=
   dependencies:
     "@intervolga/optimize-cssnano-plugin" "^1.0.5"
     "@soda/friendly-errors-webpack-plugin" "^1.7.1"
@@ -985,6 +985,7 @@
     cssnano "^4.1.10"
     current-script-polyfill "^1.0.0"
     debug "^4.1.1"
+    default-gateway "^5.0.2"
     dotenv "^7.0.0"
     dotenv-expand "^5.1.0"
     escape-string-regexp "^1.0.5"
@@ -2728,6 +2729,14 @@ default-gateway@^4.2.0:
     execa "^1.0.0"
     ip-regex "^2.1.0"
 
+default-gateway@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.npm.taobao.org/default-gateway/download/default-gateway-5.0.2.tgz#d2d8a13d6fee406d9365d19ec9adccb8a60b82b3"
+  integrity sha1-0tihPW/uQG2TZdGeya3MuKYLgrM=
+  dependencies:
+    execa "^1.0.0"
+    ip-regex "^2.1.0"
+
 defaults@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/defaults/-/defaults-1.0.3.tgz#c656051e9817d9ff08ed881477f3fe4019f3ef7d"
@@ -2981,10 +2990,10 @@ electron-to-chromium@^1.3.137:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.146.tgz#d7010f417f87c2068fbb6700ae57767e2393eba7"
   integrity sha512-BrUq08sx7eR4PCwLbjFxXmjcbDro6DSoc1pN8VCxq76U+o9JQzJlWH/NVtcpAqcktwpE5CVvMyqHqTQfCETNoQ==
 
-element-ui@^2.9.1:
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/element-ui/-/element-ui-2.9.1.tgz#a05f2e76023d529ba0dfa2d03ae16e5134b20c4e"
-  integrity sha512-w8vrCW5Q+2gfDzs19MUrFdnCy5IjF98rs7DBsKnJQKFfZJZiZ2O+YAsSp/EuPrCm3P/2o/N3MtvZ34VANel13g==
+element-ui@^2.9.2:
+  version "2.9.2"
+  resolved "https://registry.npm.taobao.org/element-ui/download/element-ui-2.9.2.tgz#f02b6b1dfb937044addbf204eaa15860d544ad84"
+  integrity sha1-8CtrHfuTcESt2/IE6qFYYNVErYQ=
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
@@ -7784,11 +7793,12 @@ vue-loader@^15.7.0:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-property-decorator@^8.1.1:
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-8.1.1.tgz#80dadbe5ffa0e7eb6a0ba0a07036365471a7d5ee"
-  integrity sha512-K+PUT17ZEMWyhrKZnl4Fc9qMyFpMcjVbZJBwx4BpA8BXfaspaTeFdoHuk1aywC/+4G86sxIr/5n4IQUQLecSWw==
+vue-property-decorator@^8.2.1:
+  version "8.2.1"
+  resolved "https://registry.npm.taobao.org/vue-property-decorator/download/vue-property-decorator-8.2.1.tgz#3791662033b20d20d098cb20e86fd23842982508"
+  integrity sha1-N5FmIDOyDSDQmMsg6G/SOEKYJQg=
   dependencies:
+    vue "^2.6.10"
     vue-class-component "^7.0.1"
 
 vue-router@^3.0.6:
@@ -7832,10 +7842,10 @@ vue@^2.5.17, vue@^2.6.10:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
-vuedraggable@^2.21.0:
-  version "2.21.0"
-  resolved "https://registry.yarnpkg.com/vuedraggable/-/vuedraggable-2.21.0.tgz#30c485ed737a9a6a73ea8f21cc8e1ed59aaddc92"
-  integrity sha512-UDp0epjaZikuInoJA9rlEIJaSTQThabq0R9x7TqBdl0qGVFKKzo6glP6ubfzWBmV4iRIfbSOs2DV06s3B5h5tA==
+vuedraggable@^2.22.0:
+  version "2.22.0"
+  resolved "https://registry.npm.taobao.org/vuedraggable/download/vuedraggable-2.22.0.tgz#2d9b5ae031fce584c3232357df6d0251cf80f48d"
+  integrity sha1-LZta4DH85YTDIyNX320CUc+A9I0=
   dependencies:
     sortablejs "^1.9.0"
 

@@ -102,7 +102,7 @@ export default class App extends Vue {
     return this.isFullPage || ["VisualSkillEditor", "Login", "ForgetPass", "EULA"].includes(this.$route.name);
   }
   get isFullPage() {
-    return [].includes(this.$route.name);
+    return ["Master"].includes(this.$route.name);
   }
   get magic() {
     return magic;

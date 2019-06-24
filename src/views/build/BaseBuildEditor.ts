@@ -244,6 +244,7 @@ export abstract class BaseBuildEditor extends Vue {
     }
     if (action === "remove") {
       let tabs = this.tabs;
+      if (tabs.length <= 1) return;
       let activeName = this.tabValue;
       if (activeName === targetName) {
         tabs.forEach((tab, index) => {
