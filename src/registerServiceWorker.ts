@@ -1,4 +1,4 @@
-import { i18n } from "./i18n";
+// import { i18n } from "./i18n";
 
 // tslint:disable:no-console
 // In production, we register a service worker to serve assets from local cache.
@@ -62,9 +62,9 @@ function registerValidSW(swUrl: string) {
                 // It's the perfect time to display a 'New content is
                 // available; please refresh.' message in your web app.
                 console.log('New content is available; please refresh.');
-                if (confirm(i18n.t("app.updateTip"))) {
-                  location.reload();
-                }
+                // if (confirm(i18n.t("app.updateTip"))) {
+                //   location.reload();
+                // }
               } else {
                 // At this point, everything has been precached.
                 // It's the perfect time to display a

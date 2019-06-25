@@ -300,6 +300,7 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
     if (this.modeIndex) {
       b.modeIndex = this.modeIndex;
     }
+    b.calcMods();
     return b;
   }
   // === 事件处理 ===

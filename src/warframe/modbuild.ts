@@ -1016,7 +1016,6 @@ export abstract class ModBuild {
     this._absExtra = [];
     this._physicalConv = [];
     if (this.baseId === "Knell") this._procChanceAdd = 60;
-    this.recalcElements();
   }
 
   /** 清除所有MOD并重置属性增幅器 */

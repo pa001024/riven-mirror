@@ -187,7 +187,7 @@ export class Amp extends Weapon {
     }
   }
   constructor(prism: AmpPrism | string, scaffold: AmpScaffold = null, brace: AmpBrace = null) {
-    super({ name: typeof prism === "string" ? getName(prism) : prism.name });
+    super({ name: typeof prism === "string" ? getName(prism) : prism ? prism.name : scaffold.name });
     if (typeof prism === "string") {
       this.url = prism;
     } else {
