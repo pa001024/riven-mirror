@@ -207,7 +207,7 @@ export default class ModSelector extends Vue {
         v =>
           this.build.weapon.tags
             .toArray()
-            .concat([this.build.weapon.name])
+            .concat([this.build.weapon.name, this.build.weapon.baseName])
             .includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id)
       );
       let found = id.map(v => mods.find(k => k.id === v)).filter(Boolean);
