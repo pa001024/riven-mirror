@@ -149,7 +149,6 @@ export class RivenMod {
       else this.parseString(parm);
     } else if (parm) {
       this.name = parm.name;
-      this.name = parm.name;
       this.subfix = parm.subfix;
       this.level = parm.level;
       this.polarity = parm.polarity;

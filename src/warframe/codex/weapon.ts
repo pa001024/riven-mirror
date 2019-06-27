@@ -155,6 +155,9 @@ export class Weapon {
   get url() {
     return this.name.replace(/ /g, "_").replace(" (Atmosphere)", "");
   }
+  get baseurl() {
+    return this.base.replace(/ /g, "_").replace(" (Atmosphere)", "");
+  }
   /** WM URL */
   get wmurl() {
     const setlist = ["Lato Vandal", "Braton Vandal"];
@@ -163,9 +166,18 @@ export class Weapon {
     if (slist.some(v => this.name.includes(v))) return this.name.toLowerCase().replace(/ /g, "_");
     return "";
   }
+  /** WM RIEVN URL */
+  get wmrivenurl() {
+    const name = _.lowerCase(this.baseName.replace(/&/g, "and"));
+    const tpl = `https://warframe.market/auctions/search?type=riven&weapon_url_name=${name}&polarity=any&sort_by=price_desc`;
+    return tpl;
+  }
   /** i18n的key */
   get id() {
     return `messages.${_.camelCase(this.name)}`;
+  }
+  get baseId() {
+    return `messages.${_.camelCase(this.baseName)}`;
   }
   get locName() {
     return i18n.te(this.id) ? i18n.t(this.id) : this.name;
@@ -320,7 +332,7 @@ export class WeaponBuildMode implements CoreWeaponMode {
   }
 
   //### mode 数据获取
-  /** 类型 secondary/charge/chargedThrow/throw/area/secondaryArea */
+  /** 类型 default/secondary/charge/chargedThrow/throw/area/secondaryArea */
   get type() {
     return this.weapon.modes[this.mode].type || "default";
   }

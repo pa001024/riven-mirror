@@ -24,6 +24,15 @@ export abstract class BaseModBuildView extends Vue {
   scoreLevel = 0;
   /** 赋能 */
   arcanes = [];
+  /** 模式 */
+  get modeIndex() {
+    return (this.builds.length && this.builds[0][1].modeIndex) || 0;
+  }
+  set modeIndex(val) {
+    this.builds.forEach(([name, build]) => {
+      build.modeIndex = val;
+    });
+  }
 
   /** 元素类型 */
   elementTypes = {

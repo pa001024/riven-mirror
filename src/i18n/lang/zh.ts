@@ -3444,13 +3444,14 @@ let po = {
     copySuccess: "地址已复制"
   },
   otherinfo: {
-    wiki: "维基",
+    wiki: "中文WIKI",
     wikiurl: "https://warframe.huijiwiki.com/wiki/{0}",
+    wikien: "英文WIKI",
+    wikiurlen: "https://warframe.fandom.com/wiki/{0}",
     mod: "MOD",
     wm: "WM市场",
-    wmurl: "https://warframe.market/items/{0}",
-    rm: "riven.market",
-    rmurl: "riven.market"
+    rm: "RM紫卡市场",
+    wmriven: "WM紫卡市场"
   },
   intro: {
     ti1: "来试试极镜吧!",
@@ -3641,7 +3642,8 @@ let po = {
     nav: "导航",
     data: "数据",
     eco: "市场",
-    build: "配装"
+    build: "配装",
+    riven: "紫卡"
   }
 };
 

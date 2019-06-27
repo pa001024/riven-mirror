@@ -54,6 +54,12 @@
     <!-- 设置区域 -->
     <div class="setting">
       <el-form :inline="true" class="build-form-inline" :size="bigScreen ? 'mini' : 'small'">
+        <!-- 武器模式 -->
+        <el-form-item :label="$t('build.weaponMode')" v-if="weapon.modes.length > 1">
+          <el-select v-model="modeIndex" @change="debouncedRecalc" :placeholder="$t('build.weaponMode')">
+            <el-option v-for="(item, k) in weapon.modes" :key="k" :label="item.locName" :value="k" />
+          </el-select>
+        </el-form-item>
         <!-- 选择武器 -->
         <el-form-item :label="$t('buildview.weapon')" v-if="riven.weapons.length > 1">
           <el-select v-model="selectWeapon" @change="debouncedRecalc" :placeholder="$t('buildview.selectWeapon')">
@@ -272,6 +278,7 @@ export default class GunModBuildView extends BaseModBuildView {
   @Watch("weapon")
   weaponChange(weapon: Weapon) {
     if (weapon.maxZoomLevel) this.zoomLevel = weapon.maxZoomLevel;
+    else this.zoomLevel = 0;
   }
   @Watch("riven")
   rivenChange(riven?: RivenMod, oldRiven?: RivenMod) {

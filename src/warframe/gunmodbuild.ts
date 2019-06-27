@@ -37,6 +37,7 @@ export interface GunModBuildOptions {
   amrorReduce?: number;
   burstSampleSize?: number;
   zoomLevel?: number;
+  modeIndex?: number;
 }
 /** 枪类 */
 export class GunModBuild extends ModBuild {
@@ -125,16 +126,18 @@ export class GunModBuild extends ModBuild {
   zoomLevel = 0;
 
   constructor(weapon: Weapon = null, riven: RivenMod = null, options: GunModBuildOptions = null, fast = false) {
-    super(riven, fast);
+    super(weapon, riven, fast);
     if ((this.weapon = weapon)) {
       this._mode = this.weapon.defaultMode;
       this.avaliableMods = NormalModDatabase.filter(v =>
         this.weapon.tags
           .toArray()
-          .concat([this.weapon.name])
+          .concat([this.weapon.name, this.weapon.baseName])
           .includes(v.type)
       );
     }
+    const chargemodeindex = weapon.modes.findIndex(v => v.type === "charge");
+    this.modeIndex = chargemodeindex > 0 ? chargemodeindex : 0;
     if (this.weapon.maxZoomLevel) {
       this.zoomLevel = this.weapon.maxZoomLevel;
       this.reset();
@@ -159,6 +162,7 @@ export class GunModBuild extends ModBuild {
     this.amrorReduce = typeof options.amrorReduce !== "undefined" ? options.amrorReduce : this.amrorReduce;
     this.burstSampleSize = typeof options.burstSampleSize !== "undefined" ? options.burstSampleSize : this.burstSampleSize;
     this.zoomLevel = typeof options.zoomLevel !== "undefined" ? options.zoomLevel : this.zoomLevel;
+    this.modeIndex = typeof options.modeIndex !== "undefined" ? options.modeIndex : this.modeIndex;
   }
   get options(): GunModBuildOptions {
     return {
@@ -175,7 +179,8 @@ export class GunModBuild extends ModBuild {
       target: this.target,
       amrorReduce: this.amrorReduce,
       burstSampleSize: this.burstSampleSize,
-      zoomLevel: this.zoomLevel
+      zoomLevel: this.zoomLevel,
+      modeIndex: this.modeIndex,
     };
   }
   /** 生成伤害时间线 */

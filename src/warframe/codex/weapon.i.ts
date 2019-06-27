@@ -21,7 +21,7 @@ export interface Damage {
 /** 模式 */
 export interface WeaponMode {
   /** 类型 secondary/charge/chargedThrow/throw/area/secondaryArea */
-  type?: string;
+  type?: "default" | "secondary" | "charge" | "chargedThrow" | "throw" | "area" | "secondaryArea";
   /** 名字 */
   name?: string;
   /** 伤害 {Heat:100} */

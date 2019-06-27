@@ -914,7 +914,7 @@ export abstract class ModBuild {
     return this._originalDamage;
   }
 
-  constructor(riven: RivenMod, fast = false) {
+  constructor(weapon: Weapon = null, riven: RivenMod = null, fast = false) {
     this.riven = riven;
     this.fastMode = fast;
   }

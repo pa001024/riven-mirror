@@ -12,7 +12,7 @@
               <span class="forma"> {{$t("build.formaCount", [build.formaCount])}} </span>
               <span class="umbra" v-if="build.umbraCount"> + {{build.umbraCount}}U </span>
               ]
-              <ShareQR :url="build.miniCodeURL"/>
+              <ShareQR :url="'https://riven.im'+$route.path"/>
             </div>
             <div class="warframe-props">
               <!-- 容量 -->

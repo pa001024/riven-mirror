@@ -1710,9 +1710,8 @@ let po = {
     wikiurl: "https://warframe.fandom.com/wiki/{0}",
     mod: "MOD",
     wm: "warframe.market",
-    wmurl: "https://warframe.market/items/{0}",
     rm: "riven.market",
-    rmurl: "riven.market"
+    wmriven: "WM Riven"
   },
   intro: {
     ti1: "The impressive warframe universal tool app",
@@ -1839,7 +1838,8 @@ let po = {
     nav: "NAV",
     data: "DATA",
     eco: "ECO",
-    build: "BUILD"
+    build: "BUILD",
+    riven: "RIVEN"
   }
 };
 

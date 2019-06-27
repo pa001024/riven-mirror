@@ -63,7 +63,6 @@ export abstract class BaseBuildEditor extends Vue {
 
   @Watch("code")
   onCodeChange() {
-    if (this.$route.name !== "BuildEditorWithCode" && this.$route.name !== "BuildEditor") return;
     if (this.code && this.build.miniCode != this.code) {
       this.build.miniCode = this.code;
       let { mods, buffs } = this.build;
@@ -97,6 +96,7 @@ export abstract class BaseBuildEditor extends Vue {
       } else if (buffs.length > 1) {
         this.refleshMods();
       }
+      this.replaceState();
     }
   }
 
@@ -120,16 +120,19 @@ export abstract class BaseBuildEditor extends Vue {
     let emp = _.map(rst, (v, i) => [i, ...v]) as [string, number, number][];
     return emp;
   }
-  pushState() {
+  replaceState() {
+    this.pushState(true);
+  }
+  pushState(replace = false) {
     const code = this.build.miniCode;
     const mode = this.build.modeIndex.toString();
     if (code) {
       if (this.build.modeIndex) this.$router.push({ name: "BuildEditorWithCodeMode", params: { code, mode } });
-      else this.$router.push({ name: "BuildEditorWithCode", params: { code } });
+      else (replace ? this.$router.replace : this.$router.push)({ name: "BuildEditorWithCode", params: { code } });
       this.setBuild(this.build);
     } else {
       if (this.build.modeIndex) this.$router.push({ name: "BuildEditorMode", params: { mode } });
-      else this.$router.push({ name: "BuildEditor" });
+      else (replace ? this.$router.replace : this.$router.push)({ name: "BuildEditor" });
     }
   }
   modeIndexChange() {
@@ -179,7 +182,7 @@ export abstract class BaseBuildEditor extends Vue {
     this.build.mods = mods;
     this.build.buffs = buffs;
     this.currentTab.mods = this.build.mods;
-    this.pushState();
+    this.replaceState();
   }
   // === 事件处理 ===
   modSelect(mod: NormalMod | NormalMod[]) {

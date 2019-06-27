@@ -22,6 +22,7 @@ export interface MeleeModBuildOptions {
   requireCombo?: boolean;
   calcCondiOver?: boolean;
   melee30?: boolean;
+  modeIndex?: number;
 }
 
 export class MeleeModBuild extends ModBuild {
@@ -94,13 +95,13 @@ export class MeleeModBuild extends ModBuild {
   calcCondiOver = true;
 
   constructor(weapon: Weapon = null, riven: RivenMod = null, options: MeleeModBuildOptions = null, fast = false) {
-    super(riven, fast);
+    super(weapon, riven, fast);
     if ((this.weapon = weapon)) {
       this._mode = this.weapon.defaultMode;
       this.avaliableMods = NormalModDatabase.filter(v =>
         this.weapon.tags
           .toArray()
-          .concat([this.weapon.name])
+          .concat([this.weapon.name, this.weapon.baseName])
           .includes(v.type)
       );
     }
@@ -123,6 +124,7 @@ export class MeleeModBuild extends ModBuild {
     this.requireCombo = typeof options.requireCombo !== "undefined" ? options.requireCombo : this.requireCombo;
     this.calcCondiOver = typeof options.calcCondiOver !== "undefined" ? options.calcCondiOver : this.calcCondiOver;
     this.melee30 = typeof options.melee30 !== "undefined" ? options.melee30 : this.melee30;
+    this.modeIndex = typeof options.modeIndex !== "undefined" ? options.modeIndex : this.modeIndex;
   }
 
   get options(): MeleeModBuildOptions {
@@ -136,7 +138,8 @@ export class MeleeModBuild extends ModBuild {
       requireRange: this.requireRange,
       requireCombo: this.requireCombo,
       calcCondiOver: this.calcCondiOver,
-      melee30: this.melee30
+      melee30: this.melee30,
+      modeIndex: this.modeIndex
     };
   }
 

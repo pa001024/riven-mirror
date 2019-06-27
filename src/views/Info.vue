@@ -21,18 +21,39 @@
       <div class="info-box">
         <WeaponInfobox :weapon="weapon"/>
       </div>
-      <div class="info-data">
-        <header class="nav-header" v-t="'info.nav'"></header>
-        <router-link :to="'/weapon/'+weapon.url" class="info-btn">
-          <WfIcon type="extension"/>
-          {{$t("navigate.weapon")}}
-        </router-link>
-        <a :href="$t('otherinfo.wikiurl', [weapon.url])" target="_blank" rel="noopener noreferrer" class="info-btn">
-          {{$t("otherinfo.wiki")}}
-        </a>
-        <a v-if="weapon.wmurl" :href="$t('otherinfo.wmurl', [weapon.wmurl])" target="_blank" rel="noopener noreferrer" class="info-btn">
-          {{$t("otherinfo.wm")}}
-        </a>
+      <div class="info-data" v-show="activeTab === 'data'">
+        <header class="nav-header">
+          <WfIcon type="compass"/>
+          {{$t("info.nav")}}
+        </header>
+        <div class="info-btn-box">
+          <router-link :to="'/weapon/'+weapon.url" class="info-btn">
+            <WfIcon type="extension"/>
+            {{$t("navigate.weapon")}}
+          </router-link>
+          <a :href="$t('otherinfo.wikiurl', [weapon.url])" target="_blank" rel="noopener noreferrer" class="info-btn">
+            {{$t("otherinfo.wiki")}}
+          </a>
+          <a v-if="$t('zh')" :href="$t('otherinfo.wikiurlen', [weapon.url])" target="_blank" rel="noopener noreferrer" class="info-btn">
+            {{$t("otherinfo.wikien")}}
+          </a>
+          <a :href="weapon.wmrivenurl" target="_blank" rel="noopener noreferrer" class="info-btn">
+            {{$t("otherinfo.wmriven")}}
+          </a>
+          <a :href="`https://riven.market/list/PC/${weapon.baseurl}`" target="_blank" rel="noopener noreferrer" class="info-btn">
+            {{$t("otherinfo.rm")}}
+          </a>
+          <a v-if="weapon.wmurl" :href="`https://warframe.market/items/${weapon.wmurl}`" target="_blank" rel="noopener noreferrer" class="info-btn">
+            {{$t("otherinfo.wm")}}
+          </a>
+        </div>
+        <header class="nav-header">
+          <WfIcon type="stats"/>
+          {{$t("info.riven")}}
+        </header>
+        <div class="info-riven-price riven-price">
+          <RivenPriceView :weapon="weapon"/>
+        </div>
       </div>
     </div>
   </el-container>
@@ -42,6 +63,8 @@ import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { i18n } from "@/i18n";
 import { Zaw, Kitgun, Amp, RivenDatabase, Weapon, WeaponDatabase } from "@/warframe/codex";
 import WeaponInfobox from "@/components/infobox/WeaponInfobox.vue";
+import RivenPriceView from "@/components/RivenPriceView.vue";
+import { RivenMod } from "../warframe/rivenmod";
 // import InfoRadar from "@/components/InfoRadar.vue";
 
 function loadWeapon(id: string) {
@@ -56,7 +79,7 @@ function loadWeapon(id: string) {
   }
 }
 @Component({
-  components: { WeaponInfobox },
+  components: { WeaponInfobox, RivenPriceView },
   beforeRouteEnter(to, from, next) {
     const weapon = loadWeapon(to.params.id);
     if (weapon) {
@@ -76,7 +99,6 @@ export default class WeaponInfo extends Vue {
     if (this.id !== this._lastid) this.reload();
     return this._weapon;
   }
-
   @Watch("id")
   reload() {
     if (!this.id || this._lastid === this.id || this.$route.name !== "Info") return;
@@ -167,21 +189,42 @@ export default class WeaponInfo extends Vue {
     font-size: 22px;
     font-weight: 600;
     padding: 12px 8px 8px;
+    margin-bottom: 8px;
   }
 }
+// 紫卡
+.riven-price.info-riven-price {
+  .price-box.price-box {
+    padding: 0;
+  }
+  .price.price.avg {
+    border-radius: 8px;
+  }
+}
+.info-btn-box {
+  display: flex;
+  flex-wrap: wrap;
+  > * {
+    flex: 1;
+  }
+}
+// 导航
 .info-btn {
-  height: 40px;
-  height: 40px;
-  display: inline-block;
-  line-height: 40px;
-  margin: 0 auto;
+  height: 80px;
+  min-width: 80px;
+  display: inline-flex;
+  margin: 0.5px;
   padding: 0 20px;
   background: @theme_main;
   color: @text_light;
   text-decoration: none;
   box-shadow: 4px 4px @theme_back;
-  & + & {
-    margin-left: 8px;
+  transition: 0.4s;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  &:hover {
+    background: @theme_leaf;
   }
 }
 @media only screen and (max-width: 767px) {
