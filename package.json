@@ -1,0 +1,35 @@
+{
+  "name": "riven-im",
+  "version": "1.0.0",
+  "description": "the impressive warframe tool",
+  "author": "pa001024",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/pwa": "^2.6.0",
+    "@nuxtjs/vuetify": "0.5.5",
+    "cross-env": "^5.2.0",
+    "nuxt": "^2.0.0",
+    "ts-node": "^8.3.0",
+    "ts-vue-plugin": "^0.1.2",
+    "vue-property-decorator": "^8.2.1",
+    "vuex-class": "^0.3.2"
+  },
+  "devDependencies": {
+    "@nuxt/typescript": "^2.8.1",
+    "nodemon": "^1.18.9",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2"
+  },
+  "browserslist": [
+    "> 3%",
+    "last 2 versions",
+    "not ie <= 10"
+  ]
+}
