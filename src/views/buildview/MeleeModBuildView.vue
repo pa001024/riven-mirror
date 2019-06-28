@@ -59,7 +59,7 @@
         </el-form-item>
         <!-- 选择武器 -->
         <el-form-item :label="$t('buildview.weapon')">
-          <el-select v-model="selectWeapon" @change="weaponchanged" :placeholder="$t('buildview.selectWeapon')">
+          <el-select v-model="selectWeapon" :placeholder="$t('buildview.selectWeapon')">
             <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.displayName" :value="weapon.name">
             </el-option>
             <el-option v-for="weapon in vistualWeapons" :key="weapon.name" :label="weapon.displayName" :value="weapon.name">
@@ -160,7 +160,7 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { BaseModBuildView } from "./BaseModBuildView";
 import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
-import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDatabase, Codex, WeaponDatabase } from "@/warframe/codex";
+import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDatabase, Codex, WeaponDatabase, Weapon } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import "@/less/buildview.less";
 import localStorage from "universal-localstorage";
@@ -278,8 +278,9 @@ export default class MeleeModBuildView extends BaseModBuildView {
     };
     super.recalc(MeleeModBuild, options);
   }
-  weaponchanged() {
-    const weapon = this.weapon;
+  @Watch("weapon")
+  weaponChange(weapon: Weapon) {
+    this.modeIndex = -1;
     // 自动配卡优化
     this.requireCombo = !weapon.tags.has("Virtual");
     this.requireRange = weapon.reach && weapon.reach[0] > 1.5;

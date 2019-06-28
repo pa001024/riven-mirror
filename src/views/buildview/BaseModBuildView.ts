@@ -25,15 +25,7 @@ export abstract class BaseModBuildView extends Vue {
   /** 赋能 */
   arcanes = [];
   /** 模式 */
-  get modeIndex() {
-    return (this.builds.length && this.builds[0][1].modeIndex) || 0;
-  }
-  set modeIndex(val) {
-    this.builds.forEach(([name, build]) => {
-      build.modeIndex = val;
-    });
-  }
-
+  modeIndex = -1;
   /** 元素类型 */
   elementTypes = {
     Physical: ["8", "9", "A"],
@@ -70,6 +62,10 @@ export abstract class BaseModBuildView extends Vue {
     stand.fill(this.slots, 0);
     riven.fill(this.slots, 2);
     bestRiven.fill(this.slots, 2);
+    if (this.modeIndex > -1) stand.modeIndex = riven.modeIndex = bestRiven.modeIndex = this.modeIndex;
+    else {
+      this.modeIndex = stand.modeIndex;
+    }
     this.builds = [];
     this.builds.push(["buildview.normal", stand]);
     this.builds.push(["buildview.yourriven", riven]);

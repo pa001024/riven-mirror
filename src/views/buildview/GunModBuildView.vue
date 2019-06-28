@@ -277,9 +277,11 @@ export default class GunModBuildView extends BaseModBuildView {
 
   @Watch("weapon")
   weaponChange(weapon: Weapon) {
+    this.modeIndex = -1;
     if (weapon.maxZoomLevel) this.zoomLevel = weapon.maxZoomLevel;
     else this.zoomLevel = 0;
   }
+
   @Watch("riven")
   rivenChange(riven?: RivenMod, oldRiven?: RivenMod) {
     if (this.riven.weapon.isKitgun) {
