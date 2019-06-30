@@ -1,8 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.6.2";
+export const version = "1.6.3";
 export const updateLogs = [
   {
-    version: "1.6.2",
+    version: "1.6.3",
+    date: "2019/6/29",
+    md: {
+      en: `- PREVIEW: Wukong Prime/Zhuge Prime/Ninkondi Prime`,
+      cn: `- 预览: Wukong Prime/诸葛连弩 Prime/降灵追猎者 Prime`
+    }
+  },
+  {
+    version: "1.6.3",
     date: "2019/6/23",
     md: {
       en: `- fix bugs`,
@@ -41,6 +49,7 @@ export const updateLogs = [
       cn: `- 添加新武器和战甲`
     }
   },
+  /*
   {
     version: "1.5.6",
     date: "2019/4/25",
@@ -51,7 +60,6 @@ export const updateLogs = [
 - 添加是否使用致命效率开关 (默认禁用)`
     }
   }
-  /*
   {
     version: "1.5.4",
     date: "2019/4/11",

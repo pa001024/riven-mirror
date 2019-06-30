@@ -1063,6 +1063,24 @@ export const _warframeData: WarframeData[] = [
     sex: "Male"
   },
   {
+    id: "Wukong Prime",
+    // name: "wukong",
+    className: "Wukong",
+    tags: ["DPS", "Tactics"],
+    // description: "A primal warrior with the heart of a trickster.",
+    health: 150,
+    shield: 120,
+    armor: 275,
+    energy: 130,
+    sprint: 1.05,
+    passiveDescription: "Increased combo duration.",
+    abilities: ["Celestial Twin", "Cloud Walker", "Defy", "Primal Fury"],
+    aura: "r",
+    introduced: "25",
+    polarities: ["-","-", "d"],
+    sex: "Male"
+  },
+  {
     id: "Zephyr",
     // name: "zephyr",
     tags: ["Tactics"],
