@@ -121,18 +121,27 @@ export abstract class BaseBuildEditor extends Vue {
     return emp;
   }
   replaceState() {
-    this.pushState(true);
+    const code = this.build.miniCode;
+    const mode = this.build.modeIndex.toString();
+    if (code) {
+      if (this.build.modeIndex) this.$router.replace({ name: "BuildEditorWithCodeMode", params: { code, mode } });
+      else this.$router.replace({ name: "BuildEditorWithCode", params: { code } });
+      this.setBuild(this.build);
+    } else {
+      if (this.build.modeIndex) this.$router.replace({ name: "BuildEditorMode", params: { mode } });
+      else this.$router.replace({ name: "BuildEditor" });
+    }
   }
-  pushState(replace = false) {
+  pushState() {
     const code = this.build.miniCode;
     const mode = this.build.modeIndex.toString();
     if (code) {
       if (this.build.modeIndex) this.$router.push({ name: "BuildEditorWithCodeMode", params: { code, mode } });
-      else (replace ? this.$router.replace : this.$router.push)({ name: "BuildEditorWithCode", params: { code } });
+      else this.$router.push({ name: "BuildEditorWithCode", params: { code } });
       this.setBuild(this.build);
     } else {
       if (this.build.modeIndex) this.$router.push({ name: "BuildEditorMode", params: { mode } });
-      else (replace ? this.$router.replace : this.$router.push)({ name: "BuildEditor" });
+      else this.$router.push({ name: "BuildEditor" });
     }
   }
   modeIndexChange() {
