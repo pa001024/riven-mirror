@@ -50,10 +50,10 @@ export default class OtherInfoDisplay extends Vue {
   @Prop() build: ModBuild;
 
   get weaponWiki() {
-    return this.$t("otherinfo.wikiurl", [this.build.weapon.url])
+    return this.$t("otherinfo.wikiurl", [this.build.weapon.url]);
   }
   get weaponWM() {
-    return this.$t("otherinfo.wmurl", [this.build.weapon.wmurl])
+    return "https://warframe.market/items/" + this.build.weapon.wmurl;
   }
 
   get mods() {
@@ -61,8 +61,8 @@ export default class OtherInfoDisplay extends Vue {
       id: v.id,
       name: v.name,
       wiki: this.$t("otherinfo.wikiurl", [v.id.replace(/ /g, "_")]),
-      wm: this.$t("otherinfo.wmurl", [_.kebabCase(v.id).replace(/-/g, "_")])
-    }))
+      wm: "https://warframe.market/items/" + _.kebabCase(v.id).replace(/-/g, "_")
+    }));
   }
 }
 </script>

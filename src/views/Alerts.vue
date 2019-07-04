@@ -52,6 +52,23 @@
             </ul>
           </el-card>
         </el-col>
+        <!-- 仲裁 -->
+        <el-col :xs="24" :sm="12" :lg="8" v-if="arbitration">
+          <el-card class="index-card arbitration">
+            <h3 slot="header"><WfIcon type="arbitration" shadow/> {{$t("alerting.arbitration")}}</h3>
+            <ul>
+              <div class="time">{{$t("alerting.remaining")}}: {{renderTime(arbitration.expiry)}}</div>
+              <li>
+                <div class="info">
+                  <div class="mission">{{v.type}}</div>
+                </div>
+                <div class="node">
+                  <WfIcon :type="v.enemy.toLowerCase()"/> {{v.node}}
+                </div>
+              </li>
+            </ul>
+          </el-card>
+        </el-col>
         <!-- 警报 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="alerts.length > 0">
           <el-card class="index-card alert">
@@ -65,6 +82,27 @@
                 <div class="misc">
                   <div class="node">
                     <WfIcon :type="v.mission.faction.toLowerCase()"/> {{v.mission.node}}
+                  </div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
+                </div>
+              </li>
+            </ul>
+          </el-card>
+        </el-col>
+        <!-- 电波 -->
+        <el-col :xs="24" :sm="12" :lg="8" v-if="nightwave && nightwave.activeChallenges.length > 0">
+          <el-card class="index-card nightwave">
+            <h3 slot="header"><WfIcon type="radio" shadow/> {{$t("alerting.nightwave")}}</h3>
+            <ul>
+              <li v-for="(v, i) in nightwave.activeChallenges" :key="i">
+                <div class="info">
+                  <div class="title">{{v.title}}</div>
+                  <div class="desc">{{v.desc}}</div>
+                  <div class="reward">{{v.reputation}}</div>
+                </div>
+                <div class="misc">
+                  <div class="node">
+                    <div class="mission">{{v.type}}</div>
                   </div>
                   <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
                 </div>
@@ -105,6 +143,25 @@
                   </div>
                 </li>
               </template>
+            </ul>
+          </el-card>
+        </el-col>
+        <!-- 赤毒 -->
+        <el-col :xs="24" :sm="12" :lg="8" v-if="kuva.length > 0">
+          <el-card class="index-card kuva">
+            <h3 slot="header"><WfIcon type="kuva" shadow/> {{$t("alerting.kuva")}}</h3>
+            <ul>
+              <li v-for="(v, i) in kuva" :key="i">
+                <div class="info">
+                  <div class="mission">{{v.type}}</div>
+                </div>
+                <div class="misc">
+                  <div class="node">
+                    <WfIcon :type="v.enemy.toLowerCase()"/> {{v.node}}
+                  </div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
+                </div>
+              </li>
             </ul>
           </el-card>
         </el-col>
@@ -191,21 +248,21 @@
 
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import BScroll from 'better-scroll';
-import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert } from "@/warframe/worldstat";
+import BScroll from "better-scroll";
+import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert, Nightwave, Kuva, Arbitration } from "@/warframe/worldstat";
 import { CetusTime, FortunaTime, EarthTime } from "@/warframe/gametime";
 import "../less/alert.less";
 
 interface WarframeTime {
-  isDay: boolean
-  phase: string
-  text: string
+  isDay: boolean;
+  phase: string;
+  text: string;
 }
 @Component
 export default class Alerts extends Vue {
-  cetusTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" }
-  fortunaTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" }
-  earthTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" }
+  cetusTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
+  fortunaTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
+  earthTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
   timerID: number;
   statID: number;
   updating = false;
@@ -223,6 +280,9 @@ export default class Alerts extends Vue {
   ostrons: Job[] = [];
   solarisUnited: Job[] = [];
   voidTrader: VoidTrader = null;
+  nightwave: Nightwave = null;
+  kuva: Kuva[] = [];
+  arbitration: Arbitration = null;
 
   renderTime(time: string) {
     let sec = ~~(Date.parse(time) / 1e3) - this.seconds;
@@ -233,7 +293,7 @@ export default class Alerts extends Vue {
     hou = hou % 24;
     min = min % 60;
     sec = sec % 60;
-    return `${day !== 0 ? day + ":" : ""}${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`
+    return `${day !== 0 ? day + ":" : ""}${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
   }
 
   // === 事件处理 ===
@@ -241,10 +301,11 @@ export default class Alerts extends Vue {
   resize() {
     if (document.documentElement.clientWidth < 767) {
       this.scrollWidth = 0;
-    }
-    else {
+    } else {
       // 计算宽度
-      let ls = document.querySelectorAll(".index > .el-col") as any, lastRect: DOMRect = null, width = -20;
+      let ls = document.querySelectorAll(".index > .el-col") as any,
+        lastRect: DOMRect = null,
+        width = -20;
       [].forEach.call(ls, (el: HTMLElement) => {
         let rect = el.getBoundingClientRect() as DOMRect;
         if (!lastRect || lastRect.left != rect.left) {
@@ -271,7 +332,7 @@ export default class Alerts extends Vue {
         click: true,
         scrollX: true,
         scrollY: false,
-        eventPassthrough: 'vertical'
+        eventPassthrough: "vertical"
       });
       this.scrollWidth = 0;
       window.addEventListener("resize", this.resize);
@@ -290,18 +351,27 @@ export default class Alerts extends Vue {
   }
   updateStat() {
     this.updating = true;
-    this.stat.fetch().then(() => {
-      this.updating = false;
-      this.sortie = this.stat.sortie;
-      this.alerts = this.stat.alerts;
-      this.news = this.stat.news;
-      this.fissures = this.stat.fissures;
-      this.invasions = this.stat.invasions;
-      this.ostrons = this.stat.ostrons;
-      this.solarisUnited = this.stat.solarisUnited;
-      this.voidTrader = this.stat.voidTrader;
-      CetusTime.calibration(this.stat.cetusCycle.expiry, this.stat.cetusCycle.isDay);
-    }).catch(() => setTimeout(() => this.updateStat(), 1e3));
+    this.stat
+      .fetch()
+      .then(() => {
+        this.updating = false;
+        this.sortie = this.stat.sortie;
+        this.alerts = this.stat.alerts;
+        this.news = this.stat.news;
+        this.fissures = this.stat.fissures;
+        this.invasions = this.stat.invasions;
+        this.ostrons = this.stat.ostrons;
+        this.solarisUnited = this.stat.solarisUnited;
+        this.voidTrader = this.stat.voidTrader;
+        this.nightwave = this.stat.nightwave;
+        this.kuva = this.stat.kuva || [];
+        this.arbitration = this.stat.arbitration;
+        CetusTime.calibration(this.stat.cetusCycle.expiry, this.stat.cetusCycle.isDay);
+      })
+      .catch(e => {
+        console.log(e);
+        setTimeout(() => this.updateStat(), 1e3);
+      });
   }
   updateTime() {
     this.seconds = ~~(Date.now() / 1e3);

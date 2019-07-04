@@ -25,7 +25,39 @@ export interface WarframeStat {
   constructionProgress: ConstructionProgress;
   vallisCycle: VallisCycle;
   nightwave: Nightwave;
+  kuva: Kuva[];
+  arbitration: Arbitration;
   twitter: Twitter[];
+}
+
+export interface Kuva {
+  activation: string;
+  expiry: string;
+  solnode: string;
+  node: string;
+  name: string;
+  tile: string;
+  planet: string;
+  enemy: string;
+  type: string;
+  node_type: string;
+  archwing: boolean;
+  sharkwing: boolean;
+}
+
+export interface Arbitration {
+  activation: string;
+  expiry: string;
+  solnode: string;
+  node: string;
+  name: string;
+  tile: string;
+  planet: string;
+  enemy: string;
+  type: string;
+  node_type: string;
+  archwing: boolean;
+  sharkwing: boolean;
 }
 
 export interface Nightwave {
@@ -54,6 +86,8 @@ export interface ActiveChallenge {
   desc: string;
   title: string;
   reputation: number;
+  // extend
+  type: string;
 }
 
 export interface Param {
@@ -495,11 +529,20 @@ export class WorldStat {
    * 深层递归翻译
    * @param obj 需要翻译的对象
    */
-  deepTranslate<T extends Object>(obj: T): T {
-    if (_.isArray(obj)) return _.map(obj, v => (typeof v === "string" ? Translator.getLocText(v) : typeof v === "object" ? this.deepTranslate(v) : v)) as any;
+  deepTranslate<T extends Object>(obj: T, namespace = "messages"): T {
+    if (_.isArray(obj))
+      return _.map(obj, v =>
+        typeof v === "string" ? Translator.getLocText(v, namespace) : typeof v === "object" ? this.deepTranslate(v, namespace) : v
+      ) as any;
     else
       return _.mapValues(obj, (v, i) =>
-        typeof v === "string" ? (i === "node" || i === "location" ? this.nodeTranslate(v) : Translator.getLocText(v)) : typeof v === "object" ? this.deepTranslate(v) : v
+        typeof v === "string"
+          ? i === "node" || i === "location"
+            ? this.nodeTranslate(v)
+            : Translator.getLocText(v, namespace)
+          : typeof v === "object"
+          ? this.deepTranslate(v, namespace)
+          : v
       ) as T;
   }
   /**
@@ -606,7 +649,9 @@ export class WorldStat {
     if (!this.data) return [];
     let data = this.data.syndicateMissions.find(v => v.syndicate === "Ostrons");
     if (!data) return [];
-    return this.deepTranslate(data.jobs.map(v => ((v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")).filter(k => !k.match(/^\d/))), v)));
+    return this.deepTranslate(
+      data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")).filter(k => !k.match(/^\d/))), v))
+    );
   }
 
   /**
@@ -616,7 +661,9 @@ export class WorldStat {
     if (!this.data) return [];
     let data = this.data.syndicateMissions.find(v => v.syndicate === "Solaris United");
     if (!data) return [];
-    return this.deepTranslate(data.jobs.map(v => ((v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")).filter(k => !k.match(/^\d/))), v)));
+    return this.deepTranslate(
+      data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")).filter(k => !k.match(/^\d/))), v))
+    );
   }
 
   /**
@@ -635,6 +682,30 @@ export class WorldStat {
   get nightwave() {
     if (!this.data) return null;
     let data = this.data.nightwave;
+    if (!data) return null;
+    data.activeChallenges = data.activeChallenges.map(v => {
+      v.type = v.isDaily ? (v.isElite ? "Daily Elite" : "Daily") : v.isElite ? "Weekly Elite" : "Weekly";
+      return v;
+    });
+    return this.deepTranslate(data, "nightwave");
+  }
+
+  /**
+   * 赤毒
+   */
+  get kuva() {
+    if (!this.data) return null;
+    let data = this.data.kuva;
+    if (!data) return null;
+    return this.deepTranslate(data);
+  }
+
+  /**
+   * 仲裁
+   */
+  get arbitration() {
+    if (!this.data) return null;
+    let data = this.data.arbitration;
     if (!data) return null;
     return this.deepTranslate(data);
   }

@@ -18,7 +18,8 @@ export class Translator {
    * @memberof Translator
    */
   reload() {
-    let enE = i18n.a("messagesExtend", "en") as { [key: string]: any }, clE = i18n.a("messagesExtend") as { [key: string]: any };
+    let enE = i18n.a("messagesExtend", "en") as { [key: string]: any },
+      clE = i18n.a("messagesExtend") as { [key: string]: any };
     let _partSubfixs = _.map(enE, (v, i) => [v.toLowerCase(), clE[i]] as [string, string]);
     // 后缀字典
     this.subDict = new Map(_partSubfixs);
@@ -43,32 +44,28 @@ export class Translator {
    * @returns {string} 翻译后的文本
    * @memberof Translator
    */
-  static getLocText(rawText: string): string {
+  static getLocText(rawText: string, namespace = "messages"): string {
     // alias 转换
     if (tranlateAlias.has(rawText)) rawText = tranlateAlias.get(rawText);
     // 忽略大小写
-    let text = rawText.toLowerCase(), m;
+    let text = rawText.toLowerCase(),
+      m: RegExpMatchArray;
     // 处理如 "Lith A1" / "Lith A1 Relic" => "古纪 A1 遗物"
-    if (m = rawText.match(/^(lith|axi|meso|neo) (\w+?\d+)(?: (\S+?)(?: \(\S+\))?)?$/i))
+    if ((m = rawText.match(/^(lith|axi|meso|neo) (\w+?\d+)(?: (\S+?)(?: \(\S+\))?)?$/i)))
       return `${this.getLocText(m[1])} ${m[2].toUpperCase()} ${this.getLocText(m[3] || "relic")}`;
     // 处理如 "100 Endo" => "100 内融核心"
-    if (m = rawText.match(/^(\d+)s? (.+)/i))
-      return `${m[1]} ${this.getLocText(m[2])}`;
+    if ((m = rawText.match(/^(\d+)s? (.+)/i))) return `${m[1]} ${this.getLocText(m[2])}`;
     // 处理如 "Weapon Restriction: Sniper Only" => "武器限定：狙击枪"
-    if (rawText.includes(": "))
-      return (([a, b]) => this.getLocText(a) + "：" + this.getLocText(b.replace(/ only$/i, "")))(rawText.split(": "));
+    if (rawText.includes(": ")) return (([a, b]) => this.getLocText(a) + "：" + this.getLocText(b.replace(/ only$/i, "")))(rawText.split(": "));
     let lastWord = _.last(text.split(" "));
     // 辅助表查询
-    let subfix = this.instance.subLinkDict.has(lastWord)
-      && this.instance.subLinkDict.get(lastWord).find(v => text.endsWith(v))
-      || lastWord;
+    let subfix = (this.instance.subLinkDict.has(lastWord) && this.instance.subLinkDict.get(lastWord).find(v => text.endsWith(v))) || lastWord;
     // 主表查询
     let localeSubfix = this.instance.subDict.get(subfix);
-    let mainMatch = i18n.t("messages")[_.camelCase(text)];
+    let mainMatch = i18n.t(namespace)[_.camelCase(text)];
     if (localeSubfix && !mainMatch) {
       let len = text.length - subfix.length - 1;
-      if (len < 0)
-        return localeSubfix;
+      if (len < 0) return localeSubfix;
       // 递归解析后缀
       return this.getLocText(rawText.substr(0, len)) + " " + localeSubfix;
     }
@@ -80,5 +77,5 @@ const tranlateAlias = new Map([
   ["Detron Mara", "Mara Detron"],
   ["Liset Prop Ost Rug Baro", "Tenno Kindred Rug"],
   ["Colour Picker Twitch B Item A", "Eminence Palette"],
-  ["Prisma Twin Gremlins Weapon", "Prisma Twin Gremlins"],
+  ["Prisma Twin Gremlins Weapon", "Prisma Twin Gremlins"]
 ]);

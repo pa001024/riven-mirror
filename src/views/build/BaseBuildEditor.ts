@@ -77,7 +77,7 @@ export abstract class BaseBuildEditor extends Vue {
     if (this.weapon) {
       let buffs = [null];
       if (this.weapon.tags.has("Exalted")) {
-        if (this.weapon.name === "Regulators") {
+        if (this.weapon.baseName === "Regulators") {
           buffs = [new Buff(BuffList.find(v => v.id === "z")), null];
         } else {
           buffs = [new Buff(BuffList.find(v => v.id === "Z")), null];

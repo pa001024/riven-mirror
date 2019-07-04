@@ -598,7 +598,10 @@ let po = {
     solarisUnited: "Venus Bounty Mission",
     voidTrader: "Void Trader",
     progress: "Progress: ",
-    remaining: "Remaining"
+    remaining: "Remaining",
+    nightwave: "Nightwave",
+    kuva: "Kuva",
+    arbitration: "Arbitration"
   },
   prop: {
     fullName: {

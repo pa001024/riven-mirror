@@ -66,6 +66,7 @@ import WeaponInfobox from "@/components/infobox/WeaponInfobox.vue";
 import RivenPriceView from "@/components/RivenPriceView.vue";
 import { RivenMod } from "../warframe/rivenmod";
 // import InfoRadar from "@/components/InfoRadar.vue";
+import { Getter, Action } from "vuex-class";
 
 function loadWeapon(id: string) {
   if (id.startsWith("ZAW-")) {
@@ -92,6 +93,8 @@ export default class WeaponInfo extends Vue {
   @Prop() id: string;
   private _weapon: Weapon;
   private _lastid = "";
+  @Getter("lastWeekly") lastWeekly: number;
+  @Action("getWeekly") getWeekly: () => void;
 
   activeTab = "data";
 
@@ -108,6 +111,11 @@ export default class WeaponInfo extends Vue {
 
   mounted() {
     this.reload();
+    // 紫卡交易数据初始化
+    if (Date.now() - this.lastWeekly > 36e5) {
+      console.log("update riven price...");
+      this.getWeekly();
+    }
   }
 }
 </script>

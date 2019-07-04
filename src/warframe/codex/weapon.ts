@@ -156,7 +156,7 @@ export class Weapon {
     return this.name.replace(/ /g, "_").replace(" (Atmosphere)", "");
   }
   get baseurl() {
-    return this.base.replace(/ /g, "_").replace(" (Atmosphere)", "");
+    return this.baseName.replace(/ /g, "_").replace(" (Atmosphere)", "");
   }
   /** WM URL */
   get wmurl() {
