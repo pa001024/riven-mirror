@@ -34,6 +34,16 @@ export interface NormalModData {
   riven?: string;
 }
 
+const elems = {
+  4: "Heat",
+  5: "Cold",
+  6: "Toxin",
+  7: "Electricity",
+  8: "Impact",
+  9: "Puncture",
+  A: "Slash"
+};
+
 /**
  * 普通MOD信息
  */
@@ -53,6 +63,11 @@ export class NormalMod implements NormalModData {
   primed?: string;
   riven?: string;
   setMul: number = 1;
+  /** 元素名称 */
+  get elemType() {
+    const elem = this.props.find(v => elems[v[0]]);
+    return elem ? elems[elem[0]] : "";
+  }
 
   get props() {
     if (this.setMul === 1 && this.level === this.maxLevel && this._propsMax) return this._propsMax;

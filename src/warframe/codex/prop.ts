@@ -167,7 +167,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "ens" }, // Enemy Shield
   { id: "ena" }, // Enemy Amror
   { id: "ref" }, // % Damage taken is reflected when Blocking attacks while Channeling.
-  { id: "hps", nopercent: true }, // Heal Rate/s
+  { id: "hps", nopercent: true }, // 每秒生命回复 Heal Rate/s
   { id: "eac" }, // % Hit Chance
   { id: "esp" }, // % Speed
   { id: "ovs", dmg: true }, // % Overall Strength
@@ -199,6 +199,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "e8", dmg: true, nopercent: true }, // Initial Impact 初始冲击
   { id: "e9", dmg: true, nopercent: true }, // Initial Puncture 初始穿刺
   { id: "eA", dmg: true, nopercent: true }, // Initial Slash 初始切割
+  { id: "eh", dmg: true, nopercent: true }, // extra health 生命点数
 
   // extra
   { id: "bL", dmg: true, nopercent: true }, // 基础弹匣 Magazine Capacity

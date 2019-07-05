@@ -2558,6 +2558,7 @@ let po = {
       ll: "{0} 機率開啟鎖住的儲物櫃",
       sr: "{0} 硬直回覆速度",
       fl: "{0} 飛行速度",
+      eh: "{0} 生命值",
 
       ify: "如果目標距離 {0} 米外",
       onHeadshot: "爆頭後:",
@@ -2764,6 +2765,7 @@ let po = {
       ll: "開啟鎖住的儲物櫃",
       sr: "硬直回覆速度",
       fl: "飛行速度",
+      eh: "生命值 (固定點數)",
 
       ify: "遠距離",
       onHeadshot: "爆頭",
@@ -3434,6 +3436,8 @@ let po = {
     speed: "加速 (Volt)",
     warcry: "咆哮 (Valkyr)",
     provoke: "激怒 (Equinox)",
+    hasteMote: "急速塵埃 (Wisp)",
+    vitalityMote: "活力塵埃 (Wisp)",
     razorwingBlitz: "刀翼閃擊 (MOD)",
     chromaticBlade4: "華彩刀劍 (火)",
     chromaticBlade5: "華彩刀劍 (冰)",

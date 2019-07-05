@@ -791,6 +791,7 @@ let po = {
       ll: "{0} chance to unlock locked lockers",
       sr: "{0} Faster Stagger Recovery",
       fl: "{0} Flight Speed",
+      eh: "{0} Health",
 
       ify: "if the target is over {0}m away",
       onHeadshot: "On Headshot:",
@@ -979,6 +980,7 @@ let po = {
       ll: "chance to unlock locked lockers",
       sr: "Faster Stagger Recovery",
       fl: "Flight Speed",
+      eh: "flat Health",
 
       ify: "On Far",
       onHeadshot: "On Headshot",
@@ -1538,6 +1540,8 @@ let po = {
     speed: "Speed (Volt)",
     warcry: "Warcry (Valkyr)",
     provoke: "Provoke (Equinox)",
+    hasteMote: "Haste Mote (Wisp)",
+    vitalityMote: "Vitality Mote (Wisp)",
     razorwingBlitz: "Razorwing Blitz (MOD)",
     chromaticBlade4: "Chromatic Blade (Heat)",
     chromaticBlade5: "Chromatic Blade (Cold)",

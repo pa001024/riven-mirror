@@ -5,7 +5,7 @@
       <span slot="label" class="mod-tablabel">{{$t("modselector.fastSelect")}}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in fast" :key="index">
-          <div class="mod-item el-dropdown" @click="handleClick(mod.id)">
+          <div class="mod-item" @click="handleClick(mod.id)">
             {{$t(`modselector.fast.${mod.name}`)}}
           </div>
         </div>
@@ -16,7 +16,8 @@
       <span slot="label" class="mod-tablabel">{{tab.name}}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in tab.mods" :key="index">
-          <div class="mod-item el-dropdown" @click="handleClick(mod.id)">
+          <div class="mod-item" @click="handleClick(mod.id)">
+            <WfIcon v-if="mod.elemType" :type="mod.elemType.toLowerCase()"/>
             {{mod.name}}
           </div>
         </div>
@@ -27,7 +28,7 @@
       <span slot="label" class="mod-tablabel">{{$t("modselector.rivenMod")}}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(hiRiven, index) in modHistoty" :key="index">
-          <div class="mod-item el-dropdown" @click="newRiven(hiRiven.qrCodeBase64)">
+          <div class="mod-item" @click="newRiven(hiRiven.qrCodeBase64)">
             {{hiRiven.fullLocName}}
           </div>
         </div>

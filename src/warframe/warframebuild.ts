@@ -125,6 +125,7 @@ export class WarframeBuild {
   }
 
   protected _healthMul: number;
+  protected _healthAdd: number;
   protected _shieldMul: number;
   protected _armorMul: number;
   protected _armorAdd: number;
@@ -169,7 +170,7 @@ export class WarframeBuild {
 
   /** 生命 */
   get health() {
-    return (this.data.health * this._healthMul) / 100;
+    return (this.data.health * this._healthMul) / 100 + this._healthAdd;
   }
   /** 护盾 */
   get shield() {
@@ -343,6 +344,7 @@ export class WarframeBuild {
   /** 重置属性 */
   reset() {
     this._healthMul = 100;
+    this._healthAdd = 0;
     this._shieldMul = 100;
     this._armorMul = 100;
     this._armorAdd = 0;
@@ -391,6 +393,9 @@ export class WarframeBuild {
     switch (pName) {
       /** Health */ case "h":
         this._healthMul = hAccSum(this._healthMul, pValue);
+        break;
+      /** extra Health */ case "eh":
+        this._healthAdd = hAccSum(this._healthAdd, pValue);
         break;
       /** Shield */ case "s":
         this._shieldMul = hAccSum(this._shieldMul, pValue);

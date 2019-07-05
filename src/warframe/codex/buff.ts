@@ -247,6 +247,33 @@ export const BuffList: BuffData[] = [
     defaultValue: 100
   },
   {
+    id: "vm",
+    name: "vitalityMote", // Wisp 活力尘埃
+    type: BuffType.Team,
+    target: "Warframe",
+    dynamicProps: [["eh", 3, 0], ["hps", 0.3, 0]],
+    parms: ["power", "%"],
+    defaultValue: 200
+  },
+  {
+    id: "hm",
+    name: "hasteMote", // Wisp 急速尘埃
+    type: BuffType.Team,
+    target: "Warframe",
+    dynamicProps: [["f", 0.2, 0]],
+    parms: ["power", "%"],
+    defaultValue: 200
+  },
+  {
+    id: "h",
+    name: "hasteMote", // Wisp 急速尘埃
+    type: BuffType.Speed,
+    target: "Weapon",
+    dynamicProps: [["R", 0.2, 0]],
+    parms: ["power", "%"],
+    defaultValue: 200
+  },
+  {
     id: "Q",
     name: "parasiticLink", // 蛆3 寄生链接
     type: BuffType.Team,
@@ -315,7 +342,7 @@ export const BuffList: BuffData[] = [
     name: "shootingGallery", // 女枪2 靶场
     type: BuffType.BaseDamage,
     target: "All",
-    dynamicProps: [["dmg", 0.5, 0]],
+    dynamicProps: [["dmg", 0.25, 0]],
     parms: ["power", "%"],
     defaultValue: 200
   },
