@@ -26,9 +26,22 @@
     <el-col>
       <el-card class="setting">
         <span slot="header">{{$t("setting.ui")}}</span>
-        <div class="nightmode">
-        </div>
         <div class="setting-items">
+          <!-- 平台设置 -->
+          <div class="setting-item">
+            <div class="title">
+              {{$t('setting.platform')}}
+            </div>
+            <div class="padding"></div>
+            <div class="content">
+              <el-radio-group class="will-invert" v-model="platform" size="mini">
+                <el-radio-button label="pc">{{$t('setting.pc')}}</el-radio-button>
+                <el-radio-button label="ps4">{{$t('setting.ps4')}}</el-radio-button>
+                <el-radio-button label="xb1">{{$t('setting.xb1')}}</el-radio-button>
+                <el-radio-button label="swi">{{$t('setting.swi')}}</el-radio-button>
+              </el-radio-group>
+            </div>
+          </div>
           <!-- 夜间设置 -->
           <div class="setting-item">
             <div class="title">
@@ -149,6 +162,16 @@ export default class Setting extends Vue {
   }
   set burstSampleSize(val: number) {
     this.setBurstSampleSize(+val);
+  }
+
+  @Getter("platform") _platform: string;
+  @Action("setPlatform") setPlatform: (value: string) => void;
+  // 老版本紫卡编辑器
+  get platform() {
+    return this._platform;
+  }
+  set platform(val: string) {
+    this.setPlatform(val);
   }
 
   @Action("clearBuilds") clearBuilds: () => void;

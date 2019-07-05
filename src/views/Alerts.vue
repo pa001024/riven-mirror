@@ -57,13 +57,15 @@
           <el-card class="index-card arbitration">
             <h3 slot="header"><WfIcon type="arbitration" shadow/> {{$t("alerting.arbitration")}}</h3>
             <ul>
-              <div class="time">{{$t("alerting.remaining")}}: {{renderTime(arbitration.expiry)}}</div>
               <li>
                 <div class="info">
-                  <div class="mission">{{v.type}}</div>
+                  <div class="mission">{{arbitration.type}}</div>
                 </div>
-                <div class="node">
-                  <WfIcon :type="v.enemy.toLowerCase()"/> {{v.node}}
+                <div class="misc">
+                  <div class="node">
+                    <WfIcon :type="arbitration.enemy.toLowerCase()"/> {{arbitration.node}}
+                  </div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(arbitration.expiry)}}</div>
                 </div>
               </li>
             </ul>
@@ -251,6 +253,7 @@ import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import BScroll from "better-scroll";
 import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert, Nightwave, Kuva, Arbitration } from "@/warframe/worldstat";
 import { CetusTime, FortunaTime, EarthTime } from "@/warframe/gametime";
+import { Getter, Action } from "vuex-class";
 import "../less/alert.less";
 
 interface WarframeTime {
@@ -295,6 +298,8 @@ export default class Alerts extends Vue {
     sec = sec % 60;
     return `${day !== 0 ? day + ":" : ""}${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
   }
+
+  @Getter("platform") platform: string;
 
   // === 事件处理 ===
   @Watch("$route")
@@ -351,6 +356,7 @@ export default class Alerts extends Vue {
   }
   updateStat() {
     this.updating = true;
+    this.stat.platform = this.platform;
     this.stat
       .fetch()
       .then(() => {
@@ -370,7 +376,7 @@ export default class Alerts extends Vue {
       })
       .catch(e => {
         console.log(e);
-        setTimeout(() => this.updateStat(), 1e3);
+        setTimeout(() => this.updateStat(), 3e3);
       });
   }
   updateTime() {

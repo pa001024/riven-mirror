@@ -288,9 +288,9 @@ export interface Invasion {
   startString: string;
   node: string;
   desc: string;
-  attackerReward: AttackerReward;
+  attackerReward: InvasionReward;
   attackingFaction: string;
-  defenderReward: DefenderReward;
+  defenderReward: InvasionReward;
   defendingFaction: string;
   vsInfestation: boolean;
   count: number;
@@ -301,7 +301,7 @@ export interface Invasion {
   rewardTypes: string[];
 }
 
-export interface DefenderReward {
+export interface InvasionReward {
   items: any[];
   countedItems: CountedItem[];
   credits: number;
@@ -309,19 +309,6 @@ export interface DefenderReward {
   itemString: string;
   thumbnail: string;
   color: number;
-}
-
-export interface AttackerReward {
-  item: string;
-  expiry: string;
-  discount: number;
-  regularOverride: number;
-  premiumOverride: number;
-  isFeatured: boolean;
-  isPopular: boolean;
-  id: string;
-  expired: boolean;
-  eta: string;
 }
 
 export interface CountedItem {

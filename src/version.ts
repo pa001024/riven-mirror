@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.6.3";
+export const version = "1.6.4";
 export const updateLogs = [
+  {
+    version: "1.6.4",
+    date: "2019/7/5",
+    md: {
+      en: `- Add: Nightwave/Kuva/Arbitration
+- add setting: platform switch`,
+      cn: `- 新增: 午夜电波/赤毒/仲裁
+- 新增设置: 平台切换`
+    }
+  },
   {
     version: "1.6.3",
     date: "2019/6/29",
@@ -40,7 +50,8 @@ export const updateLogs = [
 - 武器配装改版: 同一个武器的不同模式现在可以更方便的切换了
 - 紫卡分析: 最佳紫卡计算准确度提高了一些`
     }
-  },
+  }
+  /*
   {
     version: "1.5.7",
     date: "2019/5/23",
@@ -49,7 +60,6 @@ export const updateLogs = [
       cn: `- 添加新武器和战甲`
     }
   },
-  /*
   {
     version: "1.5.6",
     date: "2019/4/25",

@@ -1374,7 +1374,12 @@ let po = {
     burstsamplesizeTip: "Calculate the average damage of the weapon for a specified number of seconds (△t in △x/△t)",
     savedBuilds: "Saved builds",
     clear: "CLEAR ALL",
-    cleared: "Cleared"
+    cleared: "Cleared",
+    platform: "Platform",
+    pc: "PC",
+    ps4: "PS4",
+    xb1: "XBOX",
+    swi: "SWITCH"
   },
   modular: {
     damage: "Damage",

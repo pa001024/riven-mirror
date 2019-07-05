@@ -1,6 +1,5 @@
 import { Module, GetterTree, ActionTree, MutationTree } from "vuex";
 import { RivenMod } from "@/warframe/rivenmod";
-import localStorage from "universal-localstorage";
 import RootState from "../state";
 import { WeeklyRivenInfo } from "@/warframe/weeklyriven";
 import axios from "axios";
@@ -43,7 +42,7 @@ export default class ModModule implements Module<ModState, RootState> {
       state.priceData = priceData;
       state.lastWeekly = Date.now();
       localStorage.setItem("priceData", JSON.stringify(state.priceData));
-      localStorage.setItem("lastWeekly", state.lastWeekly);
+      localStorage.setItem("lastWeekly", String(state.lastWeekly));
     }
   };
 

@@ -3271,7 +3271,12 @@ let po = {
     burstsamplesizeTip: "计算该武器在指定秒数内的平均输出 (△x/△t公式中△t的大小)",
     savedBuilds: "储存的配置",
     clear: "全部清除",
-    cleared: "已清除"
+    cleared: "已清除",
+    platform: "平台",
+    pc: "PC",
+    ps4: "PS4",
+    xb1: "XBOX",
+    swi: "SWITCH"
   },
   modular: {
     damage: "伤害",
