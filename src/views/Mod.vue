@@ -19,7 +19,7 @@
             </el-popover>
             <template v-else>
               <el-input type="textarea" :rows="1" :placeholder="$t(`riven.pastehere`)" style="margin-bottom: 8px;"></el-input>
-              <el-upload class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" action="https://api.riven.im/ocr">
+              <el-upload class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" :action="ocrService">
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text" v-html="$t('riven.uploadtip')"></div>
                 <div slot="tip" class="el-upload__tip">{{$t("riven.uploadlimit")}}</div>
@@ -158,12 +158,16 @@ export default class Mod extends Vue {
       img.src = ur;
     });
   }
+
+  get ocrService() {
+    return location.host === "localhost:8080" ? "http://localhost:8033/ocr" : "https://api.riven.im/ocr";
+  }
   readOCR(file: File) {
     let formData = new FormData();
     formData.append("file", file);
     this.ocrLoading = true;
     axios
-      .post("https://api.riven.im/ocr", formData, { timeout: 6e3, headers: { "Content-Type": "multipart/form-data" } })
+      .post(this.ocrService, formData, { timeout: 6e3, headers: { "Content-Type": "multipart/form-data" } })
       .then(response => {
         this.ocrLoading = false;
         let rst = response.data as OCRResult;
@@ -222,10 +226,16 @@ export default class Mod extends Vue {
     this.ocrLoading = false;
     let rst = response as OCRResult;
     if (rst) {
-      this.modText = rst.result.map(v => v.trim()).join("\n");
+      const text = rst.result.map(v => v.trim()).join("\n");
+      if (text) {
+        this.modText = rst.result.map(v => v.trim()).join("\n");
+      } else {
+        this.$message.warning("error");
+      }
     }
   }
   onUploadError(err, file, fileList) {
+    this.$message.warning("error");
     this.ocrLoading = false;
   }
   @Watch("modText")

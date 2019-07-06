@@ -112,12 +112,12 @@
         </el-form-item>
         <!-- 开镜倍率 -->
         <el-form-item :label="$t('buildview.zoom')" v-if="weapon.maxZoomLevel">
-          <el-slider v-model="zoomLevel"  style="width:200px;margin-left: 8px;" :min="0" :max="weapon.maxZoomLevel" show-stops :format-tooltip="v=>(v?weapon.zoom[v-1].ratio:1)+'x'"></el-slider>
+          <el-slider v-model="zoomLevel"  style="width:200px;margin-left:8px;margin-right:16px;" :min="0" :max="weapon.maxZoomLevel" show-stops :format-tooltip="v=>(v?weapon.zoom[v-1].ratio:1)+'x'"></el-slider>
         </el-form-item>
         <!-- 爆头几率 -->
         <el-form-item :label="$t('buildview.headshotChance')">
           <el-tooltip effect="dark" :content="$t('buildview.headshotChanceTip')" placement="bottom">
-            <el-slider v-model="headShotChance" :format-tooltip="v=>v+'%'" style="width:200px;margin-left: 8px;"></el-slider>
+            <el-slider v-model="headShotChance" :format-tooltip="v=>v+'%'" style="width:200px;margin-left:8px;margin-right:16px;"></el-slider>
           </el-tooltip>
         </el-form-item>
         <!-- 基伤加成 -->

@@ -15,8 +15,9 @@ import { RivenMod } from "@/warframe/rivenmod";
 import { WeeklyRivenInfo } from "@/warframe/weeklyriven";
 import { Getter, Action } from "vuex-class";
 import { MainTag } from "@/warframe/codex";
+import RivenPriceView from "@/components/RivenPriceView.vue";
 
-@Component({ components: {} })
+@Component({ components: { RivenPriceView } })
 export default class RivenPrice extends Vue {
   @Prop() mod: RivenMod;
   @Getter("priceData") priceData: WeeklyRivenInfo[];
