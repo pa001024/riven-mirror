@@ -180,7 +180,7 @@ export class GunModBuild extends ModBuild {
       amrorReduce: this.amrorReduce,
       burstSampleSize: this.burstSampleSize,
       zoomLevel: this.zoomLevel,
-      modeIndex: this.modeIndex,
+      modeIndex: this.modeIndex
     };
   }
   /** 生成伤害时间线 */

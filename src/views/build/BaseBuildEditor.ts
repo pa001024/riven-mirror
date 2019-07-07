@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Vue, Watch, Prop } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
-import { NormalMod, Buff, Weapon, BuffData, DamageModelList, SimpleDamageModel, BuffList, WeaponBuildMode } from "@/warframe/codex";
+import { NormalMod, Buff, Weapon, BuffData, DamageModelList, SimpleDamageModel, BuffList } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import { Getter, Action } from "vuex-class";
 import localStorage from "universal-localstorage";
@@ -24,6 +24,7 @@ export abstract class BaseBuildEditor extends Vue {
   @Prop({ default: 0 }) modeIndex: number;
 
   abstract get weapon(): Weapon;
+  abstract get build(): ModBuild;
   get mode() {
     return this.build.mode;
   }
@@ -102,9 +103,6 @@ export abstract class BaseBuildEditor extends Vue {
 
   get currentTab() {
     return this.tabs.find(v => v.name === this.tabValue);
-  }
-  get build() {
-    return this.currentTab.build;
   }
   get mergedDmg() {
     let lD = this.build.mode.damage;

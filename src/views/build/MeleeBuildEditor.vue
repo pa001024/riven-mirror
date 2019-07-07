@@ -245,6 +245,10 @@ declare interface BuildSelectorTab {
 export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: Weapon;
 
+  get build(){
+     return this.currentTab.build as MeleeModBuild;
+  }
+
   get headShotChance() {
     return ~~(this.build.headShotChance * 100);
   }
