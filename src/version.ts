@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.6.4";
+export const version = "1.6.5";
 export const updateLogs = [
+  {
+    version: "1.6.5",
+    date: "2019/7/7",
+    md: {
+      en: `- Update: [July 2019 Riven Disposition Updates](https://forums.warframe.com/topic/1107775-july-2019-riven-disposition-updates/)`,
+      cn: `- 更新: [2019七月裂罅倾向调整](https://forums.warframe.com/topic/1107775-july-2019-riven-disposition-updates/)`
+    }
+  },
   {
     version: "1.6.4",
     date: "2019/7/5",
