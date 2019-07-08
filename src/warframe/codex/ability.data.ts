@@ -229,7 +229,8 @@ export let _abilityData: AbilityData[] = [
   {
     id: "Exalted Blade",
     tags: 0,
-    energyCost: 100,
+    energyCost: 25,
+    energyCostPS: 2.5,
     props: {
       ExaltedWeapon: {
         weaponName: "Exalted Blade",
@@ -509,6 +510,7 @@ export let _abilityData: AbilityData[] = [
     id: "Artemis Bow",
     tags: 2,
     energyCost: 25,
+    energyCostN: 10,
     props: {
       ExaltedWeapon: {
         weaponName: "Artemis Bow",
@@ -1192,7 +1194,8 @@ export let _abilityData: AbilityData[] = [
   {
     id: "Hysteria",
     tags: 1,
-    energyCost: 100,
+    energyCost: 25,
+    energyCostPS: 15,
     props: {
       ExaltedWeapon: { weaponName: "Valkyr Talons", effect: [["oad", S(100, -100)]] }
     }
@@ -1396,7 +1399,13 @@ export let _abilityData: AbilityData[] = [
     tags: 1,
     energyCost: 50,
     energyCostN: 100,
-    props: { Damage: { damage: [["Electricity", S(500)]] }, ExaltedWeapon: { weaponName: "Balefire Charger" } }
+    props: {
+      Damage: { damage: [["Electricity", S(500)]] },
+      ExaltedWeapon: {
+        weaponName: "Balefire Charger",
+        effect: [["oad", S(100, -100)]]
+      }
+    }
   },
   {
     id: "Shield Pillage",
