@@ -301,7 +301,7 @@ export class RivenDatabase {
     Melee: propRegExpsFactory("Melee"),
     Zaw: propRegExpsFactory("Zaw")
   };
-  static PrefixAll = new RegExp(`(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})`, "i");
+  static PrefixAll = new RegExp(`(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})(?:-|${RivenPropertyDataBase.all.map(v => v.subfix).join("|")})`, "i");
 
   reload() {
     RivenPropertyDataBase.all.forEach((v, i) => {

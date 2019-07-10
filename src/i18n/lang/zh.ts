@@ -1267,7 +1267,8 @@ let po = {
     certusBrace: "瑟图斯曲柄",
 
     valkyrTalons: "Valkyr之爪",
-    ironStaff: "定海神针",
+    ironStaff: "金箍铁棒",
+    ironStaffPrime: "金箍铁棒 Prime",
     regulators: "监察者双枪",
     diwata: "仙女",
     dexPixia: "DEX 妖精",

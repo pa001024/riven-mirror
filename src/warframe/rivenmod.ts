@@ -184,8 +184,15 @@ A段位12023
       .replace(/(（\S*?)\s(\S*?）)|(\(\S*?)\s(\S*?\))/g, "$1$2$3$4")
       .replace("·", "-")
       .replace(/lgni/g, "Igni")
-      .split(/\n+/g);
-    console.log("lines=>", lines);
+      .split(/\r?\n+|\b \b/g)
+      .reduce((r, v) => {
+        console.log(JSON.stringify(v), /^\w+$/.test(v));
+        if (r.length && /^\w+$/.test(v)) {
+          r[r.length - 1] = r[r.length - 1] + " " + v;
+          return r;
+        }
+        return [...r, v];
+      }, []);
     let subfixIndex = lines.findIndex(v => v.match(RivenDatabase.PrefixAll) != null);
     if (subfixIndex < 0) return new Error("紫卡属性识别错误: 找不到后缀");
     else {
@@ -196,7 +203,8 @@ A段位12023
         lines.splice(++subfixIndex, 0, subfix);
       }
     }
-    let rawName = lines[subfixIndex - 1];
+    console.log("lines=>", lines, lines[subfixIndex]);
+    let rawName = lines[(subfixIndex || 1) - 1];
     // 查询名称最接近的武器
     let weapon = WeaponDatabase.findMostSimRivenWeapon(rawName);
     this.mod = MainTag[weapon.mod] as RivenTypes;
