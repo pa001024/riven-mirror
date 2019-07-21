@@ -597,7 +597,36 @@ let po = {
     vigorousSwap: "活跃切换",
     rollingGuard: "翻滚庇护",
     adaptation: "适应抗性",
-    maraDetron: "玛拉迪特隆"
+    maraDetron: "玛拉迪特隆",
+    volnus: "裂伤战锤",
+    ackBrunt: "龟背盾斧",
+
+    catchmoon: "射月",
+    gaze: "凝视",
+    rattleguts: "响腹",
+    tombfinger: "墓指",
+
+    gibber: "疾语",
+    ramble: "漫谈",
+    lovetap: "爱抚",
+    haymaker: "重击",
+
+    flutterfire: "激火",
+    ramflare: "猛光",
+    zipfire: "速火",
+    swiftfire: "颤火",
+    sparkfire: "花火",
+    thunderdrum: "雷鼓",
+    zip: "速力",
+    slap: "掌击",
+    deepbreath: "深息",
+    bellows: "风箱",
+    zipneedle: "速针",
+    slapneedle: "拍针",
+    bashrack: "狂虐",
+    stitch: "穿纫",
+    killstream: "连袭",
+    splat: "猛砸"
   },
   zaw: {
     title: "天工造武"

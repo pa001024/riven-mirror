@@ -1077,7 +1077,7 @@ export const _warframeData: WarframeData[] = [
     abilities: ["Celestial Twin", "Cloud Walker", "Defy", "Primal Fury"],
     aura: "r",
     introduced: "25",
-    polarities: ["-","-", "d"],
+    polarities: ["-", "r", "d"],
     sex: "Male"
   },
   {
