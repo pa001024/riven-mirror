@@ -1,5 +1,7 @@
 # Riven Mirror
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/pa001024/riven-mirror.svg)](https://greenkeeper.io/)
+
 > This project means to create a quick identification tool for warframe riven MOD
 
 > This project is currently in the ALPHA stage. Many functions are not perfect. Please note
