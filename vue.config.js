@@ -24,7 +24,7 @@ module.exports = {
       .test(/\.data$/)
       .use("file-loader")
       .loader("file-loader")
-      .options({});
+      .options({ name: "[hash].[ext]" });
     config.module
       .rule("proto")
       .test(/\.proto$/)

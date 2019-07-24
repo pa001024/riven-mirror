@@ -74,6 +74,7 @@ export class Translator {
 }
 
 const tranlateAlias = new Map([
+  ["Wraith Twin Vipers", "Twin Vipers Wraith"],
   ["Detron Mara", "Mara Detron"],
   ["Liset Prop Ost Rug Baro", "Tenno Kindred Rug"],
   ["Colour Picker Twitch B Item A", "Eminence Palette"],

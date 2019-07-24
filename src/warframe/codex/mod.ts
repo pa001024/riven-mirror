@@ -148,7 +148,7 @@ export class NormalMod implements NormalModData {
     if (polarity)
       return this.type === "Aura"
         ? Math.ceil(polarity === this.polarity ? this.cost * 2 : this.cost / 1.25)
-        : Math.ceil(polarity === this.polarity ? this.cost / 2 : this.cost * 1.25);
+        : Math.round(polarity === this.polarity ? this.cost / 2 : this.cost * 1.25);
     else return this.cost;
   }
 
