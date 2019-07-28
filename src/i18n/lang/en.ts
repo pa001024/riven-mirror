@@ -412,6 +412,7 @@ let po = {
     cyanex: "Cyanex",
     komorex: "Komorex",
     fulmin: "Fulmin",
+    quatz: "Quatz",
 
     none: "None",
     balla: "Balla",

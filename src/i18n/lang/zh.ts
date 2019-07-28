@@ -1173,6 +1173,7 @@ let po = {
     cyanex: "氰毒",
     komorex: "猛毒",
     fulmin: "雷霆",
+    quatz: "夸兹",
 
     none: "无",
     balla: "宝拉",
@@ -2122,6 +2123,7 @@ let po = {
   },
   weaponmode: {
     default: "默认",
+    normal: "普通",
     charge: "蓄力",
     chargedThrow: "蓄力投掷",
     throw: "投掷",
