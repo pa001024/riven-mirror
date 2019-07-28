@@ -234,7 +234,7 @@ const _enemyList = [
   ["Boiler", 3, 12, 1200, , , 2],
   ["Brood Mother", 3, 12, 700, , , 2],
   ["Toxic Ancient", 3, 1, 400, , , 2],
-  ["Hemocyte", 3, 1, 2200, , 175, 2, , , , 3],
+  // ["Hemocyte", 3, 1, 2200, , 175, 2, , , , 3],
   ["Corrupted Ancient", 4, 1, 400, , , 2],
   ["Corrupted Butcher", 4, 1, 100, , 5, 1],
   ["Corrupted Bombard", 4, 4, 300, , 500, 1, , 1],

@@ -108,7 +108,7 @@ export const BuffList: BuffData[] = [
     ["a5", "arcaneAegis", [["onDamaged"], ["psr", 60]], "Warframe"], // 神盾赋能
     ["a6", "arcaneTrickery", [["onFinish"], ["ivb", 100]], "Warframe"], // 诡计赋能
     ["a7", "arcaneUltimatum", [["onFinish"], ["ea", 600]], "Warframe"], // 通牒赋能
-    ["a8", "arcaneArachne", [["onWalllatch"], ["oad", 100]], "Weapon"], // 蜘蛛赋能
+    ["a8", "arcaneArachne", [["onWalllatch"], ["D", 100]], "Weapon"], // 蜘蛛赋能
     ["a9", "arcaneGrace", [["onDamaged"], ["phr", 4]], "Warframe"], // 优雅赋能
     ["aA", "arcaneGuardian", [["onDamaged"], ["ea", 600]], "Warframe"], // 保卫者赋能
     ["aB", "arcanePhantasm", [["onBlock"], ["f", 40]], "Warframe"], // 幻象赋能
@@ -119,7 +119,7 @@ export const BuffList: BuffData[] = [
     ["aN", "arcaneStrike", [["J", 40]], "Melee"], // 速攻
     ["aO", "arcaneMomentum", [["F", 100]], "Sniper"], // 动量
     ["aP", "arcanePrecision", [["D", 120]], "Secondary"], // 精确
-    ["aQ", "arcaneRage", [["D", 10]], "Primary"], // 愤怒
+    ["aQ", "arcaneRage", [["D", 120]], "Primary"], // 愤怒
     ["aR", "arcaneTempo", [["R", 60]], "Shotgun"], // 节奏
     ["aS", "arcaneVelocity", [["R", 80]], "Secondary"], // 迅速
     ["aT", "paxBolt", [["t", 30], ["x", 30]], "Warframe"] // 和平电闪

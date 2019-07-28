@@ -688,7 +688,6 @@ export abstract class ModBuild {
   }
   /** 爆头倍率 */
   get headShotMul() {
-    if (this.target && this.target.ignoreProc === 3) return 1;
     return this.oriHeadShotMul * this.headShotMulMul;
   }
 
