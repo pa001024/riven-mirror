@@ -1341,18 +1341,30 @@ export abstract class ModBuild {
     // 1. 列出所有属性
     let upLevel = toUpLevel(4, true),
       negaUpLevel = toNegaUpLevel(3, true);
+    let isDPS = this.testMod(
+      new NormalMod({
+        key: "aa",
+        id: "DPSTEST",
+        props: [["R", 100]],
+        type: "Any",
+        cost: 0,
+        level: 5,
+        polarity: "r",
+        rarity: "r"
+      })
+    );
+    const rivenRef = this.riven.weapon;
     let avaliableProps = RivenPropertyDataBase[this.riven.mod]
       .filter(v => {
         if (v.noDmg) return false;
         if (!this.enemyDmgType && ["G", "I", "C", "O"].includes(v.id)) return false;
         const dmgPropList = ["0", "1", "7", "D", "S", "R", "K"];
-        if (!dmgPropList.includes(v.id)) {
-          return false;
-        }
+        if (!isDPS && v.id === "R") return false;
+        if (!dmgPropList.includes(v.id)) return false;
         return true;
       })
       .map(v => {
-        let base = this.weapon.getPropBaseValue(v.id) * upLevel;
+        let base = rivenRef.getPropBaseValue(v.id) * upLevel;
         return new ValuedRivenProperty(v, base, base, upLevel);
       });
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
@@ -1362,8 +1374,8 @@ export abstract class ModBuild {
     );
     let valuedNegativeProp = new ValuedRivenProperty(
       negativeProp,
-      this.weapon.getPropBaseValue(negativeProp.id) * -negaUpLevel,
-      this.weapon.getPropBaseValue(negativeProp.id),
+      rivenRef.getPropBaseValue(negativeProp.id) * -negaUpLevel,
+      rivenRef.getPropBaseValue(negativeProp.id),
       upLevel
     );
 

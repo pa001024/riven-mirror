@@ -375,6 +375,8 @@ export interface Event {
   showTotalAtEndOfMission: boolean;
   isPersonal: boolean;
   isCommunity: boolean;
+  regionDrops: string[];
+  archwingDrops: string[];
   asString: string;
 }
 
@@ -611,6 +613,17 @@ export class WorldStat {
    * 新闻信息
    */
   get news() {
+    if (!this.data) return [];
+    return _.reverse(
+      this.deepTranslate(this.data.news.filter(v => v.translations.en)).map(v => {
+        if (v.translations[i18n.locale.substr(0, 2)]) v.message = v.translations[i18n.locale.substr(0, 2)];
+        return v;
+      })
+    );
+  }
+
+  /** 事件 */
+  get event() {
     if (!this.data) return [];
     return _.reverse(
       this.deepTranslate(this.data.news.filter(v => v.translations.en)).map(v => {

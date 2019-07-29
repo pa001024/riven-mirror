@@ -16,7 +16,7 @@
       <span slot="label" class="mod-tablabel">{{tab.name}}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in tab.mods" :key="index">
-          <div class="mod-item" @click="handleClick(mod.id)">
+          <div class="mod-item" :class="[mod.rarity]" @click="handleClick(mod.id)">
             <WfIcon v-if="mod.elemType" :type="mod.elemType.toLowerCase()"/>
             {{mod.name}}
           </div>
@@ -218,8 +218,8 @@ export default class ModSelector extends Vue {
   }
 }
 </script>
-
-<style>
+<style lang="less">
+@import "../less/common.less";
 .mod-item-container {
   display: inline-block;
 }
@@ -237,6 +237,7 @@ export default class ModSelector extends Vue {
   user-select: none;
   box-sizing: content-box;
   transition: 0.3s;
+  .mod-rarity();
 }
 .mod-item:hover {
   background: #6199ff;
