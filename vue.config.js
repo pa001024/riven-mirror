@@ -1,6 +1,5 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
 module.exports = {
   chainWebpack: config => {
     config.module
@@ -40,7 +39,7 @@ module.exports = {
         /* import paths provided to pbjs.
          * default: webpack import paths (i.e. config.resolve.modules)
          */
-        paths: ["src/proto"],
+        paths: ["@/proto"],
 
         /* additional command line arguments passed to
          * pbjs, see https://github.com/dcodeIO/ProtoBuf.js/#pbjs-for-javascript
@@ -77,7 +76,8 @@ module.exports = {
     },
     workboxPluginMode: "InjectManifest",
     workboxOptions: {
-      importWorkboxFrom: "local",
+      importWorkboxFrom: "disabled",
+      importScripts: ["workbox-v3.6.3/workbox-sw.js"],
       importsDirectory: "wb",
       precacheManifestFilename: "cache.[manifestHash].js",
       swSrc: "./sw.js",
