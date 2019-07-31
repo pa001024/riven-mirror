@@ -941,7 +941,7 @@ export abstract class ModBuild {
    * @param v 爆头倍率 [=2]
    */
   calcCritDamage(m: number, n: number, p = 0, v = 2) {
-    if (v != 2) return m * (n * (p * (2 * v - 1) + 1) - p * (v - 1) - 1) + p * (v - 1) + 1; // m (n (p (2 v - 1) + 1) - p (v - 1) - 1) + p (v - 1) + 1
+    if (v != 2) return m * (n * (p * (this.oriHeadShotMul * v - 1) + 1) - p * (v - 1) - 1) + p * (v - 1) + 1; // m (n (p (2 v - 1) + 1) - p (v - 1) - 1) + p (v - 1) + 1
     if (p != 0) return m * (n * (3 * p + 1) - p - 1) + p + 1;
     return m * (n - 1) + 1;
   }
