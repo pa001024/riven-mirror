@@ -1755,7 +1755,7 @@ let po = {
     fh1: "About and help",
     fw1: "User Document",
     fw2: "Video Tutorial",
-    fw3: "QQ Group (paid)",
+    fw3: "QQ Group",
     fw4: "Discord",
     fw5: "EULA",
     fw6: "Donation",
