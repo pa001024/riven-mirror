@@ -329,6 +329,15 @@ export const BuffList: BuffData[] = [
     defaultValue: 100
   },
   {
+    id: "ms",
+    name: "multishot", // 通用基伤
+    type: BuffType.BaseDamage,
+    target: "Gun",
+    dynamicProps: [["S", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100
+  },
+  {
     id: "B",
     name: "ballisticBattery", // 女枪1 弹道蓄能 (加数值)
     type: BuffType.BaseDamage,
@@ -352,6 +361,51 @@ export const BuffList: BuffData[] = [
     type: BuffType.BaseDamage,
     target: "Weapon",
     dynamicProps: [["dmg", 2.75, 0]],
+    parms: ["power", "%"],
+    defaultValue: 348
+  },
+  {
+    id: "w4",
+    name: "elementalWard4", // 龙2 元素之护 火
+    type: BuffType.Team,
+    target: "Warframe",
+    dynamicProps: [["h", 2, 0]],
+    parms: ["power", "%"],
+    defaultValue: 348
+  },
+  {
+    id: "w5",
+    name: "elementalWard5", // 龙2 元素之护 冰
+    type: BuffType.Team,
+    target: "Warframe",
+    dynamicProps: [["a", 1.5, 0]],
+    parms: ["power", "%"],
+    defaultValue: 348
+  },
+  {
+    id: "w6",
+    name: "elementalWard6", // 龙2 元素之护 毒
+    type: BuffType.Team,
+    target: "Warframe",
+    dynamicProps: [["F", 0.35, 0], ["hr", 0.35, 0]],
+    parms: ["power", "%"],
+    defaultValue: 348
+  },
+  {
+    id: "w7",
+    name: "elementalWard7", // 龙2 元素之护 电
+    type: BuffType.Team,
+    target: "Warframe",
+    dynamicProps: [["s", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 348
+  },
+  {
+    id: "A3",
+    name: "vexArmor", // 龙3 怨怒护甲
+    type: BuffType.Team,
+    target: "Warframe",
+    dynamicProps: [["a", 3.5, 0], ["dmg", 2.75, 0]],
     parms: ["power", "%"],
     defaultValue: 348
   },

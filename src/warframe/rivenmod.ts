@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Base64, randomNormalDistribution, strSimilarity } from "./util";
+import { randomNormalDistribution, strSimilarity } from "./util";
 import { base62, debase62 } from "./lib/base62";
 import { Polarity, RivenProperty, RivenDatabase, RivenPropertyDataBase, NormalMod, MainTag, WeaponDatabase, RivenTypes } from "./codex";
 import { HH } from "@/var";
@@ -410,10 +410,10 @@ A段位12023
   }
   /** Base64形式的二维码 */
   get qrCodeBase64() {
-    return Base64.encodeURI(this.qrCode);
+    return btoa(this.qrCode);
   }
   set qrCodeBase64(value) {
-    this.qrCode = Base64.decode(value);
+    this.qrCode = atob(value);
   }
   /** 网址形式的二维码 */
   get qrCodeURL() {

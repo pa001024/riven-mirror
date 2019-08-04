@@ -10,14 +10,14 @@
           <div class="weapon-item-container" :key="weapon.name">
             <el-dropdown v-if="weapon.variants.length > 1" trigger="click" @command="handleCommand" placement="bottom-start">
               <div class="weapon-item">
-                {{$t(weapon.id)}} {{weapon.disposition}}
+                {{weapon.locName}} {{weapon.disposition}}
               </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-for="weapon in weapon.variants" :key="weapon.name" :command="weapon.name">{{weapon.displayName}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <div v-else class="weapon-item el-dropdown" @click="handleClick(weapon.name)">
-              {{$t(weapon.id)}} {{weapon.disposition}}
+              {{weapon.locName}} {{weapon.disposition}}
             </div>
           </div>
         </template>

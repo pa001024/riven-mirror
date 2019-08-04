@@ -8,7 +8,7 @@ declare module "worker-loader!*" {
 
 declare module "*.proto" {
   import { Type } from "protobufjs";
-  const proto: Type;
+  const proto: { [key: string]: Type };
 
   export default proto;
 }

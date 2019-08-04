@@ -1295,7 +1295,8 @@ let po = {
       maxDuration: "MAX Duration",
       maxEfficiency: "MAX Efficiency",
       maxRange: "MAX Range",
-      maxHealth: "MAX Health"
+      maxHealth: "MAX Health",
+      umbralSet: "Umbral Set"
     },
     weaponWarn: "WARNING",
     weaponWarnTip: "Chosen riven is not available for this weapon (you may choose wrong weapon), confirm operation?",
@@ -1548,6 +1549,10 @@ let po = {
     chromaticBlade5: "Chromatic Blade (Cold)",
     chromaticBlade6: "Chromatic Blade (Toxin)",
     chromaticBlade7: "Chromatic Blade (Electricity)",
+    elementalWard4: "Elemental Ward (Heat)",
+    elementalWard5: "Elemental Ward (Cold)",
+    elementalWard6: "Elemental Ward (Toxin)",
+    elementalWard7: "Elemental Ward (Electricity)",
     mutalistQuanta: "Mutalist Quanta Orb",
     conditionOverlord: "Condition Overlord",
     stealth: "Stealth (Weapon Level)",
@@ -1555,6 +1560,7 @@ let po = {
     vigorousSwap: "Vigorous Swap (MOD)",
     baseDamage: "Base Damage (Common)",
     critChance: "Crit Chance (Common)",
+    multishot: "Multishot (Common)",
     combo: "Combo (Sniper)",
     finalDamage: "Final Damage (Common)",
     gladiator: "Gladiator Set",

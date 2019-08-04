@@ -2,6 +2,11 @@ import { i18n } from "@/i18n";
 import { ProtoWeapon, Zoom, WeaponMode } from "./weapon.i";
 import Axios from "axios";
 import _, { Omit } from "lodash";
+import data from "@/data/weapons.data";
+import proto from "@/proto/weapon.proto";
+import { strSimilarity } from "../util";
+import { RivenDatabase } from "./riven";
+import base64arraybuffer from "base64-arraybuffer";
 
 export enum MainTag {
   Rifle,
@@ -125,9 +130,7 @@ export class Weapon {
               newMode.locName = mode.name;
             }
           } else newMode.locName = i18n.t("weaponmode.default");
-          if (!newMode.fireRate) {
-            if (newMode.chargeTime) newMode.fireRate = (1 / (newMode.chargeTime + 0.5)) * 60;
-          }
+          if (newMode.chargeTime) newMode.fireRate = (1 / newMode.chargeTime) * 60;
 
           if (!newMode.fireRate) {
             if (newMode.chargeTime) newMode.fireRate = 1 / newMode.chargeTime;
@@ -423,11 +426,6 @@ export class WeaponBuildMode implements CoreWeaponMode {
   }
 }
 
-import data from "@/data/weapons.data";
-import proto from "@/proto/weapon";
-import { strSimilarity } from "../util";
-import { RivenDatabase } from "./riven";
-
 const extraDispositionTable = [
   // kitguns
   ["Gaze", "Kitgun", 1],
@@ -458,10 +456,19 @@ export class WeaponDatabase {
   static variantsMap = new Map<string, Weapon[]>();
 
   static async loadDataOnline() {
-    const rst = await Axios.get(data, { responseType: "arraybuffer" });
-    const msg = proto.Weapons.decode(new Uint8Array(rst.data));
+    // 缓存
+    const cache = localStorage.getItem("weapons.data");
+    let bin: ArrayBuffer;
+    if (cache) {
+      bin = base64arraybuffer.decode(cache);
+    }
+    try {
+      const rst = await Axios.get(data || "https://api.riven.im/data/weapons.data", { responseType: "arraybuffer" });
+      bin = rst.data;
+      localStorage.setItem("weapons.data", base64arraybuffer.encode(bin));
+    } catch {}
+    const msg = proto.Weapons.decode(new Uint8Array(bin));
     const decoded = proto.Weapons.toObject(msg);
-    // this.data = decoded.weapons;
     this.load(decoded.weapons as ProtoWeapon[]);
   }
   static load(weapons: ProtoWeapon[]) {

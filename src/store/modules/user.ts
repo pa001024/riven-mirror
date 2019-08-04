@@ -3,7 +3,6 @@ import { Module, GetterTree, ActionTree, MutationTree } from "vuex";
 import { User } from "@/service/user";
 import RootState from "../state";
 import shajs from "sha.js";
-import { Base64 } from "@/warframe/util";
 
 // user authentication with JWT
 interface UserState {
@@ -56,7 +55,7 @@ export default class UserModule implements Module<UserState, RootState> {
         const data = res.data as BasicResult;
         if (data && data.code === 200) {
           let jwt = res.headers["Authorization"];
-          let user = JSON.parse(Base64.decode(jwt));
+          let user = JSON.parse(atob(jwt));
           localStorage.setItem("login", jwt);
           ctx.commit(SET_USER_SESSION, user);
         }

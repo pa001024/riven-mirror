@@ -5,12 +5,10 @@ import {
   Codex,
   AbilityData,
   AbilityEnhance,
-  AbilityProp,
   AbilityFormData,
   AbilityType,
   AdvancedAbilityPropValue,
-  WarframeProperty,
-  AbilityPropTypes
+  WarframeProperty
 } from "./codex";
 import { i18n } from "@/i18n";
 import { NormalMod, NormalModDatabase } from "./codex/mod";
@@ -857,7 +855,7 @@ export class WarframeBuild {
     return this._umbraCount;
   }
   /** 重新计算极化次数 */
-  recalcPolarizations() {
+  recalcPolarizations(allowedUmbra = 0) {
     // 自带的极性
     let defaultPolarities = this.data.polarities.slice();
     [this._auraPol, this._exilusPol, this._polarizations] = [this.data.aura, this.data.exilus, Array(8).fill(null)];
@@ -879,6 +877,7 @@ export class WarframeBuild {
     });
     // 负面极性位
     let thetaMod = [];
+    let remainUmbra = allowedUmbra;
     // 强制使用自带槽位
     while (defaultPolarities.length > 0) {
       const pol = defaultPolarities.pop();
@@ -935,11 +934,17 @@ export class WarframeBuild {
           ++this._formaCount;
         }
       } else {
-        if (pol !== "w") {
+        if (remainUmbra || pol !== "w") {
           // console.log(`set pol [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to ${pol}`)
           if (this._polarizations[modIndex - 2] !== pol) {
             this._polarizations[modIndex - 2] = pol;
-            ++this._formaCount;
+
+            if (pol === "w") {
+              --remainUmbra;
+              ++this._umbraCount;
+            } else {
+              ++this._formaCount;
+            }
           }
         } else if (thetaMod.includes(modIndex - 2)) {
           // console.log(`set null [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to null`)
@@ -960,8 +965,9 @@ export class WarframeBuild {
           }
         }
       }
+      this.recalcPolarizations(this._umbraCount);
     }
-    // console.log(this.allMods, this.allPolarizations)
+    // console.log(this.allMods, this.auraPol, this.exilusPol, this.polarizations);
     return this.allPolarizations;
   }
 

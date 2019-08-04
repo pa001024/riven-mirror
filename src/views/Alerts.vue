@@ -345,9 +345,9 @@ export default class Alerts extends Vue {
   }
   beforeMount() {
     this.updateTime();
-    this.timerID = setInterval(this.updateTime, 1000);
+    this.timerID = setInterval(this.updateTime, 1000) as any;
     this.updateStat();
-    this.statID = setInterval(_ => this.updating || this.updateStat(), 6e4);
+    this.statID = setInterval(_ => this.updating || this.updateStat(), 6e4) as any;
   }
   beforeDestroy() {
     clearInterval(this.timerID);

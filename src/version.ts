@@ -1,6 +1,24 @@
 export const magic = "ALPHA";
-export const version = "1.6.5";
+export const version = "1.6.6";
 export const updateLogs = [
+  {
+    version: "1.6.6",
+    date: "2019/8/4",
+    md: {
+      en: `- Add: some buffs
+- Optimize: Improved MOD recognition in selector
+- Fix: Polarization function overuses ordinary Forma when using multiple Umbra Forma
+- Fix: Eidolon headshot setting in the Simulacrum is incorrect.
+- Fix: Partially arcane's stats are incorrect
+- Fix: Calculating the non-adaptive polarity cost is incorrect`,
+      cn: `- 新增: 部分战甲的buff
+- 优化: 提高了MOD选择器中的MOD辨识度
+- 修复: 极化功能在使用多个U-Forma的情况下普通Forma会多余极化的问题
+- 修复: 幻影装置中夜灵爆头倍率及爆头暴击倍率设置不正确的问题
+- 修复: 部分赋能数值不正确的问题
+- 修复: 对非适应极性的容量惩罚计算错误的问题`
+    }
+  },
   {
     version: "1.6.5",
     date: "2019/7/7",
@@ -34,7 +52,8 @@ export const updateLogs = [
       en: `- fix bugs`,
       cn: `- BUG修复 [问题反馈的统一回复](https://afdian.net/p/f182b110951211e9875352540025c377)`
     }
-  },
+  }
+  /*
   {
     version: "1.6.1",
     date: "2019/6/20",
@@ -59,7 +78,6 @@ export const updateLogs = [
 - 紫卡分析: 最佳紫卡计算准确度提高了一些`
     }
   }
-  /*
   {
     version: "1.5.7",
     date: "2019/5/23",

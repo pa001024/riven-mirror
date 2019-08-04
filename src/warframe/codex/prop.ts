@@ -286,7 +286,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "ld", nopercent: true }, // Extra Damage on Melee Attacks, or Lethal Damage on Finishers.
   { id: "ar", nopercent: true }, // + Range (nopercent)
   { id: "cd", dmg: true }, // Critical Chance and Damage when Aiming
-  { id: "ca" }, // Charge Rate
+  { id: "ca" }, // 苏丽速度 Charge Rate
   { id: "ck" }, // Chance to Resist Staggers/Knockdowns when Aiming
   { id: "sds" }, // Status Duration on Self
   { id: "but" }, // Shots now bounce up to 1x and travel 5% further.

@@ -2194,7 +2194,8 @@ let po = {
     sporeImpact: "孢子撞擊",
     tap: "短按",
     unchargedExplosion: "非蓄力爆炸",
-    unchargedProjectile: "非蓄力投射物"
+    unchargedProjectile: "非蓄力投射物",
+    "35XZoomMode": "3.5x變焦"
   },
   alerting: {
     sortie: "突擊",
@@ -3194,7 +3195,8 @@ let po = {
       maxDuration: "持續最大化",
       maxEfficiency: "效率最大化",
       maxRange: "範圍最大化",
-      maxHealth: "生存最大化"
+      maxHealth: "生存最大化",
+      umbralSet: "三暗影"
     },
     weaponWarn: "提示",
     weaponWarnTip: "你選擇的紫卡並不適用於該武器(你可能選擇了錯誤的武器)，是否繼續操作？",
@@ -3446,6 +3448,10 @@ let po = {
     chromaticBlade5: "華彩刀劍 (冰)",
     chromaticBlade6: "華彩刀劍 (毒)",
     chromaticBlade7: "華彩刀劍 (電)",
+    elementalWard4: "元素之護 (火)",
+    elementalWard5: "元素之護 (冰)",
+    elementalWard6: "元素之護 (毒)",
+    elementalWard7: "元素之護 (電)",
     mutalistQuanta: "異融量子槍球體",
     conditionOverlord: "異況超量",
     stealth: "偷襲 (武器等級)",
@@ -3453,6 +3459,7 @@ let po = {
     vigorousSwap: "強力切換 (MOD)",
     baseDamage: "基礎傷害 (通用)",
     critChance: "暴擊機率 (通用)",
+    multishot: "多重射擊 (通用)",
     combo: "連擊加成 (狙擊)",
     finalDamage: "最終傷害 (通用)",
     gladiator: "角鬥士組合效果",

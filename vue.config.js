@@ -27,8 +27,8 @@ module.exports = {
     config.module
       .rule("proto")
       .test(/\.proto$/)
-      .use("protobufjs-loader")
-      .loader("protobufjs-loader")
+      .use("protobufjs-loader-webpack4")
+      .loader("protobufjs-loader-webpack4")
       .options({
         /* controls the "target" flag to pbjs - true for
          * json-module, false for static-module.
