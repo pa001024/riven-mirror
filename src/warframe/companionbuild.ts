@@ -13,9 +13,6 @@ export enum CompanionCompareMode {
   Health, // 血量
   Armor, // 护甲
   Shield, // 护盾
-  Strength, // 强度
-  Duration, // 持续
-  Range // 范围
 }
 export interface CompanionBuildOptions {
   compareMode?: CompanionCompareMode;

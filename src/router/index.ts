@@ -40,6 +40,9 @@ export function createRouter() {
       { path: "/warframe", name: "WarframeSelector", component: () => import(/* webpackChunkName: "main" */ "@/components/WarframeSelector.vue") },
       { path: "/warframe/:id", name: "WarframeEditor", component: () => import(/* webpackChunkName: "main" */ "@/views/build/WarframeBuildEditor.vue") },
       { path: "/warframe/:id/:code", name: "WarframeEditorWithCode", component: () => import(/* webpackChunkName: "main" */ "@/views/build/WarframeBuildEditor.vue") },
+      { path: "/companion", name: "CompanionSelector", component: () => import(/* webpackChunkName: "main" */ "@/components/WarframeSelector.vue") },
+      { path: "/companion/:id", name: "CompanionEditor", component: () => import(/* webpackChunkName: "main" */ "@/views/build/CompanionBuildEditor.vue") },
+      { path: "/companion/:id/:code", name: "CompanionEditorWithCode", component: () => import(/* webpackChunkName: "main" */ "@/views/build/CompanionBuildEditor.vue") },
       { path: "/setting", name: "Setting", component: () => import(/* webpackChunkName: "main" */ "@/views/Setting.vue") },
       { path: "/sim", name: "Simulator", component: () => import(/* webpackChunkName: "main" */ "@/views/Simulator.vue") },
       { path: "/weapon", name: "WeaponSelector", component: () => import(/* webpackChunkName: "main" */ "@/components/WeaponSelector.vue") },
@@ -96,11 +99,16 @@ export function createRouter() {
       case "WarframeSelector":
         document.title = i18n.t("title.sub", [i18n.t("navigate.warframe")]);
         break;
+      case "CompanionSelector":
+        document.title = i18n.t("title.sub", [i18n.t("navigate.companion")]);
+        break;
       case "WeaponSelector":
         document.title = i18n.t("title.sub", [i18n.t("navigate.weapon")]);
         break;
       case "WarframeEditor":
       case "WarframeEditorWithCode":
+      case "CompanionEditor":
+      case "CompanionEditorWithCode":
       case "Info":
       case "BuildEditor":
       case "BuildEditorWithCode":

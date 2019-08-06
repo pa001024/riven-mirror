@@ -602,6 +602,7 @@ export class WarframeBuild {
     let nb = new (this.constructor as any)(this.data);
     nb._mods = this.mods;
     nb._buffs = this.buffs;
+    nb.compareMode = this.compareMode;
     nb._mods.splice(index, 1);
     let oldVal = this.compareValue;
     nb.calcMods();

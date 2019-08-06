@@ -7,10 +7,12 @@
           <el-card class="weapon-box">
             <div slot="header" class="weapon-name">
               <span class="title">{{weapon.displayName}}</span>
-              [
-              <span class="forma"> {{$t("build.formaCount", [build.formaCount])}} </span>
-              <span class="umbra" v-if="build.umbraCount"> + {{build.umbraCount}}U </span>
-              ]
+              <template v-if="build.formaCount">
+                [
+                <span class="forma"> {{$t("build.formaCount", [build.formaCount])}} </span>
+                <span class="umbra" v-if="build.umbraCount"> + {{build.umbraCount}}U </span>
+                ]
+              </template>
               <ShareQR :url="'https://riven.im'+$route.path"/>
             </div>
             <div class="weapon-capacity"></div>
@@ -51,10 +53,10 @@
                   <el-col :span="7" class="diff diff-ori">
                     {{weapon.disposition}}
                   </el-col>
-                    <el-col :span="2" class="diff-arrow">&nbsp;</el-col>
-                    <el-col :span="7" class="diff diff-val">
-                      {{weapon.starText}}
-                    </el-col>
+                  <el-col :span="2" class="diff-arrow">&nbsp;</el-col>
+                  <el-col :span="7" class="diff diff-val">
+                    {{weapon.starText}}
+                  </el-col>
                 </el-row>
               </div>
               <PropDiff :name="$t('build.status')" :ori="mode.procChance" :val="build.procChancePerHit" percent data-v-step="1"></PropDiff>

@@ -2,6 +2,16 @@ export const magic = "ALPHA";
 export const version = "1.6.6";
 export const updateLogs = [
   {
+    version: "1.6.7",
+    date: "2019/8/6",
+    md: {
+      en: `- Add: xxx`,
+      cn: `- 新增: 同伴配卡
+- 新增: 新MOD系列: 跃动 质子 空飞
+- 修复: 战甲配装中选择不同模式收益不会正确显示的问题`
+    }
+  },
+  {
     version: "1.6.6",
     date: "2019/8/4",
     md: {
@@ -44,7 +54,8 @@ export const updateLogs = [
       en: `- PREVIEW: Wukong Prime/Zhuge Prime/Ninkondi Prime`,
       cn: `- 预览: Wukong Prime/诸葛连弩 Prime/降灵追猎者 Prime`
     }
-  },
+  }
+  /*
   {
     version: "1.6.3",
     date: "2019/6/23",
@@ -52,8 +63,7 @@ export const updateLogs = [
       en: `- fix bugs`,
       cn: `- BUG修复 [问题反馈的统一回复](https://afdian.net/p/f182b110951211e9875352540025c377)`
     }
-  }
-  /*
+  },
   {
     version: "1.6.1",
     date: "2019/6/20",
@@ -77,7 +87,7 @@ export const updateLogs = [
 - 武器配装改版: 同一个武器的不同模式现在可以更方便的切换了
 - 紫卡分析: 最佳紫卡计算准确度提高了一些`
     }
-  }
+  },
   {
     version: "1.5.7",
     date: "2019/5/23",
@@ -95,7 +105,7 @@ export const updateLogs = [
       cn: `- 空战武器紫卡
 - 添加是否使用致命效率开关 (默认禁用)`
     }
-  }
+  },
   {
     version: "1.5.4",
     date: "2019/4/11",
@@ -103,7 +113,7 @@ export const updateLogs = [
       en: `- Zaw builder: Plague damage data reworks`,
       cn: `- Zaw 模拟: 瘟疫伤害数据重置 [查看详细](https://warframe.huijiwiki.com/p/29884)`
     }
-  }
+  },
   {
     version: "1.5.3",
     date: "2019/4/11",
@@ -117,7 +127,7 @@ export const updateLogs = [
 - 配装: 添加一个爆发伤害计算的采样大小选项
 - 配装: 添加配装页自动保存功能`
     }
-  }
+  },
   {
     version: "1.5.2",
     date: "2019/4/9",

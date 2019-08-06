@@ -3219,6 +3219,7 @@ let po = {
     riven: "紫卡分析",
     weapon: "武器配装",
     warframe: "战术模拟",
+    companion: "同伴配装",
     simulator: "洗卡模拟",
     huangli: "WF黄历",
     about: "关于",
