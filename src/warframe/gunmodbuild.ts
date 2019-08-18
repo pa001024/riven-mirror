@@ -293,7 +293,7 @@ export class GunModBuild extends ModBuild {
     const f = this.mode.fireRate / 60;
     const m = ~~(magazine / this.ammoCost);
     if (this.mode.type === "charge") return 1 / (1 / f + r / m);
-    return (m * f) / (m - 1 + r * f);
+    return (m * f) / (m - 1 + Math.max(1, r * f));
   }
 
   /** 有效弹匣容量 */
@@ -307,7 +307,7 @@ export class GunModBuild extends ModBuild {
   get sustainedFireRate() {
     const { fireRate: f, reloadTime: r, effectiveMagazineSize: m } = this;
     if (this.mode.type === "charge") return 1 / (1 / f + r / m);
-    return (m * f) / (m - 1 + r * f);
+    return (m * f) / (m - 1 + Math.max(1, r * f));
   }
   /** 持续伤害增幅倍率  */
   get sustainedDamageMul() {

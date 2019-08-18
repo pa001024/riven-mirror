@@ -1263,7 +1263,9 @@ let po = {
     tactics: "TACTICS",
     tank: "TANK",
     support: "SUPPORT",
-    control: "CONTROL"
+    control: "CONTROL",
+    companion: "COMPANION",
+    archwing: "ARCHWING"
   },
   modselector: {
     rivenMod: "RIVEN MOD",
@@ -1296,7 +1298,9 @@ let po = {
       maxEfficiency: "MAX Efficiency",
       maxRange: "MAX Range",
       maxHealth: "MAX Health",
-      umbralSet: "Umbral Set"
+      umbralSet: "Umbral Set",
+      skill: "Ability",
+      survive: "Survive"
     },
     weaponWarn: "WARNING",
     weaponWarnTip: "Chosen riven is not available for this weapon (you may choose wrong weapon), confirm operation?",
@@ -1668,6 +1672,7 @@ let po = {
       effect: "Effect",
       durability: "Durability",
       rate: "Rate",
+      times: "Times",
       directive: "Directive",
       weaponName: "Weapon name",
       health: "Health",
@@ -1853,7 +1858,8 @@ let po = {
     tactics: "Tactics",
     tank: "Tank",
     support: "Support",
-    control: "Control"
+    control: "Control",
+    archwing: "Archwing"
   },
   info: {
     nav: "NAV",

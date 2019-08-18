@@ -1005,7 +1005,7 @@ export let _abilityData: AbilityData[] = [
     tags: 18,
     energyCost: 50,
     props: {
-      DamageReduce: { rate: 100, durability: S(6) },
+      DamageReduce: { times: S(6) },
       Control: { duration: D(5) }
     }
   },
@@ -1271,7 +1271,7 @@ export let _abilityData: AbilityData[] = [
     tags: 32,
     energyCost: 25,
     props: {
-      Summon: { health: { value: 2, bind: [["h", 0]] } }
+      Summon: { health: { value: 2, bind: [["h", 0], ["t", 0]] } }
     }
   },
   {
@@ -1464,6 +1464,108 @@ export let _abilityData: AbilityData[] = [
     energyCost: 25,
     energyCostPS: 12,
     props: { Damage: { damage: [["Heat", S(500)], ["Radiation", S(1000)]], range: R(40) } }
+  },
+  // Archwing
+  {
+    id: "Watchful Swarm",
+    tags: 2,
+    energyCost: 25,
+    props: { DamageReduce: { times: S(15) } }
+  },
+  {
+    id: "Benevolent Decoy",
+    tags: 2,
+    energyCost: 50,
+    props: { Buff: { range: R(80), duration: D(25) } }
+  },
+  {
+    id: "Warding Grace",
+    tags: 18,
+    energyCost: 25,
+    energyCostPS: 10,
+    props: { Debuff: { effect: [["J", { value: -50, bind: [["t", 0]] }], ["fl", { value: -50, bind: [["t", 0]] }]], range: R(400) } }
+  },
+  {
+    id: "Vengeful Rush",
+    tags: 2,
+    energyCost: 100,
+    props: { Buff: { range: R(400), effect: [["t", 10], ["u", 10], ["g", 10]], duration: D(30) } }
+  },
+  {
+    id: "Bloomer",
+    tags: 1,
+    energyCost: 25,
+    props: { Damage: { damage: [["Blast", S(1000)]], range: R(240) } }
+  },
+  {
+    id: "Core Vent",
+    tags: 2,
+    energyCost: 50,
+    props: { Buff: { duration: D(9) }, DamageReduce: { target: 3 } }
+  },
+  {
+    id: "Thumper",
+    tags: 1,
+    energyCost: 75,
+    props: { Damage: { damage: [["Blast", S(500)]], duration: D(45), range: R(80) } }
+  },
+  {
+    id: "Warhead",
+    tags: 1,
+    energyCost: 100,
+    props: { Damage: { damage: [["Blast", S(1750)]], range: R(240), prjSpeed: 50 } }
+  },
+  {
+    id: "Blink",
+    tags: 4,
+    energyCost: 25,
+    props: { Move: { directive: "0", distance: R(400) } },
+    oneHand: true
+  },
+  {
+    id: "Penumbra",
+    tags: 2,
+    energyCost: 15,
+    energyCostPS: 5,
+    props: { Buff: { effect: [["ivb", 1]] } },
+    oneHand: true
+  },
+  {
+    id: "Cosmic Crush",
+    tags: 1,
+    energyCost: 75,
+    props: { Damage: { damage: [["Blast", S(1500)]], range: R(140) } }
+  },
+  {
+    id: "Fighter Escort",
+    tags: 33,
+    energyCost: 100,
+    props: { Damage: { damage: [["Blast", S(2500)]], amount: 8, duration: 30, range: R(80) } }
+  },
+  {
+    id: "Energy Shell",
+    tags: 2,
+    energyCost: 25,
+    props: { Buff: { effect: [["4", 50], ["fcd", 200]], duration: D(22) } }
+  },
+  {
+    id: "Disarray",
+    tags: 0,
+    energyCost: 50,
+    props: { Buff: { duration: D(8), range: R(180) } }
+  },
+  {
+    id: "Seeking Fire",
+    tags: 1,
+    energyCost: 75,
+    props: { Damage: { damage: [["Blast", 300]], amount: S(16), distance: 600, rangeDamage: [["Blast", 40]] } }
+  },
+  {
+    id: "Repel",
+    tags: 1,
+    energyCost: 100,
+    props: { Damage: { damage: [["Impact", S(1500)]], range: R(140) }, Control: { duration: D(11) } },
+    oneHand: true
   }
 ];
 

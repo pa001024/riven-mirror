@@ -1974,7 +1974,23 @@ let po = {
     reservoirs: "储能池",
     wilOWisp: "幻影鬼火",
     breachSurge: "裂口涌流",
-    solGate: "太阳之门"
+    solGate: "太阳之门",
+    watchfulSwarm: "警惕机群",
+    benevolentDecoy: "仁慈诱饵",
+    wardingGrace: "守护恩典",
+    vengefulRush: "复仇冲动",
+    bloomer: "高爆弹",
+    coreVent: "核心通气",
+    thumper: "轰击",
+    warhead: "毁灭弹头",
+    blink: "闪瞬",
+    penumbra: "半影屏蔽",
+    cosmicCrush: "星体震荡",
+    fighterEscort: "护卫战机",
+    energyShell: "能量护罩",
+    disarray: "热诱弹",
+    seekingFire: "导弹",
+    repel: "脉冲震波"
   },
   messagesExtend: {
     blueprint: "蓝图",
@@ -3161,7 +3177,9 @@ let po = {
     tactics: "战术",
     tank: "坦克",
     support: "辅助",
-    control: "控制"
+    control: "控制",
+    companion: "同伴",
+    archwing: "ARCHWING"
   },
   modselector: {
     rivenMod: "裂罅MOD",
@@ -3196,7 +3214,9 @@ let po = {
       maxEfficiency: "效率最大化",
       maxRange: "范围最大化",
       maxHealth: "生存最大化",
-      umbralSet: "三暗影"
+      umbralSet: "三暗影",
+      skill: "技能",
+      survive: "生存"
     },
     weaponWarn: "提示",
     weaponWarnTip: "你选择的紫卡并不适用于该武器(你可能选择了错误的武器)，是否继续操作？",
@@ -3568,6 +3588,7 @@ let po = {
       effect: "作用",
       durability: "血量",
       rate: "百分比",
+      times: "次数",
       directive: "指向性",
       weaponName: "显赫武器名称",
       health: "生命值",
@@ -3759,7 +3780,8 @@ let po = {
     tactics: "战术",
     tank: "坦克",
     support: "辅助",
-    control: "控制"
+    control: "控制",
+    archwing: "ARCHWING"
   },
   alias: {
     // 敌人

@@ -88,14 +88,6 @@ export class WarframeBuild {
   get allMods() {
     return [this._aura, this._exilus, ...this._mods];
   }
-  /** 赋能列表 */
-  get arcanes() {
-    return _.cloneDeep(this._arcanes);
-  }
-  set arcanes(value) {
-    this._arcanes = _.cloneDeep(value);
-    this.calcMods();
-  }
   /** 加成列表 */
   get buffs() {
     return _.cloneDeep(this._buffs);
@@ -119,7 +111,8 @@ export class WarframeBuild {
   }
   /** 属性标记 */
   get tags() {
-    return this.data.tags.concat(["Warframe", this.baseId]);
+    if (this.data.tags.includes("Archwing")) return this.data.tags.concat([this.baseId]);
+    else return this.data.tags.concat(["Warframe", this.baseId]);
   }
 
   protected _healthMul: number;
@@ -316,7 +309,13 @@ export class WarframeBuild {
     if (typeof data === "string") data = WarframeDataBase.getWarframeById(data);
     if (!data) return;
     if ((this.data = data)) {
-      this.avaliableMods = NormalModDatabase.filter(v => this.data.tags.concat(["Warframe", "Exilus", this.baseId, this.baseId + ",Exilus"]).includes(v.type));
+      if (data.tags.includes("Archwing")) {
+        this.avaliableMods = NormalModDatabase.filter(v => this.data.tags.concat(["Archwing", this.baseId]).includes(v.type));
+      } else {
+        this.avaliableMods = NormalModDatabase.filter(v =>
+          this.data.tags.concat(["Warframe", "Exilus", this.baseId, this.baseId + ",Exilus"]).includes(v.type)
+        );
+      }
     }
     if (options) {
       this.options = options;
@@ -328,14 +327,12 @@ export class WarframeBuild {
     this.compareMode = typeof options.compareMode !== "undefined" ? options.compareMode : this.compareMode;
     this.energyBall = typeof options.energyBall !== "undefined" ? options.energyBall : this.energyBall;
     this.healthBall = typeof options.healthBall !== "undefined" ? options.healthBall : this.healthBall;
-    this.arcanes = typeof options.arcanes !== "undefined" ? options.arcanes : this.arcanes;
   }
   get options(): WarframeBuildOptions {
     return {
       compareMode: this.compareMode,
       energyBall: this.energyBall,
       healthBall: this.healthBall,
-      arcanes: this.arcanes
     };
   }
 
@@ -1091,7 +1088,9 @@ export class RenderedAbilities {
       return o;
     };
     return _.map(this.data.props, (v, type) => {
-      let rst = _.mapValues(v, val => trans(val)) as typeof v;
+      let rst = _.mapValues(v, (val, name) => {
+        return ["times", "amount"].includes(name) ? Math.round(trans(val)) : trans(val);
+      }) as typeof v;
       switch (type) {
         case "Damage":
         case "Buff":

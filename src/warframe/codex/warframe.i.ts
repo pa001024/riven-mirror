@@ -10,7 +10,7 @@ export interface WarframeData {
   armor: number;
   energy: number;
   sprint: number;
-  introduced: string;
+  introduced?: string;
   masteryReq?: number;
   polarities: string[];
   lvlUps?: [string, number][];
@@ -24,6 +24,7 @@ export interface WarframeData {
   releaseDate?: string;
   vaultDate?: string;
   estimatedVaultDate?: string;
+  type?: string;
 }
 
 /** 战甲属性条目 */
@@ -178,7 +179,9 @@ export namespace AbilityPropTypes {
     /** 血量 不填表示没有血量限制 */
     durability?: AbilityPropValue
     /** 百分比 */
-    rate: AbilityPropValue
+    rate?: AbilityPropValue
+    /** 次数 */
+    times?: AbilityPropValue
     /** 减伤对象 不填表示所有 */
     target?: Target
   }

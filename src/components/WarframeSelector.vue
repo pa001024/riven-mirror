@@ -39,6 +39,8 @@ const AllTabs = {
   Tank: "tank", // 坦克
   Support: "support", // 辅助
   Control: "control", // 控制
+  Archwing: "archwing", // ARCHWING
+  Companion: "companion", // 同伴
 };
 
 @Component({ components: {} })

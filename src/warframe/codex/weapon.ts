@@ -2,7 +2,8 @@ import { i18n } from "@/i18n";
 import { ProtoWeapon, Zoom, WeaponMode } from "./weapon.i";
 import Axios from "axios";
 import _, { Omit } from "lodash";
-import data from "@/data/weapons.data";
+// build from riven-mirror-data
+import data from "../../../data/dist/weapons.data";
 import proto from "@/proto/weapon.proto";
 import { strSimilarity } from "../util";
 import { RivenDatabase } from "./riven";
@@ -17,7 +18,7 @@ export enum MainTag {
   Zaw,
   "Arch-Gun",
   "Arch-Melee",
-  Amp
+  Amp,
 }
 
 export class WeaponTag {
@@ -119,7 +120,7 @@ export class Weapon {
         this.modes = modes.map(({ damage, ...mode }) => {
           const newMode = {
             damage: _.map(damage, (vv, vn) => [vn, fixBuf(vv)] as [string, number]),
-            ...mode
+            ...mode,
           } as CoreWeaponMode;
           if (mode.name || mode.type) {
             const locKey = `weaponmode.${_.camelCase(mode.name || mode.type || "default")}`;
@@ -445,7 +446,7 @@ const extraDispositionTable = [
   ["Plague Keewar", "Zaw", 1],
   ["Plague Kripath", "Zaw", 1],
   // Amp
-  ["Amp", "Amp", 0]
+  ["Amp", "Amp", 0],
 ] as [string, string, number][];
 
 /** split variants format to normal format */
@@ -568,4 +569,4 @@ export class WeaponDatabase {
   }
 }
 
-(window as any).WeaponDatabase = WeaponDatabase;
+window["WeaponDatabase"] = WeaponDatabase;

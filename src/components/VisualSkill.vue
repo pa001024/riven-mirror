@@ -81,7 +81,8 @@
       <el-checkbox border size="large" class="prop-header" v-model="hasDamageReduce" :label="$t('ability.effects.damageReduce')"/>
       <el-form v-if="hasDamageReduce" class="prop damageReduce" label-width="80px" size="small">
         <NumberItem :bind="damageReduce" keyName="durability"/>
-        <NumberItem :bind="damageReduce" keyName="rate" required/>
+        <NumberItem :bind="damageReduce" keyName="rate"/>
+        <NumberItem :bind="damageReduce" keyName="times"/>
         <TargetItem :bind="damageReduce" keyName="target"/>
       </el-form>
       <!-- control -->

@@ -1974,7 +1974,23 @@ let po = {
     reservoirs: "儲能池",
     wilOWisp: "幻影鬼火",
     breachSurge: "裂口湧流",
-    solGate: "太陽之門"
+    solGate: "太陽之門",
+    watchfulSwarm: "警惕機群",
+    benevolentDecoy: "仁慈誘餌",
+    wardingGrace: "守護恩典",
+    vengefulRush: "復仇衝動",
+    bloomer: "高爆彈",
+    coreVent: "核心通氣",
+    thumper: "轟擊",
+    warhead: "毀滅彈頭",
+    blink: "閃瞬",
+    penumbra: "半影遮蔽",
+    cosmicCrush: "星體震盪",
+    fighterEscort: "護衛戰機",
+    energyShell: "能量護罩",
+    disarray: "熱誘彈",
+    seekingFire: "導彈",
+    repel: "脈衝震波"
   },
   messagesExtend: {
     blueprint: "藍圖",
@@ -3161,7 +3177,9 @@ let po = {
     tactics: "戰術",
     tank: "坦克",
     support: "輔助",
-    control: "控制"
+    control: "控制",
+    companion: "同伴",
+    archwing: "ARCHWING"
   },
   modselector: {
     rivenMod: "裂罅MOD",
@@ -3196,7 +3214,9 @@ let po = {
       maxEfficiency: "效率最大化",
       maxRange: "範圍最大化",
       maxHealth: "生存最大化",
-      umbralSet: "三暗影"
+      umbralSet: "三暗影",
+      skill: "技能",
+      survive: "生存"
     },
     weaponWarn: "提示",
     weaponWarnTip: "你選擇的紫卡並不適用於該武器(你可能選擇了錯誤的武器)，是否繼續操作？",
@@ -3567,6 +3587,7 @@ let po = {
       effect: "作用",
       durability: "血量",
       rate: "百分比",
+      times: "次數",
       directive: "指向性",
       weaponName: "顯赫武器名稱",
       health: "生命值",
@@ -3758,7 +3779,8 @@ let po = {
     tactics: "戰術",
     tank: "坦克",
     support: "輔助",
-    control: "控制"
+    control: "控制",
+    archwing: "ARCHWING"
   },
   alias: {
     // 敵人

@@ -791,10 +791,10 @@
     error-stack-parser "^2.0.0"
     string-width "^2.0.0"
 
-"@types/animejs@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.npm.taobao.org/@types/animejs/download/@types/animejs-2.0.2.tgz#80ec902fb0dc90778fbcdaf080c03c44ddda979f"
-  integrity sha1-gOyQL7DckHePvNrwgMA8RN3al58=
+"@types/animejs@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.npm.taobao.org/@types/animejs/download/@types/animejs-3.1.0.tgz#9fa31e5fcf3a0304aa097a2a357e03630d820ab1"
+  integrity sha1-n6MeX886AwSqCXoqNX4DYw2CCrE=
 
 "@types/events@*":
   version "3.0.0"

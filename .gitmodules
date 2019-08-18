@@ -1,0 +1,4 @@
+[submodule "data"]
+	path = data
+	url = https://github.com/pa001024/riven-mirror-data.git
+  branch = master

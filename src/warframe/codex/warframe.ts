@@ -145,6 +145,9 @@ export class WarframeDataBase {
   static get Control() {
     return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.Control)).map(v => new Warframe(v));
   }
+  static get Archwing() {
+    return this.instance._warframes.filter(v => !v.className && v.tags && v.tags.includes(WarframeFunction.Archwing)).map(v => new Warframe(v));
+  }
 
   static get Abilities() {
     return _abilityData;

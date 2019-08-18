@@ -1113,6 +1113,66 @@ export const _warframeData: WarframeData[] = [
     releaseDate: "2018 03 20",
     vaultDate: "n/a",
     estimatedVaultDate: "2020 01 28"
+  },
+  // Archwing
+  {
+    id: "Amesha",
+    tags: ["Archwing"],
+    // description: "Transform into a winged guardian.",
+    health: 400,
+    shield: 200,
+    armor: 200,
+    energy: 200,
+    sprint: 1.1,
+    polarities: ["r", "d", "-"],
+    abilities: ["Watchful Swarm", "Benevolent Decoy", "Warding Grace", "Vengeful Rush"]
+  },
+  {
+    id: "Elytron",
+    tags: ["Archwing"],
+    // description: "This heavy duty Archwing was designed for one purpose, destruction.",
+    health: 450,
+    shield: 450,
+    armor: 150,
+    energy: 125,
+    sprint: 0.9,
+    polarities: ["r", "r"],
+    abilities: ["Bloomer", "Core Vent", "Thumper", "Warhead"]
+  },
+  {
+    id: "Itzal",
+    tags: ["Archwing"],
+    // description: "Designed for quick clandestine attacks, the Itzal Archwing excels at striking from the darkness of space.",
+    health: 200,
+    shield: 200,
+    armor: 50,
+    energy: 200,
+    sprint: 1.2,
+    polarities: ["r", "d", "-"],
+    abilities: ["Blink", "Penumbra", "Cosmic Crush", "Fighter Escort"]
+  },
+  {
+    id: "Odonata",
+    tags: ["Archwing"],
+    // description: "The systems built into this Archwing balance offensive capabilities with defensive countermeasures.",
+    health: 300,
+    shield: 300,
+    armor: 100,
+    energy: 100,
+    sprint: 1,
+    polarities: ["r", "d", "-"],
+    abilities: ["Energy Shell", "Disarray", "Seeking Fire", "Repel"]
+  },
+  {
+    id: "Odonata Prime",
+    className: "Odonata",
+    // description: "This enhanced version of the first Archwing prototype takes the design to its theoretical limits.",
+    health: 400,
+    shield: 400,
+    armor: 100,
+    energy: 100,
+    sprint: 1.05,
+    polarities: ["r", "d", "-", "-"]
   }
 ];
 
@@ -1122,7 +1182,8 @@ export enum WarframeFunction {
   Tactics = "Tactics", // 战术
   Tank = "Tank", // 坦克
   Support = "Support", // 辅助
-  Control = "Control" // 控制
+  Control = "Control", // 控制
+  Archwing = "Archwing" // Archwing
 }
 
 export { _abilityData, registerAbilityData } from "./ability.data";

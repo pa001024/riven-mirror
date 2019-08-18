@@ -1,12 +1,12 @@
 export const magic = "ALPHA";
-export const version = "1.6.6";
+export const version = "1.6.7";
 export const updateLogs = [
   {
     version: "1.6.7",
     date: "2019/8/6",
     md: {
       en: `- Add: xxx`,
-      cn: `- 新增: 同伴配卡
+      cn: `- [新]战术模拟: 同伴配卡
 - 新增: 新MOD系列: 跃动 质子 空飞
 - 修复: 战甲配装中选择不同模式收益不会正确显示的问题`
     }
@@ -47,6 +47,7 @@ export const updateLogs = [
 - 新增设置: 平台切换`
     }
   },
+  /*
   {
     version: "1.6.3",
     date: "2019/6/29",
@@ -55,7 +56,6 @@ export const updateLogs = [
       cn: `- 预览: Wukong Prime/诸葛连弩 Prime/降灵追猎者 Prime`
     }
   }
-  /*
   {
     version: "1.6.3",
     date: "2019/6/23",

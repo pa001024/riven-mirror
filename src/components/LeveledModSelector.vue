@@ -5,9 +5,10 @@
       <span slot="label" class="mod-tablabel">{{$t("modselector.fastSelect")}}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in fast" :key="index">
-          <div class="mod-item el-dropdown" @click="handleClick(mod.id)">
-            {{$t(`modselector.fast.${mod.name}`)}}
-          </div>
+          <div
+            class="mod-item el-dropdown"
+            @click="handleClick(mod.id)"
+          >{{$t(`modselector.fast.${mod.name}`)}}</div>
         </div>
       </div>
     </el-tab-pane>
@@ -16,9 +17,7 @@
       <span slot="label" class="mod-tablabel">{{tab.name}}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in tab.mods" :key="index">
-          <div class="mod-item el-dropdown" @click="handleClick(mod.id)">
-            {{mod.name}}
-          </div>
+          <div class="mod-item el-dropdown" @click="handleClick(mod.id)">{{mod.name}}</div>
         </div>
       </div>
     </el-tab-pane>
@@ -48,26 +47,37 @@ export default class LeveledModSelector extends Vue {
   editorRivenCode = "";
 
   /** MOD快速选择 */
-  fastSelect = {
-    maxStrength: [
-      "Transient Fortitude",
-      "Blind Rage",
-      "Umbral Intensify",
-      "Augur Secrets",
-      "Energy Conversion",
-      "Power Drift",
-      "Umbral Vitality@5",
-      "Umbral Fiber@5"
-    ],
-    maxDuration: ["Primed Continuity", "Narrow Minded", "Augur Message", "Constitution"],
-    maxEfficiency: ["Streamline", "Fleeting Expertise"],
-    maxRange: ["Stretch", "Overextended", "Augur Reach", "Cunning Drift"],
-    umbralSet: ["Umbral Vitality", "Umbral Intensify", "Umbral Fiber"]
-  };
+  get fastSelect() {
+    if (this.build.tags.includes("Archwing")) {
+      return {
+        skill: ["Primed Morphic Transformer", "Efficient Transferral", "System Reroute", "Energy Amplifier", "Auxiliary Power"],
+        survive: ["Enhanced Durability", "Energy Inversion", "Argon Plating", "Hyperion Thrusters", "Superior Defenses"]
+      };
+    }
+    return {
+      maxStrength: [
+        "Transient Fortitude",
+        "Blind Rage",
+        "Umbral Intensify",
+        "Augur Secrets",
+        "Energy Conversion",
+        "Power Drift",
+        "Umbral Vitality@5",
+        "Umbral Fiber@5"
+      ],
+      maxDuration: ["Primed Continuity", "Narrow Minded", "Augur Message", "Constitution"],
+      maxEfficiency: ["Streamline", "Fleeting Expertise"],
+      maxRange: ["Stretch", "Overextended", "Augur Reach", "Cunning Drift"],
+      umbralSet: ["Umbral Vitality", "Umbral Intensify", "Umbral Fiber"]
+    };
+  }
   get fast() {
     return _.map(this.fastSelect, (v, i) => ({ name: i, id: v } as any));
   }
   get allowedTypes() {
+    if (this.build.tags.includes("Archwing")) {
+      return ["Archwing", this.build.baseId];
+    }
     return this.type === "Warframe"
       ? ["Warframe", `${this.build.baseId}`, "Exilus", `${this.build.baseId},Exilus`]
       : [this.type, `${this.build.baseId},${this.type}`];
