@@ -13,7 +13,7 @@
         </div>
         <div class="item enemy-level">
           <div class="key">{{$t("enemy.level")}}</div>
-          <div class="value control"><el-input size="small" class="enemy-level-edit" v-model="enemyLevel"></el-input></div>
+          <div class="value control"><el-input size="small" class="enemy-level-edit" v-model="fakeEnemyLevel" @input="$emit('update:enemyLevel', $event)"></el-input></div>
         </div>
         <div class="item enemy-health">
           <div class="key">{{$t(`enemy.fleshType.${enemy.fleshType}`)}}</div>
@@ -33,12 +33,16 @@
         </div>
         <div class="item enemy-amrorreduce">
           <div class="key">{{$t("enemy.amrorReduce")}}</div>
-          <div class="value control"><el-input size="small" class="enemy-amrorreduce-edit" v-model="amrorReduce"></el-input></div>
+          <div class="value control"><el-input size="small" class="enemy-amrorreduce-edit" v-model="fakeAmrorReduce" @input="$emit('update:amrorReduce', $event)"></el-input></div>
         </div>
+        <!-- <div class="item enemy-shieldreduce">
+          <div class="key">{{$t("enemy.shieldReduce")}}</div>
+          <div class="value control"><el-input size="small" class="enemy-shieldreduce-edit" v-model="shieldReduce"></el-input></div>
+        </div> -->
         <div class="item enemy-action">
           <div class="key">{{$t("enemy.action")}}</div>
           <div class="value control">
-            <el-checkbox v-model="perBullet">{{$t('enemy.perBullet')}}</el-checkbox>
+            <el-checkbox :value="perBullet" @change="$emit('update:perBullet', $event)">{{$t('enemy.perBullet')}}</el-checkbox>
           </div>
           <div class="value control"><el-button size="small" @click="selectEnemy(null)">{{$t("enemy.reselect")}}</el-button></div>
         </div>
@@ -59,12 +63,22 @@ import { Enemy } from "@/warframe/codex";
 import { ModBuild } from "@/warframe/modbuild";
 
 @Component({
-  components: { EnemySelector, EnemyTimeline, }
+  components: { EnemySelector, EnemyTimeline },
 })
 export default class Simulacrum extends Vue {
-  @Prop() enemy: Enemy;
-  @Prop() build: ModBuild;
-  @Prop() selectEnemy: any;
-}
+  @Prop({ required: true }) build: ModBuild;
+  @Prop({ required: true }) selectEnemy: Function;
+  @Prop({ required: true }) enemy: Enemy;
+  /** need .sync */
+  @Prop() enemyLevel: number;
+  /** need .sync */
+  @Prop() amrorReduce: number;
+  /** need .sync */
+  @Prop() shieldReduce: number;
+  /** need .sync */
+  @Prop() perBullet: boolean;
 
+  fakeAmrorReduce = this.amrorReduce;
+  fakeEnemyLevel = this.enemyLevel;
+}
 </script>

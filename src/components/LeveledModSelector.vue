@@ -40,7 +40,7 @@ interface ModSelectorTab {
 @Component({ components: {} })
 export default class LeveledModSelector extends Vue {
   @Prop() build: WarframeBuild;
-  @Prop({ type: String, default: "Warframe" }) type: "Warframe" | "Aura" | "Exilus";
+  @Prop({ type: String, default: "Warframe" }) type: "Warframe" | "Aura" | "Exilus" | "Companion";
 
   tabs: ModSelectorTab[] = [];
   selectTab = "fast";
@@ -51,49 +51,57 @@ export default class LeveledModSelector extends Vue {
     if (this.build.tags.includes("Archwing")) {
       return {
         skill: ["Primed Morphic Transformer", "Efficient Transferral", "System Reroute", "Energy Amplifier", "Auxiliary Power"],
-        survive: ["Enhanced Durability", "Energy Inversion", "Argon Plating", "Hyperion Thrusters", "Superior Defenses"]
+        survive: ["Enhanced Durability", "Energy Inversion", "Argon Plating", "Hyperion Thrusters", "Superior Defenses"],
       };
     }
     return {
-      maxStrength: [
-        "Transient Fortitude",
-        "Blind Rage",
-        "Umbral Intensify",
-        "Augur Secrets",
-        "Energy Conversion",
-        "Power Drift",
-        "Umbral Vitality@5",
-        "Umbral Fiber@5"
-      ],
+      maxStrength: ["Transient Fortitude", "Blind Rage", "Umbral Intensify", "Augur Secrets", "Energy Conversion", "Power Drift", "Umbral Vitality@5", "Umbral Fiber@5"],
       maxDuration: ["Primed Continuity", "Narrow Minded", "Augur Message", "Constitution"],
       maxEfficiency: ["Streamline", "Fleeting Expertise"],
       maxRange: ["Stretch", "Overextended", "Augur Reach", "Cunning Drift"],
-      umbralSet: ["Umbral Vitality", "Umbral Intensify", "Umbral Fiber"]
+      umbralSet: ["Umbral Vitality", "Umbral Intensify", "Umbral Fiber"],
     };
   }
   get fast() {
     return _.map(this.fastSelect, (v, i) => ({ name: i, id: v } as any));
   }
   get allowedTypes() {
+    if (this.build.tags.includes("Companion")) {
+      return ["Companion", this.build.baseId];
+    }
     if (this.build.tags.includes("Archwing")) {
       return ["Archwing", this.build.baseId];
     }
-    return this.type === "Warframe"
-      ? ["Warframe", `${this.build.baseId}`, "Exilus", `${this.build.baseId},Exilus`]
-      : [this.type, `${this.build.baseId},${this.type}`];
+    return this.type === "Warframe" ? ["Warframe", `${this.build.baseId}`, "Exilus", `${this.build.baseId},Exilus`] : [this.type, `${this.build.baseId},${this.type}`];
   }
   @Watch("build")
   @Watch("type")
   reload() {
     let selected = _.compact(this.build.allMods);
-    let mods = NormalModDatabase.filter(
-      v => this.allowedTypes.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id)
-    );
-    if (this.type === "Aura") {
+    let mods = NormalModDatabase.filter(v => this.allowedTypes.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id));
+    if (this.type === "Companion") {
+      const commonMod = [];
+      this.tabs = [
+        {
+          id: "tank",
+          name: this.$t("modselector.tank") as string,
+          mods: mods.filter(v => v.props.some(k => "hsaz".indexOf(k[0]) >= 0 || ["res", "hc"].includes(k[0]))),
+        },
+        {
+          id: "other",
+          name: this.$t("modselector.other") as string,
+          mods: mods.filter(v => v.props.every(k => "hsaz".indexOf(k[0]) < 0 && !["res", "hc"].includes(k[0]))),
+        },
+      ];
+    } else if (this.type === "Aura") {
       const commonAura = ["G0", "G3", "G4", "G5", "GG", "GJ", "GN", "GO"];
       this.tabs = [
-        { id: "common", name: this.$t("modselector.common") as string, mods: mods.filter(v => commonAura.includes(v.key)) },
-        { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => !commonAura.includes(v.key)) }
+        {
+          id: "common",
+          name: this.$t("modselector.common") as string,
+          mods: mods.filter(v => commonAura.includes(v.key)),
+        },
+        { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => !commonAura.includes(v.key)) },
       ];
       this.selectTab = "common";
     } else {
@@ -101,19 +109,19 @@ export default class LeveledModSelector extends Vue {
         {
           id: "ability",
           name: this.$t("modselector.ability") as string,
-          mods: mods.filter(v => v.props.some(k => "tuxge".indexOf(k[0]) >= 0 || ["ec"].includes(k[0])))
+          mods: mods.filter(v => v.props.some(k => "tuxge".indexOf(k[0]) >= 0 || ["ec"].includes(k[0]))),
         },
         {
           id: "tank",
           name: this.$t("modselector.tank") as string,
-          mods: mods.filter(v => v.props.some(k => "hsaz".indexOf(k[0]) >= 0 || ["res", "hc"].includes(k[0])))
+          mods: mods.filter(v => v.props.some(k => "hsaz".indexOf(k[0]) >= 0 || ["res", "hc"].includes(k[0]))),
         },
-        { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.props.some(k => "fcliv".indexOf(k[0]) >= 0)) },
+        { id: "speed", name: this.$t("modselector.speed") as string, mods: mods.filter(v => v.props.some(k => "fcliv".indexOf(k[0]) >= 0 || ["fl"].includes(k[0]))) },
         {
           id: "other",
           name: this.$t("modselector.other") as string,
-          mods: mods.filter(v => v.props.every(k => "tuxgehsazefcliv".indexOf(k[0]) < 0 && !["res", "hc"].includes(k[0])))
-        }
+          mods: mods.filter(v => v.props.every(k => "tuxgehsazefcliv".indexOf(k[0]) < 0 && !["res", "hc", "fl"].includes(k[0]))),
+        },
       ];
       this.selectTab = this.type === "Warframe" ? "fast" : "ability";
     }
@@ -125,9 +133,7 @@ export default class LeveledModSelector extends Vue {
     if (typeof id === "string") this.$emit("command", Codex.getNormalMod(id));
     else {
       let selected = _.compact(this.build.allMods);
-      let mods = NormalModDatabase.filter(
-        v => this.allowedTypes.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id)
-      );
+      let mods = NormalModDatabase.filter(v => this.allowedTypes.includes(v.type) && !selected.some(k => k.id === v.id || k.primed === v.id || v.primed === k.id));
       let found = id
         .map(v => {
           let name = v.split("@")[0],

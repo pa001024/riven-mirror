@@ -4,7 +4,7 @@ let po = {
     main: "極鏡 (Riven.IM)",
     sub: "{0} - 極鏡 (Riven.IM)",
     weapon: "{0} 配卡",
-    info: "{0} 資料"
+    info: "{0} 資料",
   },
   messages: {
     primedContinuity: "持久力 Prime",
@@ -296,6 +296,24 @@ let po = {
     scanLifeforms: "掃描生命體徵",
     scanMatter: "掃描物質",
     assaultMode: "突擊模式",
+    metalFiber: "金屬纖維",
+    linkShields: "護盾連結",
+    primedPackLeader: "領袖 Prime",
+    venomTeeth: "牙齒毒液",
+    frostJaw: "冰凍雙顎",
+    flameGland: "火焰腺體",
+    shockCollar: "電擊項圈",
+    energyGenerator: "能量產生器",
+    odomedic: "氣息療愈",
+    ambush: "幽靈伏擊",
+    fetch: "取回",
+    antiGravArray: "反重力陣列",
+    tractorBeam: "牽引光束",
+    whiplashMine: "牽繩機雷",
+    stasisField: "靜態力場",
+    shockwaveActuators: "震波驅動器",
+    antiGravGrenade: "反重力榴彈",
+    securityOverride: "協議覆蓋",
 
     maimingStrike: "致殘突擊",
     bloodRush: "急進猛突",
@@ -1334,12 +1352,12 @@ let po = {
     odonataPrime: "ODONATA PRIME",
     taxon: "塔克桑",
     djinn: "引靈",
-    carrierSentinel: "搬運者",
+    carrier: "搬運者",
     dethcube: "死亡魔方",
     diriga: "電氣浮囊",
     wyrm: "蛟龍",
-    heliosSentinel: "赫利俄斯",
-    shadeSentinel: "陰影",
+    helios: "赫利俄斯",
+    shade: "陰影",
     carrierPrime: "搬運者 Prime",
     wyrmPrime: "蛟龍 Prime",
     heliosPrime: "赫利俄斯 Prime",
@@ -1811,7 +1829,7 @@ let po = {
     taxTheTaxmen: "向稅務官課稅",
     venusPreservationJobResource: "拆散陷阱",
     venusHelpingJobCaches: "鷹嘴板",
-    buryThem: "埋葬他們"
+    buryThem: "埋葬他們",
   },
   skill: {
     shuriken: "手裡劍",
@@ -1990,7 +2008,7 @@ let po = {
     energyShell: "能量護罩",
     disarray: "熱誘彈",
     seekingFire: "導彈",
-    repel: "脈衝震波"
+    repel: "脈衝震波",
   },
   messagesExtend: {
     blueprint: "藍圖",
@@ -2034,7 +2052,7 @@ let po = {
     engines: "引擎",
     avionics: "飛航系統",
     mask: "面具",
-    immortalSkin: "不朽外觀"
+    immortalSkin: "不朽外觀",
   },
   mods: {
     primedReach: "劍風P",
@@ -2135,7 +2153,7 @@ let po = {
     conditionOverload: "異況",
     spoiledStrike: "腐壞",
     buzzKill: "敗興",
-    riven: "紫"
+    riven: "紫",
   },
   weaponmode: {
     default: "預設",
@@ -2211,7 +2229,7 @@ let po = {
     tap: "短按",
     unchargedExplosion: "非蓄力爆炸",
     unchargedProjectile: "非蓄力投射物",
-    "35XZoomMode": "3.5x變焦"
+    "35XZoomMode": "3.5x變焦",
   },
   alerting: {
     sortie: "突擊",
@@ -2226,7 +2244,7 @@ let po = {
     remaining: "剩餘",
     nightwave: "午夜電波",
     kuva: "赤毒",
-    arbitration: "仲裁"
+    arbitration: "仲裁",
   },
   nightwave: {
     daily: "每日",
@@ -2383,7 +2401,7 @@ let po = {
     researcher: "研究者",
     scan25ObjectsOrEnemies: "掃描25次物件或敵人",
     energizing: "激勵",
-    pickUp20EnergyOrbs: "拾取20個能量球"
+    pickUp20EnergyOrbs: "拾取20個能量球",
   },
   prop: {
     fullName: {
@@ -2595,7 +2613,7 @@ let po = {
       onFinish: "處決後:",
       onWalllatch: "壁面攀附:",
       onBlock: "格擋後:",
-      augment: "{0}強化"
+      augment: "{0}強化",
     },
     shortName: {
       0: "暴率",
@@ -2802,8 +2820,8 @@ let po = {
       onFinish: "處決",
       onWalllatch: "壁面攀附",
       onBlock: "格擋",
-      augment: "技能強化"
-    }
+      augment: "技能強化",
+    },
   },
   elements: {
     Physical: "物理",
@@ -2837,8 +2855,8 @@ let po = {
       Radiation: "降低精度 向隊友開火",
       Viral: "降低最大生命值",
       Void: "吸引子彈",
-      True: "無視護甲"
-    }
+      True: "無視護甲",
+    },
   },
   statusinfo: {
     appearRate: "彈片觸發率",
@@ -2859,13 +2877,13 @@ let po = {
     averageProcDamagePerHit: "每發平均觸發傷害",
     averageProcDamagePerSecond: "每秒平均觸發傷害",
     averageProcQE: "異常數量期望",
-    total: "總計"
+    total: "總計",
   },
   rivenedit: {
     selectWeapon: "請輸入武器名",
     selectProp: "請選擇屬性",
     inputValue: "請輸入數值",
-    isNegative: "負面"
+    isNegative: "負面",
   },
   riven: {
     confirm: "確定",
@@ -2896,7 +2914,7 @@ let po = {
     stddev: "標準差",
     min: "最小值",
     max: "最大值",
-    pop: "流行度"
+    pop: "流行度",
   },
   build: {
     fill: "自動配置",
@@ -2956,7 +2974,7 @@ let po = {
     healthBall: "生命球",
     energyBall: "能量球",
     weaponMode: "模式",
-    weaponModeTip: "預設"
+    weaponModeTip: "預設",
   },
   enemy: {
     name: "敵人",
@@ -2980,7 +2998,7 @@ let po = {
       9: "護盾",
       10: "原型護盾",
       11: "鐵製裝甲",
-      12: "合金裝甲"
+      12: "合金裝甲",
     },
     models: {
       eidolon: "夜靈 (機器 + 合金裝甲)",
@@ -2998,7 +3016,7 @@ let po = {
       infested: "Infested (感染)",
       infestedFlesh: "Infested (感染肉體)",
       infestedElite: "Infested (化石)",
-      tenno: "Tenno (肉體 + 鐵質裝甲)"
+      tenno: "Tenno (肉體 + 鐵質裝甲)",
     },
     names: {
       wolfOfSaturnSix: "土星六號之狼",
@@ -3092,8 +3110,8 @@ let po = {
       orokinDrone: "Orokin無人機",
       corruptedCrewman: "墮落船員",
       corruptedMoa: "墮落恐鳥",
-      corruptedNullifier: "墮落虛能者"
-    }
+      corruptedNullifier: "墮落虛能者",
+    },
   },
   buildview: {
     totalDamage: "單發傷害",
@@ -3158,7 +3176,7 @@ let po = {
     loading: "努力載入中...",
     tobuild: "檢視詳細",
     components: "部件",
-    zoom: "变焦"
+    zoom: "变焦",
   },
   weaponselector: {
     notfound: "暫無該武器資料",
@@ -3168,7 +3186,7 @@ let po = {
     melee: "近戰",
     zaw: "ZAW",
     kitgun: "組合槍",
-    archwing: "ARCHWING"
+    archwing: "ARCHWING",
   },
   warframeselector: {
     notfound: "暫無該戰甲資料",
@@ -3179,7 +3197,7 @@ let po = {
     support: "輔助",
     control: "控制",
     companion: "同伴",
-    archwing: "ARCHWING"
+    archwing: "ARCHWING",
   },
   modselector: {
     rivenMod: "裂罅MOD",
@@ -3216,11 +3234,11 @@ let po = {
       maxHealth: "生存最大化",
       umbralSet: "三暗影",
       skill: "技能",
-      survive: "生存"
+      survive: "生存",
     },
     weaponWarn: "提示",
     weaponWarnTip: "你選擇的紫卡並不適用於該武器(你可能選擇了錯誤的武器)，是否繼續操作？",
-    rivenexists: "不能同時選擇多張紫卡"
+    rivenexists: "不能同時選擇多張紫卡",
   },
   timeline: {
     table: "表格",
@@ -3232,7 +3250,7 @@ let po = {
     dot: "DoT傷害",
     hp: "剩餘生命",
     ar: "剩餘護甲",
-    dead: "死亡"
+    dead: "死亡",
   },
   navigate: {
     index: "實時資訊",
@@ -3245,7 +3263,7 @@ let po = {
     palette: "選色工具",
     setting: "設定",
     login: "使用者登入",
-    register: "使用者註冊"
+    register: "使用者註冊",
   },
   time: {
     earth: "地球",
@@ -3260,7 +3278,7 @@ let po = {
     sunset: "日落",
     warm: "溫暖",
     cold: "寒冷",
-    freezing: "刺骨"
+    freezing: "刺骨",
   },
   huangli: {
     title: "倉鼠老黃曆",
@@ -3270,7 +3288,7 @@ let po = {
     faceto: "朝向：",
     planet: "星球：",
     lucky: "幸運指數：",
-    tip: "*僅供參考"
+    tip: "*僅供參考",
   },
   simulator: {
     random: "隨機",
@@ -3282,7 +3300,7 @@ let po = {
     open: "開卡：{0}",
     recycle: "迴圈",
     analyze: "分析",
-    choose: "確認選擇"
+    choose: "確認選擇",
   },
   setting: {
     lang: "語言設定",
@@ -3303,7 +3321,7 @@ let po = {
     pc: "PC",
     ps4: "PS4",
     xb1: "XBOX",
-    swi: "SWITCH"
+    swi: "SWITCH",
   },
   modular: {
     damage: "傷害",
@@ -3320,7 +3338,7 @@ let po = {
     rangeLimit: "射程",
     lastStep: "上一步",
     nextStep: "下一步",
-    finish: "完成"
+    finish: "完成",
   },
   zaw: {
     title: "ZAW",
@@ -3339,7 +3357,7 @@ let po = {
     Staves: "長棍",
     Polearms: "長柄武器",
     HeavyBlade: "巨刃",
-    Hammers: "錘"
+    Hammers: "錘",
   },
   kitgun: {
     title: "組合槍",
@@ -3353,8 +3371,8 @@ let po = {
       catchmoon: "能量穿透彈",
       gaze: "射線",
       rattleguts: "全自動",
-      tombfinger: "小型榴彈"
-    }
+      tombfinger: "小型榴彈",
+    },
   },
   amp: {
     title: "增幅器",
@@ -3380,8 +3398,8 @@ let po = {
       phahdScaffold: "彈跳能量圓盤",
       exardScaffold: "點射型榴彈",
       dissicScaffold: "範圍爆炸",
-      propaScaffold: "投出地雷"
-    }
+      propaScaffold: "投出地雷",
+    },
   },
   reminder: {
     title: "平原時間提醒",
@@ -3389,7 +3407,7 @@ let po = {
     notificationBody: "還有{0}分鐘就到夜晚了 趕緊準備吧",
     settingPrefix: "提前",
     settingSubfix: "分鐘通知",
-    permissionDenied: "通知許可權被拒絕, 無法正常顯示"
+    permissionDenied: "通知許可權被拒絕, 無法正常顯示",
   },
   palette: {
     name: {
@@ -3420,12 +3438,12 @@ let po = {
       redWhiteBlue: "紅/白/藍",
       spektaka: "華麗演出",
       halloween: "萬聖節",
-      tenno2: "TENNO II"
+      tenno2: "TENNO II",
     },
     title: "選擇顏色",
     uploadtip: "將檔案拖到此處，或<em>點選上傳</em>參考圖",
     deltaE: "容差:",
-    recommand: "推薦:"
+    recommand: "推薦:",
   },
   buff: {
     types: {
@@ -3436,7 +3454,7 @@ let po = {
       elementDamage: "元素傷害",
       critDamage: "暴擊",
       speed: "速度",
-      other: "其他"
+      other: "其他",
     },
     ballisticBattery: "彈道蓄能 (Mesa)",
     shootingGallery: "靶場 (Mesa)",
@@ -3540,7 +3558,7 @@ let po = {
     paxBolt: "和平電閃",
     corruption: "墮落化",
     growingPower: "成長之力 (光環)",
-    powerDonation: "獻出力量 (光環)"
+    powerDonation: "獻出力量 (光環)",
   },
   ability: {
     energyCost: "能量: {0}",
@@ -3555,7 +3573,7 @@ let po = {
       mobility: "機動",
       perception: "感知",
       control: "控制",
-      summon: "召喚"
+      summon: "召喚",
     },
     effect: "效果",
     effects: {
@@ -3568,7 +3586,7 @@ let po = {
       control: "控制",
       special: "特殊",
       move: "位移",
-      exaltedWeapon: "顯赫武器"
+      exaltedWeapon: "顯赫武器",
     },
     prop: "屬性",
     props: {
@@ -3609,24 +3627,24 @@ let po = {
       deflectionBullet: "偏轉子彈",
       dodgeAttack: "閃避攻擊",
       clearNegativeState: "清除負面狀態",
-      deprivationOfShieldAndArmor: "剝奪護盾和護甲"
+      deprivationOfShieldAndArmor: "剝奪護盾和護甲",
     },
     target: "物件",
     targets: {
       "0": "所有",
       "1": "遠端攻擊",
       "2": "近戰",
-      "3": "拋射物"
+      "3": "拋射物",
     },
     directives: {
       "0": "非指向性",
       "1": "非強制指向",
-      "2": "強制指向"
-    }
+      "2": "強制指向",
+    },
   },
   update: {
     title: "更新資訊",
-    confirm: "我知道了"
+    confirm: "我知道了",
   },
   app: {
     login: "登入",
@@ -3644,7 +3662,7 @@ let po = {
     updateTip: "新版本已就緒 點選確定自動更新",
     copy: "複製",
     tip: "提示",
-    copySuccess: "地址已複製"
+    copySuccess: "地址已複製",
   },
   otherinfo: {
     wiki: "中文WIKI",
@@ -3654,7 +3672,7 @@ let po = {
     mod: "MOD",
     wm: "WM市場",
     rm: "RM紫卡市場",
-    wmriven: "WM紫卡市場"
+    wmriven: "WM紫卡市場",
   },
   intro: {
     ti1: "來試試極鏡吧!",
@@ -3693,34 +3711,34 @@ let po = {
     fav3: "中文論壇",
     fav4: "英文維基",
     fav5: "WFA",
-    sponser: "友情贊助"
+    sponser: "友情贊助",
   },
   tour: {
     labels: {
       buttonSkip: "跳過教程",
       buttonPrevious: "上一條",
       buttonNext: "下一條",
-      buttonStop: "結束"
+      buttonStop: "結束",
     },
     builde: [
       "這裡是武器的資料資訊，顯示計算結果", //
       "你可以點選這裡切換到其他計算模式來檢視攻速等不同MOD的的收益",
       "這些BUFF可以適應各種不同的情況",
-      "另外，這裡還有更多的功能 (比如幻影裝置)"
-    ]
+      "另外，這裡還有更多的功能 (比如幻影裝置)",
+    ],
   },
   minimap: {
     mods: "配卡",
     buffs: "加成",
-    data: "資料"
+    data: "資料",
   },
   droptable: {
-    title: "掉落表"
+    title: "掉落表",
   },
   search: {
     weapon: "武器",
     mod: "MOD",
-    wf: "戰甲"
+    wf: "戰甲",
   },
   tags: {
     zaw: "ZAW",
@@ -3780,7 +3798,7 @@ let po = {
     tank: "坦克",
     support: "輔助",
     control: "控制",
-    archwing: "ARCHWING"
+    archwing: "ARCHWING",
   },
   alias: {
     // 敵人
@@ -3839,16 +3857,17 @@ let po = {
     trinity: "奶媽",
     valkyr: "女漢子,瓦喵",
     vauban: "工程",
-    volt: "電男,電隊",
-    zephyr: "鳥姐"
+    volt: "電男",
+    voltPrime: "電隊",
+    zephyr: "鳥姐",
   },
   info: {
     nav: "導航",
     data: "資料",
     eco: "市場",
     build: "配裝",
-    riven: "紫卡"
-  }
+    riven: "紫卡",
+  },
 };
 
 export default po;

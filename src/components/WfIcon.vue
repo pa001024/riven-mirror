@@ -11,7 +11,7 @@ const AliasTable = {
   o: "koneksi",
   r: "madurai",
   "-": "naramon",
-  f: "penjaga",
+  y: "penjaga",
   t: "unairu",
   d: "vazarin",
   "=": "zenurik",

@@ -271,7 +271,7 @@ export abstract class ModBuild {
     this._target = value;
   }
 
-  abstract getTimeline(limit: number): EnemyTimelineState[];
+  abstract getTimeline(limit?: number): EnemyTimelineState[];
 
   // === 计算属性 ===
 

@@ -36,18 +36,8 @@
                 :name="$t('build.shield')" :ori="coreBuild.shield" :val="build.shield"></PropDiff>
               <PropDiff class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"
                 :name="$t('build.armor')" :ori="coreBuild.armor" :val="build.armor"></PropDiff>
-              <PropDiff :name="$t('build.energy')" :ori="coreBuild.energy" :val="build.energy"></PropDiff>
-              <PropDiff :name="$t('build.sprint')" :ori="coreBuild.sprint" :val="build.sprint" :preci="2"></PropDiff>
               <PropDiff class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"
                 :name="$t('build.effectiveHealth')" :ori="coreBuild.effectiveHealth" :val="build.effectiveHealth" :preci="0"></PropDiff>
-              <br>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 4}" @click="changeMode(4)"
-                :name="$t('build.abilityStrength')" :ori="coreBuild.abilityStrength" :val="build.abilityStrength" percent :preci="0"></PropDiff>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 5}" @click="changeMode(5)"
-                :name="$t('build.abilityDuration')" :ori="coreBuild.abilityDuration" :val="build.abilityDuration" percent :preci="0"></PropDiff>
-              <PropDiff :name="$t('build.abilityEfficiency')" :ori="coreBuild.abilityEfficiency" :val="build.abilityEfficiency" percent :preci="0"></PropDiff>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 6}" @click="changeMode(6)"
-                :name="$t('build.abilityRange')" :ori="coreBuild.abilityRange" :val="build.abilityRange" percent :preci="0"></PropDiff>
             </div>
           </el-card>
           <!-- 选项区域 -->
@@ -58,13 +48,17 @@
               <el-button type="primary" size="small" @click="clear()">{{$t("build.clear")}}</el-button>
             </el-button-group>
             <el-form class="build-form-editor">
-              <!-- 生命球 -->
-              <el-form-item :label="$t('build.healthBall')" v-if="currentTab.mods.some(v=>v&&v.id==='Health Conversion')">
-                <el-input-number class="right-side" size="small" v-model="healthBall" @change="optionChange" :min="0" :max="3"/>
+              <!-- 生命 -->
+              <el-form-item :label="$t('buildview.healthLinkRef')">
+                <el-slider class="right-side fill" v-model="healthLinkRef" size="small" :min="0" :max="20000" show-stops @change="optionChange"></el-slider>
               </el-form-item>
-              <!-- 能量球 -->
-              <el-form-item :label="$t('build.energyBall')" v-if="currentTab.mods.some(v=>v&&v.id==='Energy Conversion')">
-                <el-switch class="right-side" size="small" v-model="energyBall" @change="optionChange"/>
+              <!-- 护盾 -->
+              <el-form-item :label="$t('buildview.shieldLinkRef')">
+                <el-slider class="right-side fill" v-model="shieldLinkRef" size="small" :min="0" :max="5000" show-stops @change="optionChange"></el-slider>
+              </el-form-item>
+              <!-- 护甲 -->
+              <el-form-item :label="$t('buildview.armorLinkRef')">
+                <el-slider class="right-side fill" v-model="armorLinkRef" size="small" :min="0" :max="2000" show-stops @change="optionChange"></el-slider>
               </el-form-item>
             </el-form>
           </el-card>
@@ -75,14 +69,6 @@
         <!-- MOD区域 -->
         <el-tabs v-model="tabValue" editable @edit="handleTabsEdit">
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
-            <el-row type="flex" class="mod-slot-container autozoom" :gutter="12">
-              <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6">
-                <LeveledModSlot icon="aura" @level="refleshMods()" @change="slotClick(-2)" @remove="slotRemove(-2)" :mod="item.aura" :build="item.build" :polarization="item.build.auraPol"/>
-              </el-col>
-              <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6">
-                <LeveledModSlot icon="exilus" @level="refleshMods()" @change="slotClick(-1)" @remove="slotRemove(-1)" :mod="item.exilus" :build="item.build" :polarization="item.build.exilusPol"/>
-              </el-col>
-            </el-row>
             <el-row type="flex" class="mod-slot-container autozoom" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :animation="250" handle=".mod-title">
                 <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
@@ -121,88 +107,6 @@
             </el-row>
           </el-tab-pane>
         </el-tabs>
-        <!-- 技能区域 -->
-        <el-tabs v-model="currentAbility">
-          <el-tab-pane :key="index" v-for="(abi, index) in build.Abilities" :label="abi.name" :name="String(index)">
-            <el-card class="skill-container">
-              <div slot="header">
-                <el-row type="flex" justify="space-between">
-                  <el-col>
-                    <el-row>
-                      <el-col class="skill-name">
-                        <a class="skill-wiki" target="_blank" :href="$t('zh') ? `https://warframe.huijiwiki.com/wiki/${abi.name}` : `https://warframe.fandom.com/wiki/${abi.url}`">{{abi.name}}</a>
-                        <a class="skill-wiki en" target="_blank" v-if="$t('zh')" :href="`https://warframe.fandom.com/wiki/${abi.url}`">EN</a>
-                      </el-col>
-                      <el-col class="skill-tags">
-                        <div class="skill-tag" v-if="abi.oneHand">{{$t("ability.oneHand")}}</div>
-                        <div class="skill-tag" :key="index" v-for="(tag, index) in abi.tags">{{tag}}</div>
-                      </el-col>
-                    </el-row>
-                  </el-col>
-                  <el-col class="skill-costs">
-                    <div class="skill-cost">
-                      {{$t("ability.energyCost", [+abi.energyCost.toFixed(2)])}}
-                    </div>
-                    <div class="skill-cost" v-if="abi.energyCostPS">
-                      {{$t("ability.energyCostPS", [+abi.energyCostPS.toFixed(2)])}}
-                    </div>
-                    <div class="skill-cost" v-if="abi.energyCostN">
-                      {{$t("ability.energyCostN", [+abi.energyCostN.toFixed(2)])}}
-                    </div>
-                  </el-col>
-                </el-row>
-              </div>
-              <el-row :gutter="12">
-                <el-col class="skill-effects" :span="24">
-                  <div class="skill-effect" :key="index" v-for="([name, effect], index) in abi.props">
-                    <div class="effect-name">{{$t(`ability.effects.${name}`)}}</div>
-                    <div class="effect-detail">
-                      <!-- special -->
-                      <template v-if="effect[0]">
-                        <div class="effect-prop special" :key="vn" v-for="(vv, vn) in effect">
-                          <div class="prop-name">{{$t(`ability.props.${vv.desc}`)}}</div>
-                          <div class="prop-value normal">{{vv.val}}</div>
-                        </div>
-                      </template>
-                      <!-- normal -->
-                      <template v-else>
-                        <div class="effect-prop" :key="vn" v-for="(vv, vn) in effect">
-                          <div class="prop-name">{{$t(`ability.props.${vn}`)}}</div>
-                          <div class="prop-value damage" v-if="Array.isArray(vv)">
-                            <template v-if="vn === 'damage' || vn === 'rangeDamage'">
-                              <div class="dmg" :key="dname" v-for="([dname, dvalue]) in vv">
-                                <WfIcon :type="dname.toLowerCase()"/>
-                                <span class="value">{{dvalue}}</span>
-                              </div>
-                            </template>
-                            <template v-else>
-                              <div class="prop" :key="pname" v-for="([pname, pvalue]) in vv">
-                                {{renderProps([pname, pvalue]).fullString}}
-                              </div>
-                            </template>
-                          </div>
-                          <!-- Exalted Weapon -->
-                          <div class="prop-value weapon" v-else-if="vn==='weaponName'">
-                            <router-link class="link-btn" :to="`/weapon/${vv}/${renderWeaponProps(abi)}`">{{renderWeapon(vv)}}</router-link>
-                          </div>
-                          <div class="prop-value normal" v-else-if="vn === 'directive'">
-                            {{$t(`ability.directives.${vv}`)}}
-                          </div>
-                          <div class="prop-value normal" v-else-if="vn === 'target'">
-                            {{$t(`ability.targets.${vv}`)}}
-                          </div>
-                          <div class="prop-value normal" v-else>
-                            {{$te(`ability.props.${vv}`) && $t(`ability.props.${vv}`) || vv}}
-                          </div>
-                        </div>
-                      </template>
-                    </div>
-                  </div>
-                </el-col>
-              </el-row>
-            </el-card>
-          </el-tab-pane>
-        </el-tabs>
       </el-col>
     </el-row>
     <el-dialog :title="$t('build.selectMod')" :visible.sync="modDialogVisible" width="600">
@@ -216,24 +120,22 @@
 <script lang="ts">
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { WarframeBuild } from "@/warframe/warframebuild";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import LeveledModSelector from "@/components/LeveledModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import ShareQR from "@/components/ShareQR.vue";
-import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty, BuffData, RivenDatabase, AbilityPropTypes, WeaponDatabase } from "@/warframe/codex";
+import { NormalMod, Buff, ValuedProperty, BuffData, RivenDatabase, AbilityPropTypes, WeaponDatabase } from "@/warframe/codex";
 import "@/less/builder.less";
 import { i18n } from "@/i18n";
 import { Getter, Action } from "vuex-class";
 import { base62 } from "@/warframe/lib/base62";
+import { CompanionDataBase, CompanionBuild, Companion } from "@/warframe/companionbuild";
 
 interface BuildSelectorTab {
   title: string;
   name: string;
-  build: WarframeBuild;
-  aura: NormalMod;
-  exilus: NormalMod;
+  build: CompanionBuild;
   mods: NormalMod[];
   buffs: Buff[];
 }
@@ -241,19 +143,19 @@ interface BuildSelectorTab {
 @Component({
   components: { PropDiff, LeveledModSlot, LeveledModSelector, ShareQR, BuffSelector },
   beforeRouteEnter(to, from, next) {
-    const core = WarframeDataBase.getWarframeById(to.params.id.replace(/_/g, " "));
+    const core = CompanionDataBase.getCompanionById(to.params.id.replace(/_/g, " "));
     if (core) {
       document.title = i18n.t("title.sub", [i18n.t("title.weapon", [core.name])]);
       next();
-    } else next("/WarframeNotFound");
-  }
+    } else next("/CompanionNotFound");
+  },
 })
-export default class WarframeEditor extends Vue {
+export default class CompanionEditor extends Vue {
   @Getter("bigScreen") bigScreen: boolean;
   modDialogVisible = false;
   buffDialogVisible = false;
   @Getter("savedBuilds") savedBuilds: { [key: string]: string };
-  @Action("setBuild") setBuild: (build: WarframeBuild) => void;
+  @Action("setBuild") setBuild: (build: CompanionBuild) => void;
 
   get id() {
     return this.$route.params.id;
@@ -264,17 +166,17 @@ export default class WarframeEditor extends Vue {
 
   tabs: BuildSelectorTab[] = [];
   tabValue = "SET A";
-  currentAbility = "0";
   private _lastid = "";
-  private _core: Warframe = null;
+  private _core: Companion = null;
   selectModIndex = 0;
   selectBuffIndex = 0;
 
-  healthBall = 3;
-  energyBall = true;
+  healthLinkRef = 300;
+  shieldLinkRef = 300;
+  armorLinkRef = 50;
 
   get selectModType() {
-    return this.selectModIndex === -2 ? "Aura" : this.selectModIndex === -1 ? "Exilus" : "Warframe";
+    return "Companion";
   }
 
   get core() {
@@ -282,19 +184,11 @@ export default class WarframeEditor extends Vue {
     return this._core;
   }
   get coreBuild() {
-    return new WarframeBuild(this.core);
+    return new CompanionBuild(this.core);
   }
 
   renderProps([vn, vv]: [string, number]) {
     return ValuedProperty.parse([vn, vv]);
-  }
-  renderWeapon(name: string) {
-    return WeaponDatabase.getWeaponByName(name).displayName;
-  }
-  renderWeaponProps(abi: WarframeBuild["Abilities"][number]) {
-    const p = this.build.abilityStrength * 1e3;
-    if (abi.name === "Peacemaker") return `_z:${base62(p)}`;
-    return `_Z:${base62(p)}`;
   }
   changeMode(mode: number) {
     this.build.compareMode = mode;
@@ -303,13 +197,11 @@ export default class WarframeEditor extends Vue {
   onCodeChange() {
     if (this.code && this.build.miniCode != this.code) {
       this.build.miniCode = this.code;
-      let { mods, buffs, aura, exilus } = this.build;
+      let { mods, buffs } = this.build;
       while (mods.length < 8) mods.push(null);
       buffs.push(null);
       this.currentTab.mods = mods;
       this.currentTab.buffs = buffs;
-      this.currentTab.aura = aura;
-      this.currentTab.exilus = exilus;
     }
   }
   get currentTab() {
@@ -322,19 +214,19 @@ export default class WarframeEditor extends Vue {
   @Watch("id")
   @Watch("code")
   reload() {
-    if (this.$route.name !== "WarframeEditor" && this.$route.name !== "WarframeEditorWithCode") return;
+    if (this.$route.name !== "CompanionEditor" && this.$route.name !== "CompanionEditorWithCode") return;
     if (this.id && this._lastid !== this.id) {
       this._lastid = this.id;
-      this._core = WarframeDataBase.getWarframeById(this.id.replace(/_/g, " "));
+      this._core = CompanionDataBase.getCompanionById(this.id.replace(/_/g, " "));
       if (this.core) {
         this.tabs = "ABC".split("").map(v => ({
           title: this.$t("zh") ? `配置${v}` : `SET ${v}`,
           name: `SET ${v}`,
-          build: new WarframeBuild(this.core),
+          build: new CompanionBuild(this.core),
           aura: null,
           exilus: null,
           mods: Array(8),
-          buffs: [null]
+          buffs: [null],
         }));
         this.tabValue = "SET A";
       }
@@ -353,11 +245,9 @@ export default class WarframeEditor extends Vue {
   }
   refleshMods() {
     this.build.clear();
-    let { mods, aura, exilus } = this.currentTab;
+    let { mods } = this.currentTab;
     let buffs = _.compact(this.currentTab.buffs);
     this.build.mods = mods;
-    this.build.aura = aura;
-    this.build.exilus = exilus;
     this.build.buffs = buffs;
     this.currentTab.mods = this.build.mods;
     this.build.recalcPolarizations();
@@ -367,9 +257,9 @@ export default class WarframeEditor extends Vue {
   pushState() {
     let code = this.build.miniCode;
     if (code) {
-      this.$router.push({ name: "WarframeEditorWithCode", params: { code } });
+      this.$router.push({ name: "CompanionEditorWithCode", params: { code } });
       this.setBuild(this.build);
-    } else this.$router.push({ name: "WarframeEditor" });
+    } else this.$router.push({ name: "CompanionEditor" });
   }
 
   slotClick(modIndex: number) {
@@ -377,9 +267,7 @@ export default class WarframeEditor extends Vue {
     this.modDialogVisible = true;
   }
   slotRemove(modIndex: number) {
-    if (modIndex === -2) this.currentTab.aura = null;
-    else if (modIndex === -1) this.currentTab.exilus = null;
-    else this.currentTab.mods[modIndex] = null;
+    this.currentTab.mods[modIndex] = null;
     this.refleshMods();
     this.reloadSelector();
   }
@@ -395,8 +283,9 @@ export default class WarframeEditor extends Vue {
   }
   get options() {
     return {
-      healthBall: ~~this.healthBall,
-      energyBall: this.energyBall
+      healthLinkRef: this.healthLinkRef,
+      shieldLinkRef: this.shieldLinkRef,
+      armorLinkRef: this.armorLinkRef,
     };
   }
 
@@ -417,9 +306,7 @@ export default class WarframeEditor extends Vue {
         });
       }
     } else {
-      if (this.selectModIndex === -2) this.currentTab.aura = mod;
-      if (this.selectModIndex === -1) this.currentTab.exilus = mod;
-      else this.currentTab.mods[this.selectModIndex] = mod;
+      this.currentTab.mods[this.selectModIndex] = mod;
     }
     this.modDialogVisible = false;
     this.refleshMods();
@@ -436,11 +323,9 @@ export default class WarframeEditor extends Vue {
       this.tabs.push({
         title: this.$t("zh") ? newTabName.replace("SET", "配置") : newTabName,
         name: newTabName,
-        build: new WarframeBuild(this.core),
-        aura: this.currentTab.aura,
-        exilus: this.currentTab.exilus,
+        build: new CompanionBuild(this.core),
         mods: this.currentTab.mods,
-        buffs: this.currentTab.buffs
+        buffs: this.currentTab.buffs,
       });
       this.tabValue = newTabName;
       this.refleshMods();

@@ -3,7 +3,7 @@ import { i18n } from "@/i18n";
 import { _companionData } from "./companion.data";
 import { CompanionData } from "./companion.i";
 
-/** 战甲 */
+/** 同伴 */
 export class Companion {
   id: string;
   name: string;
@@ -15,10 +15,11 @@ export class Companion {
   polarities: string[];
 
   constructor(data: CompanionData) {
-    // let base = data.className ? _companionData.find(v => v.id === data.className) : ({} as CompanionData);
+    const base = data.className ? _companionData.find(v => v.id === data.className) : ({} as CompanionData);
     this.id = data.id;
     const ikey = `messages.${_.camelCase(data.id)}`;
     this.name = i18n.te(ikey) ? i18n.t(ikey) : data.id;
+    this.tags = data.tags || base.tags || [];
     this.className = data.className;
     this.health = data.health;
     this.shield = data.shield;
@@ -43,7 +44,7 @@ export class Companion {
   }
 }
 
-/** 战甲数据辅助类 */
+/** 同伴数据辅助类 */
 export class CompanionDataBase {
   protected _companions: CompanionData[];
   protected _i2w: Map<string, CompanionData>;
@@ -71,7 +72,7 @@ export class CompanionDataBase {
   static getCompanionByClassName(className: string) {
     return this.instance._f2w[className].map(v => this.getCompanionById(v));
   }
-  /** 所有战甲 */
+  /** 所有同伴 */
   static get Companions() {
     return this.instance._companions.map(v => new Companion(v));
   }
@@ -81,5 +82,13 @@ export class CompanionDataBase {
   /** 所有种类 */
   static get ClassNames() {
     return Object.keys(this.instance._f2w);
+  }
+
+  // 查询类
+  static get Sentinel() {
+    return this.instance._companions.filter(v => !v.className && v.tags && v.tags.includes("Sentinel")).map(v => new Companion(v));
+  }
+  static get Wild() {
+    return this.instance._companions.filter(v => !v.className && v.tags && v.tags.includes("Wild")).map(v => new Companion(v));
   }
 }

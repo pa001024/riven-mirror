@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Codex, AdvancedAbilityPropValue } from "./codex";
+import { Codex } from "./codex";
 import { i18n } from "@/i18n";
 import { NormalMod, NormalModDatabase } from "./codex/mod";
 import { hAccSum } from "./util";
@@ -64,6 +64,10 @@ export class CompanionBuild {
   /** 基础ID */
   get baseId() {
     return this.data.className || this.data.id;
+  }
+  /** 属性标记 */
+  get tags() {
+    return this.data.tags.concat(["Companion", this.baseId]);
   }
 
   protected _healthMul: number;
@@ -156,7 +160,7 @@ export class CompanionBuild {
       compareMode: this.compareMode,
       healthLinkRef: this.healthLinkRef,
       shieldLinkRef: this.shieldLinkRef,
-      armorLinkRef: this.armorLinkRef
+      armorLinkRef: this.armorLinkRef,
     };
   }
 
@@ -571,7 +575,7 @@ export class CompanionBuild {
       "-",
       d,
       "=",
-      "w"
+      "w",
     }
     const delta = mods
       .map((v, i) => [i, v ? v.delta : 0])

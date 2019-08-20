@@ -39,6 +39,8 @@ See WIKI for details: [RivenMirror](https://warframe.huijiwiki.com/wiki/%E5%8D%9
 
 ## Contribution
 
+Clone with: `git clone --recurse-submodules`
+
 Fork and send pull request!
 
 ## See also

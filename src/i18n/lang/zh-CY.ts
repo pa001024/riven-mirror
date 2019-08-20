@@ -557,6 +557,7 @@ let po = {
     primedPressurePoint: "高阶血压点",
     primedHeavyTrauma: "高阶重创",
     primedSlipMagazine: "高阶串联弹夹",
+    primedQuickdraw: "高阶快速装弹",
     primedHeatedCharge: "高阶火焰装填",
     primedTargetCracker: "高阶弱点专精",
     primedPistolAmmoMutation: "高阶手枪弹药转换",

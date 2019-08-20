@@ -33,7 +33,7 @@ export class Warframe implements WarframeData {
   estimatedVaultDate?: string;
 
   constructor(data: WarframeData) {
-    let base = data.className ? _warframeData.find(v => v.id === data.className) : ({} as WarframeData);
+    const base = data.className ? _warframeData.find(v => v.id === data.className) : ({} as WarframeData);
     this.id = data.id;
     const ikey = `messages.${_.camelCase(data.id)}`;
     this.name = i18n.te(ikey) ? i18n.t(ikey) : data.id;
