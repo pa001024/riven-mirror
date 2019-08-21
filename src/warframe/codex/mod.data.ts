@@ -23,6 +23,10 @@ const data = [
   ["05", "Vigilante Offense", [["P", 0.3], ["!ce", 5]], Primary, "-", "r", 4],
   ["06", "Hunter Track", [["3", 5]], Primary, "r", "r", 4],
   ["07", "Vigilante Supplies", [["am", 30]], Primary, "-", "r", 4],
+  ["08", "Proton Jet", [["During a Wall Latch gain +30% Status Chance and Critical Chance."]], Primary, "-", "c", 4, 3],
+  ["09", "Motus Setup", [["25% Critical and Status Chance for 1s after landing from a Double or Bullet Jump."]], Primary, "r", "r", 6, 3],
+  ["0A", "Aero Periphery", [["-12.5% Zoom while Aim Gliding"]], Primary, "-", "n", 2, 3],
+  ["0B", "Aero Agility", [["+25% Reload Speed while Aim Gliding"]], Primary, "-", "r", 4, 3],
 
   // 步枪 10 ~ 4z
   ["10", "Serration", [["D", 15]], Rifle, "r", "c", 4, 10],
@@ -101,12 +105,6 @@ const data = [
   ["2B", "Deadly Sequence", [["0", 50], ["vs", 0.3]], "Grinlok", "r", "r", 4, 3],
   ["2C", "Gilded Truth", [["R", 20], ["vt", 0.3]], "Burston Prime", "r", "r", 4, 3],
   ["2D", "Spring-Loaded Broadhead", [["!oad", 40], ["!ify", 45], ["ify", -5]], "Daikyu", "r", "r", 10],
-  // ["2E", "Apex Predator", "顶级掠食者", [["PVP", 0]], "让被击中的目标暂时出现在小地图上（限武形秘仪）", "Rilfe", "-", "c", 7],
-  // ["2F", "Lucky Shot", "幸运射击", [["PVP", 0]], "提升武器的抛射物飞行速度，降低精准度（限武形秘仪）", "Rilfe", "r", "c", 9],
-  // ["2G", "Vanquished Prey", "战无不克", [["PVP", 0]], "击败另一名玩家后降低一段时间的护盾回充延迟，降低生命球的回血量（限武形秘仪）", "Assault Rifle", "d", "r", 9],
-  // ["2H", "Comet Rounds", "彗星弹头", [["PVP", 0]], "将一部分物理伤害转化为冲击伤害（限武形秘仪）", "Rilfe", "r", "c", 5],
-  // ["2I", "Serrated Rounds", "锯刃弹头", [["PVP", 0]], "一部分物理伤害转换为切割伤害（限武形秘仪）", "Rilfe", "r", "c", 5],
-  // ["2J", "Ripper Rounds", "撕裂弹头", [["PVP", 0]], "将一部分物理伤害转化为穿刺伤害（限武形秘仪）", "Rilfe", "r", "c", 5],
   ["2K", "Depleted Reload", [["L", -10], ["F", 8]], Sniper, "-", "r", 2],
   ["2L", "Primed Shred", [["R", 5], ["P", 0.2]], Rifle, "r", "l", 6, 10],
   ["2M", "Primed Rifle Ammo Mutation", [["am", 68.75]], "Assault Rifle", "-", "l", 4, 10],
@@ -120,6 +118,9 @@ const data = [
   ["2U", "Bursting Mass", [["The infested mass accumulates 50% of the damage that goes through it and deals it in 15m radius when it expires. Secondary fire will manually detonate an existing mass."]], "Mutalist Quanta", "-", "r", 4],
   ["2V", "Napalm Grenades", [["i2", 5], ["!eid", -100], ["!e4", 700]], "Penta", "-", "r", 4],
   ["2W", "Amalgam Serration", [["D", 14], ["!D", 1], ["f", 2.2], ["!f", 0.8]], Rifle, "r", "g", 6, 10],
+  ["2X", "Amalgam Javlok Magazine Warp", [["L", 7.5], ["Parrying with a Shield reflects +1000% Damage"], ["+15% Channeling Efficiency while Parrying"]], "Javlok", "-", "r", 6],
+  ["2Y", "Amalgam Daikyu Target Acquired", [["hm", 12.5], ["+0.5% Life Steal on Nikanas"], ["10% chance to pickup used arrows."]], "Daikyu", "r", "r", 10],
+  ["2Z", "Amalgam Argonak Metal Auger", [["P", 0.5], ["Damage from daggers reduces Armor by +1."], ["Enemies are revealed by Punch Through."]], "Argonak", "-", "r", 6],
 
   // 霰弹枪 50 ~ 8z
   ["50", "Point Blank", [["D", 15]], Shotgun, "r", "c", 4],
@@ -341,7 +342,10 @@ const data = [
   ["DK", "Tek Gravity", [["Slam Attacks in the Marked Zone pull all enemies within 6m."]], Melee, "r", "r", 6, 3],
   ["DL", "Strain Infection", [["Melee Attacks gain +5% Critical Damage per Cyst."]], Melee, "r", "r", 6, 3],
   ["DM", "Amalgam Organ Shatter", [["1", 14], ["!1", 1], ["fca", 10]], Melee, "r", "g", 6],
-
+  ["DN", "Proton Snap", [["Hold Wall Latch for 2s to gain +25% <DT_POISON>Toxin Damage"], [" and +12.5% Status Chance for 5s."]], Melee, "r", "r", 6, 3],
+  ["DO", "Motus Impact", [["Increase range of aerial melee attacks by +0.5m."]], Melee, "r", "c", 4, 3],
+  ["DP", "Amalgam Ripkas True Steel", [["0", 13], ["+3% Reload Speed on Shotguns"], ["+17% Gore Chance"]], "Ripkas", "r", "r", 6],
+  ["DQ", "Amalgam Furax Body Count", [["N", 2.5], ["+3% Blast Radius on Specialized Launchers"], ["Melee kills knockdown enemies within 2.5m"]], "Furax", "-", "r", 6],
   // 战甲 G0 ~ Nz
   // 光环
   ["G0", "Growing Power", [["t", 25.5 / 6]], Aura, "r", "r", -2],
@@ -413,6 +417,11 @@ const data = [
   ["HN", "Adaptation", [["!res", 90]], Warframe, "d", "r", 2, 10],
   ["HO", "Natural Talent", [["c", 12.5]], Warframe, "-", "r", 6, 3],
   ["HP", "Reflection", [["ref", 16]], Warframe, "d", "n", 2],
+  ["HQ", "Gale Kick", [["+25% of Melee Damage converted to <DT_IMPACT>Impact Damage on Jump Kick, knocking down nearby enemies on kill."]], Warframe, "r", "r", 4, 3],
+  ["HR", "Kavat's Grace", [["Resist Hard Landings from falling at speeds of up to 25m/s."]], Warframe, "-", "r", 4, 3],
+  ["HS", "Proton Pulse", [["Wall Dashing grants +25% Bullet Jump Speed."]], Warframe, "-", "n", 4, 3],
+  ["HT", "Motus Signal", [["Increase Double Jump strength by +50%."]], Warframe, "-", "n", 4, 3],
+  ["HU", "Aero Vantage", [["+25% Reduced Gravity during Aim Glide"]], Warframe, "-", "c", 4, 3],
 
   // 组合
   ["Ha", "Umbral Vitality", [["h", 40], ["tr", 1]], Warframe, "w", "l", 6, 10],
@@ -585,6 +594,14 @@ const data = [
   ["LL", "Jet Stream", [["Turbulence Augment"]], "Zephyr", "=", "r", 6, 3],
   ["LM", "Funnel Clouds", [["Tornado Augment"]], "Zephyr", "=", "r", 6, 3],
   ["LN", "Target Fixation", [["Tail Wind Augment"]], "Zephyr", "=", "r", 6, 3],
+  ["LO", "Spectrosiphon", [["Spectrorage Augment"]], "Gara", "=", "r", 6, 3],
+  ["LP", "Dread Ward", [["Dread Mirror Augment"]], "Garuda", "=", "r", 6, 3],
+  ["LQ", "Desiccation's Curse", [["Desiccation Augment"]], "Inaros", "=", "r", 6, 3],
+  ["LR", "Venari Bodyguard", [["Venari Augment"]], "Khora", "=", "r", 6, 3],
+  ["LS", "Pilfering Strangledome", [["Strangledome Augment"]], "Khora", "=", "r", 6, 3],
+  ["LT", "Teeming Virulence", [["Virulence Augment"]], "Nidus", "=", "r", 6, 3],
+  ["LU", "Molecular Fission", [["Molecular Prime Augment"]], "Nova", "=", "r", 6, 3],
+  ["LV", "Blinding Reave", [["Reave Augment"]], "Revenant", "=", "r", 6, 3],
 
   // Archwing
   ["Q0", "Hyperion Thrusters", [["fl", 2.5]], Archwing, "-", "r", 10, 10],
@@ -630,6 +647,7 @@ const data = [
   ["TN", "Deadly Efficiency", [["onReloadFromEmpty"], ["D", 20]], Archgun, "r", "r", 4],
   ["TO", "Resolute Focus", [["ck", 17], ["spr", -8]], Archgun, "-", "c", 4],
   ["TP", "Quick Reload", [["F", 25]], Archgun, "-", "c", 2, 3],
+  ["TQ", "Ammo Chain", [["M", 16.7]], Archgun, "-", "c", 2],
 
   // Archmelee
   ["V0", "Poisonous Sting", [["6", 20]], Archmelee, "-", "c", 4],
@@ -647,6 +665,9 @@ const data = [
   ["VC", "Astral Slash", [["A", 15]], Archmelee, "-", "r", 2],
   ["VD", "Nebula Bore", [["9", 15]], Archmelee, "-", "r", 2],
   ["VE", "Meteor Crash", [["8", 15]], Archmelee, "-", "r", 2],
+  ["VF", "Infectious Injection", [["6", 15], ["2", 15]], Archmelee, "r", "r", 4, 3],
+  ["VG", "Ion Infusion", [["7", 15], ["2", 15]], Archmelee, "r", "r", 4, 3],
+  ["VH", "Cryo Coating", [["5", 15], ["2", 15]], Archmelee, "r", "r", 4, 3],
 
   // Companion
   ["W0", "Synth Fiber", [["Health Orbs increase Armor for Sentinel by 25% for 3s.", 0]], "Companion", "r", "r", 4, 3],
@@ -718,6 +739,33 @@ const data = [
   ["X4", "Security Override", [["Auto-hacks consoles over 12s. 5% chance to mind control basic robotic enemies and turrets in 30m for 4s after Hacking.", 0]], "Companion", "y", "n", 2],
   ["X5", "Scavenge", [["+15% chance for the pet to pry open a locked locker.", 0]], "Companion", "y", "n", 0],
   ["X6", "Shelter", [["Creates a shield with 100 Health around the player when they are reviving fallen allies.", 0]], "Companion", "d", "c", 6, 10],
+  ["X7", "Proboscis", [["Helminth Charger whips a proboscis out at an enemy within 15m, pulling them back and dealing 25 damage.", 0]], "Helminth Charger", "y", "r", 0, 3],
+  ["X8", "Trample", [["The Helminth Charger rushes an enemy, dealing 35 Damage to all in its path.", 0]], "Helminth Charger", "y", "r", 0],
+  ["X9", "Tek Enhance", [["+5% Kavat Ability Duration", 0]], "Kavat", "r", "r", 6],
+  ["XA", "Tek Assault", [["Kavat has 15% chance to ignore Lethal Damage and be immune for 1s.", 0]], "Kavat", "r", "r", 6, 3],
+  ["XB", "Sense Danger", [["The Kavat alerts their master of nearby enemies within 25m for 10s.", 0]], "Kavat", "y", "c", 2, 3],
+  ["XC", "Swipe", [["Strikes 1 additional enemies and increases Attack Range by 0.5m.", 0]], "Kavat", "r", "c", 2, 3],
+  ["XD", "Sharpened Claws", [["A vicious attack dealing 150% damage that sunders armor by 30% and rends flesh.", 0]], "Kavat", "r", "c", 2, 3],
+  ["XE", "Reflect", [["Adarza Kavat has a 10% chance to reflect damage back to an enemy, amplifying it by 15%.", 0]], "Kavat", "y", "r", 0, 3],
+  ["XF", "Pounce", [["The Kavat pounces at an enemy, dealing 60% Damage and stunning them for a short duration.", 0]], "Kavat", "r", "c", 2, 3],
+  ["XG", "Territorial Aggression", [["The Kavat marks their territory, pacifying any wild creature within 10m for 5s.", 0]], "Kavat", "y", "c", 2, 3],
+  ["XH", "Charm", [["Smeeta Kavat has a 7% chance every 30s to bestow its owner with good fortune.", 0]], "Kavat", "y", "r", 0, 3],
+  ["XI", "Mischief", [["Allows Smeeta Kavat to become invisible for 6s every 10s while a decoy kavat draws fire. Decoy has a 0% chance to evade damage.", 0]], "Kavat", "y", "r", 0, 3],
+  ["XJ", "Cat's Eye", [["Adarza Kavat grants 15% increased critical chance for 4s to allies within 15m every 50s.", 0]], "Kavat", "y", "r", 0, 3],
+  ["XK", "Strain Fever", [["Helminth Charger gains +7% Damage per Cyst.", 0]], "Kubrow", "r", "r", 6, 3],
+  ["XL", "Strain Eruption", [["Increased Pistol Ammo recovery.", 0], ["Maggots explode on death, dealing 1% of an enemy's current Health as <DT_CORROSIVE>Corrosive Damage to any enemy within 2m.", 0]], "Kubrow", "-", "r", 2, 3],
+  ["XM", "Mecha Recharge", [["r", 15]], "Kubrow", "r", "r", 4],
+  ["XN", "Mecha Overdrive", [["+10% Status-Link", 0], ["3", 15]], "Kubrow", "r", "r", 6],
+  ["XO", "Ferocity", [["Allows the Kubrow to use Finisher attacks on an enemy.", 0], ["X", 20]], "Kubrow", "y", "r", 0],
+  ["XP", "Savagery", [["Allows the Kubrow to use Finisher attacks on an enemy.", 0], ["X", 20]], "Kubrow", "y", "r", 0],
+  ["XQ", "Unleashed", [["The kubrow grapples a VIP target within 35m, forcing them to the ground.", 0]], "Kubrow", "y", "r", 0],
+  ["XR", "Protect", [["The kubrow comes to the defense of its master, replenishing their shields by 91.", 0]], "Kubrow", "y", "r", 0],
+  ["XS", "Retrieve", [["Kubrow has 7.5% chance to scavenge additional loot from a fallen enemy or containers within 5m, every 10s.", 0]], "Kubrow", "y", "n", 0],
+  ["XT", "Howl", [["The kubrow cries out with a blood-curdling howl that strikes fear into 5 enemies within 4m for 6s.", 0]], "Kubrow", "y", "r", 0],
+  ["XU", "Neutralize", [["The kubrow bites the hand of an enemy within 10m, causing them to drop their weapon.", 0]], "Kubrow", "y", "r", 0],
+  ["XV", "Dig", [["The kubrow sniffs out buried objects and digs them up.", 0], ["+45% Success Chance", 0]], "Kubrow", "y", "r", 0],
+  ["XW", "Stalk", [["The kubrow cloaks itself and its master to stalk down its prey when they are within 14m.", 0]], "Kubrow", "y", "r", 0],
+  ["XX", "Hunt", [["The kubrow charges ahead to attack an enemy, dealing 35 Damage to all in its path.", 0]], "Kubrow", "y", "r", 0],
 ] as [string, string, [string, number][], Tags, Polarity, Rarity, number, number?][];
 
 type Tags = string | string[];

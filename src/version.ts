@@ -3,11 +3,13 @@ export const version = "1.6.7";
 export const updateLogs = [
   {
     version: "1.6.7",
-    date: "2019/8/6",
+    date: "2019/8/21",
     md: {
-      en: `- Add: xxx`,
-      cn: `- [新]战术模拟: 同伴配卡
-- 新增: 新MOD系列: 跃动 质子 空飞
+      en: `- [New] Tactical Simulation: Companion/Archwing Building
+- Fix: Added some new mods (only the name, dynamic property not ready, may spend more time)
+- Fix: The problem of choosing different mode gains in the Tactical Simulation will not be displayed correctly.`,
+      cn: `- [新]战术模拟: 同伴/Archwing配卡
+- 修复: 补充部分新增的MOD (只有名字 属性尚未标注)
 - 修复: 战甲配装中选择不同模式收益不会正确显示的问题`
     }
   },

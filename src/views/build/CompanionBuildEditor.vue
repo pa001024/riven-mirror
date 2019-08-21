@@ -49,17 +49,17 @@
             </el-button-group>
             <el-form class="build-form-editor">
               <!-- 生命 -->
-              <el-form-item :label="$t('buildview.healthLinkRef')">
+              <!-- <el-form-item :label="$t('buildview.healthLinkRef')">
                 <el-slider class="right-side fill" v-model="healthLinkRef" size="small" :min="0" :max="20000" show-stops @change="optionChange"></el-slider>
-              </el-form-item>
+              </el-form-item> -->
               <!-- 护盾 -->
-              <el-form-item :label="$t('buildview.shieldLinkRef')">
+              <!-- <el-form-item :label="$t('buildview.shieldLinkRef')">
                 <el-slider class="right-side fill" v-model="shieldLinkRef" size="small" :min="0" :max="5000" show-stops @change="optionChange"></el-slider>
-              </el-form-item>
+              </el-form-item> -->
               <!-- 护甲 -->
-              <el-form-item :label="$t('buildview.armorLinkRef')">
+              <!-- <el-form-item :label="$t('buildview.armorLinkRef')">
                 <el-slider class="right-side fill" v-model="armorLinkRef" size="small" :min="0" :max="2000" show-stops @change="optionChange"></el-slider>
-              </el-form-item>
+              </el-form-item> -->
             </el-form>
           </el-card>
         </div>
