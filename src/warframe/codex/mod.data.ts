@@ -636,7 +636,7 @@ const data = [
   ["TC", "Critical Focus", [["cd", 10]], Archgun, "r", "r", 6],
   ["TD", "Magazine Extension", [["L", 10]], Archgun, "-", "n", 4],
   ["TE", "Shell Rush", [["ca", 12.5]], Archgun, "d", "c", 4, 3],
-  ["TF", "Arch-Gun Ace", [["onHeadshotKill"], ["rc", 8], ["F", 17]], Archgun, "r", "r", 6],
+  ["TF", "Archgun Ace", [["onHeadshotKill"], ["rc", 8], ["F", 17]], Archgun, "r", "r", 6],
   ["TG", "Contamination Casing", [["6", 15], ["2", 15]], Archgun, "r", "r", 4, 3],
   ["TH", "Magma Chamber", [["4", 15], ["2", 15]], Archgun, "r", "r", 4, 3],
   ["TI", "Charged Bullets", [["7", 15], ["2", 15]], Archgun, "r", "r", 4, 3],

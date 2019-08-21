@@ -704,7 +704,7 @@ let po = {
     quickReload: "快速裝填",
     criticalFocus: "關鍵焦點",
     markedTarget: "標記目標",
-    archGunAce: "Arch-槍械行家",
+    archgunAce: "Arch-槍械行家",
     hypothermicShell: "低溫外殼",
     chargedBullets: "帶電子彈",
     ionInfusion: "離子注入",
