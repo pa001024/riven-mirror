@@ -40,7 +40,7 @@ export enum BuffType {
   ElementDamage,
   CritDamage,
   Speed,
-  Other
+  Other,
 }
 /**
  * 实体BUFF类
@@ -83,7 +83,7 @@ export class Buff {
         id: vp.id,
         fullName: vp.fullString,
         shortName: vp.shortString,
-        value: vp.value
+        value: vp.value,
       };
     });
   }
@@ -122,7 +122,7 @@ export const BuffList: BuffData[] = [
     ["aQ", "arcaneRage", [["D", 120]], "Primary"], // 愤怒
     ["aR", "arcaneTempo", [["R", 60]], "Shotgun"], // 节奏
     ["aS", "arcaneVelocity", [["R", 80]], "Secondary"], // 迅速
-    ["aT", "paxBolt", [["t", 30], ["x", 30]], "Warframe"] // 和平电闪
+    ["aT", "paxBolt", [["t", 30], ["x", 30]], "Warframe"], // 和平电闪
   ].map(
     v =>
       ({
@@ -132,8 +132,8 @@ export const BuffList: BuffData[] = [
         target: v[3],
         multiLayer: {
           maxStack: 2,
-          stackableProps: v[2]
-        }
+          stackableProps: v[2],
+        },
       } as BuffData)
   ),
   ...[
@@ -162,7 +162,7 @@ export const BuffList: BuffData[] = [
     // ["mM", "magusLockdown", [[]], "Operator"],
     // ["mN", "magusDestruct", [[]], "Operator"],
     // ["mO", "magusAnomaly", [[]], "Operator"],
-    ["mP", "magusMelt", [["4", 25]], "Amp"]
+    ["mP", "magusMelt", [["4", 25]], "Amp"],
     // ["mQ", "magusAccelerant", [[]], "Operator"],
     // ["mR", "magusRepair", [[]], "Operator"],
   ].map(
@@ -175,14 +175,14 @@ export const BuffList: BuffData[] = [
         defaultLayer: v[4] || 4,
         multiLayer: {
           maxStack: v[4] || 4,
-          stackableProps: v[2]
-        }
+          stackableProps: v[2],
+        },
       } as BuffData)
   ),
   // 战甲加成
   ...[
     ["A0", "growingPower", [["t", 25.5]], "Warframe"], // 成长之力
-    ["A1", "powerDonation", [["t", 30]], "Warframe"] // 献出力量
+    ["A1", "powerDonation", [["t", 30]], "Warframe"], // 献出力量
   ].map(
     v =>
       ({
@@ -193,8 +193,8 @@ export const BuffList: BuffData[] = [
         defaultLayer: v[4] || 1,
         multiLayer: {
           maxStack: v[4] || 6,
-          stackableProps: v[2]
-        }
+          stackableProps: v[2],
+        },
       } as BuffData)
   ),
   {
@@ -204,7 +204,7 @@ export const BuffList: BuffData[] = [
     target: "Dex Pixia",
     dynamicProps: [["R", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 100
+    defaultValue: 100,
   },
   {
     id: "cb4",
@@ -214,7 +214,7 @@ export const BuffList: BuffData[] = [
     props: [["p4", 100]],
     dynamicProps: [["i2", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 100
+    defaultValue: 100,
   },
   {
     id: "cb5",
@@ -224,7 +224,7 @@ export const BuffList: BuffData[] = [
     props: [["p5", 100]],
     dynamicProps: [["i2", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 100
+    defaultValue: 100,
   },
   {
     id: "cb6",
@@ -234,7 +234,7 @@ export const BuffList: BuffData[] = [
     props: [["p6", 100]],
     dynamicProps: [["i2", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 100
+    defaultValue: 100,
   },
   {
     id: "cb7",
@@ -244,7 +244,7 @@ export const BuffList: BuffData[] = [
     props: [["p7", 100]],
     dynamicProps: [["i2", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 100
+    defaultValue: 100,
   },
   {
     id: "vm",
@@ -253,7 +253,7 @@ export const BuffList: BuffData[] = [
     target: "Warframe",
     dynamicProps: [["eh", 3, 0], ["hps", 0.3, 0]],
     parms: ["power", "%"],
-    defaultValue: 200
+    defaultValue: 200,
   },
   {
     id: "hm",
@@ -262,16 +262,16 @@ export const BuffList: BuffData[] = [
     target: "Warframe",
     dynamicProps: [["f", 0.2, 0]],
     parms: ["power", "%"],
-    defaultValue: 200
+    defaultValue: 200,
   },
   {
     id: "h",
     name: "hasteMote", // Wisp 急速尘埃
     type: BuffType.Speed,
     target: "Weapon",
-    dynamicProps: [["R", 0.2, 0]],
+    dynamicProps: [["R", 0.3, 0], ["J", 0.2, 0]],
     parms: ["power", "%"],
-    defaultValue: 200
+    defaultValue: 200,
   },
   {
     id: "Q",
@@ -280,7 +280,7 @@ export const BuffList: BuffData[] = [
     target: "Warframe",
     dynamicProps: [["ovs", 0.25, 0]],
     parms: ["power", "%"],
-    defaultValue: 364
+    defaultValue: 364,
   },
   {
     id: "q",
@@ -289,7 +289,7 @@ export const BuffList: BuffData[] = [
     target: "Warframe",
     dynamicProps: [["t", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 80
+    defaultValue: 80,
   },
   {
     id: "y",
@@ -298,14 +298,14 @@ export const BuffList: BuffData[] = [
     target: "Warframe",
     dynamicProps: [["res", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 75
+    defaultValue: 75,
   },
   {
     id: "X",
     name: "corruption", // 堕落
     type: BuffType.Other,
     target: "Warframe",
-    props: [["ovs", 100], ["ovr", 100]]
+    props: [["ovs", 100], ["ovr", 100]],
   },
   {
     id: "x",
@@ -314,7 +314,7 @@ export const BuffList: BuffData[] = [
     target: "Warframe",
     dynamicProps: [["f", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
 
   // 加法基伤类
@@ -326,7 +326,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["dmg", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 100
+    defaultValue: 100,
   },
   {
     id: "ms",
@@ -335,7 +335,7 @@ export const BuffList: BuffData[] = [
     target: "Gun",
     dynamicProps: [["S", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 100
+    defaultValue: 100,
   },
   {
     id: "B",
@@ -344,7 +344,7 @@ export const BuffList: BuffData[] = [
     target: "Gun",
     dynamicProps: [["apd", 16, 0]],
     parms: ["power", "%"],
-    defaultValue: 200
+    defaultValue: 200,
   },
   {
     id: "G",
@@ -353,7 +353,7 @@ export const BuffList: BuffData[] = [
     target: "All",
     dynamicProps: [["dmg", 0.25, 0]],
     parms: ["power", "%"],
-    defaultValue: 200
+    defaultValue: 200,
   },
   {
     id: "A",
@@ -362,7 +362,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["dmg", 2.75, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "w4",
@@ -371,7 +371,7 @@ export const BuffList: BuffData[] = [
     target: "Warframe",
     dynamicProps: [["h", 2, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "w5",
@@ -380,7 +380,7 @@ export const BuffList: BuffData[] = [
     target: "Warframe",
     dynamicProps: [["a", 1.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "w6",
@@ -389,7 +389,7 @@ export const BuffList: BuffData[] = [
     target: "Warframe",
     dynamicProps: [["F", 0.35, 0], ["hr", 0.35, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "w7",
@@ -398,7 +398,7 @@ export const BuffList: BuffData[] = [
     target: "Warframe",
     dynamicProps: [["s", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "A3",
@@ -407,7 +407,7 @@ export const BuffList: BuffData[] = [
     target: "Warframe",
     dynamicProps: [["a", 3.5, 0], ["dmg", 2.75, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "J",
@@ -416,7 +416,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["dmg", 2, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "d",
@@ -424,7 +424,7 @@ export const BuffList: BuffData[] = [
     type: BuffType.BaseDamage,
     target: "Sniper",
     dynamicProps: [["dmg", 52.5, 0]],
-    parms: ["mul", "x"]
+    parms: ["mul", "x"],
   },
   {
     id: "m",
@@ -433,7 +433,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["dmg", 0.25, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "v",
@@ -442,9 +442,9 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     multiLayer: {
       maxStack: 11,
-      stackableProps: [["dmg", 15]]
+      stackableProps: [["dmg", 15]],
     },
-    defaultLayer: 11
+    defaultLayer: 11,
   },
   {
     id: "z",
@@ -453,7 +453,7 @@ export const BuffList: BuffData[] = [
     target: "Regulators",
     dynamicProps: [["dmg", 1.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 100
+    defaultValue: 100,
   },
   // 乘法总伤类
   {
@@ -463,7 +463,7 @@ export const BuffList: BuffData[] = [
     target: "Exalted",
     dynamicProps: [["eid", 1, -100]],
     parms: ["power", "%"],
-    defaultValue: 100
+    defaultValue: 100,
   },
   {
     id: "c",
@@ -472,7 +472,7 @@ export const BuffList: BuffData[] = [
     target: "Sniper",
     dynamicProps: [["oad", 100, -100]],
     parms: ["status", ""],
-    defaultValue: 2
+    defaultValue: 2,
   },
   {
     id: "o",
@@ -481,7 +481,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["oad", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 100
+    defaultValue: 100,
   },
   {
     id: "R",
@@ -490,7 +490,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon+",
     dynamicProps: [["aed", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "E",
@@ -499,7 +499,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["oad", 2, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "M",
@@ -508,7 +508,7 @@ export const BuffList: BuffData[] = [
     target: "All",
     dynamicProps: [["oad", 12, 0]],
     parms: ["time", "s"],
-    defaultValue: 30
+    defaultValue: 30,
   },
   {
     id: "U",
@@ -517,9 +517,9 @@ export const BuffList: BuffData[] = [
     target: "Amp",
     multiLayer: {
       maxStack: 4,
-      stackableProps: [["oad", 25]]
+      stackableProps: [["oad", 25]],
     },
-    defaultLayer: 4
+    defaultLayer: 4,
   },
   {
     id: "K",
@@ -528,16 +528,16 @@ export const BuffList: BuffData[] = [
     target: "Ack & Brunt",
     multiLayer: {
       maxStack: 4,
-      stackableProps: [["oad", 17.5]]
+      stackableProps: [["oad", 17.5]],
     },
-    defaultLayer: 4
+    defaultLayer: 4,
   },
   {
     id: "N",
     name: "molecularPrime", // nova4 分子填充
     type: BuffType.TotalDamage,
     target: "All",
-    props: [["oad", 100]]
+    props: [["oad", 100]],
   },
   {
     id: "C",
@@ -546,9 +546,9 @@ export const BuffList: BuffData[] = [
     target: "Melee",
     multiLayer: {
       maxStack: 13,
-      stackableProps: [["esc", 1]]
+      stackableProps: [["esc", 1]],
     },
-    defaultLayer: 2
+    defaultLayer: 2,
   },
   {
     id: "T",
@@ -557,7 +557,7 @@ export const BuffList: BuffData[] = [
     target: "Melee",
     dynamicProps: [["ds", 20, 100], ["sd", 20, 100]],
     parms: ["level", ""],
-    defaultValue: 30
+    defaultValue: 30,
   },
   // 附加元素类
   {
@@ -567,7 +567,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["4", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "a",
@@ -576,7 +576,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["4", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "F",
@@ -585,7 +585,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["5", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "S",
@@ -594,7 +594,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["7", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "O",
@@ -603,7 +603,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["erd", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "D",
@@ -612,7 +612,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["ecd", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "s",
@@ -621,7 +621,7 @@ export const BuffList: BuffData[] = [
     target: "Weapon",
     dynamicProps: [["etd", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 10
+    defaultValue: 10,
   },
   // 速度类
   // 电男2 女汉子2 毒龙2
@@ -633,7 +633,7 @@ export const BuffList: BuffData[] = [
     target: "Melee",
     dynamicProps: [["J", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "W",
@@ -642,7 +642,7 @@ export const BuffList: BuffData[] = [
     target: "Melee",
     dynamicProps: [["J", 0.5, 0]],
     parms: ["power", "%"],
-    defaultValue: 250
+    defaultValue: 250,
   },
   {
     id: "w",
@@ -651,7 +651,7 @@ export const BuffList: BuffData[] = [
     target: "Gun",
     dynamicProps: [["F", 0.35, 0]],
     parms: ["power", "%"],
-    defaultValue: 171.4
+    defaultValue: 171.4,
   },
   // 暴击类
   {
@@ -661,7 +661,7 @@ export const BuffList: BuffData[] = [
     target: "All",
     dynamicProps: [["i0", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 60
+    defaultValue: 60,
   },
   {
     id: "I",
@@ -670,14 +670,14 @@ export const BuffList: BuffData[] = [
     target: "All",
     dynamicProps: [["1", 1, 0]],
     parms: ["power", "%"],
-    defaultValue: 348
+    defaultValue: 348,
   },
   {
     id: "H",
     name: "covenant", // 主教4 庇佑圣约
     type: BuffType.CritDamage,
     target: "Weapon",
-    props: [["i0", 50], ["cwh", 150]]
+    props: [["i0", 50], ["cwh", 150]],
   },
   {
     id: "l",
@@ -686,15 +686,15 @@ export const BuffList: BuffData[] = [
     target: "Melee",
     multiLayer: {
       maxStack: 6,
-      stackableProps: [["bldr", 15]]
-    }
+      stackableProps: [["bldr", 15]],
+    },
   },
   {
     id: "r",
     name: "charm", // 招福
     type: BuffType.CritDamage,
     target: "Weapon",
-    props: [["ccl", 200]]
+    props: [["ccl", 200]],
   },
   // 复合类
   {
@@ -705,9 +705,16 @@ export const BuffList: BuffData[] = [
     props: [["fcd", 100]],
     multiLayer: {
       maxStack: 6,
-      stackableProps: [["eed", 50]]
+      stackableProps: [["eed", 50]],
     },
-    defaultLayer: 6
+    defaultLayer: 6,
+  },
+  {
+    id: "V2",
+    name: "energyShell", // 能量护罩
+    type: BuffType.Other,
+    target: "Ranged",
+    props: [["fcd", 100], ["efd", 50]],
   },
   {
     id: "e",
@@ -716,8 +723,8 @@ export const BuffList: BuffData[] = [
     target: "Ranged",
     multiLayer: {
       maxStack: 6,
-      stackableProps: [["efd", 50]]
-    }
+      stackableProps: [["efd", 50]],
+    },
   },
   {
     id: "L",
@@ -727,8 +734,8 @@ export const BuffList: BuffData[] = [
     props: [["fcd", 25], ["i0", 25], ["oad", -33.3]],
     multiLayer: {
       maxStack: 3,
-      unstackableProps: [[["eed", 100]], [["eed", 366.6]], [["eed", 500]]]
+      unstackableProps: [[["eed", 100]], [["eed", 366.6]], [["eed", 500]]],
     },
-    defaultLayer: 3
-  }
+    defaultLayer: 3,
+  },
 ];

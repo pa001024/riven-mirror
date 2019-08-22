@@ -1539,6 +1539,7 @@ let po = {
     smiteInfusion: "Smite Infusion (Oberon)",
     venomDose: "Venom Dose (Saryn)",
     electricShield: "Electric Shield (Volt)",
+    energyShell: "Energy Shell (Odonata)",
     fireBlast: "Fire Blast (Ember)",
     empoweredQuiver: "Empowered Quiver (Ivara)",
     covenant: "Covenant (Harrow)",
