@@ -505,7 +505,12 @@ export class WorldStat {
   fetch() {
     return new Promise((resolve, reject) => {
       axios
-        .get(this.APIBase, { timeout: 10e3 })
+        .get(this.APIBase, {
+          timeout: 10e3,
+          headers: {
+            "Accept-Language": "English",
+          },
+        })
         .then(data => {
           this.data = data.data;
           resolve(this.data);
@@ -562,7 +567,7 @@ export class WorldStat {
         boss: "",
         faction: "",
         expired: false,
-        eta: ""
+        eta: "",
       };
     return this.deepTranslate(this.data.sortie);
   }
@@ -590,7 +595,7 @@ export class WorldStat {
     "neurodes",
     "orokinCell",
     "oxium",
-    "tellurium"
+    "tellurium",
   ];
   /**
    * 警报信息
