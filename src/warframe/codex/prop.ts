@@ -10,6 +10,7 @@ export interface CommonProperty {
   dmg?: boolean;
   noplus?: boolean;
   negative?: boolean;
+  format?: (v: number) => string;
 }
 
 /**
@@ -279,14 +280,14 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "gdr", nopercent: true }, // 嘲讽
   { id: "hlr", nopercent: true, noplus: true }, // 治愈
   { id: "exd", nopercent: true }, // 额外伤害
-  { id: "amr" }, // 护甲
+  { id: "amr" }, // +护甲
   { id: "par", noplus: true }, // 反击几率
   { id: "msd" }, // 近战震波伤害
   { id: "fs" }, // 飞行速度 (战刃)
   { id: "ld", nopercent: true }, // Extra Damage on Melee Attacks, or Lethal Damage on Finishers.
   { id: "ar", nopercent: true }, // + Range (nopercent)
   { id: "cd", dmg: true }, // Critical Chance and Damage when Aiming
-  { id: "ca" }, // 苏丽速度 Charge Rate
+  { id: "ca" }, // 蓄力速度 Charge Rate
   { id: "ck" }, // Chance to Resist Staggers/Knockdowns when Aiming
   { id: "sds" }, // Status Duration on Self
   { id: "but" }, // Shots now bounce up to 1x and travel 5% further.
@@ -300,6 +301,23 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "erc" }, // energy recovery
   { id: "rvs" }, // Revive Speed
   { id: "dgs" }, // Dodge Speed
+  { id: "hl" }, // Health Link
+  { id: "sl" }, // Shield Link
+  { id: "al" }, // Amror Link
+  { id: "bl" }, // Bleedout Link
+  { id: "vl" }, // Lifesteal Link
+  { id: "cl" }, // Critical Chance Link
+  { id: "rl" }, // Companion Lifesteal-Link
+  { id: "pl" }, // Status-Link
+  { id: "gd", noplus: true }, // Guardian
+  { id: "rh", noplus: true }, // Medi-Ray
+  { id: "cs", noplus: true, nopercent: true }, // Sanctuary
+  { id: "ws" }, // Warframe Shield
+  { id: "wr" }, // Warframe ShieldRecharge
+  { id: "ava" }, // Warframe Jump Height
+  { id: "reg", noplus: true, format: v => Math.max(1, Math.round(v)) }, // Warframe Jump Height
+  { id: "rmh", noplus: true }, // Regen
+  { id: "chf", noplus: true }, // Regen
 
   // no parameter 无参数
   { id: "sp" }, // 魔改
@@ -311,19 +329,6 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "vtv", dmg: true }, // to Viral
   { id: "vtp", dmg: true }, // to Puncture
   { id: "vth", dmg: true }, // to Heat
-
-  // 条件
-  { id: "ify" }, // if the target is over 45m away.
-  { id: "onHeadshot" },
-  { id: "onHeadshotKill" },
-  { id: "onKill" },
-  { id: "onReload" },
-  { id: "onHit" },
-  { id: "onAbilityCast" },
-  { id: "onMeleeChannelKill" },
-  { id: "onReloadFromEmpty" },
-  { id: "onDodge" },
-  { id: "onEquip" }
 ].reduce((a, b) => ((a[b.id] = b), a), {});
 
 /**
@@ -343,7 +348,8 @@ export class ValuedProperty {
           const skillName = "skill." + _.camelCase(vn.substr(0, vn.length - 8));
           return i18n.t("prop.fullName.augment", [i18n.te(skillName) ? i18n.t(skillName) : vn.substr(0, vn.length - 8)]);
         }
-        if (i18n.te(`prop.fullName.${vn}`)) return i18n.t(`prop.fullName.${vn}`);
+        const ikey = `prop.fullName.${_.camelCase(vn)}`;
+        if (i18n.te(ikey)) return i18n.t(ikey, [vv]);
         return vn;
       },
       get shortString() {
@@ -351,11 +357,12 @@ export class ValuedProperty {
           const skillName = "skill." + _.camelCase(vn.substr(0, vn.length - 8));
           return i18n.t("prop.fullName.augment", [i18n.te(skillName) ? i18n.t(skillName) : vn.substr(0, vn.length - 8)]);
         }
-        if (i18n.te(`prop.fullName.${vn}`)) return i18n.t(`prop.fullName.${vn}`);
+        const ikey = `prop.shortName.${_.camelCase(vn)}`;
+        if (i18n.te(ikey)) return i18n.t(ikey, [vv]);
         return vn;
       },
       value: vv,
-      prop: { id: vn }
+      prop: { id: vn },
     };
   }
   /** 属性原型 */
@@ -370,6 +377,7 @@ export class ValuedProperty {
    * 属性值显示
    */
   get displayValue() {
+    if (this.prop.format) return this.prop.format(this.value);
     let dv = this.prop.nopercent ? this.value.toString() : +this.value.toFixed(1) + "%";
     if (!this.prop.noplus && dv[0] != "-") return "+" + dv;
     return dv;

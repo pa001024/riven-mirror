@@ -197,7 +197,7 @@
       </el-col>
     </el-row>
     <el-dialog :title="$t('build.selectMod')" :visible.sync="dialogVisible" width="600">
-      <ModSelector ref="selector" :build="build" @command="modSelect($event)"></ModSelector>
+      <ModSelector type="Weapon" ref="selector" :build="build" @command="modSelect($event)"></ModSelector>
     </el-dialog>
     <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
       <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
@@ -259,15 +259,8 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   }
 
   comboMul = 1.5;
-  extraBaseDamage = 0;
-  extraOverall = 0;
   calcCondiOver = true;
   melee30 = false;
-  /** 赋能 */
-  arcanes = [];
-  get availableArcanes() {
-    return Codex.getAvailableArcanes(this.weapon);
-  }
 
   @Watch("weapon")
   reload() {
@@ -283,11 +276,8 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
   get options() {
     return {
       comboLevel: ~~((this.comboMul - 1) * 2),
-      extraBaseDamage: +this.extraBaseDamage,
-      extraOverall: +this.extraOverall,
       calcCondiOver: this.calcCondiOver,
       melee30: this.melee30,
-      arcanes: this.arcanes
     };
   }
 
@@ -310,8 +300,6 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
     return b;
   }
   // === 事件处理 ===
-  @Watch("extraBaseDamage")
-  @Watch("extraOverall")
   optionChange() {
     if (!this.weapon) return;
     this.build.options = this.options;

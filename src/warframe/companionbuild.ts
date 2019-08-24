@@ -7,6 +7,7 @@ import { Buff, BuffList } from "./codex/buff";
 import { base62, debase62 } from "./lib/base62";
 import { HH } from "@/var";
 import { Companion, CompanionDataBase } from "./codex/companion";
+import { CommonBuild } from "./commonbuild";
 // TODO
 export enum CompanionCompareMode {
   EffectiveHealth, // 有效血量
@@ -21,7 +22,7 @@ export interface CompanionBuildOptions {
   armorLinkRef?: number;
 }
 
-export class CompanionBuild {
+export class CompanionBuild implements CommonBuild {
   data: Companion;
   protected _rawmods: NormalMod[] = [];
   protected _mods: NormalMod[] = [];
@@ -61,6 +62,10 @@ export class CompanionBuild {
   get name() {
     return i18n.t(`messages.${_.camelCase(this.data.id)}`);
   }
+  /** 类型 */
+  get type() {
+    return "Companion";
+  }
   /** 基础ID */
   get baseId() {
     return this.data.className || this.data.id;
@@ -88,23 +93,23 @@ export class CompanionBuild {
 
   compareMode = CompanionCompareMode.EffectiveHealth;
 
-  healthLinkRef = 300;
-  shieldLinkRef = 0;
-  armorLinkRef = 100;
+  healthLinkRef = 740;
+  shieldLinkRef = 300;
+  armorLinkRef = 150;
 
   // ### 基础属性 ###
 
   /** 生命 */
   get health() {
-    return (this.data.health * this._healthMul) / 100 + this._healthAdd;
+    return (this.data.health * this._healthMul) / 100 + this._healthAdd + this.healthLinkRef * this._healthLink / 100;
   }
   /** 护盾 */
   get shield() {
-    return (this.data.shield * this._shieldMul) / 100;
+    return (this.data.shield * this._shieldMul) / 100 + this.shieldLinkRef * this._shieldLink / 100;
   }
   /** 护甲 */
   get armor() {
-    return (this.data.armor * this._armorMul) / 100 + this._armorAdd;
+    return (this.data.armor * this._armorMul) / 100 + this._armorAdd + this.armorLinkRef * this._armorLink / 100;
   }
   /** 敌人雷达 */
   get enemyRadar() {
@@ -194,18 +199,26 @@ export class CompanionBuild {
       /** Health */ case "h":
         this._healthMul = hAccSum(this._healthMul, pValue);
         break;
+      /** Health Link */ case "hl":
+        this._healthLink = hAccSum(this._healthLink, pValue);
+        break;
       /** extra Health */ case "eh":
         this._healthAdd = hAccSum(this._healthAdd, pValue);
         break;
       /** Shield */ case "s":
         this._shieldMul = hAccSum(this._shieldMul, pValue);
         break;
+      /** Shield Link */ case "sl":
+        this._shieldLink = hAccSum(this._shieldLink, pValue);
+        break;
       /** Amror */ case "a":
         this._armorMul = hAccSum(this._armorMul, pValue);
         break;
+      /** Amror Link */ case "al":
+        this._armorLink = hAccSum(this._armorLink, pValue);
+        break;
       /** AmrorAdd */ case "ea":
         this._armorAdd = hAccSum(this._armorAdd, pValue);
-        break;
         break;
       /** ShieldRecharge */ case "r":
         this._shieldRecharge = hAccSum(this._shieldRecharge, pValue);
@@ -219,6 +232,7 @@ export class CompanionBuild {
       /** Damage Resistance */ case "res":
         this._damageResistance = 100 - ((100 - this._damageResistance) * (100 - pValue)) / 100;
         break;
+
     }
   }
 
@@ -321,6 +335,7 @@ export class CompanionBuild {
     let nb = new (this.constructor as any)(this.data);
     nb._mods = this.mods;
     nb._buffs = this.buffs;
+    nb.compareMode = this.compareMode;
     nb._mods.splice(index, 1);
     let oldVal = this.compareValue;
     nb.calcMods();
@@ -351,7 +366,7 @@ export class CompanionBuild {
    * @param slots 可用的插槽数
    * @param useRiven 是否使用紫卡 0 = 不用 1 = 自动选择 2 = 必须用
    */
-  fill(slots = 8, useRiven = 0) {
+  fill(slots = 10, useRiven = 0) {
     // 初始化
     this.clear();
     this.fillEmpty(slots, useRiven);
@@ -362,7 +377,7 @@ export class CompanionBuild {
    * @description 根据所需的属性计算最大化或最小化以填充空白
    * @memberof companionBuild
    */
-  fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
+  fillEmpty(slots = 10, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
     let mods = (this._mods = _.compact(this._mods));
     let othermods = lib.filter(v => !mods.some(k => v.id === k.id || v.id === k.primed || v.primed === k.id));
     let sortableMods = othermods.map(v => [v, this.testMod(v)] as [NormalMod, number]).filter(v => v[1] > 0);
@@ -385,7 +400,7 @@ export class CompanionBuild {
         // 5. 重复以上步骤直到卡槽充满
       }
     }
-    this._mods.length = 8;
+    this._mods.length = 10;
     this.recalcPolarizations();
   }
 
@@ -472,24 +487,6 @@ export class CompanionBuild {
   get maxArmor() {
     return 1;
   }
-  get maxEnergy() {
-    return 1;
-  }
-  get maxSprint() {
-    return 1;
-  }
-  get maxAbilityStrength() {
-    return 1;
-  }
-  get maxAbilityDuration() {
-    return 1;
-  }
-  get maxAbilityEfficiency() {
-    return 1;
-  }
-  get maxAbilityRange() {
-    return 1;
-  }
 
   // 容量计算与极化
 
@@ -499,20 +496,20 @@ export class CompanionBuild {
   }
   /** 容量 */
   get totalCost() {
-    let total = this.mods.reduce((a, _, i) => (a += this.getCost(i - 1)), 0);
+    let total = this.mods.reduce((a, _, i) => (a += this.getCost(i)), 0);
     return total;
   }
 
   /** 获取指定位置MOD的容量 */
   getCost(modIndex: number) {
-    let mod = this.mods[modIndex + 2];
+    let mod = this.mods[modIndex];
     if (mod) return mod.calcCost(this.polarizations[modIndex]);
     return 0;
   }
 
   /** 最大容量 */
   get maxCost() {
-    return 60 - this.getCost(-2);
+    return 60;
   }
   _formaCount = 0;
   _umbraCount = 0;
@@ -525,7 +522,7 @@ export class CompanionBuild {
     return this._umbraCount;
   }
   /** 重新计算极化次数 */
-  recalcPolarizations() {
+  recalcPolarizations(allowedUmbra = 0) {
     // 自带的极性
     let defaultPolarities = this.data.polarities.slice();
     this._polarizations = Array(10).fill(null);
@@ -547,6 +544,7 @@ export class CompanionBuild {
     });
     // 负面极性位
     let thetaMod = [];
+    let remainUmbra = allowedUmbra;
     // 强制使用自带槽位
     while (defaultPolarities.length > 0) {
       const pol = defaultPolarities.pop();
@@ -590,16 +588,22 @@ export class CompanionBuild {
       const [modIndex] = delta[i];
       const pol = mods[modIndex].polarity;
 
-      if (pol !== "w") {
+      if (remainUmbra || pol !== "w") {
         // console.log(`set pol [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to ${pol}`)
-        if (this._polarizations[modIndex - 2] !== pol) {
-          this._polarizations[modIndex - 2] = pol;
-          ++this._formaCount;
+        if (this._polarizations[modIndex] !== pol) {
+          this._polarizations[modIndex] = pol;
+
+          if (pol === "w") {
+            --remainUmbra;
+            ++this._umbraCount;
+          } else {
+            ++this._formaCount;
+          }
         }
-      } else if (thetaMod.includes(modIndex - 2)) {
+      } else if (thetaMod.includes(modIndex)) {
         // console.log(`set null [[${this._polarizations}]] ${modIndex - 2}: ${this._polarizations[modIndex - 2]} to null`)
-        this._polarizations[modIndex - 2] = "";
-        thetaMod = thetaMod.filter(v => v != modIndex - 2);
+        this._polarizations[modIndex] = "";
+        thetaMod = thetaMod.filter(v => v != modIndex);
       }
     }
     // 如果还是负的 测试U福马数量
@@ -608,8 +612,8 @@ export class CompanionBuild {
         const [modIndex] = delta[i];
         const pol = mods[modIndex].polarity;
         if (pol === "w") {
-          if (this._polarizations[modIndex - 2] !== pol) {
-            this._polarizations[modIndex - 2] = pol;
+          if (this._polarizations[modIndex] !== pol) {
+            this._polarizations[modIndex] = pol;
             ++this._umbraCount;
           }
         }

@@ -41,7 +41,7 @@ const elems = {
   7: "Electricity",
   8: "Impact",
   9: "Puncture",
-  A: "Slash"
+  A: "Slash",
 };
 
 /**
@@ -78,6 +78,7 @@ export class NormalMod implements NormalModData {
     if (hasAbs) {
       let pn = {};
       nprops.forEach(([vn, vv]) => {
+        // '!': fixed 不动数
         if (vn.startsWith("!")) pn[vn.substr(1)] = (pn[vn.substr(1)] || 0) + vv;
         else pn[vn] = (pn[vn] || 0) + vv;
       });
@@ -100,13 +101,13 @@ export class NormalMod implements NormalModData {
         fullName: vp.fullString,
         shortName: vp.shortString,
         value: vp.value,
-        dmg: vp.prop.dmg
+        dmg: vp.prop.dmg,
       };
     });
   }
 
   get cost(): number {
-    return this.baseCost > 0 ? this.baseCost + this.level : this.baseCost - this.level;
+    return this.baseCost < 0 ? this.baseCost - this.level : this.baseCost + this.level;
   }
   get delta() {
     return this.baseCost < 0 ? -this.cost : Math.floor(this.cost / 2);
@@ -169,7 +170,7 @@ export class NormalMod implements NormalModData {
         props: this._props,
         name: customName,
         level: maxLevel,
-        cost: this.baseCost
+        cost: this.baseCost,
       },
       level
     );
@@ -199,7 +200,10 @@ const linkedMods = [
   ["True Steel", "Sacrificial Steel"], // 斩铁
   ["Vitality", "Umbral Vitality"], // 生命力
   ["Steel Fiber", "Umbral Fiber"], // 纤维
-  ["Intensify", "Umbral Intensify"] // 聚精会神
+  ["Intensify", "Umbral Intensify"], // 聚精会神
+  ["Enhanced Vitality", "Link Health"], // 生命
+  ["Calculated Redirection", "Link Shields"], // 护盾
+  ["Metal Fiber", "Link Armor"], // 护甲
 ];
 /**
  * 普通MOD信息
@@ -212,18 +216,18 @@ export const NormalModDatabase = _normalModSource.map(v => {
     id: v[1],
     props: v[2],
     type: v[3],
-    cost: v[6],
+    cost: v[6] || 0,
     level: v[7] || 5,
     polarity: v[4],
     rarity: v[5],
-    primed: pr && pr[1]
+    primed: pr && pr[1],
   } as NormalModData);
 });
 
 export const NormalCardDependTable: { [key: string]: string } = {
   "Bladed Rounds": "Vital Sense", // 尖刃弹头 -> 致命一击
   "Heavy Caliber": "Serration", // 重口径 -> 膛线
-  "Pressurized Magazine": "Anemic Agility" // 增压弹匣 -> 乏能迅敏
+  "Pressurized Magazine": "Anemic Agility", // 增压弹匣 -> 乏能迅敏
 };
 
 export const AcolyteModsList: string[] = [
@@ -246,7 +250,7 @@ export const AcolyteModsList: string[] = [
   "Pressurized Magazine",
   "Targeting Subsystem",
   "Sharpened Bullets",
-  "Hydraulic Crosshairs" // "内置触媒", "增压弹匣", "定位辅助", "尖锐子弹", "液压准心",
+  "Hydraulic Crosshairs", // "内置触媒", "增压弹匣", "定位辅助", "尖锐子弹", "液压准心",
 ];
 
 export const VirtualMeleeMods = ["D3", "D4", "D5", "D6"];

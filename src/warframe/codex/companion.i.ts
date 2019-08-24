@@ -7,4 +7,8 @@ export interface CompanionData {
   shield: number;
   armor: number;
   polarities?: string;
+  damage?: [string, number][]
+  critChance?: number;
+  critMul?: number;
+  procChance?: number;
 }

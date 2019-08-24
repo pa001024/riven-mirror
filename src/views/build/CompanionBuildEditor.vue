@@ -49,17 +49,17 @@
             </el-button-group>
             <el-form class="build-form-editor">
               <!-- 生命 -->
-              <!-- <el-form-item :label="$t('buildview.healthLinkRef')">
-                <el-slider class="right-side fill" v-model="healthLinkRef" size="small" :min="0" :max="20000" show-stops @change="optionChange"></el-slider>
-              </el-form-item> -->
+              <el-form-item :label="$t('buildview.healthLinkRef')" v-if="currentTab.mods.some(v=>v&&v.id==='Link Health')">
+                <el-input-number class="right-side fill" size="small" v-model="healthLinkRef" @change="optionChange" />
+              </el-form-item>
               <!-- 护盾 -->
-              <!-- <el-form-item :label="$t('buildview.shieldLinkRef')">
-                <el-slider class="right-side fill" v-model="shieldLinkRef" size="small" :min="0" :max="5000" show-stops @change="optionChange"></el-slider>
-              </el-form-item> -->
+              <el-form-item :label="$t('buildview.shieldLinkRef')" v-if="currentTab.mods.some(v=>v&&v.id==='Link Shields')">
+                <el-input-number class="right-side fill" size="small" v-model="shieldLinkRef" @change="optionChange" />
+              </el-form-item>
               <!-- 护甲 -->
-              <!-- <el-form-item :label="$t('buildview.armorLinkRef')">
-                <el-slider class="right-side fill" v-model="armorLinkRef" size="small" :min="0" :max="2000" show-stops @change="optionChange"></el-slider>
-              </el-form-item> -->
+              <el-form-item :label="$t('buildview.armorLinkRef')" v-if="currentTab.mods.some(v=>v&&v.id==='Link Armor')">
+                <el-input-number class="right-side fill" size="small" v-model="armorLinkRef" @change="optionChange" />
+              </el-form-item>
             </el-form>
           </el-card>
         </div>
@@ -110,7 +110,7 @@
       </el-col>
     </el-row>
     <el-dialog :title="$t('build.selectMod')" :visible.sync="modDialogVisible" width="600">
-      <LeveledModSelector :type="selectModType" ref="selector" :build="build" @command="modSelect($event)" />
+      <ModSelector :type="selectModType" ref="selector" :build="build" @command="modSelect($event)" />
     </el-dialog>
     <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
       <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
@@ -121,7 +121,7 @@
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
-import LeveledModSelector from "@/components/LeveledModSelector.vue";
+import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import ShareQR from "@/components/ShareQR.vue";
@@ -141,7 +141,7 @@ interface BuildSelectorTab {
 }
 
 @Component({
-  components: { PropDiff, LeveledModSlot, LeveledModSelector, ShareQR, BuffSelector },
+  components: { PropDiff, LeveledModSlot, ModSelector, ShareQR, BuffSelector },
   beforeRouteEnter(to, from, next) {
     const core = CompanionDataBase.getCompanionById(to.params.id.replace(/_/g, " "));
     if (core) {
@@ -171,9 +171,9 @@ export default class CompanionEditor extends Vue {
   selectModIndex = 0;
   selectBuffIndex = 0;
 
-  healthLinkRef = 300;
+  healthLinkRef = 740;
   shieldLinkRef = 300;
-  armorLinkRef = 50;
+  armorLinkRef = 150;
 
   get selectModType() {
     return "Companion";
@@ -198,7 +198,7 @@ export default class CompanionEditor extends Vue {
     if (this.code && this.build.miniCode != this.code) {
       this.build.miniCode = this.code;
       let { mods, buffs } = this.build;
-      while (mods.length < 8) mods.push(null);
+      while (mods.length < 10) mods.push(null);
       buffs.push(null);
       this.currentTab.mods = mods;
       this.currentTab.buffs = buffs;
@@ -225,7 +225,7 @@ export default class CompanionEditor extends Vue {
           build: new CompanionBuild(this.core),
           aura: null,
           exilus: null,
-          mods: Array(8),
+          mods: Array(10),
           buffs: [null],
         }));
         this.tabValue = "SET A";
@@ -348,23 +348,20 @@ export default class CompanionEditor extends Vue {
     }
   }
   fill() {
-    this.build.fill(8, 0);
+    this.build.fill(10, 0);
     this.currentTab.mods = this.build.mods;
     this.reloadSelector();
     this.pushState();
   }
   fillEmpty() {
-    this.build.fillEmpty(8, 0);
+    this.build.fillEmpty(10, 0);
     this.currentTab.mods = this.build.mods;
     this.reloadSelector();
     this.pushState();
   }
   clear() {
-    let rivenIdx = this.currentTab.mods.findIndex(v => v && v.rarity === "x"),
-      riven = this.currentTab.mods[rivenIdx];
-    this.currentTab.mods = Array(8);
+    this.currentTab.mods = Array(10);
     // 不清除紫卡
-    if (riven) this.currentTab.mods[rivenIdx] = riven;
     this.refleshMods();
     this.reloadSelector();
   }

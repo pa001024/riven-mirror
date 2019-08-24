@@ -18,13 +18,15 @@ import {
   NormalCardDependTable,
   RivenPropertyDataBase,
   SimpleDamageModel,
-  WeaponBuildMode
+  WeaponBuildMode,
+  MainTag,
 } from "./codex";
 import { RivenMod, toUpLevel, toNegaUpLevel, ValuedRivenProperty } from "./rivenmod";
 import { HH } from "@/var";
+import { CommonBuild } from "./commonbuild";
 
 // 基础类
-export abstract class ModBuild {
+export abstract class ModBuild implements CommonBuild {
   // ### 变量 ###
 
   public abstract weapon: Weapon;
@@ -62,7 +64,15 @@ export abstract class ModBuild {
   }
   /** 基本id */
   get baseId() {
-    return this.weapon.base || this.weapon.name;
+    return this.weapon.baseName;
+  }
+  /** 标签 */
+  get tags() {
+    return this.weapon.tags.toArray();
+  }
+  /** 类型 */
+  get type() {
+    return MainTag[this.weapon.mod];
   }
   /** 原型MOD列表 */
   get rawMods() {
@@ -424,7 +434,7 @@ export abstract class ModBuild {
       Electricity: this.electricityMul,
       Impact: this.impactMul,
       Puncture: this.punctureMul,
-      Slash: this.slashMul
+      Slash: this.slashMul,
     };
   }
   /** 独立元素 */
@@ -543,7 +553,7 @@ export abstract class ModBuild {
       this._statusInfo[vn] = {
         proportion: vv / pwAll,
         duration: dur,
-        coverage: cor
+        coverage: cor,
       };
       if (pellets !== 1) this._statusInfo[vn].appearRate = vv;
       // [腐蚀 磁力]
@@ -595,7 +605,7 @@ export abstract class ModBuild {
       averageProcQE: this.averageProcQE,
       appearRate: this.realProcChance,
       appearRatePerHit: this.procChancePerHit,
-      appearRatePerSecond: this.procChancePerSecond
+      appearRatePerSecond: this.procChancePerSecond,
     };
   }
 
@@ -747,7 +757,7 @@ export abstract class ModBuild {
       // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
       ["Heat", this.heatBaseDamage * this.procDamageMul],
       // 电击伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Electricity_Damage
-      ["Electricity", this.electricityBaseDamage * this.procDamageMul]
+      ["Electricity", this.electricityBaseDamage * this.procDamageMul],
     ] as [DamageType, number][];
     if (this.damageModel) return this.damageModel.mapProcDamage(procs);
     return procs;
@@ -1297,7 +1307,7 @@ export abstract class ModBuild {
           polarity: "r",
           cost: 18,
           rarity: "x",
-          props: [[v.prop.id, v.value]] as [string, number][]
+          props: [[v.prop.id, v.value]] as [string, number][],
         } as NormalMod)
     );
     let rivenArea = this.avaliableMods.concat(fakeMods);
@@ -1350,7 +1360,7 @@ export abstract class ModBuild {
         cost: 0,
         level: 5,
         polarity: "r",
-        rarity: "r"
+        rarity: "r",
       })
     );
     const rivenRef = this.riven.weapon;
@@ -1648,7 +1658,7 @@ export abstract class ModBuild {
       "-",
       d,
       "=",
-      "w"
+      "w",
     }
     const delta = mods
       .map((v, i) => [i, v ? v.delta : 0])

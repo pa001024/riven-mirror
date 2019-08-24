@@ -8,7 +8,7 @@ import {
   AbilityFormData,
   AbilityType,
   AdvancedAbilityPropValue,
-  WarframeProperty
+  WarframeProperty,
 } from "./codex";
 import { i18n } from "@/i18n";
 import { NormalMod, NormalModDatabase } from "./codex/mod";
@@ -18,6 +18,7 @@ import { Buff, BuffList } from "./codex/buff";
 import { base62, debase62 } from "./lib/base62";
 import { _abilityData } from "./codex/warframe.data";
 import { HH } from "@/var";
+import { CommonBuild } from "./commonbuild";
 
 export enum WarframeCompareMode {
   EffectiveHealth, // 有效血量
@@ -26,7 +27,7 @@ export enum WarframeCompareMode {
   Shield, // 护盾
   Strength, // 强度
   Duration, // 持续
-  Range // 范围
+  Range, // 范围
 }
 export interface WarframeBuildOptions {
   compareMode?: WarframeCompareMode;
@@ -35,7 +36,7 @@ export interface WarframeBuildOptions {
   arcanes?: Arcane[];
 }
 
-export class WarframeBuild {
+export class WarframeBuild implements CommonBuild {
   data: Warframe;
   protected _rawmods: NormalMod[] = [];
   protected _mods: NormalMod[] = [];
@@ -113,6 +114,11 @@ export class WarframeBuild {
   get tags() {
     if (this.data.tags.includes("Archwing")) return this.data.tags.concat([this.baseId]);
     else return this.data.tags.concat(["Warframe", this.baseId]);
+  }
+
+  /** 类型 */
+  get type() {
+    return this.tags.includes("Archwing") ? "Archwing" : "Warframe";
   }
 
   protected _healthMul: number;
@@ -904,7 +910,7 @@ export class WarframeBuild {
       "-",
       d,
       "=",
-      "w"
+      "w",
     }
     const delta = mods
       .map((v, i) => [i, v ? v.delta : 0])
@@ -1127,7 +1133,7 @@ export module WarframeBuild {
     /** 大于 */
     More,
     /** 最大化 */
-    Max
+    Max,
   }
   /** 对象 */
   export enum FillRuleTarget {
@@ -1139,7 +1145,7 @@ export module WarframeBuild {
     AbilityStrength,
     AbilityDuration,
     AbilityEfficiency,
-    AbilityRange
+    AbilityRange,
   }
 }
 

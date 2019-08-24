@@ -191,7 +191,7 @@
       </el-col>
     </el-row>
     <el-dialog :title="$t('build.selectMod')" :visible.sync="dialogVisible" width="600">
-      <ModSelector ref="selector" :build="build" @command="modSelect($event)"></ModSelector>
+      <ModSelector type="Weapon" ref="selector" :build="build" @command="modSelect($event)"></ModSelector>
     </el-dialog>
     <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
       <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
@@ -248,11 +248,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
 
   amrorReduce = 0;
   shieldReduce = 0;
-  /** 赋能 */
-  arcanes = [];
-  get availableArcanes() {
-    return Codex.getAvailableArcanes(this.weapon);
-  }
+
   enemyData: EnemyData = null;
   enemy: Enemy = null;
   enemyLevel = 160;
@@ -280,7 +276,6 @@ export default class GunBuildEditor extends BaseBuildEditor {
   get options() {
     return {
       // headShotChance: this.headShotChance / 100,
-      arcanes: this.arcanes,
       amrorReduce: this.amrorReduce / 100,
       burstSampleSize: this.burstSampleSize
     };
@@ -306,8 +301,6 @@ export default class GunBuildEditor extends BaseBuildEditor {
     return b;
   }
   // === 事件处理 ===
-  @Watch("extraBaseDamage")
-  @Watch("extraOverall")
   @Watch("amrorReduce")
   optionChange() {
     if (!this.weapon) return;

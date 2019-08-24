@@ -206,7 +206,7 @@
       </el-col>
     </el-row>
     <el-dialog :title="$t('build.selectMod')" :visible.sync="modDialogVisible" width="600">
-      <LeveledModSelector :type="selectModType" ref="selector" :build="build" @command="modSelect($event)" />
+      <ModSelector :type="selectModType" ref="selector" :build="build" @command="modSelect($event)" />
     </el-dialog>
     <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
       <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
@@ -218,7 +218,7 @@ import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { WarframeBuild } from "@/warframe/warframebuild";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
-import LeveledModSelector from "@/components/LeveledModSelector.vue";
+import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
 import PropDiff from "@/components/PropDiff.vue";
 import ShareQR from "@/components/ShareQR.vue";
@@ -239,14 +239,14 @@ interface BuildSelectorTab {
 }
 
 @Component({
-  components: { PropDiff, LeveledModSlot, LeveledModSelector, ShareQR, BuffSelector },
+  components: { PropDiff, LeveledModSlot, ModSelector, ShareQR, BuffSelector },
   beforeRouteEnter(to, from, next) {
     const core = WarframeDataBase.getWarframeById(to.params.id.replace(/_/g, " "));
     if (core) {
       document.title = i18n.t("title.sub", [i18n.t("title.weapon", [core.name])]);
       next();
     } else next("/WarframeNotFound");
-  }
+  },
 })
 export default class WarframeEditor extends Vue {
   @Getter("bigScreen") bigScreen: boolean;
@@ -274,6 +274,7 @@ export default class WarframeEditor extends Vue {
   energyBall = true;
 
   get selectModType() {
+    if (this.isArchwing) return "Archwing";
     return this.selectModIndex === -2 ? "Aura" : this.selectModIndex === -1 ? "Exilus" : "Warframe";
   }
 
@@ -338,7 +339,7 @@ export default class WarframeEditor extends Vue {
           aura: null,
           exilus: null,
           mods: Array(8),
-          buffs: [null]
+          buffs: [null],
         }));
         this.tabValue = "SET A";
       }
@@ -400,7 +401,7 @@ export default class WarframeEditor extends Vue {
   get options() {
     return {
       healthBall: ~~this.healthBall,
-      energyBall: this.energyBall
+      energyBall: this.energyBall,
     };
   }
 
@@ -444,7 +445,7 @@ export default class WarframeEditor extends Vue {
         aura: this.currentTab.aura,
         exilus: this.currentTab.exilus,
         mods: this.currentTab.mods,
-        buffs: this.currentTab.buffs
+        buffs: this.currentTab.buffs,
       });
       this.tabValue = newTabName;
       this.refleshMods();

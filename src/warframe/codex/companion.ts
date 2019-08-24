@@ -88,7 +88,7 @@ export class CompanionDataBase {
   static get Sentinel() {
     return this.instance._companions.filter(v => !v.className && v.tags && v.tags.includes("Sentinel")).map(v => new Companion(v));
   }
-  static get Wild() {
-    return this.instance._companions.filter(v => !v.className && v.tags && v.tags.includes("Wild")).map(v => new Companion(v));
+  static get Beast() {
+    return this.instance._companions.filter(v => !v.className && v.tags && v.tags.includes("Beast")).map(v => new Companion(v));
   }
 }

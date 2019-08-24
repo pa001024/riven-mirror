@@ -626,6 +626,7 @@ let po = {
     zakti: "猛毒镖枪",
     volnus: "裂伤战锤",
     ackBrunt: "龟背盾斧",
+    tekko: "刺蛇",
 
     catchmoon: "射月",
     gaze: "凝视",
