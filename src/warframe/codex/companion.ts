@@ -2,6 +2,7 @@ import _ from "lodash";
 import { i18n } from "@/i18n";
 import { _companionData } from "./companion.data";
 import { CompanionData } from "./companion.i";
+import { Damage } from "./weapon.i";
 
 /** 同伴 */
 export class Companion {
@@ -14,6 +15,11 @@ export class Companion {
   armor: number;
   polarities: string[];
 
+  damage?: Damage;
+  critChance?: number;
+  critMul?: number;
+  procChance?: number;
+
   constructor(data: CompanionData) {
     const base = data.className ? _companionData.find(v => v.id === data.className) : ({} as CompanionData);
     this.id = data.id;
@@ -25,6 +31,10 @@ export class Companion {
     this.shield = data.shield;
     this.armor = data.armor;
     this.polarities = data.polarities ? data.polarities.split("") : [];
+    if (data.damage) this.damage = data.damage;
+    if (data.critChance) this.critChance = data.critChance;
+    if (data.critMul) this.critMul = data.critMul;
+    if (data.procChance) this.procChance = data.procChance;
   }
 
   get url() {

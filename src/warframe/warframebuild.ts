@@ -624,6 +624,7 @@ export class WarframeBuild implements CommonBuild {
     let nb = new (this.constructor as any)(this.data);
     nb._mods = this.mods;
     nb._buffs = this.buffs;
+    nb.compareMode = this.compareMode;
     nb._buffs.splice(index, 1);
     let oldVal = this.compareValue;
     nb.calcMods();

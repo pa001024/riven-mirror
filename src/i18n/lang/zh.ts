@@ -316,6 +316,7 @@ let po = {
     securityOverride: "协议覆盖",
     repairKit: "修补套件",
     scanAquaticLifeforms: "扫描水生生命体",
+    trample: "践踏",
 
     maimingStrike: "致残突击",
     bloodRush: "急进猛突",

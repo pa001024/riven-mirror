@@ -1,3 +1,5 @@
+import { Damage } from "./weapon.i";
+
 /** 同伴信息 */
 export interface CompanionData {
   id: string;
@@ -7,7 +9,7 @@ export interface CompanionData {
   shield: number;
   armor: number;
   polarities?: string;
-  damage?: [string, number][]
+  damage?: Damage;
   critChance?: number;
   critMul?: number;
   procChance?: number;

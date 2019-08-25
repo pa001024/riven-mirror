@@ -38,6 +38,18 @@
                 :name="$t('build.armor')" :ori="coreBuild.armor" :val="build.armor"></PropDiff>
               <PropDiff class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"
                 :name="$t('build.effectiveHealth')" :ori="coreBuild.effectiveHealth" :val="build.effectiveHealth" :preci="0"></PropDiff>
+              <template v-if="build.attackBuild">
+                <br>
+                <PropDiff :name="$t('build.critMul')" :ori="build.attackBuild.mode.critMul" :val="build.attackBuild.critMul" subfix="x"></PropDiff>
+                <PropDiff :name="$t('build.critChance')" :ori="build.attackBuild.mode.critChance" :val="build.attackBuild.critChance" percent></PropDiff>
+                <PropDiff :name="$t('build.status')" :ori="build.attackBuild.mode.procChance" :val="build.attackBuild.procChancePerHit" percent data-v-step="1"></PropDiff>
+                <br>
+                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :icon="dname.toLowerCase()" :name="$t(`elements.${dname}`)" :ori="ori" :val="val"></PropDiff>
+                <br>
+                <PropDiff :name="$t('build.panelDamage')" :ori="build.attackBuild.originalDamage" :val="build.attackBuild.panelDamage"></PropDiff>
+                <PropDiff :name="$t('build.attackDamage')" :ori="build.attackBuild.oriTotalDamage" :val="build.attackBuild.normalDamage"
+                    class="select-cpmode" :class="{active: build.compareMode === 4}" @click="changeMode(4)"></PropDiff>
+              </template>
             </div>
           </el-card>
           <!-- 选项区域 -->
@@ -364,6 +376,21 @@ export default class CompanionEditor extends Vue {
     // 不清除紫卡
     this.refleshMods();
     this.reloadSelector();
+  }
+
+  get mergedDmg() {
+    let lD = this.build.attackBuild.mode.damage;
+    let nD = this.build.attackBuild.dmg;
+    let rst: { [v: string]: [number, number] } = {};
+    lD.forEach(([vn, vv]) => {
+      rst[vn] = [vv, 0];
+    });
+    nD.forEach(([vn, vv]) => {
+      if (rst[vn]) rst[vn][1] = vv;
+      else rst[vn] = [0, vv];
+    });
+    let emp = _.map(rst, (v, i) => [i, ...v]) as [string, number, number][];
+    return emp;
   }
 }
 </script>

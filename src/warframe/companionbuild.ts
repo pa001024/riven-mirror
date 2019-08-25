@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Codex } from "./codex";
+import { Codex, Weapon } from "./codex";
 import { i18n } from "@/i18n";
 import { NormalMod, NormalModDatabase } from "./codex/mod";
 import { hAccSum } from "./util";
@@ -8,12 +8,14 @@ import { base62, debase62 } from "./lib/base62";
 import { HH } from "@/var";
 import { Companion, CompanionDataBase } from "./codex/companion";
 import { CommonBuild } from "./commonbuild";
+import { MeleeModBuild } from "./meleemodbuild";
 // TODO
 export enum CompanionCompareMode {
   EffectiveHealth, // 有效血量
   Health, // 血量
   Armor, // 护甲
   Shield, // 护盾
+  Attack, // 攻击
 }
 export interface CompanionBuildOptions {
   compareMode?: CompanionCompareMode;
@@ -101,15 +103,15 @@ export class CompanionBuild implements CommonBuild {
 
   /** 生命 */
   get health() {
-    return (this.data.health * this._healthMul) / 100 + this._healthAdd + this.healthLinkRef * this._healthLink / 100;
+    return (this.data.health * this._healthMul) / 100 + this._healthAdd + (this.healthLinkRef * this._healthLink) / 100;
   }
   /** 护盾 */
   get shield() {
-    return (this.data.shield * this._shieldMul) / 100 + this.shieldLinkRef * this._shieldLink / 100;
+    return (this.data.shield * this._shieldMul) / 100 + (this.shieldLinkRef * this._shieldLink) / 100;
   }
   /** 护甲 */
   get armor() {
-    return (this.data.armor * this._armorMul) / 100 + this._armorAdd + this.armorLinkRef * this._armorLink / 100;
+    return (this.data.armor * this._armorMul) / 100 + this._armorAdd + (this.armorLinkRef * this._armorLink) / 100;
   }
   /** 敌人雷达 */
   get enemyRadar() {
@@ -139,6 +141,8 @@ export class CompanionBuild implements CommonBuild {
         return this.armor;
       case CompanionCompareMode.Shield:
         return this.shield;
+      case CompanionCompareMode.Attack:
+        return this.attackBuild.normalDamage;
     }
   }
 
@@ -146,10 +150,32 @@ export class CompanionBuild implements CommonBuild {
     if (typeof data === "string") data = CompanionDataBase.getCompanionById(data);
     if (!data) return;
     if ((this.data = data)) {
-      this.avaliableMods = NormalModDatabase.filter(v => ["Companion", this.baseId, ...this.data.tags].includes(v.type));
+      this.avaliableMods = NormalModDatabase.filter(v => this.tags.includes(v.type));
     }
     if (options) {
       this.options = options;
+    }
+    // 狗里藏刀
+    if (this.data.damage) {
+      this.attackBuild = new MeleeModBuild(
+        new Weapon({
+          name: this.id,
+          tags: ["Companion"],
+          modes: [
+            {
+              damage: data.damage,
+              critChance: data.critChance / 100,
+              critMul: data.critMul,
+              procChance: data.procChance / 100,
+              fireRate: 60,
+            },
+          ],
+        }),
+        null,
+        null,
+        true
+      );
+      this.attackBuild.compareMode = 0;
     }
     this.reset();
   }
@@ -184,6 +210,10 @@ export class CompanionBuild implements CommonBuild {
     this._shieldLink = 0;
     this._armorLink = 0;
     this.recalcPolarizations();
+
+    if (this.attackBuild) {
+      this.attackBuild.reset();
+    }
   }
 
   /**
@@ -232,7 +262,6 @@ export class CompanionBuild implements CommonBuild {
       /** Damage Resistance */ case "res":
         this._damageResistance = 100 - ((100 - this._damageResistance) * (100 - pValue)) / 100;
         break;
-
     }
   }
 
@@ -276,6 +305,11 @@ export class CompanionBuild implements CommonBuild {
     this._buffs.forEach(buff => {
       buff && buff.props.forEach(prop => this.applyProp(null, prop[0], prop[1]));
     });
+
+    if (this.attackBuild) {
+      this.attackBuild.mods = this.mods;
+      this.attackBuild.buffs = this.buffs;
+    }
   }
 
   /**
@@ -354,6 +388,7 @@ export class CompanionBuild implements CommonBuild {
     let nb = new (this.constructor as any)(this.data);
     nb._mods = this.mods;
     nb._buffs = this.buffs;
+    nb.compareMode = this.compareMode;
     nb._buffs.splice(index, 1);
     let oldVal = this.compareValue;
     nb.calcMods();
@@ -621,6 +656,14 @@ export class CompanionBuild implements CommonBuild {
     }
     // console.log(this.allMods, this.allPolarizations)
     return this.polarizations;
+  }
+
+  // 野兽类同伴的攻击计算
+
+  attackBuild: MeleeModBuild;
+
+  get weapon() {
+    return this.attackBuild && this.attackBuild.weapon;
   }
 }
 

@@ -24,7 +24,7 @@
       </div>
     </el-tab-pane>
     <!-- 紫卡 -->
-    <el-tab-pane name="riven" v-if="isWeaponBuild && (isVirtual || !isExalted)">
+    <el-tab-pane name="riven" v-if="isWeaponBuild && !isCompanion && (isVirtual || !isExalted)">
       <span slot="label" class="mod-tablabel">{{$t("modselector.rivenMod")}}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(hiRiven, index) in modHistoty" :key="index">
@@ -70,6 +70,9 @@ export default class ModSelector extends Vue {
     return this.build["weapon"];
   }
 
+  get isCompanion() {
+    return this.build.tags.includes("Companion");
+  }
   get isExalted() {
     return this.build["weapon"].isExalted;
   }
