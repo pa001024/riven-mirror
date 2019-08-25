@@ -653,13 +653,23 @@ let po = {
     bashrack: "痛殴",
     stitch: "缝针",
     killstream: "连袭",
-    splat: "猛砸"
+    splat: "猛砸",
+
+    shade: "幽冥暗影",
+    carrier: "搬运信使",
+    carrierPrime: "圣装搬运信使",
+    helminthCharger: "海明斯寄生疾冲者",
+    oxylus: "山林卫士",
+    wyrm: "邪念妖龙",
+    wyrmPrime: "圣装邪念妖龙",
+    adarzaKavat: "灵镜狯犽",
+    smeetaKavat: "柴郡狯犽",
   },
   zaw: {
-    title: "天工造武"
+    title: "天工造武",
   },
   build: {
-    ratio: "裂隙共鸣"
+    ratio: "裂隙共鸣",
   },
   kitgun: {
     title: "组件枪",
@@ -668,8 +678,8 @@ let po = {
     selectLoader: "选择装弹器",
     chamber: "弹膛",
     grip: "握柄",
-    loader: "装弹器"
-  }
+    loader: "装弹器",
+  },
 };
 
 export default po;

@@ -4,7 +4,7 @@ let po = {
     main: "Riven Mirror (Riven.IM)",
     sub: "{0} - Riven Mirror (Riven.IM)",
     weapon: "{0} Build",
-    info: "{0} Info"
+    info: "{0} Info",
   },
   messages: {
     legendaryFusionCore: "Legendary Fusion Core",
@@ -538,7 +538,7 @@ let po = {
     fluctusAtmosphere: "Fluctus (Atmosphere)",
     imperatorAtmosphere: "Imperator (Atmosphere)",
     imperatorVandalAtmosphere: "Imperator Vandal (Atmosphere)",
-    larkspurAtmosphere: "Larkspur (Atmosphere)"
+    larkspurAtmosphere: "Larkspur (Atmosphere)",
   },
   messagesExtend: {
     blueprint: "Blueprint",
@@ -580,14 +580,14 @@ let po = {
     harness: "Harness",
     fuselage: "Fuselage",
     engines: "Engines",
-    avionics: "Avionics"
+    avionics: "Avionics",
   },
   weaponmode: {
     default: "Default",
     charge: "Charge",
     chargedThrow: "Charged Throw",
     throw: "Throw",
-    area: "Area"
+    area: "Area",
   },
   alerting: {
     sortie: "Sortie",
@@ -602,7 +602,7 @@ let po = {
     remaining: "Remaining",
     nightwave: "Nightwave",
     kuva: "Kuva",
-    arbitration: "Arbitration"
+    arbitration: "Arbitration",
   },
   prop: {
     fullName: {
@@ -832,7 +832,7 @@ let po = {
       onFinish: "On Finish:",
       onWalllatch: "On Walllatch:",
       onBlock: "On Block:",
-      augment: "{0} Augment"
+      augment: "{0} Augment",
     },
     shortName: {
       0: "Crit Chance",
@@ -1021,8 +1021,8 @@ let po = {
       onFinish: "On Finish",
       onWalllatch: "On Walllatch",
       onBlock: "On Block",
-      augment: "Augment"
-    }
+      augment: "Augment",
+    },
   },
   elements: {
     Physical: "Physical",
@@ -1040,7 +1040,7 @@ let po = {
     Radiation: "Radiation",
     Viral: "Viral",
     True: "True",
-    Void: "Void"
+    Void: "Void",
   },
   statusinfo: {
     appearRate: "Appear Rate",
@@ -1061,13 +1061,13 @@ let po = {
     averageProcDamagePerHit: "Average Proc Damage per Hit",
     averageProcDamagePerSecond: "Average Proc Damage per Second",
     averageProcQE: "Average Proc QE",
-    total: "Total"
+    total: "Total",
   },
   rivenedit: {
     selectWeapon: "Input weapon name",
     selectProp: "Select prop",
     inputValue: "Input value",
-    isNegative: "Negative"
+    isNegative: "Negative",
   },
   riven: {
     confirm: "Confirm",
@@ -1098,7 +1098,7 @@ let po = {
     stddev: "Std-Dev",
     min: "Minimum",
     max: "Maximum",
-    pop: "Popularity"
+    pop: "Popularity",
   },
   build: {
     fill: "Auto fill",
@@ -1156,7 +1156,7 @@ let po = {
     otherinfo: "Other info",
     minimap: "Minimap",
     healthBall: "Health Ball",
-    energyBall: "Energy Ball"
+    energyBall: "Energy Ball",
   },
   enemy: {
     name: "Enemy",
@@ -1180,7 +1180,7 @@ let po = {
       9: "Shield",
       10: "Proto Shield",
       11: "Ferrite Armor",
-      12: "Alloy Armor"
+      12: "Alloy Armor",
     },
     models: {
       eidolon: "Eidolon (Robotic + Alloy Armor + Crit-More)",
@@ -1197,8 +1197,8 @@ let po = {
       infested: "Infested (Infested)",
       infestedFlesh: "Infested (Infested Flesh)",
       infestedElite: "Infested (Fossilized)",
-      tenno: "Tenno (Flesh + Ferrite Armor)"
-    }
+      tenno: "Tenno (Flesh + Ferrite Armor)",
+    },
   },
   buildview: {
     totalDamage: "Total Damage",
@@ -1233,7 +1233,7 @@ let po = {
     extraBaseDamage: "Extra base damage",
     extraOverall: "Extra overall damage",
     extraBaseDamageTip: 'e.g. Chroma\'s "Vex Armor"',
-    extraOverallTip: "e.g. Mirage\'s \"Eclipse\" and Sniper's Shot Combo",
+    extraOverallTip: "e.g. Mirage's \"Eclipse\" and Sniper's Shot Combo",
     melee30: "Melee 3.0 (Tmp)",
     melee30Tip: "Disable combo damage multiply when selected.",
     usemods: "Use mods",
@@ -1267,7 +1267,7 @@ let po = {
     selectKitgunLoader: "Select Loader",
     selectZawGrip: "Select Grip",
     selectZawLinks: "Select Links",
-    zoom: "Zoom"
+    zoom: "Zoom",
   },
   weaponselector: {
     notfound: "Can not find special weapon",
@@ -1277,7 +1277,7 @@ let po = {
     melee: "MELEE",
     zaw: "ZAW",
     kitgun: "KITGUN",
-    archwing: "ARCHWING"
+    archwing: "ARCHWING",
   },
   warframeselector: {
     notfound: "Can not find special warframe",
@@ -1288,7 +1288,7 @@ let po = {
     support: "SUPPORT",
     control: "CONTROL",
     companion: "COMPANION",
-    archwing: "ARCHWING"
+    archwing: "ARCHWING",
   },
   modselector: {
     rivenMod: "RIVEN MOD",
@@ -1323,11 +1323,11 @@ let po = {
       maxHealth: "MAX Health",
       umbralSet: "Umbral Set",
       skill: "Ability",
-      survive: "Survive"
+      survive: "Survive",
     },
     weaponWarn: "WARNING",
     weaponWarnTip: "Chosen riven is not available for this weapon (you may choose wrong weapon), confirm operation?",
-    rivenexists: "Riven mod already exists"
+    rivenexists: "Riven mod already exists",
   },
   timeline: {
     table: "TABLE",
@@ -1339,7 +1339,7 @@ let po = {
     dot: "DoT DMG",
     hp: "HP",
     ar: "ARMOR",
-    dead: "DEAD"
+    dead: "DEAD",
   },
   navigate: {
     index: "Realtime Events",
@@ -1352,7 +1352,7 @@ let po = {
     about: "About",
     setting: "Settings",
     login: "User Login",
-    register: "User Register"
+    register: "User Register",
   },
   time: {
     earth: "Earth",
@@ -1367,7 +1367,7 @@ let po = {
     sunset: "Sunset",
     warm: "Warm",
     cold: "Cold",
-    freezing: "Freezing"
+    freezing: "Freezing",
   },
   huangli: {
     title: "Warframe's Almanac",
@@ -1377,7 +1377,7 @@ let po = {
     faceto: "Direction: ",
     planet: "Planet: ",
     lucky: "Lucky Index: ",
-    tip: "*for reference only"
+    tip: "*for reference only",
   },
   simulator: {
     random: "Random",
@@ -1389,7 +1389,7 @@ let po = {
     open: "Open: {0}",
     recycle: "Recycle",
     analyze: "Analyze",
-    choose: "Confirm"
+    choose: "Confirm",
   },
   setting: {
     lang: "Language Setting",
@@ -1410,7 +1410,7 @@ let po = {
     pc: "PC",
     ps4: "PS4",
     xb1: "XBOX",
-    swi: "SWITCH"
+    swi: "SWITCH",
   },
   modular: {
     damage: "Damage",
@@ -1427,7 +1427,7 @@ let po = {
     rangeLimit: "Range limit",
     lastStep: "Last step",
     nextStep: "Next step",
-    finish: "Finish"
+    finish: "Finish",
   },
   zaw: {
     title: "ZAW",
@@ -1446,7 +1446,7 @@ let po = {
     Staves: "Staves",
     Polearms: "Polearms",
     HeavyBlade: "Heavy Blade",
-    Hammers: "Hammers"
+    Hammers: "Hammers",
   },
   kitgun: {
     title: "KITGUN",
@@ -1460,8 +1460,8 @@ let po = {
       catchmoon: "Energy Shotgun",
       gaze: "Continuous",
       rattleguts: "Full-auto",
-      tombfinger: "Launcher"
-    }
+      tombfinger: "Launcher",
+    },
   },
   amp: {
     title: "AMP",
@@ -1488,8 +1488,8 @@ let po = {
       phahdScaffold: "Bouncing Energy Disc",
       exardScaffold: "Bursts Grenade",
       dissicScaffold: "Range Explosion",
-      propaScaffold: "Throw Mine"
-    }
+      propaScaffold: "Throw Mine",
+    },
   },
   reminder: {
     title: "PLAIN TIME REMINDER",
@@ -1497,7 +1497,7 @@ let po = {
     notificationBody: "There is {0} minutes to the night, get ready",
     settingPrefix: "Remind me",
     settingSubfix: "minutes early",
-    permissionDenied: "Notification permission is denied, cannot be displayed properly"
+    permissionDenied: "Notification permission is denied, cannot be displayed properly",
   },
   palette: {
     name: {
@@ -1528,12 +1528,12 @@ let po = {
       redWhiteBlue: "Red/White/Blue",
       spektaka: "Spektaka",
       halloween: "Halloween",
-      tenno2: "TENNO II"
+      tenno2: "TENNO II",
     },
     title: "SELECT COLOR",
     uploadtip: "Drag or <em>upload file</em> to pick colors automaticly",
     deltaE: "Tolerance:",
-    recommand: "Recommand:"
+    recommand: "Recommand:",
   },
   buff: {
     types: {
@@ -1544,7 +1544,7 @@ let po = {
       elementDamage: "ELEMENT DAMAGE",
       critDamage: "CRIT DAMAGE",
       speed: "SPEED",
-      other: "OTHER"
+      other: "OTHER",
     },
     ballisticBattery: "Ballistic Battery (Mesa)",
     shootingGallery: "Shooting Gallery (Mesa)",
@@ -1649,7 +1649,7 @@ let po = {
     paxBolt: "Pax Bolt",
     corruption: "Corruption",
     growingPower: "Growing Power",
-    powerDonation: "Power Donation"
+    powerDonation: "Power Donation",
   },
   ability: {
     energyCost: "ENERGY: {0}",
@@ -1664,7 +1664,7 @@ let po = {
       mobility: "Mobility",
       perception: "Perception",
       control: "Control",
-      summon: "Summon"
+      summon: "Summon",
     },
     effect: "EFFECT",
     effects: {
@@ -1677,7 +1677,7 @@ let po = {
       control: "Control",
       special: "Special",
       move: "Move",
-      exaltedWeapon: "Exalted weapon"
+      exaltedWeapon: "Exalted weapon",
     },
     prop: "Prop",
     props: {
@@ -1718,24 +1718,24 @@ let po = {
       deflectionBullet: "Deflection bullet",
       dodgeAttack: "Dodge attack",
       clearNegativeState: "Clear negative state",
-      deprivationOfShieldAndArmor: "Deprivation of shield and armor"
+      deprivationOfShieldAndArmor: "Deprivation of shield and armor",
     },
     target: "Target",
     targets: {
       "0": "All",
       "1": "Range",
       "2": "Melee",
-      "3": "Projectile"
+      "3": "Projectile",
     },
     directives: {
       "0": "No Directive",
       "1": "Weak Directive",
-      "2": "Directive"
-    }
+      "2": "Directive",
+    },
   },
   update: {
     title: "Update Info",
-    confirm: "I know"
+    confirm: "I know",
   },
   app: {
     login: "Login",
@@ -1753,7 +1753,7 @@ let po = {
     updateTip: "New version available, click OK to update",
     copy: "COPY",
     tip: "TIP",
-    copySuccess: "URL COPIED"
+    copySuccess: "URL COPIED",
   },
   otherinfo: {
     wiki: "WIKI",
@@ -1761,7 +1761,7 @@ let po = {
     mod: "MOD",
     wm: "warframe.market",
     rm: "riven.market",
-    wmriven: "WM Riven"
+    wmriven: "WM Riven",
   },
   intro: {
     ti1: "The impressive warframe universal tool app",
@@ -1800,34 +1800,34 @@ let po = {
     fav3: "WfLoveBBS (Chinese)",
     fav4: "WIKIA",
     fav5: "WFA",
-    sponser: "Sponser"
+    sponser: "Sponser",
   },
   tour: {
     labels: {
       buttonSkip: "Skip tour",
       buttonPrevious: "Previous",
       buttonNext: "Next",
-      buttonStop: "Finish"
+      buttonStop: "Finish",
     },
     builde: [
       "Here is the weapon infobox, all data will be automaticly updated", //
       "You can switch to other calculation modes by clicking here to calculate the benefits of different mods",
       "Also these buffs are useful in various situation",
-      "Additional, here are some other features (like Simulacrum e.t.c.)"
-    ]
+      "Additional, here are some other features (like Simulacrum e.t.c.)",
+    ],
   },
   minimap: {
     mods: "Mods",
     buffs: "Buffs",
-    data: "Data"
+    data: "Data",
   },
   droptable: {
-    title: "Drop Table"
+    title: "Drop Table",
   },
   search: {
     weapon: "WEAPON",
     mod: "MOD",
-    wf: "WARFRAME"
+    wf: "WARFRAME",
   },
   tags: {
     melee: "Melee",
@@ -1883,15 +1883,15 @@ let po = {
     tank: "Tank",
     support: "Support",
     control: "Control",
-    archwing: "Archwing"
+    archwing: "Archwing",
   },
   info: {
     nav: "NAV",
     data: "DATA",
     eco: "ECO",
     build: "BUILD",
-    riven: "RIVEN"
-  }
+    riven: "RIVEN",
+  },
 };
 
 export default po;
