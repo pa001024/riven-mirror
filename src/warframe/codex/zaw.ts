@@ -1,7 +1,7 @@
 import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import _ from "lodash";
-import { WeaponTag, CoreWeaponMode, MainTag, WeaponDatabase } from "./weapon";
+import { WeaponTag, CoreWeaponMode, MainTag } from "./weapon";
 
 export enum Stance {
   Daggers, // 匕首
@@ -13,7 +13,7 @@ export enum Stance {
   Staves, // 杖
   Polearms, // 长柄武器
   Hammers, // 锤
-  HeavyBlade // 巨刃
+  HeavyBlade, // 巨刃
 }
 
 const _zawStrike = [
@@ -27,7 +27,7 @@ const _zawStrike = [
   ["7", "Cyath", 0, [1, 4, 15], 0, 8, 8, "Machetes", "Polearms"],
   ["8", "Mewan", 14, [7, 5, 8], -4, 8, 8, "Swords", "Polearms"],
   ["9", "Plague Keewar", 7, [-7, 4, 8, 2], -2, 8, 12, "Scythes", "Staves"],
-  ["A", "Plague Kripath", -2, [7, -8, -3, 2], 2, 12, 8, "Rapiers", "Polearms"]
+  ["A", "Plague Kripath", -2, [7, -8, -3, 2], 2, 12, 8, "Rapiers", "Polearms"],
 ] as [string, string, number, number[], number, number, number, string, string][];
 
 export const StanceData = {
@@ -40,7 +40,7 @@ export const StanceData = {
   Staves: [1.18, 2.14286],
   Polearms: [1.18, 2.22222],
   Hammers: [1.7, 2],
-  HeavyBlade: [1.7, 2]
+  HeavyBlade: [1.7, 2],
 };
 
 export const RangeData = {
@@ -53,7 +53,7 @@ export const RangeData = {
   Staves: [3.09, 0.61],
   Polearms: [3.09, 0.11],
   Hammers: [3.09, 0.81],
-  HeavyBlade: [3.09, 0.81]
+  HeavyBlade: [3.09, 0.81],
 };
 
 export interface ZawStrike {
@@ -85,7 +85,7 @@ export const ZawStrikeData: ZawStrike[] = _zawStrike.map(v => ({
   crit: v[5],
   status: v[6],
   oneHand: { dmg: StanceData[v[7]][0], slide: StanceData[v[7]][1], type: v[7], range: RangeData[v[7]] },
-  twoHand: { dmg: StanceData[v[8]][0], slide: StanceData[v[8]][1], type: v[8], range: RangeData[v[8]] }
+  twoHand: { dmg: StanceData[v[8]][0], slide: StanceData[v[8]][1], type: v[8], range: RangeData[v[8]] },
 }));
 
 const _zawGrip = [
@@ -98,7 +98,7 @@ const _zawGrip = [
   ["8", "Jayap", 1, 0, -5],
   ["5", "Plague Bokwin", 1, 7, -7],
   ["9", "Kroostra", 1, 14, -9],
-  ["7", "Shtung", 1, 28, -13]
+  ["7", "Shtung", 1, 28, -13],
 ] as [string, string, number, number, number][];
 
 export interface ZawGrip {
@@ -116,7 +116,7 @@ export const ZawGripData: ZawGrip[] = _zawGrip.map(v => ({
   name: v[1],
   twoHand: !!v[2],
   dmg: v[3],
-  speed: v[4]
+  speed: v[4],
 }));
 
 export const NoneZawGripData = {
@@ -125,7 +125,7 @@ export const NoneZawGripData = {
   name: "None",
   twoHand: false,
   dmg: 0,
-  speed: 0
+  speed: 0,
 };
 
 const _zawLinks = [
@@ -144,7 +144,7 @@ const _zawLinks = [
   ["C", "Ekwana Jai II", -8, 10, -4, 7],
   ["D", "Ekwana Ruhang II", 28, -8, -4, 7],
   ["E", "Vargeet Jai II", -8, 10, 7, -4],
-  ["F", "Vargeet Ruhang II", 28, -8, 7, -4]
+  ["F", "Vargeet Ruhang II", 28, -8, 7, -4],
 ] as [string, string, number, number, number, number][];
 
 export interface ZawLinks {
@@ -164,7 +164,7 @@ export const ZawLinksData: ZawLinks[] = _zawLinks.map(v => ({
   dmg: v[2],
   speed: v[3],
   crit: v[4],
-  status: v[5]
+  status: v[5],
 }));
 
 export const NoneZawLinksData: ZawLinks = {
@@ -174,7 +174,7 @@ export const NoneZawLinksData: ZawLinks = {
   dmg: 0,
   speed: 0,
   crit: 0,
-  status: 0
+  status: 0,
 };
 
 const getName = (url: string) => {
@@ -259,7 +259,7 @@ export class Zaw extends Weapon {
       fireRate: 60 + this.strike.speed + this.grip.speed + this.links.speed,
       critChance: (10 + this.strike.crit + this.links.crit) / 100,
       procChance: (10 + this.strike.status + this.links.status) / 100,
-      critMul: this.strike.idx === "A" ? 2.2 : 2
+      critMul: this.strike.idx === "A" ? 2.2 : 2,
     } as CoreWeaponMode;
     this.modes = [mode];
   }

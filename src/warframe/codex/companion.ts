@@ -26,11 +26,11 @@ export class Companion {
     const ikey = `messages.${_.camelCase(data.id)}`;
     this.name = i18n.te(ikey) ? i18n.t(ikey) : data.id;
     this.tags = data.tags || base.tags || [];
-    this.className = data.className;
-    this.health = data.health;
-    this.shield = data.shield;
-    this.armor = data.armor;
-    this.polarities = data.polarities ? data.polarities.split("") : [];
+    if (data.className) this.className = data.className;
+    if (data.health) this.health = data.health;
+    if (data.shield) this.shield = data.shield;
+    if (data.armor) this.armor = data.armor;
+    if (data.polarities) this.polarities = data.polarities ? data.polarities.split("") : [];
     if (data.damage) this.damage = data.damage;
     if (data.critChance) this.critChance = data.critChance;
     if (data.critMul) this.critMul = data.critMul;
