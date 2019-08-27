@@ -98,11 +98,12 @@ export class MeleeModBuild extends ModBuild {
     super(weapon, riven, fast);
     if ((this.weapon = weapon)) {
       this._mode = this.weapon.defaultMode;
-      this.avaliableMods = NormalModDatabase.filter(v =>
-        this.weapon.tags
-          .toArray()
-          .concat([this.weapon.name, this.weapon.baseName])
-          .includes(v.type)
+      this.avaliableMods = NormalModDatabase.filter(
+        v =>
+          this.weapon.tags
+            .toArray()
+            .concat([this.weapon.name, this.weapon.baseName])
+            .includes(v.type) && !v.props.some(p => p[0].startsWith("on"))
       );
     }
     // 自动配卡优化

@@ -817,6 +817,7 @@ let po = {
       rmh: "Restore {0} Max Health",
       chf: "{0} chance for",
 
+      augment: "{0} Augment",
       ify: "if the target is over {0}m away",
       onHeadshot: "On Headshot:",
       onHeadshotKill: "On Headshot Kill:",
@@ -832,7 +833,8 @@ let po = {
       onFinish: "On Finish:",
       onWalllatch: "On Walllatch:",
       onBlock: "On Block:",
-      augment: "{0} Augment",
+      onAimGliding: "On Aim Gliding:",
+      onLand: "{0}s after landing from Double or Bullet Jump",
     },
     shortName: {
       0: "Crit Chance",

@@ -2681,6 +2681,7 @@ let po = {
       rmh: "恢復 {0} 最大生命值",
       chf: "有 {0} 的機率",
 
+      augment: "{0}強化",
       ify: "如果目標距離 {0} 米外",
       onHeadshot: "爆頭後:",
       onHeadshotKill: "爆頭擊殺後:",
@@ -2696,7 +2697,8 @@ let po = {
       onFinish: "處決後:",
       onWalllatch: "壁面攀附:",
       onBlock: "格擋後:",
-      augment: "{0}強化",
+      onAimGliding: "飛身瞄準時:",
+      onLand: "旋身飛躍落地後{0}秒內",
 
       allowsTheKubrowToUseFinisherAttacksOnAnEnemy: "使庫狛可以處決敵人",
       sentinelHasA3MFreezeAuraSlowingIncomingEnemiesBy10: "守護擁有3米範圍的冰冷氣場，減緩來襲敵人10%的動作速度。",

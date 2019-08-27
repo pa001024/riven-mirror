@@ -32,9 +32,9 @@ const data = [
   ["06", "Hunter Track", [["3", 5]], Primary, "r", "r", 4],
   ["07", "Vigilante Supplies", [["am", 30]], Primary, "-", "r", 4],
   ["08", "Proton Jet", [["During a Wall Latch gain +30% Status Chance and Critical Chance."]], Primary, "-", "c", 4, 3],
-  ["09", "Motus Setup", [["25% Critical and Status Chance for 1s after landing from a Double or Bullet Jump."]], Primary, "r", "r", 6, 3],
-  ["0A", "Aero Periphery", [["-12.5% Zoom while Aim Gliding"]], Primary, "-", "n", 2, 3],
-  ["0B", "Aero Agility", [["+25% Reload Speed while Aim Gliding"]], Primary, "-", "r", 4, 3],
+  ["09", "Motus Setup", [["0", 25], ["2", 25], ["onLand", 1]], Primary, "r", "r", 6, 3],
+  ["0A", "Aero Periphery", ["onAimGliding"], [["H", 12.5]], Primary, "-", "n", 2, 3],
+  ["0B", "Aero Agility", [["onAimGliding"], ["F", 25]], Primary, "-", "r", 4, 3],
 
   // 步枪 10 ~ 4z
   ["10", "Serration", [["D", 15]], Rifle, "r", "c", 4, 10],

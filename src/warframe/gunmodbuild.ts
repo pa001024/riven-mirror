@@ -20,7 +20,7 @@ export enum GunCompareMode {
   TotalDamage, // 单发伤害
   BurstDamage, // 爆发伤害
   SustainedDamage, // 持续伤害
-  FirstAmmoDamage // 首发伤害
+  FirstAmmoDamage, // 首发伤害
 }
 export interface GunModBuildOptions {
   compareMode?: GunCompareMode;
@@ -129,11 +129,12 @@ export class GunModBuild extends ModBuild {
     super(weapon, riven, fast);
     if ((this.weapon = weapon)) {
       this._mode = this.weapon.defaultMode;
-      this.avaliableMods = NormalModDatabase.filter(v =>
-        this.weapon.tags
-          .toArray()
-          .concat([this.weapon.name, this.weapon.baseName])
-          .includes(v.type)
+      this.avaliableMods = NormalModDatabase.filter(
+        v =>
+          this.weapon.tags
+            .toArray()
+            .concat([this.weapon.name, this.weapon.baseName])
+            .includes(v.type) && !v.props.some(p => p[0].startsWith("on"))
       );
     }
     const chargemodeindex = weapon.modes.findIndex(v => v.type === "charge");
@@ -180,7 +181,7 @@ export class GunModBuild extends ModBuild {
       amrorReduce: this.amrorReduce,
       burstSampleSize: this.burstSampleSize,
       zoomLevel: this.zoomLevel,
-      modeIndex: this.modeIndex
+      modeIndex: this.modeIndex,
     };
   }
   /** 生成伤害时间线 */
