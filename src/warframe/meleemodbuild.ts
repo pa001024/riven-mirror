@@ -7,7 +7,7 @@ export enum MeleeCompareMode {
   TotalDamage, // 平砍DPH
   SlideDamage, // 滑砍DPH
   TotalDamagePS, // 平砍DPS
-  SlideDamagePS // 滑砍DPS
+  SlideDamagePS, // 滑砍DPS
 }
 export interface MeleeModBuildOptions {
   compareMode?: MeleeCompareMode;
@@ -139,7 +139,7 @@ export class MeleeModBuild extends ModBuild {
       requireCombo: this.requireCombo,
       calcCondiOver: this.calcCondiOver,
       melee30: this.melee30,
-      modeIndex: this.modeIndex
+      modeIndex: this.modeIndex,
     };
   }
 
@@ -445,6 +445,6 @@ export class MeleeModBuild extends ModBuild {
   /** [overwrite] 最大容量 */
   get maxCost() {
     if (this.weapon.tags.has("Exalted")) return this.weapon.tags.has("Virtual") ? 70 : 60;
-    return this.weapon.tags.has("Robotic") ? 60 : this.weapon.name === "Paracesis" ? 80 : 70;
+    return this.weapon.tags.has("Robotic") || this.weapon.tags.has("Arch-Melee") ? 60 : this.weapon.name === "Paracesis" ? 80 : 70;
   }
 }
