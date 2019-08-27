@@ -36,6 +36,11 @@
         </div>
       </div>
     </el-tab-pane>
+    <el-tab-pane name="MOA" lazy>
+      <span slot="label" class="warframe-tablabel">{{$t('moa.title')}}</span>
+      <MoaBuilder @finish="newMOA">
+      </MoaBuilder>
+    </el-tab-pane>
   </el-tabs>
 </template>
 
@@ -43,7 +48,9 @@
 import _ from "lodash";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { Warframe, WarframeDataBase } from "@/warframe/codex";
-import { CompanionDataBase, Companion } from "../warframe/companionbuild";
+import { CompanionDataBase, Companion } from "@/warframe/companionbuild";
+import MoaBuilder from "@/components/MoaBuilder.vue";
+import { Moa } from "@/warframe/codex/moa";
 
 declare interface WarframeSelectorTab {
   id: string;
@@ -62,7 +69,7 @@ const AllTabs = {
   // Companion: "companion", // 同伴
 };
 
-@Component({ components: {} })
+@Component({ components: {MoaBuilder} })
 export default class extends Vue {
   // classType = "All";
   get classType() {
@@ -102,6 +109,10 @@ export default class extends Vue {
     } else if (warframes.length === 1) {
       this.handleCommandCompanion(id);
     }
+  }
+  newMOA(moa: Moa) {
+    console.log("newMOA->", moa.url);
+    this.$router.push({ name: "CompanionEditor", params: { id: moa.url } });
   }
 }
 </script>

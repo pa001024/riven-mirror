@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { hAccSum } from "@/warframe/util";
 import { i18n } from "@/i18n";
 import { Companion } from "./companion";
 
@@ -8,7 +7,9 @@ import { Companion } from "./companion";
  */
 export interface MoaModel {
   index: number;
+  id: string;
   name: string;
+  mat: string;
   mods: string[];
 }
 /**
@@ -16,6 +17,7 @@ export interface MoaModel {
  */
 export interface MoaCore {
   index: number;
+  id: string;
   name: string;
   mat: string;
   health: number;
@@ -27,6 +29,7 @@ export interface MoaCore {
  */
 export interface MoaGyro {
   index: number;
+  id: string;
   name: string;
   mat: string;
   health: number;
@@ -38,16 +41,17 @@ export interface MoaGyro {
  */
 export interface MoaBracket {
   index: number;
+  id: string;
   name: string;
   polarities: string;
 }
 
 const _moaModel = [
   // index, id, mods
-  [1, "Lambeo Moa", ["Stasis Field", "Shockwave Actuators"]],
-  [2, "Oloro Moa", ["Tractor Beam", "Security Override"]],
-  [3, "Para Moa", ["Whiplash Mine", "Anti-Grav Grenade"]],
-] as [number, string, string[]][];
+  [1, "Lambeo Moa", "Rough", ["Stasis Field", "Shockwave Actuators"]],
+  [2, "Oloro Moa", "Metal", ["Tractor Beam", "Security Override"]],
+  [3, "Para Moa", "Smooth", ["Whiplash Mine", "Anti-Grav Grenade"]],
+] as [number, string, string, string[]][];
 
 const _moaCore = [
   // index, name, mat, health, shield, armor
@@ -77,14 +81,15 @@ const _moaBracket = [
 
 export const MoaModelData: MoaModel[] = _moaModel.map(v => ({
   index: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
-  mods: v[2],
+  name: v[1],
+  id: _.camelCase(v[1]),
+  mat: v[2],
+  mods: v[3],
 }));
 export const MoaCoreData: MoaCore[] = _moaCore.map(v => ({
   index: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  name: v[1],
+  id: _.camelCase(v[1]),
   mat: v[2],
   health: v[3],
   shield: v[4],
@@ -92,8 +97,8 @@ export const MoaCoreData: MoaCore[] = _moaCore.map(v => ({
 }));
 export const MoaGyroData: MoaGyro[] = _moaGyro.map(v => ({
   index: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  name: v[1],
+  id: _.camelCase(v[1]),
   mat: v[2],
   health: v[3],
   shield: v[4],
@@ -101,8 +106,8 @@ export const MoaGyroData: MoaGyro[] = _moaGyro.map(v => ({
 }));
 export const MoaBracketData: MoaBracket[] = _moaBracket.map(v => ({
   index: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  name: v[1],
+  id: _.camelCase(v[1]),
   polarities: v[2],
 }));
 
@@ -117,6 +122,10 @@ export class Moa extends Companion {
   core: MoaCore;
   gyro: MoaGyro;
   bracket: MoaBracket;
+
+  get mods() {
+    return this.model.mods;
+  }
 
   get tags() {
     return ["Robotic", "Animal", "MOA"];
@@ -151,7 +160,15 @@ export class Moa extends Companion {
       if (model) this.recalc();
     }
   }
-  recalc() {}
+  recalc() {
+    this.id = this.model.name;
+    const ikey = `messages.${this.model.id}`;
+    this.name = i18n.te(ikey) ? i18n.t(ikey) : this.model.name;
+    this.health = (40 + ((this.core ? this.core.health : 0) + (this.gyro ? this.gyro.health : 0))) * 2.5;
+    this.shield = (40 + ((this.core ? this.core.shield : 0) + (this.gyro ? this.gyro.shield : 0))) * 2.5;
+    this.armor = (40 + ((this.core ? this.core.armor : 0) + (this.gyro ? this.gyro.armor : 0))) * 2.5;
+    this.polarities = this.bracket && this.bracket.polarities ? this.bracket.polarities.split("") : [];
+  }
   get displayName() {
     if (this.model) return i18n.t(`messages.${_.camelCase(this.model.name)}`);
     else return "MOA";

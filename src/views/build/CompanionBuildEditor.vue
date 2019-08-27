@@ -143,6 +143,7 @@ import { i18n } from "@/i18n";
 import { Getter, Action } from "vuex-class";
 import { base62 } from "@/warframe/lib/base62";
 import { CompanionDataBase, CompanionBuild, Companion } from "@/warframe/companionbuild";
+import { Moa } from "@/warframe/codex/moa";
 
 interface BuildSelectorTab {
   title: string;
@@ -155,11 +156,18 @@ interface BuildSelectorTab {
 @Component({
   components: { PropDiff, LeveledModSlot, ModSelector, ShareQR, BuffSelector },
   beforeRouteEnter(to, from, next) {
-    const core = CompanionDataBase.getCompanionById(to.params.id.replace(/_/g, " "));
-    if (core) {
-      document.title = i18n.t("title.sub", [i18n.t("title.weapon", [core.name])]);
+    const id = to.params.id.replace(/_/g, " ");
+    if (id.startsWith("MOA-")) {
+      const moa = new Moa(id);
+      document.title = i18n.t("title.sub", [i18n.t("title.weapon", [moa.name])]);
       next();
-    } else next("/CompanionNotFound");
+    } else {
+      const core = CompanionDataBase.getCompanionById(id);
+      if (core) {
+        document.title = i18n.t("title.sub", [i18n.t("title.weapon", [core.name])]);
+        next();
+      } else next("/CompanionNotFound");
+    }
   },
 })
 export default class CompanionEditor extends Vue {
@@ -229,14 +237,16 @@ export default class CompanionEditor extends Vue {
     if (this.$route.name !== "CompanionEditor" && this.$route.name !== "CompanionEditorWithCode") return;
     if (this.id && this._lastid !== this.id) {
       this._lastid = this.id;
-      this._core = CompanionDataBase.getCompanionById(this.id.replace(/_/g, " "));
+      if (this.id.startsWith("MOA-")) {
+        this._core = new Moa(this.id);
+      } else {
+        this._core = CompanionDataBase.getCompanionById(this.id.replace(/_/g, " "));
+      }
       if (this.core) {
         this.tabs = "ABC".split("").map(v => ({
           title: this.$t("zh") ? `配置${v}` : `SET ${v}`,
           name: `SET ${v}`,
           build: new CompanionBuild(this.core),
-          aura: null,
-          exilus: null,
           mods: Array(10),
           buffs: [null],
         }));

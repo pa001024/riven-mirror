@@ -25,7 +25,7 @@ export class Companion {
     this.id = data.id;
     const ikey = `messages.${_.camelCase(data.id)}`;
     this.name = i18n.te(ikey) ? i18n.t(ikey) : data.id;
-    this.tags = data.tags || base.tags || [];
+    if (data.tags || base.tags) this.tags = data.tags || base.tags || [];
     if (data.className) this.className = data.className;
     if (data.health) this.health = data.health;
     if (data.shield) this.shield = data.shield;
@@ -77,7 +77,7 @@ export class CompanionDataBase {
     this.instance = new CompanionDataBase();
   }
   static getCompanionById(id: string) {
-    return new Companion(this.instance._i2w.get(id));
+    return this.instance._i2w.has(id) && new Companion(this.instance._i2w.get(id));
   }
   static getCompanionByClassName(className: string) {
     return this.instance._f2w[className].map(v => this.getCompanionById(v));
