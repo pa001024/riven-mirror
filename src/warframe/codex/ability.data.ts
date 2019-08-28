@@ -1122,7 +1122,7 @@ export let _abilityData: AbilityData[] = [
     id: "Razorwing",
     tags: 1,
     energyCost: 25,
-    energyCostPS: 4,
+    energyCostPS: 5,
     props: {
       ExaltedWeapon: { weaponName: "Dex Pixia", effect: [["oad", S(100, -100)]] }
     }
@@ -1247,7 +1247,7 @@ export let _abilityData: AbilityData[] = [
   {
     id: "Electric Shield",
     tags: 2,
-    energyCost: 75,
+    energyCost: 50,
     props: {
       Buff: { target: 1, effect: [["1", 100], ["eed", 50]], duration: D(25) }
     }
