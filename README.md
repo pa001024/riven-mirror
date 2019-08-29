@@ -1,6 +1,16 @@
 # Riven Mirror
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/pa001024/riven-mirror.svg)](https://greenkeeper.io/)
+<p align="center">
+  <a href="https://riven.im"><img alt="Website" src="https://img.shields.io/website/https/riven.im"></a>
+  <a href="https://circleci.com/gh/pa001024/riven-mirror/tree/dev"><img src="https://img.shields.io/circleci/project/github/pa001024/riven-mirror/dev.svg" alt="Build Status"></a>
+  <br>
+  <a href="https://www.npmjs.com/"><img src="https://img.shields.io/david/pa001024/riven-mirror" alt="Dependencies"></a>
+  <a href="https://github.com/pa001024/riven-mirror"><img src="https://img.shields.io/github/license/pa001024/riven-mirror" alt="License"></a>
+  <a href="https://discord.gg/m8pGvfP"><img src="https://img.shields.io/badge/chat-on%20discord-7289da.svg" alt="Chat"></a>
+  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/pa001024/riven-mirror">
+  <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/pa001024/riven-mirror.svg" alt="Chat"></a>
+</p>
+
 
 > This project means to create a quick identification tool for warframe riven MOD
 
@@ -13,9 +23,9 @@ See WIKI for details: [RivenMirror](https://warframe.huijiwiki.com/wiki/%E5%8D%9
 ## Recent TODO-LIST
 
 - [ ] account
-- [ ] user feedback
 
 ## Features
+
 - Input
   - [x] MOD screenshot recognition
     - [x] English recognition
@@ -27,7 +37,7 @@ See WIKI for details: [RivenMirror](https://warframe.huijiwiki.com/wiki/%E5%8D%9
   - [x] Self-selection card
   - [x] Unified Bonus
 - Output
-  - [ ] Multi-program comparison
+  - [ ] Multi-build comparison
   - [x] faction damage simulation
   - [x] automatic building
   - [x] benchmark score
