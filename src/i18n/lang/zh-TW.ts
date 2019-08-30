@@ -1682,6 +1682,7 @@ let po = {
     darkSector: "黑暗地帶",
     survival: "生存",
     interception: "攔截",
+    artifact: "中斷",
     exterminate: "殲滅",
     extermination: "殲滅",
     orokinSabotage: "虛空破壞",
@@ -2469,6 +2470,11 @@ let po = {
     complete3KuvaSiphonMissions: "完成3個赤毒虹吸器任務",
     loyalty: "忠心不二",
     interactWithYourKubrowOrKavat: "與你的庫狛或庫娃互動",
+    everythingOldIsNewAgain: "以舊換新",
+    complete3Transmutations: "完成3次MOD轉換",
+    airItOut: "天降神兵",
+    deployAnAirSupportChargeInAMission: "在任務中部署一個空中支援呼叫器",
+    complete6DifferentPerfectAnimalCapturesInOrbVallis: "在奧布山谷完成6個不同動物的完美捕獲",
   },
   prop: {
     fullName: {

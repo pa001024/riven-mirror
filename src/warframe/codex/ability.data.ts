@@ -1589,7 +1589,7 @@ export let _abilityData: AbilityData[] = [
     id: "Redline",
     tags: 2,
     energyCost: 100,
-    props: { Buff: { effect: [["R", S(75)], ["J", S(40)], ["F", S(50)], ["hr", S(100)]] }, Damage: { damage: [["Impact", 200], ["Puncture", 200]] } },
+    props: { Buff: { effect: [["R", D(75)], ["J", D(40)], ["F", D(50)], ["hr", D(100)]] }, Damage: { damage: [["Impact", S(200)], ["Puncture", S(200)]] } },
   },
 ];
 

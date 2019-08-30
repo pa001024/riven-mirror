@@ -1682,6 +1682,7 @@ let po = {
     darkSector: "黑暗地带",
     survival: "生存",
     interception: "拦截",
+    artifact: "中断",
     exterminate: "歼灭",
     extermination: "歼灭",
     orokinSabotage: "虚空破坏",
@@ -2302,7 +2303,7 @@ let po = {
     daily: "每日",
     weekly: "每周",
     dailyElite: "每日精英",
-    weeklyElite: "每周精英",
+    weeklyElite: "每周精英", // JSON.stringify(a.reduce((r,v)=>(r[_.camelCase(v.en)]=v.zh,r),{}))
     kill20EnemiesWhileSliding: "在滑行时杀死20名敌人",
     pickUp8Mods: "拾取8个MOD",
     kill150EnemiesWithHeatDamage: "使用火焰伤害击杀150名敌人",
@@ -2469,6 +2470,11 @@ let po = {
     complete3KuvaSiphonMissions: "完成3个赤毒虹吸器任务",
     loyalty: "忠心不二",
     interactWithYourKubrowOrKavat: "与你的库狛或库娃互动",
+    everythingOldIsNewAgain: "以旧换新",
+    complete3Transmutations: "完成3次MOD转换",
+    airItOut: "天降神兵",
+    deployAnAirSupportChargeInAMission: "在任务中部署一个空中支持呼叫器",
+    complete6DifferentPerfectAnimalCapturesInOrbVallis: "在奥布山谷完成6个不同动物的完美捕获",
   },
   prop: {
     fullName: {
