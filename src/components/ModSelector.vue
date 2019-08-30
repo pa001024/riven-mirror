@@ -211,88 +211,104 @@ export default class ModSelector extends Vue {
     }
     switch (this.type) {
       case "Companion":
-        this.tabs = [
-          {
-            id: "tank",
-            name: this.$t("modselector.tank") as string,
-            mods: mods.filter(v => v.props.some(k => "hsaz".indexOf(k[0]) >= 0 || ["hl", "sl", "al", "bl"].includes(k[0]))),
-          },
-          {
-            id: "other",
-            name: this.$t("modselector.other") as string,
-            mods: mods.filter(v => v.props.every(k => "hsaz".indexOf(k[0]) < 0 && !["hl", "sl", "al", "bl"].includes(k[0]))),
-          },
-        ];
-        this.selectTab = "tank";
+        {
+          const cat_tank = "hsaz".split("").concat(["hl", "sl", "al", "bl"]);
+          this.tabs = [
+            {
+              id: "tank",
+              name: this.$t("modselector.tank") as string,
+              mods: mods.filter(v => v.props.some(k => cat_tank.includes(k[0]))),
+            },
+            {
+              id: "other",
+              name: this.$t("modselector.other") as string,
+              mods: mods.filter(v => v.props.every(k => !cat_tank.includes(k[0]))),
+            },
+          ];
+          if (!"tank,other".split(",").includes(this.selectTab)) this.selectTab = "tank";
+        }
         break;
       case "Aura":
-        const commonAura = ["G0", "G3", "G4", "G5", "GG", "GJ", "GN", "GO"];
-        this.tabs = [
-          {
-            id: "common",
-            name: this.$t("modselector.common") as string,
-            mods: mods.filter(v => commonAura.includes(v.key)),
-          },
-          { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => !commonAura.includes(v.key)) },
-        ];
-        this.selectTab = "common";
+        {
+          const commonAura = ["G0", "G3", "G4", "G5", "GG", "GJ", "GN", "GO"];
+          this.tabs = [
+            {
+              id: "common",
+              name: this.$t("modselector.common") as string,
+              mods: mods.filter(v => commonAura.includes(v.key)),
+            },
+            { id: "other", name: this.$t("modselector.other") as string, mods: mods.filter(v => !commonAura.includes(v.key)) },
+          ];
+          if (!"common,other".split(",").includes(this.selectTab)) this.selectTab = "common";
+        }
         break;
       case "Weapon":
-        this.tabs = [
-          // { id: "Fast", name: this.$t("modselector.fastSelect") as string, mods: _.map(this.fastSelect[this.build.rivenWeapon.mod], (v, i) => ({ name: i, id: v } as any)) },
-          {
-            id: "benefit",
-            name: this.$t("modselector.sorted") as string,
-            mods: mods
-              .filter(v => v.props.some(k => v.id === "Berserker" || v.id === "Condition Overload" || "01DSKEGICO456789ARLFJ".indexOf(k[0]) >= 0))
-              .map(v => [v, this.build.testMod(v)] as [NormalMod, number])
-              .sort((a, b) => b[1] - a[1])
-              .map(([v]) => v),
-          },
-          {
-            id: "damage",
-            name: this.$t("modselector.damage") as string,
-            mods: mods.filter(v => v.id === "Condition Overload" || v.props.some(k => k[1] > 0 && "01DSKEGICO".indexOf(k[0]) >= 0)),
-          },
-          { id: "elements", name: this.$t("modselector.element") as string, mods: mods.filter(v => v.props.some(k => "456789A".indexOf(k[0]) >= 0)) },
-          {
-            id: "speed",
-            name: this.$t("modselector.speed") as string,
-            mods: mods.filter(v => v.id === "Berserker" || v.props.some(k => "RLFJ".indexOf(k[0]) >= 0)),
-          },
-          {
-            id: "other",
-            name: this.$t("modselector.other") as string,
-            mods: mods.filter(v => v.id !== "Berserker" && v.props.every(k => "01DSKEGICO456789ARLFJ".indexOf(k[0]) < 0)),
-          },
-        ];
-        this.selectTab = "fast";
+        {
+          const cat_damage = "01DSKEGICO".split("").concat(["oad", "co"]),
+            cat_elements = "456789A".split(""),
+            cat_speed = "RLFJ".split("").concat(["bsk"]),
+            cat_benefit = [...cat_damage, ...cat_elements, ...cat_speed];
+          this.tabs = [
+            {
+              id: "benefit",
+              name: this.$t("modselector.sorted") as string,
+              mods: mods
+                .filter(v => v.props.some(k => cat_benefit.includes(k[0])))
+                .map(v => [v, this.build.testMod(v)] as [NormalMod, number])
+                .sort((a, b) => b[1] - a[1])
+                .map(([v]) => v),
+            },
+            {
+              id: "damage",
+              name: this.$t("modselector.damage") as string,
+              mods: mods.filter(v => v.props.some(k => cat_damage.includes(k[0]))),
+            },
+            { id: "elements", name: this.$t("modselector.element") as string, mods: mods.filter(v => v.props.some(k => "456789A".indexOf(k[0]) >= 0)) },
+            {
+              id: "speed",
+              name: this.$t("modselector.speed") as string,
+              mods: mods.filter(v => v.props.some(k => cat_speed.includes(k[0]))),
+            },
+            {
+              id: "other",
+              name: this.$t("modselector.other") as string,
+              mods: mods.filter(v => v.props.every(k => !cat_benefit.includes(k[0]))),
+            },
+          ];
+          if (!"benefit,damage,speed,other".split(",").includes(this.selectTab)) this.selectTab = "fast";
+        }
         break;
       default:
       case "Warframe":
-        this.tabs = [
-          {
-            id: "ability",
-            name: this.$t("modselector.ability") as string,
-            mods: mods.filter(v => v.props.some(k => "tuxge".indexOf(k[0]) >= 0 || ["ec"].includes(k[0]))),
-          },
-          {
-            id: "tank",
-            name: this.$t("modselector.tank") as string,
-            mods: mods.filter(v => v.props.some(k => "hsaz".indexOf(k[0]) >= 0 || ["res", "hc"].includes(k[0]))),
-          },
-          {
-            id: "speed",
-            name: this.$t("modselector.speed") as string,
-            mods: mods.filter(v => v.props.some(k => "fcliv".indexOf(k[0]) >= 0 || ["fl"].includes(k[0]))),
-          },
-          {
-            id: "other",
-            name: this.$t("modselector.other") as string,
-            mods: mods.filter(v => v.props.every(k => "tuxgehsazefcliv".indexOf(k[0]) < 0 && !["res", "hc", "fl"].includes(k[0]))),
-          },
-        ];
-        this.selectTab = this.type === "Warframe" ? "fast" : "ability";
+        {
+          const cat_ability = "tuxge".split("").concat(["ec"]),
+            cat_tank = "hsaz".split("").concat(["res", "hc"]),
+            cat_speed = "fcliv".split("").concat(["fl"]),
+            cat_all = [...cat_ability, ...cat_tank, ...cat_speed];
+          this.tabs = [
+            {
+              id: "ability",
+              name: this.$t("modselector.ability") as string,
+              mods: mods.filter(v => v.props.some(k => cat_ability.includes(k[0]))),
+            },
+            {
+              id: "tank",
+              name: this.$t("modselector.tank") as string,
+              mods: mods.filter(v => v.props.some(k => cat_tank.includes(k[0]))),
+            },
+            {
+              id: "speed",
+              name: this.$t("modselector.speed") as string,
+              mods: mods.filter(v => v.props.some(k => cat_speed.includes(k[0]))),
+            },
+            {
+              id: "other",
+              name: this.$t("modselector.other") as string,
+              mods: mods.filter(v => v.props.every(k => !cat_all.includes(k[0]))),
+            },
+          ];
+          if (!"ability,tank,speed,other".split(",").includes(this.selectTab)) this.selectTab = this.type === "Warframe" ? "fast" : "ability";
+        }
         break;
     }
   }
