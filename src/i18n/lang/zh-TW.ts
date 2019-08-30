@@ -1219,6 +1219,8 @@ let po = {
     komorex: "猛毒",
     fulmin: "雷霆",
     quatz: "誇茲",
+    akaris: "阿利烏雙槍",
+    acceltra: "迅發電漿炮",
 
     none: "無",
     balla: "寶拉",
@@ -1493,6 +1495,7 @@ let po = {
     mesaPrime: "MESA PRIME",
     hildryn: "HILDRYN",
     wisp: "WISP",
+    gauss: "GAUSS",
 
     maduraiLens: "MADURAI晶體",
     naramonLens: "NARAMON晶體",
@@ -2054,6 +2057,10 @@ let po = {
     disarray: "熱誘彈",
     seekingFire: "導彈",
     repel: "脈衝震波",
+    machRush: "馬赫衝馳",
+    kineticPlating: "動能鍍層",
+    thermalSunder: "熱能抽離",
+    redline: "赤限",
   },
   messagesExtend: {
     blueprint: "藍圖",
@@ -3611,6 +3618,7 @@ let po = {
     combo: "連擊加成 (狙擊)",
     finalDamage: "最終傷害 (通用)",
     gladiator: "角鬥士組合效果",
+    vigilante: "私法組合效果",
     arcaneAgility: "靈敏賦能",
     arcaneBarrier: "壁壘賦能",
     arcaneAegis: "神盾賦能",

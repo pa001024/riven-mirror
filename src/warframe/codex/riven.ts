@@ -309,9 +309,14 @@ export class RivenDatabase {
       this.propDict.set(v.eName, i);
       this.propDict.set(v.name, i);
     });
-    (i18n.locale === "zh-CY" ? _rivenDataBaseWeaponsCY : _rivenDataBaseWeapons).forEach(v => {
+    _rivenDataBaseWeapons.forEach(v => {
       this.ratioDict.set(v[0], v[2]);
     });
+    if (i18n.locale === "zh-CY") {
+      _rivenDataBaseWeaponsCY.forEach(v => {
+        this.ratioDict.set(v[0], v[2]);
+      });
+    }
   }
 
   static reload() {

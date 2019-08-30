@@ -690,6 +690,16 @@ export const BuffList: BuffData[] = [
     },
   },
   {
+    id: "vi",
+    name: "vigilante", // 私法组合效果
+    type: BuffType.CritDamage,
+    target: "Primary",
+    multiLayer: {
+      maxStack: 6,
+      stackableProps: [["ce", 15]],
+    },
+  },
+  {
     id: "r",
     name: "charm", // 招福
     type: BuffType.CritDamage,

@@ -322,6 +322,23 @@ export const _warframeData: WarframeData[] = [
     lvlUps: [["h", 200], ["e", 125], ["s", 200]]
   },
   {
+    id: "Gauss",
+    // name: "Gauss",
+    tags: ["Support"],
+    // description: "Death's crimson maiden, the blood of Garuda's foes imbue her with strength and vitality.",
+    health: 100,
+    shield: 150,
+    armor: 150,
+    energy: 150,
+    sprint: 1.4,
+    passiveDescription: "...",
+    abilities: ["Mach Rush", "Kinetic Plating", "Thermal Sunder", "Redline"],
+    aura: "-",
+    introduced: "24",
+    polarities: ["r", "d"],
+    sex: "Male",
+  },
+  {
     id: "Harrow",
     // name: "harrow",
     tags: ["Support", "Control"],

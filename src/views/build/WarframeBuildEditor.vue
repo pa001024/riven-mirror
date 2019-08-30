@@ -131,7 +131,7 @@
                     <el-row>
                       <el-col class="skill-name">
                         <a class="skill-wiki" target="_blank" :href="$t('zh') ? `https://warframe.huijiwiki.com/wiki/${abi.name}` : `https://warframe.fandom.com/wiki/${abi.url}`">{{abi.name}}</a>
-                        <a class="skill-wiki en" target="_blank" v-if="$t('zh')" :href="`https://warframe.fandom.com/wiki/${abi.url}`">EN</a>
+                        <a class="skill-wiki en" target="_blank" v-if="$t('zh')" :href="`https://warframe.fandom.com/wiki/${abi.url}`">{{abi.id}}</a>
                       </el-col>
                       <el-col class="skill-tags">
                         <div class="skill-tag" v-if="abi.oneHand">{{$t("ability.oneHand")}}</div>
