@@ -80,5 +80,14 @@ export default class Simulacrum extends Vue {
 
   fakeAmrorReduce = this.amrorReduce;
   fakeEnemyLevel = this.enemyLevel;
+
+  @Watch("enemyLevel")
+  updateEnemyLevel() {
+    this.fakeEnemyLevel = this.enemyLevel;
+  }
+  @Watch("amrorReduce")
+  updateAmrorReduce() {
+    this.fakeAmrorReduce = this.amrorReduce;
+  }
 }
 </script>

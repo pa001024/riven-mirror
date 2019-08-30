@@ -1,5 +1,16 @@
 # Riven Mirror
 
+<p align="center">
+  <a href="https://riven.im"><img alt="Website" src="https://img.shields.io/website/https/riven.im"></a>
+  <a href="https://circleci.com/gh/pa001024/riven-mirror/tree/dev"><img src="https://img.shields.io/circleci/project/github/pa001024/riven-mirror/dev.svg" alt="Build Status"></a>
+  <br>
+  <a href="https://www.npmjs.com/"><img src="https://img.shields.io/david/pa001024/riven-mirror" alt="Dependencies"></a>
+  <a href="https://github.com/pa001024/riven-mirror"><img src="https://img.shields.io/github/license/pa001024/riven-mirror" alt="License"></a>
+  <a href="https://discord.gg/m8pGvfP"><img src="https://img.shields.io/badge/chat-on%20discord-7289da.svg" alt="Chat"></a>
+  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/pa001024/riven-mirror">
+  <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/pa001024/riven-mirror.svg" alt="Chat"></a>
+</p>
+
 > 此项目意为创建一个裂罅MOD的快捷鉴别工具
 
 > 本项目目前处于ALPHA阶段 很多功能不完善请注意
@@ -11,9 +22,9 @@
 ## 近期 TODO-LIST
 
 - [ ] 账号
-- [ ] 用户feedback页面
 
 ## 特性
+
 - 输入
   - [x] MOD截图识别
     - [x] 英文识别

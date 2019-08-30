@@ -8,6 +8,7 @@ import proto from "@/proto/weapon.proto";
 import { strSimilarity } from "../util";
 import { RivenDatabase } from "./riven";
 import base64arraybuffer from "base64-arraybuffer";
+import weaponPatch from "./weapon.patch";
 
 export enum MainTag {
   Rifle,
@@ -107,7 +108,9 @@ export class Weapon {
       return v;
     };
     if (data) {
-      const { variants, modes, tags, ...weapon } = data;
+      // 国服不切换
+      const adjustedData = i18n.locale !== "zh-CY" && weaponPatch[data.name] ? _.merge(data, weaponPatch[data.name]) : data;
+      const { variants, modes, tags, ...weapon } = adjustedData;
       Object.assign(this, fixBuf(weapon));
 
       if (tags) {

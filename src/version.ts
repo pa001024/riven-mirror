@@ -1,6 +1,18 @@
 export const magic = "ALPHA";
-export const version = "1.6.7";
+export const version = "1.7.0";
 export const updateLogs = [
+  {
+    version: "1.7.0",
+    date: "2019/8/30",
+    md: {
+      en: `- Added: Customized MOA building
+- Update: New weapons and armor
+- Change: Bow Stat Changes`,
+      cn: `- 新增: 自定义恐鸟配卡
+- 更新: 新武器和战甲
+- 改动: 弓箭武器改版 (国服不变)`
+    }
+  },
   {
     version: "1.6.7",
     date: "2019/8/21",
@@ -39,6 +51,7 @@ export const updateLogs = [
       cn: `- 更新: [2019七月裂罅倾向调整](https://forums.warframe.com/topic/1107775-july-2019-riven-disposition-updates/)`
     }
   },
+  /*
   {
     version: "1.6.4",
     date: "2019/7/5",
@@ -49,7 +62,6 @@ export const updateLogs = [
 - 新增设置: 平台切换`
     }
   },
-  /*
   {
     version: "1.6.3",
     date: "2019/6/29",
