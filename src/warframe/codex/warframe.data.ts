@@ -11,12 +11,12 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 100,
     sprint: 1.15,
-    passiveDescription: "Bleed effects inflicted on enemies do more damage and last longer.",
+    // passiveDescription: "Bleed effects inflicted on enemies do more damage and last longer.",
     abilities: ["Shuriken", "Smoke Screen", "Teleport", "Blade Storm"],
     aura: "r",
     introduced: "Vanilla",
     polarities: ["r", "r"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Ash Prime",
@@ -30,9 +30,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1.2,
     introduced: "16.11",
     polarities: ["-", "r", "r"],
-    releaseDate: "2015 07 07",
-    vaultDate: "2017 05 30",
-    estimatedVaultDate: "2017 05 30"
+    // releaseDate: "2015 07 07",
+    // vaultDate: "2017 05 30",
+    // estimatedVaultDate: "2017 05 30"
   },
   {
     id: "Atlas",
@@ -44,12 +44,12 @@ export const _warframeData: WarframeData[] = [
     armor: 450,
     energy: 150,
     sprint: 0.9,
-    passiveDescription: "Becomes immune to Knockdown effects while on the ground.",
+    // passiveDescription: "Becomes immune to Knockdown effects while on the ground.",
     abilities: ["Landslide", "Tectonics", "Petrify", "Rumblers"],
     aura: "r",
     introduced: "17.5",
     polarities: ["-", "d", "r"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Banshee",
@@ -61,12 +61,12 @@ export const _warframeData: WarframeData[] = [
     armor: 15,
     energy: 150,
     sprint: 1.1,
-    passiveDescription: "Weapon noises are hushed so that enemies cannot hear them.",
+    // passiveDescription: "Weapon noises are hushed so that enemies cannot hear them.",
     abilities: ["Sonic Boom", "Sonar", "Silence", "Sound Quake"],
     aura: "r",
     introduced: "7",
     polarities: ["r", "r"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Banshee Prime",
@@ -78,14 +78,14 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 175,
     sprint: 1.15,
-    passiveDescription: "Weapon noises are hushed so that enemies cannot hear them.",
+    // passiveDescription: "Weapon noises are hushed so that enemies cannot hear them.",
     abilities: ["Sonic Boom", "Sonar", "Silence", "Sound Quake"],
     introduced: "19.11.5",
     masteryReq: 8,
     polarities: ["r", "r", "-"],
-    releaseDate: "2017 02 28",
-    vaultDate: "n/a",
-    estimatedVaultDate: "2019 01 01"
+    // releaseDate: "2017 02 28",
+    // vaultDate: "n/a",
+    // estimatedVaultDate: "2019 01 01"
   },
   {
     id: "Baruuk",
@@ -97,14 +97,13 @@ export const _warframeData: WarframeData[] = [
     armor: 150,
     energy: 200,
     sprint: 1.2,
-    passiveDescription:
-      "Each projectile dodged, each enemy lulled or disarmed, erodes Baruuk’s restraint and fuels the storm within. As Baruuk’s restraint is diminished he becomes more resistant to damage.",
+    // passiveDescription: "Each projectile dodged, each enemy lulled or disarmed, erodes Baruuk’s restraint and fuels the storm within. As Baruuk’s restraint is diminished he becomes more resistant to damage.",
     abilities: ["Elude", "Lull", "Desolate Hands", "Serene Storm"],
     aura: "-",
     exilus: "-",
     introduced: "24.2.0",
-    polarities: ["r", "r"],
-    sex: "Male"
+    polarities: ["d", "d"],
+    sex: "Male",
   },
   {
     id: "Chroma",
@@ -116,12 +115,12 @@ export const _warframeData: WarframeData[] = [
     armor: 350,
     energy: 150,
     sprint: 1,
-    passiveDescription: "Chosen Energy color dictates the type of Elemental damage dealt by abilities.",
+    // passiveDescription: "Chosen Energy color dictates the type of Elemental damage dealt by abilities.",
     abilities: ["Spectral Scream", "Elemental Ward", "Vex Armor", "Effigy"],
     aura: "r",
     introduced: "16",
     polarities: ["-", "r"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Chroma Prime",
@@ -136,9 +135,9 @@ export const _warframeData: WarframeData[] = [
     introduced: "23.9",
     masteryReq: 6,
     polarities: ["-", "d", "r", "-"],
-    releaseDate: "2018 09 25",
-    vaultDate: "n/a",
-    estimatedVaultDate: "2020 08 11"
+    // releaseDate: "2018 09 25",
+    // vaultDate: "n/a",
+    // estimatedVaultDate: "2020 08 11"
   },
   {
     id: "Ember",
@@ -150,12 +149,12 @@ export const _warframeData: WarframeData[] = [
     armor: 100,
     energy: 150,
     sprint: 1.1,
-    passiveDescription: "Regenerates Energy and deals more damage while on Fire.",
+    // passiveDescription: "Regenerates Energy and deals more damage while on Fire.",
     abilities: ["Fireball", "Accelerant", "Fire Blast", "World On Fire"],
     aura: "r",
     introduced: "Vanilla",
     polarities: ["-", "-"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Ember Prime",
@@ -169,9 +168,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1.1,
     introduced: "11",
     polarities: ["r", "d"],
-    releaseDate: "2013 11 20",
-    vaultDate: "2015 10 06",
-    estimatedVaultDate: "2015 10 06"
+    // releaseDate: "2013 11 20",
+    // vaultDate: "2015 10 06",
+    // estimatedVaultDate: "2015 10 06"
   },
   {
     id: "Equinox",
@@ -183,12 +182,12 @@ export const _warframeData: WarframeData[] = [
     armor: 100,
     energy: 150,
     sprint: 1.15,
-    passiveDescription: "Health Orbs generate a little Energy, while Energy Orbs restore a bit of Health.",
+    // passiveDescription: "Health Orbs generate a little Energy, while Energy Orbs restore a bit of Health.",
     abilities: ["Metamorphosis", "Rest & Rage", "Pacify & Provoke", "Mend & Maim"],
     aura: "-",
     introduced: "17",
     polarities: ["d", "r"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Equinox Prime",
@@ -200,12 +199,12 @@ export const _warframeData: WarframeData[] = [
     armor: 120,
     energy: 165,
     sprint: 1.15,
-    passiveDescription: "Health Orbs generate a little Energy, while Energy Orbs restore a bit of Health.",
+    // passiveDescription: "Health Orbs generate a little Energy, while Energy Orbs restore a bit of Health.",
     abilities: ["Metamorphosis", "Rest & Rage", "Pacify & Provoke", "Mend & Maim"],
     aura: "-",
     introduced: "24.6",
     polarities: ["d", "d", "r", "r"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Excalibur",
@@ -217,11 +216,11 @@ export const _warframeData: WarframeData[] = [
     armor: 225,
     energy: 100,
     sprint: 1,
-    passiveDescription: "Excalibur deals increased damage and attacks faster when wielding swords.",
+    // passiveDescription: "Excalibur deals increased damage and attacks faster when wielding swords.",
     abilities: ["Slash Dash", "Radial Blind", "Radial Javelin", "Exalted Blade"],
     introduced: "Vanilla",
     polarities: ["d", "r"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Excalibur Prime",
@@ -235,7 +234,7 @@ export const _warframeData: WarframeData[] = [
     sprint: 1,
     aura: "r",
     introduced: "5",
-    polarities: ["d", "r", "r"]
+    polarities: ["d", "r", "r"],
   },
   {
     id: "Excalibur Umbra",
@@ -247,11 +246,11 @@ export const _warframeData: WarframeData[] = [
     armor: 300,
     energy: 150,
     sprint: 1,
-    passiveDescription: "Umbra exhibits sentience in combat without Transference control. Attacks faster and deals more damage while wielding swords.",
+    // passiveDescription: "Umbra exhibits sentience in combat without Transference control. Attacks faster and deals more damage while wielding swords.",
     abilities: ["Slash Dash", "Radial Howl", "Radial Javelin", "Exalted Blade"],
     aura: "r",
     introduced: "23",
-    polarities: ["r", "w", "w", "w"]
+    polarities: ["r", "w", "w", "w"],
   },
   {
     id: "Frost",
@@ -263,12 +262,12 @@ export const _warframeData: WarframeData[] = [
     armor: 300,
     energy: 100,
     sprint: 0.95,
-    passiveDescription: "Striking Frost with a melee attack may freeze the attacker.",
+    // passiveDescription: "Striking Frost with a melee attack may freeze the attacker.",
     abilities: ["Freeze", "Ice Wave", "Snow Globe", "Avalanche"],
     aura: "d",
     introduced: "6",
     polarities: ["-", "d"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Frost Prime",
@@ -282,9 +281,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 0.95,
     introduced: "7.10",
     polarities: ["-", "d", "d"],
-    releaseDate: "2013 05 03",
-    vaultDate: "2015 04 01",
-    estimatedVaultDate: "2015 04 01"
+    // releaseDate: "2013 05 03",
+    // vaultDate: "2015 04 01",
+    // estimatedVaultDate: "2015 04 01"
   },
   {
     id: "Gara",
@@ -296,12 +295,12 @@ export const _warframeData: WarframeData[] = [
     armor: 125,
     energy: 150,
     sprint: 1.15,
-    passiveDescription: "A chance to create a radial blind when exposed to bright light.",
+    // passiveDescription: "A chance to create a radial blind when exposed to bright light.",
     abilities: ["Shattered Lash", "Splinter Storm", "Spectrorage", "Mass Vitrify"],
     aura: "d",
     introduced: "22",
     polarities: ["r", "r"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Garuda",
@@ -313,28 +312,28 @@ export const _warframeData: WarframeData[] = [
     armor: 300,
     energy: 120,
     sprint: 1,
-    passiveDescription: "As Garuda nears death, her damage increases.\rSlashes with her talons if no melee weapon is equipped.",
+    // passiveDescription: "As Garuda nears death, her damage increases.\rSlashes with her talons if no melee weapon is equipped.",
     abilities: ["Dread Mirror", "Blood Altar", "Bloodletting", "Seeking Talons"],
     aura: "r",
     introduced: "24",
     polarities: ["-", "d"],
     sex: "Female",
-    lvlUps: [["h", 200], ["e", 125], ["s", 200]]
+    lvlUps: [["h", 200], ["e", 125], ["s", 200]],
   },
   {
     id: "Gauss",
-    // name: "Gauss",
-    tags: ["Support"],
-    // description: "Death's crimson maiden, the blood of Garuda's foes imbue her with strength and vitality.",
+    // name: "gauss",
+    tags: ["Support", "Tactics"],
+    // description: "Never stop moving. Gauss' battery is charged by movement, powering his devastating kinetic abilities. They can't kill what they can't hit.",
     health: 100,
     shield: 150,
     armor: 150,
     energy: 150,
     sprint: 1.4,
-    passiveDescription: "...",
+    // passiveDescription: "Gauss gains bonus Shield recharge rate and shield recharge delay reduction for every point of battery stored in his gauge, up to a maximum of 80% for both when the battery is full.",
     abilities: ["Mach Rush", "Kinetic Plating", "Thermal Sunder", "Redline"],
     aura: "-",
-    introduced: "24",
+    introduced: "25.7",
     polarities: ["r", "d"],
     sex: "Male",
   },
@@ -348,12 +347,12 @@ export const _warframeData: WarframeData[] = [
     armor: 150,
     energy: 100,
     sprint: 1,
-    passiveDescription: "Overshield cap doubled.",
+    // passiveDescription: "Overshield cap doubled.",
     abilities: ["Condemn", "Penance", "Thurible", "Covenant"],
     aura: "-",
     introduced: "21",
     polarities: ["d", "-"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Hildryn",
@@ -364,13 +363,13 @@ export const _warframeData: WarframeData[] = [
     armor: 300,
     energy: 0,
     sprint: 1,
-    passiveDescription: "",
+    // passiveDescription: "",
     abilities: ["Balefire", "Shield Pillage", "Haven", "Aegis Storm"],
     aura: "-",
     exilus: "d",
     introduced: "24",
     polarities: ["d", "d"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Hydroid",
@@ -382,12 +381,12 @@ export const _warframeData: WarframeData[] = [
     armor: 200,
     energy: 125,
     sprint: 1.05,
-    passiveDescription: "Slam Attacks have a chance to summon a tentacle.",
+    // passiveDescription: "Slam Attacks have a chance to summon a tentacle.",
     abilities: ["Tempest Barrage", "Tidal Surge", "Undertow", "Tentacle Swarm"],
     aura: "-",
     introduced: "13",
     polarities: ["r", "-"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Hydroid Prime",
@@ -402,9 +401,9 @@ export const _warframeData: WarframeData[] = [
     introduced: "21.6",
     masteryReq: 5,
     polarities: ["r", "d", "-", "-"],
-    releaseDate: "2017 08 29",
-    vaultDate: "n/a",
-    estimatedVaultDate: "2019 07 16"
+    // releaseDate: "2017 08 29",
+    // vaultDate: "n/a",
+    // estimatedVaultDate: "2019 07 16"
   },
   {
     id: "Inaros",
@@ -416,15 +415,14 @@ export const _warframeData: WarframeData[] = [
     armor: 200,
     energy: 100,
     sprint: 1,
-    passiveDescription:
-      "While bleeding-out, Inaros becomes entombed in a protective Sarcophagus. He can revive himself by draining the life-force from nearby enemies and allies.",
+    // passiveDescription: "While bleeding-out, Inaros becomes entombed in a protective Sarcophagus. He can revive himself by draining the life-force from nearby enemies and allies.",
     abilities: ["Desiccation", "Devour", "Sandstorm", "Scarab Swarm"],
     aura: "-",
     exilus: "-",
     introduced: "18.5",
     polarities: ["d", "d"],
     sex: "Male",
-    lvlUps: [["h", 300], ["e", 50]]
+    lvlUps: [["h", 300], ["e", 50]],
   },
   {
     id: "Ivara",
@@ -436,12 +434,12 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 175,
     sprint: 1.15,
-    passiveDescription: "Senses nearby enemies.",
+    // passiveDescription: "Senses nearby enemies.",
     abilities: ["Quiver", "Navigator", "Prowl", "Artemis Bow"],
     aura: "-",
     introduced: "18",
     polarities: ["d", "-"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Khora",
@@ -453,14 +451,13 @@ export const _warframeData: WarframeData[] = [
     armor: 275,
     energy: 125,
     sprint: 1.05,
-    passiveDescription:
-      "The ferocious kavat, Venari, fights by Khora’s side and provides her with a speed boost while active. If killed, Venari will reappear after a short time.",
+    // passiveDescription: "The ferocious kavat, Venari, fights by Khora’s side and provides her with a speed boost while active. If killed, Venari will reappear after a short time.",
     abilities: ["Whipclaw", "Ensnare", "Venari", "Strangledome"],
     aura: "d",
     exilus: "-",
     introduced: "22.18.0",
     polarities: ["r", "-"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Limbo",
@@ -472,13 +469,12 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 150,
     sprint: 1.15,
-    passiveDescription:
-      "Dodge to enter and exit the Rift. Entering leaves behind a small Rift portal. Energy slowly recharges in the Rift, and each enemy killed in there also gives energy.",
+    // passiveDescription: "Dodge to enter and exit the Rift. Entering leaves behind a small Rift portal. Energy slowly recharges in the Rift, and each enemy killed in there also gives energy.",
     abilities: ["Banish", "Stasis", "Rift Surge", "Cataclysm"],
     aura: "-",
     introduced: "15",
     polarities: ["r", "r"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Limbo Prime",
@@ -493,9 +489,9 @@ export const _warframeData: WarframeData[] = [
     introduced: "23.0.3",
     masteryReq: 4,
     polarities: ["r", "r", "-", "d"],
-    releaseDate: "2018 06 19",
-    vaultDate: "n/a",
-    estimatedVaultDate: "2020 05 05"
+    // releaseDate: "2018 06 19",
+    // vaultDate: "n/a",
+    // estimatedVaultDate: "2020 05 05"
   },
   {
     id: "Loki",
@@ -507,12 +503,12 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 150,
     sprint: 1.25,
-    passiveDescription: "Able to hang from walls for extended durations of time.",
+    // passiveDescription: "Able to hang from walls for extended durations of time.",
     abilities: ["Decoy", "Invisibility", "Switch Teleport", "Radial Disarm"],
     aura: "-",
     introduced: "Vanilla",
     polarities: ["d", "r"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Loki Prime",
@@ -526,9 +522,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1.25,
     introduced: "13.7",
     polarities: ["d", "d", "r", "-"],
-    releaseDate: "2014 06 11",
-    vaultDate: "2016 05 17",
-    estimatedVaultDate: "2016 05 17"
+    // releaseDate: "2014 06 11",
+    // vaultDate: "2016 05 17",
+    // estimatedVaultDate: "2016 05 17"
   },
   {
     id: "Mag",
@@ -540,12 +536,12 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 125,
     sprint: 1,
-    passiveDescription: "Bullet jumping pulls-in nearby items for easy collection.",
+    // passiveDescription: "Bullet jumping pulls-in nearby items for easy collection.",
     abilities: ["Pull", "Magnetize", "Polarize", "Crush"],
     aura: "r",
     introduced: "Vanilla",
     polarities: ["-", "-"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Mag Prime",
@@ -559,9 +555,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1,
     introduced: "10",
     polarities: ["-", "-", "r"],
-    releaseDate: "2013 09 13",
-    vaultDate: "2015 07 07",
-    estimatedVaultDate: "2015 07 07"
+    // releaseDate: "2013 09 13",
+    // vaultDate: "2015 07 07",
+    // estimatedVaultDate: "2015 07 07"
   },
   {
     id: "Mesa",
@@ -573,12 +569,12 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 100,
     sprint: 1.1,
-    passiveDescription: "Shoot dual-wielded sidearms faster and reload single-handed sidearms more rapidly. Gain bonus health when not using Melee Weapons.",
+    // passiveDescription: "Shoot dual-wielded sidearms faster and reload single-handed sidearms more rapidly. Gain bonus health when not using Melee Weapons.",
     abilities: ["Ballistic Battery", "Shooting Gallery", "Shatter Shield", "Peacemaker"],
     aura: "r",
     introduced: "15.5",
     polarities: ["-", "-"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Mesa Prime",
@@ -592,7 +588,7 @@ export const _warframeData: WarframeData[] = [
     sprint: 1.1,
     introduced: "24.2.2",
     masteryReq: 2,
-    polarities: ["-", "-", "d", "r"]
+    polarities: ["-", "-", "d", "r"],
   },
   {
     id: "Mirage",
@@ -604,12 +600,12 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 150,
     sprint: 1.2,
-    passiveDescription: "Long-lasting slide and faster acrobatic maneuvers.",
+    // passiveDescription: "Long-lasting slide and faster acrobatic maneuvers.",
     abilities: ["Hall Of Mirrors", "Sleight Of Hand", "Eclipse", "Prism"],
     aura: "-",
     introduced: "14",
     polarities: ["d", "r"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Mirage Prime",
@@ -624,9 +620,9 @@ export const _warframeData: WarframeData[] = [
     introduced: "22.7",
     masteryReq: 8,
     polarities: ["d", "d", "-", "r"],
-    releaseDate: "2017 12 12",
-    vaultDate: "n/a",
-    estimatedVaultDate: "2019 10 22"
+    // releaseDate: "2017 12 12",
+    // vaultDate: "n/a",
+    // estimatedVaultDate: "2019 10 22"
   },
   {
     id: "Nekros",
@@ -638,11 +634,11 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 100,
     sprint: 1.1,
-    passiveDescription: "Restore a small amount of health with every nearby enemy death.",
+    // passiveDescription: "Restore a small amount of health with every nearby enemy death.",
     abilities: ["Soul Punch", "Terrify", "Desecrate", "Shadows Of The Dead"],
     introduced: "10",
     polarities: ["d", "r"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Nekros Prime",
@@ -656,9 +652,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1.1,
     introduced: "The Silver Grove 3",
     polarities: ["r", "d", "-"],
-    releaseDate: "2016 08 23",
-    vaultDate: "2018 06 19",
-    estimatedVaultDate: "2018 06 19"
+    // releaseDate: "2016 08 23",
+    // vaultDate: "2018 06 19",
+    // estimatedVaultDate: "2018 06 19"
   },
   {
     id: "Nezha",
@@ -670,12 +666,12 @@ export const _warframeData: WarframeData[] = [
     armor: 175,
     energy: 150,
     sprint: 1.15,
-    passiveDescription: "Slide faster and go farther.",
+    // passiveDescription: "Slide faster and go farther.",
     abilities: ["Fire Walker", "Blazing Chakram", "Warding Halo", "Divine Spears"],
     aura: "-",
     introduced: "18.1",
     polarities: ["d", "r"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Nidus",
@@ -687,14 +683,13 @@ export const _warframeData: WarframeData[] = [
     armor: 300,
     energy: 100,
     sprint: 1,
-    passiveDescription:
-      "If Nidus is killed with at least 15 stacks of Mutation, those 15 stacks are consumed; this grants 5 seconds of invulnerability and restores health to 50%.",
+    // passiveDescription: "If Nidus is killed with at least 15 stacks of Mutation, those 15 stacks are consumed; this grants 5 seconds of invulnerability and restores health to 50%.",
     abilities: ["Virulence", "Larva", "Parasitic Link", "Ravenous"],
     aura: "r",
     introduced: "19.5",
     polarities: ["r", "d"],
     sex: "Male",
-    lvlUps: [["h", 300], ["e", 50], ["a", 50], ["t", 15]]
+    lvlUps: [["h", 300], ["e", 50], ["a", 50], ["t", 15]],
   },
   {
     id: "Nova",
@@ -706,12 +701,12 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 150,
     sprint: 1.2,
-    passiveDescription: "When knocked-over, emit a defensive burst that topples attacking enemies.",
+    // passiveDescription: "When knocked-over, emit a defensive burst that topples attacking enemies.",
     abilities: ["Null Star", "Antimatter Drop", "Worm Hole", "Molecular Prime"],
     aura: "-",
     introduced: "9",
     polarities: ["r", "r"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Nova Prime",
@@ -725,9 +720,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1.2,
     introduced: "15.7",
     polarities: ["r", "r", "r"],
-    releaseDate: "2014 12 16",
-    vaultDate: "2016 11 22",
-    estimatedVaultDate: "2016 11 22"
+    // releaseDate: "2014 12 16",
+    // vaultDate: "2016 11 22",
+    // estimatedVaultDate: "2016 11 22"
   },
   {
     id: "Nyx",
@@ -739,12 +734,12 @@ export const _warframeData: WarframeData[] = [
     armor: 15,
     energy: 150,
     sprint: 1.1,
-    passiveDescription: "Enemies affected by Nyx’s abilities may suddenly choose to lay down their arms.",
+    // passiveDescription: "Enemies affected by Nyx’s abilities may suddenly choose to lay down their arms.",
     abilities: ["Mind Control", "Psychic Bolts", "Chaos", "Absorb"],
     aura: "-",
     introduced: "6",
     polarities: ["r", "-"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Nyx Prime",
@@ -758,9 +753,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1.125,
     introduced: "14.8",
     polarities: ["r", "-", "d"],
-    releaseDate: "2014 09 23",
-    vaultDate: "2016 08 23",
-    estimatedVaultDate: "2016 08 23"
+    // releaseDate: "2014 09 23",
+    // vaultDate: "2016 08 23",
+    // estimatedVaultDate: "2016 08 23"
   },
   {
     id: "Oberon",
@@ -772,12 +767,12 @@ export const _warframeData: WarframeData[] = [
     armor: 150,
     energy: 150,
     sprint: 1,
-    passiveDescription: "Allied pets receive health, armor and shield buffs. In addition, your pet receives an instant revive per mission.",
+    // passiveDescription: "Allied pets receive health, armor and shield buffs. In addition, your pet receives an instant revive per mission.",
     abilities: ["Smite", "Hallowed Ground", "Renewal", "Reckoning"],
     aura: "r",
     introduced: "11.5",
     polarities: ["r", "r"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Oberon Prime",
@@ -792,9 +787,9 @@ export const _warframeData: WarframeData[] = [
     introduced: "20.6.2",
     masteryReq: 8,
     polarities: ["-", "-", "r", "r"],
-    releaseDate: "2017 05 30",
-    vaultDate: "n/a",
-    estimatedVaultDate: "2019 04 09"
+    // releaseDate: "2017 05 30",
+    // vaultDate: "n/a",
+    // estimatedVaultDate: "2019 04 09"
   },
   {
     id: "Octavia",
@@ -806,12 +801,12 @@ export const _warframeData: WarframeData[] = [
     armor: 125,
     energy: 150,
     sprint: 1.05,
-    passiveDescription: "Briefly replenish energy for Octavia and nearby allies when abilities are activated.",
+    // passiveDescription: "Briefly replenish energy for Octavia and nearby allies when abilities are activated.",
     abilities: ["Mallet", "Resonator", "Metronome", "Amp"],
     aura: "-",
     introduced: "20",
     polarities: ["-", "-"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Revenant",
@@ -823,12 +818,12 @@ export const _warframeData: WarframeData[] = [
     armor: 105,
     energy: 125,
     sprint: 1,
-    passiveDescription: "Shield depletion smashes nearby enemies with a knockdown shockwave.",
+    // passiveDescription: "Shield depletion smashes nearby enemies with a knockdown shockwave.",
     abilities: ["Enthrall", "Mesmer Skin", "Reave", "Danse Macabre"],
     aura: "-",
     introduced: "23.5",
     polarities: ["r", "d"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Rhino",
@@ -840,12 +835,12 @@ export const _warframeData: WarframeData[] = [
     armor: 190,
     energy: 100,
     sprint: 0.95,
-    passiveDescription: "Emit a shockwave after landing from a great height.",
+    // passiveDescription: "Emit a shockwave after landing from a great height.",
     abilities: ["Rhino Charge", "Iron Skin", "Roar", "Rhino Stomp"],
     aura: "r",
     introduced: "Vanilla",
     polarities: ["d", "d"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Rhino Prime",
@@ -859,9 +854,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1,
     introduced: "12.4",
     polarities: ["d", "d", "-"],
-    releaseDate: "2014 03 06",
-    vaultDate: "2016 02 16",
-    estimatedVaultDate: "2016 02 16"
+    // releaseDate: "2014 03 06",
+    // vaultDate: "2016 02 16",
+    // estimatedVaultDate: "2016 02 16"
   },
   {
     id: "Saryn",
@@ -873,12 +868,12 @@ export const _warframeData: WarframeData[] = [
     armor: 225,
     energy: 150,
     sprint: 0.95,
-    passiveDescription: "Status Effects inflicted upon enemies last longer.",
+    // passiveDescription: "Status Effects inflicted upon enemies last longer.",
     abilities: ["Spores", "Molt", "Toxic Lash", "Miasma"],
     aura: "d",
     introduced: "7",
     polarities: ["-", "d"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Saryn Prime",
@@ -892,9 +887,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1,
     introduced: "18.4.12",
     polarities: ["-", "d", "r"],
-    releaseDate: "2016 02 16",
-    vaultDate: "2017 12 12",
-    estimatedVaultDate: "2017 12 12"
+    // releaseDate: "2016 02 16",
+    // vaultDate: "2017 12 12",
+    // estimatedVaultDate: "2017 12 12"
   },
   {
     id: "Titania",
@@ -906,12 +901,12 @@ export const _warframeData: WarframeData[] = [
     armor: 65,
     energy: 150,
     sprint: 1,
-    passiveDescription: "Bullet-jump creates a trampoline that enhances bullet-jump maneuvers when used by allies.",
+    // passiveDescription: "Bullet-jump creates a trampoline that enhances bullet-jump maneuvers when used by allies.",
     abilities: ["Spellbind", "Tribute", "Lantern", "Razorwing"],
     aura: "r",
     introduced: "The Silver Grove",
     polarities: ["r", "d"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Trinity",
@@ -923,12 +918,12 @@ export const _warframeData: WarframeData[] = [
     armor: 15,
     energy: 150,
     sprint: 1,
-    passiveDescription: "Revive fallen allies faster and from farther away.",
+    // passiveDescription: "Revive fallen allies faster and from farther away.",
     abilities: ["Well Of Life", "Energy Vampire", "Link", "Blessing"],
     aura: "d",
     introduced: "Vanilla",
     polarities: ["d", "d"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Trinity Prime",
@@ -942,9 +937,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1.1,
     introduced: "17.6",
     polarities: ["d", "d", "r", "-"],
-    releaseDate: "2015 10 06",
-    vaultDate: "2017 08 29",
-    estimatedVaultDate: "2017 08 29"
+    // releaseDate: "2015 10 06",
+    // vaultDate: "2017 08 29",
+    // estimatedVaultDate: "2017 08 29"
   },
   {
     id: "Valkyr",
@@ -956,12 +951,12 @@ export const _warframeData: WarframeData[] = [
     armor: 600,
     energy: 100,
     sprint: 1.1,
-    passiveDescription: "Faster recovery from being knocked down.",
+    // passiveDescription: "Faster recovery from being knocked down.",
     abilities: ["Rip Line", "Warcry", "Paralysis", "Hysteria"],
     aura: "r",
     introduced: "11",
     polarities: ["r", "r"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Valkyr Prime",
@@ -975,9 +970,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1.1,
     introduced: "19.0.7",
     polarities: ["r", "r", "r"],
-    releaseDate: "2016 11 22",
-    vaultDate: "2018 09 25",
-    estimatedVaultDate: "2018 09 25"
+    // releaseDate: "2016 11 22",
+    // vaultDate: "2018 09 25",
+    // estimatedVaultDate: "2018 09 25"
   },
   {
     id: "Vauban",
@@ -989,12 +984,12 @@ export const _warframeData: WarframeData[] = [
     armor: 50,
     energy: 150,
     sprint: 1,
-    passiveDescription: "Deal 25% extra damage to incapacitated enemies.",
+    // passiveDescription: "Deal 25% extra damage to incapacitated enemies.",
     abilities: ["Tesla", "Minelayer", "Bastille", "Vortex"],
     aura: "-",
     introduced: "7.11",
     polarities: ["-", "r"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Vauban Prime",
@@ -1008,9 +1003,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1,
     introduced: "18.12",
     polarities: ["-", "r", "d"],
-    releaseDate: "2016 05 17",
-    vaultDate: "2018 03 20",
-    estimatedVaultDate: "2018 03 20"
+    // releaseDate: "2016 05 17",
+    // vaultDate: "2018 03 20",
+    // estimatedVaultDate: "2018 03 20"
   },
   {
     id: "Volt",
@@ -1022,12 +1017,12 @@ export const _warframeData: WarframeData[] = [
     armor: 15,
     energy: 100,
     sprint: 1,
-    passiveDescription: "Grounded movement generates an electrical charge that is unleashed with the next attack.",
+    // passiveDescription: "Grounded movement generates an electrical charge that is unleashed with the next attack.",
     abilities: ["Shock", "Speed", "Electric Shield", "Discharge"],
     aura: "r",
     introduced: "Vanilla",
     polarities: ["-", "r"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Volt Prime",
@@ -1041,9 +1036,9 @@ export const _warframeData: WarframeData[] = [
     sprint: 1,
     introduced: "16.1",
     polarities: ["-", "r", "r"],
-    releaseDate: "2015 03 24",
-    vaultDate: "2017 02 28",
-    estimatedVaultDate: "2017 02 28"
+    // releaseDate: "2015 03 24",
+    // vaultDate: "2017 02 28",
+    // estimatedVaultDate: "2017 02 28"
   },
   {
     id: "Wisp",
@@ -1055,12 +1050,12 @@ export const _warframeData: WarframeData[] = [
     armor: 150,
     energy: 200,
     sprint: 1.2,
-    passiveDescription: "Flowing between dimensions Wisp becomes invisible to enemies while in the air. ",
+    // passiveDescription: "Flowing between dimensions Wisp becomes invisible to enemies while in the air. ",
     abilities: ["Reservoirs", "Wil-O-Wisp", "Breach Surge", "Sol Gate"],
     aura: "-",
     introduced: "24",
     polarities: ["r", "d"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Wukong",
@@ -1072,12 +1067,12 @@ export const _warframeData: WarframeData[] = [
     armor: 250,
     energy: 120,
     sprint: 1,
-    passiveDescription: "Increased combo duration.",
+    // passiveDescription: "Increased combo duration.",
     abilities: ["Celestial Twin", "Cloud Walker", "Defy", "Primal Fury"],
     aura: "r",
     introduced: "17.12",
     polarities: ["-", "d"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Wukong Prime",
@@ -1090,12 +1085,12 @@ export const _warframeData: WarframeData[] = [
     armor: 275,
     energy: 130,
     sprint: 1.05,
-    passiveDescription: "Increased combo duration.",
+    // passiveDescription: "Increased combo duration.",
     abilities: ["Celestial Twin", "Cloud Walker", "Defy", "Primal Fury"],
     aura: "r",
     introduced: "25",
     polarities: ["-", "r", "d"],
-    sex: "Male"
+    sex: "Male",
   },
   {
     id: "Zephyr",
@@ -1107,12 +1102,12 @@ export const _warframeData: WarframeData[] = [
     armor: 15,
     energy: 100,
     sprint: 1.15,
-    passiveDescription: "Move with increased agility while Airborne and fall more slowly.",
+    // passiveDescription: "Move with increased agility while Airborne and fall more slowly.",
     abilities: ["Tail Wind", "Airburst", "Turbulence", "Tornado"],
     aura: "d",
     introduced: "12",
     polarities: ["r", "-"],
-    sex: "Female"
+    sex: "Female",
   },
   {
     id: "Zephyr Prime",
@@ -1127,9 +1122,9 @@ export const _warframeData: WarframeData[] = [
     introduced: "22.16.4",
     masteryReq: 6,
     polarities: ["r", "r", "d", "-"],
-    releaseDate: "2018 03 20",
-    vaultDate: "n/a",
-    estimatedVaultDate: "2020 01 28"
+    // releaseDate: "2018 03 20",
+    // vaultDate: "n/a",
+    // estimatedVaultDate: "2020 01 28"
   },
   // Archwing
   {
@@ -1142,7 +1137,7 @@ export const _warframeData: WarframeData[] = [
     energy: 200,
     sprint: 1.1,
     polarities: ["r", "d", "-"],
-    abilities: ["Watchful Swarm", "Benevolent Decoy", "Warding Grace", "Vengeful Rush"]
+    abilities: ["Watchful Swarm", "Benevolent Decoy", "Warding Grace", "Vengeful Rush"],
   },
   {
     id: "Elytron",
@@ -1154,7 +1149,7 @@ export const _warframeData: WarframeData[] = [
     energy: 125,
     sprint: 0.9,
     polarities: ["r", "r"],
-    abilities: ["Bloomer", "Core Vent", "Thumper", "Warhead"]
+    abilities: ["Bloomer", "Core Vent", "Thumper", "Warhead"],
   },
   {
     id: "Itzal",
@@ -1166,7 +1161,7 @@ export const _warframeData: WarframeData[] = [
     energy: 200,
     sprint: 1.2,
     polarities: ["r", "d", "-"],
-    abilities: ["Blink", "Penumbra", "Cosmic Crush", "Fighter Escort"]
+    abilities: ["Blink", "Penumbra", "Cosmic Crush", "Fighter Escort"],
   },
   {
     id: "Odonata",
@@ -1178,7 +1173,7 @@ export const _warframeData: WarframeData[] = [
     energy: 100,
     sprint: 1,
     polarities: ["r", "d", "-"],
-    abilities: ["Energy Shell", "Disarray", "Seeking Fire", "Repel"]
+    abilities: ["Energy Shell", "Disarray", "Seeking Fire", "Repel"],
   },
   {
     id: "Odonata Prime",
@@ -1189,8 +1184,8 @@ export const _warframeData: WarframeData[] = [
     armor: 100,
     energy: 100,
     sprint: 1.05,
-    polarities: ["r", "d", "-", "-"]
-  }
+    polarities: ["r", "d", "-", "-"],
+  },
 ];
 
 /** 战甲功能分类 */
@@ -1200,7 +1195,7 @@ export enum WarframeFunction {
   Tank = "Tank", // 坦克
   Support = "Support", // 辅助
   Control = "Control", // 控制
-  Archwing = "Archwing" // Archwing
+  Archwing = "Archwing", // Archwing
 }
 
 export { _abilityData, registerAbilityData } from "./ability.data";
