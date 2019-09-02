@@ -251,8 +251,8 @@ export default class MeleeModBuildView extends BaseModBuildView {
     this.debouncedRecalc();
   }
   zawPartChange() {
-    this.grip = this.gripList.find(v => v.id === this.gripId);
-    this.links = this.linksList.find(v => v.id === this.linksId);
+    this.grip = this.gripList.find(v => v.name === this.gripId);
+    this.links = this.linksList.find(v => v.name === this.linksId);
     this.debouncedRecalc();
   }
   // === 生命周期钩子 ===
