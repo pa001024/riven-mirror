@@ -32,6 +32,8 @@ export function createRouter() {
       { path: "/forgetpass", name: "ForgetPass", component: ForgetPass },
       // ! 技能编辑器
       { path: "/vse", name: "VisualSkillEditor", component: () => import(/* webpackChunkName: "vse" */ "@/views/VisualSkillEditor.vue") },
+      // ! 音乐
+      { path: "/music", name: "MusicEdit", component: () => import(/* webpackChunkName: "music" */ "@/views/music/MusicEdit.vue") },
       // 动态加载
       { path: "/info/:id", name: "Info", component: () => import(/* webpackChunkName: "main" */ "@/views/Info.vue"), props: true },
       { path: "/alerts", name: "Alerts", component: () => import(/* webpackChunkName: "main" */ "@/views/Alerts.vue") },

@@ -145,7 +145,7 @@
         <!-- 使用MOD -->
         <el-form-item :label="$t('buildview.usemods')">
           <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="debouncedRecalc">{{$t("buildview.heavyCaliber")}}</el-checkbox>
-          <el-checkbox v-if="riven.mod === 'Archgun'" v-model="useDeadlyEfficiency" @change="debouncedRecalc">{{$t("buildview.deadlyEfficiency")}}</el-checkbox>
+          <el-checkbox v-if="riven.mod === 'Arch-Gun'" v-model="useDeadlyEfficiency" @change="debouncedRecalc">{{$t("buildview.deadlyEfficiency")}}</el-checkbox>
           <el-checkbox v-if="weapon.tags.has('Sniper')" v-model="usePrimedChamber" @change="debouncedRecalc">{{$t("buildview.primedChamber")}}</el-checkbox>
           <el-tooltip effect="dark" :content="$t('buildview.acolyteModsTip')" placement="bottom">
             <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">{{$t("buildview.acolyteMods")}}</el-checkbox>

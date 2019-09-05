@@ -714,7 +714,7 @@ export const BuffList: BuffData[] = [
     target: "Ranged",
     props: [["fcd", 100]],
     multiLayer: {
-      maxStack: 6,
+      maxStack: 48,
       stackableProps: [["eed", 50]],
     },
     defaultLayer: 6,
