@@ -1295,24 +1295,16 @@ export let _abilityData: AbilityData[] = [
     tags: 0,
     energyCost: 10,
     energyCostPS: 5,
-    props: { ExaltedWeapon: { weaponName: "Iron Staff", effect: [["oad", { value: 100, bind: [["t", -100]] }]] } },
+    props: { ExaltedWeapon: { weaponName: "Iron Staff", effect: [["oad", S(100, -100)]] } },
   },
   {
     id: "Tail Wind",
     tags: 5,
     energyCost: 25,
     props: {
-      Damage: {
-        damage: [["Slash", S(500)]],
-        range: R(2),
-      },
-      Move: {
-        directive: "2",
-        distance: R(30),
-      },
-      Control: {
-        range: R(2),
-      },
+      Damage: { damage: [["Slash", S(500)]], range: R(2) },
+      Move: { directive: "2", distance: R(30) },
+      Control: { range: R(2) },
     },
   },
   {
@@ -1346,16 +1338,8 @@ export let _abilityData: AbilityData[] = [
     tags: 49,
     energyCost: 100,
     props: {
-      Damage: {
-        amount: 4,
-        duration: D(20),
-        damage: [["Impact", S(120)]],
-        range: R(25),
-      },
-      Control: {
-        duration: D(20),
-        range: 5,
-      },
+      Damage: { amount: 4, duration: D(20), damage: [["Impact", S(120)]], range: R(25) },
+      Control: { duration: D(20), range: 5 },
     },
   },
   {
@@ -1382,8 +1366,8 @@ export let _abilityData: AbilityData[] = [
     tags: 0,
     energyCost: 75,
     props: {
-      Damage: { damage: [["Puncture", S(250)]], amount: S(8) },
-      Debuff: { effect: [["D", { value: -80 }]] },
+      Damage: { damage: [["Puncture", S(250)]], amount: S(8), range: R(3), distance: R(4) },
+      DamageReduce: { rate: { value: 80, bind: [["t", 0]], maxValue: 90 } },
     },
   },
   {
@@ -1401,10 +1385,7 @@ export let _abilityData: AbilityData[] = [
     energyCostN: 100,
     props: {
       Damage: { damage: [["Electricity", S(500)]] },
-      ExaltedWeapon: {
-        weaponName: "Balefire Charger",
-        effect: [["oad", S(100, -100)]],
-      },
+      ExaltedWeapon: { weaponName: "Balefire Charger", effect: [["oad", S(100, -100)]] },
     },
   },
   {

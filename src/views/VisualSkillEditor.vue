@@ -32,11 +32,11 @@ import { i18n } from "@/i18n";
 
 function convertSkills(src: string) {
   return src
-    .replace(/\{"value":([\d\.]+)\}/g, "$1")
-    .replace(/\{"value":([\d\.]+),"bind":\[\["t",0\]\]\}/g, "S($1)")
-    .replace(/\{"value":([\d\.]+),"bind":\[\["u",0\]\]\}/g, "D($1)")
-    .replace(/\{"value":([\d\.]+),"bind":\[\["x",0\]\]\}/g, "E($1)")
-    .replace(/\{"value":([\d\.]+),"bind":\[\["g",0\]\]\}/g, "R($1)")
+    .replace(/\{"value":(-?[\d\.]+)\}/g, "$1")
+    .replace(/\{"value":(-?[\d\.]+),"bind":\[\["t",(-?[\d\.]+)\]\]\}/g, "S($1,$2)")
+    .replace(/\{"value":(-?[\d\.]+),"bind":\[\["u",(-?[\d\.]+)\]\]\}/g, "D($1,$2)")
+    .replace(/\{"value":(-?[\d\.]+),"bind":\[\["x",(-?[\d\.]+)\]\]\}/g, "E($1,$2)")
+    .replace(/\{"value":(-?[\d\.]+),"bind":\[\["g",(-?[\d\.]+)\]\]\}/g, "R($1,$2)")
     .replace(/"(\w+?)":/g, "$1:");
 }
 @Component({ components: { VisualSkill } })
