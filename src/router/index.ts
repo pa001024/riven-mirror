@@ -42,7 +42,6 @@ export function createRouter() {
       { path: "/warframe", name: "WarframeSelector", component: () => import(/* webpackChunkName: "main" */ "@/components/WarframeSelector.vue") },
       { path: "/warframe/:id", name: "WarframeEditor", component: () => import(/* webpackChunkName: "main" */ "@/views/build/WarframeBuildEditor.vue") },
       { path: "/warframe/:id/:code", name: "WarframeEditorWithCode", component: () => import(/* webpackChunkName: "main" */ "@/views/build/WarframeBuildEditor.vue") },
-      { path: "/companion", name: "CompanionSelector", component: () => import(/* webpackChunkName: "main" */ "@/components/WarframeSelector.vue") },
       { path: "/companion/:id", name: "CompanionEditor", component: () => import(/* webpackChunkName: "main" */ "@/views/build/CompanionBuildEditor.vue") },
       { path: "/companion/:id/:code", name: "CompanionEditorWithCode", component: () => import(/* webpackChunkName: "main" */ "@/views/build/CompanionBuildEditor.vue") },
       { path: "/setting", name: "Setting", component: () => import(/* webpackChunkName: "main" */ "@/views/Setting.vue") },
@@ -101,8 +100,8 @@ export function createRouter() {
       case "WarframeSelector":
         document.title = i18n.t("title.sub", [i18n.t("navigate.warframe")]);
         break;
-      case "CompanionSelector":
-        document.title = i18n.t("title.sub", [i18n.t("navigate.companion")]);
+      case "MusicEdit":
+        document.title = i18n.t("title.sub", [i18n.t("navigate.shawzin")]);
         break;
       case "WeaponSelector":
         document.title = i18n.t("title.sub", [i18n.t("navigate.weapon")]);

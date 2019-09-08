@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.7.0";
+export const version = "1.8.0";
 export const updateLogs = [
+  {
+    version: "1.8.0",
+    date: "2019/9/8",
+    md: {
+      en: `- Added: Shawzin Music Editor`,
+      cn: `- 新增: 三线琴编曲工具`
+    }
+  },
   {
     version: "1.7.0",
     date: "2019/8/30",

@@ -5,6 +5,7 @@ let po = {
     sub: "{0} - 极镜 (Riven.IM)",
     weapon: "{0} 配卡",
     info: "{0} 资料",
+    music: "{0} 编曲",
   },
   messages: {
     primedContinuity: "持久力 Prime",
@@ -3364,8 +3365,8 @@ let po = {
     riven: "紫卡分析",
     weapon: "武器配装",
     warframe: "战术模拟",
-    companion: "同伴配装",
     simulator: "洗卡模拟",
+    shawzin: "三线编曲",
     huangli: "WF黄历",
     about: "关于",
     palette: "选色工具",
@@ -3996,7 +3997,7 @@ let po = {
     title: "三线琴",
     tip: "测试中, 可使用下方按键或键盘快捷键输入; 删除选中音符的快捷键是DEL; 按住空格可拖动钢琴窗; BPM480时四分音符等于BPM120下的十六分音符 请自行换算",
 
-    paino: "钢琴",
+    piano: "钢琴",
     shawzin: "三线琴",
     lotus: "莲花三线琴",
 
@@ -4013,8 +4014,8 @@ let po = {
     name: "音名",
     upshift: "升号",
     downshift: "降号",
-    code: "代码",
-    codeCopied: "代码已复制",
+    code: "歌曲乐串",
+    codeCopied: "歌曲乐串已复制",
     quarter: "四分",
     half: "二分",
     full: "全音",
@@ -4025,7 +4026,7 @@ let po = {
     rest: "休止",
     delete: "删除",
     empty: "清空",
-    importCode: "导入代码",
+    importCode: "导入歌曲乐串",
   },
 };
 

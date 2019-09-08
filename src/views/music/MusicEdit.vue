@@ -7,7 +7,7 @@
         </el-option>
       </el-select>
       <el-select style="width:120px" v-model="instrument" size="small">
-        <el-option :label="$t('shawzin.paino')" value="paino"/>
+        <el-option :label="$t('shawzin.piano')" value="piano"/>
         <el-option :label="$t('shawzin.shawzin')" value="shawzin"/>
         <el-option :label="$t('shawzin.lotus')" value="lotus"/>
       </el-select>
@@ -46,7 +46,6 @@
       <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq">{{$t('shawzin.play')}}</el-button>
       <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)">{{$t('shawzin.pause')}}</el-button>
       <el-button size="small" :disabled="!isPlaying && !isRecording" @click="stopSeq()">{{$t('shawzin.stop')}}</el-button>
-      <el-button size="small" @click="music.addNote(null, duration)">{{$t('shawzin.rest')}}(S)</el-button>
       <el-button size="small" @click="music.removeNote()">{{$t('shawzin.delete')}}(←)</el-button>
       <el-button size="small" type="danger" @click="clearNotes">{{$t('shawzin.empty')}}</el-button>
       <el-button size="small" @click="importCode()">{{$t('shawzin.importCode')}}</el-button>
@@ -65,10 +64,10 @@
       </div>
     </div>
     <div class="view-area">
-      <div class="paino">
-        <div class="paino-header"></div>
+      <div class="piano">
+        <div class="piano-header" @click="music.addNote(null, duration)">0</div>
         <div class="input-area">
-          <div class="paino-key" @click="playAndAddNote(note.code, duration)" v-for="note in notes" :key="note.name">
+          <div class="piano-key" @click="playAndAddNote(note.code, duration)" v-for="note in notes" :key="note.name">
             <div class="note" :class="[ useNumber && note.tone && ('tone' + note.tone) ]">
               {{useNumber ? (useSharp ? note.sharpNumber : note.number) : (useSharp ? note.sharpName : note.name)}}
             </div>
@@ -79,8 +78,8 @@
         </div>
       </div>
       <!-- 钢琴窗 -->
-      <div class="paino-window" :class="{ drag: isDragCanvas, draging: draggingCanvas }" @mousedown="onCanvasDragStart" ref="painoWindow">
-        <div class="paino-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
+      <div class="piano-window" :class="{ drag: isDragCanvas, draging: draggingCanvas }" @mousedown="onCanvasDragStart" ref="pianoWindow">
+        <div class="piano-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
           <div class="lines">
             <div class="line" v-for="line in 1000" :key="line" :class="{playing: line === currentLine}"></div>
           </div>
@@ -90,8 +89,7 @@
           >
             {{toNote(block.y)}}
           </div>
-          <div class="select-border" v-show="isSelect" ref="selectBorder"
-          />
+          <div class="select-border" v-show="isSelect" ref="selectBorder" />
         </div>
       </div>
     </div>
@@ -110,6 +108,15 @@ import { bind } from "decko";
 import { ModeMaps, Mode, Note, Music } from "./music";
 
 const KeyMaps = {
+  1: "B",
+  2: "C",
+  3: "E",
+  4: "J",
+  5: "K",
+  6: "M",
+  7: "R",
+  8: "S",
+  9: "U",
   Q: "B",
   W: "C",
   E: "E",
@@ -148,8 +155,8 @@ interface MusicBlock {
 }
 
 const instrumentResource = {
-  paino: {
-    path: "/instruments/paino/",
+  piano: {
+    path: "/instruments/piano/",
     keys: ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6", "D6", "E6"],
   },
   shawzin: {
@@ -328,6 +335,7 @@ export default class MusicEdit extends Vue {
           this.duration = 4;
           break;
         case "S":
+        case "0":
           this.music.addNote(null, this.duration);
           break;
         default:
@@ -358,7 +366,7 @@ export default class MusicEdit extends Vue {
   onCanvasDragging(e: MouseEvent) {
     if (this.draggingCanvas) {
       e.preventDefault();
-      this.$refs.painoWindow["scrollBy"](-e.movementX, -e.movementY);
+      this.$refs.pianoWindow["scrollBy"](-e.movementX, -e.movementY);
     }
   }
   @bind
@@ -591,19 +599,28 @@ export default class MusicEdit extends Vue {
     align-items: flex-start;
   }
 
-  .paino {
+  .piano {
     display: flex;
   }
-  .paino-header {
-    width: 20px;
+  .piano-header {
+    cursor: pointer;
+    user-select: none;
+    width: 32px;
     background: #000;
     box-shadow: inset 0 -1px 2px hsla(0, 0%, 100%, 0.4), 0 2px 3px rgba(0, 0, 0, 0.4);
     border-width: 3px 2px 2px;
     border-style: solid;
     border-color: #555 #222 #111 #777;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 20px;
+    &:active {
+      border-color: #111 #777 #555 #222;
+    }
   }
-  .paino-window {
+  .piano-window {
     flex: 1;
     overflow: scroll hidden;
     &.drag {
@@ -616,7 +633,7 @@ export default class MusicEdit extends Vue {
   .noevent {
     pointer-events: none;
   }
-  .paino-canvas {
+  .piano-canvas {
     width: max-content;
     position: relative;
     user-select: none;
@@ -672,7 +689,7 @@ export default class MusicEdit extends Vue {
     margin-left: 4px;
     flex: 1;
   }
-  .paino-key {
+  .piano-key {
     display: inline-flex;
     align-items: center;
     justify-content: space-between;

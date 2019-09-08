@@ -122,7 +122,7 @@ export default class App extends Vue {
       { title: "navigate.warframe", path: "/warframe", icon: "people" },
       { title: "navigate.simulator", path: "/sim", icon: "renew" },
       { title: "navigate.huangli", path: "/huangli", icon: "date" },
-      // { title: "navigate.about", path: "/about", icon: "el-icon-info" },
+      { title: "navigate.shawzin", path: "/music", icon: "shawzin" },
       { title: "navigate.palette", path: "/palette", icon: "palette" },
       { title: "navigate.setting", path: "/setting", icon: "settings" }
     ].filter(v => v.title !== "navigate.huangli" || i18n.locale !== "en");

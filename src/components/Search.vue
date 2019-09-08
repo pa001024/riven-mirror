@@ -117,6 +117,7 @@ export default class Search extends Vue {
     border: 0;
     border-radius: 2px;
     width: 240px;
+    max-width: calc(100vw - 106px);
   }
 }
 </style>

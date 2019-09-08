@@ -374,7 +374,6 @@ export class Music {
       const [code, bar, pos] = [notes[i], notes[i + 1], notes[i + 2]];
       const t = (toNum(bar) * 64 + toNum(pos)) / this.space;
       seqs.push([code, t]);
-      console.log(toNum(bar), toNum(pos));
     }
     this._mode = mode;
     this.setSeqs(seqs);
