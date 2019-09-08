@@ -1,17 +1,18 @@
 <template>
   <div class="music-edit" @mousemove="selectMove" @mouseup="selectEnd">
-    <el-alert
-      title="技术验证中, 可使用下方按键或键盘快捷键输入; 删除选中音符的快捷键是DEL; 按住空格可拖动钢琴窗; BPM480时四分音符等于BPM120下的十六分音符 请自行换算"
-      type="warning">
-    </el-alert>
+    <el-alert :title="$t('shawzin.tip')" type="warning" />
     <div class="edit-header setting">
-      <el-select style="width:80px" v-model="music.mode" size="small">
-        <el-option class="mode" :key="mode.name" v-for="mode in modes" :label="mode.name" :value="mode.val" :disabled="!modeMaps[mode.val]">
+      <el-select style="width:120px" v-model="music.mode" size="small">
+        <el-option :key="mode.name" v-for="mode in modes" :label="$t(`shawzin.${mode.name}`)" :value="mode.val" :disabled="!modeMaps[mode.val]">
         </el-option>
       </el-select>
-      <label>设置: </label>
-      <el-switch class="mode-select" v-model="useNumber" :active-text="'简谱'" :inactive-text="'音名'"/>
-      <el-switch class="mode-select" v-model="useSharp" :active-text="'升调'" :inactive-text="'降调'"/>
+      <el-select style="width:120px" v-model="instrument" size="small">
+        <el-option :label="$t('shawzin.paino')" value="paino"/>
+        <el-option :label="$t('shawzin.shawzin')" value="shawzin"/>
+        <el-option :label="$t('shawzin.lotus')" value="lotus"/>
+      </el-select>
+      <el-switch class="mode-select" v-model="useNumber" :active-text="$t('shawzin.number')" :inactive-text="$t('shawzin.name')"/>
+      <el-switch class="mode-select" v-model="useSharp" :active-text="$t('shawzin.upshift')" :inactive-text="$t('shawzin.downshift')"/>
       <!-- <label style="margin:0 8px;">拍号: </label>
       <el-select style="width:80px" size="small" v-model="music.timeSignature[0]">
         <el-option v-for="item in timeSignatures" :key="item" :label="item" :value="item" />
@@ -26,26 +27,29 @@
       </el-select>
     </div>
     <div class="preview-header setting">
-      代码:
+      {{$t('shawzin.code')}}:
       <div style="display:inline-block;width: 200px;">
-        <CopyText size="small" :text="music.code" message="代码已复制" />
+        <CopyText size="small" :text="music.code" :message="$t('shawzin.codeCopied')" />
       </div>
       <el-radio-group size="small" v-model="editMode">
+        <el-radio-button label="cursor"><i class="el-icon-position"></i></el-radio-button>
         <el-radio-button label="move"><i class="el-icon-rank"></i></el-radio-button>
         <el-radio-button label="add"><i class="el-icon-edit"></i></el-radio-button>
         <el-radio-button label="delete"><i class="el-icon-delete"></i></el-radio-button>
       </el-radio-group>
       <el-radio-group size="small" v-model="duration">
-        <el-radio-button :label="1">四分(J)</el-radio-button>
-        <el-radio-button :label="2">二分(K)</el-radio-button>
-        <el-radio-button :label="4">全音(L)</el-radio-button>
+        <el-radio-button :label="1">{{$t('shawzin.quarter')}}(J)</el-radio-button>
+        <el-radio-button :label="2">{{$t('shawzin.half')}}(K)</el-radio-button>
+        <el-radio-button :label="4">{{$t('shawzin.full')}}(L)</el-radio-button>
       </el-radio-group>
-      <el-button size="small" type="primary" v-if="!isPlaying" icon="el-icon-video-play" @click="playSeq">播放</el-button>
-      <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)">暂停</el-button>
-      <el-button size="small" :disabled="!isPlaying" @click="stopSeq()">停止</el-button>
-      <el-button size="small" @click="music.addNote(null, duration)">休止(S)</el-button>
-      <el-button size="small" @click="music.removeNote()">删除(←)</el-button>
-      <el-button size="small" type="danger" @click="clearNotes">清空</el-button>
+      <el-button size="small" type="danger" :disabled="isRecording" icon="el-icon-video-camera" @click="recordSeq">{{$t('shawzin.record')}}</el-button>
+      <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq">{{$t('shawzin.play')}}</el-button>
+      <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)">{{$t('shawzin.pause')}}</el-button>
+      <el-button size="small" :disabled="!isPlaying && !isRecording" @click="stopSeq()">{{$t('shawzin.stop')}}</el-button>
+      <el-button size="small" @click="music.addNote(null, duration)">{{$t('shawzin.rest')}}(S)</el-button>
+      <el-button size="small" @click="music.removeNote()">{{$t('shawzin.delete')}}(←)</el-button>
+      <el-button size="small" type="danger" @click="clearNotes">{{$t('shawzin.empty')}}</el-button>
+      <el-button size="small" @click="importCode()">{{$t('shawzin.importCode')}}</el-button>
     </div>
     <div class="preview-area">
       <div class="staff">
@@ -61,10 +65,10 @@
       </div>
     </div>
     <div class="view-area">
-      <div class="piano">
-        <div class="piano-header"></div>
+      <div class="paino">
+        <div class="paino-header"></div>
         <div class="input-area">
-          <div class="piano-key" @click="playAndAddNote(note.code, duration)" v-for="note in notes" :key="note.name">
+          <div class="paino-key" @click="playAndAddNote(note.code, duration)" v-for="note in notes" :key="note.name">
             <div class="note" :class="[ useNumber && note.tone && ('tone' + note.tone) ]">
               {{useNumber ? (useSharp ? note.sharpNumber : note.number) : (useSharp ? note.sharpName : note.name)}}
             </div>
@@ -75,15 +79,17 @@
         </div>
       </div>
       <!-- 钢琴窗 -->
-      <div class="piano-window" :class="{ drag: isDragCanvas, draging: draggingCanvas }" @mousedown="onCanvasDragStart" ref="painoWindow">
-        <div class="piano-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
+      <div class="paino-window" :class="{ drag: isDragCanvas, draging: draggingCanvas }" @mousedown="onCanvasDragStart" ref="painoWindow">
+        <div class="paino-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
           <div class="lines">
             <div class="line" v-for="line in 1000" :key="line" :class="{playing: line === currentLine}"></div>
           </div>
           <div class="block" :class="{noevent:isSelect, selected: block.selected}" v-for="(block, index) in blocks" :key="index"
             :style="{top:block.y+'px',left:block.x+'px',width:block.width+'px'}"
             @mousedown.stop="singleSelectStart($event,{block, index})"
-          />
+          >
+            {{toNote(block.y)}}
+          </div>
           <div class="select-border" v-show="isSelect" ref="selectBorder"
           />
         </div>
@@ -141,26 +147,43 @@ interface MusicBlock {
   selected: boolean;
 }
 
+const instrumentResource = {
+  paino: {
+    path: "/instruments/paino/",
+    keys: ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6", "D6", "E6"],
+  },
+  shawzin: {
+    path: "/instruments/shawzin/",
+    keys: ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5", "D5", "E5", "F5", "G5", "A5", "C6", "D6"],
+  },
+  lotus: {
+    path: "/instruments/lotus/",
+    keys: ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5", "D5", "E5", "F5", "G5", "A5", "C6", "D6"],
+  },
+};
+
 const ROW_WIDTH = 20,
   COL_HEIGHT = 32;
 /* Shawzin */
 @Component({ components: { CopyText, Staff, Notation } })
 export default class MusicEdit extends Vue {
   editMode = "move";
+  /** 乐器 */
+  instrument = "lotus";
   /** 显示音名或简谱 */
   useNumber = true;
   /** 显示升调或降调 */
   useSharp = true;
   modeMaps = ModeMaps;
   modes = [
-    { name: "五声小调", val: 1 },
-    { name: "五声大调", val: 2 },
-    { name: "半音", val: 3 },
-    { name: "六式音阶", val: 4 },
-    { name: "大调", val: 5 },
-    { name: "小调", val: 6 },
-    { name: "平调子", val: 7 },
-    { name: "弗吉利亚调式", val: 8 },
+    { name: "pentatonicMinor", val: 1 },
+    { name: "pentatonicMajor", val: 2 },
+    { name: "chromatic", val: 3 },
+    { name: "hexatonic", val: 4 },
+    { name: "major", val: 5 },
+    { name: "minor", val: 6 },
+    { name: "hirajoshi", val: 7 },
+    { name: "phrygian", val: 8 },
   ];
 
   /** 1节4秒 64个音符 一拍(2秒)最多16个音符 即BPM最高960 */
@@ -179,6 +202,11 @@ export default class MusicEdit extends Vue {
 
   get notes() {
     return _.keyBy(Keys.map(v => new Note(v, ModeMaps[this.music.mode])), "code");
+  }
+
+  toNote(y: number) {
+    const note = this.notes[Keys[~~(y / COL_HEIGHT)]];
+    return this.useNumber ? (this.useSharp ? note.sharpNumber : note.number) : this.useSharp ? note.sharpName : note.name;
   }
 
   playNote(note: number | string | string[]) {
@@ -233,10 +261,16 @@ export default class MusicEdit extends Vue {
   /// 生命周期
 
   created() {
-    const noteResource = "C4,D4,E4,F4,G4,A4,B4,C5,D5,E5,F5,G5,A5,B5,C6,D6,E6"
-      .split(",")
+    this.reloadInstrumentResource();
+    this.music.code = "5MAAEAQKAUMAcSAgRAoMAwEA0MA8EBMKBQMBYSBcUBgMBo";
+  }
+  @Watch("instrument")
+  reloadInstrumentResource() {
+    this.isLoaded = false;
+    const res = instrumentResource[this.instrument];
+    const noteResource = res.keys
       .map(v => {
-        return [v, `/notes/${v}.mp3`];
+        return [v, `${res.path}${v}.mp3`];
       })
       .reduce((r, v) => ((r[v[0]] = v[1]), r), {});
 
@@ -260,7 +294,18 @@ export default class MusicEdit extends Vue {
     const key = e.key.toUpperCase();
 
     if (KeyMaps[key]) {
+      if (this.isPlaying) return;
       this.playAndAddNote(KeyMaps[key], this.duration);
+      if (this.currentLine !== -1) {
+        const y = Keys.indexOf(KeyMaps[key]) * COL_HEIGHT;
+        this.blocks.push({
+          x: (this.currentLine - 1) * ROW_WIDTH,
+          y,
+          width: ROW_WIDTH,
+          selected: false,
+        });
+        this.commitBlocks();
+      }
     } else {
       switch (key) {
         case " ":
@@ -360,6 +405,9 @@ export default class MusicEdit extends Vue {
         this.selectBorder.h = 0;
         this.updateSelectBorder();
         break;
+      case "cursor":
+        this.currentLine = ~~(eX / ROW_WIDTH) + 1;
+        break;
     }
   }
   isBlockMoving = false;
@@ -457,52 +505,26 @@ export default class MusicEdit extends Vue {
 
   /** 将blocks的修改写入 */
   commitBlocks() {
-    const notes: Note[] = [];
-    this.blocks.sort((a, b) => {
-      return a.x - b.x;
-    });
-    let lastDuration = 1;
-    const addPadding = (d: number) => {
-      if (!d) return;
-      const b4 = ~~(d / 4);
-      const b2 = ~~((d % 4) / 2);
-      const b1 = d % 2;
-      const s = (d: number) => new Note("0", ModeMaps[this.music.mode], d);
-      for (let i = 0; i < b4; i++) notes.push(s(4));
-      if (b2) notes.push(s(2));
-      if (b1) notes.push(s(1));
-    };
-    for (let i = 0; i < this.blocks.length; i++) {
-      const b = this.blocks[i];
-      const next = this.blocks[i + 1];
+    const seqs = this.blocks
+      .sort((a, b) => {
+        return a.x - b.x;
+      })
+      .map(b => {
+        const k = Keys[~~(b.y / COL_HEIGHT)];
+        const t = ~~(b.x / ROW_WIDTH);
+        return [k, t] as [string, number];
+      });
+    this.music.setSeqs(seqs);
+  }
 
-      const k = Keys[~~(b.y / COL_HEIGHT)];
-      const t = ~~(b.x / ROW_WIDTH);
-      const n = new Note(k, ModeMaps[this.music.mode]);
-      let padding = 0;
-      if (next) {
-        const nt = ~~(next.x / ROW_WIDTH);
-        const deltaT = nt - t;
-        if (deltaT > 4) {
-          n.duration = 4;
-          padding = deltaT - 4;
-        } else if (deltaT === 3) {
-          n.duration = 2;
-          padding = 1;
-        } else {
-          // 0 1 2 4
-          n.duration = deltaT;
-        }
-        lastDuration = n.duration || lastDuration;
-      } else n.duration = lastDuration;
-      notes.push(n);
-      if (padding) addPadding(padding);
-    }
-    this.music.notes = notes;
+  importCode() {
+    const code = prompt(this.$t("shawzin.importCode") as any, "");
+    this.music.code = code;
   }
 
   currentLine = -1;
   isPlaying = false;
+  isRecording = false;
   playTimer = 0;
   // 播放
   playSeq() {
@@ -519,14 +541,12 @@ export default class MusicEdit extends Vue {
         seq[index] = [key];
       }
     });
-    // console.log("seq", seq);
+    if (this.currentLine != -1) this.currentLine--;
     this.playTimer = setInterval(() => {
-      if (this.currentLine++ > fullLength) this.stopSeq();
-      // console.log("cursor", this.currentLine);
       if (seq[this.currentLine]) {
         this.playNote(seq[this.currentLine]);
-        // console.log("playing", seq[this.currentLine]);
       }
+      if (this.currentLine++ > fullLength) this.stopSeq();
     }, 6e4 / this.music.bpm) as any;
   }
   // 停止
@@ -534,6 +554,14 @@ export default class MusicEdit extends Vue {
     if (!pause) this.currentLine = -1;
     clearInterval(this.playTimer);
     this.isPlaying = false;
+    this.isRecording = false;
+  }
+  // 录制
+  recordSeq() {
+    this.isRecording = true;
+    this.playTimer = setInterval(() => {
+      this.currentLine++;
+    }, 6e4 / this.music.bpm) as any;
   }
 
   clearNotes() {
@@ -551,9 +579,8 @@ export default class MusicEdit extends Vue {
   align-items: center;
   background: transparent;
   .setting {
-    padding: 8px 0;
     & > * {
-      margin: 0 4px;
+      margin: 4px;
     }
   }
   .view-area {
@@ -564,10 +591,10 @@ export default class MusicEdit extends Vue {
     align-items: flex-start;
   }
 
-  .piano {
+  .paino {
     display: flex;
   }
-  .piano-header {
+  .paino-header {
     width: 20px;
     background: #000;
     box-shadow: inset 0 -1px 2px hsla(0, 0%, 100%, 0.4), 0 2px 3px rgba(0, 0, 0, 0.4);
@@ -576,7 +603,7 @@ export default class MusicEdit extends Vue {
     border-color: #555 #222 #111 #777;
     position: relative;
   }
-  .piano-window {
+  .paino-window {
     flex: 1;
     overflow: scroll hidden;
     &.drag {
@@ -589,7 +616,7 @@ export default class MusicEdit extends Vue {
   .noevent {
     pointer-events: none;
   }
-  .piano-canvas {
+  .paino-canvas {
     width: max-content;
     position: relative;
     user-select: none;
@@ -603,12 +630,18 @@ export default class MusicEdit extends Vue {
       &:nth-child(odd) {
         background: #dee9fd;
       }
+      &:nth-child(4n) {
+        border-right: 1px solid #6199ff;
+      }
       &.playing {
         background: #9ec0ff;
       }
     }
     .block {
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      padding: 0 2px;
+      color: #fff;
       position: absolute;
       height: 32px;
       background-color: #6199ff;
@@ -639,7 +672,7 @@ export default class MusicEdit extends Vue {
     margin-left: 4px;
     flex: 1;
   }
-  .piano-key {
+  .paino-key {
     display: inline-flex;
     align-items: center;
     justify-content: space-between;

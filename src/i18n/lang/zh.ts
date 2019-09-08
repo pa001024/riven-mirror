@@ -3992,6 +3992,41 @@ let po = {
     build: "配装",
     riven: "紫卡",
   },
+  shawzin: {
+    title: "三线琴",
+    tip: "测试中, 可使用下方按键或键盘快捷键输入; 删除选中音符的快捷键是DEL; 按住空格可拖动钢琴窗; BPM480时四分音符等于BPM120下的十六分音符 请自行换算",
+
+    paino: "钢琴",
+    shawzin: "三线琴",
+    lotus: "莲花三线琴",
+
+    pentatonicMinor: "五声小调",
+    pentatonicMajor: "五声大调",
+    chromatic: "半音",
+    hexatonic: "六式音阶",
+    major: "大调",
+    minor: "小调",
+    hirajoshi: "平调子",
+    phrygian: "弗吉利亚调式",
+
+    number: "简谱",
+    name: "音名",
+    upshift: "升号",
+    downshift: "降号",
+    code: "代码",
+    codeCopied: "代码已复制",
+    quarter: "四分",
+    half: "二分",
+    full: "全音",
+    record: "录制",
+    play: "播放",
+    pause: "暂停",
+    stop: "停止",
+    rest: "休止",
+    delete: "删除",
+    empty: "清空",
+    importCode: "导入代码",
+  },
 };
 
 export default po;

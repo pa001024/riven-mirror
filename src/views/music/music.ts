@@ -29,14 +29,14 @@ y 第二弦+地品+水品
 http://www.sohu.com/a/234009955_100172496
 */
 
-const bin = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890+/";
+const BIN_TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890+/";
 function toBin(num: number) {
-  if (!bin[num]) console.log("out of range", num);
-  return bin[num];
+  if (!BIN_TABLE[num]) throw new Error(`out of range ${num}`);
+  return BIN_TABLE[num];
 }
 
 function toNum(bin: string) {
-  return bin.indexOf(bin);
+  return BIN_TABLE.indexOf(bin);
 }
 
 export enum Mode {
@@ -254,11 +254,11 @@ export class Note {
   }
 
   recalc() {
-    if (!this.modeMap) return;
     if (this.code === "0") {
       this.name = this.note = this.number = "0";
       return;
     }
+    if (!this.modeMap) return;
     const name = this.modeMap[this.code];
     this.name = name;
     const isSemi = name.startsWith("b");
@@ -300,7 +300,7 @@ export class Music {
   /** 拍号 [小节拍数, 几分音符为一拍] */
   timeSignature: [number, number] = [4, 4];
   /** 速度 */
-  bpm: number = 480;
+  bpm: number = 240;
   /** 调式 */
   private _mode: Mode = Mode.Major;
   get mode(): Mode {
@@ -367,19 +367,56 @@ export class Music {
     return `${this.mode}${notesBin}`;
   }
   set code(value) {
-    const mode = value[0];
-    const modeMap = ModeMaps[mode];
+    const mode = +value[0];
     const notes = value.substr(1);
-    const musicNotes: MusicNote[] = [];
+    const seqs: [string, number][] = [];
     for (let i = 0; i < notes.length - 2; i += 3) {
       const [code, bar, pos] = [notes[i], notes[i + 1], notes[i + 2]];
-      const note = new Note(code, modeMap);
-      let mn = new MusicNote(note);
-      mn.bar = toNum(bar);
-      mn.position = toNum(pos);
-      musicNotes.push(mn);
+      const t = (toNum(bar) * 64 + toNum(pos)) / this.space;
+      seqs.push([code, t]);
+      console.log(toNum(bar), toNum(pos));
     }
-    // this.musicNotes = musicNotes;
+    this._mode = mode;
+    this.setSeqs(seqs);
+  }
+
+  setSeqs(seqs: [string, number][]) {
+    const notes: Note[] = [];
+    let lastDuration = 1;
+    const addPadding = (d: number) => {
+      if (!d) return;
+      const b4 = ~~(d / 4);
+      const b2 = ~~((d % 4) / 2);
+      const b1 = d % 2;
+      const s = (d: number) => new Note("0", null, d);
+      for (let i = 0; i < b4; i++) notes.push(s(4));
+      if (b2) notes.push(s(2));
+      if (b1) notes.push(s(1));
+    };
+    for (let i = 0; i < seqs.length; i++) {
+      const [k, t] = seqs[i];
+      const next = seqs[i + 1];
+      const n = new Note(k, ModeMaps[this.mode]);
+      let padding = 0;
+      if (next) {
+        const nt = next[1];
+        const deltaT = nt - t;
+        if (deltaT > 4) {
+          n.duration = 4;
+          padding = deltaT - 4;
+        } else if (deltaT === 3) {
+          n.duration = 2;
+          padding = 1;
+        } else {
+          // 0 1 2 4
+          n.duration = deltaT;
+        }
+        lastDuration = n.duration || lastDuration;
+      } else n.duration = lastDuration;
+      notes.push(n);
+      if (padding) addPadding(padding);
+    }
+    this.notes = notes;
   }
 
   /** 清除所有音符 */
