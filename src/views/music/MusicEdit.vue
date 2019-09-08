@@ -1,7 +1,7 @@
 <template>
-  <div class="music-edit">
+  <div class="music-edit" @mousemove="selectMove" @mouseup="selectEnd">
     <el-alert
-      title="技术验证中, 可使用下方按键或键盘快捷键输入"
+      title="技术验证中, 可使用下方按键或键盘快捷键输入; 删除选中音符的快捷键是DEL; 按住空格可拖动钢琴窗; BPM480时四分音符等于BPM120下的十六分音符 请自行换算"
       type="warning">
     </el-alert>
     <div class="edit-header setting">
@@ -20,17 +20,18 @@
       <el-select style="width:80px" size="small" v-model="music.timeSignature[1]">
         <el-option v-for="item in timeSignatures" :key="item" :label="item" :value="item" />
       </el-select> -->
-      <label>BPM: </label>
+      <label>(4/4) BPM: </label>
       <el-select style="width:80px" size="small" v-model="music.bpm">
         <el-option v-for="item in bpms" :key="item" :label="item" :value="item" />
       </el-select>
     </div>
     <div class="preview-header setting">
       代码:
-      <div style="display:inline-block;margin:0 8px">
+      <div style="display:inline-block;width: 200px;">
         <CopyText size="small" :text="music.code" message="代码已复制" />
       </div>
       <el-radio-group size="small" v-model="editMode">
+        <el-radio-button label="move"><i class="el-icon-rank"></i></el-radio-button>
         <el-radio-button label="add"><i class="el-icon-edit"></i></el-radio-button>
         <el-radio-button label="delete"><i class="el-icon-delete"></i></el-radio-button>
       </el-radio-group>
@@ -39,32 +40,52 @@
         <el-radio-button :label="2">二分(K)</el-radio-button>
         <el-radio-button :label="4">全音(L)</el-radio-button>
       </el-radio-group>
-      <el-button style="margin: 0 8px" size="small" @click="music.removeNote()">删除</el-button>
-      <el-button style="margin: 0 8px" size="small" type="danger" @click="clearNotes">清空</el-button>
+      <el-button size="small" type="primary" v-if="!isPlaying" icon="el-icon-video-play" @click="playSeq">播放</el-button>
+      <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)">暂停</el-button>
+      <el-button size="small" :disabled="!isPlaying" @click="stopSeq()">停止</el-button>
+      <el-button size="small" @click="music.addNote(null, duration)">休止(S)</el-button>
+      <el-button size="small" @click="music.removeNote()">删除(←)</el-button>
+      <el-button size="small" type="danger" @click="clearNotes">清空</el-button>
+    </div>
+    <div class="preview-area">
+      <div class="staff">
+        <Notation :showTrebleClef="true" :showBassClef="false">
+          <Staff v-for="(note, i) in music.notes" :key="i" :notes="[note.midi]" :type="note.duration === 1 ? 'quard' : (note.duration === 2 ? 'half' : 'full')" />
+        </Notation>
+      </div>
+      <div class="number">
+        <div class="number-note note" v-for="(note, i) in music.notes" :key="i"
+          :class="[ note.tone && ('tone' + note.tone), note.isSemi && 'semi', 'du' + note.duration ]">
+          {{useSharp ? note.sharpNumber : note.number}}
+        </div>
+      </div>
     </div>
     <div class="view-area">
-      <div class="piano-header"></div>
-      <div class="input-area">
-        <div class="piano-key" @click="playNote(note.code, duration)" v-for="note in notes" :key="note.name">
-          <div class="note" :class="[ useNumber && note.tone && ('tone' + note.tone) ]">
-            {{useNumber ? (useSharp ? note.sharpNumber : note.number) : (useSharp ? note.sharpName : note.name)}}
-          </div>
-          <div class="key">
-            {{keyMaps[note.code]}}
+      <div class="piano">
+        <div class="piano-header"></div>
+        <div class="input-area">
+          <div class="piano-key" @click="playAndAddNote(note.code, duration)" v-for="note in notes" :key="note.name">
+            <div class="note" :class="[ useNumber && note.tone && ('tone' + note.tone) ]">
+              {{useNumber ? (useSharp ? note.sharpNumber : note.number) : (useSharp ? note.sharpName : note.name)}}
+            </div>
+            <div class="key">
+              {{keyMaps[note.code]}}
+            </div>
           </div>
         </div>
       </div>
-      <div class="preview-area">
-        <div class="staff">
-          <Notation :showTrebleClef="true" :showBassClef="false">
-            <Staff v-for="(note, i) in music.notes" :key="i" :notes="[note.midi]" :type="note.duration === 1 ? 'quard' : (note.duration === 2 ? 'half' : 'full')" />
-          </Notation>
-        </div>
-        <div class="number">
-          <div class="number-note note" v-for="(note, i) in music.notes" :key="i"
-            :class="[ note.tone && ('tone' + note.tone), note.isSemi && 'semi', 'du' + note.duration ]">
-            {{useSharp ? note.sharpNumber : note.number}}
+      <!-- 钢琴窗 -->
+      <div class="piano-window" :class="{ drag: isDragCanvas, draging: draggingCanvas }" @mousedown="onCanvasDragStart" ref="painoWindow">
+        <div class="piano-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
+          <div class="lines">
+            <div class="line" v-for="line in 1000" :key="line" :class="{playing: line === currentLine}"></div>
           </div>
+          <div class="block" :class="{noevent:isSelect, selected: block.selected}" v-for="(block, index) in blocks" :key="index"
+            :style="{top:block.y+'px',left:block.x+'px',width:block.width+'px'}"
+            @mousedown.stop="singleSelectStart($event,{block, index})"
+          />
+          <div class="select-border" v-show="isSelect" ref="selectBorder"
+          />
         </div>
       </div>
     </div>
@@ -111,10 +132,21 @@ const KeyMapRev = {
   k: "]",
 };
 
+const Keys = _.reverse("BCEJKMRSUhik".split(""));
+
+interface MusicBlock {
+  x: number;
+  y: number;
+  width: number;
+  selected: boolean;
+}
+
+const ROW_WIDTH = 20,
+  COL_HEIGHT = 32;
 /* Shawzin */
 @Component({ components: { CopyText, Staff, Notation } })
 export default class MusicEdit extends Vue {
-  editMode = "add";
+  editMode = "move";
   /** 显示音名或简谱 */
   useNumber = true;
   /** 显示升调或降调 */
@@ -131,8 +163,8 @@ export default class MusicEdit extends Vue {
     { name: "弗吉利亚调式", val: 8 },
   ];
 
-  /** 1节4秒 64个音符 1秒最多8个音符 即BPM最高480 */
-  bpms = [60, 80, 96, 120, 160, 240, 480];
+  /** 1节4秒 64个音符 一拍(2秒)最多16个音符 即BPM最高960 */
+  bpms = [64, 80, 96, 120, 160, 192, 240, 320, 480, 960];
   timeSignatures = [1, 2, 3, 4, 5, 6, 8, 16];
   keyMaps = KeyMapRev;
   sampler: Sampler = null;
@@ -140,17 +172,62 @@ export default class MusicEdit extends Vue {
   duration = 1;
 
   music: Music = new Music();
+  isDragCanvas = false;
+  draggingCanvas = false;
 
   /// 函数
 
   get notes() {
-    return _.keyBy(_.reverse("BCEJKMRSUhik".split("")).map(v => new Note(v, ModeMaps[this.music.mode])), "code");
+    return _.keyBy(Keys.map(v => new Note(v, ModeMaps[this.music.mode])), "code");
   }
 
-  playNote(note: string, duration = 1) {
-    const tone = this.notes[note].toneName;
-    this.sampler.triggerAttackRelease(tone, duration);
+  playNote(note: number | string | string[]) {
+    try {
+      let tone: string | string[];
+      if (typeof note === "number") {
+        note = Keys[~~(note / COL_HEIGHT)];
+      }
+      if (Array.isArray(note)) {
+        tone = note.map(v => this.notes[v].toneName);
+      } else {
+        tone = this.notes[note].toneName;
+      }
+      this.sampler.triggerAttackRelease(tone, 1);
+    } catch {}
+  }
+
+  playAndAddNote(note: string, duration = 1) {
+    try {
+      const tone = this.notes[note].toneName;
+      this.sampler.triggerAttackRelease(tone, duration);
+    } catch {}
     this.music.addNote(this.notes[note], duration);
+  }
+
+  blocks: MusicBlock[] = [];
+  @Watch("music.notes")
+  reload() {
+    const space = this.music.space;
+    const blocks: MusicBlock[] = [];
+    const notes = this.music.musicNotes;
+    let zeroNoteCache: Note[] = [];
+    for (let i = 0; i < notes.length; i++) {
+      const mn = notes[i];
+      if (mn.duration === 0) {
+        zeroNoteCache.push(mn);
+      } else {
+        zeroNoteCache.forEach(v => (v.duration = mn.duration));
+        zeroNoteCache = [];
+      }
+      blocks.push({
+        x: (mn.seqPosition / space) * ROW_WIDTH,
+        y: (11 - mn.seqNumber) * COL_HEIGHT,
+        width: mn.duration * ROW_WIDTH,
+        selected: false,
+      });
+    }
+
+    this.blocks = blocks;
   }
 
   /// 生命周期
@@ -169,9 +246,12 @@ export default class MusicEdit extends Vue {
   }
   mounted() {
     document.addEventListener("keydown", this.keyDown);
+    document.addEventListener("keyup", this.keyUp);
   }
   beforeDestroy() {
     document.removeEventListener("keydown", this.keyDown);
+    document.removeEventListener("keyup", this.keyUp);
+    this.stopSeq();
   }
 
   /// 事件
@@ -180,11 +260,19 @@ export default class MusicEdit extends Vue {
     const key = e.key.toUpperCase();
 
     if (KeyMaps[key]) {
-      this.playNote(KeyMaps[key], this.duration);
-    } else if (key === "BACKSPACE") {
-      this.music.removeNote();
+      this.playAndAddNote(KeyMaps[key], this.duration);
     } else {
       switch (key) {
+        case " ":
+          this.isDragCanvas = true;
+          break;
+        case "BACKSPACE":
+          this.music.removeNote();
+          break;
+        case "DELETE":
+          this.blocks = this.blocks.filter(v => !v.selected);
+          this.commitBlocks();
+          break;
         case "J":
           this.duration = 1;
           break;
@@ -194,11 +282,260 @@ export default class MusicEdit extends Vue {
         case "L":
           this.duration = 4;
           break;
+        case "S":
+          this.music.addNote(null, this.duration);
+          break;
         default:
         // console.log(key);
       }
     }
   }
+  @bind
+  keyUp(e: KeyboardEvent) {
+    const key = e.key.toUpperCase();
+    switch (key) {
+      case " ":
+        this.isDragCanvas = false;
+        break;
+    }
+  }
+  @bind
+  onCanvasDragStart(e: MouseEvent) {
+    if (this.isDragCanvas) {
+      this.draggingCanvas = true;
+      document.addEventListener("mousemove", this.onCanvasDragging);
+      document.addEventListener("mouseup", this.onCanvasDragEnd);
+      // 全局屏蔽选择文本
+      document["onselectstart"] = () => false;
+    }
+  }
+  @bind
+  onCanvasDragging(e: MouseEvent) {
+    if (this.draggingCanvas) {
+      e.preventDefault();
+      this.$refs.painoWindow["scrollBy"](-e.movementX, -e.movementY);
+    }
+  }
+  @bind
+  onCanvasDragEnd(e: MouseEvent) {
+    this.draggingCanvas = false;
+    document.removeEventListener("mousemove", this.onCanvasDragging);
+    document.removeEventListener("mouseup", this.onCanvasDragEnd);
+    document["onselectstart"] = null;
+  }
+
+  isSelect = false;
+  selectBorder = {
+    x: 0,
+    y: 0,
+    w: 0,
+    h: 0,
+    x1: 0,
+    y1: 0,
+  };
+  // 音符选择
+  selectStart(e: MouseEvent) {
+    if (e.button != 0 || this.isDragCanvas) return;
+    const pv = this.$refs.pCanvas as HTMLDivElement;
+    const rect = pv.getBoundingClientRect();
+    const eX = e.clientX - rect.left;
+    const eY = e.clientY - rect.top;
+
+    switch (this.editMode) {
+      case "add":
+        this.blocks.push({
+          x: ~~(eX / ROW_WIDTH) * ROW_WIDTH,
+          y: ~~(eY / COL_HEIGHT) * COL_HEIGHT,
+          width: this.duration * ROW_WIDTH,
+          selected: false,
+        });
+        this.playNote(eY);
+        this.commitBlocks();
+        break;
+      case "move":
+        this.isSelect = true;
+        this.selectBorder.x = this.selectBorder.x1 = eX;
+        this.selectBorder.y = this.selectBorder.y1 = eY;
+        this.selectBorder.w = 0;
+        this.selectBorder.h = 0;
+        this.updateSelectBorder();
+        break;
+    }
+  }
+  isBlockMoving = false;
+  movingIndex: number;
+  movingOffsetX: number;
+  movingOffsetY: number;
+  /** 单个音符选择 */
+  singleSelectStart(e: MouseEvent, { block, index }: { block: MusicBlock; index: number }) {
+    if (e.button != 0) return;
+    const pv = this.$refs.pCanvas as HTMLDivElement;
+    const rect = pv.getBoundingClientRect();
+    const eX = e.clientX - rect.left;
+    const eY = e.clientY - rect.top;
+    switch (this.editMode) {
+      case "move":
+        this.isBlockMoving = true;
+        this.movingOffsetX = eX - block.x;
+        this.movingOffsetY = eY - block.y;
+
+        this.movingIndex = index;
+        if (e.ctrlKey) {
+          block.selected = true;
+        } else if (!block.selected) {
+          this.blocks.forEach(b => (b.selected = false));
+          block.selected = true;
+        }
+      default:
+        this.playNote(block.y);
+        break;
+      case "delete":
+        this.blocks.splice(index, 1);
+        this.commitBlocks();
+        break;
+    }
+  }
+
+  updateSelectBorder() {
+    const b = this.$refs.selectBorder as HTMLDivElement;
+    b.style.left = this.selectBorder.x + "px";
+    b.style.top = this.selectBorder.y + "px";
+    b.style.width = this.selectBorder.w + "px";
+    b.style.height = this.selectBorder.h + "px";
+  }
+
+  // 音符移动
+  selectMove(e: MouseEvent) {
+    const pv = this.$refs.pCanvas as HTMLDivElement;
+    const rect = pv.getBoundingClientRect();
+    const eX = e.clientX - rect.left;
+    const eY = e.clientY - rect.top;
+    if (this.isSelect) {
+      this.selectBorder.x = Math.min(this.selectBorder.x1, eX);
+      this.selectBorder.y = Math.min(this.selectBorder.y1, eY);
+      this.selectBorder.w = Math.abs(this.selectBorder.x1 - eX);
+      this.selectBorder.h = Math.abs(this.selectBorder.y1 - eY);
+      this.updateSelectBorder();
+    }
+    if (this.isBlockMoving) {
+      const box = this.selectBorder;
+      const block = this.blocks[this.movingIndex];
+      const offsetX = Math.floor((eX - block.x - this.movingOffsetX) / ROW_WIDTH);
+      const offsetY = Math.floor((eY - block.y - this.movingOffsetY) / COL_HEIGHT);
+      const selected = this.blocks.filter(v => v.selected);
+      if (offsetX || offsetY) {
+        selected.forEach(b => {
+          b.x = Math.min(Math.max(0, b.x + offsetX * ROW_WIDTH), 1000 * ROW_WIDTH);
+          b.y = Math.min(Math.max(0, b.y + offsetY * COL_HEIGHT), 11 * COL_HEIGHT);
+        });
+      }
+    }
+  }
+  // 音符选择结束
+  selectEnd(e: MouseEvent) {
+    const space = this.music.space;
+    if (this.isSelect) {
+      this.isSelect = false;
+      const box = this.selectBorder;
+      this.blocks.forEach(block => {
+        if (
+          Math.abs(block.x + block.width / 2 - (box.x + box.w / 2)) <= (block.width + box.w) / 2 &&
+          Math.abs(block.y + COL_HEIGHT / 2 - (box.y + box.h / 2)) <= (COL_HEIGHT + box.h) / 2
+        ) {
+          block.selected = true;
+          if (this.editMode != "move") this.editMode = "move";
+        } else {
+          block.selected = false;
+        }
+      });
+    }
+    if (this.isBlockMoving) {
+      this.isBlockMoving = false;
+      this.commitBlocks();
+    }
+  }
+
+  /** 将blocks的修改写入 */
+  commitBlocks() {
+    const notes: Note[] = [];
+    this.blocks.sort((a, b) => {
+      return a.x - b.x;
+    });
+    let lastDuration = 1;
+    const addPadding = (d: number) => {
+      if (!d) return;
+      const b4 = ~~(d / 4);
+      const b2 = ~~((d % 4) / 2);
+      const b1 = d % 2;
+      const s = (d: number) => new Note("0", ModeMaps[this.music.mode], d);
+      for (let i = 0; i < b4; i++) notes.push(s(4));
+      if (b2) notes.push(s(2));
+      if (b1) notes.push(s(1));
+    };
+    for (let i = 0; i < this.blocks.length; i++) {
+      const b = this.blocks[i];
+      const next = this.blocks[i + 1];
+
+      const k = Keys[~~(b.y / COL_HEIGHT)];
+      const t = ~~(b.x / ROW_WIDTH);
+      const n = new Note(k, ModeMaps[this.music.mode]);
+      let padding = 0;
+      if (next) {
+        const nt = ~~(next.x / ROW_WIDTH);
+        const deltaT = nt - t;
+        if (deltaT > 4) {
+          n.duration = 4;
+          padding = deltaT - 4;
+        } else if (deltaT === 3) {
+          n.duration = 2;
+          padding = 1;
+        } else {
+          // 0 1 2 4
+          n.duration = deltaT;
+        }
+        lastDuration = n.duration || lastDuration;
+      } else n.duration = lastDuration;
+      notes.push(n);
+      if (padding) addPadding(padding);
+    }
+    this.music.notes = notes;
+  }
+
+  currentLine = -1;
+  isPlaying = false;
+  playTimer = 0;
+  // 播放
+  playSeq() {
+    this.isPlaying = true;
+    const seq = [];
+    let fullLength = 0;
+    this.blocks.forEach(b => {
+      const index = ~~(b.x / ROW_WIDTH);
+      const key = Keys[~~(b.y / COL_HEIGHT)];
+      fullLength = Math.max(fullLength, index);
+      if (seq[index]) {
+        seq[index].push(key);
+      } else {
+        seq[index] = [key];
+      }
+    });
+    // console.log("seq", seq);
+    this.playTimer = setInterval(() => {
+      if (this.currentLine++ > fullLength) this.stopSeq();
+      // console.log("cursor", this.currentLine);
+      if (seq[this.currentLine]) {
+        this.playNote(seq[this.currentLine]);
+        // console.log("playing", seq[this.currentLine]);
+      }
+    }, 6e4 / this.music.bpm) as any;
+  }
+  // 停止
+  stopSeq(pause = false) {
+    if (!pause) this.currentLine = -1;
+    clearInterval(this.playTimer);
+    this.isPlaying = false;
+  }
+
   clearNotes() {
     this.music.clear();
   }
@@ -224,8 +561,76 @@ export default class MusicEdit extends Vue {
     flex: 1;
     display: flex;
     margin: 8px 0;
+    align-items: flex-start;
   }
 
+  .piano {
+    display: flex;
+  }
+  .piano-header {
+    width: 20px;
+    background: #000;
+    box-shadow: inset 0 -1px 2px hsla(0, 0%, 100%, 0.4), 0 2px 3px rgba(0, 0, 0, 0.4);
+    border-width: 3px 2px 2px;
+    border-style: solid;
+    border-color: #555 #222 #111 #777;
+    position: relative;
+  }
+  .piano-window {
+    flex: 1;
+    overflow: scroll hidden;
+    &.drag {
+      cursor: grab;
+    }
+    &.draging {
+      cursor: grabbing;
+    }
+  }
+  .noevent {
+    pointer-events: none;
+  }
+  .piano-canvas {
+    width: max-content;
+    position: relative;
+    user-select: none;
+    &.addmode {
+      cursor: crosshair;
+    }
+    .line {
+      display: inline-block;
+      height: 384px;
+      width: 20px;
+      &:nth-child(odd) {
+        background: #dee9fd;
+      }
+      &.playing {
+        background: #9ec0ff;
+      }
+    }
+    .block {
+      display: inline-block;
+      position: absolute;
+      height: 32px;
+      background-color: #6199ff;
+      cursor: move;
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.25);
+      border-radius: 3px;
+      &.selected {
+        background-color: #3d5afe;
+      }
+      :active {
+        background-color: #b0ffca;
+      }
+    }
+    .select-border {
+      display: inline-block;
+      position: absolute;
+      border: 1px dashed #082846;
+      user-select: none;
+      pointer-events: none;
+      will-change: top, left, width, height;
+    }
+  }
   .input-area {
     display: flex;
     flex-direction: column;
@@ -233,16 +638,6 @@ export default class MusicEdit extends Vue {
   .preview-area {
     margin-left: 4px;
     flex: 1;
-  }
-  .piano-header {
-    width: 20px;
-    height: fill-content;
-    background: #000;
-    box-shadow: inset 0 -1px 2px hsla(0, 0%, 100%, 0.4), 0 2px 3px rgba(0, 0, 0, 0.4);
-    border-width: 3px 2px 2px;
-    border-style: solid;
-    border-color: #555 #222 #111 #777;
-    position: relative;
   }
   .piano-key {
     display: inline-flex;

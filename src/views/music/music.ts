@@ -31,6 +31,7 @@ http://www.sohu.com/a/234009955_100172496
 
 const bin = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890+/";
 function toBin(num: number) {
+  if (!bin[num]) console.log("out of range", num);
   return bin[num];
 }
 
@@ -207,7 +208,7 @@ export class Note {
   /** 简谱高低音符号数 */
   tone: number;
   /** 四分音符 = 1 二分音符 = 2 以此类推 */
-  duration: number = 1;
+  duration: number;
   /** 半音 */
   isSemi: boolean;
   /** 音 */
@@ -216,35 +217,48 @@ export class Note {
   domain: number;
   /** 升调表示音名 */
   get sharpName() {
+    if (this.code === "0") return "0";
     const preNode = noteNames[noteNames.lastIndexOf(this.note) - 1];
     return this.isSemi ? `${preNode}#${this.domain}` : this.name;
   }
   /** 简谱升调 */
   get sharpNumber() {
+    if (this.code === "0") return "0";
     const preNumber = noteNames.lastIndexOf(this.note);
     return this.isSemi ? `${preNumber}#` : this.number;
   }
   /** tone.js格式的降调 */
   get toneName() {
+    if (this.code === "0") return "0";
     return this.isSemi ? `${this.note}b${this.domain}` : this.name;
   }
 
   /** midi数字形式 */
   get midi() {
+    if (this.code === "0") return 0;
     const isSemi = this.name.startsWith("b");
-    const [note, domain] = this.name.substr(this.name.length - 2, 2).split("");
     const SEMITONES = [0, 2, 4, 5, 7, 9, 11];
-    return SEMITONES[(note.charCodeAt(0) + 3) % 7] - (isSemi ? 1 : 0) + (+domain + 1) * 12;
+    return SEMITONES[(this.note.charCodeAt(0) + 3) % 7] - (isSemi ? 1 : 0) + (this.domain + 1) * 12;
   }
 
-  constructor(code: string, modeMap: KeyNoteMap) {
+  get seqNumber() {
+    const SEQ = "BCEJKMRSUhik";
+    return SEQ.indexOf(this.code);
+  }
+
+  constructor(code: string, modeMap: KeyNoteMap, duration = 1) {
     this._code = code;
     this._modeMap = modeMap;
+    this.duration = duration;
     this.recalc();
   }
 
   recalc() {
     if (!this.modeMap) return;
+    if (this.code === "0") {
+      this.name = this.note = this.number = "0";
+      return;
+    }
     const name = this.modeMap[this.code];
     this.name = name;
     const isSemi = name.startsWith("b");
@@ -266,6 +280,11 @@ export class MusicNote extends Note {
   constructor(note: Note) {
     super(note.code, note.modeMap);
   }
+
+  /** 序列中位置 */
+  get seqPosition() {
+    return this.bar * 64 + this.position;
+  }
 }
 
 /** 歌曲 */
@@ -281,7 +300,7 @@ export class Music {
   /** 拍号 [小节拍数, 几分音符为一拍] */
   timeSignature: [number, number] = [4, 4];
   /** 速度 */
-  bpm: number = 120;
+  bpm: number = 480;
   /** 调式 */
   private _mode: Mode = Mode.Major;
   get mode(): Mode {
@@ -301,26 +320,66 @@ export class Music {
 
   play() {}
 
+  get space() {
+    return 960 / this.bpm;
+  }
+
   get musicNotes() {
-    const space = 480 / this.bpm;
+    const space = this.space;
     let bar = 0,
       pos = 0;
-    return this.notes.map(note => {
+    let dst: MusicNote[] = [];
+    let zeroNoteCache: MusicNote[] = [];
+    for (let i = 0; i < this.notes.length; i++) {
+      let note = this.notes[i];
+      while (note.code === "0") {
+        pos += space * note.duration;
+        if (pos >= 64) {
+          bar += ~~(pos / 64);
+          pos = pos % 64;
+        }
+        note = this.notes[++i];
+        if (!note) return dst;
+      }
+
       let mn = new MusicNote(note);
       mn.bar = bar;
       mn.position = pos;
+      mn.duration = note.duration;
       pos += space * note.duration;
       if (pos >= 64) {
         bar += ~~(pos / 64);
         pos = pos % 64;
       }
-      return mn;
-    });
+      if (note.duration === 0) {
+        zeroNoteCache.push(mn);
+      } else {
+        zeroNoteCache.forEach(v => (v.duration = note.duration));
+        zeroNoteCache = [];
+      }
+      dst.push(mn);
+    }
+    return dst;
   }
 
   get code() {
     const notesBin = this.musicNotes.map(v => `${v.code}${toBin(v.bar)}${toBin(v.position)}`).join("");
     return `${this.mode}${notesBin}`;
+  }
+  set code(value) {
+    const mode = value[0];
+    const modeMap = ModeMaps[mode];
+    const notes = value.substr(1);
+    const musicNotes: MusicNote[] = [];
+    for (let i = 0; i < notes.length - 2; i += 3) {
+      const [code, bar, pos] = [notes[i], notes[i + 1], notes[i + 2]];
+      const note = new Note(code, modeMap);
+      let mn = new MusicNote(note);
+      mn.bar = toNum(bar);
+      mn.position = toNum(pos);
+      musicNotes.push(mn);
+    }
+    // this.musicNotes = musicNotes;
   }
 
   /** 清除所有音符 */
@@ -329,7 +388,7 @@ export class Music {
   }
   /** 添加音符 */
   addNote(note: Note, duration = 1) {
-    const t = new Note(note.code, ModeMaps[this.mode]);
+    const t = new Note(note ? note.code : "0", ModeMaps[this.mode]);
     t.duration = duration;
     this.notes.push(t);
   }
@@ -339,5 +398,13 @@ export class Music {
     } else {
       this.notes.splice(at);
     }
+  }
+
+  get totalDuration() {
+    let totalTime = 0;
+    this.musicNotes.forEach(note => {
+      totalTime += note.duration;
+    });
+    return totalTime;
   }
 }
