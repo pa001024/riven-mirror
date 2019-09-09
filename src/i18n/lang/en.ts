@@ -1932,6 +1932,7 @@ let po = {
     delete: "Delete",
     empty: "Empty",
     importCode: "Import Code",
+    copyCode: "Copy Code",
   },
 };
 

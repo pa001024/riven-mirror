@@ -4027,6 +4027,7 @@ let po = {
     delete: "删除",
     empty: "清空",
     importCode: "导入歌曲乐串",
+    copyCode: "复制歌曲乐串",
   },
 };
 

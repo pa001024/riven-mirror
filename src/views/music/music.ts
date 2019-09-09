@@ -370,13 +370,16 @@ export class Music {
     const mode = +value[0];
     const notes = value.substr(1);
     const seqs: [string, number][] = [];
+    const space = this.space;
     for (let i = 0; i < notes.length - 2; i += 3) {
       const [code, bar, pos] = [notes[i], notes[i + 1], notes[i + 2]];
-      const t = (toNum(bar) * 64 + toNum(pos)) / this.space;
+      const t = (toNum(bar) * 64 + toNum(pos)) / space;
+      // console.log(JSON.stringify([code, bar, pos, t]));
       seqs.push([code, t]);
     }
     this._mode = mode;
     this.setSeqs(seqs);
+    // console.log(JSON.stringify(seqs));
   }
 
   setSeqs(seqs: [string, number][]) {

@@ -3,6 +3,7 @@
     :width="width"
     :height="height"
     :class="{ container: true, active: active }"
+    :style="[ duration == 0 && {position: 'absolute'}]"
     @click="onClick"
   >
     <line
@@ -137,6 +138,7 @@ export default class Staff extends Vue {
   @Prop({ default: null }) notes: any[];
   @Prop({ default: false }) active: boolean;
   @Prop({ default: "full" }) type: string;
+  @Prop({ default: 1 }) duration: number;
   lines: Line[] = [];
   width: number = 0;
   height: number = 0;
@@ -158,13 +160,13 @@ export default class Staff extends Vue {
 
     const info = getNotesInfo(this.notes);
 
-    let width = this.showBrace ? 45 : info.bothSides ? 31 : 20;
+    let width = this.showBrace ? 45 : info.bothSides ? 31 : 20 * this.duration;
     if (this.showEnd && !this.showBrace && !this.notes) {
       width = 2;
     }
 
     if (info.hasSharp) {
-      width += 14;
+      // width += 14;
     }
 
     const linePositions = {};
@@ -226,8 +228,8 @@ export default class Staff extends Vue {
       }
 
       if (info.hasSharp) {
-        evenNote += 6;
-        oddNote += 6;
+        // evenNote += 6;
+        // oddNote += 6;
       }
 
       this.notes.forEach(note => {
@@ -238,7 +240,7 @@ export default class Staff extends Vue {
         });
         if (NOTE_OFFSETS[note % 12].sharp) {
           sharpPositions.push({
-            x: line % 2 === 0 ? evenNote - 6 : oddNote + 16,
+            x: /* line % 2 === 0 ? evenNote - 6 : oddNote + */ evenNote + 16,
             y: middleC - line * (LINE_HEIGHT / 2) - 5,
           });
         }
