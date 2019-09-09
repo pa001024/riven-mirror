@@ -38,9 +38,9 @@
         <el-radio-button :label="2">{{$t('shawzin.half')}}(K)</el-radio-button>
         <el-radio-button :label="4">{{$t('shawzin.full')}}(L)</el-radio-button>
       </el-radio-group>
-      <el-button size="small" type="danger" :disabled="isRecording" icon="el-icon-video-camera" @click="recordSeq">{{$t('shawzin.record')}}</el-button>
-      <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq">{{$t('shawzin.play')}}</el-button>
-      <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)">{{$t('shawzin.pause')}}</el-button>
+      <el-button size="small" type="danger" :disabled="isRecording" icon="el-icon-video-camera" @click="recordSeq"></el-button>
+      <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq"></el-button>
+      <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)"></el-button>
       <el-button size="small" :disabled="!isPlaying && !isRecording" @click="stopSeq()">{{$t('shawzin.stop')}}</el-button>
       <el-button size="small" @click="music.removeNote()">{{$t('shawzin.delete')}}(←)</el-button>
       <el-button size="small" type="danger" @click="clearNotes">{{$t('shawzin.empty')}}</el-button>
@@ -122,6 +122,7 @@ import { Sampler } from "tone";
 import { bind } from "decko";
 import copy from "copy-text-to-clipboard";
 import { ModeMaps, Mode, Note, Music } from "./music";
+import { Timer } from "./timer";
 
 const KeyMaps = {
   1: "B",
@@ -619,7 +620,7 @@ export default class MusicEdit extends Vue {
   currentLine = -1;
   isPlaying = false;
   isRecording = false;
-  playTimer = 0;
+  playTimer: Timer = null;
   // 播放
   playSeq() {
     this.isPlaying = true;
@@ -636,17 +637,18 @@ export default class MusicEdit extends Vue {
       }
     });
     if (this.currentLine != -1) this.currentLine--;
-    this.playTimer = setInterval(() => {
+    this.playTimer = new Timer(t => {
       if (seq[this.currentLine]) {
         this.playNote(seq[this.currentLine]);
       }
       if (this.currentLine++ > fullLength) this.stopSeq();
     }, 6e4 / this.music.bpm) as any;
+    this.playTimer.start();
   }
   // 停止
   stopSeq(pause = false) {
     if (!pause) this.currentLine = -1;
-    clearInterval(this.playTimer);
+    this.playTimer.stop();
     this.isPlaying = false;
     this.isRecording = false;
   }

@@ -369,11 +369,22 @@ export class Music {
   set code(value) {
     const mode = +value[0];
     const notes = value.substr(1);
-    const seqs: [string, number][] = [];
-    const space = this.space;
+    let seqs: [string, number][] = [];
+    let space = this.space;
+    let lastT = -1;
     for (let i = 0; i < notes.length - 2; i += 3) {
       const [code, bar, pos] = [notes[i], notes[i + 1], notes[i + 2]];
       const t = (toNum(bar) * 64 + toNum(pos)) / space;
+      // 自动判定BPM
+      if (t - lastT < 1) {
+        this.bpm = Math.min(960, ~~(this.bpm / (t - lastT)));
+        space = this.space;
+        i = 0;
+        lastT = -1;
+        seqs = [];
+        continue;
+      }
+      lastT = t;
       // console.log(JSON.stringify([code, bar, pos, t]));
       seqs.push([code, t]);
     }
