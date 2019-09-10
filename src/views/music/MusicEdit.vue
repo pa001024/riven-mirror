@@ -28,7 +28,6 @@
     </div>
     <div class="preview-header setting">
       <el-radio-group size="small" v-model="editMode">
-        <el-radio-button label="cursor"><i class="el-icon-position"></i></el-radio-button>
         <el-radio-button label="move"><i class="el-icon-rank"></i></el-radio-button>
         <el-radio-button label="add"><i class="el-icon-edit"></i></el-radio-button>
         <el-radio-button label="delete"><i class="el-icon-delete"></i></el-radio-button>
@@ -58,20 +57,12 @@
           <div class="piano-header"></div>
           <div class="input-area">
             <div class="piano-key" @click="music.addNote(null, duration)">
-              <div class="note">
-                0
-              </div>
-              <div class="key">
-                S
-              </div>
+              <div class="note">0</div>
+              <div class="key">S</div>
             </div>
             <div class="piano-key" @click="playAndAddNote(note.code, duration)" v-for="note in notes" :key="note.name">
-              <div class="note" :class="[ useNumber && note.tone && ('tone' + note.tone) ]">
-                {{useNumber ? (useSharp ? note.sharpNumber : note.number) : (useSharp ? note.sharpName : note.name)}}
-              </div>
-              <div class="key">
-                {{keyMaps[note.code]}}
-              </div>
+              <div class="note" :class="[ useNumber && note.tone && ('tone' + note.tone) ]">{{useNumber ? (useSharp ? note.sharpNumber : note.number) : (useSharp ? note.sharpName : note.name)}}</div>
+              <div class="key">{{keyMaps[note.code]}}</div>
             </div>
           </div>
         </div>
@@ -86,12 +77,10 @@
           </div>
           <div class="number">
             <div class="number-note note" v-for="(note, i) in music.notes" :key="i"
-              :class="[ note.tone && ('tone' + note.tone), note.isSemi && 'semi', 'du' + note.duration ]">
-              {{useSharp ? note.sharpNumber : note.number}}
-            </div>
+              :class="[ note.tone && ('tone' + note.tone), note.isSemi && 'semi', 'du' + note.duration ]">{{useSharp ? note.sharpNumber : note.number}}</div>
           </div>
         </div>
-        <div class="timelines">
+        <div class="timelines" @click="moveCursor">
           <div class="timeline" v-for="line in 250" :key="line">#{{line}}</div>
         </div>
         <div class="piano-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
@@ -101,9 +90,8 @@
           <div class="block" :class="{noevent:isSelect, selected: block.selected}" v-for="(block, index) in blocks" :key="index"
             :style="{top:block.y+'px',left:block.x+'px',width:block.width+'px'}"
             @mousedown.stop="singleSelectStart($event,{block, index})"
-          >
-            {{toNote(block.y)}}
-          </div>
+          >{{toNote(block.y)}}<!--
+       --></div>
           <div class="select-border" v-show="isSelect" ref="selectBorder" />
         </div>
       </div>
@@ -178,11 +166,11 @@ const instrumentResource = {
   },
   shawzin: {
     path: "/instruments/shawzin/",
-    keys: ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4", "D4", "E4", "F4", "G4", "A4",  "C5", "D5"],
+    keys: ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4", "D4", "E4", "F4", "G4", "A4", "C5", "D5"],
   },
   lotus: {
     path: "/instruments/lotus/",
-    keys: ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4", "D4", "E4", "F4", "G4", "A4",  "C5", "D5"],
+    keys: ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4", "D4", "E4", "F4", "G4", "A4", "C5", "D5"],
   },
 };
 
@@ -500,6 +488,15 @@ export default class MusicEdit extends Vue {
         break;
     }
   }
+  moveCursor(e: MouseEvent) {
+    if (e.button != 0 || this.isDragCanvas) return;
+    const pv = this.$refs.pCanvas as HTMLDivElement;
+    const rect = pv.getBoundingClientRect();
+    const eX = e.clientX - rect.left;
+    const eY = e.clientY - rect.top;
+    this.currentLine = ~~(eX / ROW_WIDTH) + 1;
+  }
+
   isBlockMoving = false;
   isBlockMoved = false;
   movingIndex: number;
@@ -642,7 +639,7 @@ export default class MusicEdit extends Vue {
         this.playNote(seq[this.currentLine]);
       }
       if (this.currentLine++ > fullLength) this.stopSeq();
-    }, 6e4 / this.music.bpm) as any;
+    }, 6e4 / this.music.bpm);
     this.playTimer.start();
   }
   // 停止
@@ -655,9 +652,11 @@ export default class MusicEdit extends Vue {
   // 录制
   recordSeq() {
     this.isRecording = true;
-    this.playTimer = setInterval(() => {
+    const pw = this.$refs.pianoWindow as HTMLDivElement;
+    this.playTimer = new Timer(t => {
       this.currentLine++;
-    }, 6e4 / this.music.bpm) as any;
+      // pw.scrollTo((this.currentLine + 4) * 20, 0);
+    }, 6e4 / this.music.bpm);
   }
 
   clearNotes() {
@@ -714,6 +713,7 @@ export default class MusicEdit extends Vue {
   }
   .timelines {
     width: max-content;
+    cursor: pointer;
   }
   .timeline {
     display: inline-flex;
@@ -721,6 +721,7 @@ export default class MusicEdit extends Vue {
     height: 32px;
     align-items: center;
     padding: 2px;
+    border-right: 1px solid #6199ff;
   }
   .piano-canvas {
     width: max-content;
@@ -834,7 +835,7 @@ export default class MusicEdit extends Vue {
       transform: rotate(90deg);
     }
     &.du0 {
-      position: absolute;
+      width: 0;
       transform: translateY(-20px);
     }
     &.du2 {

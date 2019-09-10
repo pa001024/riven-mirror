@@ -240,7 +240,7 @@ export default class Staff extends Vue {
         });
         if (NOTE_OFFSETS[note % 12].sharp) {
           sharpPositions.push({
-            x: /* line % 2 === 0 ? evenNote - 6 : oddNote + */ evenNote + 16,
+            x: /* line % 2 === 0 ? evenNote - 6 : oddNote + */ 16,
             y: middleC - line * (LINE_HEIGHT / 2) - 5,
           });
         }

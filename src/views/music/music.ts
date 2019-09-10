@@ -373,7 +373,7 @@ export class Music {
     const notes = value.substr(1);
     let seqs: [string, number][] = [];
     let space = this.space;
-    let lastT = -1;
+    let lastT = 0;
     for (let i = 0; i < notes.length - 2; i += 3) {
       const [code, bar, pos] = [notes[i], notes[i + 1], notes[i + 2]];
       const t = (toNum(bar) * 64 + toNum(pos)) / space;
@@ -383,8 +383,7 @@ export class Music {
         this.bpm = Math.min(960, ~~(this.bpm / delta));
         console.log("auto set bpm to", this.bpm);
         space = this.space;
-        i = 0;
-        lastT = -1;
+        lastT = i = 0;
         seqs = [];
         continue;
       }
