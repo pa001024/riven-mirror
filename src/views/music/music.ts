@@ -1,5 +1,6 @@
 /*
 音符编码表
+[单音]
 B 第一根弦
 C 第二根弦
 E 第三根弦
@@ -12,6 +13,7 @@ U 第三根弦+地品
 h 第一根弦+水品
 i 第二根弦+水品
 k 第三根弦+水品
+[琶音]
 p 第一弦+天品+水品
 q 第二弦+天品+水品
 s 第三弦+天品+水品
@@ -375,9 +377,11 @@ export class Music {
     for (let i = 0; i < notes.length - 2; i += 3) {
       const [code, bar, pos] = [notes[i], notes[i + 1], notes[i + 2]];
       const t = (toNum(bar) * 64 + toNum(pos)) / space;
+      const delta = t - lastT;
       // 自动判定BPM
-      if (t - lastT < 1) {
-        this.bpm = Math.min(960, ~~(this.bpm / (t - lastT)));
+      if (delta > 0 && delta < 1) {
+        this.bpm = Math.min(960, ~~(this.bpm / delta));
+        console.log("auto set bpm to", this.bpm);
         space = this.space;
         i = 0;
         lastT = -1;
