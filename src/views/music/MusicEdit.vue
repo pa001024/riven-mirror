@@ -81,12 +81,12 @@
           </div>
         </div>
         <div class="timelines" @mousedown="moveCursor">
-          <div class="time-anchor" v-if="currentLine !== -1" :style="{left: currentLine * 20 +'px'}"></div>
+          <div class="time-anchor" v-if="currentLine !== -1" :style="{ transform: 'translate(' + (currentLine * 20 - 21)  +'px)' }"></div>
           <div class="timeline" v-for="line in 250" :key="line">#{{line}}</div>
         </div>
         <div class="piano-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
           <div class="lines">
-            <div class="line" v-for="line in 1000" :key="line" :class="{playing: line === currentLine}"></div>
+            <div class="line" v-for="line in 1000" :key="line"></div>
           </div>
           <div class="block" :class="{noevent:isSelect, selected: block.selected}" v-for="(block, index) in blocks" :key="index"
             :style="{top:block.y+'px',left:block.x+'px',width:block.width+'px'}"
@@ -1073,12 +1073,22 @@ export default class MusicEdit extends Vue {
   }
   .time-anchor {
     position: absolute;
-    width: 0;
-    height: 0;
-    bottom: 0;
-    border: 5px solid transparent;
-    border-top: 10px solid #6199ff;
-    transform: translate(-25px, 5px);
+    width: 2px;
+    background: #6199ff;
+    height: 384px;
+    top: 32px;
+    z-index: 1;
+    will-change: transform;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: -9px;
+      left: -4px;
+      border: 5px solid transparent;
+      border-top: 10px solid #6199ff;
+    }
   }
   .piano-canvas {
     width: max-content;
@@ -1096,9 +1106,6 @@ export default class MusicEdit extends Vue {
       }
       &:nth-child(4n) {
         border-right: 1px solid #6199ff;
-      }
-      &.playing {
-        background: #9ec0ff;
       }
     }
     .block {

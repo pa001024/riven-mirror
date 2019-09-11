@@ -1,5 +1,3 @@
-import { bind } from "decko";
-
 // polyfill
 const requestAnimFrame = (function() {
   return (
@@ -35,7 +33,7 @@ export class Timer {
       this.startTime = performance.now();
     }
     this.isRunning = true;
-    this.loop(0);
+    this.loop(this.startTime);
     return this;
   }
   pause() {
@@ -50,8 +48,7 @@ export class Timer {
     return this;
   }
 
-  @bind
-  loop(t: number) {
+  loop = (t: number) => {
     if (!this.isRunning) return;
     const delta = t - this.startTime;
     if (delta / this.peroid > this.step) {
@@ -59,5 +56,5 @@ export class Timer {
       this.step++;
     }
     requestAnimFrame(this.loop);
-  }
+  };
 }
