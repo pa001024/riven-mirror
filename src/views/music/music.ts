@@ -370,12 +370,11 @@ export class Music {
     return `${this.mode}${notesBin}`;
   }
   set code(value) {
-    const mode = +value[0];
+    this._mode = +value[0];
     const notes = value.substr(1);
     let seqs: [string, number][] = [];
     let space = this.space;
-    let lastT = 0;
-    for (let i = 0; i < notes.length - 2; i += 3) {
+    for (let i = 0, lastT = 0; i < notes.length - 2; ) {
       const [code, bar, pos] = [notes[i], notes[i + 1], notes[i + 2]];
       const t = (toNum(bar) * 64 + toNum(pos)) / space;
       const delta = t - lastT;
@@ -391,8 +390,8 @@ export class Music {
       lastT = t;
       // console.log(JSON.stringify([code, bar, pos, t]));
       seqs.push([code, t]);
+      i += 3;
     }
-    this._mode = mode;
     this.setSeqs(seqs);
     // console.log(JSON.stringify(seqs));
   }

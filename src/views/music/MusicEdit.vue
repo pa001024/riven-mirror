@@ -41,10 +41,10 @@
       <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq"></el-button>
       <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)"></el-button>
       <el-button size="small" :disabled="currentLine === -1" @click="stopSeq()">{{$t('shawzin.stop')}}</el-button>
-      <el-button size="small" @click="music.removeNote()">{{$t('shawzin.delete')}}(←)</el-button>
+      <el-button size="small" @click="backspace">←</el-button>
       <el-button size="small" type="danger" @click="clearNotes">{{$t('shawzin.empty')}}</el-button>
-      <el-button size="small" @click="importCode()">{{$t('shawzin.importCode')}}</el-button>
-      <el-button size="small" @click="copyCode()">{{$t('shawzin.copyCode')}}</el-button>
+      <el-button size="small" @click="importCode">{{$t('shawzin.importCode')}}</el-button>
+      <el-button size="small" @click="copyCode">{{$t('shawzin.copyCode')}}</el-button>
     </div>
     <div class="view-area">
       <div class="input-box">
@@ -314,6 +314,10 @@ export default class MusicEdit extends Vue {
 
   /// 函数
 
+  get pianoWindow() {
+    return this.$refs.pianoWindow as HTMLDivElement;
+  }
+
   get notes() {
     return _.keyBy(Keys.map(v => new Note(v, ModeMaps[this.music.mode])), "code");
   }
@@ -516,13 +520,18 @@ export default class MusicEdit extends Vue {
     this.blocks = this.blocks.concat(toPaste);
     this.commitBlocks();
   }
-
+  /** 退格 */
+  backspace() {
+    this.music.removeNote();
+    this.reload();
+    this.pushState();
+  }
   /** 撤销重做记录历史 */
-  pushState() {
+  pushState(init = false) {
     if (this.historyIndex < this.history.length - 1) this.history.splice(0, this.historyIndex + 1);
     const code = this.music.code;
     this.history.push(code);
-    localStorage.setItem("lastMusic", code);
+    if (!init) localStorage.setItem("lastMusic", code);
     this.historyIndex = this.history.length - 1;
     if (this.history.length > 100) {
       this.history.shift();
@@ -562,7 +571,7 @@ export default class MusicEdit extends Vue {
     const code = this.code || localStorage.getItem("lastMusic") || "5MAAEAQKAUMAcSAgRAoMAwEA0MA8EBMKBQMBYSBcUBgMBo";
     this.music.code = code;
     this.reload();
-    this.pushState();
+    this.pushState(true);
   }
   @Watch("instrument")
   reloadInstrumentResource() {
@@ -582,6 +591,12 @@ export default class MusicEdit extends Vue {
   mounted() {
     document.addEventListener("keydown", this.keyDown);
     document.addEventListener("keyup", this.keyUp);
+
+    const pw = this.$refs.pianoWindow as HTMLDivElement;
+    // IE9, Chrome, Safari, Opera
+    pw.addEventListener("mousewheel", this.scrollHorizontally, false);
+    // Firefox
+    pw.addEventListener("DOMMouseScroll", this.scrollHorizontally, false);
   }
   destroyed() {
     document.removeEventListener("keydown", this.keyDown);
@@ -589,6 +604,11 @@ export default class MusicEdit extends Vue {
     this.stopSeq();
   }
 
+  scrollHorizontally(e: MouseWheelEvent) {
+    var delta = Math.max(-1, Math.min(1, e["wheelDelta"] || -e.detail));
+    this.pianoWindow.scrollLeft -= delta * 40;
+    e.preventDefault();
+  }
   /// 事件
   @bind
   keyDown(e: KeyboardEvent) {
@@ -611,9 +631,7 @@ export default class MusicEdit extends Vue {
         this.isDragCanvas = true;
         break;
       case "BACKSPACE":
-        this.music.removeNote();
-        this.reload();
-        this.pushState();
+        this.backspace();
         break;
       case "DELETE":
         this.delete();
@@ -811,11 +829,27 @@ export default class MusicEdit extends Vue {
         this.movingOffsetY = eY - block.y;
 
         this.movingIndex = index;
+        // ctrl 多选
         if (e.ctrlKey) {
           block.selected = !block.selected;
         } else if (!block.selected) {
-          this.blocks.forEach(b => (b.selected = false));
-          block.selected = true;
+          // shift范围选
+          if (e.shiftKey) {
+            const selected = this.blocks.filter(b => b.selected);
+            if (selected.length) {
+              const s = selected[0].x;
+              const min = Math.min(s, block.x),
+                max = Math.max(s, block.x);
+              this.blocks.forEach(b => {
+                if (b.x >= min && b.x <= max) {
+                  b.selected = true;
+                }
+              });
+            }
+          } else {
+            this.blocks.forEach(b => (b.selected = false));
+            block.selected = true;
+          }
         }
       default:
         this.playNote(block.y);
