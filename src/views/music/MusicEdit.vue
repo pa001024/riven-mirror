@@ -126,18 +126,111 @@ const KeyMaps = {
   P: "h",
   "[": "i",
   "]": "k",
-  1: "B",
-  2: "C",
-  3: "E",
-  4: "J",
-  5: "K",
-  6: "M",
-  7: "R",
-  "+!": "S",
-  "+@": "U",
-  "+#": "h",
-  "+$": "i",
-  "+%": "k",
+};
+const NumsToNote = {
+  [Mode.PentatonicMinor]: {
+    1: "B",
+    2: "C",
+    4: "E",
+    5: "J",
+    6: "K",
+    "+!": "M",
+    "+@": "R",
+    "+$": "S",
+    "+%": "U",
+    "+^": "h",
+    "!1": "i",
+    "!2": "k",
+  },
+  [Mode.PentatonicMajor]: {
+    1: "B",
+    2: "C",
+    3: "E",
+    5: "J",
+    6: "K",
+    "+!": "M",
+    "+@": "R",
+    "+#": "S",
+    "+%": "U",
+    "+^": "h",
+    "!1": "i",
+    "!2": "k",
+  },
+  [Mode.Chromatic]: {
+    1: "B",
+    2: "E",
+    3: "K",
+    4: "M",
+    5: "S",
+    6: "h",
+    7: "k",
+  },
+  [Mode.Hexatonic]: {
+    1: "B",
+    2: "C",
+    4: "E",
+    5: "K",
+    6: "M",
+    "+!": "R",
+    "+@": "S",
+    "+$": "U",
+    "+%": "i",
+    "+^": "k",
+  },
+  [Mode.Major]: {
+    1: "B",
+    2: "C",
+    3: "E",
+    4: "J",
+    5: "K",
+    6: "M",
+    7: "R",
+    "+!": "S",
+    "+@": "U",
+    "+#": "h",
+    "+$": "i",
+    "+%": "k",
+  },
+  [Mode.Minor]: {
+    1: "B",
+    2: "C",
+    3: "E",
+    4: "J",
+    5: "K",
+    6: "M",
+    7: "R",
+    "+!": "S",
+    "+@": "U",
+    "+#": "h",
+    "+$": "i",
+    "+%": "k",
+  },
+  [Mode.Hirajoshi]: {
+    1: "B",
+    2: "C",
+    4: "E",
+    5: "K",
+    6: "M",
+    "+!": "R",
+    "+@": "S",
+    "+$": "U",
+    "+%": "i",
+    "+^": "k",
+  },
+  [Mode.Phrygian]: {
+    1: "B",
+    2: "C",
+    3: "E",
+    4: "J",
+    5: "K",
+    6: "M",
+    7: "R",
+    "+!": "S",
+    "+@": "U",
+    "+#": "h",
+    "+$": "i",
+    "+%": "k",
+  },
 };
 const KeyMapRev = {
   B: "Q",
@@ -216,6 +309,8 @@ export default class MusicEdit extends Vue {
 
   history = [];
   historyIndex = 0;
+  /** url code */
+  @Prop() code: string;
 
   /// 函数
 
@@ -312,11 +407,26 @@ export default class MusicEdit extends Vue {
   }
   /** 选择到 */
   selectTo(dir: 1 | -1) {
-    if (dir === -1) {
-      this.blocks.reduceRight((r, b) => (r = b.selected = r || b.selected), false);
-    } else {
+    if (dir > 0) {
       this.blocks.reduce((r, b) => (r = b.selected = r || b.selected), false);
+    } else {
+      this.blocks.reduceRight((r, b) => (r = b.selected = r || b.selected), false);
     }
+  }
+  /** 时值缩放 */
+  scale(to: 1 | -1) {
+    let selected = this.blocks.filter(b => b.selected);
+    if (!selected.length) selected = [this.blocks[this.blocks.length - 1]];
+    if (to > 0) {
+      selected.forEach(b => {
+        b.width = Math.max(ROW_WIDTH, b.width + ROW_WIDTH);
+      });
+    } else {
+      selected.forEach(b => {
+        b.width = Math.max(ROW_WIDTH, b.width - ROW_WIDTH);
+      });
+    }
+    this.commitBlocks();
   }
   /** 撤销 */
   undo() {
@@ -449,7 +559,7 @@ export default class MusicEdit extends Vue {
 
   created() {
     this.reloadInstrumentResource();
-    const code = localStorage.getItem("lastMusic") || "5MAAEAQKAUMAcSAgRAoMAwEA0MA8EBMKBQMBYSBcUBgMBo";
+    const code = this.code || localStorage.getItem("lastMusic") || "5MAAEAQKAUMAcSAgRAoMAwEA0MA8EBMKBQMBYSBcUBgMBo";
     this.music.code = code;
     this.reload();
     this.pushState();
@@ -482,89 +592,116 @@ export default class MusicEdit extends Vue {
   /// 事件
   @bind
   keyDown(e: KeyboardEvent) {
-    const key = (e.ctrlKey ? "^" : "") + (e.shiftKey ? "+" : "") + e.key.toUpperCase();
+    const key = (e.ctrlKey ? "^" : "") + (e.shiftKey ? "+" : "") + (e.altKey ? "!" : "") + e.key.toUpperCase();
 
+    if (NumsToNote[this.music.mode] && NumsToNote[this.music.mode][key]) {
+      if (this.isPlaying) return;
+      e.preventDefault();
+      this.playAndAddNote(NumsToNote[this.music.mode][key], this.duration);
+      return;
+    }
     if (KeyMaps[key]) {
       if (this.isPlaying) return;
       e.preventDefault();
       this.playAndAddNote(KeyMaps[key], this.duration);
-    } else {
-      switch (key) {
-        case " ":
-          this.isDragCanvas = true;
-          break;
-        case "BACKSPACE":
-          this.music.removeNote();
-          this.reload();
-          this.pushState();
-          break;
-        case "DELETE":
-          this.delete();
-          break;
-        case "^DELETE":
-          this.rippleDelete();
-          break;
-        case "J":
-          this.duration = 1;
-          break;
-        case "K":
-          this.duration = 2;
-          break;
-        case "L":
-          this.duration = 4;
-          break;
-        case "S":
-        case "0":
-          this.music.addNote(null, this.duration);
-          break;
-        case "^Z":
-          this.undo();
-          break;
-        case "^+Z":
-          this.redo();
-          break;
-        case "^A":
-          e.preventDefault();
-          this.selectAll();
-          break;
-        case "^X":
-          this.cut();
-          break;
-        case "^C":
-          this.copy();
-          break;
-        case "^V":
-          this.paste();
-          break;
-        case "^ARROWDOWN":
-          this.move(0, 1);
-          break;
-        case "^ARROWUP":
-          this.move(0, -1);
-          break;
-        case "^ARROWLEFT":
-          this.move(-1, 0);
-          break;
-        case "^ARROWRIGHT":
-          this.move(1, 0);
-          break;
-        case "+ARROWLEFT":
-          this.selectTo(-1);
-          break;
-        case "+ARROWRIGHT":
-          this.selectTo(1);
-          break;
-        case "ARROWLEFT":
-          e.preventDefault();
-          this.moveSelect(-1, 0);
-          break;
-        case "ARROWRIGHT":
-          e.preventDefault();
-          this.moveSelect(1, 0);
-          break;
-        default:
-        // console.log(key);
-      }
+      return;
+    }
+    switch (key) {
+      case " ":
+        this.isDragCanvas = true;
+        break;
+      case "BACKSPACE":
+        this.music.removeNote();
+        this.reload();
+        this.pushState();
+        break;
+      case "DELETE":
+        this.delete();
+        break;
+      case "^DELETE":
+      case "+DELETE":
+        this.rippleDelete();
+        break;
+      case "J":
+        this.duration = 1;
+        break;
+      case "K":
+        this.duration = 2;
+        break;
+      case "L":
+        this.duration = 4;
+        break;
+      case "S":
+      case "0":
+        this.music.addNote(null, this.duration);
+        break;
+      case "^Z":
+        this.undo();
+        break;
+      case "^+Z":
+        this.redo();
+        break;
+      case "^A":
+        e.preventDefault();
+        this.selectAll();
+        break;
+      case "^X":
+        this.cut();
+        break;
+      case "^C":
+        this.copy();
+        break;
+      case "^V":
+        this.paste();
+        break;
+      // 移动
+      case "^ARROWDOWN":
+        this.move(0, 1);
+        break;
+      case "^ARROWUP":
+        this.move(0, -1);
+        break;
+      case "^ARROWLEFT":
+        this.move(-1, 0);
+        break;
+      case "^ARROWRIGHT":
+        this.move(1, 0);
+        break;
+      // 选择到开头/末尾
+      case "+ARROWLEFT":
+        this.selectTo(-1);
+        break;
+      case "+ARROWRIGHT":
+        this.selectTo(1);
+        break;
+      // 移动选择
+      case "ARROWLEFT":
+        e.preventDefault();
+        this.moveSelect(-1, 0);
+        break;
+      case "ARROWRIGHT":
+        e.preventDefault();
+        this.moveSelect(1, 0);
+        break;
+      // 缩放音符
+      case "+ARROWUP":
+        e.preventDefault();
+        this.scale(1);
+        break;
+      case "+ARROWDOWN":
+        e.preventDefault();
+        this.scale(-1);
+        break;
+      // 插入空白
+      case "INSERT":
+        e.preventDefault();
+        this.selectTo(1);
+        this.move(1, 0);
+        break;
+      default:
+        console.log(key);
+      case "^CONTROL":
+      case "+SHIFT":
     }
   }
   @bind
@@ -675,7 +812,7 @@ export default class MusicEdit extends Vue {
 
         this.movingIndex = index;
         if (e.ctrlKey) {
-          block.selected = true;
+          block.selected = !block.selected;
         } else if (!block.selected) {
           this.blocks.forEach(b => (b.selected = false));
           block.selected = true;
@@ -1069,9 +1206,6 @@ export default class MusicEdit extends Vue {
     font-size: 20px;
     font-family: "Calibri";
     font-weight: bold;
-    &.semi {
-      width: 34px;
-    }
   }
   .staff {
     margin-left: -48px;

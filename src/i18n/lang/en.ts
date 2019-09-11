@@ -1778,7 +1778,7 @@ let po = {
     d2: "Riven Scoring / Riven Calc / Build Calculation",
     d3: "Benefit Analysis / Build Sharing / Simulacrum",
     d4: "Warframe Building / Skills / Calculation",
-    d5: "Riven Simulator / Recycle Simulator",
+    d5: "Piano Roller Blind / Recording Playback",
     d6: "Picture Color Picker / RGB Color Palette",
     why: "Why use RivenMirror",
     wh1: "More efficient",
@@ -1900,7 +1900,8 @@ let po = {
   },
   shawzin: {
     title: "Shawzin",
-    tip: "Testing. You can use the mouse or keyboard to enter the notes; Keyboard shortcut of delete all selected notes is DEL; Press and hold the space to drag the piano window; BPM480 when the quarter note is equal to the 16th note under BPM120, maybe you need to convert.",
+    tip:
+      "Testing. You can use the mouse or keyboard to enter the notes; Keyboard shortcut of delete all selected notes is DEL; Press and hold the space to drag the piano window; BPM480 when the quarter note is equal to the 16th note under BPM120, maybe you need to convert.",
 
     piano: "Piano",
     shawzin: "Shawzin",

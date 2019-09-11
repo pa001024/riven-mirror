@@ -52,10 +52,10 @@
             </router-link>
           </el-col>
           <el-col :xs="12" :sm="8" :md="4" class="tool-section">
-            <router-link to="/sim" tag="div" class="tool-button">
-              <router-link to="/sim">
-                <WfIcon type="renew"/>
-                <div class="name">{{$t("navigate.simulator")}}</div>
+            <router-link to="/music" tag="div" class="tool-button">
+              <router-link to="/music">
+                <WfIcon type="shawzin"/>
+                <div class="name">{{$t("navigate.shawzin")}}</div>
                 <div class="desc" v-t="'intro.d5'"></div>
               </router-link>
             </router-link>

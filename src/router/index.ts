@@ -34,6 +34,7 @@ export function createRouter() {
       { path: "/vse", name: "VisualSkillEditor", component: () => import(/* webpackChunkName: "vse" */ "@/views/VisualSkillEditor.vue") },
       // ! 音乐
       { path: "/music", name: "MusicEdit", component: () => import(/* webpackChunkName: "music" */ "@/views/music/MusicEdit.vue") },
+      { path: "/music/:code", name: "MusicEditWithCode", component: () => import(/* webpackChunkName: "music" */ "@/views/music/MusicEdit.vue"), props: true },
       // 动态加载
       { path: "/info/:id", name: "Info", component: () => import(/* webpackChunkName: "main" */ "@/views/Info.vue"), props: true },
       { path: "/alerts", name: "Alerts", component: () => import(/* webpackChunkName: "main" */ "@/views/Alerts.vue") },
