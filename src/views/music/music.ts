@@ -31,14 +31,14 @@ y 第二弦+地品+水品
 http://www.sohu.com/a/234009955_100172496
 */
 
-const BIN_TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890+/";
+const BIN_TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+const BIN_REV_TABLE = [].reduce.call(BIN_TABLE, (r: { [x: string]: number }, v: string, i: number) => ((r[v] = i), r), {});
 function toBin(num: number) {
   if (!BIN_TABLE[num]) throw new Error(`out of range ${num}`);
   return BIN_TABLE[num];
 }
-
 function toNum(bin: string) {
-  return BIN_TABLE.indexOf(bin);
+  return BIN_REV_TABLE[bin];
 }
 
 export enum Mode {
@@ -323,7 +323,7 @@ export class Music {
   play() {}
 
   get space() {
-    return 960 / this.bpm;
+    return ~~(960 / this.bpm);
   }
 
   get musicNotes() {
@@ -361,6 +361,7 @@ export class Music {
       }
       dst.push(mn);
     }
+    // console.log(dst.map(v => `${v.code}:${v.bar}:${v.position}`));
     return dst;
   }
 

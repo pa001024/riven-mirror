@@ -699,7 +699,7 @@ export default class MusicEdit extends Vue {
         this.move(1, 0);
         break;
       default:
-        console.log(key);
+        console.debug(key);
       case "^CONTROL":
       case "+SHIFT":
     }
@@ -1101,6 +1101,7 @@ export default class MusicEdit extends Vue {
   .preview-area {
     margin-left: 4px;
     width: max-content;
+    position: relative;
   }
   .piano-key {
     display: inline-flex;
