@@ -40,7 +40,7 @@
       <el-button size="small" type="danger" :disabled="isRecording" icon="el-icon-video-camera" @click="recordSeq"></el-button>
       <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq"></el-button>
       <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)"></el-button>
-      <el-button size="small" :disabled="currentLine === -1" @click="stopSeq()">{{$t('shawzin.stop')}}</el-button>
+      <el-button size="small" :disabled="!isPlaying && !isRecording && !isShowStop" @click="stopSeq()">{{$t('shawzin.stop')}}</el-button>
       <el-button size="small" @click="backspace">←</el-button>
       <el-button size="small" type="danger" @click="clearNotes">{{$t('shawzin.empty')}}</el-button>
       <el-button size="small" @click="importCode">{{$t('shawzin.importCode')}}</el-button>
@@ -81,7 +81,7 @@
           </div>
         </div>
         <div class="timelines" @mousedown="moveCursor">
-          <div class="time-anchor" v-if="currentLine !== -1" :style="{ transform: 'translate(' + (currentLine * 20 - 21)  +'px)' }"></div>
+          <div class="time-anchor" ref="timeAnchor"></div>
           <div class="timeline" v-for="line in 250" :key="line">#{{line}}</div>
         </div>
         <div class="piano-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
@@ -589,6 +589,8 @@ export default class MusicEdit extends Vue {
     }).toDestination();
   }
   mounted() {
+    this.currentLine = -1;
+    this.updateAnchorPosition();
     document.addEventListener("keydown", this.keyDown);
     document.addEventListener("keyup", this.keyUp);
 
@@ -793,19 +795,24 @@ export default class MusicEdit extends Vue {
         this.selectBorder.h = 0;
         this.updateSelectBorder();
         break;
-      case "cursor":
-        this.currentLine = ~~(eX / ROW_WIDTH) + 1;
-        break;
     }
   }
+  isShowStop = false;
   moveCursor(e: MouseEvent) {
     if (e.button != 0 || this.isDragCanvas) return;
     this.isMoveCursor = true;
+    this.isShowStop = true;
     const pv = this.$refs.pCanvas as HTMLDivElement;
     const rect = pv.getBoundingClientRect();
     const eX = e.clientX - rect.left;
     const eY = e.clientY - rect.top;
     this.currentLine = ~~(eX / ROW_WIDTH) + 1;
+    this.updateAnchorPosition();
+  }
+
+  updateAnchorPosition() {
+    const ac = this.$refs.timeAnchor as HTMLDivElement;
+    ac.style.transform = `translate(${this.currentLine * 20 - 21}px)`;
   }
 
   isBlockMoving = false;
@@ -879,6 +886,7 @@ export default class MusicEdit extends Vue {
       const n = ~~(eX / ROW_WIDTH) + 1;
       if (this.currentLine !== n) {
         this.currentLine = n;
+        this.updateAnchorPosition();
         this.playNote();
       }
     }
@@ -953,7 +961,8 @@ export default class MusicEdit extends Vue {
     this.pushState();
   }
 
-  currentLine = -1;
+  // 存在超大性能问题 不能作为data使用
+  currentLine: number;
   isPlaying = false;
   isRecording = false;
   playTimer: Timer = null;
@@ -978,6 +987,7 @@ export default class MusicEdit extends Vue {
     const offset = this.currentLine;
     this.playTimer = new Timer(t => {
       this.currentLine = t + offset;
+      this.updateAnchorPosition();
       pw.scrollTo(this.currentLine * 20 - pw.clientWidth / 2, 0);
       if (seq[this.currentLine]) {
         this.playNote(seq[this.currentLine]);
@@ -987,10 +997,14 @@ export default class MusicEdit extends Vue {
   }
   // 停止
   stopSeq(pause = false) {
-    if (!pause) this.currentLine = -1;
+    if (!pause) {
+      this.currentLine = -1;
+      this.updateAnchorPosition();
+    }
     if (this.playTimer) this.playTimer.stop();
     this.isPlaying = false;
     this.isRecording = false;
+    this.isShowStop = false;
   }
   // 录制
   recordSeq() {
@@ -999,6 +1013,7 @@ export default class MusicEdit extends Vue {
     const offset = this.currentLine;
     this.playTimer = new Timer(t => {
       this.currentLine = t + offset;
+      this.updateAnchorPosition();
       pw.scrollTo(this.currentLine * 20 - pw.clientWidth / 2, 0);
     }, 6e4 / this.music.bpm).start();
   }
