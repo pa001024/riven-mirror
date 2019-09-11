@@ -36,15 +36,18 @@ export class Timer {
     }
     this.isRunning = true;
     this.loop(0);
+    return this;
   }
   pause() {
     this.pauseTime = performance.now() - this.startTime;
     this.isRunning = false;
+    return this;
   }
   stop() {
     this.isRunning = false;
     this.step = 0;
     this.pauseTime = 0;
+    return this;
   }
 
   @bind
@@ -52,7 +55,7 @@ export class Timer {
     if (!this.isRunning) return;
     const delta = t - this.startTime;
     if (delta / this.peroid > this.step) {
-      this.callback(delta);
+      this.callback(~~(delta / this.peroid));
       this.step++;
     }
     requestAnimFrame(this.loop);

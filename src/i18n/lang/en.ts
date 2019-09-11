@@ -1920,7 +1920,7 @@ let po = {
     upshift: "Upshift",
     downshift: "Downshift",
     code: "Code",
-    codeCopied: "Code Copied",
+    codeCopied: "Code copied",
     quarter: "Quarter",
     half: "Half",
     full: "Full",
@@ -1933,6 +1933,7 @@ let po = {
     empty: "Empty",
     importCode: "Import Code",
     copyCode: "Copy Code",
+    blockCopied: "Notes copied",
   },
 };
 

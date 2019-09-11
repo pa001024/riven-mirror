@@ -22,7 +22,7 @@
     "fastclick": "^1.0.6",
     "fuse.js": "^3.4.5",
     "lodash": "^4.17.11",
-    "markdown-it": "^9.0.1",
+    "markdown-it": "^10.0.0",
     "protobufjs": "^6.8.8",
     "qrious": "^4.0.2",
     "querystringify": "^2.1.1",

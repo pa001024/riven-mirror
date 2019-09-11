@@ -40,7 +40,7 @@
       <el-button size="small" type="danger" :disabled="isRecording" icon="el-icon-video-camera" @click="recordSeq"></el-button>
       <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq"></el-button>
       <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)"></el-button>
-      <el-button size="small" :disabled="!isPlaying && !isRecording" @click="stopSeq()">{{$t('shawzin.stop')}}</el-button>
+      <el-button size="small" :disabled="currentLine === -1" @click="stopSeq()">{{$t('shawzin.stop')}}</el-button>
       <el-button size="small" @click="music.removeNote()">{{$t('shawzin.delete')}}(←)</el-button>
       <el-button size="small" type="danger" @click="clearNotes">{{$t('shawzin.empty')}}</el-button>
       <el-button size="small" @click="importCode()">{{$t('shawzin.importCode')}}</el-button>
@@ -80,7 +80,8 @@
               :class="[ note.tone && ('tone' + note.tone), note.isSemi && 'semi', 'du' + note.duration ]">{{useSharp ? note.sharpNumber : note.number}}</div>
           </div>
         </div>
-        <div class="timelines" @click="moveCursor">
+        <div class="timelines" @mousedown="moveCursor">
+          <div class="time-anchor" v-if="currentLine !== -1" :style="{left: currentLine * 20 +'px'}"></div>
           <div class="timeline" v-for="line in 250" :key="line">#{{line}}</div>
         </div>
         <div class="piano-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
@@ -113,15 +114,6 @@ import { ModeMaps, Mode, Note, Music } from "./music";
 import { Timer } from "./timer";
 
 const KeyMaps = {
-  1: "B",
-  2: "C",
-  3: "E",
-  4: "J",
-  5: "K",
-  6: "M",
-  7: "R",
-  8: "S",
-  9: "U",
   Q: "B",
   W: "C",
   E: "E",
@@ -134,6 +126,18 @@ const KeyMaps = {
   P: "h",
   "[": "i",
   "]": "k",
+  1: "B",
+  2: "C",
+  3: "E",
+  4: "J",
+  5: "K",
+  6: "M",
+  7: "R",
+  "+!": "S",
+  "+@": "U",
+  "+#": "h",
+  "+$": "i",
+  "+%": "k",
 };
 const KeyMapRev = {
   B: "Q",
@@ -248,61 +252,175 @@ export default class MusicEdit extends Vue {
     });
   }
 
-  playNote(note: number | string | string[]) {
+  playNote(note?: number | string | string[], duration = 1) {
+    let tone: string | string[];
+    if (typeof note === "undefined") {
+      note = this.blocks.filter(b => b.x === ROW_WIDTH * (this.currentLine - 1)).map(b => Keys[~~(b.y / COL_HEIGHT)]);
+      if (!note.length) return;
+    }
+    if (typeof note === "number") {
+      note = Keys[~~(note / COL_HEIGHT)];
+    }
+    if (Array.isArray(note)) {
+      tone = note.map(v => this.notes[v].toneName);
+    } else {
+      tone = this.notes[note].toneName;
+    }
     try {
-      let tone: string | string[];
-      if (typeof note === "number") {
-        note = Keys[~~(note / COL_HEIGHT)];
-      }
-      if (Array.isArray(note)) {
-        tone = note.map(v => this.notes[v].toneName);
-      } else {
-        tone = this.notes[note].toneName;
-      }
-      this.sampler.triggerAttackRelease(tone, 1);
+      this.sampler.triggerAttack(tone);
     } catch {}
   }
 
   playAndAddNote(note: string, duration = 1) {
-    try {
-      const tone = this.notes[note].toneName;
-      this.sampler.triggerAttackRelease(tone, duration);
-    } catch {}
-    this.music.addNote(this.notes[note], duration);
+    this.playNote(note, duration);
+    if (this.currentLine !== -1) {
+      const y = Keys.indexOf(note) * COL_HEIGHT;
+      this.blocks.push({
+        x: (this.currentLine - 1) * ROW_WIDTH,
+        y,
+        width: ROW_WIDTH,
+        selected: false,
+      });
+      this.commitBlocks();
+    } else {
+      this.music.addNote(this.notes[note], duration);
+      this.reload();
+      this.pushState();
+    }
   }
 
+  /** 移动 */
+  move(x: number, y: number) {
+    const selected = this.blocks.filter(b => b.selected);
+    if (!selected.length) return;
+    selected.forEach(b => {
+      b.x = Math.min(Math.max(0, b.x + x * ROW_WIDTH), 1000 * ROW_WIDTH);
+      b.y = Math.min(Math.max(0, b.y + y * COL_HEIGHT), 11 * COL_HEIGHT);
+    });
+    if (selected.length === 1) {
+      this.playNote(selected[0].y);
+    }
+    this.commitBlocks();
+  }
+  /** 移动选区 */
+  moveSelect(x: number, y: number) {
+    const selected = this.blocks.findIndex(b => b.selected);
+    this.selectAll(false);
+    if (this.blocks[selected + x]) {
+      this.blocks[selected + x].selected = true;
+    }
+  }
+  /** 选择到 */
+  selectTo(dir: 1 | -1) {
+    if (dir === -1) {
+      this.blocks.reduceRight((r, b) => (r = b.selected = r || b.selected), false);
+    } else {
+      this.blocks.reduce((r, b) => (r = b.selected = r || b.selected), false);
+    }
+  }
   /** 撤销 */
   undo() {
-    if (this.historyIndex === this.history.length) {
-      this.pushState();
-      --this.historyIndex;
-    }
     const last = this.history[this.historyIndex - 1];
     if (last) {
       this.music.code = last;
+      this.reload();
       if (this.history[this.historyIndex - 1]) --this.historyIndex;
     }
+    console.log(this.history.map((v, i) => (i === this.historyIndex ? "[!]>" : "") + v).join("\n"));
   }
   /** 重做 */
   redo() {
     const last = this.history[this.historyIndex + 1];
     if (last) {
       this.music.code = last;
+      this.reload();
       if (this.history[this.historyIndex + 1]) ++this.historyIndex;
     }
   }
 
+  copyCache = [];
+
+  /** 全选 */
+  selectAll(val = true) {
+    this.blocks.forEach(v => (v.selected = val));
+  }
+  /** 删除 */
+  delete() {
+    this.blocks = this.blocks.filter(v => !v.selected);
+    this.commitBlocks();
+  }
+  /** 波纹删除 */
+  rippleDelete() {
+    const toDelete = this.blocks.filter(v => v.selected);
+    const min = toDelete[0].x;
+    const max = toDelete[toDelete.length - 1].x + toDelete[toDelete.length - 1].width;
+    const offset = max - min;
+    this.blocks = this.blocks
+      .filter(v => !v.selected)
+      .map(b => {
+        if (b.x >= max) {
+          b.x -= offset;
+        }
+        return b;
+      });
+    this.commitBlocks();
+  }
+  /** 剪切 */
+  cut() {
+    this.copyCache = this.blocks.filter(b => b.selected);
+    this.delete();
+    this.$message({
+      showClose: true,
+      message: this.$t("shawzin.blockCopied") as string,
+      type: "success",
+    });
+  }
+  /** 复制 */
+  copy() {
+    this.copyCache = this.blocks.filter(b => b.selected);
+    this.$message({
+      showClose: true,
+      message: this.$t("shawzin.blockCopied") as string,
+      type: "success",
+    });
+  }
+  /** 粘贴 */
+  paste() {
+    if (!this.copyCache.length) return;
+    let target: number;
+    if (this.currentLine != -1) target = (this.currentLine - 1) * ROW_WIDTH;
+    else {
+      const last = this.blocks[this.blocks.length - 1];
+      target = last.x + last.width;
+    }
+    const source = _.cloneDeep(this.copyCache);
+    this.blocks.forEach(b => (b.selected = false));
+    const min = source.reduce((r, v) => Math.min(r, v.x), Infinity);
+    const offset = target - min;
+    if (isNaN(offset)) return;
+    const toPaste = source.map(b => {
+      b.x += offset;
+      b.selected = true;
+      return b;
+    });
+    this.blocks = this.blocks.concat(toPaste);
+    this.commitBlocks();
+  }
+
+  /** 撤销重做记录历史 */
   pushState() {
-    if (this.historyIndex < this.history.length) this.history.splice(this.historyIndex);
-    this.history.push(this.music.code);
-    this.historyIndex = this.history.length;
-    if (this.history.length > 30) {
+    if (this.historyIndex < this.history.length - 1) this.history.splice(0, this.historyIndex + 1);
+    const code = this.music.code;
+    this.history.push(code);
+    localStorage.setItem("lastMusic", code);
+    this.historyIndex = this.history.length - 1;
+    if (this.history.length > 100) {
       this.history.shift();
     }
   }
 
   blocks: MusicBlock[] = [];
-  @Watch("music.notes")
+
   reload() {
     const space = this.music.space;
     const blocks: MusicBlock[] = [];
@@ -331,10 +449,14 @@ export default class MusicEdit extends Vue {
 
   created() {
     this.reloadInstrumentResource();
-    this.music.code = "5MAAEAQKAUMAcSAgRAoMAwEA0MA8EBMKBQMBYSBcUBgMBo";
+    const code = localStorage.getItem("lastMusic") || "5MAAEAQKAUMAcSAgRAoMAwEA0MA8EBMKBQMBYSBcUBgMBo";
+    this.music.code = code;
+    this.reload();
+    this.pushState();
   }
   @Watch("instrument")
   reloadInstrumentResource() {
+    if (this.sampler) this.sampler.dispose();
     this.isLoaded = false;
     const res = instrumentResource[this.instrument];
     const noteResource = res.keys
@@ -351,7 +473,7 @@ export default class MusicEdit extends Vue {
     document.addEventListener("keydown", this.keyDown);
     document.addEventListener("keyup", this.keyUp);
   }
-  beforeDestroy() {
+  destroyed() {
     document.removeEventListener("keydown", this.keyDown);
     document.removeEventListener("keyup", this.keyUp);
     this.stopSeq();
@@ -360,21 +482,12 @@ export default class MusicEdit extends Vue {
   /// 事件
   @bind
   keyDown(e: KeyboardEvent) {
-    const key = e.key.toUpperCase();
+    const key = (e.ctrlKey ? "^" : "") + (e.shiftKey ? "+" : "") + e.key.toUpperCase();
 
     if (KeyMaps[key]) {
       if (this.isPlaying) return;
+      e.preventDefault();
       this.playAndAddNote(KeyMaps[key], this.duration);
-      if (this.currentLine !== -1) {
-        const y = Keys.indexOf(KeyMaps[key]) * COL_HEIGHT;
-        this.blocks.push({
-          x: (this.currentLine - 1) * ROW_WIDTH,
-          y,
-          width: ROW_WIDTH,
-          selected: false,
-        });
-        this.commitBlocks();
-      }
     } else {
       switch (key) {
         case " ":
@@ -382,10 +495,14 @@ export default class MusicEdit extends Vue {
           break;
         case "BACKSPACE":
           this.music.removeNote();
+          this.reload();
+          this.pushState();
           break;
         case "DELETE":
-          this.blocks = this.blocks.filter(v => !v.selected);
-          this.commitBlocks();
+          this.delete();
+          break;
+        case "^DELETE":
+          this.rippleDelete();
           break;
         case "J":
           this.duration = 1;
@@ -400,14 +517,51 @@ export default class MusicEdit extends Vue {
         case "0":
           this.music.addNote(null, this.duration);
           break;
-        case "Z":
-          if (e.ctrlKey) {
-            if (e.shiftKey) {
-              this.redo();
-            } else {
-              this.undo();
-            }
-          }
+        case "^Z":
+          this.undo();
+          break;
+        case "^+Z":
+          this.redo();
+          break;
+        case "^A":
+          e.preventDefault();
+          this.selectAll();
+          break;
+        case "^X":
+          this.cut();
+          break;
+        case "^C":
+          this.copy();
+          break;
+        case "^V":
+          this.paste();
+          break;
+        case "^ARROWDOWN":
+          this.move(0, 1);
+          break;
+        case "^ARROWUP":
+          this.move(0, -1);
+          break;
+        case "^ARROWLEFT":
+          this.move(-1, 0);
+          break;
+        case "^ARROWRIGHT":
+          this.move(1, 0);
+          break;
+        case "+ARROWLEFT":
+          this.selectTo(-1);
+          break;
+        case "+ARROWRIGHT":
+          this.selectTo(1);
+          break;
+        case "ARROWLEFT":
+          e.preventDefault();
+          this.moveSelect(-1, 0);
+          break;
+        case "ARROWRIGHT":
+          e.preventDefault();
+          this.moveSelect(1, 0);
+          break;
         default:
         // console.log(key);
       }
@@ -448,6 +602,7 @@ export default class MusicEdit extends Vue {
   }
 
   isSelect = false;
+  isMoveCursor = false;
   selectBorder = {
     x: 0,
     y: 0,
@@ -490,6 +645,7 @@ export default class MusicEdit extends Vue {
   }
   moveCursor(e: MouseEvent) {
     if (e.button != 0 || this.isDragCanvas) return;
+    this.isMoveCursor = true;
     const pv = this.$refs.pCanvas as HTMLDivElement;
     const rect = pv.getBoundingClientRect();
     const eX = e.clientX - rect.left;
@@ -548,6 +704,13 @@ export default class MusicEdit extends Vue {
     const rect = pv.getBoundingClientRect();
     const eX = e.clientX - rect.left;
     const eY = e.clientY - rect.top;
+    if (this.isMoveCursor) {
+      const n = ~~(eX / ROW_WIDTH) + 1;
+      if (this.currentLine !== n) {
+        this.currentLine = n;
+        this.playNote();
+      }
+    }
     if (this.isSelect) {
       this.selectBorder.x = Math.min(this.selectBorder.x1, eX);
       this.selectBorder.y = Math.min(this.selectBorder.y1, eY);
@@ -558,8 +721,8 @@ export default class MusicEdit extends Vue {
     if (this.isBlockMoving) {
       const box = this.selectBorder;
       const block = this.blocks[this.movingIndex];
-      const offsetX = Math.floor((eX - block.x - this.movingOffsetX) / ROW_WIDTH);
-      const offsetY = Math.floor((eY - block.y - this.movingOffsetY) / COL_HEIGHT);
+      const offsetX = Math.floor((eX - block.x + ROW_WIDTH / 2 - this.movingOffsetX) / ROW_WIDTH);
+      const offsetY = Math.floor((eY - block.y + COL_HEIGHT / 2 - this.movingOffsetY) / COL_HEIGHT);
       const selected = this.blocks.filter(v => v.selected);
       if (offsetX || offsetY) {
         selected.forEach(b => {
@@ -583,7 +746,7 @@ export default class MusicEdit extends Vue {
         ) {
           block.selected = true;
           if (this.editMode != "move") this.editMode = "move";
-        } else {
+        } else if (!e.ctrlKey) {
           block.selected = false;
         }
       });
@@ -592,26 +755,31 @@ export default class MusicEdit extends Vue {
       this.isBlockMoving = false;
       if (this.isBlockMoved) this.commitBlocks();
     }
+    if (this.isMoveCursor) {
+      this.isMoveCursor = false;
+    }
   }
 
   /** 将blocks的修改写入 */
   commitBlocks() {
     const seqs = this.blocks
       .sort((a, b) => {
-        return a.x - b.x;
+        return a.x - b.x || a.y - b.y;
       })
       .map(b => {
         const k = Keys[~~(b.y / COL_HEIGHT)];
         const t = ~~(b.x / ROW_WIDTH);
         return [k, t] as [string, number];
       });
-    this.pushState();
     this.music.setSeqs(seqs);
+    this.pushState();
   }
 
   importCode() {
     const code = prompt(this.$t("shawzin.importCode") as any, "");
     this.music.code = code;
+    this.reload();
+    this.pushState();
   }
 
   currentLine = -1;
@@ -633,19 +801,23 @@ export default class MusicEdit extends Vue {
         seq[index] = [key];
       }
     });
+    fullLength++;
     if (this.currentLine != -1) this.currentLine--;
+    const pw = this.$refs.pianoWindow as HTMLDivElement;
+    const offset = this.currentLine;
     this.playTimer = new Timer(t => {
+      this.currentLine = t + offset;
+      pw.scrollTo(this.currentLine * 20 - pw.clientWidth / 2, 0);
       if (seq[this.currentLine]) {
         this.playNote(seq[this.currentLine]);
       }
-      if (this.currentLine++ > fullLength) this.stopSeq();
-    }, 6e4 / this.music.bpm);
-    this.playTimer.start();
+      if (this.currentLine > fullLength) this.stopSeq();
+    }, 6e4 / this.music.bpm).start();
   }
   // 停止
   stopSeq(pause = false) {
     if (!pause) this.currentLine = -1;
-    this.playTimer.stop();
+    if (this.playTimer) this.playTimer.stop();
     this.isPlaying = false;
     this.isRecording = false;
   }
@@ -653,14 +825,17 @@ export default class MusicEdit extends Vue {
   recordSeq() {
     this.isRecording = true;
     const pw = this.$refs.pianoWindow as HTMLDivElement;
+    const offset = this.currentLine;
     this.playTimer = new Timer(t => {
-      this.currentLine++;
-      // pw.scrollTo((this.currentLine + 4) * 20, 0);
-    }, 6e4 / this.music.bpm);
+      this.currentLine = t + offset;
+      pw.scrollTo(this.currentLine * 20 - pw.clientWidth / 2, 0);
+    }, 6e4 / this.music.bpm).start();
   }
 
   clearNotes() {
     this.music.clear();
+    this.reload();
+    this.pushState();
   }
 }
 </script>
@@ -714,6 +889,8 @@ export default class MusicEdit extends Vue {
   .timelines {
     width: max-content;
     cursor: pointer;
+    user-select: none;
+    position: relative;
   }
   .timeline {
     display: inline-flex;
@@ -722,6 +899,15 @@ export default class MusicEdit extends Vue {
     align-items: center;
     padding: 2px;
     border-right: 1px solid #6199ff;
+  }
+  .time-anchor {
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 0;
+    border: 5px solid transparent;
+    border-top: 10px solid #6199ff;
+    transform: translate(-25px, 5px);
   }
   .piano-canvas {
     width: max-content;
@@ -819,6 +1005,13 @@ export default class MusicEdit extends Vue {
     display: flex;
     flex-direction: column;
     align-items: center;
+    &.tone-1::before {
+      content: "·";
+      position: absolute;
+      bottom: -0.57em;
+      left: 0;
+      margin-left: 0.13em;
+    }
     &.tone1::before {
       content: "·";
       position: absolute;
@@ -868,6 +1061,7 @@ export default class MusicEdit extends Vue {
   }
   .number {
     margin-bottom: 16px;
+    height: 24px;
   }
   .number-note {
     display: inline-block;

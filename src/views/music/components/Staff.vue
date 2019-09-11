@@ -160,7 +160,7 @@ export default class Staff extends Vue {
 
     const info = getNotesInfo(this.notes);
 
-    let width = this.showBrace ? 45 : info.bothSides ? 31 : 20 * this.duration;
+    let width = this.showBrace ? 45 : info.bothSides ? 31 : 20 * Math.max(1, this.duration);
     if (this.showEnd && !this.showBrace && !this.notes) {
       width = 2;
     }
