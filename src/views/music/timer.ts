@@ -20,9 +20,11 @@ export class Timer {
   callback: (t: number) => void;
   isRunning = false;
   step = 0;
-  constructor(callback: (t: number) => void, ms: number) {
+  skipMode = false;
+  constructor(callback: (t: number) => void, ms: number, skip = true) {
     this.callback = callback;
     this.peroid = ms;
+    this.skipMode = skip;
   }
   start() {
     if (this.isRunning) return;
@@ -52,8 +54,13 @@ export class Timer {
     if (!this.isRunning) return;
     const delta = t - this.startTime;
     if (delta / this.peroid > this.step) {
-      this.callback(~~(delta / this.peroid));
-      this.step++;
+      if (this.skipMode) {
+        this.step = ~~(delta / this.peroid) + 1;
+        this.callback(this.step);
+      } else {
+        this.callback(~~(delta / this.peroid));
+        this.step++;
+      }
     }
     requestAnimFrame(this.loop);
   };

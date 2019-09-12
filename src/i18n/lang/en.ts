@@ -1900,8 +1900,7 @@ let po = {
   },
   shawzin: {
     title: "Shawzin",
-    tip:
-      "Testing. You can use the mouse or keyboard to enter the notes; Keyboard shortcut of delete all selected notes is DEL; Press and hold the space to drag the piano window; BPM480 when the quarter note is equal to the 16th note under BPM120, maybe you need to convert.",
+    help: "User Guide",
 
     piano: "Piano",
     shawzin: "Shawzin",

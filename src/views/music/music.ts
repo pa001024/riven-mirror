@@ -381,7 +381,7 @@ export class Music {
       // 自动判定BPM
       if (delta > 0 && delta < 1) {
         this.bpm = Math.min(960, ~~(this.bpm / delta));
-        console.log("auto set bpm to", this.bpm);
+        // console.log("auto set bpm to", this.bpm);
         space = this.space;
         lastT = i = 0;
         seqs = [];

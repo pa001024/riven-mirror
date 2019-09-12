@@ -1,7 +1,7 @@
 <template>
   <div class="music-edit" @mousemove="selectMove" @mouseup="selectEnd">
-    <el-alert :title="$t('shawzin.tip')" type="warning" />
     <div class="edit-header setting">
+      <el-button size="small" type="primary" @click="showHelp = true">{{$t('shawzin.help')}}</el-button>
       <el-select style="width:120px" v-model="music.mode" size="small">
         <el-option :key="mode.name" v-for="mode in modes" :label="$t(`shawzin.${mode.name}`)" :value="mode.val" :disabled="!modeMaps[mode.val]">
         </el-option>
@@ -97,6 +97,17 @@
         </div>
       </div>
     </div>
+    <el-dialog
+      class="update-dialog"
+      :title="$t('shawzin.help')"
+      :visible.sync="showHelp">
+      <div class="help-item">
+        <article class="md markdown-body" v-html="renderMD($t('zh') ? help.cn : help.en)"></article>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" type="primary" @click="showHelp = false">{{$t('update.confirm')}}</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -112,6 +123,9 @@ import { bind } from "decko";
 import copy from "copy-text-to-clipboard";
 import { ModeMaps, Mode, Note, Music } from "./music";
 import { Timer } from "./timer";
+import help from "./help";
+import markdown from "markdown-it";
+const md = markdown();
 
 const KeyMaps = {
   Q: "B",
@@ -306,6 +320,8 @@ export default class MusicEdit extends Vue {
   music: Music = new Music();
   isDragCanvas = false;
   draggingCanvas = false;
+  showHelp = false;
+  help = help;
 
   history = [];
   historyIndex = 0;
@@ -313,6 +329,10 @@ export default class MusicEdit extends Vue {
   @Prop() code: string;
 
   /// 函数
+
+  renderMD(text: string) {
+    return md.render(text);
+  }
 
   get pianoWindow() {
     return this.$refs.pianoWindow as HTMLDivElement;
@@ -431,6 +451,24 @@ export default class MusicEdit extends Vue {
       });
     }
     this.commitBlocks();
+  }
+  /** 时轴缩放 */
+  scaleAndMove(to: 1 | -1) {
+    let selected = this.blocks.find(b => b.selected);
+    this.scale(to);
+    this.selectTo(1);
+    this.move(to, 0);
+    this.selectAll(false);
+    selected.selected = true;
+    selected.x -= to * ROW_WIDTH;
+  }
+  /** 插入空白 */
+  insert(space = 1) {
+    const selected = this.blocks.find(b => b.selected);
+    this.selectTo(1);
+    this.move(space, 0);
+    this.selectAll(false);
+    selected.selected = true;
   }
   /** 撤销 */
   undo() {
@@ -569,6 +607,7 @@ export default class MusicEdit extends Vue {
   created() {
     this.reloadInstrumentResource();
     const code = this.code || localStorage.getItem("lastMusic") || "5MAAEAQKAUMAcSAgRAoMAwEA0MA8EBMKBQMBYSBcUBgMBo";
+    if (!localStorage.getItem("lastMusic")) this.showHelp = true;
     this.music.code = code;
     this.reload();
     this.pushState(true);
@@ -712,14 +751,30 @@ export default class MusicEdit extends Vue {
         e.preventDefault();
         this.scale(-1);
         break;
+      // 缩放并移动音符
+      case "^+ARROWUP":
+        e.preventDefault();
+        this.scaleAndMove(1);
+        break;
+      case "^+ARROWDOWN":
+        e.preventDefault();
+        this.scaleAndMove(-1);
+        break;
       // 插入空白
       case "INSERT":
         e.preventDefault();
-        this.selectTo(1);
-        this.move(1, 0);
+        this.insert();
+        break;
+      case "+INSERT":
+        e.preventDefault();
+        this.insert(2);
+        break;
+      case "^INSERT":
+        e.preventDefault();
+        this.insert(4);
         break;
       default:
-        console.debug(key);
+      // console.debug(key);
       case "^CONTROL":
       case "+SHIFT":
     }
