@@ -33,7 +33,7 @@ The third is delete note tool, click on the note to delete, of course, delete th
 
 \`Shift+DEL\`: Ripple deletes the selected note (the space to be deleted is moved forward with the back note)
 
-\`BACKSPACE\`: Backspace
+\`BACKSPACE\`: delete last note
 
 \`Q~]\`: Input notes
 
@@ -43,7 +43,9 @@ The third is delete note tool, click on the note to delete, of course, delete th
 
 \`JKL\`: Switch note duration
 
-\`←/→\`: Select previous/next note
+\`↑/↓\`: Select previous/next note
+
+\`←/→\`: Move the cursor forward/backward
 
 \`Shift+←/→\`: Select from the selected note to the beginning/end
 
@@ -53,7 +55,7 @@ The third is delete note tool, click on the note to delete, of course, delete th
 
 \`Ctrl+↑/↓/←/→\`: Move notes up/down/left/right
 
-\`INS\`: Insert blank before the current selection of notes, \`Shift+INS\` 2 grids \`Ctrl+INS\` 4 grids
+\`INS\`: Insert blank before the current selection of notes, \`Shift+INS\` 2 grids \`Ctrl+INS\` 4 grids \`Alt+INS\` -1 grids
 
 \`Shift+MouseLeft\`: Select from the selected note to the currently clicked note
 
@@ -97,11 +99,13 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 
 ## 键盘快捷键
 
-\`DEL\`：删除选择的音符
+\`Ctrl+Z\`：撤销
+
+\`Ctrl+Shift+Z\`：重做
 
 \`Shift+DEL\`：波纹删除选择的音符（即将删除的空间用后面音符往前移进行填补
 
-\`BACKSPACE\`：退格
+\`BACKSPACE\`：删除最后一个音符
 
 \`Q~]\`：输入音符
 
@@ -111,7 +115,9 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 
 \`JKL\`：切换音符持续时间
 
-\`←/→\`：选择上一个/下一个音符
+\`↑/↓\`：选择上一个/下一个音符
+
+\`←/→\`：向前/后移动光标
 
 \`Shift+←/→\`：从已选择的音符开始选择到开头/末尾
 
@@ -121,7 +127,7 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 
 \`Ctrl+↑/↓/←/→\`：向上/下/左/右移动音符
 
-\`INS\`：在当前选择音符前插入空白 \`Shift+INS\` 2格 \`Ctrl+INS\` 4格
+\`INS\`：在当前选择音符前插入空白 \`Shift+INS\` 2格 \`Ctrl+INS\` 4格 \`Alt+INS\` -1格
 
 \`Shift+左键\`：从已选择的音符开始选择到当前点击的音符
 

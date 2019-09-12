@@ -736,9 +736,19 @@ export default class MusicEdit extends Vue {
       // 移动选择
       case "ARROWLEFT":
         e.preventDefault();
-        this.moveSelect(-1, 0);
+        this.currentLine = Math.max(this.currentLine - 1, -1);
+        this.updateAnchorPosition();
         break;
       case "ARROWRIGHT":
+        e.preventDefault();
+        this.currentLine = Math.min(this.currentLine + 1, 1000);
+        this.updateAnchorPosition();
+        break;
+      case "ARROWUP":
+        e.preventDefault();
+        this.moveSelect(-1, 0);
+        break;
+      case "ARROWDOWN":
         e.preventDefault();
         this.moveSelect(1, 0);
         break;
@@ -772,6 +782,10 @@ export default class MusicEdit extends Vue {
       case "^INSERT":
         e.preventDefault();
         this.insert(4);
+        break;
+      case "!INSERT":
+        e.preventDefault();
+        this.insert(-1);
         break;
       default:
       // console.debug(key);
