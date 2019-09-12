@@ -175,3 +175,5 @@ const FFT = function(bufferSize: number, sampleRate: number, windowFunc: string,
     return spectrum;
   };
 };
+
+export { FFT };

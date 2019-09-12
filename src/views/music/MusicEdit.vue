@@ -102,7 +102,7 @@
       :title="$t('shawzin.help')"
       :visible.sync="showHelp">
       <div class="help-item">
-        <article class="md markdown-body" v-html="renderMD($t('zh') ? help.cn : help.en)"></article>
+        <article class="md markdown-body" v-html="userGuide"></article>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button size="small" type="primary" @click="showHelp = false">{{$t('update.confirm')}}</el-button>
@@ -309,6 +309,20 @@ export default class MusicEdit extends Vue {
     { name: "phrygian", val: 8 },
   ];
 
+  get userGuide() {
+    const locale = this.$i18n.locale;
+    let helpText: string;
+    switch (locale) {
+      case "zh-CN":
+      case "zh-CY":
+        helpText = help.cn;
+        break;
+      default:
+        helpText = this.$t("zh") ? help.zh : help.en;
+    }
+    return this.renderMD(helpText);
+  }
+
   /** 1节4秒 64个音符 一拍(2秒)最多16个音符 即BPM最高960 */
   bpms = [64, 80, 96, 120, 160, 192, 240, 320, 480, 960];
   timeSignatures = [1, 2, 3, 4, 5, 6, 8, 16];
@@ -321,7 +335,6 @@ export default class MusicEdit extends Vue {
   isDragCanvas = false;
   draggingCanvas = false;
   showHelp = false;
-  help = help;
 
   history = [];
   historyIndex = 0;
@@ -478,7 +491,7 @@ export default class MusicEdit extends Vue {
       this.reload();
       if (this.history[this.historyIndex - 1]) --this.historyIndex;
     }
-    console.log(this.history.map((v, i) => (i === this.historyIndex ? "[!]>" : "") + v).join("\n"));
+    // console.log(this.history.map((v, i) => (i === this.historyIndex ? "[!]>" : "") + v).join("\n"));
   }
   /** 重做 */
   redo() {
