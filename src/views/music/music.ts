@@ -14,14 +14,15 @@
 http://www.sohu.com/a/234009955_100172496
 */
 
-const BIN_TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-const BIN_REV_TABLE = [].reduce.call(BIN_TABLE, (r: { [x: string]: number }, v: string, i: number) => ((r[v] = i), r), {});
-function toBin(num: number) {
-  if (!BIN_TABLE[num]) throw new Error(`out of range ${num}`);
-  return BIN_TABLE[num];
+const _BASE64_ST = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+const _BASE64_RST = [].reduce.call(_BASE64_ST, (r: { [x: string]: number }, v: string, i: number) => ((r[v] = i), r), {});
+
+function ibase64(src: number): string {
+  return _BASE64_ST[src >> 6] + _BASE64_ST[src & 63];
 }
-function toNum(bin: string) {
-  return BIN_REV_TABLE[bin];
+
+function deibase64(src: string): number {
+  return (_BASE64_RST[src[0]] << 6) | _BASE64_RST[src[1]];
 }
 
 export enum Mode {
@@ -258,17 +259,10 @@ export class Note {
 
 /** 时域音符(播放用) */
 export class MusicNote extends Note {
-  /** 小节 0~63 */
-  bar: number;
-  /** 节内位置 0~63 */
+  /** 位置 12bit */
   position: number;
   constructor(note: Note) {
     super(note.code, note.modeMap);
-  }
-
-  /** 序列中位置 */
-  get seqPosition() {
-    return this.bar * 64 + this.position;
   }
 }
 
@@ -311,31 +305,21 @@ export class Music {
 
   get musicNotes() {
     const space = this.space;
-    let bar = 0,
-      pos = 0;
+    let pos = 0;
     let dst: MusicNote[] = [];
     let zeroNoteCache: MusicNote[] = [];
     for (let i = 0; i < this.notes.length; i++) {
       let note = this.notes[i];
       while (note.code === "0") {
         pos += space * note.duration;
-        if (pos >= 64) {
-          bar += ~~(pos / 64);
-          pos = pos % 64;
-        }
         note = this.notes[++i];
         if (!note) return dst;
       }
 
       let mn = new MusicNote(note);
-      mn.bar = bar;
       mn.position = pos;
       mn.duration = note.duration;
       pos += space * note.duration;
-      if (pos >= 64) {
-        bar += ~~(pos / 64);
-        pos = pos % 64;
-      }
       if (note.duration === 0) {
         zeroNoteCache.push(mn);
       } else {
@@ -349,7 +333,7 @@ export class Music {
   }
 
   get code() {
-    const notesBin = this.musicNotes.map(v => `${v.code}${toBin(v.bar)}${toBin(v.position)}`).join("");
+    const notesBin = this.musicNotes.map(v => `${v.code}${ibase64(v.position)}`).join("");
     return `${this.mode}${notesBin}`;
   }
   set code(value) {
@@ -357,26 +341,26 @@ export class Music {
     const notes = value.substr(1);
     let seqs: [string, number][] = [];
     let space = this.space;
-    for (let i = 0, lastT = 0; i < notes.length - 2; ) {
-      const [code, bar, pos] = [notes[i], notes[i + 1], notes[i + 2]];
-      const t = (toNum(bar) * 64 + toNum(pos)) / space;
-      const delta = t - lastT;
+    for (let i = 0; i < notes.length - 2; ) {
+      const [code, pos] = [notes[i], notes.substr(i + 1, 2)];
+      const t = deibase64(pos);
       // 自动判定BPM
-      if (delta > 0 && delta < 1) {
-        this.bpm = Math.min(960, ~~(this.bpm / delta));
-        // console.log("auto set bpm to", this.bpm);
-        space = this.space;
-        lastT = i = 0;
+      if (t % space != 0) {
+        for (let j = space - 1; j > 0; --j) {
+          if (t % j === 0) {
+            this.bpm = 960 / j;
+            space = j;
+            break;
+          }
+        }
         seqs = [];
+        i = 0;
         continue;
       }
-      lastT = t;
-      // console.log(JSON.stringify([code, bar, pos, t]));
-      seqs.push([code, t]);
+      seqs.push([code, t / space]);
       i += 3;
     }
     this.setSeqs(seqs);
-    // console.log(JSON.stringify(seqs));
   }
 
   setSeqs(seqs: [string, number][]) {

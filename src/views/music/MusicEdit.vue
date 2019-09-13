@@ -605,7 +605,7 @@ export default class MusicEdit extends Vue {
         zeroNoteCache = [];
       }
       blocks.push({
-        x: (mn.seqPosition / space) * ROW_WIDTH,
+        x: (mn.position / space) * ROW_WIDTH,
         y: (11 - mn.seqNumber) * COL_HEIGHT,
         width: mn.duration * ROW_WIDTH,
         selected: false,
