@@ -18,7 +18,7 @@ export enum DamageType {
   /** 辐射 */ Radiation = "Radiation",
   /** 病毒 */ Viral = "Viral",
   /** 真实 */ True = "True",
-  /** 虚空 */ Void = "Void"
+  /** 虚空 */ Void = "Void",
 }
 
 export interface DamageTypeData {
@@ -45,7 +45,7 @@ const _damageTypeDatabase = {
   Magnetic: ["Combined", "Cold+Electricity", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0.75, 0.75, 0, -0.5]],
   Radiation: ["Combined", "Electricity+Heat", [0, 0, -0.75, -0.5, 0, 0.5, 0, 0.25, 0, -0.25, 0, 0, 0.75]],
   Viral: ["Combined", "Cold+Toxin", [0.5, 0.75, 0, -0.5, 0, 0, -0.25, 0, 0, 0, 0, 0, 0]],
-  Void: ["Standalone", null, [0, -0.5, -0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+  Void: ["Standalone", null, [0, -0.5, -0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
 } as { [key: string]: [string, string, number[]] };
 
 /**
@@ -56,7 +56,7 @@ export const DamageTypeDatabase: DamageTypeData[] = Object.keys(_damageTypeDatab
   let o = {
     id: k,
     type: v[0].trim(),
-    dmgMul: v[2]
+    dmgMul: v[2],
   } as DamageTypeData;
   if (v[1]) o.combinedBy = v[1].trim().split("+") as DamageType[];
   return o;
@@ -69,7 +69,7 @@ export const CombElementMap: { [key: string]: DamageType } = {
   "Heat+Toxin": DamageType.Gas,
   "Cold+Electricity": DamageType.Magnetic,
   "Electricity+Heat": DamageType.Radiation,
-  "Cold+Toxin": DamageType.Viral
+  "Cold+Toxin": DamageType.Viral,
 };
 
 export enum FleshType {
@@ -98,7 +98,7 @@ export enum FleshType {
   /** 铁制装甲 */
   FerriteArmor,
   /** 合金装甲 */
-  AlloyArmor
+  AlloyArmor,
 }
 
 /** 敌人派系 */
@@ -109,7 +109,7 @@ export enum EnemyFaction {
   Infested,
   Orokin,
   Sentient,
-  Wild
+  Wild,
 }
 
 export interface IEnemyData {
@@ -124,6 +124,7 @@ export interface IEnemyData {
   armorType: FleshType;
   resistence: number;
   ignoreProc: number; // 1免疫DoT 2免疫所有 3为夜灵 影响伤害算法
+  headMul: number;
 }
 export class EnemyData implements IEnemyData {
   id: string;
@@ -141,23 +142,25 @@ export class EnemyData implements IEnemyData {
   armorType: FleshType;
   resistence: number;
   ignoreProc: number; // 1免疫DoT 2免疫所有 3为夜灵 影响伤害算法
-  constructor({ id, faction, baseLevel, baseHealth, baseShield, baseArmor, fleshType, shieldType, armorType, resistence, ignoreProc }: IEnemyData) {
+  headMul: number; // 头部倍率
+  constructor({ id, faction, baseLevel, baseHealth, baseShield, baseArmor, fleshType, shieldType, armorType, resistence, ignoreProc, headMul }: IEnemyData) {
     [this.id, this.faction] = [id, faction];
     [this.baseLevel, this.baseHealth, this.baseShield, this.baseArmor] = [baseLevel, baseHealth, baseShield, baseArmor];
     [this.fleshType, this.shieldType, this.armorType] = [fleshType, shieldType, armorType];
     this.resistence = resistence;
     this.ignoreProc = ignoreProc;
+    this.headMul = headMul;
   }
 }
 
-/** 敌人列表 [id, faction, baseLevel, baseHealth, baseShield, baseArmor, fleshType, shieldType, armorType, resistence, ignoreProc] */
+/** 敌人列表 [id, faction, baseLevel, baseHealth, baseShield, baseArmor, fleshType, shieldType, armorType, resistence, ignoreProc, headMul] */
 const _enemyList = [
   ["Wolf of Saturn Six", 5, , 20000, , 2500, 12, , 1, , 2],
-  ["Eidolon Teralyst", 5, , 15000, , 200, 7, , 1, 0.6, 3],
-  ["Eidolon Gantulyst", 5, , 15000, , 200, 7, , 1, 0.6, 3],
-  ["Eidolon Hydrolyst", 5, , 15000, , 200, 7, , 1, 0.6, 3],
-  ["Teralyst Synovia", 5, , 2500, , 200, 7, , 1, 0.6, 3],
-  ["Profit-Taker Orb", 2, 50, 7000, 30000, 150, 7, , 1, , 1],
+  ["Eidolon Teralyst", 5, , 15000, , 200, 7, , 1, , 2, 1],
+  ["Eidolon Gantulyst", 5, , 15000, , 200, 7, , 1, , 2, 1],
+  ["Eidolon Hydrolyst", 5, , 15000, , 200, 7, , 1, , 2, 1],
+  ["Teralyst Synovia", 5, , 2500, , 200, 7, , 1, , 2, 1],
+  ["Profit-Taker Orb", 2, 50, 7000, 30000, 150, 7, , 1, , 2, 1],
   ["Condor Dropship", 2, , 1000, , 100, 7, , , , 1],
   ["Tusk Firbolg", 1, , 8000, , 600, 7, , 1, , 1],
   ["Tusk Bolkor", 1, , 10000, , 600, 7, , 1, , 1],
@@ -243,8 +246,8 @@ const _enemyList = [
   ["Orokin Drone", 4, 1, 35, 50, , 7],
   ["Corrupted Crewman", 4, 1, 60, 150],
   ["Corrupted MOA", 4, 1, 250, 250, , 7],
-  ["Corrupted Nullifier", 4, 15, 60, 150, , , 1]
-] as [string, number, number, number, number, number, number, number, number, number, number][];
+  ["Corrupted Nullifier", 4, 15, 60, 150, , , 1],
+] as [string, number, number, number, number, number, number, number, number, number, number, number][];
 
 /** 敌人列表 */
 export const EnemyList = _enemyList.map(
@@ -260,7 +263,8 @@ export const EnemyList = _enemyList.map(
       shieldType: (v[7] || 0) + 9,
       armorType: (v[8] || 0) + 11,
       resistence: v[9] || 0,
-      ignoreProc: v[10] || 0
+      ignoreProc: v[10] || 0,
+      headMul: v[11] || 2,
     })
 );
 
@@ -284,7 +288,7 @@ const _damageModelList = [
   ["Infested", 3, 3, , , 0, 0],
   ["Infested Flesh", 3, 4, , , 0, 0],
   ["Infested Elite", 3, 2, , , 0, 0],
-  ["Tenno", 0, 0, , 0, 0, 0]
+  ["Tenno", 0, 0, , 0, 0, 0],
 ] as DamageModelDataArray[];
 
 export interface IDamageModelData {
@@ -634,7 +638,8 @@ export class Enemy extends EnemyData {
       shieldType: this.shieldType,
       armorType: this.armorType,
       resistence: this.resistence,
-      ignoreProc: this.ignoreProc
+      ignoreProc: this.ignoreProc,
+      headMul: this.headMul,
     };
   }
   /**
@@ -886,7 +891,7 @@ export class Enemy extends EnemyData {
       health: this.currentHealth,
       shield: this.currentShield,
       armor: this.currentArmor,
-      isDoT
+      isDoT,
     });
   }
 }

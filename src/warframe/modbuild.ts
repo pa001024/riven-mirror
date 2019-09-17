@@ -693,7 +693,7 @@ export abstract class ModBuild implements CommonBuild {
   // ### 计算属性 ###
   /** 原爆头倍率 */
   get oriHeadShotMul() {
-    if (this.target && this.target.ignoreProc === 3) return 1;
+    if (this.target) return this.target.headMul;
     return 2;
   }
   /** 爆头倍率 */
