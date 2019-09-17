@@ -1,5 +1,5 @@
 <template>
-  <div class="music-edit" @mousemove="selectMove" @mouseup="selectEnd">
+  <div class="music-edit" tabindex="0" @keydown="keyDown" @keyup="keyUp" @mousemove="selectMove" @mouseup="selectEnd">
     <div class="edit-header setting">
       <el-button size="small" type="primary" @click="showHelp = true">{{$t('shawzin.help')}}</el-button>
       <el-select style="width:120px" v-model="music.mode" size="small">
@@ -82,11 +82,11 @@
         </div>
         <div class="timelines" @mousedown="moveCursor">
           <div class="time-anchor" ref="timeAnchor"></div>
-          <div class="timeline" v-for="line in 250" :key="line">#{{line}}</div>
+          <div class="timeline" v-for="line in (maxLines/4)" :key="line">#{{line}}</div>
         </div>
         <div class="piano-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
           <div class="lines">
-            <div class="line" v-for="line in 1000" :key="line"></div>
+            <div class="line" v-for="line in maxLines" :key="line"></div>
           </div>
           <div class="block" :class="{noevent:isSelect, selected: block.selected}" v-for="(block, index) in blocks" :key="index"
             :style="{top:block.y+'px',left:block.x+'px',width:block.width+'px'}"
@@ -355,6 +355,10 @@ export default class MusicEdit extends Vue {
     return _.keyBy(Keys.map(v => new Note(v, ModeMaps[this.music.mode])), "code");
   }
 
+  get maxLines() {
+    return 4 * this.music.bpm;
+  }
+
   toNote(y: number) {
     const note = this.notes[Keys[~~(y / COL_HEIGHT)]];
     return this.useNumber ? (this.useSharp ? note.sharpNumber : note.number) : this.useSharp ? note.sharpName : note.name;
@@ -424,9 +428,10 @@ export default class MusicEdit extends Vue {
   /** 移动 */
   move(x: number, y: number) {
     const selected = this.blocks.filter(b => b.selected);
+    const max = this.maxLines;
     if (!selected.length) return;
     selected.forEach(b => {
-      b.x = Math.min(Math.max(0, b.x + x * ROW_WIDTH), 1000 * ROW_WIDTH);
+      b.x = Math.min(Math.max(0, b.x + x * ROW_WIDTH), max * ROW_WIDTH);
       b.y = Math.min(Math.max(0, b.y + y * COL_HEIGHT), 11 * COL_HEIGHT);
     });
     if (selected.length === 1) {
@@ -501,6 +506,11 @@ export default class MusicEdit extends Vue {
       this.reload();
       if (this.history[this.historyIndex + 1]) ++this.historyIndex;
     }
+  }
+  /** 滚动到 */
+  scrollTo(index: number) {
+    if (index < 0) index = ~~(this.blocks[this.blocks.length - 1].x / ROW_WIDTH);
+    this.pianoWindow.scrollTo(index * ROW_WIDTH - this.pianoWindow.clientWidth / 2, 0);
   }
 
   copyCache = [];
@@ -642,9 +652,6 @@ export default class MusicEdit extends Vue {
   }
   mounted() {
     this.currentLine = -1;
-    this.updateAnchorPosition();
-    document.addEventListener("keydown", this.keyDown);
-    document.addEventListener("keyup", this.keyUp);
 
     const pw = this.$refs.pianoWindow as HTMLDivElement;
     // IE9, Chrome, Safari, Opera
@@ -653,15 +660,13 @@ export default class MusicEdit extends Vue {
     pw.addEventListener("DOMMouseScroll", this.scrollHorizontally, false);
   }
   destroyed() {
-    document.removeEventListener("keydown", this.keyDown);
-    document.removeEventListener("keyup", this.keyUp);
     this.stopSeq();
   }
 
   scrollHorizontally(e: MouseWheelEvent) {
+    e.preventDefault();
     var delta = Math.max(-1, Math.min(1, e["wheelDelta"] || -e.detail));
     this.pianoWindow.scrollLeft -= delta * 40;
-    e.preventDefault();
   }
   /// 事件
   @bind
@@ -754,7 +759,7 @@ export default class MusicEdit extends Vue {
         break;
       case "ARROWRIGHT":
         e.preventDefault();
-        this.currentLine = Math.min(this.currentLine + 1, 1000);
+        this.currentLine = Math.min(this.currentLine + 1, this.maxLines);
         this.updateAnchorPosition();
         break;
       case "ARROWUP":
@@ -799,6 +804,14 @@ export default class MusicEdit extends Vue {
       case "!INSERT":
         e.preventDefault();
         this.insert(-1);
+        break;
+      case "END":
+        e.preventDefault();
+        this.scrollTo(-1);
+        break;
+      case "HOME":
+        e.preventDefault();
+        this.scrollTo(0);
         break;
       default:
       // console.debug(key);
@@ -985,9 +998,10 @@ export default class MusicEdit extends Vue {
       const offsetX = Math.floor((eX - block.x + ROW_WIDTH / 2 - this.movingOffsetX) / ROW_WIDTH);
       const offsetY = Math.floor((eY - block.y + COL_HEIGHT / 2 - this.movingOffsetY) / COL_HEIGHT);
       const selected = this.blocks.filter(v => v.selected);
+      const max = this.maxLines;
       if (offsetX || offsetY) {
         selected.forEach(b => {
-          b.x = Math.min(Math.max(0, b.x + offsetX * ROW_WIDTH), 1000 * ROW_WIDTH);
+          b.x = Math.min(Math.max(0, b.x + offsetX * ROW_WIDTH), max * ROW_WIDTH);
           b.y = Math.min(Math.max(0, b.y + offsetY * COL_HEIGHT), 11 * COL_HEIGHT);
         });
         this.isBlockMoved = true;
@@ -1065,12 +1079,11 @@ export default class MusicEdit extends Vue {
     });
     fullLength++;
     if (this.currentLine != -1) this.currentLine--;
-    const pw = this.$refs.pianoWindow as HTMLDivElement;
     const offset = this.currentLine;
     this.playTimer = new Timer(t => {
       this.currentLine = t + offset;
       this.updateAnchorPosition();
-      pw.scrollTo(this.currentLine * 20 - pw.clientWidth / 2, 0);
+      this.scrollTo(this.currentLine);
       if (seq[this.currentLine]) {
         this.playNote(seq[this.currentLine]);
       }
@@ -1115,7 +1128,11 @@ export default class MusicEdit extends Vue {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: transparent;
+  background-color: var(--theme_mainback);
+  min-height: 100%;
+  &:focus {
+    outline: none;
+  }
   .setting {
     & > * {
       margin: 4px;
