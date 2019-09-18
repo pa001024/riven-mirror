@@ -1934,6 +1934,7 @@ let po = {
     importCode: "Import Code",
     copyCode: "Copy Code",
     blockCopied: "Notes copied",
+    clearConfirm: "Are you sure to clear all the notes?",
   },
 };
 

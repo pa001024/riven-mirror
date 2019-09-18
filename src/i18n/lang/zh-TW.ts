@@ -4028,6 +4028,7 @@ let po = {
     importCode: "匯入歌曲乐串",
     copyCode: "複製歌曲樂串",
     blockCopied: "音符已複製",
+    clearConfirm: "確定清空所有音符嗎？",
   },
 };
 

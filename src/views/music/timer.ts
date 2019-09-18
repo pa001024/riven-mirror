@@ -21,37 +21,54 @@ export class Timer {
   isRunning = false;
   step = 0;
   skipMode = false;
+  _nativetimer: number;
   constructor(callback: (t: number) => void, ms: number, skip = true) {
     this.callback = callback;
     this.peroid = ms;
     this.skipMode = skip;
   }
+  /** 开始 */
   start() {
     if (this.isRunning) return;
-    if (this.pauseTime) {
-      this.startTime = performance.now() + this.pauseTime;
-      this.pauseTime = 0;
-    } else {
-      this.startTime = performance.now();
-    }
+    this.seek();
     this.isRunning = true;
-    this.loop(this.startTime);
+    document.addEventListener("visibilitychange", this.visibilitychange);
+    this.tick(this.startTime);
     return this;
   }
+  /** 重新开始 */
+  seek(offest = 0) {
+    this.step = 0;
+    this.pauseTime = 0;
+    this.startTime = performance.now() - offest;
+  }
+  /** 暂停 */
   pause() {
     this.pauseTime = performance.now() - this.startTime;
     this.isRunning = false;
+    if (this._nativetimer) clearInterval(this._nativetimer);
+    document.removeEventListener("visibilitychange", this.visibilitychange);
     return this;
   }
+  /** 停止 */
   stop() {
     this.isRunning = false;
     this.step = 0;
     this.pauseTime = 0;
+    if (this._nativetimer) clearInterval(this._nativetimer);
+    document.removeEventListener("visibilitychange", this.visibilitychange);
     return this;
   }
 
-  loop = (t: number) => {
+  visibilitychange = () => {
+    if (document.hidden) this._nativetimer = setInterval(this.tick, this.peroid) as any;
+    else clearInterval(this._nativetimer);
+  };
+
+  tick = (t: number) => {
     if (!this.isRunning) return;
+    let useNative = !t;
+    if (!t) t = performance.now();
     const delta = t - this.startTime;
     if (delta / this.peroid > this.step) {
       if (this.skipMode) {
@@ -62,6 +79,6 @@ export class Timer {
         this.step++;
       }
     }
-    requestAnimFrame(this.loop);
+    if (!useNative) requestAnimFrame(this.tick);
   };
 }

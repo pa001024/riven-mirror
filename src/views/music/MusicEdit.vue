@@ -11,6 +11,7 @@
         <el-option :label="$t('shawzin.shawzin')" value="shawzin"/>
         <el-option :label="$t('shawzin.lotus')" value="lotus"/>
       </el-select>
+      <i v-if="!isLoaded" class="el-icon-loading"></i>
       <el-switch class="mode-select" v-model="useNumber" :active-text="$t('shawzin.number')" :inactive-text="$t('shawzin.name')"/>
       <el-switch class="mode-select" v-model="useSharp" :active-text="$t('shawzin.upshift')" :inactive-text="$t('shawzin.downshift')"/>
       <!-- <label style="margin:0 8px;">拍号: </label>
@@ -40,11 +41,27 @@
       <el-button size="small" type="danger" :disabled="isRecording" icon="el-icon-video-camera" @click="recordSeq"></el-button>
       <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq"></el-button>
       <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)"></el-button>
-      <el-button size="small" :disabled="!isPlaying && !isRecording && !isShowStop" @click="stopSeq()">{{$t('shawzin.stop')}}</el-button>
-      <el-button size="small" @click="backspace">←</el-button>
-      <el-button size="small" type="danger" @click="clearNotes">{{$t('shawzin.empty')}}</el-button>
-      <el-button size="small" @click="importCode">{{$t('shawzin.importCode')}}</el-button>
-      <el-button size="small" @click="copyCode">{{$t('shawzin.copyCode')}}</el-button>
+      <el-button size="small" :disabled="!isPlaying && !isRecording && !isShowStop" @click="stopSeq()"><WfIcon type="stop" /></el-button>
+      <el-button size="small" v-model="loop" :type="loop ? 'primary' : 'info'" @click="loop = !loop"><WfIcon type="loop" /></el-button>
+      <el-button size="small" @click="backspace" icon="el-icon-back"></el-button>
+      <el-popover
+        placement="top"
+        v-model="clearConfirmVisible">
+        <p>{{$t('shawzin.clearConfirm')}}</p>
+        <div style="text-align: right; margin: 0">
+          <el-button size="mini" type="text" @click="clearConfirmVisible = false">{{$t('riven.cancel')}}</el-button>
+          <el-button type="primary" size="mini" @click="clearConfirmVisible = false;clearNotes()">{{$t('riven.confirm')}}</el-button>
+        </div>
+        <el-tooltip slot="reference" effect="dark" :content="$t('shawzin.empty')" placement="bottom">
+          <el-button size="small" type="danger" icon="el-icon-delete"></el-button>
+        </el-tooltip>
+      </el-popover>
+      <el-tooltip effect="dark" :content="$t('shawzin.importCode')" placement="bottom">
+        <el-button size="small" @click="importCode" icon="el-icon-download"></el-button>
+      </el-tooltip>
+      <el-tooltip effect="dark" :content="$t('shawzin.copyCode')" placement="bottom">
+        <el-button size="small" @click="copyCode" icon="el-icon-copy-document"></el-button>
+      </el-tooltip>
     </div>
     <div class="view-area">
       <div class="input-box">
@@ -335,6 +352,8 @@ export default class MusicEdit extends Vue {
   isDragCanvas = false;
   draggingCanvas = false;
   showHelp = false;
+  clearConfirmVisible = false;
+  loop = false;
 
   history = [];
   historyIndex = 0;
@@ -1079,15 +1098,20 @@ export default class MusicEdit extends Vue {
     });
     fullLength++;
     if (this.currentLine != -1) this.currentLine--;
-    const offset = this.currentLine;
+    let startLine = this.currentLine;
     this.playTimer = new Timer(t => {
-      this.currentLine = t + offset;
+      this.currentLine = t + startLine;
       this.updateAnchorPosition();
       this.scrollTo(this.currentLine);
       if (seq[this.currentLine]) {
         this.playNote(seq[this.currentLine]);
       }
-      if (this.currentLine > fullLength) this.stopSeq();
+      if (this.currentLine > fullLength) {
+        if (this.loop) {
+          startLine = -1;
+          this.playTimer.seek(-1e3);
+        } else this.stopSeq();
+      }
     }, 6e4 / this.music.bpm).start();
   }
   // 停止
