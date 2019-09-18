@@ -18,6 +18,8 @@ jobs:
 
     steps:
       - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
 
       # Download and cache dependencies
       - restore_cache:
@@ -32,4 +34,6 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
+
+      - run: yarn build
 

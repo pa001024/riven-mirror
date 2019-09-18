@@ -19,7 +19,7 @@ BPM cannot be adjusted arbitrarily due to game code accuracy restrictions. If yo
 
 ## Action
 
-Notice the row of buttons in the upper toolbar. The four icons are the tools that switch the current one.
+Notice the row of buttons in the upper toolbar. The 3 icons are the tools that switch the current one.
 
 The default is move tool, support for box selection, which you have used similar software should be familiar.
 
@@ -61,6 +61,8 @@ The third is delete note tool, click on the note to delete, of course, delete th
 
 \`Ctrl+MouseLeft\`: Multi-selected notes
 
+\`Home/End\`: Go to first/last note.
+
 ## Related
 
 Open source repository: [GitHub-Riven.IM](https://github.com/pa001024/riven-mirror)
@@ -89,7 +91,7 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 
 ## 操作
 
-注意上方工具栏的一排按钮，有那四个图标就是切换当前使用的工具。
+注意上方工具栏的一排按钮，有那3个图标就是切换当前使用的工具。
 
 默认是移动工具，支持框选，用过类似软件的同学应该比较熟悉。
 
@@ -133,6 +135,8 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 
 \`Ctrl+左键\`：多选音符
 
+\`Home/End\`: 跳转到第一个/最后一个音符
+
 ## 相关
 
 开源仓库地址 [GitHub-极镜](https://github.com/pa001024/riven-mirror)
@@ -159,7 +163,7 @@ BPM即每分鐘節拍數，計算方式為每秒內節拍數*60，也就是一�
 
 ## 操作
 
-注意上方工具欄的一排按鈕，有那四個圖示就是切換當前使用的工具。
+注意上方工具欄的一排按鈕，有那3個圖示就是切換當前使用的工具。
 
 預設是移動工具，支援框選，用過類似軟體的同學應該比較熟悉。
 
@@ -202,6 +206,8 @@ BPM即每分鐘節拍數，計算方式為每秒內節拍數*60，也就是一�
 \`Shift+左鍵\`：從已選擇的音符開始選擇到當前點選的音符
 
 \`Ctrl+左鍵\`：多選音符
+
+\`Home/End\`: 跳轉到第一個/最後一個音符
 
 ## 相關
 
