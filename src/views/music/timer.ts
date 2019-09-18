@@ -61,11 +61,10 @@ export class Timer {
   }
 
   visibilitychange = () => {
-    if (document.hidden) this._nativetimer = setInterval(this.tick, this.peroid) as any;
-    else clearInterval(this._nativetimer);
+    if (document.hidden) this.tick();
   };
 
-  tick = (t: number) => {
+  tick = (t?: number) => {
     if (!this.isRunning) return;
     let useNative = !t;
     if (!t) t = performance.now();
@@ -80,5 +79,6 @@ export class Timer {
       }
     }
     if (!useNative) requestAnimFrame(this.tick);
+    else setTimeout(this.tick, 1e3 / 60);
   };
 }

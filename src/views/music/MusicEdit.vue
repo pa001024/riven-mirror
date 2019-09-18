@@ -62,6 +62,9 @@
       <el-tooltip effect="dark" :content="$t('shawzin.copyCode')" placement="bottom">
         <el-button size="small" @click="copyCode" icon="el-icon-copy-document"></el-button>
       </el-tooltip>
+      <!-- <el-tooltip effect="dark" :content="$t('shawzin.analysis')" placement="bottom">
+        <el-button size="small" @click="analysis" icon="el-icon-data-analysis"></el-button>
+      </el-tooltip> -->
     </div>
     <div class="view-area">
       <div class="input-box">
@@ -99,7 +102,10 @@
         </div>
         <div class="timelines" @mousedown="moveCursor">
           <div class="time-anchor" ref="timeAnchor"></div>
-          <div class="timeline" v-for="line in (maxLines/4)" :key="line">#{{line}}</div>
+          <div class="timeline" v-for="line in (maxLines/4)" :key="line">
+            <span>#{{line}}</span>
+            <span>{{lineToTime(line)}}</span>
+          </div>
         </div>
         <div class="piano-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
           <div class="lines">
@@ -112,6 +118,7 @@
        --></div>
           <div class="select-border" v-show="isSelect" ref="selectBorder" />
         </div>
+        <!-- <Spectrogram ref="spectrogram" :height="400" :timeScale="timeToPixelRatio" /> -->
       </div>
     </div>
     <el-dialog
@@ -366,6 +373,20 @@ export default class MusicEdit extends Vue {
     return md.render(text);
   }
 
+  lineToTime(line: number) {
+    const ratio = 6e4 / this.music.bpm; // 1音符毫秒数
+    let sec = (line * 4 * ratio) / 1e3; // 4音符秒数
+    if (sec % 1 != 0) return "";
+    let min = ~~(sec / 60);
+    min = min % 60;
+    sec = sec % 60;
+    return `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
+  }
+
+  get timeToPixelRatio() {
+    return (this.music.bpm / 60) * ROW_WIDTH;
+  }
+
   get pianoWindow() {
     return this.$refs.pianoWindow as HTMLDivElement;
   }
@@ -442,6 +463,10 @@ export default class MusicEdit extends Vue {
       this.reload();
       this.pushState();
     }
+  }
+
+  analysis() {
+    (this.$refs.spectrogram as any).upload();
   }
 
   /** 移动 */
@@ -1203,10 +1228,11 @@ export default class MusicEdit extends Vue {
   }
   .timeline {
     display: inline-flex;
+    justify-content: space-between;
     width: 80px;
     height: 32px;
     align-items: center;
-    padding: 2px;
+    padding: 4px;
     border-right: 1px solid #6199ff;
   }
   .time-anchor {

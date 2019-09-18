@@ -1,22 +1,34 @@
 <template>
   <div class="fft-visualizer">
-    <input type="file" name="file">
+    <input class="el-upload__input" type="file" ref="uploader" @change="fileChange" />
     <canvas ref="canvas" :width="width" :height="height">Your browser does not support Canvas tag.</canvas>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { FFT } from "../fft";
 
 @Component({ components: {} })
-export default class MusicEdit extends Vue {
+export default class Spectrogram extends Vue {
   audioContext: AudioContext;
-  @Prop() fftSamples: number;
+  @Prop({ default: 1024 }) fftSamples: number;
   @Prop() pixelRatio: number;
   @Prop() windowFunc: string;
-  @Prop() width: number;
+  @Prop() alpha: number;
   @Prop() height: number;
+  @Prop() timeScale: number;
+  /** Size of the overlapping window. Must be < fftSamples. Auto deduced from canvas size by default. */
+  @Prop() noverlap: number;
   duration: number;
   colorMap: [number, number, number, number][];
+  audioData: ArrayBuffer;
+  buffer: AudioBuffer;
+  spectrCc: CanvasRenderingContext2D;
+  width = 400;
+
+  get canvas() {
+    return this.$refs.canvas as HTMLCanvasElement;
+  }
 
   created() {
     this.colorMap = [];
@@ -26,68 +38,100 @@ export default class MusicEdit extends Vue {
     }
   }
 
+  upload() {
+    (this.$refs.uploader as any).click();
+  }
+
+  fileChange(e: any) {
+    const files = e.target.files as FileList;
+    if (!files) return;
+    const file = files[0];
+    const fr = new FileReader();
+    fr.readAsArrayBuffer(file);
+    fr.onload = rst => {
+      this.audioData = fr.result as ArrayBuffer;
+      this.decode(this.audioData);
+    };
+  }
   mounted() {
     this.audioContext = new AudioContext();
+    this.spectrCc = this.canvas.getContext("2d");
   }
 
   decode(data: ArrayBuffer) {
     const ctx = new AudioContext();
     ctx
       .decodeAudioData(data)
-      .then(audioBuffer => this.setPeaks(audioBuffer))
+      .then(audioBuffer => {
+        this.buffer = audioBuffer;
+        this.width = this.buffer.duration * this.timeScale;
+        this.$nextTick(() => {
+          const feqs = this.getFrequencies();
+          this.drawSpectrogram(feqs);
+        });
+      })
       .catch(err => {
         console.error("Failed to decode audio data.");
         console.log(err);
       });
   }
 
-  setPeaks(buffer: AudioBuffer) {
-    const peaks = [];
-    let min = 0;
-    let max = 0;
-    let top = 0;
-    let bottom = 0;
-    const segSize = Math.ceil(buffer.length / this.width);
-    const width = this.width;
+  drawSpectrogram(frequenciesData: Uint8Array[]) {
+    const spectrCc = this.spectrCc;
+    const length = this.buffer.duration;
     const height = this.height;
-    this.duration = buffer.duration; // while we have buffer why we don't use it ?
+    const pixels = this.resample(frequenciesData);
+    const heightFactor = this.buffer ? 2 / this.buffer.numberOfChannels : 1;
+    let i;
+    let j;
 
-    for (let c = 0; c < buffer.numberOfChannels; c++) {
-      const data = buffer.getChannelData(c);
-      for (let s = 0; s < width; s++) {
-        const start = ~~(s * segSize);
-        const end = ~~(start + segSize);
-        min = 0;
-        max = 0;
-        for (let i = start; i < end; i++) {
-          min = data[i] < min ? data[i] : min;
-          max = data[i] > max ? data[i] : max;
-        }
-        // merge multi channel data
-        if (peaks[s]) {
-          peaks[s][0] = peaks[s][0] < max ? max : peaks[s][0];
-          peaks[s][1] = peaks[s][1] > min ? min : peaks[s][1];
-        }
-        peaks[s] = [max, min];
+    for (i = 0; i < pixels.length; i++) {
+      for (j = 0; j < pixels[i].length; j++) {
+        const colorMap = this.colorMap[pixels[i][j]];
+        this.spectrCc.fillStyle = "rgba(" + colorMap[0] * 256 + ", " + colorMap[1] * 256 + ", " + colorMap[2] * 256 + "," + colorMap[3] + ")";
+        this.spectrCc.fillRect(i, height - j * heightFactor, 1, heightFactor);
       }
     }
-    // set peaks relativelly to canvas dimensions
-    for (let i = 0; i < peaks.length; i++) {
-      max = peaks[i][0];
-      min = peaks[i][1];
-      top = height / 2 - (max * height) / 2;
-      bottom = height / 2 - (min * height) / 2;
-      peaks[i] = [top, bottom === top ? top + 1 : bottom];
-    }
-    // this.peaks = peaks;
-
-    // if (this.playtimeClickable) {
-    //   this.ctxWrapper.addEventListener("click", e => this.updateTime(e));
-    // }
-    // this.waveform();
   }
 
-  resample(oldMatrix: number[][]) {
+  getFrequencies() {
+    const fftSamples = this.fftSamples;
+    const buffer = this.buffer;
+    const channelOne = buffer.getChannelData(0);
+    const bufferLength = buffer.length;
+    const sampleRate = buffer.sampleRate;
+    const frequencies: Uint8Array[] = [];
+
+    if (!buffer) {
+      console.error("Web Audio buffer is not available");
+      return;
+    }
+
+    let noverlap = this.noverlap;
+    if (!noverlap) {
+      const uniqueSamplesPerPx = buffer.length / this.width;
+      noverlap = Math.max(0, Math.round(fftSamples - uniqueSamplesPerPx));
+    }
+
+    const fft = new FFT(fftSamples, sampleRate, this.windowFunc, this.alpha);
+    const maxSlicesCount = Math.floor(bufferLength / (fftSamples - noverlap));
+    let currentOffset = 0;
+
+    while (currentOffset + fftSamples < channelOne.length) {
+      const segment = channelOne.slice(currentOffset, currentOffset + fftSamples);
+      const spectrum = fft.calculateSpectrum(segment);
+      const array = new Uint8Array(fftSamples / 2);
+      let j;
+      for (j = 0; j < fftSamples / 2; j++) {
+        array[j] = Math.max(-255, Math.log10(spectrum[j]) * 45);
+      }
+      frequencies.push(array);
+      currentOffset += fftSamples - noverlap;
+    }
+    return frequencies;
+  }
+
+  resample(oldMatrix: Uint8Array[]) {
     const columnsNumber = this.width;
     const newMatrix = [];
 
