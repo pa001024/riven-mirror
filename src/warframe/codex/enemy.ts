@@ -155,11 +155,11 @@ export class EnemyData implements IEnemyData {
 
 /** 敌人列表 [id, faction, baseLevel, baseHealth, baseShield, baseArmor, fleshType, shieldType, armorType, resistence, ignoreProc, headMul] */
 const _enemyList = [
-  ["Wolf of Saturn Six", 5, , 20000, , 2500, 12, , 1, , 2],
-  ["Eidolon Teralyst", 5, , 15000, , 200, 7, , 1, , 2, 1],
-  ["Eidolon Gantulyst", 5, , 15000, , 200, 7, , 1, , 2, 1],
-  ["Eidolon Hydrolyst", 5, , 15000, , 200, 7, , 1, , 2, 1],
-  ["Teralyst Synovia", 5, , 2500, , 200, 7, , 1, , 2, 1],
+  ["Wolf of Saturn Six", 5, , 20000, , 2500, 12, , 1, 0.6, 3],
+  ["Eidolon Teralyst", 5, , 15000, , 200, 7, , 1, 0.6, 3, 1],
+  ["Eidolon Gantulyst", 5, , 15000, , 200, 7, , 1, 0.6, 3, 1],
+  ["Eidolon Hydrolyst", 5, , 15000, , 200, 7, , 1, 0.6, 3, 1],
+  ["Teralyst Synovia", 5, , 2500, , 200, 7, , 1, 0.6, 3, 1],
   ["Profit-Taker Orb", 2, 50, 7000, 30000, 150, 7, , 1, , 2, 1],
   ["Condor Dropship", 2, , 1000, , 100, 7, , , , 1],
   ["Tusk Firbolg", 1, , 8000, , 600, 7, , 1, , 1],
