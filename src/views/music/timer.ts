@@ -36,11 +36,17 @@ export class Timer {
     this.tick(this.startTime);
     return this;
   }
-  /** 重新开始 */
+  /** 重新定位 */
   seek(offest = 0) {
     this.step = 0;
     this.pauseTime = 0;
     this.startTime = performance.now() - offest;
+    return this;
+  }
+  /** 重新开始 */
+  seekStep(step = 0) {
+    this.seek(step * this.peroid);
+    return this;
   }
   /** 暂停 */
   pause() {

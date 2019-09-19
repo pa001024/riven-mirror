@@ -556,6 +556,14 @@ export default class MusicEdit extends Vue {
     if (index < 0) index = ~~(this.blocks[this.blocks.length - 1].x / ROW_WIDTH);
     this.pianoWindow.scrollTo(index * ROW_WIDTH - this.pianoWindow.clientWidth / 2, 0);
   }
+  /** 软性滚动 */
+  scrollToSoft(index: number) {
+    if (index < 0) index = ~~(this.blocks[this.blocks.length - 1].x / ROW_WIDTH);
+    if (index === 0) this.pianoWindow.scrollLeft = 0;
+    else if (index * ROW_WIDTH - this.pianoWindow.clientWidth + 40 > this.pianoWindow.scrollLeft) {
+      this.pianoWindow.scrollLeft += this.pianoWindow.clientWidth - 80;
+    }
+  }
 
   copyCache = [];
 
@@ -696,6 +704,7 @@ export default class MusicEdit extends Vue {
   }
   mounted() {
     this.currentLine = -1;
+    this.updateAnchorPosition();
 
     const pw = this.$refs.pianoWindow as HTMLDivElement;
     // IE9, Chrome, Safari, Opera
@@ -947,6 +956,7 @@ export default class MusicEdit extends Vue {
     const eY = e.clientY - rect.top;
     this.currentLine = ~~(eX / ROW_WIDTH) + 1;
     this.updateAnchorPosition();
+    if (this.isPlaying) this.playTimer.seekStep(this.currentLine);
   }
 
   updateAnchorPosition() {
@@ -1026,7 +1036,8 @@ export default class MusicEdit extends Vue {
       if (this.currentLine !== n) {
         this.currentLine = n;
         this.updateAnchorPosition();
-        this.playNote();
+        if (this.isPlaying) this.playTimer.seekStep(this.currentLine);
+        else this.playNote();
       }
     }
     if (this.isSelect) {
@@ -1127,7 +1138,7 @@ export default class MusicEdit extends Vue {
     this.playTimer = new Timer(t => {
       this.currentLine = t + startLine;
       this.updateAnchorPosition();
-      this.scrollTo(this.currentLine);
+      this.scrollToSoft(this.currentLine);
       if (seq[this.currentLine]) {
         this.playNote(seq[this.currentLine]);
       }
