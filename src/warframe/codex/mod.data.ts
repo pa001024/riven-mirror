@@ -287,18 +287,9 @@ const data = [
   ["A3", "Lethal Momentum", [["V", 10]], Secondary, "r", "c", 4, 3],
   ["A4", "Augur Seeker", [["3", 5]], Secondary, "r", "r", 2, 5],
   ["A5", "Perpetual Agony", [["3", 5]], Secondary, "r", "n", 6],
-  [
-    "A6",
-    "Thermagnetic Shells",
-    [["Enemies explode on death, dealing 20 Magnetic Damage (+10% Enemy Max Health) in a 1.5m radius."]],
-    Secondary,
-    "-",
-    "r",
-    2,
-    3,
-  ],
-  ["A7", "Fulmination", [["brad", 6]], "SecondUnique", "r", "r", 6, 3],
-  ["A8", "Synth Charge", [["lsb", 50]], "Second6", "r", "r", 6, 3],
+  ["A6", "Thermagnetic Shells", [["Enemies explode on death, dealing 20 Magnetic Damage (+10% Enemy Max Health) in a 1.5m radius."]], "Detron", "-", "r", 2, 3],
+  ["A7", "Fulmination", [["brad", 6]], Secondary, "r", "r", 6, 3],
+  ["A8", "Synth Charge", [["lsb", 50]], Secondary, "r", "r", 6, 3],
   ["A9", "Amalgam Barrel Diffusion", [["S", 18], ["!S", 2], ["dgs", 10]], Secondary, "r", "g", 10],
 
   // 近战 C0 ~ Fz
