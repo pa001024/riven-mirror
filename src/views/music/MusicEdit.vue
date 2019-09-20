@@ -3,8 +3,7 @@
     <div class="edit-header setting">
       <el-button size="small" type="primary" @click="showHelp = true">{{$t('shawzin.help')}}</el-button>
       <el-select style="width:120px" v-model="music.mode" size="small">
-        <el-option :key="mode.name" v-for="mode in modes" :label="$t(`shawzin.${mode.name}`)" :value="mode.val" :disabled="!modeMaps[mode.val]">
-        </el-option>
+        <el-option :key="mode.name" v-for="mode in modes" :label="$t(`shawzin.${mode.name}`)" :value="mode.val" :disabled="!modeMaps[mode.val]" />
       </el-select>
       <el-select style="width:120px" v-model="instrument" size="small">
         <el-option :label="$t('shawzin.piano')" value="piano"/>
@@ -317,11 +316,69 @@ const instrumentResource = {
   },
   shawzin: {
     path: "https://cdn.riven.im/instruments/shawzin/",
-    keys: ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4", "D4", "E4", "F4", "G4", "A4", "C5", "D5"],
+    keys: [
+      "C3",
+      "D3",
+      "E3",
+      "F3",
+      "G3",
+      "A3",
+      "B3",
+      "C4",
+      "D4",
+      "E4",
+      "F4",
+      "G4",
+      "A4",
+      "C5",
+      "D5",
+
+      "Db3",
+      "Eb3",
+      "Gb3",
+      "Ab3",
+      "Bb3",
+      "Db4",
+      "Eb4",
+      "Gb4",
+      "Ab4",
+      "Bb4",
+      "Db5",
+      "Eb5",
+    ],
   },
   lotus: {
     path: "https://cdn.riven.im/instruments/lotus/",
-    keys: ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4", "D4", "E4", "F4", "G4", "A4", "C5", "D5"],
+    keys: [
+      "C3",
+      "D3",
+      "E3",
+      "F3",
+      "G3",
+      "A3",
+      "B3",
+      "C4",
+      "D4",
+      "E4",
+      "F4",
+      "G4",
+      "A4",
+      "C5",
+      "D5",
+
+      "Db3",
+      "Eb3",
+      "Gb3",
+      "Ab3",
+      "Bb3",
+      "Db4",
+      "Eb4",
+      "Gb4",
+      "Ab4",
+      "Bb4",
+      "Db5",
+      "Eb5",
+    ],
   },
 };
 
@@ -347,6 +404,7 @@ export default class MusicEdit extends Vue {
     { name: "minor", val: 6 },
     { name: "hirajoshi", val: 7 },
     { name: "phrygian", val: 8 },
+    { name: "yo", val: 9 },
   ];
 
   get userGuide() {
@@ -698,7 +756,7 @@ export default class MusicEdit extends Vue {
       }
       blocks.push({
         x: (mn.position / space) * ROW_WIDTH,
-        y: (11 - mn.seqNumber) * COL_HEIGHT,
+        y: (11 - mn.seq) * COL_HEIGHT,
         width: mn.duration * ROW_WIDTH,
         selected: false,
       });
@@ -829,9 +887,11 @@ export default class MusicEdit extends Vue {
         break;
       // 选择到开头/末尾
       case "+ARROWLEFT":
+      case "+HOME":
         this.selectTo(-1);
         break;
       case "+ARROWRIGHT":
+      case "+END":
         this.selectTo(1);
         break;
       // 移动选择
@@ -1127,9 +1187,9 @@ export default class MusicEdit extends Vue {
         return a.x - b.x || a.y - b.y;
       })
       .map(b => {
-        const k = Keys[~~(b.y / COL_HEIGHT)];
-        const t = ~~(b.x / ROW_WIDTH);
-        return [k, t] as [string, number];
+        const k = 11 - ((b.y / COL_HEIGHT) | 0);
+        const t = (b.x / ROW_WIDTH) | 0;
+        return [k, t] as [number, number];
       });
     this.music.setSeqs(seqs);
     this.pushState();

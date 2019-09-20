@@ -27,6 +27,12 @@ The second is add note tool, also click on the blank to add notes.
 
 The third is delete note tool, click on the note to delete, of course, delete the shortcut key is the DEL on the keyboard, see the keyboard shortcuts below.
 
+## chords
+
+All simultaneous notes (chords) in the game are currently supported (import and export).
+
+Import this code to see all supported combinations: \`6ZAAaAIcAQpAYqAgsAoxAwyA40BA5BI6BQ8BYFBgDBkGBoHBsNBwLB0OB4PB8VCATCEWCIXCMlCQjCUmCYnCc\`
+
 ## Keyboard shortcuts
 
 \`DEL\`: delete selected notes
@@ -99,6 +105,12 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 
 第三个是删除音符工具，点击音符即可删除，当然删除快捷键是键盘上的DEL，如果需要批量删除可以用移动工具先框选音符之后用DEL全部删除。
 
+## 和弦
+
+目前已支持游戏内所有同时出现的音符(和弦)的导入和导出
+
+导入这段代码来查看所有支持的组合: \`6ZAAaAIcAQpAYqAgsAoxAwyA40BA5BI6BQ8BYFBgDBkGBoHBsNBwLB0OB4PB8VCATCEWCIXCMlCQjCUmCYnCc\`
+
 ## 键盘快捷键
 
 \`Ctrl+Z\`：撤销
@@ -170,6 +182,12 @@ BPM即每分鐘節拍數，計算方式為每秒內節拍數*60，也就是一�
 第二個是新增音符工具，同樣是點選空白處可以新增音符。
 
 第三個是刪除音符工具，點選音符即可刪除，當然刪除快捷鍵是鍵盤上的DEL，如果需要批量刪除可以用移動工具先框選音符之後用DEL全部刪除。
+
+## 和絃
+
+目前已支援遊戲內所有同時出現的音符(和絃)的匯入和匯出
+
+匯入這段歌曲樂串來檢視所有支援的組合: \`6ZAAaAIcAQpAYqAgsAoxAwyA40BA5BI6BQ8BYFBgDBkGBoHBsNBwLB0OB4PB8VCATCEWCIXCMlCQjCUmCYnCc\`
 
 ## 鍵盤快捷鍵
 

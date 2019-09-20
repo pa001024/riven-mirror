@@ -4,9 +4,29 @@
 弦1 = 1
 弦2 = 2
 弦3 = 4
-天 = 8
-地 = 16
-水 = 32
+天品 = 8
+地品 = 16
+水品 = 32
+
+i & 7 得到弦位
+i >> 3 得到品位
+弦有
+1     = 1 表示第x个音
+2     = 2 表示第x+1个音
+12    = 3 表示第x个音+第x+1个音
+3     = 4 表示第x+2个音
+23    = 5 表示第x+1个音+第x+2个音
+13    = 6 表示第x个音+第x+2个音
+123   = 7 表示第x个音+第x+1个音+第x+2个音
+
+品有
+天     = 1 表示从第4个音开始的单音
+地     = 2 表示从第7个音开始的单音
+天地   = 3 表示从第1,3,5个音开始的和弦
+水     = 4 表示从第10个音开始的单音
+地水   = 6 表示从第4,6,8个音开始的和弦
+天水   = 5 表示从第1,2,4个音开始的和弦
+天地水 = 7 表示从第4,5,7个音开始的和弦
 
 如 弦1+天 = 1|8 = 9 = J
 
@@ -14,8 +34,19 @@
 http://www.sohu.com/a/234009955_100172496
 */
 
+import _ from "lodash";
+
+const BASESEQ = "BCEJKMRSUhik";
 const _BASE64_ST = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-const _BASE64_RST = [].reduce.call(_BASE64_ST, (r: { [x: string]: number }, v: string, i: number) => ((r[v] = i), r), {});
+const _BASE64_RST = [].reduce.call(_BASE64_ST, (r: { [x: string]: number }, v: string, i: number) => ((r[v] = i), r), {}) as { [x: string]: number };
+
+function sbase64(src: number): string {
+  return _BASE64_ST[src & 63];
+}
+
+function desbase64(src: string): number {
+  return _BASE64_RST[src[0]];
+}
 
 function ibase64(src: number): string {
   return _BASE64_ST[src >> 6] + _BASE64_ST[src & 63];
@@ -25,149 +56,59 @@ function deibase64(src: string): number {
   return (_BASE64_RST[src[0]] << 6) | _BASE64_RST[src[1]];
 }
 
+/** 弦 */
+const StringMap = [[], [0], [1], [0, 1], [2], [1, 2], [0, 2], [0, 1, 2]];
+
+/** 品 */
+const FretMap = [[0], [3], [6], [0, 2, 4], [9], [3, 5, 7], [0, 1, 3], [3, 4, 6]];
+
+/** 代码映射 */
+const CodeMap = (function() {
+  let r = {};
+  for (let i = 1; i < _BASE64_ST.length; i++) {
+    if ((i & 7) === 0) continue;
+    const str = StringMap[i & 7]; // 得到弦位
+    const fre = FretMap[i >> 3]; // 得到品位
+    const c = _BASE64_ST[i];
+    let dst = [];
+    str.forEach(str => {
+      fre.forEach(fre => {
+        dst.push(str + fre);
+      });
+    });
+    if (dst.length) r[c] = _.uniq(dst).sort();
+  }
+  return r as { [x: string]: number[] };
+})();
+
+const CodeMapRev = Object.keys(CodeMap).reduce((r, v) => ((r[CodeMap[v].join("_")] = v), r), {}) as { [x: string]: string };
+
 export enum Mode {
   PentatonicMinor = 1, // 五声小调 C-bE-F-G-bB
   PentatonicMajor, // 五声大调 C-D-E-G-A
-  Chromatic, // 半音 bC-bD-bE-bF-bG-bA
+  Chromatic, // 半音 C-bD-D-bE-E-F-bG-G-bA-A-bB-B
   Hexatonic, // 六式音阶, C-D-E-G-A-B
   Major, // 大调 C-D-E-F-G-A-B
   Minor, // 小调 C-D-bE-F-G-bA-bB
   Hirajoshi, // 平调子 C-bD-bE-F-G-bA
   Phrygian, // 弗吉利亚调式 C-D-bE-F-G-A-bB
+  Yo, // Yo调式 bD-bE-bG-bA-bB
 }
 
-export interface KeyNoteMap {
-  B: string;
-  C: string;
-  E: string;
-  J: string;
-  K: string;
-  M: string;
-  R: string;
-  S: string;
-  U: string;
-  h: string;
-  i: string;
-  k: string;
-}
-
-export const ModeMaps: { [key: number]: KeyNoteMap } = {
-  [Mode.PentatonicMinor]: {
-    B: "C3",
-    C: "bE3",
-    E: "F3",
-    J: "G3",
-    K: "bB3",
-    M: "C4",
-    R: "bE4",
-    S: "F4",
-    U: "G4",
-    h: "bB4",
-    i: "C5",
-    k: "bE5",
-  },
-  [Mode.PentatonicMajor]: {
-    B: "C3",
-    C: "D3",
-    E: "E3",
-    J: "G3",
-    K: "A3",
-    M: "C4",
-    R: "D4",
-    S: "E4",
-    U: "G4",
-    h: "A4",
-    i: "C5",
-    k: "D5",
-  },
-  [Mode.Chromatic]: {
-    B: "C3",
-    C: "bD3",
-    E: "D3",
-    J: "bE3",
-    K: "E3",
-    M: "F3",
-    R: "bG3",
-    S: "G3",
-    U: "bA3",
-    h: "A3",
-    i: "bB3",
-    k: "B3",
-  },
-  [Mode.Hexatonic]: {
-    B: "C3",
-    C: "bE3",
-    E: "F3",
-    J: "bG3",
-    K: "G3",
-    M: "bB3",
-    R: "C4",
-    S: "bE4",
-    U: "F4",
-    h: "bG4",
-    i: "G4",
-    k: "bB4",
-  },
-  [Mode.Major]: {
-    B: "C3",
-    C: "D3",
-    E: "E3",
-    J: "F3",
-    K: "G3",
-    M: "A3",
-    R: "B3",
-    S: "C4",
-    U: "D4",
-    h: "E4",
-    i: "F4",
-    k: "G4",
-  },
-  [Mode.Minor]: {
-    B: "C3",
-    C: "D3",
-    E: "bE3",
-    J: "F3",
-    K: "G3",
-    M: "bA3",
-    R: "bB3",
-    S: "C4",
-    U: "D4",
-    h: "bE4",
-    i: "F4",
-    k: "G4",
-  },
-  [Mode.Hirajoshi]: {
-    B: "C3",
-    C: "bD3",
-    E: "F3",
-    J: "bG3",
-    K: "bA3",
-    M: "C4",
-    R: "bD4",
-    S: "F4",
-    U: "bG4",
-    h: "bA4",
-    i: "C5",
-    k: "bD5",
-  },
-  [Mode.Phrygian]: {
-    B: "C3",
-    C: "bD3",
-    E: "E3",
-    J: "F3",
-    K: "G3",
-    M: "bA3",
-    R: "bB3",
-    S: "C4",
-    U: "bD4",
-    h: "E4",
-    i: "F4",
-    k: "G4",
-  },
+export const ModeMaps: { [key: number]: string[] } = {
+  [Mode.PentatonicMinor]: ["C3", "bE3", "F3", "G3", "bB3", "C4", "bE4", "F4", "G4", "bB4", "C5", "bE5"],
+  [Mode.PentatonicMajor]: ["C3", "D3", "E3", "G3", "A3", "C4", "D4", "E4", "G4", "A4", "C5", "D5"],
+  [Mode.Chromatic]: ["C3", "bD3", "D3", "bE3", "E3", "F3", "bG3", "G3", "bA3", "A3", "bB3", "B3"],
+  [Mode.Hexatonic]: ["C3", "bE3", "F3", "bG3", "G3", "bB3", "C4", "bE4", "F4", "bG4", "G4", "bB4"],
+  [Mode.Major]: ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4", "D4", "E4", "F4", "G4"],
+  [Mode.Minor]: ["C3", "D3", "bE3", "F3", "G3", "bA3", "bB3", "C4", "D4", "bE4", "F4", "G4"],
+  [Mode.Hirajoshi]: ["C3", "bD3", "F3", "bG3", "bA3", "C4", "bD4", "F4", "bG4", "bA4", "C5", "bD5"],
+  [Mode.Phrygian]: ["C3", "bD3", "E3", "F3", "G3", "bA3", "bB3", "C4", "bD4", "E4", "F4", "G4"],
+  [Mode.Yo]: ["bD3", "bE3", "bG3", "bA3", "bB3", "bD4", "bE4", "bG4", "bA4", "bB4", "bD5", "bE5"],
 };
-const noteNames = "CDEFGABC";
 
 const SEQ = "BCEJKMRSUhik";
+const SEQ_REV = [].reduce.call(SEQ, (r: { [x: string]: number }, v: string, i: number) => ((r[v] = i), r), {}) as { [x: string]: number };
 const SEMITONES = [0, 2, 4, 5, 7, 9, 11];
 const NOTE12S = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 // const NOTE12B = ["C", "bD", "D", "bE", "E", "F", "bG", "G", "bA", "A", "bB", "B"];
@@ -177,8 +118,8 @@ const NUM12B = ["1", "b2", "2", "b3", "3", "4", "b5", "5", "b6", "6", "b7", "7"]
 
 /** 音符 */
 export class Note {
-  /** 游戏中音符代码 */
-  code: string;
+  /** 位 */
+  seq = 0;
   /** 音名 */
   name: string;
   /** 四分音符 = 1 二分音符 = 2 以此类推 */
@@ -187,21 +128,23 @@ export class Note {
   parent: Music;
   /** midi */
   midi = 0;
-  /** 位 */
-  seqNumber = 0;
 
   get shiftMidi() {
     return this.midi + this.parent.numberShift;
   }
 
+  get code() {
+    return SEQ[this.seq];
+  }
+
   /** 简谱 */
   get number() {
-    if (this.code === "0") return "0";
+    if (this.seq < 0) return "0";
     return NUM12B[this.shiftMidi % 12];
   }
   /** 简谱升调 */
   get sharpNumber() {
-    if (this.code === "0") return "0";
+    if (this.seq < 0) return "0";
     return NUM12S[this.shiftMidi % 12];
   }
   /** 简谱音高 */
@@ -210,34 +153,34 @@ export class Note {
   }
   /** 升调表示音名 */
   get sharpName() {
-    if (this.code === "0") return "0";
+    if (this.seq < 0) return "0";
     return NOTE12S[this.midi % 12] + (((this.midi / 12) | 0) - 2);
   }
   /** tone.js格式的降调 */
   get toneName() {
-    if (this.code === "0") return "0";
+    if (this.seq < 0) return "0";
     return NOTE12T[this.midi % 12] + (((this.midi / 12) | 0) - 2);
   }
 
-  constructor(code: string, parent: Music, duration = 1) {
-    this.code = code;
+  constructor(seq: string | number, parent: Music, duration = 1) {
+    if (typeof seq === "string") seq = SEQ_REV[seq];
+    this.seq = seq;
     this.parent = parent;
     this.duration = duration;
     this.recalc();
   }
 
   recalc() {
-    if (this.code === "0") {
+    if (this.seq < 0) {
       this.name = "0";
       return;
     }
     if (!this.parent.modeMap) return;
-    const name = this.parent.modeMap[this.code];
+    const name = this.parent.modeMap[this.seq];
     this.name = name;
     const isSemi = name.startsWith("b");
     const [note, domain] = name.substr(name.length - 2, 2).split("");
-    this.seqNumber = SEQ.indexOf(this.code);
-    this.midi = SEMITONES[(note.charCodeAt(0) + 3) % 7] - (isSemi ? 1 : 0) + ((domain | 0) + 2) * 12;
+    this.midi = SEMITONES[(note.charCodeAt(0) + 3) % 7] - (isSemi ? 1 : 0) + (+domain + 2) * 12;
   }
 }
 
@@ -246,7 +189,7 @@ export class MusicNote extends Note {
   /** 位置 12bit */
   position: number;
   constructor(note: Note) {
-    super(note.code, note.parent);
+    super(note.seq, note.parent);
   }
 }
 
@@ -294,7 +237,7 @@ export class Music {
     let zeroNoteCache: MusicNote[] = [];
     for (let i = 0; i < this.notes.length; i++) {
       let note = this.notes[i];
-      while (note.code === "0") {
+      while (note.seq < 0) {
         pos += space * note.duration;
         note = this.notes[++i];
         if (!note) return dst;
@@ -317,13 +260,35 @@ export class Music {
   }
 
   get code() {
-    const notesBin = this.musicNotes.map(v => `${v.code}${ibase64(v.position)}`).join("");
-    return `${this.mode}${notesBin}`;
+    // 同时出现多音符按照对照表进行合并
+    const mn = this.musicNotes;
+    let stack = [],
+      sections = [];
+    for (let i = 0; i < mn.length; i++) {
+      const note = mn[i];
+      const next = mn[i + 1];
+      if (next && note.position === next.position) {
+        stack.push(note.seq);
+        continue;
+      }
+      if (stack.length) {
+        const key = _.uniq(stack.concat(note.seq))
+          .sort()
+          .join("_");
+        const code = CodeMapRev[key] || BASESEQ[note.seq];
+        sections.push(`${code}${ibase64(note.position)}`);
+        stack.length = 0;
+      } else {
+        sections.push(`${BASESEQ[note.seq]}${ibase64(note.position)}`);
+      }
+    }
+    return `${this.mode}${sections.join("")}`;
   }
   set code(value) {
     this._mode = +value[0];
+    this.modeMap = ModeMaps[this._mode];
     const notes = value.substr(1);
-    let seqs: [string, number][] = [];
+    let seqs: [number, number][] = [];
     let space = this.space;
     for (let i = 0; i < notes.length - 2; ) {
       const [code, pos] = [notes[i], notes.substr(i + 1, 2)];
@@ -341,13 +306,18 @@ export class Music {
         i = 0;
         continue;
       }
-      seqs.push([code, t / space]);
+      const cs = CodeMap[code];
+      if (cs) {
+        cs.forEach(c => {
+          seqs.push([c, t / space]);
+        });
+      }
       i += 3;
     }
     this.setSeqs(seqs);
   }
 
-  setSeqs(seqs: [string, number][]) {
+  setSeqs(seqs: [number, number][]) {
     const notes: Note[] = [];
     let lastDuration = 1;
     const addPadding = (d: number) => {
@@ -355,7 +325,7 @@ export class Music {
       const b4 = ~~(d / 4);
       const b2 = ~~((d % 4) / 2);
       const b1 = d % 2;
-      const s = (d: number) => new Note("0", this, d);
+      const s = (d: number) => new Note(-1, this, d);
       for (let i = 0; i < b4; i++) notes.push(s(4));
       if (b2) notes.push(s(2));
       if (b1) notes.push(s(1));
@@ -395,7 +365,7 @@ export class Music {
   }
   /** 添加音符 */
   addNote(note: Note, duration = 1) {
-    const t = new Note(note ? note.code : "0", this, duration);
+    const t = new Note(note ? note.seq : -1, this, duration);
     this.notes.push(t);
   }
   removeNote(at: number = -1) {

@@ -1914,6 +1914,7 @@ let po = {
     minor: "Minor",
     hirajoshi: "Hirajoshi",
     phrygian: "Phrygian",
+    yo: "Yo",
 
     number: "Number",
     name: "Name",

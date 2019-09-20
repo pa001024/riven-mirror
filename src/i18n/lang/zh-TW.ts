@@ -2288,6 +2288,7 @@ let po = {
     unchargedProjectile: "非蓄力投射物",
     "35XZoomMode": "3.5x變焦",
     shots: "射擊",
+    arrowExplosion: "箭矢爆炸",
   },
   alerting: {
     sortie: "突擊",
@@ -4013,6 +4014,7 @@ let po = {
     minor: "小調",
     hirajoshi: "平調子",
     phrygian: "弗吉利亞調式",
+    yo: "Yo调式",
 
     number: "簡譜",
     name: "音名",

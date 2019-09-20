@@ -6,18 +6,20 @@ export const updateLogs = [
     date: "2019/9/20",
     md: {
       en: `- Shawzin: Now support notation transpose
-PREVIEW: Atlas Prime/Tekko Prime/Dethcube Prime`,
+- Shawzin: Add simultaneous notes(chords) support, read more in the user guide
+- PREVIEW: Atlas Prime/Tekko Prime/Dethcube Prime`,
       cn: `- 三线编曲: 新增简谱转调支持
-预览: Atlas Prime/铁钩手甲 Prime/死亡魔方 Prime`
-    }
+- 三线编曲: 加入同时多音符演奏(和弦)支持 详见说明
+- 预览: Atlas Prime/铁钩手甲 Prime/死亡魔方 Prime`,
+    },
   },
   {
     version: "1.8.0",
     date: "2019/9/8",
     md: {
       en: `- Added: Shawzin Music Editor`,
-      cn: `- 新增: 三线琴编曲工具`
-    }
+      cn: `- 新增: 三线琴编曲工具`,
+    },
   },
   {
     version: "1.7.0",
@@ -28,8 +30,8 @@ PREVIEW: Atlas Prime/Tekko Prime/Dethcube Prime`,
 - Change: Bow Stat Changes`,
       cn: `- 新增: 自定义恐鸟配卡
 - 更新: 新武器和战甲
-- 改动: 弓箭武器改版 (国服不变)`
-    }
+- 改动: 弓箭武器改版 (国服不变)`,
+    },
   },
   {
     version: "1.6.7",
@@ -40,8 +42,8 @@ PREVIEW: Atlas Prime/Tekko Prime/Dethcube Prime`,
 - Fix: The problem of choosing different mode gains in the Tactical Simulation will not be displayed correctly.`,
       cn: `- [新]战术模拟: 同伴/Archwing配卡
 - 修复: 补充部分新增的MOD (只有名字 属性尚未标注)
-- 修复: 战甲配装中选择不同模式收益不会正确显示的问题`
-    }
+- 修复: 战甲配装中选择不同模式收益不会正确显示的问题`,
+    },
   },
   {
     version: "1.6.6",
@@ -58,18 +60,18 @@ PREVIEW: Atlas Prime/Tekko Prime/Dethcube Prime`,
 - 修复: 极化功能在使用多个U-Forma的情况下普通Forma会多余极化的问题
 - 修复: 幻影装置中夜灵爆头倍率及爆头暴击倍率设置不正确的问题
 - 修复: 部分赋能数值不正确的问题
-- 修复: 对非适应极性的容量惩罚计算错误的问题`
-    }
+- 修复: 对非适应极性的容量惩罚计算错误的问题`,
+    },
   },
+  /*
   {
     version: "1.6.5",
     date: "2019/7/7",
     md: {
       en: `- Update: [July 2019 Riven Disposition Updates](https://forums.warframe.com/topic/1107775-july-2019-riven-disposition-updates/)`,
-      cn: `- 更新: [2019七月裂罅倾向调整](https://forums.warframe.com/topic/1107775-july-2019-riven-disposition-updates/)`
-    }
+      cn: `- 更新: [2019七月裂罅倾向调整](https://forums.warframe.com/topic/1107775-july-2019-riven-disposition-updates/)`,
+    },
   },
-  /*
   {
     version: "1.6.4",
     date: "2019/7/5",
