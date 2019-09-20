@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.8.0";
+export const version = "1.8.1";
 export const updateLogs = [
+  {
+    version: "1.8.1",
+    date: "2019/9/20",
+    md: {
+      en: `- Shawzin: Now support notation transpose
+PREVIEW: Atlas Prime/Tekko Prime/Dethcube Prime`,
+      cn: `- 三线编曲: 新增简谱转调支持
+预览: Atlas Prime/铁钩手甲 Prime/死亡魔方 Prime`
+    }
+  },
   {
     version: "1.8.0",
     date: "2019/9/8",

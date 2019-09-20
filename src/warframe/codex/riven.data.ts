@@ -147,7 +147,7 @@ export const _rivenDataBaseWeapons = [
   ["Hikou", 2, 1.05],
   ["Pox", 2, 1.05],
   ["Twin Grakatas", 2, 1.05],
-  ["Akaris", 2, 1],
+  ["Akarius", 2, 1],
   ["Arca Scisco", 2, 1],
   ["Cyanex", 2, 1],
   ["Detron", 2, 1],

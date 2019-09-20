@@ -926,6 +926,7 @@ let po = {
     fragor: "重擊巨錘",
     fragorPrime: "重擊巨錘 Prime",
     tekko: "鐵鉤手甲",
+    tekkoPrime: "鐵鉤手甲 Prime",
     dualRaza: "鋒月雙斧",
     ripkas: "銳卡斯",
     atterax: "阿特拉克斯",
@@ -1176,6 +1177,7 @@ let po = {
     sweeper: "掃除者",
     sweeperPrime: "掃除者 Prime",
     dethMachineRifle: "死亡機槍",
+    dethMachineRiflePrime: "死亡機槍 Prime",
     stinger: "毒刺",
     laserRifle: "鐳射步槍",
     primeLaserRifle: "鐳射步槍 Prime",
@@ -1219,7 +1221,7 @@ let po = {
     komorex: "猛毒",
     fulmin: "雷霆",
     quatz: "誇茲",
-    akaris: "阿利烏雙槍",
+    akarius: "阿利烏雙槍",
     acceltra: "迅發電漿炮",
 
     none: "無",
@@ -1401,6 +1403,7 @@ let po = {
     djinn: "引靈",
     carrier: "搬運者",
     dethcube: "死亡魔方",
+    dethcubePrime: "死亡魔方 Prime",
     diriga: "電氣浮囊",
     wyrm: "蛟龍",
     helios: "赫利俄斯",
@@ -1470,6 +1473,7 @@ let po = {
     vauban: "VAUBAN",
     volt: "VOLT",
     atlas: "ATLAS",
+    atlasPrime: "ATLAS PRIME",
     chroma: "CHROMA",
     equinox: "EQUINOX",
     equinoxPrime: "EQUINOX PRIME",
@@ -2283,6 +2287,7 @@ let po = {
     unchargedExplosion: "非蓄力爆炸",
     unchargedProjectile: "非蓄力投射物",
     "35XZoomMode": "3.5x變焦",
+    shots: "射擊",
   },
   alerting: {
     sortie: "突擊",
@@ -4029,6 +4034,8 @@ let po = {
     copyCode: "複製歌曲樂串",
     blockCopied: "音符已複製",
     clearConfirm: "確定清空所有音符嗎？",
+    note: "音符",
+    transpose: "轉調",
   },
 };
 

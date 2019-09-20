@@ -167,93 +167,77 @@ export const ModeMaps: { [key: number]: KeyNoteMap } = {
 };
 const noteNames = "CDEFGABC";
 
+const SEQ = "BCEJKMRSUhik";
+const SEMITONES = [0, 2, 4, 5, 7, 9, 11];
+const NOTE12S = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+// const NOTE12B = ["C", "bD", "D", "bE", "E", "F", "bG", "G", "bA", "A", "bB", "B"];
+const NOTE12T = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+const NUM12S = ["1", "1#", "2", "2#", "3", "4", "4#", "5", "5#", "6", "6#", "7"];
+const NUM12B = ["1", "b2", "2", "b3", "3", "4", "b5", "5", "b6", "6", "b7", "7"];
+
 /** 音符 */
 export class Note {
-  private _code: string;
   /** 游戏中音符代码 */
-  get code(): string {
-    return this._code;
-  }
-  set code(value: string) {
-    this._code = value;
-    this.recalc();
-  }
-  private _modeMap: KeyNoteMap;
-  /** 调式谱 */
-  get modeMap(): KeyNoteMap {
-    return this._modeMap;
-  }
-  set modeMap(value: KeyNoteMap) {
-    this._modeMap = value;
-    this.recalc();
-  }
+  code: string;
   /** 音名 */
   name: string;
-  /** 简谱 */
-  number: string;
-  /** 简谱高低音符号数 */
-  tone: number;
   /** 四分音符 = 1 二分音符 = 2 以此类推 */
   duration: number;
-  /** 半音 */
-  isSemi: boolean;
-  /** 音 */
-  note: string;
-  /** 高 */
-  domain: number;
-  /** 升调表示音名 */
-  get sharpName() {
+  /** 系 */
+  parent: Music;
+  /** midi */
+  midi = 0;
+  /** 位 */
+  seqNumber = 0;
+
+  get shiftMidi() {
+    return this.midi + this.parent.numberShift;
+  }
+
+  /** 简谱 */
+  get number() {
     if (this.code === "0") return "0";
-    const preNode = noteNames[noteNames.lastIndexOf(this.note) - 1];
-    return this.isSemi ? `${preNode}#${this.domain}` : this.name;
+    return NUM12B[this.shiftMidi % 12];
   }
   /** 简谱升调 */
   get sharpNumber() {
     if (this.code === "0") return "0";
-    const preNumber = noteNames.lastIndexOf(this.note);
-    return this.isSemi ? `${preNumber}#` : this.number;
+    return NUM12S[this.shiftMidi % 12];
+  }
+  /** 简谱音高 */
+  get tone() {
+    return ((this.shiftMidi / 12) | 0) - 6;
+  }
+  /** 升调表示音名 */
+  get sharpName() {
+    if (this.code === "0") return "0";
+    return NOTE12S[this.midi % 12] + (((this.midi / 12) | 0) - 2);
   }
   /** tone.js格式的降调 */
   get toneName() {
     if (this.code === "0") return "0";
-    return this.isSemi ? `${this.note}b${this.domain}` : this.name;
+    return NOTE12T[this.midi % 12] + (((this.midi / 12) | 0) - 2);
   }
 
-  /** midi数字形式 */
-  get midi() {
-    if (this.code === "0") return 0;
-    const isSemi = this.name.startsWith("b");
-    const SEMITONES = [0, 2, 4, 5, 7, 9, 11];
-    return SEMITONES[(this.note.charCodeAt(0) + 3) % 7] - (isSemi ? 1 : 0) + (this.domain + 2) * 12;
-  }
-
-  get seqNumber() {
-    const SEQ = "BCEJKMRSUhik";
-    return SEQ.indexOf(this.code);
-  }
-
-  constructor(code: string, modeMap: KeyNoteMap, duration = 1) {
-    this._code = code;
-    this._modeMap = modeMap;
+  constructor(code: string, parent: Music, duration = 1) {
+    this.code = code;
+    this.parent = parent;
     this.duration = duration;
     this.recalc();
   }
 
   recalc() {
     if (this.code === "0") {
-      this.name = this.note = this.number = "0";
+      this.name = "0";
       return;
     }
-    if (!this.modeMap) return;
-    const name = this.modeMap[this.code];
+    if (!this.parent.modeMap) return;
+    const name = this.parent.modeMap[this.code];
     this.name = name;
     const isSemi = name.startsWith("b");
     const [note, domain] = name.substr(name.length - 2, 2).split("");
-    this.isSemi = isSemi;
-    this.note = note;
-    this.domain = +domain;
-    this.number = (isSemi ? "b" : "") + (noteNames.indexOf(note) + 1);
-    this.tone = +domain - 4;
+    this.seqNumber = SEQ.indexOf(this.code);
+    this.midi = SEMITONES[(note.charCodeAt(0) + 3) % 7] - (isSemi ? 1 : 0) + ((domain | 0) + 2) * 12;
   }
 }
 
@@ -262,7 +246,7 @@ export class MusicNote extends Note {
   /** 位置 12bit */
   position: number;
   constructor(note: Note) {
-    super(note.code, note.modeMap);
+    super(note.code, note.parent);
   }
 }
 
@@ -279,7 +263,10 @@ export class Music {
   /** 拍号 [小节拍数, 几分音符为一拍] */
   timeSignature: [number, number] = [4, 4];
   /** 速度 */
-  bpm: number = 240;
+  bpm = 240;
+  /** 简谱转调 */
+  numberShift = 0;
+  modeMap = ModeMaps[Mode.Major];
   /** 调式 */
   private _mode: Mode = Mode.Major;
   get mode(): Mode {
@@ -287,20 +274,17 @@ export class Music {
   }
   set mode(value: Mode) {
     this._mode = value;
+    this.modeMap = ModeMaps[value];
     if (this.notes)
       this.notes.forEach(note => {
-        note.modeMap = ModeMaps[value];
+        note.recalc();
       });
   }
   /** 音符 */
   notes: Note[] = [];
 
-  constructor() {}
-
-  play() {}
-
   get space() {
-    return ~~(960 / this.bpm);
+    return (960 / this.bpm) | 0;
   }
 
   get musicNotes() {
@@ -328,7 +312,7 @@ export class Music {
       }
       dst.push(mn);
     }
-    // console.log(dst.map(v => `${v.code}:${v.bar}:${v.position}`));
+    // console.log(dst.map(v => `${v.code}:${v.position}`));
     return dst;
   }
 
@@ -371,15 +355,18 @@ export class Music {
       const b4 = ~~(d / 4);
       const b2 = ~~((d % 4) / 2);
       const b1 = d % 2;
-      const s = (d: number) => new Note("0", null, d);
+      const s = (d: number) => new Note("0", this, d);
       for (let i = 0; i < b4; i++) notes.push(s(4));
       if (b2) notes.push(s(2));
       if (b1) notes.push(s(1));
     };
+    if (seqs[0][1] !== 0) {
+      addPadding(seqs[0][1]);
+    }
     for (let i = 0; i < seqs.length; i++) {
       const [k, t] = seqs[i];
       const next = seqs[i + 1];
-      const n = new Note(k, ModeMaps[this.mode]);
+      const n = new Note(k, this);
       let padding = 0;
       if (next) {
         const nt = next[1];
@@ -408,8 +395,7 @@ export class Music {
   }
   /** 添加音符 */
   addNote(note: Note, duration = 1) {
-    const t = new Note(note ? note.code : "0", ModeMaps[this.mode]);
-    t.duration = duration;
+    const t = new Note(note ? note.code : "0", this, duration);
     this.notes.push(t);
   }
   removeNote(at: number = -1) {

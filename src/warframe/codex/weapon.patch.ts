@@ -57,69 +57,106 @@ Flight Speed increased from 85 to 95
 export default {
   Cernos: {
     modes: [
-      { damage: { Impact: 171, Puncture: 9.5, Slash: 9.5 } },
       {
-        damage: { Impact: 342, Puncture: 19, Slash: 19 },
-        prjSpeed: 90,
+        damage: { Impact: 99, Puncture: 5.5, Slash: 5.5 },
+        critChance: 0.2,
+        critMul: 1.5,
+      },
+      {
+        damage: { Impact: 198, Puncture: 11, Slash: 11 },
+        prjSpeed: 85,
       },
     ],
   },
   "Mutalist Cernos": {
     modes: [
-      { damage: { Impact: 184.5, Puncture: 10.25, Slash: 10.25 } }, //
-      { damage: { Impact: 369, Puncture: 20.5, Slash: 20.5 } },
+      {
+        damage: { Impact: 108, Puncture: 6, Slash: 6 },
+        critChance: 0.1,
+        critMul: 1.5,
+      }, //
+      {
+        damage: { Impact: 202.5, Puncture: 11.25, Slash: 11.25 },
+      },
       { damage: { Toxin: 55 } },
     ],
   },
   "Cernos Prime": {
     modes: [
       {
-        damage: { Impact: 249.4, Puncture: 13.8, Slash: 13.8 },
+        damage: { Impact: 162, Puncture: 9, Slash: 9 },
+        critChance: 0.2,
+        critMul: 1.5,
       },
       {
-        damage: { Impact: 498.8, Puncture: 27.6, Slash: 27.6 },
-        prjSpeed: 95,
+        damage: { Impact: 324, Puncture: 18, Slash: 18 },
+        prjSpeed: 85,
       },
     ],
   },
   "Rakta Cernos": {
     modes: [
-      { damage: { Impact: 11.75, Puncture: 211.5, Slash: 11.75 } }, //
-      { damage: { Impact: 23.5, Puncture: 423, Slash: 23.5 } },
+      {
+        damage: { Impact: 135, Puncture: 7.5, Slash: 7.5 },
+        critChance: 0.2,
+      }, //
+      {
+        damage: { Impact: 225, Puncture: 12.5, Slash: 12.5 },
+      },
     ],
   },
   Daikyu: {
     modes: [
       {
-        damage: { Impact: 210, Puncture: 280, Slash: 210 },
-        critChance: 0.34,
-        procChance: 0.46,
-        prjSpeed: 140,
+        damage: { Impact: 138, Puncture: 184, Slash: 138 },
+        critChance: 0.2,
+        procChance: 0.5,
+        prjSpeed: 85,
       },
     ],
   },
   Dread: {
     modes: [
-      { damage: { Impact: 8.4, Puncture: 8.4, Slash: 151.2 } }, //
-      { damage: { Impact: 16.8, Puncture: 16.8, Slash: 302.4 } },
+      { damage: { Impact: 6.5, Puncture: 6.5, Slash: 117 }, critChance: 0.25 }, //
+      {
+        damage: { Impact: 10, Puncture: 10, Slash: 180 },
+      },
     ],
   },
   Paris: {
     modes: [
-      { damage: { Impact: 8, Puncture: 128, Slash: 24 } }, //
-      { damage: { Impact: 16, Puncture: 256, Slash: 48 } },
+      {
+        damage: { Impact: 6, Puncture: 96, Slash: 18 },
+        critChance: 0.2,
+        critMul: 1.5,
+      }, //
+      {
+        damage: { Impact: 9, Puncture: 144, Slash: 27 },
+      },
     ],
   },
   "MK1-Paris": {
     modes: [
-      { damage: { Impact: 5.75, Puncture: 92, Slash: 17.25 } }, //
-      { damage: { Impact: 11.5, Puncture: 184, Slash: 34.5 } },
+      {
+        damage: { Impact: 5, Puncture: 80, Slash: 15 },
+        critChance: 0.2,
+        critMul: 1.5,
+      }, //
+      {
+        damage: { Impact: 6, Puncture: 96, Slash: 18 },
+      },
     ],
   },
   "Paris Prime": {
     modes: [
-      { damage: { Impact: 4.5, Puncture: 144, Slash: 31.5 } }, //
-      { damage: { Impact: 9, Puncture: 288, Slash: 63 } },
+      {
+        damage: { Impact: 3.25, Puncture: 104, Slash: 22.75 },
+        critChance: 0.25,
+      }, //
+      {
+        damage: { Impact: 6.5, Puncture: 208, Slash: 45.5 },
+        prjSpeed: 85,
+      },
     ],
   },
 } as { [x: string]: Partial<Weapon> };
