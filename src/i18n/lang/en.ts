@@ -816,6 +816,7 @@ let po = {
       reg: "Regenerate {0}x",
       rmh: "Restore {0} Max Health",
       chf: "{0} chance for",
+      rd: "Reflects {0} Damage",
 
       augment: "{0} Augment",
       ify: "if the target is over {0}m away",

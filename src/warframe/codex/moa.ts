@@ -56,8 +56,8 @@ const _moaModel = [
 const _moaCore = [
   // index, name, mat, health, shield, armor
   [1, "Drex Core", "Rough", 2, 3, 1],
-  [2, "Alcrom Core", "Metal", 2, 1, 3],
-  [3, "Krisys Core", "Smooth", 2, 2, 2],
+  [2, "Krisys Core", "Metal", 2, 1, 3],
+  [3, "Alcrom Core", "Smooth", 2, 2, 2],
 ] as [number, string, string, number, number, number][];
 
 const _moaGyro = [

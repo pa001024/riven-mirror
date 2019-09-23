@@ -96,7 +96,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "T" }, // 范围 Range
   { id: "J", dmg: true }, // 攻速 Attack Speed
   { id: "B", dmg: true }, // 导引伤害
-  { id: "U" }, // 导引效率
+  { id: "U" }, // 导引效率 Channeling Efficiency
   { id: "N", nopercent: true }, // 连击 Combo Duration // abs-extra 绝对数值增加
   { id: "E", dmg: true }, // 滑暴 Critical Hit Chance for Slide Attack
   // abs-inc 绝对增加
@@ -318,6 +318,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "reg", noplus: true, format: v => Math.max(1, Math.round(v)) }, // Warframe Jump Height
   { id: "rmh", noplus: true }, // Regen
   { id: "chf", noplus: true }, // Regen
+  { id: "rd", noplus: true }, // Reflects +1000% Damage
 
   // no parameter 无参数
   { id: "sp" }, // 魔改
