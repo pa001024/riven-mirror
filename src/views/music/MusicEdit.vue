@@ -20,6 +20,7 @@
         <div class="setting-line">
           <el-switch class="mode-select" v-model="useSharp" :active-text="$t('shawzin.upshift')" :inactive-text="$t('shawzin.downshift')"/>
         </div>
+        <!-- 转调 -->
         <div class="setting-line">
           {{$t('shawzin.transpose')}}
           <el-select style="width:80px" v-model="music.numberShift" size="mini">
@@ -28,10 +29,16 @@
             <el-option label="E" :value="4"/>
             <el-option label="F" :value="5"/>
             <el-option label="G" :value="7"/>
-            <el-option label="A" :value="-3"/>
-            <el-option label="B" :value="-1"/>
+            <el-option label="A" :value="9"/>
+            <el-option label="B" :value="11"/>
           </el-select>
         </div>
+        <el-tooltip effect="dark" :content="$t('shawzin.importNumberSeqs')" placement="bottom">
+          <el-button size="small" @click="importNumberSeqs" icon="el-icon-download"></el-button>
+        </el-tooltip>
+        <el-tooltip effect="dark" :content="$t('shawzin.copyNumberSeqs')" placement="bottom">
+          <el-button size="small" @click="copyNumberSeqs" icon="el-icon-copy-document"></el-button>
+        </el-tooltip>
         <el-button slot="reference" size="small" icon="el-icon-setting"></el-button>
       </el-popover>
       <label>(4/4) BPM: </label>
@@ -74,9 +81,6 @@
       <el-tooltip effect="dark" :content="$t('shawzin.copyCode')" placement="bottom">
         <el-button size="small" @click="copyCode" icon="el-icon-copy-document"></el-button>
       </el-tooltip>
-      <!-- <el-tooltip effect="dark" :content="$t('shawzin.analysis')" placement="bottom">
-        <el-button size="small" @click="analysis" icon="el-icon-data-analysis"></el-button>
-      </el-tooltip> -->
     </div>
     <div class="view-area">
       <div class="input-box">
@@ -490,17 +494,6 @@ export default class MusicEdit extends Vue {
       }
     }
     return dur === 1 ? "quard" : dur === 2 ? "half" : "full";
-  }
-
-  copyCode() {
-    this.commitBlocks();
-    copy(this.music.code);
-
-    this.$message({
-      showClose: true,
-      message: this.$t("shawzin.codeCopied") as string,
-      type: "success",
-    });
   }
 
   playNote(note?: number | string | string[], duration = 1) {
@@ -1197,11 +1190,39 @@ export default class MusicEdit extends Vue {
 
   importCode() {
     const code = prompt(this.$t("shawzin.importCode") as any, "");
+    if (!code) return;
     this.music.code = code;
     this.reload();
     this.pushState();
   }
 
+  copyCode() {
+    copy(this.music.code);
+
+    this.$message({
+      showClose: true,
+      message: this.$t("shawzin.codeCopied") as string,
+      type: "success",
+    });
+  }
+
+  importNumberSeqs() {
+    const code = prompt(this.$t("shawzin.importNumberSeqs") as any, "");
+    if (!code) return;
+    this.music.numberSeqs = code;
+    this.reload();
+    this.pushState();
+  }
+
+  copyNumberSeqs() {
+    copy(this.music.numberSeqs);
+
+    this.$message({
+      showClose: true,
+      message: this.$t("shawzin.numCopied") as string,
+      type: "success",
+    });
+  }
   // 存在超大性能问题 不能作为data使用
   currentLine: number;
   isPlaying = false;

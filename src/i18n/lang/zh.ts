@@ -4040,6 +4040,9 @@ let po = {
     clearConfirm: "确定清空所有音符吗？",
     note: "音符",
     transpose: "转调",
+    importNumberSeqs: "导入简谱代码",
+    copyNumberSeqs: "复制简谱代码",
+    numCopied: "简谱代码已复制",
   },
 };
 

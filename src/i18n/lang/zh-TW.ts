@@ -4039,6 +4039,9 @@ let po = {
     clearConfirm: "確定清空所有音符嗎？",
     note: "音符",
     transpose: "轉調",
+    importNumberSeqs: "匯入簡譜碼",
+    copyNumberSeqs: "複製簡譜碼",
+    numCopied: "簡譜碼已複製",
   },
 };
 

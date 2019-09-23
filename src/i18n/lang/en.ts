@@ -1939,6 +1939,9 @@ let po = {
     clearConfirm: "Are you sure to clear all the notes?",
     note: "notes",
     transpose: "Transpose",
+    importNumberSeqs: "Import Number Code",
+    copyNumberSeqs: "Copy Number Code",
+    numCopied: "Number Code Copied",
   },
 };
 

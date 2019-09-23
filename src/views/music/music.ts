@@ -40,20 +40,18 @@ const BASESEQ = "BCEJKMRSUhik";
 const _BASE64_ST = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 const _BASE64_RST = [].reduce.call(_BASE64_ST, (r: { [x: string]: number }, v: string, i: number) => ((r[v] = i), r), {}) as { [x: string]: number };
 
-function sbase64(src: number): string {
-  return _BASE64_ST[src & 63];
-}
-
-function desbase64(src: string): number {
-  return _BASE64_RST[src[0]];
-}
-
 function ibase64(src: number): string {
   return _BASE64_ST[src >> 6] + _BASE64_ST[src & 63];
 }
 
 function deibase64(src: string): number {
   return (_BASE64_RST[src[0]] << 6) | _BASE64_RST[src[1]];
+}
+
+function toMidi(name: string) {
+  const isSemi = name.startsWith("b");
+  const [note, domain] = name.substr(name.length - 2, 2);
+  return SEMITONES[(note.charCodeAt(0) + 3) % 7] - (isSemi ? 1 : 0) + (+domain + 2) * 12;
 }
 
 /** 弦 */
@@ -114,6 +112,7 @@ const NOTE12S = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
 // const NOTE12B = ["C", "bD", "D", "bE", "E", "F", "bG", "G", "bA", "A", "bB", "B"];
 const NOTE12T = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
 const NUM12S = ["1", "1#", "2", "2#", "3", "4", "4#", "5", "5#", "6", "6#", "7"];
+const NUM12T = ["1", "#1", "2", "#2", "3", "4", "#4", "5", "#5", "6", "#6", "7"];
 const NUM12B = ["1", "b2", "2", "b3", "3", "4", "b5", "5", "b6", "6", "b7", "7"];
 
 /** 音符 */
@@ -147,6 +146,11 @@ export class Note {
     if (this.seq < 0) return "0";
     return NUM12S[this.shiftMidi % 12];
   }
+  /** 简谱升调 */
+  get codeNumber() {
+    if (this.seq < 0) return "0";
+    return NUM12T[this.shiftMidi % 12];
+  }
   /** 简谱音高 */
   get tone() {
     return ((this.shiftMidi / 12) | 0) - 6;
@@ -178,9 +182,7 @@ export class Note {
     if (!this.parent.modeMap) return;
     const name = this.parent.modeMap[this.seq];
     this.name = name;
-    const isSemi = name.startsWith("b");
-    const [note, domain] = name.substr(name.length - 2, 2).split("");
-    this.midi = SEMITONES[(note.charCodeAt(0) + 3) % 7] - (isSemi ? 1 : 0) + (+domain + 2) * 12;
+    this.midi = toMidi(name);
   }
 }
 
@@ -222,6 +224,10 @@ export class Music {
       this.notes.forEach(note => {
         note.recalc();
       });
+  }
+
+  get midiMap() {
+    return this.modeMap.map(m => toMidi(m));
   }
   /** 音符 */
   notes: Note[] = [];
@@ -376,11 +382,69 @@ export class Music {
     }
   }
 
+  /** 获取简谱对应的音符 */
+  getNoteByMidi(num: number, duration?: number) {
+    const mm = this.midiMap;
+    const midi = mm.findIndex(v => v >= num);
+    return new Note(Math.max(0, midi), this, duration);
+  }
+
   get totalDuration() {
     let totalTime = 0;
     this.musicNotes.forEach(note => {
       totalTime += note.duration;
     });
     return totalTime;
+  }
+
+  get numberSeqs() {
+    // example: -_62=35.^3-0#1(12^#3); 指2分音符低音6 中音2 四分音符35 全音符高音3 二分休止符 升1 123和弦 其他字符均无意义仅做排版使用
+    // . - = 分别表示之后音符为全音符 二分音符 四分音符 对之后所有音符均有效
+    // _ ^ ^^ 分别表示低音 高音 高高音 只能修饰一个音符
+    // # b 表示升降 只能修饰一个音符
+    let rst = [],
+      lastDuration = 1,
+      totalTime = 0;
+    for (let i = 0; i < this.notes.length; i++) {
+      const last = this.notes[i - 1];
+      const note = this.notes[i];
+      const toneFlag = ["_", , "^", "^^"][note.tone + 1] || "";
+      let durationFlag = "";
+      if (i === 0 || note.duration != lastDuration) durationFlag = ["(", "=", "-", , "."][note.duration];
+      rst.push(
+        `${i > 0 && totalTime % 16 === 0 ? " " : ""}${durationFlag}${toneFlag}${note.codeNumber}${
+          i > 0 && note.duration != last.duration && last.duration === 0 ? ")" : ""
+        }`
+      );
+      lastDuration = note.duration || lastDuration;
+      totalTime += note.duration;
+    }
+    return rst.join("");
+  }
+  set numberSeqs(value) {
+    let notes = [],
+      duration = 1;
+    const rex = /([\.=\-])?((?:_|\^+)?[b#]?[0-7]|\((?:(?:_|\^+)?[b#]?[0-7])+?\))/g;
+    const srex = /(_+|\^+)?([b#])?([0-7])/g;
+    value.replace(rex, (m0, mdura: string, mnote: string) => {
+      if (mdura) duration = { "=": 1, "-": 2, ".": 4 }[mdura];
+      let mnotes: Note[] = [];
+      mnote.replace(srex, (m, mtone, msharp, mn) => {
+        if (mn === "0") {
+          mnotes.push(new Note(-1, this, 0));
+        } else {
+          const tone = (mtone && { _: -1, "^": 1 }[mtone[0]] * mtone.length) || 0;
+          const semi = { "#": 1, b: -1 }[msharp] || 0;
+          const midi = SEMITONES[mn.charCodeAt(0) % 7] + (tone + 6) * 12 + semi - this.numberShift;
+          mnotes.push(this.getNoteByMidi(midi, 0));
+        }
+        return m;
+      });
+      mnotes[mnotes.length - 1].duration = duration;
+      notes = notes.concat(mnotes);
+      return m0;
+    });
+    // console.log(notes);
+    this.notes = notes;
   }
 }
