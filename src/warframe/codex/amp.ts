@@ -8,6 +8,7 @@ import { i18n } from "@/i18n";
  */
 export interface AmpPrism {
   index: number;
+  id: string;
   name: string;
   dmgs: [string, number][];
   critChance: number;
@@ -25,6 +26,7 @@ export interface AmpPrism {
  */
 export interface AmpScaffold {
   index: number;
+  id: string;
   name: string;
   dmgs: [string, number][];
   critChance: number;
@@ -42,6 +44,7 @@ export interface AmpScaffold {
  */
 export interface AmpBrace {
   index: number;
+  id: string;
   name: string;
   critChance: number;
   procChance: number;
@@ -58,7 +61,7 @@ const _ampPrism = [
   [4, "Rahn Prism", [["Void", 1000]], 0.3, 2, 0.04, 340, 32, 2, 100],
   [5, "Cantic Prism", [["Void", 1460]], 0.34, 2.2, 0.1, 293, 32, 3, 100],
   [6, "Lega Prism", [["Void", 600]], 0.08, 1.6, 0.34, 450, 100, 60, 28],
-  [7, "Klamora Prism", [["Void", 600]], 0.38, 2.4, 0.1, 720, 100, 25, 13]
+  [7, "Klamora Prism", [["Void", 600]], 0.38, 2.4, 0.1, 720, 100, 25, 13],
 ] as [number, string, [string, number][], number, number, number, number, number, number, number, number?][];
 
 const _ampScaffold = [
@@ -69,7 +72,7 @@ const _ampScaffold = [
   [4, "Phahd Scaffold", [["Void", 6100]], 0.34, 2.6, 0.12, 80, 9.1, 20, 300, /* prjSpeed */ 100],
   [5, "Exard Scaffold", [/*["Impact", 200], */ ["Void", 2600]], 0.17, 1.9, 0.33, 496, 10, 20, 40, /* prjSpeed */ 100],
   [6, "Dissic Scaffold", [/*["Impact", 15], */ ["Void", 6600]], 0.03, 1.5, 0.37, 60, 100, 50, /* prjSpeed */ 100],
-  [7, "Propa Scaffold", [["Void", 9000]], 0.3, 2, 0, 120, 9.1, 50, 10, /* prjSpeed */ 40]
+  [7, "Propa Scaffold", [["Void", 9000]], 0.3, 2, 0, 120, 9.1, 50, 10, /* prjSpeed */ 40],
 ] as [number, string, [string, number][], number, number, number, number, number, number, number, number?][];
 
 const _ampBrace = [
@@ -80,7 +83,7 @@ const _ampBrace = [
   [4, "Anspatha Brace", 0, 0, 20, 0, 15],
   [5, "Suo Brace", 0, 0, 100, 2, 0],
   [6, "Plaga Brace", 0, 0, -20, -1.5, 0],
-  [7, "Certus Brace", 0.2, 0, 0, 0, 0]
+  [7, "Certus Brace", 0.2, 0, 0, 0, 0],
 ] as [number, string, number, number, number, number, number][];
 
 export const NoneBraceData = {
@@ -91,14 +94,14 @@ export const NoneBraceData = {
   procChance: 0,
   magazine: 0,
   reloadDelay: 0,
-  reloadSpeed: 0
+  reloadSpeed: 0,
 };
 
 /** 棱镜数据 */
 export const AmpPrismData: AmpPrism[] = _ampPrism.map(v => ({
   index: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  name: v[1],
+  id: _.camelCase(v[1]),
   dmgs: v[2],
   critChance: v[3],
   critDamage: v[4],
@@ -107,14 +110,14 @@ export const AmpPrismData: AmpPrism[] = _ampPrism.map(v => ({
   accuracy: v[7],
   ammoCost: v[8],
   rangeLimit: v[9],
-  prjSpeed: v[10]
+  prjSpeed: v[10],
 }));
 
 /** 支架数据 */
 export const AmpScaffoldData: AmpScaffold[] = _ampScaffold.map(v => ({
   index: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  name: v[1],
+  id: _.camelCase(v[1]),
   dmgs: v[2],
   critChance: v[3],
   critDamage: v[4],
@@ -123,19 +126,19 @@ export const AmpScaffoldData: AmpScaffold[] = _ampScaffold.map(v => ({
   accuracy: v[7],
   ammoCost: v[8],
   rangeLimit: v[9],
-  prjSpeed: v[10]
+  prjSpeed: v[10],
 }));
 
 /** 曲柄数据 */
 export const AmpBraceData: AmpBrace[] = _ampBrace.map(v => ({
   index: v[0],
-  id: v[1],
-  name: _.camelCase(v[1]),
+  name: v[1],
+  id: _.camelCase(v[1]),
   critChance: v[2],
   procChance: v[3],
   magazine: v[4],
   reloadDelay: v[5],
-  reloadSpeed: v[6]
+  reloadSpeed: v[6],
 }));
 
 const getName = (url: string) => {
@@ -211,7 +214,7 @@ export class Amp extends Weapon {
       ammoCost: mainPart.ammoCost,
       accuracy: mainPart.accuracy,
       range: mainPart.rangeLimit,
-      prjSpeed: mainPart.prjSpeed
+      prjSpeed: mainPart.prjSpeed,
     } as CoreWeaponMode;
     if ((this.scaffold && this.scaffold.name === "Klebrik Scaffold") || (this.prism && this.prism.name === "Klamora Prism")) mode.trigger = "Held";
     this.reloadSpeed = 30 + brace.reloadSpeed;
@@ -221,9 +224,9 @@ export class Amp extends Weapon {
   }
   get displayName() {
     if (this.prism || this.scaffold)
-      return `${this.isPrism ? i18n.t(`messages.${_.camelCase(this.prism.name)}`) : i18n.t(`messages.${_.camelCase(this.scaffold.name)}`)}-${i18n.t(
-        `messages.${_.camelCase(this.brace.name)}`
-      )} ( ${this.buildName} )`;
+      return `${this.isPrism ? i18n.t(`messages.${this.prism.id}`) : i18n.t(`messages.${this.scaffold.id}`)}-${i18n.t(`messages.${this.brace.id}`)} ( ${
+        this.buildName
+      } )`;
     else return "Amp";
   }
 }

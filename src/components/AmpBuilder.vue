@@ -3,48 +3,38 @@
     <!-- 棱镜 -->
     <div class="parthead">{{$t("amp.selectPrism")}}</div>
     <div class="partlist">
-      <div class="part-box" v-for="item in prismList" :key="item.id">
+      <div class="part-box" v-for="item in prismList" :key="item.index">
         <el-radio class="part" v-model="prism" :label="item" border @change="scaffold = null">
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/${item.name}.m.png`" :alt="item.name" height="100%">
+            <img :src="`https://cdn.riven.im/img/${item.id}.m.png`" :alt="item.id" height="100%">
           </div>
-          <div class="name">
-            {{$t(`messages.${item.name}`)}}
-          </div>
-          <div class="type">
-            {{$t(`amp.type.${item.name}`)}}
-          </div>
+          <div class="name">{{$t(`messages.${item.id}`)}}</div>
+          <div class="type">{{$t(`amp.type.${item.id}`)}}</div>
         </el-radio>
       </div>
     </div>
     <!-- 支架 -->
     <div class="parthead">{{$t("amp.selectScaffold")}}</div>
     <div class="partlist">
-      <div class="part-box" v-for="item in scaffoldList" :key="item.id">
+      <div class="part-box" v-for="item in scaffoldList" :key="item.index">
         <el-radio class="part" v-model="scaffold" :label="item" border @change="prism = null">
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/${item.name}.m.png`" :alt="item.name" height="100%">
+            <img :src="`https://cdn.riven.im/img/${item.id}.m.png`" :alt="item.id" height="100%">
           </div>
-          <div class="name">
-            {{$t(`messages.${item.name}`)}}
-          </div>
-          <div class="type">
-            {{$t(`amp.type.${item.name}`)}}
-          </div>
+          <div class="name">{{$t(`messages.${item.id}`)}}</div>
+          <div class="type">{{$t(`amp.type.${item.id}`)}}</div>
         </el-radio>
       </div>
     </div>
     <!-- 曲柄 -->
     <div class="parthead">{{$t("amp.selectBrace")}}</div>
     <div class="partlist">
-      <div class="part-box" v-for="item in braceList" :key="item.id">
+      <div class="part-box" v-for="item in braceList" :key="item.index">
         <el-radio class="part" v-model="brace" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/${item.name}.m.png`" :alt="item.name" height="100%">
+            <img :src="`https://cdn.riven.im/img/${item.id}.m.png`" :alt="item.id" height="100%">
           </div>
-          <div class="name">
-            {{$t(`messages.${item.name}`)}}
-          </div>
+          <div class="name">{{$t(`messages.${item.id}`)}}</div>
           <div class="prop">
             <span v-if="item.critChance">{{item.critChance >= 0 ? "+" : ""}}{{(item.critChance*100).toFixed()}}% {{$t(`modular.critChance`)}}</span>
             <span v-if="item.procChance">{{item.procChance >= 0 ? "+" : ""}}{{(item.procChance*100).toFixed()}}% {{$t(`modular.status`)}}</span>
@@ -58,14 +48,14 @@
     <!-- 部件 -->
     <div class="parts">
       <div class="part" v-if="finished">{{$t("amp.buildName")}}: {{amp.buildName}}</div><!--
-   --><div class="part" v-if="prism">{{$t("amp.prism")}}: {{$t(`messages.${prism.name}`)}}</div><!--
-   --><div class="part" v-if="scaffold">{{$t("amp.scaffold")}}: {{$t(`messages.${scaffold.name}`)}}</div><!--
-   --><div class="part" v-if="brace">{{$t("amp.brace")}}: {{$t(`messages.${brace.name}`)}}</div>
+   --><div class="part" v-if="prism">{{$t("amp.prism")}}: {{$t(`messages.${prism.id}`)}}</div><!--
+   --><div class="part" v-if="scaffold">{{$t("amp.scaffold")}}: {{$t(`messages.${scaffold.id}`)}}</div><!--
+   --><div class="part" v-if="brace">{{$t("amp.brace")}}: {{$t(`messages.${brace.id}`)}}</div>
     </div>
     <!-- 预览 -->
     <div class="preview" v-if="prism || scaffold">
-      <div class="prop" v-for="dmg in amp.dmg" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
-   --><div class="prop">{{$t("modular.fireRate")}}: {{amp.defaultMode.fireRate/60}}</div><!--
+      <div class="prop" v-for="dmg in amp.defaultMode.damage" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
+   --><div class="prop">{{$t("modular.fireRate")}}: {{+(amp.defaultMode.fireRate/60).toFixed(3)}}</div><!--
    --><div class="prop">{{$t("modular.critDamage")}}: {{amp.defaultMode.critMul}}x</div><!--
    --><div class="prop">{{$t("modular.critChance")}}: {{(amp.defaultMode.critChance*100).toFixed()}}%</div><!--
    --><div class="prop">{{$t("modular.status")}}: {{(amp.defaultMode.procChance*100).toFixed()}}%</div><!--
