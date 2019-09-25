@@ -25,11 +25,16 @@
           {{$t('shawzin.transpose')}}
           <el-select style="width:80px" v-model="music.numberShift" size="mini">
             <el-option label="C" :value="0"/>
+            <el-option label="bD" :value="1"/>
             <el-option label="D" :value="2"/>
+            <el-option label="bE" :value="3"/>
             <el-option label="E" :value="4"/>
             <el-option label="F" :value="5"/>
+            <el-option label="bG" :value="6"/>
             <el-option label="G" :value="7"/>
+            <el-option label="bA" :value="8"/>
             <el-option label="A" :value="9"/>
+            <el-option label="bB" :value="10"/>
             <el-option label="B" :value="11"/>
           </el-select>
         </div>

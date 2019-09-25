@@ -398,12 +398,8 @@ export class Music {
   }
 
   get numberSeqs() {
-    // example: -_62=35.^3-0#1(12^#3); 指2分音符低音6 中音2 四分音符35 全音符高音3 二分休止符 升1 123和弦 其他字符均无意义仅做排版使用
-    // . - = 分别表示之后音符为全音符 二分音符 四分音符 对之后所有音符均有效
-    // _ ^ ^^ 分别表示低音 高音 高高音 只能修饰一个音符
-    // # b 表示升降 只能修饰一个音符
     let rst = [],
-      lastDuration = 1,
+      lastDuration = 2,
       totalTime = 0;
     for (let i = 0; i < this.notes.length; i++) {
       const last = this.notes[i - 1];
@@ -423,25 +419,48 @@ export class Music {
   }
   set numberSeqs(value) {
     let notes = [],
-      duration = 1;
-    const rex = /([\.=\-])?((?:_|\^+)?[b#]?[0-7]|\((?:(?:_|\^+)?[b#]?[0-7])+?\))/g;
-    const srex = /(_+|\^+)?([b#])?([0-7])/g;
+      duration = 2,
+      toneOffset = 6;
+    const rex = /([\.=\-\[\],{}])|((?:[_\^\/+]+)?[b#]?[0-7]|\((?:(?:[_\^\/+]+)?[b#]?[0-7])+?\))/g;
+    const srex = /([_\^\/+]+)?([b#])?([0-7])/g;
     value.replace(rex, (m0, mdura: string, mnote: string) => {
-      if (mdura) duration = { "=": 1, "-": 2, ".": 4 }[mdura];
-      let mnotes: Note[] = [];
-      mnote.replace(srex, (m, mtone, msharp, mn) => {
-        if (mn === "0") {
-          mnotes.push(new Note(-1, this, 0));
-        } else {
-          const tone = (mtone && { _: -1, "^": 1 }[mtone[0]] * mtone.length) || 0;
-          const semi = { "#": 1, b: -1 }[msharp] || 0;
-          const midi = SEMITONES[mn.charCodeAt(0) % 7] + (tone + 6) * 12 + semi - this.numberShift;
-          mnotes.push(this.getNoteByMidi(midi, 0));
+      if (mdura) {
+        switch (mdura) {
+          case ",":
+            notes.push(new Note(-1, this, Math.max(1, duration / 2)));
+            break;
+          case "[":
+            duration = Math.max(1, duration / 2);
+            break;
+          case "]":
+            duration *= 2;
+            break;
+          case "{":
+            toneOffset++;
+            break;
+          case "}":
+            toneOffset--;
+            break;
+          default:
+            duration = { "=": 1, "-": 2, ".": 4 }[mdura];
         }
-        return m;
-      });
-      mnotes[mnotes.length - 1].duration = duration;
-      notes = notes.concat(mnotes);
+      }
+      if (mnote) {
+        let mnotes: Note[] = [];
+        mnote.replace(srex, (m, mtone, msharp, mn) => {
+          if (mn === "0") {
+            mnotes.push(new Note(-1, this, 0));
+          } else {
+            const tone = (mtone && { _: -1, "^": 1, "/": -1, "+": 1 }[mtone[0]] * mtone.length) || 0;
+            const semi = { "#": 1, b: -1 }[msharp] || 0;
+            const midi = SEMITONES[mn.charCodeAt(0) % 7] + (tone + toneOffset) * 12 + semi - this.numberShift;
+            mnotes.push(this.getNoteByMidi(midi, 0));
+          }
+          return m;
+        });
+        mnotes[mnotes.length - 1].duration = duration;
+        notes = notes.concat(mnotes);
+      }
       return m0;
     });
     // console.log(notes);
