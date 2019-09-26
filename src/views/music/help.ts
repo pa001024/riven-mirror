@@ -81,7 +81,7 @@ Other characters are meaningless except the following characters.
 
 All simultaneous notes (chords) in the game are currently supported (import and export).
 
-Import this code to see all supported combinations: \`6ZAAaAIcAQpAYqAgsAoxAwyA40BA5BI6BQ8BYFBgDBkGBoHBsNBwLB0OB4PB8VCATCEWCIXCMlCQjCUmCYnCc\`
+Import this code to see all supported combinations: \`5BAACAIEAQJAYKAgMAoRAwSA4UBAhBIiBQkBYDBgGBoFBwLB4OCANCITCQWCYVCgjComCwlC4HDAPDIXDQnDYZDgaDocDwpD4qEAsEIxEQyEY0Eg5Eo6Ew8E4bFAdFI/FQtFYeFguFozFw1F47GA9GI2GQ+GY\`
 
 ## Keyboard shortcuts
 
@@ -209,7 +209,7 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 
 目前已支持游戏内所有同时出现的音符(和弦)的导入和导出
 
-导入这段代码来查看所有支持的组合: \`6ZAAaAIcAQpAYqAgsAoxAwyA40BA5BI6BQ8BYFBgDBkGBoHBsNBwLB0OB4PB8VCATCEWCIXCMlCQjCUmCYnCc\`
+导入这段代码来查看所有支持的组合: \`5BAACAIEAQJAYKAgMAoRAwSA4UBAhBIiBQkBYDBgGBoFBwLB4OCANCITCQWCYVCgjComCwlC4HDAPDIXDQnDYZDgaDocDwpD4qEAsEIxEQyEY0Eg5Eo6Ew8E4bFAdFI/FQtFYeFguFozFw1F47GA9GI2GQ+GY\`
 
 ## 键盘快捷键
 
@@ -337,7 +337,7 @@ BPM即每分鐘節拍數，計算方式為每秒內節拍數*60，也就是一�
 
 目前已支援遊戲內所有同時出現的音符(和絃)的匯入和匯出
 
-匯入這段歌曲樂串來檢視所有支援的組合: \`6ZAAaAIcAQpAYqAgsAoxAwyA40BA5BI6BQ8BYFBgDBkGBoHBsNBwLB0OB4PB8VCATCEWCIXCMlCQjCUmCYnCc\`
+匯入這段歌曲樂串來檢視所有支援的組合: \`5BAACAIEAQJAYKAgMAoRAwSA4UBAhBIiBQkBYDBgGBoFBwLB4OCANCITCQWCYVCgjComCwlC4HDAPDIXDQnDYZDgaDocDwpD4qEAsEIxEQyEY0Eg5Eo6Ew8E4bFAdFI/FQtFYeFguFozFw1F47GA9GI2GQ+GY\`
 
 ## 鍵盤快捷鍵
 
