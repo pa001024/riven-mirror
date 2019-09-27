@@ -98,11 +98,13 @@ export default class App extends Vue {
     document.querySelector("html").className = [this.invert && "invert-theme", this.bigScreen && "bigmode"].filter(Boolean).join(" ");
   }
 
+  viewParameter = location.search.match(/(?:\?|&)view=iframe(?=$|&)/);
+
   get isIndexPage() {
     return this.isFullPage || ["VisualSkillEditor", "Login", "ForgetPass", "EULA"].includes(this.$route.name);
   }
   get isFullPage() {
-    return ["Master"].includes(this.$route.name);
+    return !!this.viewParameter || ["Master"].includes(this.$route.name);
   }
   get magic() {
     return magic;
@@ -124,7 +126,7 @@ export default class App extends Vue {
       { title: "navigate.huangli", path: "/huangli", icon: "date" },
       { title: "navigate.shawzin", path: "/music", icon: "shawzin" },
       { title: "navigate.palette", path: "/palette", icon: "palette" },
-      { title: "navigate.setting", path: "/setting", icon: "settings" }
+      { title: "navigate.setting", path: "/setting", icon: "settings" },
     ].filter(v => v.title !== "navigate.huangli" || i18n.locale !== "en");
   }
   renderMD(text: string) {
@@ -144,7 +146,7 @@ export default class App extends Vue {
         showClose: true,
         message: "国服用户可在设置中切换国服翻译",
         type: "success",
-        duration: 0
+        duration: 0,
       });
       localStorage.setItem("cn", "yes");
     }
@@ -156,12 +158,12 @@ export default class App extends Vue {
           this.$confirm("你已经使用一段时间本工具了，如果你觉得本工具对你有帮助，要发电支持一下吗?", "暗示", {
             confirmButtonText: "支持一下",
             cancelButtonText: "忽略",
-            type: "warning"
+            type: "warning",
           })
             .then(() => {
               this.$message({
                 type: "success",
-                message: "Nice!"
+                message: "Nice!",
               });
               open("https://afdian.net/@rivenmirror/plan"); // open("https://www.patreon.com/join/RivenMirror?");
               localStorage.setItem("114514", "1919");
@@ -169,7 +171,7 @@ export default class App extends Vue {
             .catch(() => {
               this.$message({
                 type: "info",
-                message: "......."
+                message: ".......",
               });
               localStorage.setItem("114514", "114");
             });
