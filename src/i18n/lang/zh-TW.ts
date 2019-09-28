@@ -1223,6 +1223,7 @@ let po = {
     quatz: "誇茲",
     akarius: "阿利烏雙槍",
     acceltra: "迅發電漿炮",
+    pathocyst: "病囊飛刃",
 
     none: "無",
     balla: "寶拉",
