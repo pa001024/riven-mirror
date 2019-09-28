@@ -852,10 +852,10 @@ export default class MusicEdit extends Vue {
         this.music.addNote(null, this.duration);
         break;
       case "^Z":
-        this.undo().commitBlocks();
+        this.undo().commitBlocks(false);
         break;
       case "^+Z":
-        this.redo().commitBlocks();
+        this.redo().commitBlocks(false);
         break;
       case "^A":
         e.preventDefault();
@@ -1179,7 +1179,7 @@ export default class MusicEdit extends Vue {
   }
 
   /** 将blocks的修改写入 */
-  commitBlocks() {
+  commitBlocks(write = true) {
     const seqs = this.blocks
       .sort((a, b) => {
         return a.x - b.x || a.y - b.y;
@@ -1190,7 +1190,7 @@ export default class MusicEdit extends Vue {
         return [k, t] as [number, number];
       });
     this.music.setSeqs(seqs);
-    this.pushState();
+    if (write) this.pushState();
   }
 
   importCode() {
