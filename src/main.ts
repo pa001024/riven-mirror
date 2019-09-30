@@ -55,7 +55,7 @@ export async function createApp({ beforeApp = () => {}, afterApp = () => {}, loc
 
   await beforeApp({
     router,
-    store
+    store,
   });
 
   store.dispatch("load");
@@ -64,13 +64,13 @@ export async function createApp({ beforeApp = () => {}, afterApp = () => {}, loc
     i18n: vi18n,
     router,
     store,
-    render: h => h(App)
+    render: h => h(App),
   });
 
   const result = {
     app,
     router,
-    store
+    store,
   };
 
   await afterApp(result);
@@ -82,23 +82,22 @@ export async function createApp({ beforeApp = () => {}, afterApp = () => {}, loc
 import "./registerServiceWorker";
 
 // FastClick
-import FastClick from "fastclick";
-FastClick.attach(document.body);
+// import FastClick from "fastclick";
+// FastClick.attach(document.body);
 
 const langParameter = location.search.match(/(?:\?|&)lang=(en|zh-CN|zh-TW|zh-CY)(?=$|&)/);
 
-import { WeaponDatabase } from "@/warframe/codex/weapon";
-import { RivenDatabase } from "./warframe/codex";
+import { RivenDatabase, WeaponDatabase } from "@/warframe/codex";
 
 createApp({
   async beforeApp({ router }) {
     // await loadAsyncComponents({ router });
-    await RivenDatabase.reload();
+    RivenDatabase.reload();
     await WeaponDatabase.loadDataOnline();
   },
 
   afterApp({ app, store }) {
     app.$mount("#app");
   },
-  locale: (langParameter && langParameter[1]) || localStorage.getItem("lang")
+  locale: (langParameter && langParameter[1]) || localStorage.getItem("lang"),
 });

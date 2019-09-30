@@ -1942,6 +1942,7 @@ let po = {
     importNumberSeqs: "Import Number Code",
     copyNumberSeqs: "Copy Number Code",
     numCopied: "Number Code Copied",
+    staff: "Staff",
   },
 };
 

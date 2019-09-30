@@ -4044,6 +4044,7 @@ let po = {
     importNumberSeqs: "导入简谱代码",
     copyNumberSeqs: "复制简谱代码",
     numCopied: "简谱代码已复制",
+    staff: "五线谱",
   },
 };
 

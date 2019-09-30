@@ -2,7 +2,7 @@
   <div class="music-edit" tabindex="0" @keydown="keyDown" @keyup="keyUp" @mousemove="selectMove" @mouseup="selectEnd">
     <div class="edit-header setting">
       <el-button size="small" type="primary" @click="showHelp = true">{{$t('shawzin.help')}}</el-button>
-      <el-select style="width:120px" v-model="music.mode" size="small">
+      <el-select style="width:90px" v-model="music.mode" size="small">
         <el-option :key="mode.name" v-for="mode in modes" :label="$t(`shawzin.${mode.name}`)" :value="mode.val" :disabled="!modeMaps[mode.val]" />
       </el-select>
       <el-select style="width:120px" v-model="instrument" size="small">
@@ -11,16 +11,30 @@
         <el-option :label="$t('shawzin.lotus')" value="lotus"/>
       </el-select>
       <i v-if="!isLoaded" class="el-icon-loading"></i>
+      <!-- 额外设置 -->
       <el-popover
         placement="top"
         v-model="settingVisible">
+        <!-- BPM -->
+        <div class="setting-line">
+          <label>BPM: </label>
+          <el-select style="width:80px" size="small" v-model="music.bpm">
+            <el-option v-for="item in bpms" :key="item" :label="item" :value="item" />
+          </el-select>
+        </div>
+        <!-- 简谱 -->
         <div class="setting-line">
           <el-switch class="mode-select" v-model="useNumber" :active-text="$t('shawzin.number')" :inactive-text="$t('shawzin.name')"/>
         </div>
+        <!-- 升降符号 -->
         <div class="setting-line">
           <el-switch class="mode-select" v-model="useSharp" :active-text="$t('shawzin.upshift')" :inactive-text="$t('shawzin.downshift')"/>
         </div>
-        <!-- 转调 -->
+        <!-- 五线谱 -->
+        <div class="setting-line">
+          <el-switch class="mode-select" v-model="showStaff" :active-text="$t('shawzin.staff')"/>
+        </div>
+        <!-- 调号 -->
         <div class="setting-line">
           {{$t('shawzin.transpose')}}
           <el-select style="width:80px" v-model="music.numberShift" size="mini">
@@ -38,36 +52,45 @@
             <el-option label="B" :value="11"/>
           </el-select>
         </div>
-        <el-tooltip effect="dark" :content="$t('shawzin.importNumberSeqs')" placement="bottom">
-          <el-button size="small" @click="importNumberSeqs" icon="el-icon-download"></el-button>
-        </el-tooltip>
-        <el-tooltip effect="dark" :content="$t('shawzin.copyNumberSeqs')" placement="bottom">
-          <el-button size="small" @click="copyNumberSeqs" icon="el-icon-copy-document"></el-button>
-        </el-tooltip>
+        <!-- 简谱导入导出 -->
+        <el-button-group>
+          <el-tooltip effect="dark" :content="$t('shawzin.importNumberSeqs')" placement="bottom">
+            <el-button size="small" @click="importNumberSeqs" icon="el-icon-download"></el-button>
+          </el-tooltip>
+          <el-tooltip effect="dark" :content="$t('shawzin.copyNumberSeqs')" placement="bottom">
+            <el-button size="small" @click="copyNumberSeqs" icon="el-icon-copy-document"></el-button>
+          </el-tooltip>
+        </el-button-group>
         <el-button slot="reference" size="small" icon="el-icon-setting"></el-button>
       </el-popover>
-      <label>(4/4) BPM: </label>
-      <el-select style="width:80px" size="small" v-model="music.bpm">
-        <el-option v-for="item in bpms" :key="item" :label="item" :value="item" />
-      </el-select>
-    </div>
-    <div class="preview-header setting">
+      <!-- 工具选择 -->
       <el-radio-group size="small" v-model="editMode">
         <el-radio-button label="move"><i class="el-icon-rank"></i></el-radio-button>
         <el-radio-button label="add"><i class="el-icon-edit"></i></el-radio-button>
         <el-radio-button label="delete"><i class="el-icon-delete"></i></el-radio-button>
       </el-radio-group>
+      <!-- 长度选择 -->
       <el-radio-group size="small" v-model="duration">
         <el-radio-button :label="1">{{$t('shawzin.quarter')}}(J)</el-radio-button>
         <el-radio-button :label="2">{{$t('shawzin.half')}}(K)</el-radio-button>
         <el-radio-button :label="4">{{$t('shawzin.full')}}(L)</el-radio-button>
       </el-radio-group>
-      <el-button size="small" type="danger" :disabled="isRecording" icon="el-icon-video-camera" @click="recordSeq"></el-button>
-      <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq"></el-button>
-      <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)"></el-button>
-      <el-button size="small" :disabled="!isPlaying && !isRecording && !isShowStop" @click="stopSeq()"><WfIcon type="stop" /></el-button>
-      <el-button size="small" v-model="loop" :type="loop ? 'primary' : 'info'" @click="loop = !loop"><WfIcon type="loop" /></el-button>
-      <el-button size="small" @click="backspace" icon="el-icon-back"></el-button>
+      <!-- 操作 -->
+      <el-button-group>
+        <el-button size="small" type="danger" :disabled="isRecording" icon="el-icon-video-camera" @click="recordSeq"></el-button>
+        <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq"></el-button>
+        <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)"></el-button>
+        <el-button size="small" :disabled="!isPlaying && !isRecording && !isShowStop" @click="stopSeq()"><WfIcon type="stop" /></el-button>
+        <el-button size="small" v-model="loop" :type="loop ? 'primary' : 'normal'" @click="loop = !loop"><WfIcon type="loop" /></el-button>
+        <el-button size="small" @click="backspace" icon="el-icon-back"></el-button>
+        <el-tooltip effect="dark" :content="$t('shawzin.importCode')" placement="bottom">
+          <el-button size="small" @click="importCode" icon="el-icon-download"></el-button>
+        </el-tooltip>
+        <el-tooltip effect="dark" :content="$t('shawzin.copyCode')" placement="bottom">
+          <el-button size="small" @click="copyCode" icon="el-icon-copy-document"></el-button>
+        </el-tooltip>
+      </el-button-group>
+      <!-- 清空 -->
       <el-popover
         placement="top"
         v-model="clearConfirmVisible">
@@ -76,21 +99,17 @@
           <el-button size="mini" type="text" @click="clearConfirmVisible = false">{{$t('riven.cancel')}}</el-button>
           <el-button type="primary" size="mini" @click="clearConfirmVisible = false;clearNotes()">{{$t('riven.confirm')}}</el-button>
         </div>
-        <el-tooltip slot="reference" effect="dark" :content="$t('shawzin.empty')" placement="bottom">
-          <el-button size="small" type="danger" icon="el-icon-delete"></el-button>
-        </el-tooltip>
+        <el-button-group slot="reference">
+          <el-tooltip effect="dark" :content="$t('shawzin.empty')" placement="bottom">
+            <el-button size="small" type="danger" icon="el-icon-delete"></el-button>
+          </el-tooltip>
+        </el-button-group>
       </el-popover>
-      <el-tooltip effect="dark" :content="$t('shawzin.importCode')" placement="bottom">
-        <el-button size="small" @click="importCode" icon="el-icon-download"></el-button>
-      </el-tooltip>
-      <el-tooltip effect="dark" :content="$t('shawzin.copyCode')" placement="bottom">
-        <el-button size="small" @click="copyCode" icon="el-icon-copy-document"></el-button>
-      </el-tooltip>
     </div>
     <div class="view-area">
       <div class="input-box">
         <div class="notation-header">
-          <Notation :showTrebleClef="true" :showBassClef="false">
+          <Notation v-if="showStaff" :showTrebleClef="true" :showBassClef="false">
             <Staff :notes="[0]" :duration="4" />
           </Notation>
           <div class="note-count">
@@ -114,7 +133,7 @@
       <!-- 钢琴窗 -->
       <div class="piano-window" @mousedown="onCanvasDragStart" :class="{drag: isDragCanvas, draging: draggingCanvas}" ref="pianoWindow">
         <div class="preview-area">
-          <div class="staff">
+          <div class="staff" v-if="showStaff">
             <Notation :showTrebleClef="true" :showBassClef="false">
               <Staff v-for="(note, i) in music.notes" :key="i" :notes="[note.midi]" :type="calcNoteType(i)" :duration="note.duration" />
             </Notation>
@@ -445,6 +464,7 @@ export default class MusicEdit extends Vue {
   clearConfirmVisible = false;
   settingVisible = false;
   loop = false;
+  showStaff = document.body.clientWidth > 760;
 
   history = [];
   historyIndex = 0;
@@ -1306,12 +1326,17 @@ export default class MusicEdit extends Vue {
   align-items: center;
   background-color: var(--theme_mainback);
   min-height: 100%;
+  overflow: hidden;
   &:focus {
     outline: none;
   }
   .setting {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     & > * {
-      margin: 4px;
+      margin: 3px;
     }
   }
   .view-area {
@@ -1550,13 +1575,14 @@ export default class MusicEdit extends Vue {
       margin-left: 32px;
     }
     width: 110px;
-    height: 160px;
     overflow: hidden;
     white-space: nowrap;
   }
   .note-count {
     font-size: 18px;
     text-align: center;
+    height: 24px;
+    margin-bottom: 16px;
   }
 }
 .setting-line {

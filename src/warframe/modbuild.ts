@@ -277,7 +277,7 @@ export abstract class ModBuild implements CommonBuild {
     return this._target;
   }
   set target(value) {
-    if (value) this.enemyDmgType = "TGCIOSW"[value.faction];
+    this.enemyDmgType = value ? "TGCIOSW"[value.faction] : " ";
     this._target = value;
   }
 
