@@ -1,3 +1,4 @@
+import { Midi } from "@tonejs/midi";
 /*
 音符编码即不同位操作
 
@@ -273,6 +274,8 @@ export class Music {
     for (let i = 0; i < mn.length; i++) {
       const note = mn[i];
       const next = mn[i + 1];
+      const pos = ibase64(note.position);
+      if (!pos) break;
       if (next && note.position === next.position) {
         stack.push(note.seq);
         continue;
@@ -282,10 +285,10 @@ export class Music {
           .sort()
           .join("_");
         const code = CodeMapRev[key] || BASESEQ[note.seq];
-        sections.push(`${code}${ibase64(note.position)}`);
+        sections.push(`${code}${pos}`);
         stack.length = 0;
       } else {
-        sections.push(`${BASESEQ[note.seq]}${ibase64(note.position)}`);
+        sections.push(`${BASESEQ[note.seq]}${pos}`);
       }
     }
     return `${this.mode}${sections.join("")}`;
@@ -385,7 +388,8 @@ export class Music {
   /** 获取简谱对应的音符 */
   getNoteByMidi(num: number, duration?: number) {
     const mm = this.midiMap;
-    const midi = mm.findIndex(v => v >= num);
+    let midi = mm.findIndex(v => v >= num);
+    if (num - mm[midi - 1] < num - mm[midi]) midi--;
     return new Note(Math.max(0, midi), this, duration);
   }
 

@@ -53,14 +53,21 @@
           </el-select>
         </div>
         <!-- 简谱导入导出 -->
-        <el-button-group>
-          <el-tooltip effect="dark" :content="$t('shawzin.importNumberSeqs')" placement="bottom">
-            <el-button size="small" @click="importNumberSeqs" icon="el-icon-download"></el-button>
-          </el-tooltip>
-          <el-tooltip effect="dark" :content="$t('shawzin.copyNumberSeqs')" placement="bottom">
-            <el-button size="small" @click="copyNumberSeqs" icon="el-icon-copy-document"></el-button>
-          </el-tooltip>
-        </el-button-group>
+        <div class="setting-line">
+          <el-button-group>
+            <el-tooltip effect="dark" :content="$t('shawzin.importNumberSeqs')" placement="bottom">
+              <el-button size="small" @click="importNumberSeqs" icon="el-icon-download"></el-button>
+            </el-tooltip>
+            <el-tooltip effect="dark" :content="$t('shawzin.copyNumberSeqs')" placement="bottom">
+              <el-button size="small" @click="copyNumberSeqs" icon="el-icon-copy-document"></el-button>
+            </el-tooltip>
+            <!-- MIDI导入 -->
+            <el-tooltip effect="dark" :content="$t('shawzin.importMidi')" placement="bottom">
+              <el-button size="small" @click="importMidi">MIDI</el-button>
+            </el-tooltip>
+            <input type="file" ref="midiFile" class="el-upload__input" @change="midiFileChange">
+          </el-button-group>
+        </div>
         <el-button slot="reference" size="small" icon="el-icon-setting"></el-button>
       </el-popover>
       <!-- 工具选择 -->
@@ -191,6 +198,7 @@ import copy from "copy-text-to-clipboard";
 import { ModeMaps, Mode, Note, Music } from "./music";
 import { Timer } from "./timer";
 import help from "./help";
+import { Midi } from "@tonejs/midi";
 import markdown from "markdown-it";
 const md = markdown();
 
@@ -489,6 +497,10 @@ export default class MusicEdit extends Vue {
 
   get timeToPixelRatio() {
     return (this.music.bpm / 60) * ROW_WIDTH;
+  }
+
+  get midiFile() {
+    return this.$refs.midiFile as HTMLInputElement;
   }
 
   get pianoWindow() {
@@ -1247,6 +1259,36 @@ export default class MusicEdit extends Vue {
       message: this.$t("shawzin.numCopied") as string,
       type: "success",
     });
+  }
+
+  importMidi() {
+    this.midiFile.click();
+  }
+
+  midiFileChange(e: any) {
+    const files = e.target.files;
+    if (files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = e => {
+        const midi = new Midi(e.target.result as ArrayBuffer);
+        this.loadMidi(midi);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  }
+
+  loadMidi(midi: Midi) {
+    const bpm = midi.header.tempos[0].bpm;
+    const notes = midi.tracks[0].notes;
+    const seqs = notes.map(v => {
+      // console.log(v.midi, v.time, (v.time / bpm) * 120 * 4);
+      return [this.music.getNoteByMidi(v.midi + 24 - this.music.numberShift).seq, ((v.time / 120) * bpm * 4) | 0] as [number, number];
+    });
+    this.music.setSeqs(seqs);
+    console.log(seqs);
+    this.reload();
+    this.pushState();
   }
   // 存在超大性能问题 不能作为data使用
   currentLine: number;

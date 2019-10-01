@@ -4045,6 +4045,7 @@ let po = {
     copyNumberSeqs: "复制简谱代码",
     numCopied: "简谱代码已复制",
     staff: "五线谱",
+    importMidi: "导入MIDI文件",
   },
 };
 

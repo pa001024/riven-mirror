@@ -1943,6 +1943,7 @@ let po = {
     copyNumberSeqs: "Copy Number Code",
     numCopied: "Number Code Copied",
     staff: "Staff",
+    importMidi: "Import MIDI File",
   },
 };
 
