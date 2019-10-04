@@ -138,7 +138,7 @@ export class Weapon {
 
           if (!newMode.fireRate) {
             if (newMode.chargeTime) newMode.fireRate = 1 / newMode.chargeTime;
-            else newMode.fireRate = 60;
+            else newMode.fireRate = defaultMode.fireRate || 60;
           }
 
           if (typeof newMode.critChance === "undefined") newMode.critChance = defaultMode.critChance || 0;
