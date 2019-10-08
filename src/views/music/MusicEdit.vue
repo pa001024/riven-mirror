@@ -142,7 +142,7 @@
         <div class="preview-area">
           <div class="staff" v-if="showStaff">
             <Notation :showTrebleClef="true" :showBassClef="false">
-              <Staff v-for="(note, i) in music.notes" :key="i" :notes="[note.midi]" :type="calcNoteType(i)" :duration="note.duration" />
+              <Staff v-for="(note, i) in music.notes" :key="i" :notes="[note.shiftMidi]" :type="calcNoteType(i)" :duration="note.duration" />
             </Notation>
           </div>
           <div class="number">

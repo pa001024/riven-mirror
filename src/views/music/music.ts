@@ -159,7 +159,7 @@ export class Note {
   /** 升调表示音名 */
   get sharpName() {
     if (this.seq < 0) return "0";
-    return NOTE12S[this.midi % 12] + (((this.midi / 12) | 0) - 2);
+    return NOTE12S[this.shiftMidi % 12] + (((this.shiftMidi / 12) | 0) - 2);
   }
   /** tone.js格式的降调 */
   get toneName() {

@@ -5,10 +5,10 @@ export const updateLogs = [
     version: "1.8.1",
     date: "2019/9/20",
     md: {
-      en: `- Shawzin: Now support notation transpose
+      en: `- Shawzin: Now support notation transpose(key signature)
 - Shawzin: Add simultaneous notes(chords) support, read more in the user guide
 - PREVIEW: Atlas Prime/Tekko Prime/Dethcube Prime`,
-      cn: `- 三线编曲: 新增简谱转调支持
+      cn: `- 三线编曲: 新增转调(调号)支持
 - 三线编曲: 加入同时多音符演奏(和弦)支持 详见说明
 - 预览: Atlas Prime/铁钩手甲 Prime/死亡魔方 Prime`,
     },
