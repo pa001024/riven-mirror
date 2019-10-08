@@ -3652,6 +3652,7 @@ let po = {
     arcaneRage: "憤怒賦能",
     arcaneTempo: "節奏賦能",
     arcaneVelocity: "迅速賦能",
+    arcaneTanker: "坦克賦能",
     magusVigor: "魔導活力",
     magusHusk: "魔導外殼",
     magusCloud: "魔導遊雲",

@@ -123,6 +123,7 @@ export const BuffList: BuffData[] = [
     ["aR", "arcaneTempo", [["R", 60]], "Shotgun"], // 节奏
     ["aS", "arcaneVelocity", [["R", 80]], "Secondary"], // 迅速
     ["aT", "paxBolt", [["t", 30], ["x", 30]], "Warframe"], // 和平电闪
+    ["aU", "arcaneTanker", [["onEquip"], ["ea", 1200]], "Warframe"], // 坦克赋能
   ].map(
     v =>
       ({

@@ -260,6 +260,7 @@ export const _rivenDataBaseWeapons = [
   ["Korrudo", 4, 1],
   ["Kreska", 4, 1],
   ["Kronsh", 5, 1],
+  ["Masseter", 4, 1],
   ["Mewan", 5, 1],
   ["Ohma", 4, 1],
   ["Ooltha", 5, 1],

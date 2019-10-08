@@ -108,7 +108,7 @@ export class Weapon {
       return v;
     };
     if (data) {
-      // 国服切换会老版本
+      // 国服切换回老版本
       const adjustedData = i18n.locale === "zh-CY" && weaponPatch[data.name] ? _.merge(data, weaponPatch[data.name]) : data;
       const { variants, modes, tags, ...weapon } = adjustedData;
       Object.assign(this, fixBuf(weapon));

@@ -1618,6 +1618,7 @@ let po = {
     arcaneRage: "Arcane Rage",
     arcaneTempo: "Arcane Tempo",
     arcaneVelocity: "Arcane Velocity",
+    arcaneTanker: "Arcane Tanker",
     magusVigor: "Magus Vigor",
     magusHusk: "Magus Husk",
     magusCloud: "Magus Cloud",
