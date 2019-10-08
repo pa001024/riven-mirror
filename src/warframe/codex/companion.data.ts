@@ -5,7 +5,7 @@ export const _companionData: CompanionData[] = [
   { id: "Carrier", health: 200, shield: 100, armor: 50, tags: ["Robotic", "Sentinel"], polarities: "yyyyd" },
   { id: "Carrier Prime", className: "Carrier", health: 400, shield: 100, armor: 150, tags: ["Robotic", "Sentinel"], polarities: "yyyydr" },
   { id: "Dethcube", health: 200, shield: 100, armor: 50, tags: ["Robotic", "Sentinel"], polarities: "yyyy" },
-  { id: "Dethcube Prime", health: 300, shield: 100, armor: 150, tags: ["Robotic", "Sentinel"], polarities: "yyyyd" },
+  { id: "Dethcube Prime", className: "Dethcube", health: 300, shield: 100, armor: 150, tags: ["Robotic", "Sentinel"], polarities: "yyyyd" },
   { id: "Diriga", health: 350, shield: 50, armor: 50, tags: ["Robotic", "Sentinel"], polarities: "yyyy" },
   { id: "Djinn", health: 200, shield: 100, armor: 50, tags: ["Robotic", "Sentinel"], polarities: "yyyy-" },
   { id: "Helios", health: 200, shield: 100, armor: 50, tags: ["Robotic", "Sentinel"], polarities: "yyyyd" },
