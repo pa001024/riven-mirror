@@ -405,7 +405,7 @@ export let _abilityData: AbilityData[] = [
   {
     id: "Covenant",
     tags: 2,
-    energyCost: 10,
+    energyCost: 100,
     props: { Buff: { effect: [["i0", 50]], duration: D(6) } },
   },
   {
