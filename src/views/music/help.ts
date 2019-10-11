@@ -254,6 +254,8 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 开源仓库地址 [GitHub-极镜](https://github.com/pa001024/riven-mirror)
 
 工具链接：[https://riven.im/music](https://riven.im/music)
+
+示例：[示例音乐](https://warframe.huijiwiki.com/wiki/%E4%B8%89%E7%BA%BF%E7%90%B4/%E6%AD%8C%E6%9B%B2%E4%B9%90%E4%B8%B2) [示例简谱代码](https://github.com/pa001024/riven-mirror/blob/dev/src/views/music/song.txt)
 `,
   zh: `# 三線琴圖形化編曲工具
 

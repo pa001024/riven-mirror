@@ -424,7 +424,8 @@ export class Music {
   set numberSeqs(value) {
     let notes = [],
       duration = 2,
-      toneOffset = 6;
+      toneOffset = 6,
+      point = false;
     const rex = /([\.=\-\[\],{}])|((?:[_\^\/+]+)?[b#]?[0-7]|\((?:(?:[_\^\/+]+)?[b#]?[0-7])+?\))/g;
     const srex = /([_\^\/+]+)?([b#])?([0-7])/g;
     value.replace(rex, (m0, mdura: string, mnote: string) => {
@@ -432,6 +433,7 @@ export class Music {
         switch (mdura) {
           case ",":
             notes.push(new Note(-1, this, Math.max(1, duration / 2)));
+            point = true;
             break;
           case "[":
             duration = Math.max(1, duration / 2);
@@ -462,7 +464,8 @@ export class Music {
           }
           return m;
         });
-        mnotes[mnotes.length - 1].duration = duration;
+        mnotes[mnotes.length - 1].duration = point ? duration / 2 : duration;
+        point = false;
         notes = notes.concat(mnotes);
       }
       return m0;

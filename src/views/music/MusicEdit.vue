@@ -1273,6 +1273,7 @@ export default class MusicEdit extends Vue {
       reader.onload = e => {
         const midi = new Midi(e.target.result as ArrayBuffer);
         this.loadMidi(midi);
+        this.midiFile.value = null;
       };
       reader.readAsArrayBuffer(file);
     }
