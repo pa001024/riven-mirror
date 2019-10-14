@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.8.1";
+export const version = "1.8.2";
 export const updateLogs = [
+  {
+    version: "1.8.2",
+    date: "2019/10/14",
+    md: {
+      en: `- Shawzin: Now support MIDI import
+- ADD: New mod/arcane`,
+      cn: `- 三线编曲: 新增MIDI支持
+- 添加: 新MOD 赋能`,
+    },
+  },
   {
     version: "1.8.1",
     date: "2019/9/20",

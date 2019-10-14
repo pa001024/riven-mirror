@@ -193,6 +193,10 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 10[0_601]|4[320]1[1]|_700[0_6]|100[01]}
 \`\`\`
 
+## MIDI
+
+视频教程 [https://www.bilibili.com/video/av70918823/](https://www.bilibili.com/video/av70918823/)
+
 ### 符号列表
 
 除以下字符外 其他字符均无意义 可做排版使用
@@ -255,7 +259,7 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 
 工具链接：[https://riven.im/music](https://riven.im/music)
 
-示例：[示例音乐](https://warframe.huijiwiki.com/wiki/%E4%B8%89%E7%BA%BF%E7%90%B4/%E6%AD%8C%E6%9B%B2%E4%B9%90%E4%B8%B2) [示例简谱代码](https://github.com/pa001024/riven-mirror/blob/dev/src/views/music/song.txt)
+示例：[示例音乐](https://warframe.huijiwiki.com/p/31525) [示例简谱代码](https://github.com/pa001024/riven-mirror/blob/dev/src/views/music/song.txt)
 `,
   zh: `# 三線琴圖形化編曲工具
 
@@ -384,5 +388,7 @@ BPM即每分鐘節拍數，計算方式為每秒內節拍數*60，也就是一�
 開源倉庫地址 [GitHub-極鏡](https://github.com/pa001024/riven-mirror)
 
 工具連結：[https://riven.im/music](https://riven.im/music)
+
+示例：[示例音樂](https://warframe.huijiwiki.com/p/31525) [示例簡譜符號](https://github.com/pa001024/riven-mirror/blob/dev/src/views/music/song.txt)
 `,
 };

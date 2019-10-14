@@ -1898,6 +1898,7 @@ let po = {
     support: "Support",
     control: "Control",
     archwing: "Archwing",
+    roboticWeapon: "Robotic Weapon",
   },
   info: {
     nav: "NAV",

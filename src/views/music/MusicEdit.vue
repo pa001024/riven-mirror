@@ -1282,12 +1282,15 @@ export default class MusicEdit extends Vue {
   loadMidi(midi: Midi) {
     const bpm = midi.header.tempos[0].bpm;
     const notes = midi.tracks[0].notes;
+    const minMidi = notes.reduce((r, v) => Math.min(r, v.midi), 99);
+    const globalOffset = ((minMidi / 12 - 5) | 0) * 12;
+    console.log(globalOffset);
     const seqs = notes.map(v => {
       // console.log(v.midi, v.time, (v.time / bpm) * 120 * 4);
-      return [this.music.getNoteByMidi(v.midi + 24 - this.music.numberShift).seq, ((v.time / 120) * bpm * 4) | 0] as [number, number];
+      return [this.music.getNoteByMidi(v.midi - globalOffset - this.music.numberShift).seq, ((v.time / 120) * bpm * 4) | 0] as [number, number];
     });
     this.music.setSeqs(seqs);
-    console.log(seqs);
+    // console.log(seqs);
     this.reload();
     this.pushState();
   }

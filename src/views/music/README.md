@@ -64,6 +64,10 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 10[0_601]|4[320]1[1]|_700[0_6]|100[01]}
 ```
 
+## MIDI
+
+视频教程 [https://www.bilibili.com/video/av70918823/](https://www.bilibili.com/video/av70918823/)
+
 ### 符号列表
 
 除以下字符外 其他字符均无意义 可做排版使用
@@ -127,3 +131,5 @@ BPM即每分钟节拍数，计算方式为每秒内节拍数*60，也就是一�
 开源仓库地址 [GitHub-极镜](https://github.com/pa001024/riven-mirror)
 
 工具链接：[https://riven.im/music](https://riven.im/music)
+
+示例：[示例音乐](https://warframe.huijiwiki.com/p/31525) [示例简谱代码](https://github.com/pa001024/riven-mirror/blob/dev/src/views/music/song.txt)

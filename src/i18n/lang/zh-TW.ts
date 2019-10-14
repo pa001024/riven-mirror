@@ -3944,6 +3944,7 @@ let po = {
     support: "輔助",
     control: "控制",
     archwing: "ARCHWING",
+    roboticWeapon: "守护武器",
   },
   alias: {
     // 敵人

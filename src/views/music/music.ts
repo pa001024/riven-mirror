@@ -42,7 +42,7 @@ const _BASE64_ST = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567
 const _BASE64_RST = [].reduce.call(_BASE64_ST, (r: { [x: string]: number }, v: string, i: number) => ((r[v] = i), r), {}) as { [x: string]: number };
 
 function ibase64(src: number): string {
-  return _BASE64_ST[src >> 6] + _BASE64_ST[src & 63];
+  if (src < 4096) return _BASE64_ST[src >> 6] + _BASE64_ST[src & 63];
 }
 
 function deibase64(src: string): number {
@@ -303,7 +303,7 @@ export class Music {
       const [code, pos] = [notes[i], notes.substr(i + 1, 2)];
       const t = deibase64(pos);
       // 自动判定BPM
-      if (t % space != 0) {
+      if (t % space != 0 && this.bpm < 960) {
         for (let j = space - 1; j > 0; --j) {
           if (t % j === 0) {
             this.bpm = 960 / j;
