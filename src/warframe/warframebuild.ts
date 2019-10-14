@@ -112,8 +112,8 @@ export class WarframeBuild implements CommonBuild {
   }
   /** 属性标记 */
   get tags() {
-    if (this.data.tags.includes("Archwing")) return this.data.tags.concat([this.baseId]);
-    else return this.data.tags.concat(["Warframe", this.baseId]);
+    if (this.data.tags.includes("Archwing")) return this.data.tags.concat(["Warframe+", this.baseId]);
+    else return this.data.tags.concat(["Warframe", "Warframe+", this.baseId]);
   }
 
   /** 类型 */

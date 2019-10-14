@@ -738,6 +738,11 @@ let po = {
     teemingVirulence: "猛爆致病",
     molecularFission: "分子裂變",
     blindingReave: "致盲掠奪",
+    shepherd: "牧羊人",
+    combatDiscipline: "戰鬥教條",
+    meleeGuidance: "近戰指引",
+    swiftMomentum: "迅敏動量",
+    aerodynamic: "空氣動力",
 
     shotgunRivenMod: "霰彈槍裂罅MOD",
     meleeRivenMod: "近戰裂罅MOD",
@@ -1691,6 +1696,7 @@ let po = {
     exterminate: "殲滅",
     extermination: "殲滅",
     orokinSabotage: "虛空破壞",
+    disruption: "中斷",
     lith: "古紀",
     axi: "後紀",
     meso: "前紀",
@@ -2726,6 +2732,9 @@ let po = {
       whenShieldRunsOut: "當護盾耗盡時",
       applyingASlashStatusToAnEnemyCausesTheCompanionToAttackThem: "讓你的同伴攻擊受到切割異常狀態的敵人",
       openALockedLocker: "開啟鎖住的櫃子",
+
+      teamPlus: "隊友 {0}",
+      companionPlus: "同伴 {0}",
     },
     shortName: {
       0: "暴率",
@@ -3692,6 +3701,8 @@ let po = {
     corruption: "墮落化",
     growingPower: "成長之力 (光環)",
     powerDonation: "獻出力量 (光環)",
+    shepherd: "牧羊人 (光環)",
+    arbitrationsBuff: "仲裁加成",
   },
   ability: {
     energyCost: "能量: {0}",
@@ -3872,6 +3883,7 @@ let po = {
     weapon: "武器",
     mod: "MOD",
     wf: "戰甲",
+    comp: "同伴",
   },
   tags: {
     zaw: "ZAW",
@@ -3993,6 +4005,8 @@ let po = {
     volt: "電男",
     voltPrime: "電隊",
     zephyr: "鳥姐",
+    // 同伴
+    helios: "照相機",
   },
   info: {
     nav: "導航",

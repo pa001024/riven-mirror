@@ -58,17 +58,17 @@ export default class extends Vue {
         { id: "elementDamage", name: this.$t("buff.types.elementDamage") as string, buffs: buffList.filter(k => k.type === BuffType.ElementDamage) }, //
         { id: "critDamage", name: this.$t("buff.types.critDamage") as string, buffs: buffList.filter(k => k.type === BuffType.CritDamage) }, //
         { id: "speed", name: this.$t("buff.types.speed") as string, buffs: buffList.filter(k => k.type === BuffType.Speed) }, //
-        { id: "other", name: this.$t("buff.types.other") as string, buffs: buffList.filter(k => k.type === BuffType.Other) } //
+        { id: "other", name: this.$t("buff.types.other") as string, buffs: buffList.filter(k => k.type === BuffType.Other) }, //
       ].filter(v => v.buffs.length > 0);
       if (this.tabs.every(v => v.id !== this.selectTab)) this.selectTab = isAmp ? "arcane" : "baseDamage";
     } else {
-      let buffList = BuffList.filter(v => ["Warframe", "All", "Weapon+", this.build.id, this.build.baseId].includes(v.target));
+      let buffList = BuffList.filter(v => ["All", "Weapon+"].concat(this.build.tags).includes(v.target));
       this.tabs = [
         { id: "arcane", name: this.$t("buff.types.arcane") as string, buffs: buffList.filter(k => k.type === BuffType.Arcane) }, //
         { id: "team", name: this.$t("buff.types.team") as string, buffs: buffList.filter(k => k.type === BuffType.Team || k.type === BuffType.TotalDamage) }, //
-        { id: "other", name: this.$t("buff.types.other") as string, buffs: buffList.filter(k => k.type === BuffType.Other) } //
+        { id: "other", name: this.$t("buff.types.other") as string, buffs: buffList.filter(k => k.type === BuffType.Other) }, //
       ].filter(v => v.buffs.length > 0);
-      if (this.tabs.every(v => v.id !== this.selectTab)) this.selectTab = "arcane";
+      if (this.tabs.every(v => v.id !== this.selectTab)) this.selectTab = this.build.type === "Companion" ? "team" : "arcane";
     }
   }
 }

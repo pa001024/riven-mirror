@@ -332,26 +332,35 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "vth", dmg: true }, // to Heat
 ].reduce((a, b) => ((a[b.id] = b), a), {});
 
+const HeadTags = {
+  "+": "prop.fullName.teamPlus",
+  "-": "prop.fullName.companionPlus",
+};
+
 /**
  * 带值通用属性
  */
 export class ValuedProperty {
   static parse([vn, vv]: [string, number]): ValuedProperty {
-    let prop = CommonPropertyDataBase[vn];
+    const pn = HeadTags[vn[0]] ? vn.substr(1) : vn;
+    let prop = CommonPropertyDataBase[pn];
     if (prop) {
-      return new ValuedProperty(prop, vv);
+      return new ValuedProperty(prop, vv, HeadTags[vn[0]]);
     }
     return {
       id: vn,
       displayValue: String(vv),
       get fullString() {
+        let rn = pn;
         if (vn.endsWith(" Augment")) {
           const skillName = "skill." + _.camelCase(vn.substr(0, vn.length - 8));
           return i18n.t("prop.fullName.augment", [i18n.te(skillName) ? i18n.t(skillName) : vn.substr(0, vn.length - 8)]);
         }
-        const ikey = `prop.fullName.${_.camelCase(vn)}`;
-        if (i18n.te(ikey)) return i18n.t(ikey, [vv]);
-        return vn;
+        const ikey = `prop.fullName.${_.camelCase(pn)}`;
+        if (i18n.te(ikey)) rn = i18n.t(ikey, [vv]);
+        if (vn.startsWith("+")) rn = i18n.t("prop.fullName.teamPlus", [rn]);
+        if (vn.startsWith("-")) rn = i18n.t("prop.fullName.companionPlus", [rn]);
+        return rn;
       },
       get shortString() {
         if (vn.endsWith(" Augment")) {
@@ -370,9 +379,11 @@ export class ValuedProperty {
   prop: CommonProperty;
   /** 属性值 */
   value: number;
-  constructor(prop: CommonProperty, value: number) {
+  plus?: string;
+  constructor(prop: CommonProperty, value: number, plus?: string) {
     this.prop = prop;
     this.value = value;
+    this.plus = plus;
   }
   /**
    * 属性值显示
@@ -391,7 +402,9 @@ export class ValuedProperty {
    * 完整属性显示
    */
   get fullString() {
-    return (i18n.te("prop.fullName." + this.prop.id) && i18n.t("prop.fullName." + this.prop.id, [this.displayValue])) || this.prop.id;
+    let rn = (i18n.te("prop.fullName." + this.prop.id) && i18n.t("prop.fullName." + this.prop.id, [this.displayValue])) || this.prop.id;
+    if (this.plus) rn = i18n.t(this.plus, [rn]);
+    return rn;
   }
   /**
    * 属性简称

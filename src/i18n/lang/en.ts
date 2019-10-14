@@ -836,6 +836,9 @@ let po = {
       onBlock: "On Block:",
       onAimGliding: "On Aim Gliding:",
       onLand: "{0}s after landing from Double or Bullet Jump",
+
+      teamPlus: "{0} for allies",
+      companionPlus: "{0} for companion",
     },
     shortName: {
       0: "Crit Chance",
@@ -1656,8 +1659,10 @@ let po = {
     commonResistance: "Resistance (Common)",
     paxBolt: "Pax Bolt",
     corruption: "Corruption",
-    growingPower: "Growing Power",
-    powerDonation: "Power Donation",
+    growingPower: "Growing Power (Aura)",
+    powerDonation: "Power Donation (Aura)",
+    shepherd: "Shepherd (Aura)",
+    arbitrationsBuff: "Arbitrations Buff",
   },
   ability: {
     energyCost: "ENERGY: {0}",
@@ -1836,6 +1841,7 @@ let po = {
     weapon: "WEAPON",
     mod: "MOD",
     wf: "WARFRAME",
+    comp: "COMPANION",
   },
   tags: {
     melee: "Melee",

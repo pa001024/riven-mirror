@@ -3,6 +3,7 @@ import { WeaponDatabase, NormalModDatabase, WarframeDataBase } from "@/warframe/
 import { i18n } from "@/i18n";
 import pinyin from "./pinyin";
 import _ from "lodash";
+import { CompanionDataBase } from "@/warframe/companionbuild";
 
 /**
  * 搜索结果
@@ -53,7 +54,8 @@ export class SearchEngine {
   config = {
     mod: false,
     weapon: true,
-    wf: true
+    wf: true,
+    comp: true,
   };
   /**
    * 初始化搜索数据
@@ -75,7 +77,7 @@ export class SearchEngine {
             tags: weapon.tags.toArray().map(v => {
               tagSet.add(v);
               return i18n.t(`tags.${_.camelCase(v)}`);
-            })
+            }),
           } as SearchResult;
           // 中文优化
           if (i18n.locale.startsWith("zh")) {
@@ -107,7 +109,7 @@ export class SearchEngine {
             tags: mod.vProps.map(v => {
               if (v.id === v.shortName && v.id.length < 10) propSet.add(v.id);
               return (v.value > 0 ? "+" : v.value < 0 ? "-" : "") + v.shortName;
-            })
+            }),
           } as SearchResult;
           // 中文优化
           if (i18n.locale.startsWith("zh")) {
@@ -134,11 +136,30 @@ export class SearchEngine {
             name: wf.name,
             type: "search.wf",
             // decs: ""
-            tags: wf.tags.map(v => i18n.t(`tags.${_.camelCase(v)}`))
+            tags: wf.tags.map(v => i18n.t(`tags.${_.camelCase(v)}`)),
           } as SearchResult;
           // 黑话
           if (i18n.locale.startsWith("zh") && i18n.te(`alias.${_.camelCase(wf.id)}`)) {
             entity.alias = i18n.t(`alias.${_.camelCase(wf.id)}`).split(",");
+          }
+          return entity;
+        })
+      );
+    }
+    // Companion
+    if (this.config.comp) {
+      searchData = searchData.concat(
+        CompanionDataBase.Companions.map(comp => {
+          const entity = {
+            id: comp.id,
+            name: comp.name,
+            type: "search.comp",
+            // decs: ""
+            tags: comp.tags.filter(v => i18n.te(`tags.${_.camelCase(v)}`)).map(v => i18n.t(`tags.${_.camelCase(v)}`)),
+          } as SearchResult;
+          // 黑话
+          if (i18n.locale.startsWith("zh") && i18n.te(`alias.${_.camelCase(comp.id)}`)) {
+            entity.alias = i18n.t(`alias.${_.camelCase(comp.id)}`).split(",");
           }
           return entity;
         })
@@ -162,7 +183,7 @@ export class SearchEngine {
       distance: 100,
       maxPatternLength: 32,
       minMatchCharLength: 1,
-      keys: ["id", "name", "pinyin", "tags", "alias"]
+      keys: ["id", "name", "pinyin", "tags", "alias"],
     };
     this.engine = new Fuse(searchData, options); // "list" is the item array
   }

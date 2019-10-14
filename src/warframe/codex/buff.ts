@@ -103,15 +103,15 @@ export class Buff {
 export const BuffList: BuffData[] = [
   // 赋能
   ...[
-    ["a3", "arcaneAgility", [["onDamaged"], ["f", 40]], "Warframe"], // 灵敏赋能
-    ["a4", "arcaneBarrier", [["onDamaged"], ["fsr", 100]], "Warframe"], // 壁垒赋能
-    ["a5", "arcaneAegis", [["onDamaged"], ["psr", 60]], "Warframe"], // 神盾赋能
+    ["a3", "arcaneAgility", [["onDamaged"], ["f", 40]], "Warframe+"], // 灵敏赋能
+    ["a4", "arcaneBarrier", [["onDamaged"], ["fsr", 100]], "Warframe+"], // 壁垒赋能
+    ["a5", "arcaneAegis", [["onDamaged"], ["psr", 60]], "Warframe+"], // 神盾赋能
     ["a6", "arcaneTrickery", [["onFinish"], ["ivb", 100]], "Warframe"], // 诡计赋能
     ["a7", "arcaneUltimatum", [["onFinish"], ["ea", 600]], "Warframe"], // 通牒赋能
     ["a8", "arcaneArachne", [["onWalllatch"], ["D", 100]], "Weapon"], // 蜘蛛赋能
-    ["a9", "arcaneGrace", [["onDamaged"], ["phr", 4]], "Warframe"], // 优雅赋能
-    ["aA", "arcaneGuardian", [["onDamaged"], ["ea", 600]], "Warframe"], // 保卫者赋能
-    ["aB", "arcanePhantasm", [["onBlock"], ["f", 40]], "Warframe"], // 幻象赋能
+    ["a9", "arcaneGrace", [["onDamaged"], ["phr", 4]], "Warframe+"], // 优雅赋能
+    ["aA", "arcaneGuardian", [["onDamaged"], ["ea", 600]], "Warframe+"], // 保卫者赋能
+    ["aB", "arcanePhantasm", [["onBlock"], ["f", 40]], "Warframe+"], // 幻象赋能
     ["aJ", "arcaneAcceleration", [["R", 60]], "Rifle"], // 加速
     ["aK", "arcaneAvenger", [["i0", 30]], "Weapon"], // 复仇
     ["aL", "arcaneAwakening", [["D", 100]], "Secondary"], // 觉醒
@@ -182,8 +182,8 @@ export const BuffList: BuffData[] = [
   ),
   // 战甲加成
   ...[
-    ["A0", "growingPower", [["t", 25.5]], "Warframe"], // 成长之力
-    ["A1", "powerDonation", [["t", 30]], "Warframe"], // 献出力量
+    ["A0", "growingPower", [["t", 25.5]], "Warframe+"], // 成长之力
+    ["A1", "powerDonation", [["t", 30]], "Warframe+"], // 献出力量
   ].map(
     v =>
       ({
@@ -251,7 +251,7 @@ export const BuffList: BuffData[] = [
     id: "vm",
     name: "vitalityMote", // Wisp 活力尘埃
     type: BuffType.Team,
-    target: "Warframe",
+    target: "Warframe+",
     dynamicProps: [["eh", 3, 0], ["hps", 0.3, 0]],
     parms: ["power", "%"],
     defaultValue: 200,
@@ -260,7 +260,7 @@ export const BuffList: BuffData[] = [
     id: "hm",
     name: "hasteMote", // Wisp 急速尘埃
     type: BuffType.Team,
-    target: "Warframe",
+    target: "Warframe+",
     dynamicProps: [["f", 0.2, 0]],
     parms: ["power", "%"],
     defaultValue: 200,
@@ -278,7 +278,7 @@ export const BuffList: BuffData[] = [
     id: "Q",
     name: "parasiticLink", // 蛆3 寄生链接
     type: BuffType.Team,
-    target: "Warframe",
+    target: "Warframe+",
     dynamicProps: [["ovs", 0.25, 0]],
     parms: ["power", "%"],
     defaultValue: 364,
@@ -287,7 +287,7 @@ export const BuffList: BuffData[] = [
     id: "q",
     name: "provoke", // 激怒 (和平挑衅)
     type: BuffType.Team,
-    target: "Warframe",
+    target: "Warframe+",
     dynamicProps: [["t", 1, 0]],
     parms: ["power", "%"],
     defaultValue: 80,
@@ -296,7 +296,7 @@ export const BuffList: BuffData[] = [
     id: "y",
     name: "commonResistance", // 通用减伤
     type: BuffType.Team,
-    target: "Warframe",
+    target: "Warframe+",
     dynamicProps: [["res", 1, 0]],
     parms: ["power", "%"],
     defaultValue: 75,
@@ -305,14 +305,21 @@ export const BuffList: BuffData[] = [
     id: "X",
     name: "corruption", // 堕落
     type: BuffType.Other,
-    target: "Warframe",
+    target: "Warframe+",
     props: [["ovs", 100], ["ovr", 100]],
+  },
+  {
+    id: "Ab",
+    name: "arbitrationsBuff", // 仲裁加成
+    type: BuffType.Other,
+    target: "Warframe",
+    props: [["t", 300]],
   },
   {
     id: "x",
     name: "speed", // 加速 (Volt)
     type: BuffType.Team,
-    target: "Warframe",
+    target: "Warframe+",
     dynamicProps: [["f", 0.5, 0]],
     parms: ["power", "%"],
     defaultValue: 348,
@@ -369,7 +376,7 @@ export const BuffList: BuffData[] = [
     id: "w4",
     name: "elementalWard4", // 龙2 元素之护 火
     type: BuffType.Team,
-    target: "Warframe",
+    target: "Warframe+",
     dynamicProps: [["h", 2, 0]],
     parms: ["power", "%"],
     defaultValue: 348,
@@ -378,7 +385,7 @@ export const BuffList: BuffData[] = [
     id: "w5",
     name: "elementalWard5", // 龙2 元素之护 冰
     type: BuffType.Team,
-    target: "Warframe",
+    target: "Warframe+",
     dynamicProps: [["a", 1.5, 0]],
     parms: ["power", "%"],
     defaultValue: 348,
@@ -387,7 +394,7 @@ export const BuffList: BuffData[] = [
     id: "w6",
     name: "elementalWard6", // 龙2 元素之护 毒
     type: BuffType.Team,
-    target: "Warframe",
+    target: "Warframe+",
     dynamicProps: [["F", 0.35, 0], ["hr", 0.35, 0]],
     parms: ["power", "%"],
     defaultValue: 348,
@@ -396,7 +403,7 @@ export const BuffList: BuffData[] = [
     id: "w7",
     name: "elementalWard7", // 龙2 元素之护 电
     type: BuffType.Team,
-    target: "Warframe",
+    target: "Warframe+",
     dynamicProps: [["s", 1, 0]],
     parms: ["power", "%"],
     defaultValue: 348,
@@ -405,7 +412,7 @@ export const BuffList: BuffData[] = [
     id: "A3",
     name: "vexArmor", // 龙3 怨怒护甲
     type: BuffType.Team,
-    target: "Warframe",
+    target: "Warframe+",
     dynamicProps: [["a", 3.5, 0], ["dmg", 2.75, 0]],
     parms: ["power", "%"],
     defaultValue: 348,
@@ -532,6 +539,17 @@ export const BuffList: BuffData[] = [
       stackableProps: [["oad", 17.5]],
     },
     defaultLayer: 4,
+  },
+  {
+    id: "sh",
+    name: "shepherd", // 牧羊人
+    type: BuffType.Team,
+    target: "Companion",
+    multiLayer: {
+      maxStack: 4,
+      stackableProps: [["eh", 300], ["ea", 180]],
+    },
+    defaultLayer: 1,
   },
   {
     id: "N",

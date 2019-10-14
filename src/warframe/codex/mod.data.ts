@@ -392,6 +392,11 @@ const data = [
   ["GO", "Corrosive Projection", [["ena", -5]], Aura, "-", "c", -2],
   ["GP", "Shotgun Scavenger", [["ap", 25]], Aura, "-", "c", -2],
   ["GQ", "Brief Respite", [["onAbilityCast"], ["Converts 25% of Energy spent to Shields while Overshields are inactive."]], Aura, "=", "c", -2],
+  ["GR", "Shepherd", [["-eh", 50], ["-ea", 30]], Aura, "-", "r", -2],
+  ["GS", "Combat Discipline", [], Aura, "-", "r", -2],
+  ["GT", "Melee Guidance", [["N", -1], ["+N", 2]], Aura, "-", "r", -2],
+  ["GU", "Swift Momentum", [["ca", 5], ["N", 6]], Aura, "-", "r", -2],
+  ["GV", "Aerodynamic", [["adr", 4]], Aura, "-", "r", -2],
 
   // 战甲
   ["Gl", "Intensify", [["t", 5]], Warframe, "r", "r", 6],

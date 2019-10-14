@@ -72,9 +72,13 @@ export class NormalMod implements NormalModData {
   get props() {
     if (this.setMul === 1 && this.level === this.maxLevel && this._propsMax) return this._propsMax;
     let hasAbs = false;
-    let nprops = this._props.map(
-      ([vn, vv]) => [vn, +(vv * (vn.startsWith("!") ? (hasAbs = true) && 1 : this.level + 1) * this.setMul).toFixed(4)] as [string, number]
-    );
+    let nprops = this._props.map(([vn, vv]) => {
+      if (vn.startsWith("!")) {
+        hasAbs = true;
+        return [vn, +(vv * this.setMul).toFixed(4)] as [string, number];
+      }
+      return [vn, +(vv * (this.level + 1) * this.setMul).toFixed(4)] as [string, number];
+    });
     if (hasAbs) {
       let pn = {};
       nprops.forEach(([vn, vv]) => {
