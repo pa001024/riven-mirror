@@ -47,7 +47,7 @@
     "@types/animejs": "^3.1.0",
     "@types/lodash": "^4.14.134",
     "@types/sha.js": "^2.4.0",
-    "@vue/cli-plugin-babel": "^3.11.0",
+    "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-pwa": "^3.11.0",
     "@vue/cli-plugin-typescript": "^3.11.0",
     "@vue/cli-service": "^3.11.0",
