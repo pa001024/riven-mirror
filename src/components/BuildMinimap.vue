@@ -1,7 +1,7 @@
 <template>
   <div class="build-minimap">
     <header>
-      <img class="weapon-img" :src="imgSrc">
+      <!-- <img class="weapon-img" :src="imgSrc"> -->
       {{$t(build.weapon.id)}}
     </header>
     <section class="mods">

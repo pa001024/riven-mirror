@@ -62,13 +62,13 @@ const _moaCore = [
 
 const _moaGyro = [
   // index, name, mat, health, shield, armor
-  [1, "Aegron Gyro", "Rough", 1, -2, 2],
-  [2, "Atheca Gyro", "Metal", -1, 1, 2],
+  [1, "Trux Gyro", "Rough", 1, -2, 2],
+  [2, "Aegron Gyro", "Metal", -1, 1, 2],
   [3, "Harpen Gyro", "Smooth", 1, 2, -1],
-  [4, "Hextra Gyro", "Rough", 2, -1, 1],
-  [5, "Munit Gyro", "Rough", 2, 1, -1],
+  [4, "Munit Gyro", "Rough", 2, -1, 1],
+  [5, "Hextra Gyro", "Rough", 2, 1, -1],
   [6, "Phazor Gyro", "Rough", -1, 2, 1],
-  [7, "Trux Gyro", "Rough", 4, -1, -1],
+  [7, "Atheca Gyro", "Rough", 4, -1, -1],
 ] as [number, string, string, number, number, number][];
 
 const _moaBracket = [

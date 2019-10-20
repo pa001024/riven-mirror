@@ -193,6 +193,8 @@ export default class ModSelector extends Vue {
   @Watch("build.damageModel")
   @Watch("type")
   reload() {
+    console.log("fast", this.build.type, (this.build as any).weapon);
+
     let selected = _.compact(this.build.allMods || this.build.mods);
     let mods = [];
     if (this.type === "Weapon") {

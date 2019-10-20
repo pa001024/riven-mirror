@@ -27,7 +27,7 @@ export class WeaponTag {
   mainTag: MainTag;
   constructor(init?: string[]) {
     this._set = new Set(init || []);
-    this.mainTag = MainTag[init.find(v => v != "Primary" && v != "Robotic")];
+    this.mainTag = MainTag[init.find(v => v != "Primary" && v != "Robotic Weapon")];
   }
   has(...tags: string[]) {
     return tags.every(v => {

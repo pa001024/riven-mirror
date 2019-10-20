@@ -1287,7 +1287,7 @@ export default class MusicEdit extends Vue {
     console.log(globalOffset);
     const seqs = notes.map(v => {
       // console.log(v.midi, v.time, (v.time / bpm) * 120 * 4);
-      return [this.music.getNoteByMidi(v.midi - globalOffset - this.music.numberShift).seq, ((v.time / 120) * bpm * 4) | 0] as [number, number];
+      return [this.music.getNoteByMidi(v.midi - globalOffset - this.music.numberShift).seq, ((v.time / 120) * bpm * 16) | 0] as [number, number];
     });
     this.music.setSeqs(seqs);
     // console.log(seqs);
