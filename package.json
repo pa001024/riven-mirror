@@ -54,7 +54,7 @@
     "@vue/cli-service": "^4.0.4",
     "babel-plugin-import": "^1.12.2",
     "escodegen": "1.12.0",
-    "espree": "6.1.1",
+    "espree": "6.1.2",
     "file-loader": "^4.2.0",
     "jsdoc": "3.6.3",
     "less": "^3.10.3",
