@@ -6709,12 +6709,14 @@ promised-io@^0.3.5:
   resolved "https://registry.npm.taobao.org/promised-io/download/promised-io-0.3.5.tgz#4ad217bb3658bcaae9946b17a8668ecd851e1356"
   integrity sha1-StIXuzZYvKrplGsXqGaOzYUeE1Y=
 
-protobufjs-loader-webpack4@^0.0.2:
+protobuf-preloader@^0.0.2:
   version "0.0.2"
-  resolved "https://registry.npm.taobao.org/protobufjs-loader-webpack4/download/protobufjs-loader-webpack4-0.0.2.tgz#d87fdd81eb15010d521812dc37febba79b7e0826"
-  integrity sha1-2H/dgesVAQ1SGBLcN/67p5t+CCY=
+  resolved "https://registry.npm.taobao.org/protobuf-preloader/download/protobuf-preloader-0.0.2.tgz#bf02b85a07e5ade36a2ba84e81bb3bcaae24ff93"
+  integrity sha1-vwK4WgflreNqK6hOgbs7yq4k/5M=
   dependencies:
+    loader-utils "^1.2.3"
     protobufjs "^6.8.0"
+    schema-utils "^1.0.0"
     tmp-promise "^1.0.4"
 
 protobufjs@^6.8.0, protobufjs@^6.8.8:

@@ -22,6 +22,7 @@ export interface RivenProperty {
   prefix: string;
   subfix: string;
   onlyPositive?: boolean;
+  onlyNegative?: boolean;
   nopercent?: boolean;
   negative?: boolean;
   noDmg?: boolean;
@@ -43,7 +44,7 @@ const baseProperty: RivenProperty[] = [
   { id: "A", sName: "切割", eName: "Slash", name: "切割伤害", prefix: "sci", subfix: "sus" }, //
   { id: "G", sName: "Grineer伤害", eName: "Damage to Grineer", name: "对Grineer伤害", prefix: "argi", subfix: "con" }, //
   { id: "I", sName: "Infested伤害", eName: "Damage to Infested", name: "对Infested伤害", prefix: "pura", subfix: "ada" }, //
-  { id: "C", sName: "Corpus伤害", eName: "Damage to Corpus", name: "对Corpus伤害", prefix: "manti", subfix: "tron" } //
+  { id: "C", sName: "Corpus伤害", eName: "Damage to Corpus", name: "对Corpus伤害", prefix: "manti", subfix: "tron" }, //
 ];
 
 const gunProperty: RivenProperty[] = [
@@ -56,15 +57,15 @@ const gunProperty: RivenProperty[] = [
   { id: "P", sName: "穿透", eName: "Punch Through", name: "穿透", prefix: "lexi", subfix: "nok", onlyPositive: true, nopercent: true, noDmg: true }, //
   { id: "H", sName: "变焦", eName: "Zoom", name: "变焦", prefix: "hera", subfix: "lis", noDmg: true }, //
   { id: "V", sName: "弹道", eName: "Projectile Speed", name: "投射物速度", prefix: "conci", subfix: "nak", noDmg: true }, //
-  { id: "Z", sName: "后坐", eName: "Weapon Recoil", name: "后坐力", prefix: "zeti", subfix: "mag", negative: true, noDmg: true } //
+  { id: "Z", sName: "后坐", eName: "Weapon Recoil", name: "后坐力", prefix: "zeti", subfix: "mag", negative: true, noDmg: true }, //
 ];
 
 const meleeProperty: RivenProperty[] = [
   { id: "K", sName: "伤害", eName: "Melee Damage", name: "近战伤害", prefix: "visi", subfix: "ata" }, //
   { id: "T", sName: "范围", eName: "Range", name: "攻击范围", prefix: "locti", subfix: "tor", noDmg: true }, //
   { id: "J", sName: "攻速", eName: "Attack Speed", name: "攻击速度", prefix: "croni", subfix: "dra" }, //
-  { id: "B", sName: "导引伤害", eName: "Channeling Damage", name: "导引伤害", prefix: "tori", subfix: "bo", noDmg: true, onlyPositive: true }, //
-  { id: "U", sName: "导引效率", eName: "Channeling Efficiency", name: "导引效率", prefix: "uti", subfix: "tia", noDmg: true, onlyPositive: true }, //
+  { id: "B", sName: "初始连击", eName: "Initial Combo", name: "初始连击", prefix: "para", subfix: "um", noDmg: true, onlyPositive: true }, //
+  { id: "U", sName: "连击效率", eName: "Combo Efficiency", name: "连击效率", prefix: "forti", subfix: "us", noDmg: true, onlyPositive: true }, //
   { id: "N", sName: "连击时间", eName: "Combo Duration", name: "连击持续时间", prefix: "tempi", subfix: "nem", nopercent: true, noDmg: true }, //
   {
     id: "E",
@@ -74,9 +75,10 @@ const meleeProperty: RivenProperty[] = [
     displayPre: "滑行攻击有",
     name: "的几率造成暴击",
     prefix: "pleci",
-    subfix: "nent"
+    subfix: "nent",
   }, //
-  { id: "X", sName: "处决伤害", eName: "Finisher Damage", name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true } //
+  { id: "X", sName: "处决伤害", eName: "Finisher Damage", name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true }, //
+  { id: "O", sName: "额外连击", eName: "Combo Count Chance", name: "的几率获得额外连击数", prefix: "laci", subfix: "nus", noDmg: true, onlyPositive: true }, //
 ];
 
 export interface RivenProperties {
@@ -118,7 +120,7 @@ export const RivenPropertyDataBase: RivenProperties = {
   Amp: [],
   Melee: baseProperty.concat(meleeProperty),
   Zaw: baseProperty.concat(meleeProperty),
-  all: baseProperty.concat(gunProperty, meleeProperty)
+  all: baseProperty.concat(gunProperty, meleeProperty),
 };
 
 export const ExtraDmgSet = new Set(["4", "5", "6", "7", "8", "9", "A"]);
@@ -147,7 +149,7 @@ const RPVBRifle = {
   P: 27, // 穿透
   H: 6, // 变焦
   V: 9, // 投射物速度
-  Z: -9 // 后坐力
+  Z: -9, // 后坐力
 };
 const RPVBShotgun = {
   0: 9, // 暴击率
@@ -173,7 +175,7 @@ const RPVBShotgun = {
   P: 27, // 穿透
   H: 6, // 变焦
   V: 9, // 投射物速度
-  Z: -9 // 后坐力
+  Z: -9, // 后坐力
 };
 const RPVBPistol = {
   0: 15, // 暴击率
@@ -199,7 +201,7 @@ const RPVBPistol = {
   P: 27, // 穿透
   H: 8, // 变焦
   V: 9, // 投射物速度
-  Z: -9 // 后坐力
+  Z: -9, // 后坐力
 };
 const RPVBArchgun = {
   0: 10, // 暴击率
@@ -225,7 +227,7 @@ const RPVBArchgun = {
   P: 27, // 穿透
   H: 6, // 变焦
   V: 9, // 投射物速度
-  Z: -9 // 后坐力
+  Z: -9, // 后坐力
 };
 const RPVBMelee = {
   0: 9, // 暴击率
@@ -249,7 +251,7 @@ const RPVBMelee = {
   U: 9, // 导引效率
   N: 81, // 连击持续时间
   E: 9, // 滑行攻击造成暴击几率
-  X: 12 // 处决伤害
+  X: 12, // 处决伤害
 };
 /**
  * 属性基础值
@@ -261,7 +263,7 @@ export const RivenPropertyValueBaseDataBase = {
   Kitgun: RPVBPistol,
   Melee: RPVBMelee,
   Zaw: RPVBMelee,
-  "Arch-Gun": RPVBArchgun
+  "Arch-Gun": RPVBArchgun,
 };
 
 export const ModTypeTable = {
@@ -269,7 +271,7 @@ export const ModTypeTable = {
   Shotgun: { name: "shotgun", include: [1 /* MainTag.Shotgun */] },
   Secondary: { name: "secondary", include: [2, 3 /* MainTag.Secondary, MainTag.Kitgun */] },
   Melee: { name: "melee", include: [4, 5 /* MainTag.Melee, MainTag.Zaw */] },
-  Archwing: { name: "archwing", include: [6, 7 /* MainTag["Arch-Gun"], MainTag["Arch-Melee"] */] }
+  Archwing: { name: "archwing", include: [6, 7 /* MainTag["Arch-Gun"], MainTag["Arch-Melee"] */] },
 };
 
 const propRegExpsFactory = (name: RivenTypes) =>
@@ -299,9 +301,12 @@ export class RivenDatabase {
     Secondary: propRegExpsFactory("Secondary"),
     Kitgun: propRegExpsFactory("Kitgun"),
     Melee: propRegExpsFactory("Melee"),
-    Zaw: propRegExpsFactory("Zaw")
+    Zaw: propRegExpsFactory("Zaw"),
   };
-  static PrefixAll = new RegExp(`(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})(?:-|${RivenPropertyDataBase.all.map(v => v.subfix).join("|")})`, "i");
+  static PrefixAll = new RegExp(
+    `(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})(?:-|${RivenPropertyDataBase.all.map(v => v.subfix).join("|")})`,
+    "i"
+  );
 
   reload() {
     RivenPropertyDataBase.all.forEach((v, i) => {

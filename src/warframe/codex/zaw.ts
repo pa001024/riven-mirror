@@ -72,7 +72,7 @@ export interface ZawStrikeModify {
   dmg: number;
   slide: number;
   type: string;
-  range: [number, number];
+  range: number;
 }
 
 export const ZawStrikeData: ZawStrike[] = _zawStrike.map(v => ({
@@ -228,7 +228,7 @@ export class Zaw extends Weapon {
 
     let modify = this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand;
     this.stance = modify.type;
-    this.reach = modify.range;
+    this.meleeRange = modify.range;
 
     //  ZAW 计算方法
 

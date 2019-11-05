@@ -85,16 +85,18 @@ export class Weapon {
   }
   // melee
   stancePolarity?: string;
-  blockResist?: number;
-  finisherDamage?: number;
-  channelCost?: number;
-  channelMult?: number;
-  spinAttack?: number;
-  jumpAttack?: number;
-  leapAttack?: number;
-  wallAttack?: number;
-  /** 近战范围 */
-  reach?: number[];
+  comboDur?: number;
+  followThrough?: number;
+  meleeRange?: number;
+  slamAttack?: number;
+  slamRadialDmg?: number;
+  slamRadius?: number;
+  heavyAttack?: number;
+  windUp?: number;
+  heavySlamAttack?: number;
+  heavyRadialDmg?: number;
+  heavySlamRadius?: number;
+  slideAttack?: number;
 
   // attack
   modes: CoreWeaponMode[];
@@ -273,7 +275,7 @@ export class Weapon {
 
   /** 滑砍伤害 */
   get slideDmg() {
-    return this.defaultMode.panelDamage * this.spinAttack;
+    return this.defaultMode.panelDamage * this.slideAttack;
   }
 }
 
@@ -310,32 +312,41 @@ export class WeaponBuildMode implements CoreWeaponMode {
   get reloadStyle() {
     return this.weapon.reloadStyle;
   }
-  get blockResist() {
-    return this.weapon.blockResist;
+  get comboDur() {
+    return this.weapon.comboDur;
   }
-  get finisherDamage() {
-    return this.weapon.finisherDamage;
+  get followThrough() {
+    return this.weapon.followThrough;
   }
-  get channelCost() {
-    return this.weapon.channelCost;
+  get meleeRange() {
+    return this.weapon.meleeRange;
   }
-  get channelMult() {
-    return this.weapon.channelMult;
+  get slamAttack() {
+    return this.weapon.slamAttack;
   }
-  get spinAttack() {
-    return this.weapon.spinAttack;
+  get slamRadialDmg() {
+    return this.weapon.slamRadialDmg;
   }
-  get jumpAttack() {
-    return this.weapon.jumpAttack;
+  get slamRadius() {
+    return this.weapon.slamRadius;
   }
-  get leapAttack() {
-    return this.weapon.leapAttack;
+  get heavyAttack() {
+    return this.weapon.heavyAttack;
   }
-  get wallAttack() {
-    return this.weapon.wallAttack;
+  get windUp() {
+    return this.weapon.windUp;
   }
-  get reach() {
-    return this.weapon.reach;
+  get heavySlamAttack() {
+    return this.weapon.heavySlamAttack;
+  }
+  get heavyRadialDmg() {
+    return this.weapon.heavyRadialDmg;
+  }
+  get heavySlamRadius() {
+    return this.weapon.heavySlamRadius;
+  }
+  get slideAttack() {
+    return this.weapon.slideAttack;
   }
 
   //### mode 数据获取

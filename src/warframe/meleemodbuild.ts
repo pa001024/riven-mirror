@@ -108,7 +108,7 @@ export class MeleeModBuild extends ModBuild {
     }
     // 自动配卡优化
     this.requireCombo = !this.weapon.tags.has("Virtual");
-    this.requireRange = this.weapon.reach && this.weapon.reach[1] > 1;
+    this.requireRange = true;
     if (options) {
       this.options = options;
     }
@@ -160,14 +160,12 @@ export class MeleeModBuild extends ModBuild {
 
   /** 范围 */
   get range() {
-    if (!this.weapon.reach) return 0;
-    return this.weapon.reach[0] * this.rangeMul + this.weapon.reach[1];
+    return this.weapon.meleeRange + this.rangeMul;
   }
 
   /** 原范围 */
   get originalRange() {
-    if (!this.weapon.reach) return 0;
-    return this.weapon.reach[0] + this.weapon.reach[1];
+    return this.weapon.meleeRange || 0;
   }
 
   /** [overwrite] 全局伤害增幅倍率 */
@@ -187,7 +185,7 @@ export class MeleeModBuild extends ModBuild {
   }
   /** 滑行攻击倍率 */
   get slideAttackMul() {
-    return this.weapon.spinAttack;
+    return this.weapon.slideAttack;
   }
 
   /** 连击倍率 */
@@ -211,18 +209,18 @@ export class MeleeModBuild extends ModBuild {
   get normalCritChance() {
     return Math.max(
       0,
-      (this.critChanceLock != -1
+      this.critChanceLock != -1
         ? this.critChanceLock // Locked
-        : this.mode.critChance * this.critChanceMul + this.critChanceAdd) * this.comboCritChance
+        : this.mode.critChance * (this.critChanceMul + this.comboCritChance) + this.critChanceAdd
     );
   }
   /** 滑行暴击率 */
   get slideCritChance() {
     return Math.max(
       0,
-      (this.critChanceLock != -1
+      this.critChanceLock != -1
         ? this.critChanceLock // Locked
-        : this.mode.critChance * this.critChanceMul + this.critChanceAdd + this.slideCritChanceAdd) * this.comboCritChance
+        : this.mode.critChance * (this.critChanceMul + this.slideCritChanceAdd + this.comboCritChance) + this.critChanceAdd
     );
   }
 

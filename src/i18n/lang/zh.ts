@@ -1230,6 +1230,7 @@ let po = {
     akarius: "阿利乌双枪",
     acceltra: "迅发电浆炮",
     pathocyst: "病囊飞刃",
+    masseter: "咀嚼金棒",
 
     none: "无",
     balla: "宝拉",

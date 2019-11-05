@@ -92,16 +92,18 @@ export interface Weapon {
 
   // melee
   stancePolarity?: string;
-  blockResist?: number;
-  finisherDamage?: number;
-  channelCost?: number;
-  channelMult?: number;
-  spinAttack?: number;
-  jumpAttack?: number;
-  leapAttack?: number;
-  wallAttack?: number;
-  /** 近战范围 */
-  reach?: number[];
+  comboDur?: number;
+  followThrough?: number;
+  meleeRange?: number;
+  slamAttack?: number;
+  slamRadialDmg?: number;
+  slamRadius?: number;
+  heavyAttack?: number;
+  windUp?: number;
+  heavySlamAttack?: number;
+  heavyRadialDmg?: number;
+  heavySlamRadius?: number;
+  slideAttack?: number;
 
   // attack
   modes?: WeaponMode[];

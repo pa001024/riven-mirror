@@ -274,7 +274,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
       extraOverall: +this.extraOverall,
       calcCondiOver: this.calcCondiOver,
       requireRange: this.requireRange,
-      requireCombo: this.requireCombo
+      requireCombo: this.requireCombo,
     };
     super.recalc(MeleeModBuild, options);
   }
@@ -283,7 +283,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
     this.modeIndex = -1;
     // 自动配卡优化
     this.requireCombo = !weapon.tags.has("Virtual");
-    this.requireRange = weapon.reach && weapon.reach[0] > 1.5;
+    this.requireRange = true;
     this.debouncedRecalc();
   }
 }

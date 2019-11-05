@@ -70,19 +70,22 @@ message Weapons {
 
     // melee
     string stancePolarity = 14;
-    float blockResist = 15;
-    int32 finisherDamage = 16;
-    int32 channelCost = 17;
-    float channelMult = 18;
-    float spinAttack = 19;
-    float jumpAttack = 20;
-    float leapAttack = 21;
-    float wallAttack = 22;
-    repeated float reach = 23;
+    float comboDur = 15; // 连击持续时间
+    float followThrough = 16; // 伤害穿透系数
+    float meleeRange = 17; // 范围
+    float slamAttack = 18; // 震地攻击
+    float slamRadialDmg = 19; // 震地范围伤害
+    float slamRadius = 20; // 震地范围
+    float heavyAttack = 21; // 重击
+    float windUp = 22; // 重击准备时间
+    float heavySlamAttack = 23; // 重型震地攻击
+    float heavyRadialDmg = 24; // 重型震地范围伤害
+    float heavySlamRadius = 25; // 重型震地范围
+    float slideAttack = 26; // 滑行攻击
 
     // attack
-    repeated WeaponMode modes = 24;
-    repeated Weapon variants = 25;
+    repeated WeaponMode modes = 27;
+    repeated Weapon variants = 28;
   }
   repeated Weapon weapons = 1;
 }

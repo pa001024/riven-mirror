@@ -60,7 +60,7 @@
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "minimist": "1.2.0",
-    "protobufjs-loader-webpack4": "^0.0.2",
+    "protobuf-preloader": "^0.0.2",
     "tmp": "0.1.0",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.4",
