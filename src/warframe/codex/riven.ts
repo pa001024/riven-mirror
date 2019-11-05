@@ -65,7 +65,7 @@ const meleeProperty: RivenProperty[] = [
   { id: "T", sName: "范围", eName: "Range", name: "攻击范围", prefix: "locti", subfix: "tor", noDmg: true }, //
   { id: "J", sName: "攻速", eName: "Attack Speed", name: "攻击速度", prefix: "croni", subfix: "dra" }, //
   { id: "B", sName: "初始连击", eName: "Initial Combo", name: "初始连击", prefix: "para", subfix: "um", noDmg: true, onlyPositive: true }, //
-  { id: "U", sName: "连击效率", eName: "Combo Efficiency", name: "连击效率", prefix: "forti", subfix: "us", noDmg: true, onlyPositive: true }, //
+  { id: "U", sName: "连击效率", eName: "Combo Efficiency", name: "连击效率", prefix: "forti", subfix: "us", noDmg: true }, //
   { id: "N", sName: "连击时间", eName: "Combo Duration", name: "连击持续时间", prefix: "tempi", subfix: "nem", nopercent: true, noDmg: true }, //
   {
     id: "E",
@@ -78,7 +78,8 @@ const meleeProperty: RivenProperty[] = [
     subfix: "nent",
   }, //
   { id: "X", sName: "处决伤害", eName: "Finisher Damage", name: "处决伤害", prefix: "exi", subfix: "cta", noDmg: true }, //
-  { id: "O", sName: "额外连击", eName: "Combo Count Chance", name: "的几率获得额外连击数", prefix: "laci", subfix: "nus", noDmg: true, onlyPositive: true }, //
+  { id: "O", sName: "连击获取", eName: "Combo Count Chance", name: "的几率获得额外连击数", prefix: "laci", subfix: "nus", noDmg: true, onlyPositive: true }, //
+  { id: "Q", sName: "连击获取", eName: "Combo Count Chance", name: "的几率无法获得连击数", prefix: "laci", subfix: "nus", noDmg: true, onlyNegative: true }, //
 ];
 
 export interface RivenProperties {
@@ -247,10 +248,12 @@ const RPVBMelee = {
   K: 16.5, // 近战伤害
   T: 12, // 攻击范围
   J: 5.5, // 攻击速度
-  B: 15, // 导引伤害
-  U: 9, // 导引效率
+  B: 300, // 初始连击
+  U: 6, // 连击效率
+  O: 6, // 连击获取
+  Q: 12, // 连击获取
   N: 81, // 连击持续时间
-  E: 9, // 滑行攻击造成暴击几率
+  E: 15, // 滑行攻击造成暴击几率
   X: 12, // 处决伤害
 };
 /**

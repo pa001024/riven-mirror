@@ -95,7 +95,7 @@
         <!-- 连击倍率 -->
         <el-form-item :label="$t('buildview.comboMul')">
           <el-tooltip effect="dark" :content="$t('buildview.comboMulTip')" placement="bottom">
-            <el-input-number v-model="comboMul" @change="debouncedRecalc" :min="1" :max="6" :step="0.5"></el-input-number>
+            <el-input-number v-model="comboMul" @change="debouncedRecalc" :min="0" :max="12" :step="2"></el-input-number>
           </el-tooltip>
         </el-form-item>
         <!-- 限制元素类型 -->
@@ -169,7 +169,7 @@ import localStorage from "universal-localstorage";
 export default class MeleeModBuildView extends BaseModBuildView {
   builds: [string, MeleeModBuild][] = [];
   /** 连击倍率 */
-  comboMul = 2;
+  comboMul = 4;
   /** 插槽使用数 */
   slots = 8;
   /** 基伤加成 */

@@ -32,7 +32,6 @@
 import _ from "lodash";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
-import { CachedWikiApi } from "@/service/wiki";
 import { RivenMod } from "@/warframe/rivenmod";
 import { WeeklyRivenInfo } from "@/warframe/weeklyriven";
 import { Getter, Action } from "vuex-class";

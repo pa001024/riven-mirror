@@ -1,6 +1,15 @@
 export const magic = "ALPHA";
-export const version = "1.8.2";
+export const version = "1.8.3";
 export const updateLogs = [
+  {
+    version: "1.8.3",
+    date: "2019/11/5",
+    md: {
+      en: `- Update 26: The Old Blood`,
+      cn: `- 更新26：远古之血
+- 注意: 此版本在近战系统以及火焰触发上改动较大 无法兼容国服版本`,
+    },
+  },
   {
     version: "1.8.2",
     date: "2019/10/14",
@@ -43,6 +52,7 @@ export const updateLogs = [
 - 改动: 弓箭武器改版 (国服不变)`,
     },
   },
+  /*
   {
     version: "1.6.7",
     date: "2019/8/21",
@@ -73,7 +83,6 @@ export const updateLogs = [
 - 修复: 对非适应极性的容量惩罚计算错误的问题`,
     },
   },
-  /*
   {
     version: "1.6.5",
     date: "2019/7/7",

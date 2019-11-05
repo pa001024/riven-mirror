@@ -47,7 +47,6 @@
 import _ from "lodash";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
-import { CachedWikiApi } from "@/service/wiki";
 import { RivenMod } from "@/warframe/rivenmod";
 
 @Component({ components: {} })
@@ -121,19 +120,6 @@ export default class BuildMinimap extends Vue {
   }
 
   imgSrc = "";
-
-  @Watch("build.weapon.name")
-  async onIdChange() {
-    const id = this.build.weapon.name;
-    if (id) {
-      this.imgSrc = await CachedWikiApi.instance.getMainImage(id);
-      // console.log("fetched", id, this.imgSrc);
-    }
-  }
-
-  mounted() {
-    this.onIdChange();
-  }
 }
 </script>
 <style lang="less">

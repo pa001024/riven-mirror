@@ -687,7 +687,7 @@ export abstract class ModBuild implements CommonBuild {
   comboLevel = 0;
   /** 设置连击数 */
   set comboCount(value: number) {
-    this.comboLevel = value > 4 ? ~~(Math.log(value / 5) / Math.log(3)) + 1 : 0;
+    this.comboLevel = (value / 20) | 0 || 1;
   }
 
   // ### 计算属性 ###

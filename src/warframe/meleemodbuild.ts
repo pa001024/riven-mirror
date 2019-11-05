@@ -21,17 +21,17 @@ export interface MeleeModBuildOptions {
   requireRange?: boolean;
   requireCombo?: boolean;
   calcCondiOver?: boolean;
-  melee30?: boolean;
   modeIndex?: number;
 }
 
 export class MeleeModBuild extends ModBuild {
   weapon: Weapon;
   // 属性增幅器
-  private _rangeMul = 100;
-  private _chargeMulMul = 100;
-  private _chargeEffMul = 100;
+  private _rangeAdd = 0;
+  private _initialCombo = 100;
+  private _comboEffMul = 100;
   private _comboDurationAdd = 0;
+  private _comboDurationMul = 100;
   private _slideCritChanceAdd = 0;
   private _execDmgMul = 100;
   private _comboCritChanceMul = 0;
@@ -40,20 +40,17 @@ export class MeleeModBuild extends ModBuild {
   private _damagePerStatus = 0;
   private _extraStatusCount = 0;
 
-  // 近战3.0 连击数
-  melee30 = false;
-
   /** 范围增幅倍率 */
-  get rangeMul() {
-    return this._rangeMul / 100;
+  get rangeAdd() {
+    return this._rangeAdd;
   }
   /** 导引倍率增幅倍率 */
   get chargeMulMul() {
-    return this._chargeMulMul / 100;
+    return this._initialCombo / 100;
   }
   /** 导引效率增幅倍率 */
   get chargeEffMul() {
-    return this._chargeEffMul / 100;
+    return this._comboEffMul / 100;
   }
   /** 连击时间增值 */
   get comboDurationAdd() {
@@ -124,7 +121,6 @@ export class MeleeModBuild extends ModBuild {
     this.requireRange = typeof options.requireRange !== "undefined" ? options.requireRange : this.requireRange;
     this.requireCombo = typeof options.requireCombo !== "undefined" ? options.requireCombo : this.requireCombo;
     this.calcCondiOver = typeof options.calcCondiOver !== "undefined" ? options.calcCondiOver : this.calcCondiOver;
-    this.melee30 = typeof options.melee30 !== "undefined" ? options.melee30 : this.melee30;
     this.modeIndex = typeof options.modeIndex !== "undefined" ? options.modeIndex : this.modeIndex;
   }
 
@@ -139,7 +135,6 @@ export class MeleeModBuild extends ModBuild {
       requireRange: this.requireRange,
       requireCombo: this.requireCombo,
       calcCondiOver: this.calcCondiOver,
-      melee30: this.melee30,
       modeIndex: this.modeIndex,
     };
   }
@@ -160,24 +155,12 @@ export class MeleeModBuild extends ModBuild {
 
   /** 范围 */
   get range() {
-    return this.weapon.meleeRange + this.rangeMul;
+    return this.weapon.meleeRange + this.rangeAdd;
   }
 
   /** 原范围 */
   get originalRange() {
     return this.weapon.meleeRange || 0;
-  }
-
-  /** [overwrite] 全局伤害增幅倍率 */
-  get overallMul() {
-    const combo = this.melee30 ? 1 : this.comboMul;
-    if (this.damagePerStatus > 0)
-      return (
-        combo *
-        (this._overallMul / 100) *
-        (1 + this.damagePerStatus) ** (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount)
-      );
-    return (combo * this._overallMul) / 100;
   }
 
   get slideMode() {
@@ -190,16 +173,15 @@ export class MeleeModBuild extends ModBuild {
 
   /** 连击倍率 */
   get comboMul() {
-    if (this.weapon.name === "Venka Prime") return this.comboLevel * 0.75 + 1;
-    else return this.comboLevel * 0.5 + 1;
+    return (this.comboLevel * 2 || 1) - 1;
   }
   /** 连击数增加暴击率 */
   get comboCritChance() {
-    return this.comboMul > 1 ? 1 + this.comboMul * this.comboCritChanceMul : 1;
+    return this.comboMul * this.comboCritChanceMul;
   }
   /** 连击数增加触发率 */
   get comboProcChance() {
-    return this.comboMul > 1 ? 1 + this.comboMul * this.comboProcChanceMul : 1;
+    return this.comboMul * this.comboProcChanceMul;
   }
   /** [overwrite] 暴击率 */
   get critChance() {
@@ -224,9 +206,16 @@ export class MeleeModBuild extends ModBuild {
     );
   }
 
+  /** [overwrite] 基伤增幅倍率 */
+  get baseDamageMul() {
+    if (this.damagePerStatus > 0)
+      return this._baseDamageMul / 100 + this.damagePerStatus * (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount);
+    return this._baseDamageMul / 100;
+  }
+
   /** [overwrite] 触发几率 */
   get procChance() {
-    let s = (this.mode.procChance * this.procChanceMul + this.procChanceAdd) * this.comboProcChance;
+    let s = this.mode.procChance * (this.procChanceMul + this.comboProcChance) + this.procChanceAdd;
     return s > 1 ? 1 : s < 0 ? 0 : s;
   }
   /** [overwrite] 真实触发几率 */
@@ -353,10 +342,11 @@ export class MeleeModBuild extends ModBuild {
   /** [overwrite] 重置所有属性增幅器 */
   reset() {
     super.reset();
-    this._rangeMul = 100;
-    this._chargeMulMul = 100;
-    this._chargeEffMul = 100;
+    this._rangeAdd = 0;
+    this._initialCombo = 100;
+    this._comboEffMul = 100;
     this._comboDurationAdd = 0;
+    this._comboDurationMul = 100;
     this._slideCritChanceAdd = 0;
     this._execDmgMul = 100;
     this._comboCritChanceMul = 0;
@@ -375,19 +365,22 @@ export class MeleeModBuild extends ModBuild {
   applyProp(mod: NormalMod, pName: string, pValue: number) {
     switch (pName) {
       case "T":
-        /* 攻击范围 range */ this._rangeMul += pValue;
+        /* 攻击范围 range */ this._rangeAdd += pValue;
         break;
       case "J":
         /* 攻击速度 attackSpeed */ this._fireRateMul += pValue;
         break;
       case "B":
-        /* 导引伤害 chargeMul */ this._chargeMulMul += pValue;
+        /* 初始连击 initialCombo */ this._initialCombo += pValue;
         break;
       case "U":
-        /* 导引效率 chargeEff */ this._chargeEffMul += pValue;
+        /* 连击效率 chargeEff */ this._comboEffMul += pValue;
         break;
       case "N":
         /* 连击持续时间 comboDuration */ this._comboDurationAdd += pValue;
+        break;
+      case "rN":
+        /* 连击持续时间 comboDuration */ this._comboDurationMul += pValue;
         break;
       case "E":
         /* 滑行攻击造成暴击几率 slideCritChance */ this._slideCritChanceAdd += pValue;

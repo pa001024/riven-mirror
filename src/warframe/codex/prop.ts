@@ -88,18 +88,19 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "L", dmg: true }, // 弹匣 Magazine Capacity
   { id: "F", dmg: true }, // 装填
   { id: "M" }, // 弹药 Ammo Maximum
-  { id: "P" }, // 穿透 // abs-extra 绝对数值增加
+  { id: "P", nopercent: true }, // 穿透 // abs-extra 绝对数值增加
   { id: "H" }, // 变焦
   { id: "V" }, // 弹道 Projectile Flight Speed
   { id: "Z" }, // 后坐
   { id: "K", dmg: true }, // 近战伤害
-  { id: "T" }, // 范围 Range
+  { id: "T", nopercent: true }, // 范围 Range
   { id: "J", dmg: true }, // 攻速 Attack Speed
-  { id: "B", dmg: true }, // 导引伤害
-  { id: "U" }, // 导引效率 Channeling Efficiency
-  { id: "N", nopercent: true }, // 连击 Combo Duration // abs-extra 绝对数值增加
+  { id: "B", nopercent: true }, // 初始连击 Initial Combo
+  { id: "U" }, // 连击效率 Combo Efficiency
+  { id: "O" }, // 连击获取 Combo Count Chance
+  { id: "Q" }, // 连击获取 Combo Count Chance
+  { id: "N", nopercent: true }, // 连击持续时间 Combo Duration // abs-extra 绝对数值增加
   { id: "E", dmg: true }, // 滑暴 Critical Hit Chance for Slide Attack
-  // abs-inc 绝对增加
   { id: "X" }, // 处决 Finisher Damage
   // convert 伤害转换
   { id: "p4", dmg: true }, // 物理转火伤 Physical to Heat
@@ -186,6 +187,9 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
 
   // Special 特殊
 
+  // inc
+  { id: "rN" }, // 相对连击时间
+
   // abs-extra 绝对加法
   { id: "erd", dmg: true }, // 辐射伤害
   { id: "ecd", dmg: true }, // 腐蚀伤害
@@ -223,14 +227,14 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "iV" }, // 弹道 Projectile Flight Speed
   { id: "iZ" }, // 后坐
   { id: "iK", dmg: true }, // 近战伤害
-  { id: "iT" }, // 范围 Range
   { id: "iJ", dmg: true }, // 攻速 Attack Speed
-  { id: "iB", dmg: true }, // 导引伤害
-  { id: "iU" }, // 导引效率
   { id: "iE", dmg: true }, // 滑暴 Critical Hit Chance for Slide Attack
   { id: "iX" }, // 处决 Finisher Damage
 
   // rel-inc extend 扩展相对增加
+  { id: "hd", dmg: true }, // 重击伤害
+  { id: "wu" }, // 重击速度
+  { id: "ccb" }, // 格挡获取连击数
   { id: "aed", dmg: true }, // 全派系伤害
   { id: "od", dmg: true }, // O系伤害
   { id: "fsb", dmg: true }, // 首发伤害 Damage on first shot in Magazine
@@ -242,7 +246,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "smd", dmg: true }, // 对Sentient伤害 Damage to Sentients
   { id: "dmg", dmg: true }, // 伤害
   { id: "cwh", dmg: true }, // 爆头暴击率
-  { id: "rse", dmg: true }, // Weapon Range for 4s on Status Effect
+  { id: "rse", dmg: true, nopercent: true }, // Weapon Range for 4s on Status Effect
   { id: "lsb", dmg: true }, // Bonus Damage on final shot. Requires Magazine 6 or higher. 末发伤害
   { id: "edm", dmg: true }, // Extra Damage against a Marked Enemy 对标记敌人增伤
   { id: "bsk", dmg: true }, // 最终攻速 Attack Speed (Max: 75%) for 4s on Critical Hit
@@ -281,7 +285,6 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "hlr", nopercent: true, noplus: true }, // 治愈
   { id: "exd", nopercent: true }, // 额外伤害
   { id: "amr" }, // +护甲
-  { id: "par", noplus: true }, // 反击几率
   { id: "msd" }, // 近战震波伤害
   { id: "fs" }, // 飞行速度 (战刃)
   { id: "ld", nopercent: true }, // Extra Damage on Melee Attacks, or Lethal Damage on Finishers.

@@ -54,7 +54,6 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { i18n } from "@/i18n";
 import { Weapon } from "@/warframe/codex";
-import { CachedWikiApi } from "@/service/wiki";
 // import InfoRadar from "@/components/InfoRadar.vue";
 
 @Component({
@@ -74,15 +73,6 @@ export default class WeaponInfobox extends Vue {
   }
   renderDamage(damage: [string, number][]) {
     return damage.map(v => ({ icon: v[0].toLowerCase(), val: v[1] }));
-  }
-  @Watch("weapon")
-  async loadImgFromOnline() {
-    this.name = "Loading...";
-    this.imgSrc = await CachedWikiApi.instance.getMainImage(this.weapon.name);
-    this.name = this.weapon.name;
-  }
-  mounted() {
-    this.loadImgFromOnline();
   }
 }
 </script>

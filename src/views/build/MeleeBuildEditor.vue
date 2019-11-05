@@ -99,7 +99,7 @@
               <!-- 连击加成 -->
               <el-form-item :label="$t('buildview.comboMul')">
                 <el-tooltip effect="dark" :content="$t('buildview.comboMulTip')" placement="bottom">
-                  <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="1" :max="6" :step="0.5"></el-input-number>
+                  <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="0" :max="12" :step="2"></el-input-number>
                 </el-tooltip>
               </el-form-item>
               <!-- 爆头几率 -->
@@ -117,12 +117,6 @@
               <!-- 等级调整 -->
               <el-form-item :label="$t('buildview.levelSetting')">
                 <el-switch class="right-side" size="small" v-model="levelSetting"></el-switch>
-              </el-form-item>
-              <!-- 近战3.0 -->
-              <el-form-item :label="$t('buildview.melee30')">
-                <el-tooltip effect="dark" :content="$t('buildview.melee30Tip')" placement="bottom">
-                  <el-switch class="right-side" size="small" v-model="melee30" @change="optionChange"></el-switch>
-                </el-tooltip>
               </el-form-item>
             </el-form>
           </el-card>
@@ -241,14 +235,14 @@ declare interface BuildSelectorTab {
     ProbabilityVisualization,
     OtherInfoDisplay,
     ShareQR,
-    BuildMinimap
-  }
+    BuildMinimap,
+  },
 })
 export default class MeleeBuildEditor extends BaseBuildEditor {
   @Prop() weapon: Weapon;
 
-  get build(){
-     return this.currentTab.build as MeleeModBuild;
+  get build() {
+    return this.currentTab.build as MeleeModBuild;
   }
 
   get headShotChance() {
@@ -258,13 +252,12 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
     this.build.headShotChance = value / 100;
   }
 
-  comboMul = 1.5;
+  comboMul = 4;
   calcCondiOver = true;
-  melee30 = false;
 
   @Watch("weapon")
   reload() {
-    this.comboMul = this.weapon.tags.has("Virtual") ? 1 : 1.5;
+    this.comboMul = this.weapon.tags.has("Virtual") ? 0 : 4;
     this.calcCondiOver = !this.weapon.tags.has("Virtual");
     super.reload();
   }
@@ -275,9 +268,8 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
 
   get options() {
     return {
-      comboLevel: ~~((this.comboMul - 1) * 2),
+      comboLevel: this.comboMul / 2,
       calcCondiOver: this.calcCondiOver,
-      melee30: this.melee30,
     };
   }
 

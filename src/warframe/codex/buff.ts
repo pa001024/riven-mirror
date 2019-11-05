@@ -561,10 +561,10 @@ export const BuffList: BuffData[] = [
   {
     id: "C",
     name: "conditionOverlord", // 异况超量 次方计算
-    type: BuffType.TotalDamage,
+    type: BuffType.BaseDamage,
     target: "Melee",
     multiLayer: {
-      maxStack: 13,
+      maxStack: 16,
       stackableProps: [["esc", 1]],
     },
     defaultLayer: 2,

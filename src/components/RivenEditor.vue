@@ -12,7 +12,10 @@
                 <div class="prop-button" @click.stop="is21Negative=!is21Negative" v-if="index === 2">
                   <el-checkbox style="pointer-events: none;" :value="is21Negative">{{$t("rivenedit.isNegative")}}</el-checkbox>
                 </div>
-                <div class="prop-button" v-for="vprop in (index === 3 || is21Negative && index === 2 ? allProps.filter(v => !v.onlyPositive) : allProps)" :key="vprop.id" size="small" @click="propClick(index, vprop.id)">
+                <div class="prop-button"
+                  v-for="vprop in (index === 3 || is21Negative && index === 2 ? allProps.filter(v => !v.onlyPositive) : allProps.filter(v => !v.onlyNegative))"
+                  :key="vprop.id" size="small" @click="propClick(index, vprop.id)"
+                >
                   {{$t("prop.shortName." + vprop.id)}} ({{index === 0 ? vprop.prefix : (index === 1 ? vprop.prefix + " / " + vprop.subfix : vprop.subfix)}})
                 </div>
               </div>

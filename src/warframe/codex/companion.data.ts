@@ -43,6 +43,18 @@ export const _companionData: CompanionData[] = [
     procChance: 7.5,
   },
   {
+    id: "Vasca Kavats",
+    health: 50,
+    shield: 60,
+    armor: 50,
+    tags: ["Animal", "Beast", "Kavat"],
+    polarities: "yy",
+    damage: { Slash: 80 },
+    critChance: 20,
+    critMul: 2,
+    procChance: 7.5,
+  },
+  {
     id: "Helminth Charger",
     health: 95,
     shield: 85,

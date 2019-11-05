@@ -474,9 +474,10 @@ export class SimpleDamageModel extends DamageModelData {
 export class Procs {
   // [伤害, 剩余时间]
   Slash: [number, number][] = [];
-  Heat: [number, number] = null;
+  Heat: [number, number][] = [];
   Toxin: [number, number][] = [];
   Viral: number = 0;
+  HeatProc: number = 0;
 
   /**
    * 加入触发伤害
@@ -500,7 +501,7 @@ export class Procs {
       // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
       // 注:火焰触发不会叠加
       case "Heat":
-        if (!this.Heat) this.Heat = [dmg, ~~(8 * durationMul)];
+        this.Heat.push([dmg, ~~(8 * durationMul)]);
         break;
     }
   }
@@ -518,8 +519,8 @@ export class Procs {
     this.Slash = this.Slash.filter(v => --v[1] > 0) as [number, number][];
     let totalToxin = this.Toxin.reduce((a, b) => a + b[0], 0);
     this.Toxin = this.Toxin.filter(v => --v[1] > 0) as [number, number][];
-    let totalHeat = this.Heat ? this.Heat[0] : 0;
-    if (this.Heat && this.Heat[1] <= 1) this.Heat = null;
+    let totalHeat = this.Heat.reduce((a, b) => a + b[0], 0);
+    this.Heat = this.Heat.filter(v => --v[1] > 0) as [number, number][];
     let dmgs = [];
     if (totalSlash > 0) dmgs.push([DamageType.True, procDamageMul * totalSlash]);
     if (totalToxin > 0) dmgs.push([DamageType.Toxin, procDamageMul * totalToxin]);
@@ -837,9 +838,11 @@ export class Enemy extends EnemyData {
       } else if (this.ignoreProc === 2) {
         this.applyDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]));
       } else {
-        // [1.按当前病毒触发比例减少血上限]
+        // [1.按当前病毒触发比例减少血上限 / 火减甲]
         let currentViral = this.currentProcs.Viral;
+        let currentHeat = this.currentProcs.HeatProc;
         this.currentHealth *= 1 - 0.5 * currentViral;
+        this.currentArmor *= 1 - 0.5 * currentHeat;
         // [2.直接伤害]
         this.applyDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]));
         // [3.腐蚀扒皮] 计算腐蚀触发(连续)
@@ -856,10 +859,17 @@ export class Enemy extends EnemyData {
           let newViral = currentViral + procChance[DamageType.Viral] * bh;
           this.currentProcs.Viral = newViral > 1 ? 1 : newViral;
         }
+        // [4.3.火减甲]
+        if (procChance[DamageType.Heat] > 0 && this.currentProcs.HeatProc < 1) {
+          // 将触发连续化计算增伤
+          let newHeat = currentHeat + procChance[DamageType.Heat] * bh;
+          this.currentProcs.HeatProc = newHeat > 1 ? 1 : newHeat;
+        }
         // [5.DoT伤害]
         if (this.ignoreProc === 0) this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]), durationMul, procDamageMul);
-        // [6.将病毒下降的血量恢复]
+        // [6.将病毒下降的血量恢复 / 火减甲]
         this.currentHealth /= 1 - 0.5 * currentViral;
+        this.currentArmor /= 1 - 0.5 * currentHeat;
       }
       bls = hAccSum(bls, -1);
     }
