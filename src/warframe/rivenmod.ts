@@ -330,11 +330,11 @@ A段位12023
     // 偏差值 正态分布 标准差=5
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
     const weapon = this.weapon;
-    console.log(weapon, RivenPropertyDataBase[this.mod]);
-    let props = _.sampleSize(RivenPropertyDataBase[this.mod], count).map(v => [v.id, _.round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1)]) as [
-      string,
-      number
-    ][];
+    // console.log(weapon, RivenPropertyDataBase[this.mod]);
+    let props = _.sampleSize(RivenPropertyDataBase[this.mod].filter(v => !v.onlyNegative), count).map(v => [
+      v.id,
+      _.round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1),
+    ]) as [string, number][];
     if (this.hasNegativeProp) {
       let neProp = _.sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
       props.push([neProp.id, _.round(devi() * -negaUplvl * weapon.getPropBaseValue(neProp.id), 1)]);
@@ -363,7 +363,7 @@ A段位12023
       level: 8,
       rarity: "x",
       props: this.properties.map(v => [v.prop.id, v.value / 9] as [string, number]),
-      riven: this.qrCode
+      riven: this.qrCode,
     });
   }
   /** 短后缀 */
@@ -383,7 +383,7 @@ A段位12023
       this.name,
       this.shortSubfix,
       base62(this.rank) + base62(this.recycleTimes),
-      this.properties.map(v => v.prop.id + base62(+(v.value * 10).toFixed(0))).join(".")
+      this.properties.map(v => v.prop.id + base62(+(v.value * 10).toFixed(0))).join("."),
     ].join("|");
   }
   /** 读取二维码识别后的序列化字符串 */
