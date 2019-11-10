@@ -32,7 +32,7 @@ export class MeleeModBuild extends ModBuild {
   private _comboEffMul = 100;
   private _comboDurationAdd = 0;
   private _comboDurationMul = 100;
-  private _slideCritChanceAdd = 0;
+  private _slideCritChanceMul = 0;
   private _execDmgMul = 100;
   private _comboCritChanceMul = 0;
   private _comboProcChanceMul = 0;
@@ -44,21 +44,22 @@ export class MeleeModBuild extends ModBuild {
   get rangeAdd() {
     return this._rangeAdd;
   }
-  /** 导引倍率增幅倍率 */
-  get chargeMulMul() {
+  /** 初始连击 */
+  get initialCombo() {
     return this._initialCombo / 100;
   }
-  /** 导引效率增幅倍率 */
-  get chargeEffMul() {
+  /** 连击效率 */
+  get comboEffMul() {
     return this._comboEffMul / 100;
   }
+
   /** 连击时间增值 */
   get comboDurationAdd() {
     return this._comboDurationAdd / 100;
   }
   /** 滑行暴击增值 */
-  get slideCritChanceAdd() {
-    return this._slideCritChanceAdd / 100;
+  get slideCritChanceMul() {
+    return this._slideCritChanceMul / 100;
   }
   /** 处决伤害增幅倍率 */
   get execDmgMul() {
@@ -202,7 +203,7 @@ export class MeleeModBuild extends ModBuild {
       0,
       this.critChanceLock != -1
         ? this.critChanceLock // Locked
-        : this.mode.critChance * (this.critChanceMul + this.slideCritChanceAdd + this.comboCritChance) + this.critChanceAdd
+        : this.mode.critChance * (this.critChanceMul + this.slideCritChanceMul + this.comboCritChance) + this.critChanceAdd
     );
   }
 
@@ -347,7 +348,7 @@ export class MeleeModBuild extends ModBuild {
     this._comboEffMul = 100;
     this._comboDurationAdd = 0;
     this._comboDurationMul = 100;
-    this._slideCritChanceAdd = 0;
+    this._slideCritChanceMul = 0;
     this._execDmgMul = 100;
     this._comboCritChanceMul = 0;
     this._comboProcChanceMul = 0;
@@ -374,7 +375,7 @@ export class MeleeModBuild extends ModBuild {
         /* 初始连击 initialCombo */ this._initialCombo += pValue;
         break;
       case "U":
-        /* 连击效率 chargeEff */ this._comboEffMul += pValue;
+        /* 连击效率 comboEffMul */ this._comboEffMul += pValue;
         break;
       case "N":
         /* 连击持续时间 comboDuration */ this._comboDurationAdd += pValue;
@@ -383,7 +384,7 @@ export class MeleeModBuild extends ModBuild {
         /* 连击持续时间 comboDuration */ this._comboDurationMul += pValue;
         break;
       case "E":
-        /* 滑行攻击造成暴击几率 slideCritChance */ this._slideCritChanceAdd += pValue;
+        /* 滑行攻击造成暴击几率 slideCritChance */ this._slideCritChanceMul += pValue;
         break;
       case "X":
         /* 处决伤害 execDmg */ this._execDmgMul += pValue;

@@ -4,56 +4,56 @@ import _ from "lodash";
 import { WeaponTag, CoreWeaponMode, MainTag } from "./weapon";
 
 export enum Stance {
-  Daggers, // 匕首
-  Scythes, // 镰刀
-  Machetes, // 大砍刀
-  Swords, // 剑
-  Nikanas, // 侍刃
-  Rapiers, // 细剑
-  Staves, // 杖
-  Polearms, // 长柄武器
-  Hammers, // 锤
+  Dagger, // 匕首
+  Scythe, // 镰刀
+  Machete, // 大砍刀
+  Sword, // 剑
+  Nikana, // 侍刃
+  Rapier, // 细剑
+  Stave, // 杖
+  Polearm, // 长柄武器
+  Hammer, // 锤
   HeavyBlade, // 巨刃
 }
 
 const _zawStrike = [
-  ["0", "Balla", -4, [12, 1, 7], 5, 8, 8, "Daggers", "Staves"],
-  ["1", "Dokrahm", -4, [7, 3, 10], 5, 8, 8, "Scythes", "HeavyBlade"],
-  ["2", "Kronsh", 14, [0, 14, 6], -4, 8, 8, "Machetes", "Polearms"],
-  ["3", "Ooltha", 0, [8, 2, 10], 0, 8, 8, "Swords", "Staves"],
-  ["4", "Rabvee", 14, [1, 12, 7], -4, 8, 8, "Machetes", "Hammers"],
-  ["5", "Sepfahn", 0, [5, 2, 13], 0, 10, 10, "Nikanas", "Staves"],
-  ["6", "Dehtat", -4, [10, 2, 8], 5, 8, 8, "Rapiers", "Polearms"],
-  ["7", "Cyath", 0, [1, 4, 15], 0, 8, 8, "Machetes", "Polearms"],
-  ["8", "Mewan", 14, [7, 5, 8], -4, 8, 8, "Swords", "Polearms"],
-  ["9", "Plague Keewar", 7, [-7, 4, 8, 2], -2, 8, 12, "Scythes", "Staves"],
-  ["A", "Plague Kripath", -2, [7, -8, -3, 2], 2, 12, 8, "Rapiers", "Polearms"],
-] as [string, string, number, number[], number, number, number, string, string][];
+  ["0", "Balla", 0, [12, 1, 7], 5, 8, 8, "Dagger", "Stave", 1],
+  ["1", "Dokrahm", 85, [7, 3, 10], 5, 8, 8, "Scythe", "HeavyBlade", 0.93],
+  ["2", "Kronsh", 10, [0, 14, 6], -4, 8, 8, "Machete", "Polearm", 1.07],
+  ["3", "Ooltha", 0, [8, 2, 10], 0, 8, 8, "Sword", "Stave", 1],
+  ["4", "Rabvee", 10, [1, 12, 7], -4, 8, 8, "Machete", "Hammer", 1.08],
+  ["5", "Sepfahn", 2, [5, 2, 13], 0, 10, 10, "Nikana", "Stave", 1],
+  ["6", "Dehtat", 0, [10, 2, 8], 5, 8, 8, "Rapier", "Polearm", 1.09],
+  ["7", "Cyath", 6, [1, 4, 15], 0, 8, 8, "Machete", "Polearm", 1.08],
+  ["8", "Mewan", 0, [7, 5, 8], -4, 8, 8, "Sword", "Polearm", 1.09],
+  ["9", "Plague Keewar", 82, [32, 1, 35, 14], -2, 8, 12, "Scythe", "Stave", 0.85],
+  ["A", "Plague Kripath", -11, [-26, 14, -7, 8], 2, 12, 8, "Rapier", "Polearm", 1.08],
+] as [string, string, number, number[], number, number, number, string, string, number][];
 
 export const StanceData = {
-  Daggers: [1, 2.14286],
-  Scythes: [1, 2],
-  Machetes: [1, 3],
-  Swords: [1, 2.14286],
-  Nikanas: [1, 2.14286],
-  Rapiers: [1, 2.14286],
-  Staves: [1.18, 2.14286],
-  Polearms: [1.18, 2.22222],
-  Hammers: [1.7, 2],
-  HeavyBlade: [1.7, 2],
+  Dagger: [1, 2.14286],
+  Scythe: [1, 2],
+  Machete: [1, 3],
+  Sword: [1, 2.14286],
+  Nikana: [1, 2.14286],
+  Rapier: [1, 2.14286],
+  Stave: [1, 2.14286],
+  Polearm: [1, 2.22222],
+  Hammer: [1, 2],
+  HeavyBlade: [1, 2],
 };
 
 export const RangeData = {
-  Daggers: [0.88, 0.82],
-  Scythes: [0.42, 1.48],
-  Machetes: [0.58, 2.62],
-  Swords: [0.73, 1.32],
-  Nikanas: [0.85, 1.05],
-  Rapiers: [0.91, 1.29],
-  Staves: [3.09, 0.61],
-  Polearms: [3.09, 0.11],
-  Hammers: [3.09, 0.81],
-  HeavyBlade: [3.09, 0.81],
+  Dagger: 1.7,
+  Scythe: 1.8,
+  Machete: 2.4,
+  Sword: 2.5,
+  Nikana: 2.5,
+  Rapier: 2.5,
+  Stave: 3,
+  Polearm: 3,
+  Hammer: 3,
+  HeavyBlade: 3,
 };
 
 export interface ZawStrike {
@@ -84,8 +84,8 @@ export const ZawStrikeData: ZawStrike[] = _zawStrike.map(v => ({
   speed: v[4],
   crit: v[5],
   status: v[6],
-  oneHand: { dmg: StanceData[v[7]][0], slide: StanceData[v[7]][1], type: v[7], range: RangeData[v[7]] },
-  twoHand: { dmg: StanceData[v[8]][0], slide: StanceData[v[8]][1], type: v[8], range: RangeData[v[8]] },
+  oneHand: { dmg: 1, slide: StanceData[v[7]][1], type: v[7], range: RangeData[v[7]] },
+  twoHand: { dmg: v[9], slide: StanceData[v[8]][1], type: v[8], range: RangeData[v[8]] },
 }));
 
 const _zawGrip = [
@@ -197,7 +197,7 @@ export class Zaw extends Weapon {
   get twoHand() {
     return this.grip.twoHand;
   }
-  get spinAttack() {
+  get slideAttack() {
     return (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
   }
   get tags() {
@@ -244,7 +244,7 @@ export class Zaw extends Weapon {
     //  举例: 基础值 7, -8, -3, 2
     //  则总计 46伤害时(+30) 分配为 22.5, 7.5, 12.5, 17.5
     //  (每项各加30/4=7.5)
-    const dmg = (60 + 12 + this.strike.dmg + this.grip.dmg + this.links.dmg) * modify.dmg;
+    const dmg = Math.round((224 + this.strike.dmg + this.grip.dmg + this.links.dmg) * modify.dmg);
     const DamageTypes = ["Puncture", "Impact", "Slash", "Viral"];
     let calced: [string, number][];
     if (this.strike.dmgs.length === 4) {
@@ -254,7 +254,7 @@ export class Zaw extends Weapon {
       calced = this.strike.dmgs.map((v, i) => [DamageTypes[i], +((v * dmg) / 20).toFixed(1)]);
     }
     const mode = {
-      // 60 为基础值 12为镀金加成
+      // 212 为基础值 12为镀金加成
       damage: calced.filter(v => v[1] > 0),
       fireRate: 60 + this.strike.speed + this.grip.speed + this.links.speed,
       critChance: (10 + this.strike.crit + this.links.crit) / 100,

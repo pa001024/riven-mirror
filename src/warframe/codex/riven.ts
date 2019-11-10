@@ -62,7 +62,7 @@ const gunProperty: RivenProperty[] = [
 
 const meleeProperty: RivenProperty[] = [
   { id: "K", sName: "伤害", eName: "Melee Damage", name: "近战伤害", prefix: "visi", subfix: "ata" }, //
-  { id: "T", sName: "范围", eName: "Range", name: "攻击范围", prefix: "locti", subfix: "tor", noDmg: true }, //
+  { id: "T", sName: "范围", eName: "Range", name: "攻击范围", prefix: "locti", subfix: "tor", noDmg: true, nopercent: true }, //
   { id: "J", sName: "攻速", eName: "Attack Speed", name: "攻击速度", prefix: "croni", subfix: "dra" }, //
   { id: "B", sName: "初始连击", eName: "Initial Combo", name: "初始连击", prefix: "para", subfix: "um", noDmg: true, onlyPositive: true }, //
   { id: "U", sName: "连击效率", eName: "Combo Efficiency", name: "连击效率", prefix: "forti", subfix: "us", noDmg: true }, //
