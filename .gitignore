@@ -26,3 +26,6 @@ pb
 
 # protobuf
 *.data
+
+#Electron-builder output
+/dist_electron

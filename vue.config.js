@@ -16,7 +16,7 @@ module.exports = {
       .use("worker-loader")
       .loader("worker-loader")
       .options({
-        exclude: /(node_modules)/
+        exclude: /(node_modules)/,
       });
     config.module
       .rule("data")
@@ -46,7 +46,7 @@ module.exports = {
          * for a list of what's available.
          * default: []
          */
-        pbjsArgs: ["--no-encode"]
+        pbjsArgs: ["--no-encode"],
       });
   },
   configureWebpack: {
@@ -56,9 +56,9 @@ module.exports = {
         filename: "index.cn.html",
         template: "public/index.cn.html",
         inject: true,
-        minify: true
-      })
-    ]
+        minify: true,
+      }),
+    ],
   },
   productionSourceMap: false,
   pwa: {
@@ -72,7 +72,7 @@ module.exports = {
       favicon32: "favicon.ico",
       favicon16: "favicon.ico",
       appleTouchIcon: "img/icons/apple-icon-152x152.png",
-      msTileImage: "img/icons/icon-144x144.png"
+      msTileImage: "img/icons/icon-144x144.png",
     },
     workboxPluginMode: "InjectManifest",
     workboxOptions: {
@@ -81,7 +81,18 @@ module.exports = {
       importsDirectory: "wb",
       precacheManifestFilename: "cache.[manifestHash].js",
       swSrc: "./sw.js",
-      swDest: "./sw.js"
-    }
-  }
+      swDest: "./sw.js",
+    },
+  },
+  pluginOptions: {
+    electronBuilder: {
+      builderOptions: {
+        // options placed here will be merged with default configuration and passed to electron-builder
+        appId: "im.riven.desktop",
+        win: {
+          icon: "app.ico",
+        },
+      },
+    },
+  },
 };
