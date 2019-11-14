@@ -27,6 +27,7 @@ export function createRouter() {
     // base: "https://riven.im/",
     routes: [
       { path: "/", name: "Intro", component: Intro },
+      { path: "/index.html", name: "Intro", component: Intro },
       { path: "/eula", name: "EULA", component: EULA },
       { path: "/login", name: "Login", component: Login },
       { path: "/forgetpass", name: "ForgetPass", component: ForgetPass },
