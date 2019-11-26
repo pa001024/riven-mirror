@@ -58,7 +58,7 @@
     "@vue/cli-service": "^4.0.5",
     "babel-plugin-import": "^1.12.2",
     "electron": "^6.0.0",
-    "file-loader": "^4.2.0",
+    "file-loader": "^5.0.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "worker-loader": "^2.0.0",

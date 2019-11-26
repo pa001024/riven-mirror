@@ -4047,6 +4047,14 @@ file-loader@^4.2.0:
     loader-utils "^1.2.3"
     schema-utils "^2.0.0"
 
+file-loader@^5.0.0:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-5.0.1.tgz#8d830dc04fb226ec798d6e38a43522b48b0ad528"
+  integrity sha512-zj352SxrfyicIRCt0AwGQUexxrTKg6/BOgAmokUsy2RPQkvpZTwkiMyOqSZqBmieG6ApexxBsIU3xt4OMeWOaw==
+  dependencies:
+    loader-utils "^1.2.3"
+    schema-utils "^2.5.0"
+
 filesize@^3.6.1:
   version "3.6.1"
   resolved "https://registry.npm.taobao.org/filesize/download/filesize-3.6.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffilesize%2Fdownload%2Ffilesize-3.6.1.tgz#090bb3ee01b6f801a8a8be99d31710b3422bb317"
