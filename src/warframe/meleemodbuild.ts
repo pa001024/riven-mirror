@@ -6,6 +6,7 @@ import { RivenMod } from "./rivenmod";
 export enum MeleeCompareMode {
   TotalDamage, // 平砍DPH
   SlideDamage, // 滑砍DPH
+  HeavyDamage, // 重击DPH
   TotalDamagePS, // 平砍DPS
   SlideDamagePS, // 滑砍DPS
 }
@@ -28,7 +29,7 @@ export class MeleeModBuild extends ModBuild {
   weapon: Weapon;
   // 属性增幅器
   private _rangeAdd = 0;
-  private _initialCombo = 100;
+  private _initialCombo = 0;
   private _comboEffMul = 100;
   private _comboDurationAdd = 0;
   private _comboDurationMul = 100;
@@ -39,6 +40,8 @@ export class MeleeModBuild extends ModBuild {
   private _stealthDamageMul = 0;
   private _damagePerStatus = 0;
   private _extraStatusCount = 0;
+  private _heavyDamageMul = 0;
+  private _windUpMul = 0;
 
   /** 范围增幅倍率 */
   get rangeAdd() {
@@ -171,6 +174,10 @@ export class MeleeModBuild extends ModBuild {
   get slideAttackMul() {
     return this.weapon.slideAttack;
   }
+  /** 滑行攻击倍率 */
+  get heavyAttackMul() {
+    return this.weapon.heavyAttack;
+  }
 
   /** 连击倍率 */
   get comboMul() {
@@ -204,6 +211,15 @@ export class MeleeModBuild extends ModBuild {
       this.critChanceLock != -1
         ? this.critChanceLock // Locked
         : this.mode.critChance * (this.critChanceMul + this.slideCritChanceMul + this.comboCritChance) + this.critChanceAdd
+    );
+  }
+  /** 重击暴击率 */
+  get heavyCritChance() {
+    return Math.max(
+      0,
+      this.critChanceLock != -1
+        ? this.critChanceLock // Locked
+        : this.mode.critChance * (this.critChanceMul * 2 + this.comboCritChance) + this.critChanceAdd
     );
   }
 
@@ -247,6 +263,10 @@ export class MeleeModBuild extends ModBuild {
   get slideCritDamageMul() {
     return this.calcCritDamage(this.slideCritChance, this.critMul, 0, 2, this.stealthDamageMul);
   }
+  /** 重击平均暴击区增幅倍率 */
+  get heavyCritDamageMul() {
+    return this.calcCritDamage(this.heavyCritChance, this.critMul, 0, 2, this.stealthDamageMul);
+  }
 
   /** 平砍总伤增幅倍率 */
   get normalTotalDamageMul() {
@@ -255,6 +275,10 @@ export class MeleeModBuild extends ModBuild {
   /** 滑行总伤增幅倍率 */
   get slideTotalDamageMul() {
     return this.slideCritDamageMul * this.overallMul * this.enemyDmgMul;
+  }
+  /** 重击总伤增幅倍率 */
+  get heavyTotalDamageMul() {
+    return this.heavyCritDamageMul * this.overallMul * this.enemyDmgMul * (1 + this.comboMul);
   }
 
   /** 每秒总伤害 */
@@ -291,6 +315,10 @@ export class MeleeModBuild extends ModBuild {
   get slideDamagePS() {
     return this.slideDamage * this.fireRate;
   }
+  /** 重击伤害 */
+  get heavyDamage() {
+    return this.panelDamage * this.heavyAttackMul * this.heavyTotalDamageMul;
+  }
 
   /** 面板滑行伤害 */
   get panelSlideDamage() {
@@ -304,6 +332,8 @@ export class MeleeModBuild extends ModBuild {
         return this.normalDamage;
       case MeleeCompareMode.SlideDamage:
         return this.slideDamage;
+      case MeleeCompareMode.HeavyDamage:
+        return this.heavyDamage;
       default:
       case MeleeCompareMode.TotalDamagePS:
         return this.normalDamagePS;
@@ -344,7 +374,7 @@ export class MeleeModBuild extends ModBuild {
   reset() {
     super.reset();
     this._rangeAdd = 0;
-    this._initialCombo = 100;
+    this._initialCombo = 0;
     this._comboEffMul = 100;
     this._comboDurationAdd = 0;
     this._comboDurationMul = 100;
@@ -355,6 +385,8 @@ export class MeleeModBuild extends ModBuild {
     this._stealthDamageMul = 0;
     this._damagePerStatus = 0;
     this._extraStatusCount = 0;
+    this._heavyDamageMul = 0;
+    this._windUpMul = 0;
   }
 
   /**
