@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { strSimilarity } from "../util";
 import { i18n } from "@/i18n";
-import { _rivenDataBaseWeapons, _rivenDataBaseWeaponsCY } from "./riven.data";
+import { _rivenDataBaseWeapons } from "./riven.data";
 
 /**MOD上的裂罅属性 */
 export interface RivenPropertyValue {
@@ -31,7 +31,6 @@ export interface RivenProperty {
 }
 
 const baseProperty: RivenProperty[] = [
-  { id: "0", sName: "暴击率", eName: "Critical Chance", name: "暴击率", prefix: "crita", subfix: "cron" }, //
   { id: "1", sName: "暴击伤害", eName: "Critical Damage", name: "暴击伤害", prefix: "acri", subfix: "tis" }, //
   { id: "2", sName: "触发率", eName: "Status Chance", name: "触发几率", prefix: "hexa", subfix: "dex", noDmg: true }, //
   { id: "3", sName: "触发时间", eName: "Status Duration", name: "触发时间", prefix: "deci", subfix: "des", noDmg: true }, //
@@ -48,6 +47,7 @@ const baseProperty: RivenProperty[] = [
 ];
 
 const gunProperty: RivenProperty[] = [
+  { id: "0", sName: "暴击率", eName: "Critical Chance", name: "暴击率", prefix: "crita", subfix: "cron" }, //
   { id: "D", sName: "伤害", eName: "Damage", name: "伤害", prefix: "visi", subfix: "ata" }, //
   { id: "S", sName: "多重", eName: "Multishot", name: "多重射击", prefix: "sati", subfix: "can" }, //
   { id: "R", sName: "射速", eName: "Fire Rate", name: "射速", prefix: "croni", subfix: "dra" }, //
@@ -60,7 +60,12 @@ const gunProperty: RivenProperty[] = [
   { id: "Z", sName: "后坐", eName: "Weapon Recoil", name: "后坐力", prefix: "zeti", subfix: "mag", negative: true, noDmg: true }, //
 ];
 
+const gun2Property: RivenProperty[] = gunProperty.map(v =>
+  v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v
+);
+
 const meleeProperty: RivenProperty[] = [
+  { id: "0", sName: "暴击率", eName: "Critical Chance", name: "暴击几率（重击时x2）", prefix: "crita", subfix: "cron" }, //
   { id: "K", sName: "伤害", eName: "Melee Damage", name: "近战伤害", prefix: "visi", subfix: "ata" }, //
   { id: "T", sName: "范围", eName: "Range", name: "攻击范围", prefix: "locti", subfix: "tor", noDmg: true, nopercent: true }, //
   { id: "J", sName: "攻速", eName: "Attack Speed", name: "攻击速度", prefix: "croni", subfix: "dra" }, //
@@ -98,25 +103,11 @@ export interface RivenProperties {
 export type RivenTypes = keyof RivenProperties;
 
 export const RivenPropertyDataBase: RivenProperties = {
-  Rifle: baseProperty.concat(
-    gunProperty.map(v =>
-      v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v
-    )
-  ),
-  Shotgun: baseProperty.concat(
-    gunProperty
-      .filter(v => v.id != "H")
-      .map(v =>
-        v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v
-      )
-  ),
+  Rifle: baseProperty.concat(gun2Property),
+  Shotgun: baseProperty.concat(gun2Property.filter(v => v.id != "H")),
   Secondary: baseProperty.concat(gunProperty),
   Kitgun: baseProperty.concat(gunProperty),
-  "Arch-Gun": baseProperty.concat(
-    gunProperty.map(v =>
-      v.id === "R" ? { id: "R", sName: "射速", eName: "Firerate (x2 for Bows)", name: "射速（弓类武器效果加倍）", prefix: v.prefix, subfix: v.subfix } : v
-    )
-  ),
+  "Arch-Gun": baseProperty.concat(gun2Property),
   "Arch-Melee": [],
   Amp: [],
   Melee: baseProperty.concat(meleeProperty),
@@ -231,7 +222,7 @@ const RPVBArchgun = {
   Z: -9, // 后坐力
 };
 const RPVBMelee = {
-  0: 9, // 暴击率
+  0: 20, // 暴击率
   1: 9, // 暴击伤害
   2: 9, // 触发几率
   3: 10, // 触发时间
@@ -320,11 +311,6 @@ export class RivenDatabase {
     _rivenDataBaseWeapons.forEach(v => {
       this.ratioDict.set(v[0], v[2]);
     });
-    if (i18n.locale === "zh-CY") {
-      _rivenDataBaseWeaponsCY.forEach(v => {
-        this.ratioDict.set(v[0], v[2]);
-      });
-    }
   }
 
   static reload() {
