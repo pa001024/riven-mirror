@@ -1244,6 +1244,11 @@ let po = {
     kuvaShildeg: "赤毒 希尔德",
     kuvaAyanga: "赤毒 怒雷",
     kuvaChakkhurr: "赤毒 邪眼",
+    quellor: "压制者",
+    bazaPrime: "苍鹰 Prime",
+    aksomatiPrime: "轻灵月神双枪 Prime",
+    pennant: "尖幡",
+    shedu: "舍杜",
 
     none: "无",
     balla: "宝拉",

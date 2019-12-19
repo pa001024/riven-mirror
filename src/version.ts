@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.8.3";
+export const version = "1.8.4";
 export const updateLogs = [
+  {
+    version: "1.8.4",
+    date: "2019/12/18",
+    md: {
+      en: `- Update 27: Railjacks + Ivara Prime
+- 2019.12 Riven Disposition Changes`,
+      cn: `- 更新27：九重天 + Ivara Prime
+- 2019.12 裂罅改动`,
+    },
+  },
   {
     version: "1.8.3",
     date: "2019/11/5",
@@ -40,6 +50,7 @@ export const updateLogs = [
       cn: `- 新增: 三线琴编曲工具`,
     },
   },
+  /*
   {
     version: "1.7.0",
     date: "2019/8/30",
@@ -52,7 +63,6 @@ export const updateLogs = [
 - 改动: 弓箭武器改版 (国服不变)`,
     },
   },
-  /*
   {
     version: "1.6.7",
     date: "2019/8/21",

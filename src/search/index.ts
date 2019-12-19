@@ -49,7 +49,7 @@ export class SearchEngine {
     this.init();
   }
 
-  engine: Fuse<SearchResult>;
+  engine: Fuse<SearchResult, {}>;
 
   config = {
     mod: false,

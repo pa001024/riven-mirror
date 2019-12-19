@@ -61,13 +61,13 @@
     "file-loader": "^5.0.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
-    "worker-loader": "^2.0.0",
     "protobuf-preloader": "^0.0.2",
+    "ts-node": "^8.4.1",
     "typescript": "3.6.4",
     "vue-cli-plugin-electron-builder": "^1.4.1",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.6.10",
-    "ts-node": "^8.4.1"
+    "worker-loader": "^2.0.0"
   },
   "browserslist": [
     "> 1%",

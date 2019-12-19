@@ -4,11 +4,10 @@ import Axios from "axios";
 import _, { Omit } from "lodash";
 // build from riven-mirror-data
 import data from "../../../data/dist/weapons.data";
-import proto from "@/proto/weapon.proto";
+import proto from "../../../data/src/proto/weapon.proto";
 import { strSimilarity } from "../util";
 import { RivenDatabase } from "./riven";
 import base64arraybuffer from "base64-arraybuffer";
-import weaponPatch from "./weapon.patch";
 
 export enum MainTag {
   Rifle,
@@ -111,8 +110,7 @@ export class Weapon {
     };
     if (data) {
       // 国服切换回老版本
-      const adjustedData = i18n.locale === "zh-CY" && weaponPatch[data.name] ? _.merge(data, weaponPatch[data.name]) : data;
-      const { variants, modes, tags, ...weapon } = adjustedData;
+      const { variants, modes, tags, ...weapon } = data;
       Object.assign(this, fixBuf(weapon));
 
       if (tags) {
@@ -153,7 +151,7 @@ export class Weapon {
     if (base) {
       this.base = base.name;
     }
-    this.disposition = RivenDatabase.getRatio(this.baseName) || 0;
+    // this.disposition = RivenDatabase.getRatio(this.name) || 0;
   }
   /** proto名 */
   get baseName() {
