@@ -1185,6 +1185,7 @@ let po = {
     slideDamage: "Slide DPH",
     attackDamagePS: "Attack DPS",
     slideDamagePS: "Slide DPS",
+    heavyAttack: "Heavy DPH",
     magazine: "Magazine",
     pellets: "Bullets",
     reload: "Reload",

@@ -31,14 +31,14 @@ const _zawStrike = [
 ] as [string, string, number, number[], number, number, number, string, string, number][];
 
 export const StanceData = {
-  Dagger: [1, 2.14286],
+  Dagger: [1, 2],
   Scythe: [1, 2],
-  Machete: [1, 3],
-  Sword: [1, 2.14286],
-  Nikana: [1, 2.14286],
-  Rapier: [1, 2.14286],
-  Stave: [1, 2.14286],
-  Polearm: [1, 2.22222],
+  Machete: [1, 2],
+  Sword: [1, 1],
+  Nikana: [1, 2],
+  Rapier: [1, 1],
+  Stave: [1, 1],
+  Polearm: [1, 2],
   Hammer: [1, 2],
   HeavyBlade: [1, 2],
 };

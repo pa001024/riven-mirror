@@ -72,14 +72,15 @@ export default class BuildMinimap extends Vue {
           "attackDamage",
           "slideDamage",
           "attackDamagePS",
-          "slideDamagePS"
+          "slideDamagePS",
+          "heavyAttack",
         ]
       : [
           // Gun
           "totalDamage",
           "burstDamage",
           "sustainedDamage",
-          "firstAmmoDamage"
+          "firstAmmoDamage",
         ];
     return nameTable[this.build.compareMode];
   }
@@ -97,14 +98,14 @@ export default class BuildMinimap extends Vue {
           id: v.id,
           name: subfix + " " + v.shortName,
           wiki: this.$t("otherinfo.wikiurl", ["Riven Mod"]),
-          rarity: v.rarity
+          rarity: v.rarity,
         };
       }
       return {
         id: v.id,
         name: v.shortName,
         wiki: this.$t("otherinfo.wikiurl", [v.id.replace(/ /g, "_")]),
-        rarity: v.rarity
+        rarity: v.rarity,
       };
     });
   }
@@ -114,7 +115,7 @@ export default class BuildMinimap extends Vue {
       return {
         id: v.data.id, //
         name: v.shortName,
-        value: v.layerEnable ? v.layer : v.power
+        value: v.layerEnable ? v.layer : v.power,
       };
     });
   }

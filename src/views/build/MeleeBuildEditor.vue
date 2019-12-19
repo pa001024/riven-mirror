@@ -86,6 +86,8 @@
                   class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"></PropDiff>
               <PropDiff :name="$t('build.slideDamagePS')" v-if="weapon.slideDmg" :ori="build.oriSlideDamagePS" :val="build.slideDamagePS"
                   class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"></PropDiff>
+              <PropDiff :name="$t('build.heavyAttack')" v-if="weapon.heavyAttack" :ori="build.oriHeavyDamage" :val="build.heavyDamage"
+                  class="select-cpmode" :class="{active: build.compareMode === 4}" @click="changeMode(4)"></PropDiff>
             </div>
           </el-card>
           <!-- 选项区域 -->

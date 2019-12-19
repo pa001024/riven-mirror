@@ -6,9 +6,9 @@ import { RivenMod } from "./rivenmod";
 export enum MeleeCompareMode {
   TotalDamage, // 平砍DPH
   SlideDamage, // 滑砍DPH
-  HeavyDamage, // 重击DPH
   TotalDamagePS, // 平砍DPS
   SlideDamagePS, // 滑砍DPS
+  HeavyDamage, // 重击DPH
 }
 export interface MeleeModBuildOptions {
   compareMode?: MeleeCompareMode;
@@ -318,6 +318,10 @@ export class MeleeModBuild extends ModBuild {
   /** 重击伤害 */
   get heavyDamage() {
     return this.panelDamage * this.heavyAttackMul * this.heavyTotalDamageMul;
+  }
+  /** 原重击伤害 */
+  get oriHeavyDamage() {
+    return this.originalDamage * this.heavyAttackMul * this.heavyTotalDamageMul;
   }
 
   /** 面板滑行伤害 */

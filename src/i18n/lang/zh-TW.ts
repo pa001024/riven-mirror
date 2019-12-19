@@ -3085,6 +3085,7 @@ let po = {
     slideDamage: "滑砍傷害",
     attackDamagePS: "每秒攻擊",
     slideDamagePS: "每秒滑砍",
+    heavyAttack: "重擊傷害",
     magazine: "彈匣",
     pellets: "彈片數",
     reload: "裝填",
