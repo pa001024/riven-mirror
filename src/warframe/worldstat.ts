@@ -25,9 +25,17 @@ export interface WarframeStat {
   constructionProgress: ConstructionProgress;
   vallisCycle: VallisCycle;
   nightwave: Nightwave;
+  sentientOutposts: SentientOutpost;
   kuva: Kuva[];
   arbitration: Arbitration;
   twitter: Twitter[];
+}
+
+export interface SentientOutpost {
+  mission: Mission;
+  activation: string;
+  expiry: string;
+  active: boolean;
 }
 
 export interface Kuva {
@@ -439,11 +447,11 @@ export interface Mission {
   node: string;
   type: string;
   faction: string;
-  reward: Reward;
-  minEnemyLevel: number;
-  maxEnemyLevel: number;
-  nightmare: boolean;
-  archwingRequired: boolean;
+  reward?: Reward;
+  minEnemyLevel?: number;
+  maxEnemyLevel?: number;
+  nightmare?: boolean;
+  archwingRequired?: boolean;
   maxWaveNum?: number;
 }
 
@@ -711,6 +719,16 @@ export class WorldStat {
   get arbitration() {
     if (!this.data) return null;
     let data = this.data.arbitration;
+    if (!data) return null;
+    return this.deepTranslate(data);
+  }
+
+  /**
+   * S船
+   */
+  get sentientOutposts() {
+    if (!this.data) return null;
+    let data = this.data.sentientOutposts;
     if (!data) return null;
     return this.deepTranslate(data);
   }

@@ -2331,6 +2331,7 @@ let po = {
     nightwave: "午夜电波",
     kuva: "赤毒",
     arbitration: "仲裁",
+    sentientOutposts: "Sentient前哨",
   },
   nightwave: {
     daily: "每日",

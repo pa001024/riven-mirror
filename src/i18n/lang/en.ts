@@ -621,6 +621,7 @@ let po = {
     nightwave: "Nightwave",
     kuva: "Kuva",
     arbitration: "Arbitration",
+    sentientOutposts: "Sentient Outpost",
   },
   prop: {
     fullName: {

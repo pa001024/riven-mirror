@@ -52,6 +52,25 @@
             </ul>
           </el-card>
         </el-col>
+        <!-- S船 -->
+        <el-col :xs="24" :sm="12" :lg="8" v-if="sentientOutposts && sentientOutposts.active">
+          <el-card class="index-card sentientOutposts">
+            <h3 slot="header"><WfIcon type="sentientOutposts" shadow/> {{$t("alerting.sentientOutposts")}}</h3>
+            <ul>
+              <li>
+                <div class="info">
+                  <div class="mission">{{sentientOutposts.mission.type}}</div>
+                </div>
+                <div class="misc">
+                  <div class="node">
+                    <WfIcon :type="sentientOutposts.mission.faction.toLowerCase()"/> {{sentientOutposts.mission.node}}
+                  </div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.expiry)}}</div>
+                </div>
+              </li>
+            </ul>
+          </el-card>
+        </el-col>
         <!-- 仲裁 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="arbitration">
           <el-card class="index-card arbitration">
@@ -251,7 +270,7 @@
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import BScroll from "better-scroll";
-import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert, Nightwave, Kuva, Arbitration } from "@/warframe/worldstat";
+import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert, Nightwave, Kuva, Arbitration, SentientOutpost } from "@/warframe/worldstat";
 import { CetusTime, FortunaTime, EarthTime } from "@/warframe/gametime";
 import { Getter, Action } from "vuex-class";
 import "../less/alert.less";
@@ -286,6 +305,11 @@ export default class Alerts extends Vue {
   nightwave: Nightwave = null;
   kuva: Kuva[] = [];
   arbitration: Arbitration = null;
+  sentientOutposts: SentientOutpost = null;
+
+  get wrapper() {
+    return this.$refs.wrapper as HTMLDivElement;
+  }
 
   renderTime(time: string) {
     let sec = ~~(Date.parse(time) / 1e3) - this.seconds;
@@ -326,6 +350,12 @@ export default class Alerts extends Vue {
     let wrapperWidth = (this.$refs.wrapper as HTMLElement).getBoundingClientRect().width;
     this.scrollEnable = wrapperWidth < this.scrollWidth;
   }
+  scrollHorizontally(e: MouseWheelEvent) {
+    e.preventDefault();
+    var delta = Math.max(-1, Math.min(1, e["wheelDelta"] || -e.detail));
+    const width = document.querySelector('#app > section > main > div.wrapper.alerts-container').querySelector('.index-card.sortie').clientWidth;
+    this.scroll.scrollBy(delta * (width+20));
+  }
   // === 生命周期钩子 ===
   updated() {
     this.resize();
@@ -337,10 +367,16 @@ export default class Alerts extends Vue {
         click: true,
         scrollX: true,
         scrollY: false,
-        eventPassthrough: "vertical"
+        eventPassthrough: "vertical",
       });
       this.scrollWidth = 0;
       window.addEventListener("resize", this.resize);
+
+      const w = this.wrapper;
+      // IE9, Chrome, Safari, Opera
+      w.addEventListener("mousewheel", this.scrollHorizontally, false);
+      // Firefox
+      w.addEventListener("DOMMouseScroll", this.scrollHorizontally, false);
     });
   }
   beforeMount() {
@@ -372,6 +408,7 @@ export default class Alerts extends Vue {
         this.nightwave = this.stat.nightwave;
         this.kuva = this.stat.kuva || [];
         this.arbitration = this.stat.arbitration;
+        this.sentientOutposts = this.stat.sentientOutposts;
         CetusTime.calibration(this.stat.cetusCycle.expiry, this.stat.cetusCycle.isDay);
       })
       .catch(e => {
