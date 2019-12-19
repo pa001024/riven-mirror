@@ -9,15 +9,15 @@ export class ValuedRivenProperty {
   /** 属性原型 */
   prop: RivenProperty;
   /** 属性值 */
-  value: number;
+  deviation: number;
   /** 属性基础值 */
   baseValue: number;
   /** 调整数值 */
   upLevel: number;
 
-  constructor(prop: RivenProperty, value: number, baseValue?: number, upLevel?: number) {
+  constructor(prop: RivenProperty, deviation: number, baseValue?: number, upLevel?: number) {
     this.prop = prop;
-    this.value = value;
+    this.deviation = deviation;
     this.baseValue = baseValue;
     this.upLevel = upLevel;
   }
@@ -43,8 +43,11 @@ export class ValuedRivenProperty {
     return this.upLevel == 1.243 ? 0.5 : 0.755;
   }
   /** 根据属性基础值计算属性偏差值 */
-  get deviation() {
-    return ((this.isNegative ? -1 : 1) * this.value) / (this.isNegative ? this.negativeUpLevel : this.upLevel) / this.baseValue;
+  get value() {
+    return (this.baseValue * ((this.isNegative ? -1 : 1) * this.deviation)) / (this.isNegative ? this.negativeUpLevel : this.upLevel);
+  }
+  set value(val) {
+    this.deviation = ((this.isNegative ? -1 : 1) * val) / (this.isNegative ? this.negativeUpLevel : this.upLevel) / this.baseValue;
   }
   /** 数值范围 [下限, 上限]  */
   get range() {
@@ -309,8 +312,7 @@ A段位12023
    * 随机化所有
    */
   random(stype: string = "") {
-    const robList = ["Burst Laser", "Vulklok", "Artax", "Vulcax", "Sweeper", "Stinger", "Multron", "Laser Rifle", "Deth Machine", "Cryotra", "Tazicor"];
-    let db = WeaponDatabase.protos.filter(v => v.disposition > 0 && !robList.includes(v.id));
+    let db = WeaponDatabase.protos.filter(v => v.disposition > 0);
     let data = stype ? db.filter(v => v.mod === MainTag[stype]) : db;
     let { name, mod } = data[~~(Math.random() * data.length)];
     let rank = ~~(Math.random() * 8) + 9;
@@ -331,10 +333,10 @@ A段位12023
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
     const weapon = this.weapon;
     // console.log(weapon, RivenPropertyDataBase[this.mod]);
-    let props = _.sampleSize(RivenPropertyDataBase[this.mod].filter(v => !v.onlyNegative), count).map(v => [
-      v.id,
-      _.round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1),
-    ]) as [string, number][];
+    let props = _.sampleSize(
+      RivenPropertyDataBase[this.mod].filter(v => !v.onlyNegative),
+      count
+    ).map(v => [v.id, _.round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1)]) as [string, number][];
     if (this.hasNegativeProp) {
       let neProp = _.sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
       props.push([neProp.id, _.round(devi() * -negaUplvl * weapon.getPropBaseValue(neProp.id), 1)]);
@@ -383,7 +385,7 @@ A段位12023
       this.name,
       this.shortSubfix,
       base62(this.rank) + base62(this.recycleTimes),
-      this.properties.map(v => v.prop.id + base62(+(v.value * 10).toFixed(0))).join("."),
+      this.properties.map(v => v.prop.id + base62(+(v.deviation * 10).toFixed(0))).join("."),
     ].join("|");
   }
   /** 读取二维码识别后的序列化字符串 */

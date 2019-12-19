@@ -53,11 +53,11 @@
           </el-card>
         </el-col>
         <!-- S船 -->
-        <el-col :xs="24" :sm="12" :lg="8" v-if="sentientOutposts && sentientOutposts.active">
+        <el-col :xs="24" :sm="12" :lg="8" v-if="sentientOutposts">
           <el-card class="index-card sentientOutposts">
-            <h3 slot="header"><WfIcon type="sentientOutposts" shadow/> {{$t("alerting.sentientOutposts")}}</h3>
+            <h3 slot="header"><WfIcon type="sentient" shadow/> {{$t("alerting.sentientOutposts")}}</h3>
             <ul>
-              <li>
+              <li v-if="sentientOutposts.active">
                 <div class="info">
                   <div class="mission">{{sentientOutposts.mission.type}}</div>
                 </div>
@@ -65,7 +65,14 @@
                   <div class="node">
                     <WfIcon :type="sentientOutposts.mission.faction.toLowerCase()"/> {{sentientOutposts.mission.node}}
                   </div>
-                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.expiry)}}</div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.expiry, 1800)}}</div>
+                </div>
+              </li>
+              <li v-else>
+                <div class="info">
+                  <div class="location"></div>
+                  <div class="padding"></div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.expiry, 10800)}}</div>
                 </div>
               </li>
             </ul>
@@ -311,8 +318,9 @@ export default class Alerts extends Vue {
     return this.$refs.wrapper as HTMLDivElement;
   }
 
-  renderTime(time: string) {
+  renderTime(time: string, offset?: number) {
     let sec = ~~(Date.parse(time) / 1e3) - this.seconds;
+    if (offset) sec += offset;
     if (sec < 0) return "00:00:00";
     let min = ~~(sec / 60);
     let hou = ~~(min / 60);
@@ -353,8 +361,8 @@ export default class Alerts extends Vue {
   scrollHorizontally(e: MouseWheelEvent) {
     e.preventDefault();
     var delta = Math.max(-1, Math.min(1, e["wheelDelta"] || -e.detail));
-    const width = document.querySelector('#app > section > main > div.wrapper.alerts-container').querySelector('.index-card.sortie').clientWidth;
-    this.scroll.scrollBy(delta * (width+20));
+    const width = document.querySelector("#app > section > main > div.wrapper.alerts-container").querySelector(".index-card.sortie").clientWidth;
+    this.scroll.scrollBy(delta * (width + 20));
   }
   // === 生命周期钩子 ===
   updated() {

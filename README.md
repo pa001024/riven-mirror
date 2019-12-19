@@ -63,3 +63,5 @@ Fork and send pull request!
 yarn
 yarn dev
 ```
+
+`yarn config set ELECTRON_MIRROR https://npm.taobao.org/mirrors/electron/`
