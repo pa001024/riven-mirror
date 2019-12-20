@@ -5,27 +5,31 @@ import { Polarity, RivenProperty, RivenDatabase, RivenPropertyDataBase, NormalMo
 import { HH } from "@/var";
 import { i18n } from "@/i18n";
 
+/**
+ * 紫卡属性数值
+ */
 export class ValuedRivenProperty {
   /** 属性原型 */
   prop: RivenProperty;
-  /** 属性值 */
-  deviation: number;
-  /** 属性基础值 */
+  /** 基础值 */
   baseValue: number;
-  /** 调整数值 */
+  /** 偏差值 大约取值 0.89 ~ 1.11 -0.8 后 * 5000 精度为 -20.05 ~ +20.05 */
+  deviation: number;
+  /** 位置值 */
   upLevel: number;
 
-  constructor(prop: RivenProperty, deviation: number, baseValue?: number, upLevel?: number) {
+  constructor(prop: RivenProperty, deviation: number, baseValue?: number, upLevel?: number, isValue?: boolean) {
     this.prop = prop;
-    this.deviation = deviation;
     this.baseValue = baseValue;
     this.upLevel = upLevel;
+    if (isValue) this.value = deviation;
+    else this.deviation = deviation;
   }
-  /**  获取属性id */
+  /** 获取属性id */
   get id() {
     return this.prop.id;
   }
-  /**  获取属性名称 */
+  /** 获取属性名称 */
   get name() {
     return this.prop.name;
   }
@@ -35,23 +39,16 @@ export class ValuedRivenProperty {
     if (val[0] != "-") return "+" + val;
     else return val;
   }
-  /** 获取本条属性是否是负面属性 */
-  get isNegative() {
-    return this.prop.negative ? this.value > 0 : this.value < 0;
-  }
-  get negativeUpLevel() {
-    return this.upLevel == 1.243 ? 0.5 : 0.755;
-  }
   /** 根据属性基础值计算属性偏差值 */
   get value() {
-    return (this.baseValue * ((this.isNegative ? -1 : 1) * this.deviation)) / (this.isNegative ? this.negativeUpLevel : this.upLevel);
+    return this.deviation * this.baseValue * this.upLevel;
   }
   set value(val) {
-    this.deviation = ((this.isNegative ? -1 : 1) * val) / (this.isNegative ? this.negativeUpLevel : this.upLevel) / this.baseValue;
+    this.deviation = val / (this.baseValue * this.upLevel);
   }
   /** 数值范围 [下限, 上限]  */
   get range() {
-    let val = this.baseValue * (this.isNegative ? -1 : 1) * (this.isNegative ? this.negativeUpLevel : this.upLevel);
+    let val = this.baseValue * this.upLevel;
     return [+(val * 0.9).toFixed(1), +(val * 1.1).toFixed(1)];
   }
   /** 获取偏差值显示数据 */
@@ -62,12 +59,6 @@ export class ValuedRivenProperty {
     if (tex[0] != "-") return "+" + tex;
     return tex;
   }
-  /** 根据属性基础值标准化属性值 */
-  normalize() {
-    let devi = this.deviation;
-    if (devi < 0.3) this.value *= 9;
-    return this;
-  }
 }
 
 export class RivenMod {
@@ -77,8 +68,10 @@ export class RivenMod {
   level: number = 8;
   /** 极性 */
   polarity: Polarity;
-  /** 根据卡面所带来的提升值 一共三种 0.8 | 1 | 1.2 分别代表 3+; 2+/3+1-; 2+1- */
+  /** 根据卡面所带来的位置值 一共4种 0.755 | 1 | 0.942 | 1.243 分别代表 3+; 2+; 3+1-; 2+1- */
   upLevel = 1;
+  /** 负面位置值 */
+  negativeUpLevel = -0.755;
   /** 属性列表 */
   properties: ValuedRivenProperty[] = [];
   /** 是否有负面属性 */
@@ -105,7 +98,7 @@ export class RivenMod {
   }
 
   get readableSubfix() {
-    return this.properties.map(v => (v.isNegative ? "-" : "") + i18n.t(`prop.shortName.${v.id}`)).join("");
+    return this.properties.map(v => (v.upLevel < 0 ? "-" : "") + i18n.t(`prop.shortName.${v.id}`)).join("");
   }
 
   /** 本地化ID */
@@ -156,6 +149,7 @@ export class RivenMod {
       this.level = parm.level;
       this.polarity = parm.polarity;
       this.upLevel = parm.upLevel;
+      this.negativeUpLevel = parm.negativeUpLevel;
       this.properties = _.cloneDeep(parm.properties);
       this.hasNegativeProp = parm.hasNegativeProp;
       this.recycleTimes = parm.recycleTimes;
@@ -278,6 +272,7 @@ A段位12023
     // 2+ = [2-1]>>1
     // 2+1- = [3-3]>>0
     this.upLevel = toUpLevel(properties.length, this.hasNegativeProp);
+    this.negativeUpLevel = -toNegaUpLevel(properties.length, this.hasNegativeProp);
     // 写入属性
     this.parseProps(properties.map(v => [v[0].id, v[1]] as [string, number]));
     return;
@@ -301,11 +296,35 @@ A段位12023
    */
   parseProps(props: [string, number][]) {
     const weapon = this.weapon;
-    this.hasNegativeProp = false;
+    this.hasNegativeProp = props.reduce((r, v, i) => {
+      let prop = RivenDatabase.getPropByName(v[0]);
+      const isNegative = i >= 3 || !prop.negative == v[1] < 0;
+      if (isNegative) return true;
+      return r;
+    }, false);
+    this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
+    this.negativeUpLevel = -toNegaUpLevel(props.length, this.hasNegativeProp);
     this.properties = props.map((v, i) => {
       let prop = RivenDatabase.getPropByName(v[0]);
-      if (i >= 3 || (prop.negative ? -v[1] : v[1]) < 0) this.hasNegativeProp = true;
-      return new ValuedRivenProperty(prop, v[1], weapon.getPropBaseValue(prop.name), this.upLevel).normalize();
+      const isNegative = i >= 3 || !prop.negative === v[1] < 0;
+      const base = weapon.getPropBaseValue(prop.name);
+      const up = isNegative ? this.negativeUpLevel : this.upLevel;
+      return new ValuedRivenProperty(prop, v[1], base, up, true);
+    });
+  }
+  /**
+   * 识别偏差值数据
+   */
+  parseDevis(props: [string, number][]) {
+    const weapon = this.weapon;
+    this.hasNegativeProp = props.length > this.shortSubfix.length;
+    this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
+    this.negativeUpLevel = -toNegaUpLevel(props.length, this.hasNegativeProp);
+    this.properties = props.map((v, i) => {
+      let prop = RivenDatabase.getPropByName(v[0]);
+      const base = weapon.getPropBaseValue(prop.name);
+      const up = this.hasNegativeProp && i === props.length - 1 ? this.negativeUpLevel : this.upLevel;
+      return new ValuedRivenProperty(prop, v[1], base, up);
     });
   }
   /**
@@ -328,7 +347,7 @@ A段位12023
     this.hasNegativeProp = ~~(Math.random() * 2) > 0;
     let totalCount = count + (this.hasNegativeProp ? 1 : 0);
     this.upLevel = toUpLevel(totalCount, this.hasNegativeProp);
-    let negaUplvl = toNegaUpLevel(totalCount, this.hasNegativeProp);
+    this.negativeUpLevel = -toNegaUpLevel(totalCount, this.hasNegativeProp);
     // 偏差值 正态分布 标准差=5
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
     const weapon = this.weapon;
@@ -339,7 +358,7 @@ A段位12023
     ).map(v => [v.id, _.round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1)]) as [string, number][];
     if (this.hasNegativeProp) {
       let neProp = _.sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
-      props.push([neProp.id, _.round(devi() * -negaUplvl * weapon.getPropBaseValue(neProp.id), 1)]);
+      props.push([neProp.id, _.round(devi() * this.negativeUpLevel * weapon.getPropBaseValue(neProp.id), 1)]);
     }
     this.parseProps(props);
   }
@@ -385,7 +404,7 @@ A段位12023
       this.name,
       this.shortSubfix,
       base62(this.rank) + base62(this.recycleTimes),
-      this.properties.map(v => v.prop.id + base62(+(v.deviation * 10).toFixed(0))).join("."),
+      this.properties.map(v => v.prop.id + base62(+(v.deviation * 5000 - 4000).toFixed(0))).join("."),
     ].join("|");
   }
   /** 读取二维码识别后的序列化字符串 */
@@ -400,15 +419,14 @@ A段位12023
     this.rank = debase62(d[2][0]);
     this.recycleTimes = debase62(d[2].substr(1));
     let props = d[3].split(".").map(v => {
-      let vv = debase62(v.substr(1)) / 10;
+      let vv = (debase62(v.substr(1)) + 4000) / 5000;
       return [RivenDatabase.getPropByName(v[0]), vv];
     }) as [RivenProperty, number][];
     let lastProp = props[props.length - 1];
-    this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == lastProp[1] < 0;
+    this.hasNegativeProp = props.length === 4 || !lastProp[0].negative === lastProp[1] < 0;
     this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
-    this.properties = props.map(v =>
-      new ValuedRivenProperty(v[0], v[1], RivenDatabase.getPropBaseValue(weapon.disposition, this.mod, v[0].name), this.upLevel).normalize()
-    );
+    this.negativeUpLevel = -toNegaUpLevel(props.length, this.hasNegativeProp);
+    this.parseDevis(props.map(([n, v]) => [n.id, v] as [string, number]));
   }
   /** Base64形式的二维码 */
   get qrCodeBase64() {
@@ -437,5 +455,5 @@ export function toUpLevel(len: number, nega: boolean) {
   return [1.243, 0.942, 1, 0.755][len - (nega ? 3 : 0)];
 }
 export function toNegaUpLevel(len: number, nega: boolean) {
-  return [0.5, 0.755, 0, 0][len - (nega ? 3 : 0)];
+  return [0.5, 0.755, 1, 1][len - (nega ? 3 : 0)];
 }

@@ -1394,6 +1394,7 @@ let po = {
     imperatorAtmosphere: "凯旋将军 (大气层内)",
     imperatorVandalAtmosphere: "凯旋将军破坏者 (大气层内)",
     larkspurAtmosphere: "翠雀 (大气层内)",
+    kuvaAyangaAtmosphere: "赤毒 怒雷 (大气层内)",
 
     ferrite: "铁氧体",
     nanoSpores: "纳米孢子",

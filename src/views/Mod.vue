@@ -37,10 +37,10 @@
                   <ShareQR :url="mod.qrCodeURL"/>
                 </div>
                 <div class="mod-props">
-                  <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
+                  <div v-for="(prop, i) in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop': mod.hasNegativeProp && i === mod.properties.length - 1}">
                     {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
                     <el-tooltip effect="dark" :content="$t('riven.range', prop.range)" placement="right">
-                      <el-tag v-if="prop.displayDeviation" size="small" class="mod-dis" :type="prop.deviation > 1 ^ prop.isNegative ? 'success' : 'danger'"> {{ prop.deviation > 1 ? $t("riven.higher") : $t("riven.lower")}} {{prop.displayDeviation}}</el-tag>
+                      <el-tag v-if="prop.displayDeviation" size="small" class="mod-dis" :type="prop.deviation > 1 ? 'success' : 'danger'"> {{ prop.deviation > 1 ? $t("riven.higher") : $t("riven.lower")}} {{prop.displayDeviation}}</el-tag>
                       <el-tag v-else size="small" class="mod-dis" type="success">{{$t("riven.average")}}</el-tag>
                     </el-tooltip>
                   </div>
@@ -246,7 +246,7 @@ export default class Mod extends Vue {
   }
   @Watch("mod")
   modChange() {
-    this.$router.push({ name: "ModWithSource", params: { source: this.mod.qrCodeBase64 } });
+    this.$router.replace({ name: "ModWithSource", params: { source: this.mod.qrCodeBase64 } });
   }
   // === 生命周期钩子 ===
   beforeMount() {

@@ -192,13 +192,13 @@ export default class RivenEditor extends Vue {
         .filter(v => include.includes(v.mod) && v.disposition > 0.1)
         .map(v => ({
           value: v.name,
-          label: this.$t(v.id) as string
+          label: this.$t(v.id) as string,
         }));
       if (protos.length > 0)
         this.nameOptions.push({
           value: id,
           label: this.$t(`weaponselector.${name}`) as string,
-          children: protos
+          children: protos,
         });
     });
     if (this.weapon) this.handleChange();

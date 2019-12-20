@@ -1282,7 +1282,7 @@ export abstract class ModBuild implements CommonBuild {
       })
       .map(v => {
         let base = this.weapon.getPropBaseValue(v.id) * upLevel;
-        return new ValuedRivenProperty(v, base, base, upLevel);
+        return new ValuedRivenProperty(v, 1, base, upLevel);
       });
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(
@@ -1290,9 +1290,9 @@ export abstract class ModBuild implements CommonBuild {
     );
     let valuedNegativeProp = new ValuedRivenProperty(
       negativeProp,
-      this.weapon.name === "Vectis Prime" ? -28 : this.weapon.getPropBaseValue(negativeProp.id) * -negaUpLevel,
+      this.weapon.name === "Vectis Prime" ? 1.1 : 1,
       this.weapon.getPropBaseValue(negativeProp.id),
-      upLevel
+      -negaUpLevel
     );
 
     // 将属性虚拟成MOD
@@ -1375,19 +1375,14 @@ export abstract class ModBuild implements CommonBuild {
       })
       .map(v => {
         let base = rivenRef.getPropBaseValue(v.id) * upLevel;
-        return new ValuedRivenProperty(v, base, base, upLevel);
+        return new ValuedRivenProperty(v, 1, base, upLevel);
       });
     let propsOfMods = choose(avaliableProps, 3); // 只用三条属性 代表3+1-
     // 负面属性
     let negativeProp = RivenPropertyDataBase[this.riven.mod].find(
       v => v.id === (this.weapon.name === "Vectis Prime" ? "L" : "H") || v.id === "X" || (this.riven.mod === "Shotgun" && v.id === "Z")
     );
-    let valuedNegativeProp = new ValuedRivenProperty(
-      negativeProp,
-      rivenRef.getPropBaseValue(negativeProp.id) * -negaUpLevel,
-      rivenRef.getPropBaseValue(negativeProp.id),
-      upLevel
-    );
+    let valuedNegativeProp = new ValuedRivenProperty(negativeProp, 1, rivenRef.getPropBaseValue(negativeProp.id), -negaUpLevel);
 
     let newRivens = propsOfMods.map(v => {
       let newRiven = new RivenMod(this.riven);

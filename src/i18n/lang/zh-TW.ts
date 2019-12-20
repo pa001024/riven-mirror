@@ -1389,6 +1389,7 @@ let po = {
     imperatorAtmosphere: "凱旋將軍 (大氣層內)",
     imperatorVandalAtmosphere: "凱旋將軍破壞者 (大氣層內)",
     larkspurAtmosphere: "翠雀 (大氣層內)",
+    kuvaAyangaAtmosphere: "赤毒 怒雷 (大氣層內)",
 
     ferrite: "鐵氧體",
     nanoSpores: "納米孢子",

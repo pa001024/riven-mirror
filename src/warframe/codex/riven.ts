@@ -31,6 +31,7 @@ export interface RivenProperty {
 }
 
 const baseProperty: RivenProperty[] = [
+  { id: "0", sName: "暴击率", eName: "Critical Chance", name: "暴击率", prefix: "crita", subfix: "cron" }, //
   { id: "1", sName: "暴击伤害", eName: "Critical Damage", name: "暴击伤害", prefix: "acri", subfix: "tis" }, //
   { id: "2", sName: "触发率", eName: "Status Chance", name: "触发几率", prefix: "hexa", subfix: "dex", noDmg: true }, //
   { id: "3", sName: "触发时间", eName: "Status Duration", name: "触发时间", prefix: "deci", subfix: "des", noDmg: true }, //
@@ -45,9 +46,10 @@ const baseProperty: RivenProperty[] = [
   { id: "I", sName: "Infested伤害", eName: "Damage to Infested", name: "对Infested伤害", prefix: "pura", subfix: "ada" }, //
   { id: "C", sName: "Corpus伤害", eName: "Damage to Corpus", name: "对Corpus伤害", prefix: "manti", subfix: "tron" }, //
 ];
-
+const base2Property: RivenProperty[] = baseProperty.map(v =>
+  v.id === "0" ? { id: "0", sName: "暴击率", eName: "Critical Chance", name: "暴击几率（重击时x2）", prefix: "crita", subfix: "cron" } : v
+);
 const gunProperty: RivenProperty[] = [
-  { id: "0", sName: "暴击率", eName: "Critical Chance", name: "暴击率", prefix: "crita", subfix: "cron" }, //
   { id: "D", sName: "伤害", eName: "Damage", name: "伤害", prefix: "visi", subfix: "ata" }, //
   { id: "S", sName: "多重", eName: "Multishot", name: "多重射击", prefix: "sati", subfix: "can" }, //
   { id: "R", sName: "射速", eName: "Fire Rate", name: "射速", prefix: "croni", subfix: "dra" }, //
@@ -65,7 +67,6 @@ const gun2Property: RivenProperty[] = gunProperty.map(v =>
 );
 
 const meleeProperty: RivenProperty[] = [
-  { id: "0", sName: "暴击率", eName: "Critical Chance", name: "暴击几率（重击时x2）", prefix: "crita", subfix: "cron" }, //
   { id: "K", sName: "伤害", eName: "Melee Damage", name: "近战伤害", prefix: "visi", subfix: "ata" }, //
   { id: "T", sName: "范围", eName: "Range", name: "攻击范围", prefix: "locti", subfix: "tor", noDmg: true, nopercent: true }, //
   { id: "J", sName: "攻速", eName: "Attack Speed", name: "攻击速度", prefix: "croni", subfix: "dra" }, //
@@ -110,8 +111,8 @@ export const RivenPropertyDataBase: RivenProperties = {
   "Arch-Gun": baseProperty.concat(gun2Property),
   "Arch-Melee": [],
   Amp: [],
-  Melee: baseProperty.concat(meleeProperty),
-  Zaw: baseProperty.concat(meleeProperty),
+  Melee: base2Property.concat(meleeProperty),
+  Zaw: base2Property.concat(meleeProperty),
   all: baseProperty.concat(gunProperty, meleeProperty),
 };
 
