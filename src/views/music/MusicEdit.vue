@@ -347,11 +347,11 @@ interface MusicBlock {
 
 const instrumentResource = {
   piano: {
-    path: "https://cdn.riven.im/instruments/piano/",
+    path: "/instruments/piano/",
     keys: ["C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5", "D5", "E5"],
   },
   shawzin: {
-    path: "https://cdn.riven.im/instruments/shawzin/",
+    path: "/instruments/shawzin/",
     keys: [
       "C3",
       "D3",
@@ -384,7 +384,7 @@ const instrumentResource = {
     ],
   },
   lotus: {
-    path: "https://cdn.riven.im/instruments/lotus/",
+    path: "/instruments/lotus/",
     keys: [
       "C3",
       "D3",

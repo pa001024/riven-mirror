@@ -11,7 +11,7 @@
       <div class="part-box" v-for="item in modelList" :key="item.name">
         <el-radio class="part" v-model="model" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/${item.id}.m.png`" :alt="item.name" width="100%">
+            <img :src="`/img/${item.id}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.id}`)}}
@@ -27,7 +27,7 @@
       <div class="part-box" v-for="item in coreList" :key="item.name">
         <el-radio class="part" v-model="core" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/${item.id}.m.png`" :alt="item.name" width="100%">
+            <img :src="`/img/${item.id}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.id}`)}}
@@ -45,7 +45,7 @@
       <div class="part-box" v-for="item in gyroList" :key="item.name">
         <el-radio class="part" v-model="gyro" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/${item.id}.m.png`" :alt="item.name" width="100%">
+            <img :src="`/img/${item.id}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.id}`)}}
@@ -63,7 +63,7 @@
       <div class="part-box" v-for="item in bracketList" :key="item.name">
         <el-radio class="part" v-model="bracket" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/${item.id}.m.png`" :alt="item.name" width="100%">
+            <img :src="`/img/${item.id}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.id}`)}}

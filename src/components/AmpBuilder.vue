@@ -6,7 +6,7 @@
       <div class="part-box" v-for="item in prismList" :key="item.index">
         <el-radio class="part" v-model="prism" :label="item" border @change="scaffold = null">
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/${item.id}.m.png`" :alt="item.id" height="100%">
+            <img :src="`/img/${item.id}.m.png`" :alt="item.id" height="100%">
           </div>
           <div class="name">{{$t(`messages.${item.id}`)}}</div>
           <div class="type">{{$t(`amp.type.${item.id}`)}}</div>
@@ -19,7 +19,7 @@
       <div class="part-box" v-for="item in scaffoldList" :key="item.index">
         <el-radio class="part" v-model="scaffold" :label="item" border @change="prism = null">
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/${item.id}.m.png`" :alt="item.id" height="100%">
+            <img :src="`/img/${item.id}.m.png`" :alt="item.id" height="100%">
           </div>
           <div class="name">{{$t(`messages.${item.id}`)}}</div>
           <div class="type">{{$t(`amp.type.${item.id}`)}}</div>
@@ -32,7 +32,7 @@
       <div class="part-box" v-for="item in braceList" :key="item.index">
         <el-radio class="part" v-model="brace" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/${item.id}.m.png`" :alt="item.id" height="100%">
+            <img :src="`/img/${item.id}.m.png`" :alt="item.id" height="100%">
           </div>
           <div class="name">{{$t(`messages.${item.id}`)}}</div>
           <div class="prop">
