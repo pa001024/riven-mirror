@@ -246,7 +246,7 @@ export default class ModSelector extends Vue {
         break;
       case "Weapon":
         {
-          const cat_damage = "01DSKEGICO".split("").concat(["oad", "co"]),
+          const cat_damage = "01DSKEGICO".split("").concat(["oad", "co", "od"]),
             cat_elements = "456789A".split(""),
             cat_speed = "RLFJ".split("").concat(["bsk"]),
             cat_benefit = [...cat_damage, ...cat_elements, ...cat_speed];

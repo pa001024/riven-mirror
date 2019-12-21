@@ -354,6 +354,10 @@ const data = [
   ["DO", "Motus Impact", [["-"]], Melee, "r", "c", 4, 3],
   ["DP", "Amalgam Ripkas True Steel", [["0", 13], ["..."]], "Ripkas", "r", "r", 6],
   ["DQ", "Amalgam Furax Body Count", [["N", 2.5], ["brad", 3]], "Furax", "-", "r", 6],
+  ["DR", "Primed Smite Corpus", [["C", 5]], Melee, "r", "l", 4, 10],
+  ["DS", "Primed Smite Grineer", [["G", 5]], Melee, "r", "l", 4, 10],
+  ["DT", "Primed Smite Infested", [["I", 5]], Melee, "r", "l", 4, 10],
+  ["DU", "Primed Smite Corrupted", [["od", 5]], Melee, "r", "l", 4, 10],
   // 战甲 G0 ~ Nz
   // 光环
   ["G0", "Growing Power", [["t", 25.5 / 6]], Aura, "r", "r", -2],
