@@ -1841,6 +1841,7 @@ let po = {
     ti2: "RivenMirror(Riven.IM) is an advanced Warframe tool application that provides technical solutions for Riven analysis, build simulation, etc.",
     a1: "View WIKI",
     a2: "Use now",
+    a3: "Download now",
     d1: "Sortie / Alert / Fissure / Bounty",
     d2: "Riven Scoring / Riven Calc / Build Calculation",
     d3: "Benefit Analysis / Build Sharing / Simulacrum",
