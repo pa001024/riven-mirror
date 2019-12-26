@@ -622,6 +622,7 @@ let po = {
     kuva: "Kuva",
     arbitration: "Arbitration",
     sentientOutposts: "Sentient Outpost",
+    inactive: "Inactive",
   },
   prop: {
     fullName: {

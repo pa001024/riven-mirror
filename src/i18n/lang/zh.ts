@@ -2345,6 +2345,7 @@ let po = {
     kuva: "赤毒",
     arbitration: "仲裁",
     sentientOutposts: "Sentient前哨",
+    inactive: "未出现",
   },
   nightwave: {
     daily: "每日",
