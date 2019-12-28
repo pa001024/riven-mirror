@@ -70,9 +70,10 @@
               </li>
               <li v-else>
                 <div class="info">
-                  <div class="location"></div>
-                  <div class="padding"></div>
-                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.expiry, 10800)}}</div>
+                  <div class="mission">{{$t("alerting.inactive")}}</div>
+                </div>
+                <div class="misc">
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.activation, 1800)}}</div>
                 </div>
               </li>
             </ul>

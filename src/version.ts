@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.8.4";
+export const version = "1.8.5";
 export const updateLogs = [
+  {
+    version: "1.8.5",
+    date: "2019/12/25",
+    md: {
+      en: `- In-game info: add Sentient Outpost
+- PC version download available`,
+      cn: `- 实时信息: 添加Sentient前哨
+- PC版本正式发布 请前往主页下载`,
+    },
+  },
   {
     version: "1.8.4",
     date: "2019/12/18",
@@ -42,6 +52,7 @@ export const updateLogs = [
 - 预览: Atlas Prime/铁钩手甲 Prime/死亡魔方 Prime`,
     },
   },
+  /*
   {
     version: "1.8.0",
     date: "2019/9/8",
@@ -50,7 +61,6 @@ export const updateLogs = [
       cn: `- 新增: 三线琴编曲工具`,
     },
   },
-  /*
   {
     version: "1.7.0",
     date: "2019/8/30",

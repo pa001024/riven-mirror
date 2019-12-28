@@ -2345,6 +2345,7 @@ let po = {
     kuva: "赤毒",
     arbitration: "仲裁",
     sentientOutposts: "Sentient前哨",
+    inactive: "未出现",
   },
   nightwave: {
     daily: "每日",
@@ -3870,6 +3871,7 @@ let po = {
     ti2: "极镜(Riven.IM)是多功能的Warframe工具应用，为紫卡分析，配卡模拟等提供技术解决方案。",
     a1: "查看文档",
     a2: "立即使用",
+    a3: "PC端下载",
     d1: "突击 / 警报 / 裂缝 / 赏金",
     d2: "紫卡评分 / 数值查询 / 配置计算",
     d3: "收益分析 / 配卡分享 / 幻影装置",
