@@ -24,6 +24,22 @@ export class EarthTime {
     return this.isDay ? i18n.t("time.day").toString() : i18n.t("time.night").toString();
   }
 }
+export class SentientTime {
+  /** 现在到结束的秒数 */
+  static get secords() { return ~~(10800 - (Date.now() / 1e3 - 5400) % 10800); }
+  /** 现在是否是出现 */
+  static get isActive() { return this.secords < 1800; }
+  static get text() {
+    let sec = this.secords;
+    if (!this.isActive)
+      sec -= 1800;
+    let min = ~~(sec / 60);
+    let hou = ~~(min / 60);
+    min = min % 60;
+    sec = sec % 60;
+    return `${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
+  }
+}
 export class CetusTime {
   static offset = 1500;
   /** 校准 */

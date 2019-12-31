@@ -39,7 +39,7 @@
             <h3 slot="header"><WfIcon type="sortie" shadow/> {{$t("alerting.sortie")}}</h3>
             <ul>
               <div class="sortie-info"><!--
-             --><WfIcon :type="sortie.faction.toLowerCase()"/> {{sortie.boss}}<!--
+             --><WfIcon :type="sortie.faction"/> {{sortie.boss}}<!--
            --></div>
               <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sortie.expiry)}}</div>
               <li v-for="(v, i) in sortie.variants" :key="i">
@@ -57,15 +57,15 @@
           <el-card class="index-card sentientOutposts">
             <h3 slot="header"><WfIcon type="sentient" shadow/> {{$t("alerting.sentientOutposts")}}</h3>
             <ul>
-              <li v-if="sentientOutposts.active">
+              <li v-if="sentientTime.active">
                 <div class="info">
-                  <div class="mission">{{sentientOutposts.mission.type}}</div>
+                  <div class="mission">{{sentientOutposts.mission.type || "???"}}</div>
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <WfIcon :type="sentientOutposts.mission.faction.toLowerCase()"/> {{sentientOutposts.mission.node}}
+                    <WfIcon :type="sentientOutposts.mission.faction"/> {{sentientOutposts.mission.node}}
                   </div>
-                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.expiry, 1800)}}</div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{sentientTime.text}}</div>
                 </div>
               </li>
               <li v-else>
@@ -73,7 +73,7 @@
                   <div class="mission">{{$t("alerting.inactive")}}</div>
                 </div>
                 <div class="misc">
-                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.activation, 1800)}}</div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{sentientTime.text}}</div>
                 </div>
               </li>
             </ul>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <WfIcon :type="arbitration.enemy.toLowerCase()"/> {{arbitration.node}}
+                    <WfIcon :type="arbitration.enemy"/> {{arbitration.node}}
                   </div>
                   <div class="time">{{$t("alerting.remaining")}}: {{renderTime(arbitration.expiry)}}</div>
                 </div>
@@ -110,7 +110,7 @@
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <WfIcon :type="v.mission.faction.toLowerCase()"/> {{v.mission.node}}
+                    <WfIcon :type="v.mission.faction"/> {{v.mission.node}}
                   </div>
                   <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
                 </div>
@@ -186,7 +186,7 @@
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <WfIcon :type="v.enemy.toLowerCase()"/> {{v.node}}
+                    <WfIcon :type="v.enemy"/> {{v.node}}
                   </div>
                   <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
                 </div>
@@ -206,7 +206,7 @@
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <WfIcon :type="v.enemy.toLowerCase()"/> {{v.node}}
+                    <WfIcon :type="v.enemy"/> {{v.node}}
                   </div>
                   <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
                 </div>
@@ -222,11 +222,11 @@
               <li v-for="(v, i) in invasions" :key="i">
                 <div class="info">
                   <div class="reward">
-                    <WfIcon :type="v.attackingFaction.toLowerCase()"/>
+                    <WfIcon :type="v.attackingFaction"/>
                     {{v.attackerReward.itemString || '-'}}
                   </div>
                   <div class="reward">
-                    <WfIcon :type="v.defendingFaction.toLowerCase()"/>
+                    <WfIcon :type="v.defendingFaction"/>
                     {{v.defenderReward.itemString || '-'}}
                   </div>
                 </div>
@@ -279,7 +279,7 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import BScroll from "better-scroll";
 import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert, Nightwave, Kuva, Arbitration, SentientOutpost } from "@/warframe/worldstat";
-import { CetusTime, FortunaTime, EarthTime } from "@/warframe/gametime";
+import { CetusTime, FortunaTime, EarthTime, SentientTime } from "@/warframe/gametime";
 import { Getter, Action } from "vuex-class";
 import "../less/alert.less";
 
@@ -293,6 +293,7 @@ export default class Alerts extends Vue {
   cetusTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
   fortunaTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
   earthTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
+  sentientTime = { active: true, text: "00:00" };
   timerID: number;
   statID: number;
   updating = false;
@@ -430,6 +431,7 @@ export default class Alerts extends Vue {
     this.cetusTime = { isDay: CetusTime.isDay, phase: CetusTime.phaseText, text: CetusTime.text };
     this.fortunaTime = { isDay: FortunaTime.isDay, phase: FortunaTime.phaseText, text: FortunaTime.text };
     this.earthTime = { isDay: EarthTime.isDay, phase: EarthTime.phaseText, text: EarthTime.text };
+    this.sentientTime = { active: SentientTime.isActive, text: SentientTime.text };
   }
 }
 </script>
