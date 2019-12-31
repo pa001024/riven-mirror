@@ -662,9 +662,7 @@ export class WorldStat {
     if (!this.data) return [];
     let data = this.data.syndicateMissions.find(v => v.syndicate === "Ostrons");
     if (!data) return [];
-    return this.deepTranslate(
-      data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")).filter(k => !k.match(/^\d/))), v))
-    );
+    return this.deepTranslate(data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(\d+)X (.+)$/, "$1 $2"))), v)));
   }
 
   /**
@@ -674,9 +672,7 @@ export class WorldStat {
     if (!this.data) return [];
     let data = this.data.syndicateMissions.find(v => v.syndicate === "Solaris United");
     if (!data) return [];
-    return this.deepTranslate(
-      data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")).filter(k => !k.match(/^\d/))), v))
-    );
+    return this.deepTranslate(data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(\d+)X (.+)$/, "$1 $2"))), v)));
   }
 
   /**

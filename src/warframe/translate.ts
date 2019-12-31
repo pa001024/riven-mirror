@@ -54,7 +54,7 @@ export class Translator {
     if ((m = rawText.match(/^(lith|axi|meso|neo) (\w+?\d+)(?: (\S+?)(?: \(\S+\))?)?$/i)))
       return `${this.getLocText(m[1])} ${m[2].toUpperCase()} ${this.getLocText(m[3] || "relic")}`;
     // 处理如 "100 Endo" => "100 内融核心"
-    if ((m = rawText.match(/^(\d+)s? (.+)/i))) return `${m[1]} ${this.getLocText(m[2])}`;
+    if ((m = rawText.match(/^([\d,]+)s? (.+)/i))) return `${m[1]} ${this.getLocText(m[2])}`;
     // 处理如 "Weapon Restriction: Sniper Only" => "武器限定：狙击枪"
     if (rawText.includes(": ")) return (([a, b]) => this.getLocText(a) + "：" + this.getLocText(b.replace(/ only$/i, "")))(rawText.split(": "));
     let lastWord = _.last(text.split(" "));
