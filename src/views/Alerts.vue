@@ -57,7 +57,7 @@
           <el-card class="index-card sentientOutposts">
             <h3 slot="header"><WfIcon type="sentient" shadow/> {{$t("alerting.sentientOutposts")}}</h3>
             <ul>
-              <li v-if="sentientTime.active">
+              <li v-if="sentientOutposts.active">
                 <div class="info">
                   <div class="mission">{{sentientOutposts.mission.type || "???"}}</div>
                 </div>
@@ -65,7 +65,7 @@
                   <div class="node">
                     <WfIcon :type="sentientOutposts.mission.faction"/> {{sentientOutposts.mission.node}}
                   </div>
-                  <div class="time">{{$t("alerting.remaining")}}: {{sentientTime.text}}</div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.expiry)}}</div>
                 </div>
               </li>
               <li v-else>
@@ -73,7 +73,7 @@
                   <div class="mission">{{$t("alerting.inactive")}}</div>
                 </div>
                 <div class="misc">
-                  <div class="time">{{$t("alerting.remaining")}}: {{sentientTime.text}}</div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.expiry, 10800)}}</div>
                 </div>
               </li>
             </ul>

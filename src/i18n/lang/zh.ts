@@ -1433,6 +1433,8 @@ let po = {
     tepaNodule: "缇帕瘤",
     kuva: "赤毒",
     breathOfTheEidolon: "夜灵之息",
+    gorgaricusSpore: "葛嘉里菌孢子",
+    rivenSliver: "裂罅碎银",
 
     amesha: "AMESHA",
     elytron: "ELYTRON",
@@ -2342,6 +2344,12 @@ let po = {
     whileAiming: "瞄准时",
     radialAttack: "范围伤害",
     recallExplosion: "召回爆炸",
+    projectileExplosion: "抛射物爆炸",
+    attractionField: "牵引力场",
+    bombExplosion: "炸弹爆炸",
+    cubeExplosion: "方块爆炸",
+    blobImpact: "球体撞击",
+    blobExplosion: "球体爆炸",
   },
   alerting: {
     sortie: "突击",
