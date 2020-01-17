@@ -65,7 +65,7 @@
                   <div class="node">
                     <WfIcon :type="sentientOutposts.mission.faction"/> {{sentientOutposts.mission.node}}
                   </div>
-                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.expiry)}}</div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.activation, 0, 10800)}}</div>
                 </div>
               </li>
               <li v-else>
@@ -73,7 +73,7 @@
                   <div class="mission">{{$t("alerting.inactive")}}</div>
                 </div>
                 <div class="misc">
-                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.expiry, 10800)}}</div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.activation, 0, 10800)}}</div>
                 </div>
               </li>
             </ul>
@@ -320,9 +320,10 @@ export default class Alerts extends Vue {
     return this.$refs.wrapper as HTMLDivElement;
   }
 
-  renderTime(time: string, offset?: number) {
+  renderTime(time: string, offset?: number, period?: number) {
     let sec = ~~(Date.parse(time) / 1e3) - this.seconds;
     if (offset) sec += offset;
+    if (period) while (sec < 0) sec += period;
     if (sec < 0) return "00:00:00";
     let min = ~~(sec / 60);
     let hou = ~~(min / 60);

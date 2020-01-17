@@ -26,8 +26,8 @@ const _zawStrike = [
   ["6", "Dehtat", 0, [10, 2, 8], 5, 8, 8, "Rapier", "Polearm", 1.09],
   ["7", "Cyath", 6, [1, 4, 15], 0, 8, 8, "Machete", "Polearm", 1.08],
   ["8", "Mewan", 0, [7, 5, 8], -4, 8, 8, "Sword", "Polearm", 1.09],
-  ["9", "Plague Keewar", 82, [32, 1, 35, 14], -2, 8, 12, "Scythe", "Stave", 0.85],
-  ["A", "Plague Kripath", -11, [-26, 14, -7, 8], 2, 12, 8, "Rapier", "Polearm", 1.08],
+  ["9", "Plague Keewar", 82, [1, 32, 35, 14], -2, 8, 12, "Scythe", "Stave", 0.85],
+  ["A", "Plague Kripath", -11, [14, -26, -7, 8], 2, 12, 8, "Rapier", "Polearm", 1.08],
 ] as [string, string, number, number[], number, number, number, string, string, number][];
 
 export const StanceData = {

@@ -1435,6 +1435,8 @@ let po = {
     breathOfTheEidolon: "夜灵之息",
     gorgaricusSpore: "葛嘉里菌孢子",
     rivenSliver: "裂罅碎银",
+    nistlepod: "尼蒐荚",
+    grokdrul: "葛克度",
 
     amesha: "AMESHA",
     elytron: "ELYTRON",
