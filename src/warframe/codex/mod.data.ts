@@ -352,7 +352,7 @@ const data = [
   ["DM", "Amalgam Organ Shatter", [["1", 14], ["!1", 1], ["fca", 10]], Melee, "r", "g", 6],
   ["DN", "Proton Snap", [["-"]], Melee, "r", "r", 6, 3],
   ["DO", "Motus Impact", [["-"]], Melee, "r", "c", 4, 3],
-  ["DP", "Amalgam Ripkas True Steel", [["0", 13], ["..."]], "Ripkas", "r", "r", 6],
+  ["DP", "Amalgam Ripkas True Steel", [["0", 26], ["..."]], "Ripkas", "r", "r", 6],
   ["DQ", "Amalgam Furax Body Count", [["N", 2.5], ["brad", 3]], "Furax", "-", "r", 6],
   ["DR", "Primed Smite Corpus", [["C", 5]], Melee, "r", "l", 4, 10],
   ["DS", "Primed Smite Grineer", [["G", 5]], Melee, "r", "l", 4, 10],

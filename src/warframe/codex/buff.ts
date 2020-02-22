@@ -705,7 +705,7 @@ export const BuffList: BuffData[] = [
     target: "Melee",
     multiLayer: {
       maxStack: 6,
-      stackableProps: [["bldr", 15]],
+      stackableProps: [["bldr", 10]],
     },
   },
   {
