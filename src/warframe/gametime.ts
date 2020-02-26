@@ -26,7 +26,7 @@ export class EarthTime {
 }
 export class SentientTime {
   /** 现在到结束的秒数 */
-  static get secords() { return ~~(10800 - (Date.now() / 1e3 - 5400) % 10800); }
+  static get secords() { return ~~(9900 - (Date.now() / 1e3 - 5400) % 9900); }
   /** 现在是否是出现 */
   static get isActive() { return this.secords < 1800; }
   static get text() {
