@@ -183,11 +183,14 @@ export abstract class BaseBuildEditor extends Vue {
 
   @Watch("tabValue")
   refleshMods() {
+    let damageModel = this.build.damageModel;
     this.build.clear();
     let mods = this.currentTab.mods;
     let buffs = _.compact(this.currentTab.buffs);
     this.build.mods = mods;
     this.build.buffs = buffs;
+    this.selectDamageModel = damageModel ? damageModel.id : '';
+    this.build.damageModel = damageModel;
     this.currentTab.mods = this.build.mods;
     this.replaceState();
   }
