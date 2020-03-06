@@ -25,6 +25,8 @@ import { RivenMod, toUpLevel, toNegaUpLevel, ValuedRivenProperty } from "./riven
 import { HH } from "@/var";
 import { CommonBuild } from "./commonbuild";
 
+export type StatusInfo = { [key: string]: SpecialStatusInfo };
+
 // 基础类
 export abstract class ModBuild implements CommonBuild {
   // ### 变量 ###
@@ -124,7 +126,7 @@ export abstract class ModBuild implements CommonBuild {
   protected _initialDamageMul = 100;
 
   protected _extraProcChance: [string, number][] = [];
-  protected _statusInfo: { [key: string]: SpecialStatusInfo } = null;
+  protected _statusInfo: StatusInfo = null;
   /** 快速模式 */
   fastMode = false;
 
@@ -701,25 +703,30 @@ export abstract class ModBuild implements CommonBuild {
     return this.oriHeadShotMul * this.headShotMulMul;
   }
 
-  /** 触发率是否存在跃迁 */
-  get isStatusJump() {
-    let neededMul = (1 - this.mode.procChance) / this.mode.procChance;
-    let procChanceProp = this.riven.properties.find(v => v.prop.id === "2");
-    if (procChanceProp) return procChanceProp.value + 2.4 > neededMul;
-    return 2.4 > neededMul;
-  }
-
   /** 触发几率 */
   get procChance() {
-    let s = this.mode.procChance * this.procChanceMul + this.procChanceAdd;
-    return s > 1 ? 1 : s < 0 ? 0 : s;
+    const s = 1 - (1 - this.realProcChance) ** this.pellets;
+    return s < 0 ? 0 : s;
   }
   /** 真实触发几率 */
-  abstract get realProcChance(): number;
+  get realProcChance() {
+    let s = this.oriRealProcChance * this.procChanceMul;
+
+    if (this.procChanceAdd) {
+      const nc = 1 - (1 - s) ** this.pellets + this.procChanceAdd;
+      s = 1 - (1 - nc) ** (1 / this.pellets);
+    }
+    return s < 0 ? 0 : s;
+  }
+
+  get oriRealProcChance() {
+    const s = 1 - (1 - this.mode.procChance) ** (1 / this.mode.pellets);
+    return s * 3;
+  }
 
   /** 触发权重 */
   get procWeights() {
-    let pw = this.baseDmg.map(([vn, vv]) => (["Impact", "Puncture", "Slash"].includes(vn) ? [vn, vv * 4] : [vn, vv])) as [string, number][];
+    let pw = this.baseDmg.map(([vn, vv]) => [vn, vv]) as [string, number][];
     let pwT = pw.reduce((a, b) => a + b[1], 0);
     let rst = pw.map(([vn, vv]) => [vn, vv / pwT] as [string, number]);
     return rst;
@@ -740,8 +747,8 @@ export abstract class ModBuild implements CommonBuild {
       });
     }
     // 防止触发率溢出
-    let totalChance = opM.reduce((a, b) => a + b[1], 0);
-    if (totalChance > 1) return opM.map(([vn, vv]) => [vn, vv / totalChance]) as [string, number][];
+    // let totalChance = opM.reduce((a, b) => a + b[1], 0);
+    // if (totalChance > 1) return opM.map(([vn, vv]) => [vn, vv / totalChance]) as [string, number][];
     return opM;
   }
 

@@ -235,10 +235,6 @@ export class MeleeModBuild extends ModBuild {
     let s = this.mode.procChance * (this.procChanceMul + this.comboProcChance) + this.procChanceAdd;
     return s > 1 ? 1 : s < 0 ? 0 : s;
   }
-  /** [overwrite] 真实触发几率 */
-  get realProcChance() {
-    return 1 - (1 - this.procChance) ** (1 / this.mode.pellets);
-  }
   /** [overwrite] 平均暴击区增幅倍率 */
   get critDamageMul() {
     return this.slideMode ? this.slideCritDamageMul : this.normalCritDamageMul;

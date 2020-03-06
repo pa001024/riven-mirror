@@ -280,10 +280,6 @@ export class GunModBuild extends ModBuild {
     let upLvlChance = this.critChance >= 1 ? this.critLevelUpChance : this.critChance * this.critLevelUpChance;
     return this.calcCritDamage(this.critChance + upLvlChance, this.critMul, this.headShotChance, this.headShotMul);
   }
-  /** 每个弹片触发几率 */
-  get realProcChance() {
-    return 1 - (1 - this.procChance) ** (1 / this.mode.pellets);
-  }
   /** 平均射速增幅倍率  */
   get sustainedFireRateMul() {
     return (60 / this.mode.fireRate + this.weapon.reload / this.weapon.magazine) * this.sustainedFireRate;

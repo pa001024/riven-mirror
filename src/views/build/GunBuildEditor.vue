@@ -61,7 +61,7 @@
                 </el-row>
               </div>
               <PropDiff :name="$t('build.reload')" :ori="mode.reload" :val="build.reloadTime" :preci="2" negative></PropDiff>
-              <PropDiff data-v-step="1" :name="$t('build.status')" :ori="mode.procChance" :val="build.procChancePerHit" percent></PropDiff>
+              <PropDiff data-v-step="1" :name="$t('build.status')" :ori="build.oriRealProcChance" :val="build.realProcChance" percent></PropDiff>
               <!-- 伤害模型 -->
               <el-row :gutter="4" class="prop-diff model-selector">
                 <el-col :span="8" class="title" v-t="'build.damageModel'"></el-col>
