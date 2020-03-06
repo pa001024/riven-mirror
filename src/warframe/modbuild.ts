@@ -721,7 +721,7 @@ export abstract class ModBuild implements CommonBuild {
 
   get oriRealProcChance() {
     const s = 1 - (1 - this.mode.procChance) ** (1 / this.mode.pellets);
-    return s * 3;
+    return this.mode.pellets > 1 ? s * 3 : s;
   }
 
   /** 触发权重 */
