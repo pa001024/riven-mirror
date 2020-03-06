@@ -720,8 +720,10 @@ export abstract class ModBuild implements CommonBuild {
   }
 
   get oriRealProcChance() {
-    const s = 1 - (1 - this.mode.procChance) ** (1 / this.mode.pellets);
-    return this.mode.pellets > 1 ? s * 3 : s;
+    // TODO: 临时 需更新data
+    const s = this.mode.procChance / this.mode.pellets;
+    const hasMulti = this.weapon.modes.some(v => v.pellets > 1);
+    return hasMulti ? s * 3 : s;
   }
 
   /** 触发权重 */
