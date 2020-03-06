@@ -267,7 +267,8 @@ export class GunModBuild extends ModBuild {
 
   /** [overwrite] 每发触发率 */
   get procChancePerHit() {
-    return this.isLaser ? this.procChance : 1 - (1 - this.procChance) ** this.multishotMul;
+    const p = this.procChance;
+    return this.isLaser ? p : ~~p * this.multishotMul + 1 - (1 - (p % 1)) ** this.multishotMul;
   }
 
   /** [overwrite] 面板基础伤害增幅倍率 */

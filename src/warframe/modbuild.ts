@@ -705,7 +705,7 @@ export abstract class ModBuild implements CommonBuild {
 
   /** 触发几率 */
   get procChance() {
-    const s = 1 - (1 - this.realProcChance) ** this.pellets;
+    const s = ~~this.realProcChance + 1 - (1 - (this.realProcChance % 1)) ** this.pellets;
     return s < 0 ? 0 : s;
   }
   /** 真实触发几率 */
@@ -801,7 +801,7 @@ export abstract class ModBuild implements CommonBuild {
   }
   /** 每秒触发率 */
   get procChancePerSecond() {
-    return 1 - (1 - this.procChancePerHit) ** this.fireRate;
+    return ~~this.procChancePerHit * this.fireRate + 1 - (1 - (this.procChancePerHit % 1)) ** this.fireRate;
   }
   /** 平均状态量期望 */
   get averageProcQE() {
