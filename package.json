@@ -58,7 +58,7 @@
     "@vue/cli-service": "^4.0.5",
     "babel-plugin-import": "^1.12.2",
     "electron": "^6.0.0",
-    "file-loader": "^5.0.0",
+    "file-loader": "^6.0.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "protobuf-preloader": "^0.0.2",
