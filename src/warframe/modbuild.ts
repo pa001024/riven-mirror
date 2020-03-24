@@ -900,15 +900,15 @@ export abstract class ModBuild implements CommonBuild {
   }
   /** 毒DoT的基伤 */
   get toxinBaseDamage() {
-    return this.baseDamage * (1 + this.toxinMul) * 0.5;
+    return this.baseDamage * 0.5;
   }
   /** 毒气DoT的基伤 */
   get gasBaseDamage() {
-    return this.baseDamage * (1 + this.toxinMul) ** 2 * 0.25;
+    return this.baseDamage * 0.5;
   }
   /** 火DoT的基伤 */
   get heatBaseDamage() {
-    return this.baseDamage * (1 + this.heatMul) * 0.5;
+    return this.baseDamage * 0.5;
   }
   /** 电DoT的基伤 */
   get electricityBaseDamage() {

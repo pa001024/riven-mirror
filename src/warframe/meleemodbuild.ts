@@ -364,7 +364,7 @@ export class MeleeModBuild extends ModBuild {
       ("Primed Pressure Point" === mod.id && this._mods.some(v => v && v.id === "Sacrificial Pressure"))
     )
       return false;
-    if (this.weapon.tags.has("Exalted")) {
+    if (this.weapon.tags.has("Exalted") && !this.weapon.tags.has("Virtual")) {
       return !["Weeping Wounds", "Blood Rush", "Maiming Strike", "Focused Defense"].includes(mod.id);
     }
     return true;

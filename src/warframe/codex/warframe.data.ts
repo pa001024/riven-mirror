@@ -350,6 +350,7 @@ export const _warframeData: WarframeData[] = [
     // passiveDescription: "Gauss gains bonus Shield recharge rate and shield recharge delay reduction for every point of battery stored in his gauge, up to a maximum of 80% for both when the battery is full.",
     abilities: ["Mach Rush", "Kinetic Plating", "Thermal Sunder", "Redline"],
     aura: "-",
+    exilus: "-",
     introduced: "25.7",
     polarities: ["r", "d"],
     sex: "Male",

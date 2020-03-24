@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.8.5";
+export const version = "1.9.0";
 export const updateLogs = [
+  {
+    version: "1.9.0",
+    date: "2019/3/6",
+    md: {
+      en: `- updateing...`,
+      cn: `- 更新中...`,
+    },
+  },
   {
     version: "1.8.5",
     date: "2019/12/25",
@@ -40,6 +48,7 @@ export const updateLogs = [
 - 添加: 新MOD 赋能`,
     },
   },
+  /*
   {
     version: "1.8.1",
     date: "2019/9/20",
@@ -52,7 +61,6 @@ export const updateLogs = [
 - 预览: Atlas Prime/铁钩手甲 Prime/死亡魔方 Prime`,
     },
   },
-  /*
   {
     version: "1.8.0",
     date: "2019/9/8",
