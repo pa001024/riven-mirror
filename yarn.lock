@@ -4257,10 +4257,10 @@ function-bind@^1.1.1:
   resolved "https://registry.npm.taobao.org/function-bind/download/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha1-pWiZ0+o8m6uHS7l3O3xe3pL0iV0=
 
-fuse.js@^3.4.5:
-  version "3.4.6"
-  resolved "https://registry.npm.taobao.org/fuse.js/download/fuse.js-3.4.6.tgz#545c3411fed88bf2e27c457cab6e73e7af697a45"
-  integrity sha1-VFw0Ef7Yi/LifEV8q25z569pekU=
+fuse.js@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-5.1.0.tgz#192a670e48bc3ac0247cf9a61590714ab991f7a8"
+  integrity sha512-R8nPr9tQx0HdjRJsqkESimL7o/2Xe0/Lw0cMBrBjkAKAJFq6D6u/o3obteqxkvOJNEgS4xPP78dxoNMaCWNoGg==
 
 gaze@~1.1.2:
   version "1.1.3"
