@@ -1256,6 +1256,8 @@ let po = {
     aksomatiPrime: "輕靈月神雙槍 Prime",
     pennant: "尖幡",
     shedu: "舍杜",
+    basmu: "巴什穆",
+    corinthPrime: "科林斯 Prime",
 
     none: "無",
     balla: "寶拉",

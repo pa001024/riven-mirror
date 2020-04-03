@@ -98,6 +98,9 @@ createApp({
 
   afterApp({ app, store }) {
     app.$mount("#app");
+    if (navigator.language.startsWith("zh") && Date.now() < new Date("2020/4/5").valueOf()) {
+      document.body.style.filter = "grayscale(1)";
+    }
   },
   locale: (langParameter && langParameter[1]) || localStorage.getItem("lang"),
 });
