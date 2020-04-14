@@ -866,6 +866,7 @@ let po = {
     dualIchor: "恶脓双斧",
     sydon: "恶龙",
     lacera: "悲痛之刃",
+    cetiLacera: "天仓 悲痛之刃",
     hate: "憎恨",
     war: "战争之剑",
     glaivePrime: "战刃 Prime",
