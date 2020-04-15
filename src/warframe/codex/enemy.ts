@@ -38,13 +38,14 @@ const _damageTypeDatabase = {
   Cold: ["Elemental", null, [0, 0, -0.25, 0, -0.5, 0.25, 0, 0, 0, 0.5, 0, 0, 0.25]],
   Electricity: ["Elemental", null, [0, 0, 0, 0, 0, 0, 0.5, 0.5, 0, 0, 0, 0, -0.5]],
   Heat: ["Elemental", null, [0, 0.25, 0, 0.25, 0.5, 0, 0, 0, 0, 0, -0.5, 0, 0]],
-  Toxin: ["Elemental", null, [0.5, 0, -0.5, 0, 0, 0, -0.25, -0.25, 0, NaN, NaN, 0.25, 0]],
+  Toxin: ["Elemental", null, [0.5, 0, -0.5, 0, 0, 0, -0.25, -0.25, 0, NaN, NaN, 0, 0]],
   Blast: ["Combined", "Cold+Heat", [0, 0, 0.5, 0, 0, -0.5, 0.75, 0, 0, 0, 0, -0.25, 0]],
   Corrosive: ["Combined", "Electricity+Toxin", [0, 0, 0.75, 0, 0, 0, 0, 0, 0, 0, -0.5, 0.75, 0]],
   Gas: ["Combined", "Heat+Toxin", [-0.25, -0.5, 0, 0.75, 0.5, 0, 0, 0, 0, 0, 0, 0, 0]],
   Magnetic: ["Combined", "Cold+Electricity", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0.75, 0.75, 0, -0.5]],
   Radiation: ["Combined", "Electricity+Heat", [0, 0, -0.75, -0.5, 0, 0.5, 0, 0.25, 0, -0.25, 0, 0, 0.75]],
   Viral: ["Combined", "Cold+Toxin", [0.5, 0.75, 0, -0.5, 0, 0, -0.25, 0, 0, 0, 0, 0, 0]],
+  True: ["Standalone", null, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NaN, NaN]],
   Void: ["Standalone", null, [0, -0.5, -0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
 } as { [key: string]: [string, string, number[]] };
 
@@ -476,6 +477,8 @@ export class Procs {
   Slash: [number, number][] = [];
   Heat: [number, number][] = [];
   Toxin: [number, number][] = [];
+  Gas: [number, number][] = [];
+  Electricity: [number, number][] = [];
   Viral: number = 0;
   HeatProc: number = 0;
 
@@ -495,13 +498,20 @@ export class Procs {
         break;
       // 毒素伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E7%B4%A0%E4%BC%A4%E5%AE%B3
       case "Toxin":
+        this.Toxin.push([dmg, ~~(6 * durationMul)]);
+        break;
+      // 毒气伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E6%B0%94%E4%BC%A4%E5%AE%B3
       case "Gas":
-        this.Toxin.push([dmg, ~~(8 * durationMul)]);
+        this.Gas.push([dmg, ~~(6 * durationMul)]);
         break;
       // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
       // 注:火焰触发不会叠加
       case "Heat":
-        this.Heat.push([dmg, ~~(8 * durationMul)]);
+        this.Heat.push([dmg, ~~(6 * durationMul)]);
+        break;
+      // 电击伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%94%B5%E5%87%BB%E4%BC%A4%E5%AE%B3
+      case "Electricity":
+        this.Electricity.push([dmg, ~~(6 * durationMul)]);
         break;
     }
   }
@@ -519,12 +529,18 @@ export class Procs {
     this.Slash = this.Slash.filter(v => --v[1] > 0) as [number, number][];
     let totalToxin = this.Toxin.reduce((a, b) => a + b[0], 0);
     this.Toxin = this.Toxin.filter(v => --v[1] > 0) as [number, number][];
+    let totalGas = this.Gas.reduce((a, b) => a + b[0], 0);
+    this.Gas = this.Gas.filter(v => --v[1] > 0) as [number, number][];
     let totalHeat = this.Heat.reduce((a, b) => a + b[0], 0);
     this.Heat = this.Heat.filter(v => --v[1] > 0) as [number, number][];
+    let totalElectricity = this.Electricity.reduce((a, b) => a + b[0], 0);
+    this.Electricity = this.Electricity.filter(v => --v[1] > 0) as [number, number][];
     let dmgs = [];
     if (totalSlash > 0) dmgs.push([DamageType.True, procDamageMul * totalSlash]);
     if (totalToxin > 0) dmgs.push([DamageType.Toxin, procDamageMul * totalToxin]);
+    if (totalGas > 0) dmgs.push([DamageType.Gas, procDamageMul * totalGas]);
     if (totalHeat > 0) dmgs.push([DamageType.Heat, procDamageMul * totalHeat]);
+    if (totalElectricity > 0) dmgs.push([DamageType.Electricity, procDamageMul * totalElectricity]);
     return dmgs;
   }
 }
@@ -784,8 +800,8 @@ export class Enemy extends EnemyData {
           return [DamageType.Toxin, vv];
         // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
         case "Gas":
-          this.currentProcs.push(DamageType.Toxin, vv * procDamageMul * procDamageMul, durationMul);
-          return [DamageType.Toxin, vv];
+          this.currentProcs.push(DamageType.Toxin, vv * procDamageMul, durationMul);
+          return [DamageType.Gas, vv];
         // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
         // 注:火焰触发不会叠加
         case "Heat":

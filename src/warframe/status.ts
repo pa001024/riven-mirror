@@ -1,19 +1,19 @@
 /** 触发持续时间表 */
 export const procDurationMap = {
-  Impact: 2,
+  Impact: 6,
   Puncture: 6,
   Slash: 6,
   Cold: 6,
   Electricity: 6,
   Heat: 6,
-  Toxin: 8,
-  Blast: 2,
-  Corrosive: 6,
-  Gas: 8,
-  Magnetic: 4,
+  Toxin: 6,
+  Blast: 6,
+  Corrosive: 8,
+  Gas: 6,
+  Magnetic: 6,
   Radiation: 12,
   Viral: 6,
-  Void: 4,
+  Void: 3,
 };
 
 /** 其他触发参数 */
