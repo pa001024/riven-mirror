@@ -3321,10 +3321,10 @@ dev-null@^0.1.1:
   resolved "https://registry.npm.taobao.org/dev-null/download/dev-null-0.1.1.tgz#5a205ce3c2b2ef77b6238d6ba179eb74c6a0e818"
   integrity sha1-WiBc48Ky73e2I41roXnrdMag6Bg=
 
-dexie@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.npm.taobao.org/dexie/download/dexie-2.0.4.tgz#6027a5e05879424e8f9979d8c14e7420f27e3a11"
-  integrity sha1-YCel4Fh5Qk6PmXnYwU50IPJ+OhE=
+dexie@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/dexie/-/dexie-3.0.0.tgz#6f468fa30b5c53343bbbfb1659ddede202e1a67c"
+  integrity sha512-wOS7Og4NzXYG2OZPkzmgNTR+WSocu3O6bQSU22s30g3I2g32By/tbaTMoCVFKd55p+oTlxZY8YAMkhJs4vj0sw==
 
 diff@^4.0.1:
   version "4.0.1"
