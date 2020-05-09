@@ -1779,12 +1779,12 @@ atob@^2.1.2:
   integrity sha1-bZUX654DDSQ2ZmZR6GvZ9vE1M8k=
 
 automation-events@^2.0.6:
-  version "2.0.5"
-  resolved "https://registry.npm.taobao.org/automation-events/download/automation-events-2.0.5.tgz#4e927bcfa4320b18c96fd7736b4eb0fde413bd20"
-  integrity sha1-TpJ7z6QyCxjJb9dza06w/eQTvSA=
+  version "2.0.7"
+  resolved "https://registry.npm.taobao.org/automation-events/download/automation-events-2.0.7.tgz#2d915e8cc9a350988cf949099c108155f88aee6c"
+  integrity sha1-LZFejMmjUJiM+UkJnBCBVfiK7mw=
   dependencies:
-    "@babel/runtime" "^7.9.2"
-    tslib "^1.11.1"
+    "@babel/runtime" "^7.9.6"
+    tslib "^1.11.2"
 
 autoprefixer@^9.7.5:
   version "9.7.6"
@@ -9130,7 +9130,7 @@ ts-pnp@^1.1.6:
   resolved "https://registry.npm.taobao.org/ts-pnp/download/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
   integrity sha1-pQCtCEsHmPHDBxrzkeZZEshrypI=
 
-tslib@^1.10.0, tslib@^1.11.1, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.10.0, tslib@^1.11.1, tslib@^1.11.2, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.11.2"
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.11.2.tgz#9c79d83272c9a7aaf166f73915c9667ecdde3cc9"
   integrity sha1-nHnYMnLJp6rxZvc5Fclmfs3ePMk=

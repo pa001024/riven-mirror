@@ -367,7 +367,12 @@ export class SimpleDamageModel extends DamageModelData {
    * @memberof Enemy
    */
   mapDamage(dmgs: [string, number][], critChance: number = 0, threshold = 300) {
-    if (this.ignoreProc > 3) return this.mapEidolonDmg(dmgs.filter(v => v[0] === "Void"), critChance, threshold > 300 ? 300 : threshold);
+    if (this.ignoreProc > 3)
+      return this.mapEidolonDmg(
+        dmgs.filter(v => v[0] === "Void"),
+        critChance,
+        threshold > 300 ? 300 : threshold
+      );
     if (this.ignoreProc > 2) return this.mapEidolonDmg(dmgs, critChance, threshold > 300 ? 300 : threshold);
     else return this.mapDamageNormal(dmgs);
   }
@@ -554,6 +559,10 @@ export interface EnemyTimelineState {
   isDoT: boolean;
 }
 
+function trans(start: number, end: number, curr_lvl: number) {
+  return Math.min(1, (Math.max(curr_lvl, start) - start) / (end - start));
+}
+
 export class Enemy extends EnemyData {
   // === 静态属性 ===
   get factionName() {
@@ -602,21 +611,30 @@ export class Enemy extends EnemyData {
    * = 基础生命 × ( 1 + ( 当前等级 − 基础等级 )^2 × 0.015 )
    */
   get health() {
-    return this.baseHealth * (1 + (this.level - this.baseLevel) ** 2 * 0.015);
+    const high = 1 + (this.level - this.baseLevel) ** 0.5 * 10.75;
+    const low = 1 + (this.level - this.baseLevel) ** 2 * 0.015;
+    const ratio = trans(70 + this.baseLevel, 85, this.level);
+    return this.baseHealth * ((1 - ratio) * low + ratio * high);
   }
   /**
    * 当前等级基础护盾
    * = 基础护盾 × ( 1 + ( 当前等级 − 基础等级 )^2 × 0.0075 )
    */
   get shield() {
-    return this.baseShield * (1 + (this.level - this.baseLevel) ** 2 * 0.0075);
+    const high = 1 + (this.level - this.baseLevel) ** 0.75 * 1.6;
+    const low = 1 + (this.level - this.baseLevel) ** 2 * 0.0075;
+    const ratio = trans(70 + this.baseLevel, 85, this.level);
+    return this.baseShield * ((1 - ratio) * low + ratio * high);
   }
   /**
    * 当前等级基础护甲
    * = 基础护甲 × ( 1 + ( 当前等级 − 基础等级 )^1.75 × 0.005 )
    */
   get armor() {
-    return this.baseArmor * (1 + (this.level - this.baseLevel) ** 1.75 * 0.005);
+    const high = 1 + (this.level - this.baseLevel) ** 0.75 * 0.4;
+    const low = 1 + (this.level - this.baseLevel) ** 1.75 * 0.005;
+    const ratio = trans(70 + this.baseLevel, 85, this.level);
+    return this.baseArmor * ((1 - ratio) * low + ratio * high);
   }
 
   /**
@@ -850,7 +868,11 @@ export class Enemy extends EnemyData {
       let bh = bls >= 1 ? 1 : bls;
       // 夜灵算法 https://warframe.huijiwiki.com/wiki/%E5%8D%9A%E5%AE%A2:%E5%A4%9C%E7%81%B5%E5%85%86%E5%8A%9B%E4%BD%BF%E4%BC%A4%E5%AE%B3%E6%9C%BA%E5%88%B6
       if (this.ignoreProc > 2) {
-        this.applyEidolonDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]), critChance, threshold * this.resistence * bh); // 不足一个的乘以阈值
+        this.applyEidolonDmg(
+          dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]),
+          critChance,
+          threshold * this.resistence * bh
+        ); // 不足一个的乘以阈值
       } else if (this.ignoreProc === 2) {
         this.applyDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]));
       } else {
@@ -882,7 +904,12 @@ export class Enemy extends EnemyData {
           this.currentProcs.HeatProc = newHeat > 1 ? 1 : newHeat;
         }
         // [5.DoT伤害]
-        if (this.ignoreProc === 0) this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]), durationMul, procDamageMul);
+        if (this.ignoreProc === 0)
+          this.applyDoTDmg(
+            dotDamageMap.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]),
+            durationMul,
+            procDamageMul
+          );
         // [6.将病毒下降的血量恢复 / 火减甲]
         this.currentHealth /= 1 - 0.5 * currentViral;
         this.currentArmor /= 1 - 0.5 * currentHeat;
