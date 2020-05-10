@@ -454,7 +454,7 @@ export class MeleeModBuild extends ModBuild {
     const rangeMod = this.avaliableMods.find(v => v.id === "Primed Reach");
     const comboMod = this.avaliableMods.find(v => v.id === "Drifting Contact");
     let mods = (this._mods = _.compact(this._mods));
-    if (useRiven == 2) this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
+    if (useRiven == 2) this.applyMod(this.riven.normalMod(this.weapon)); // 1. 将紫卡直接插入
     if (this.requireRange && rangeMod && !mods.some(v => v.id === rangeMod.id) && (useRiven === 0 || !this.riven.shortSubfix.includes("T")))
       this.applyMod(rangeMod);
     if (

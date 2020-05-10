@@ -326,7 +326,7 @@ export abstract class ModBuild implements CommonBuild {
     let mods = normal.map(v => {
       let key = v.substr(0, 2),
         level = v.substr(3, 4);
-      let mod = v === "01" ? this.riven.normalMod : _.cloneDeep(Codex.getNormalMod(key));
+      let mod = v === "01" ? this.riven.normalMod(this.weapon) : _.cloneDeep(Codex.getNormalMod(key));
       if (level) mod.level = debase62(level);
       return mod;
     });
@@ -1214,9 +1214,9 @@ export abstract class ModBuild implements CommonBuild {
     let rivenCount = mods.reduce((a, b) => a + (b.id === "RIVENFAKE" ? 1 : 0), 0),
       rivenSlots = rivenLimit ? slots + rivenLimit - 1 : slots;
     if (useRiven > 0) {
-      if (useRiven == 2) this.applyMod(this.riven.normalMod);
+      if (useRiven == 2) this.applyMod(this.riven.normalMod(this.weapon));
       // 1. 将紫卡直接插入
-      else othermods.push(this.riven.normalMod); // 1. 将紫卡作为一张普卡进行计算
+      else othermods.push(this.riven.normalMod(this.weapon)); // 1. 将紫卡作为一张普卡进行计算
     }
     // 有目标时计算复合元素收益
     if (this.damageModel || this.target) {

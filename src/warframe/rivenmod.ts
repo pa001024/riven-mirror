@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { randomNormalDistribution, strSimilarity } from "./util";
 import { base62, debase62 } from "./lib/base62";
-import { Polarity, RivenProperty, RivenDatabase, RivenPropertyDataBase, NormalMod, MainTag, WeaponDatabase, RivenTypes } from "./codex";
+import { Polarity, RivenProperty, RivenDatabase, RivenPropertyDataBase, NormalMod, MainTag, WeaponDatabase, RivenTypes, Weapon } from "./codex";
 import { HH } from "@/var";
 import { i18n } from "@/i18n";
 
@@ -373,7 +373,8 @@ A段位12023
     return newMod;
   }
   /** 返回一个标准MOD对象 */
-  get normalMod(): NormalMod {
+  normalMod(weapon: Weapon): NormalMod {
+    const ratio = weapon.disposition / this.weapon.disposition;
     return new NormalMod({
       key: "01",
       id: this.fullName,
@@ -383,7 +384,7 @@ A段位12023
       cost: 10,
       level: 8,
       rarity: "x",
-      props: this.properties.map(v => [v.prop.id, v.value / 9] as [string, number]),
+      props: this.properties.map(v => [v.prop.id, (ratio * v.value) / 9] as [string, number]),
       riven: this.qrCode,
     });
   }
@@ -428,12 +429,46 @@ A段位12023
     this.negativeUpLevel = -toNegaUpLevel(props.length, this.hasNegativeProp);
     this.parseDevis(props.map(([n, v]) => [n.id, v] as [string, number]));
   }
+  get qrCodeV1() {
+    return [
+      this.name,
+      this.shortSubfix,
+      base62(this.rank) + base62(this.recycleTimes),
+      this.properties.map(v => v.prop.id + base62(+(v.deviation * 10).toFixed(0))).join("."),
+    ].join("|");
+  }
+  /** 读取二维码识别后的序列化字符串 */
+  set qrCodeV1(value) {
+    let d = value.split("|");
+    if (!d[0]) return;
+    this.name = d[0];
+    if (d[1]) this.shortSubfix = d[1];
+    let weapon = WeaponDatabase.getWeaponByName(this.name);
+    this.name = weapon.name;
+    this.mod = MainTag[weapon.mod] as RivenTypes;
+    this.rank = debase62(d[2][0]);
+    this.recycleTimes = debase62(d[2].substr(1));
+    let props = d[3].split(".").map(v => {
+      let vv = debase62(v.substr(1)) / 10;
+      return [RivenDatabase.getPropByName(v[0]), vv];
+    }) as [RivenProperty, number][];
+    let lastProp = props[props.length - 1];
+    this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == lastProp[1] < 0;
+    this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
+    this.parseProps(props.map(([n, v]) => [n.id, v] as [string, number]))
+  }
   /** Base64形式的二维码 */
   get qrCodeBase64() {
     return btoa(this.qrCode);
   }
   set qrCodeBase64(value) {
     this.qrCode = atob(value);
+  }
+  get qrCodeBase64V1() {
+    return btoa(this.qrCodeV1);
+  }
+  set qrCodeBase64V1(value) {
+    this.qrCodeV1 = atob(value);
   }
   /** 网址形式的二维码 */
   get qrCodeURL() {
