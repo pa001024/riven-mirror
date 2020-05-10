@@ -418,6 +418,15 @@ export const BuffList: BuffData[] = [
     defaultValue: 348,
   },
   {
+    id: "A4",
+    name: "baseArmor", // 龙3 怨怒护甲
+    type: BuffType.Team,
+    target: "Warframe+",
+    dynamicProps: [["ea", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 60,
+  },
+  {
     id: "J",
     name: "mallet", // DJ4 强音增幅
     type: BuffType.BaseDamage,

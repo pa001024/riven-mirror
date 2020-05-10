@@ -1724,6 +1724,7 @@ let po = {
     powerDonation: "Power Donation (Aura)",
     shepherd: "Shepherd (Aura)",
     arbitrationsBuff: "Arbitrations Buff",
+    baseArmor: "Base Armor",
   },
   ability: {
     energyCost: "ENERGY: {0}",

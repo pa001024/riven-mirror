@@ -3786,6 +3786,7 @@ let po = {
     powerDonation: "献出力量 (光环)",
     shepherd: "牧羊人 (光环)",
     arbitrationsBuff: "仲裁加成",
+    baseArmor: "基础护甲",
   },
   ability: {
     energyCost: "能量: {0}",
