@@ -251,6 +251,8 @@ export abstract class ModBuild implements CommonBuild {
 
   // abs-extra prop
   _absExtra: [string, number][] = [];
+  // rel-extra prop
+  _relExtra: [string, number][] = [];
   // 物理转伤
   _physicalConv: [string, number][] = [];
   // 虚空转伤
@@ -263,11 +265,13 @@ export abstract class ModBuild implements CommonBuild {
 
   /** 武器原本伤害 */
   get initialDamage() {
-    if (this.initialDamageMul === 1 && !this._absExtra.length) {
+    if (this.initialDamageMul === 1 && !this._absExtra.length && !this._relExtra.length) {
       this._originalDamage = 0;
       return this.mode.damage;
     }
     let dmg = _.map(this.mode.damage, ([n, v]) => [n, v * this.initialDamageMul] as [string, number]);
+    const base = dmg.reduce((r, v) => ((r += v[1]), r), 0);
+    if (this._relExtra.length) dmg = dmg.concat(this._relExtra.map(([n, v]) => [n, (v * base) / 100]));
     if (this._absExtra.length) dmg = dmg.concat(this._absExtra);
     this._originalDamage = 0;
     return dmg;
@@ -1561,6 +1565,34 @@ export abstract class ModBuild implements CommonBuild {
         break;
       case "eA":
         /* Initial Slash 初始切割 */ this._absExtra.push(["Slash", pValue]);
+        break;
+
+      case "b4":
+        /** Initial Heat 初始火伤 */ this._relExtra.push(["Heat", pValue]);
+        break;
+      case "b5":
+        /** Initial Cold 初始冰伤 */ this._relExtra.push(["Cold", pValue]);
+        break;
+      case "b6":
+        /** Initial Toxin 初始毒伤 */ this._relExtra.push(["Toxin", pValue]);
+        break;
+      case "b7":
+        /** Initial Electricity 初始电伤 */ this._relExtra.push(["Electricity", pValue]);
+        break;
+      case "b8":
+        /** Initial Impact 初始冲击 */ this._relExtra.push(["Impact", pValue]);
+        break;
+      case "b9":
+        /** Initial Puncture 初始穿刺 */ this._relExtra.push(["Puncture", pValue]);
+        break;
+      case "bA":
+        /** Initial Slash 初始切割 */ this._relExtra.push(["Slash", pValue]);
+        break;
+      case "bM":
+        /** Initial Magnetic 初始磁力 */ this._relExtra.push(["Magnetic", pValue]);
+        break;
+      case "bR":
+        /** Initial Radiation 初始辐射 */ this._relExtra.push(["Radiation", pValue]);
         break;
       default:
     }

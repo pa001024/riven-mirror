@@ -107,6 +107,16 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "p5", dmg: true }, // 物理转冰伤 Physical to Cold
   { id: "p6", dmg: true }, // 物理转毒伤 Physical to Toxin
   { id: "p7", dmg: true }, // 物理转电伤 Physical to Electricity
+  // init more 赤毒武器加成
+  { id: "b4", dmg: true }, // Initial Heat 初始火伤
+  { id: "b5", dmg: true }, // Initial Cold 初始冰伤
+  { id: "b6", dmg: true }, // Initial Toxin 初始毒伤
+  { id: "b7", dmg: true }, // Initial Electricity 初始电伤
+  { id: "b8", dmg: true }, // Initial Impact 初始冲击
+  { id: "b9", dmg: true }, // Initial Puncture 初始穿刺
+  { id: "bA", dmg: true }, // Initial Slash 初始切割
+  { id: "bM", dmg: true }, // Initial Magnetic 初始磁力
+  { id: "bR", dmg: true }, // Initial Radiation 初始辐射
   // 战甲
   { id: "h" }, // Health
   { id: "s" }, // Shield
