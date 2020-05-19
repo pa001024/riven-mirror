@@ -5715,10 +5715,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.npm.taobao.org/lines-and-columns/download/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-linkify-it@^2.0.0:
-  version "2.2.0"
-  resolved "https://registry.npm.taobao.org/linkify-it/download/linkify-it-2.2.0.tgz#e3b54697e78bf915c70a38acd78fd09e0058b1cf"
-  integrity sha1-47VGl+eL+RXHCjis14/QngBYsc8=
+linkify-it@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-3.0.1.tgz#49c0f20adcd08b9a7e427225f2ed5f2fb7d1b033"
+  integrity sha512-/CEnQ8L2N1vUK+sL2W/ZpTsYKEhOG0MlS9h07Q5GF3kfyVF85ItCRdU38rI89CJtmWMESt0xKaCd58vB0fzWeQ==
   dependencies:
     uc.micro "^1.0.1"
 
@@ -5958,14 +5958,14 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-it@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.npm.taobao.org/markdown-it/download/markdown-it-10.0.0.tgz#abfc64f141b1722d663402044e43927f1f50a8dc"
-  integrity sha1-q/xk8UGxci1mNAIETkOSfx9QqNw=
+markdown-it@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-11.0.0.tgz#dbfc30363e43d756ebc52c38586b91b90046b876"
+  integrity sha512-+CvOnmbSubmQFSA9dKz1BRiaSMV7rhexl3sngKqFyXSagoA3fBdJQ8oZWtRy2knXdpDXaBw44euz37DeJQ9asg==
   dependencies:
     argparse "^1.0.7"
     entities "~2.0.0"
-    linkify-it "^2.0.0"
+    linkify-it "^3.0.1"
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
