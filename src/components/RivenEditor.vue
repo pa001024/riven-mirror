@@ -182,7 +182,10 @@ export default class RivenEditor extends Vue {
   }
   updateRiven() {
     this.riven.subfix = "";
-    this.riven.parseProps(this.props.filter(v => v.id).map(v => [v.id, v.value] as [string, number]));
+    this.riven.parseProps(
+      this.props.filter(v => v.id).map(v => [v.id, v.value] as [string, number]),
+      this.weapon || undefined
+    );
     this.$emit("change", this.riven.qrCodeBase64);
   }
   // === 生命周期钩子 ===

@@ -294,8 +294,7 @@ A段位12023
   /**
    * 识别普通MOD格式的属性
    */
-  parseProps(props: [string, number][]) {
-    const weapon = this.weapon;
+  parseProps(props: [string, number][], weapon = this.weapon) {
     this.hasNegativeProp = props.reduce((r, v, i) => {
       let prop = RivenDatabase.getPropByName(v[0]);
       const isNegative = i >= 3 || !prop.negative == v[1] < 0;
@@ -374,7 +373,7 @@ A段位12023
   }
   /** 返回一个标准MOD对象 */
   normalMod(weapon: Weapon): NormalMod {
-    const ratio = weapon.disposition / this.weapon.disposition;
+    const ratio = weapon.disposition ? weapon.disposition / this.weapon.disposition : 1;
     return new NormalMod({
       key: "01",
       id: this.fullName,
