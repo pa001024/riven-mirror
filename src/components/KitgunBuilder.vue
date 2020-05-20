@@ -67,6 +67,7 @@
     <!-- 预览 -->
     <div class="preview" v-if="chamber">
       <div class="prop">{{$t("modular.damage")}}: {{+kitgun.defaultMode.panelDamage.toFixed(1)}}</div><!--
+   --><div class="prop">{{$t("build.ratio")}}: {{+kitgun.disposition}}</div><!--
    --><div class="prop" v-for="dmg in kitgun.defaultMode.damage" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
    --><div class="prop" v-if="kitgun.defaultMode.range">{{$t("modular.rangeLimit")}}: {{kitgun.defaultMode.range}} m</div><!--
    --><div class="prop">{{$t("modular.fireRate")}}: {{+(kitgun.defaultMode.fireRate/60).toFixed(3)}}</div><!--

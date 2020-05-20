@@ -3,6 +3,7 @@ import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import _ from "lodash";
 import { WeaponTag, CoreWeaponMode, MainTag } from "./weapon";
+import { RivenDatabase } from "./riven";
 
 /**
  * 枪膛
@@ -195,6 +196,7 @@ export class Kitgun extends Weapon {
     const loader = Kitgun.loadLoader(this.chamber, this.loader);
 
     this.name = this.chamber.name;
+    this.disposition = RivenDatabase.getRatio(this.name);
     const mode = {} as CoreWeaponMode;
     mode.damage = this.chamber.dmgs
       .map(([n, v]) => [n, hAccSum(v, (this.name === "Tombfinger" && n === "Radiation" ? 4 : 1) * grip.dmgAdd)] as [string, number])
