@@ -181,13 +181,13 @@ export const BuffList: BuffData[] = [
       } as BuffData)
   ),
   ...[
-    ["b4", "kuvaHeat", [["b4", 1]], "Kuva Weapon"], // 初始火伤
-    ["b5", "kuvaCold", [["b5", 1]], "Kuva Weapon"], // 初始冰伤
-    ["b6", "kuvaToxin", [["b6", 1]], "Kuva Weapon"], // 初始毒伤
-    ["b7", "kuvaElectricity", [["b7", 1]], "Kuva Weapon"], // 初始电伤
-    ["b8", "kuvaImpact", [["b8", 1]], "Kuva Weapon"], // 初始冲击
-    ["bM", "kuvaMagnetic", [["bM", 1]], "Kuva Weapon"], // 初始磁力
-    ["bR", "kuvaRadiation", [["bR", 1]], "Kuva Weapon"], // 初始辐射
+    ["b4", "kuvaHeat", [["b4", 1, 0]], "Kuva Weapon"], // 初始火伤
+    ["b5", "kuvaCold", [["b5", 1, 0]], "Kuva Weapon"], // 初始冰伤
+    ["b6", "kuvaToxin", [["b6", 1, 0]], "Kuva Weapon"], // 初始毒伤
+    ["b7", "kuvaElectricity", [["b7", 1, 0]], "Kuva Weapon"], // 初始电伤
+    ["b8", "kuvaImpact", [["b8", 1, 0]], "Kuva Weapon"], // 初始冲击
+    ["bM", "kuvaMagnetic", [["bM", 1, 0]], "Kuva Weapon"], // 初始磁力
+    ["bR", "kuvaRadiation", [["bR", 1, 0]], "Kuva Weapon"], // 初始辐射
   ].map(
     v =>
       ({
@@ -195,11 +195,9 @@ export const BuffList: BuffData[] = [
         name: v[1],
         type: BuffType.ElementDamage,
         target: v[3],
-        defaultLayer: v[4] || 4,
-        multiLayer: {
-          maxStack: v[4] || 4,
-          stackableProps: v[2],
-        },
+        dynamicProps: v[2],
+        parms: ["power", "%"],
+        defaultValue: 60,
       } as BuffData)
   ),
   // 战甲加成

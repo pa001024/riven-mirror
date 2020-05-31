@@ -187,7 +187,7 @@ export class SearchEngine {
     };
     this.engine = new Fuse(searchData, options); // "list" is the item array
   }
-  search(query: string): SearchResult[] {
+  search(query: string) {
     const raw = this.engine.search(query);
     return raw;
   }

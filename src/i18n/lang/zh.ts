@@ -1747,6 +1747,7 @@ let po = {
     extermination: "歼灭",
     orokinSabotage: "虚空破坏",
     disruption: "中断",
+    skirmish: "前哨战",
     lith: "古纪",
     axi: "后纪",
     meso: "前纪",
