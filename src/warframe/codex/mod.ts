@@ -152,8 +152,8 @@ export class NormalMod implements NormalModData {
   calcCost(polarity: string) {
     if (polarity)
       return this.type === "Aura"
-        ? Math.ceil(polarity === this.polarity ? this.cost * 2 : this.cost / 1.25)
-        : Math.round(polarity === this.polarity ? this.cost / 2 : this.cost * 1.25);
+        ? Math.ceil(polarity === "o" || polarity === this.polarity ? this.cost * 2 : this.cost / 1.25)
+        : Math.round(polarity === "o" || polarity === this.polarity ? this.cost / 2 : this.cost * 1.25);
     else return this.cost;
   }
 

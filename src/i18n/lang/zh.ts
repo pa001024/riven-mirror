@@ -1259,6 +1259,10 @@ let po = {
     shedu: "舍杜",
     basmu: "巴什穆",
     corinthPrime: "科林斯 Prime",
+    stahlta: "钢刃步枪",
+    stropha: "诡计之刃",
+    velox: "逐电",
+    xoris: "驱魔之刃",
 
     none: "无",
     balla: "宝拉",
@@ -1310,6 +1314,10 @@ let po = {
     ramble: "漫游",
     lovetap: "爱击",
     haymaker: "重拳",
+    brash: "急躁",
+    shrewd: "精明",
+    steadyslam: "稳击",
+    tremor: "震颤",
 
     flutterfire: "激火",
     ramflare: "猛光",
@@ -1326,7 +1334,7 @@ let po = {
     bashrack: "狂虐",
     stitch: "穿纫",
     killstream: "连杀",
-    splat: "溅击", // "brash": "急躁",    // "shrewd": "精明",
+    splat: "溅击",
 
     raplakPrism: "拉普拉克棱镜",
     shwaakPrism: "施瓦克棱镜",

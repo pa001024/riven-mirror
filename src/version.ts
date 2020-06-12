@@ -1,12 +1,12 @@
 export const magic = "ALPHA";
-export const version = "1.9.0";
+export const version = "1.9.1";
 export const updateLogs = [
   {
-    version: "1.9.0",
-    date: "2019/3/6",
+    version: "1.9.1",
+    date: "2019/6/12",
     md: {
-      en: `- updateing...`,
-      cn: `- 更新中...`,
+      en: `- primary kitgun`,
+      cn: `- 主武器组合枪`,
     },
   },
   {

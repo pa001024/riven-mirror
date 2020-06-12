@@ -1,18 +1,18 @@
 <template>
-  <div class="mod-slot leveled" :class="[mod && mod.rarity, { active: !mod , leveled }]" @click="mod || $emit('change')">
+  <div class="mod-slot leveled" :class="[mod && mod.rarity, { active: !mod, leveled }]" @click="mod || $emit('change')">
     <div v-if="icon" class="mod-header-icon">
-      <WfIcon :type="icon"/>
+      <WfIcon :type="icon" />
     </div>
     <template v-if="mod">
       <div class="mod-title">
-        <div class="mod-polarity" :class="costClass"><WfIcon :type="mod.polarity"/>{{cost}}</div>
-        <div class="mod-name" @click="$emit('change')">{{mod.name}}</div>
+        <div class="mod-polarity" :class="costClass"><WfIcon :type="mod.polarity" />{{ cost }}</div>
+        <div class="mod-name" @click="$emit('change')">{{ mod.name }}</div>
         <div class="mod-level"><el-input-number size="mini" @change="$emit('level')" v-model="mod.level" :min="0" :max="mod.maxLevel"></el-input-number></div>
       </div>
       <div class="mod-detail" @click.stop="$emit('remove')">
         <div class="mod-stat">
-          <div class="mod-prop" v-for="prop in mod.vProps" :key="prop.id">{{prop.fullName}}</div>
-          <div class="mod-sum" v-if="modValue">{{modValue}}% {{$t("build.total")}}</div>
+          <div class="mod-prop" v-for="prop in mod.vProps" :key="prop.id">{{ prop.fullName }}</div>
+          <div class="mod-sum" v-if="modValue">{{ modValue }}% {{ $t("build.total") }}</div>
         </div>
         <div class="mod-action">
           <button type="button" class="mod-slot-remove">
@@ -22,7 +22,7 @@
       </div>
     </template>
     <template v-else>
-      <WfIcon v-if="polarization" class="icon-plus-btn" :type="polarization"/>
+      <WfIcon v-if="polarization" class="icon-plus-btn" :type="polarization" />
       <i v-else class="icon-plus-btn el-icon-plus"></i>
     </template>
   </div>
@@ -35,11 +35,11 @@ import "@/less/modslot.less";
 
 @Component
 export default class LeveledModSlot extends Vue {
-  @Prop() mod: NormalMod
-  @Prop() build: WarframeBuild
-  @Prop() polarization: string
-  @Prop({ type: Boolean }) leveled: boolean
-  @Prop() icon: string
+  @Prop() mod: NormalMod;
+  @Prop() build: WarframeBuild;
+  @Prop() polarization: string;
+  @Prop({ type: Boolean }) leveled: boolean;
+  @Prop() icon: string;
 
   get modValue() {
     if (!this.build.modValue) return 0;
@@ -55,8 +55,10 @@ export default class LeveledModSlot extends Vue {
   }
 
   get costClass() {
-    return { 'np': this.mod.polarity === this.polarization, 'wp': this.polarization && this.mod.polarity !== this.polarization };
+    return {
+      np: this.polarization === "o" || this.mod.polarity === this.polarization,
+      wp: this.polarization && this.polarization !== "o" && this.mod.polarity !== this.polarization,
+    };
   }
 }
-
 </script>

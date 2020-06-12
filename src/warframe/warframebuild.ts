@@ -927,7 +927,7 @@ export class WarframeBuild implements CommonBuild {
       const pol = mods[modIndex].polarity;
       // aura
       if (modIndex === 0) {
-        if (this._auraPol !== pol) {
+        if (this._auraPol !== "0" && this._auraPol !== pol) {
           this._auraPol = pol;
           ++this._formaCount;
         }

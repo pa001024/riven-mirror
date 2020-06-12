@@ -32,6 +32,7 @@
             {{$t(`messages.${item.id}`)}}
           </div>
           <div class="prop">
+            <span>{{$t(`tags.${loadGrip(item).type.toLowerCase()}`)}}</span>
             <span>{{+(loadGrip(item).fireRate/60).toFixed(3)}} {{$t(`modular.fireRate`)}}</span>
             <span>{{loadGrip(item).dmgAdd >= 0 ? "+" : ""}}{{loadGrip(item).dmgAdd}} {{$t(`modular.damage`)}}</span>
           </div>
@@ -83,7 +84,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { KitgunChamberData, KitgunGripData, KitgunLoaderData, KitgunChamber, KitgunGrip, KitgunLoader, Kitgun } from "@/warframe/codex";
+import { KitgunChamberData, KitgunGripData, KitgunLoaderData, KitgunChamber, KitgunGrip, KitgunLoader, Kitgun, MainTag } from "@/warframe/codex";
 import "@/less/modular.less";
 
 @Component
@@ -97,6 +98,7 @@ export default class extends Vue {
   loader: KitgunLoader = null;
 
   get kitgun() { return new Kitgun(this.chamber, this.grip, this.loader); }
+  get type() { return MainTag[this.kitgun.tags.mainTag]; }
 
   loadGrip(grip: KitgunGrip) { return Kitgun.loadGrip(this.chamber, grip); }
   loadLoader(loader: KitgunLoader) { return Kitgun.loadLoader(this.chamber, loader); }
@@ -105,6 +107,4 @@ export default class extends Vue {
     this.$emit("finish", this.kitgun);
   }
 }
-
 </script>
-

@@ -167,7 +167,6 @@ export default class ModSelector extends Vue {
   get fast() {
     let mod = this.type === "Weapon" ? this.build.type : this.type;
     if (mod === "Zaw") mod = "Melee";
-    if (mod === "Kitgun") mod = "Secondary";
     return this.fastSelect[mod] && _.map(this.fastSelect[mod], (v, i) => ({ name: i, id: v }));
   }
   get allowedTypes() {

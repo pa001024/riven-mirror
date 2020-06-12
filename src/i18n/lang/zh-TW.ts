@@ -1259,6 +1259,10 @@ let po = {
     shedu: "舍杜",
     basmu: "巴什穆",
     corinthPrime: "科林斯 Prime",
+    stahlta: "鋼刃步槍",
+    stropha: "詭計之刃",
+    velox: "逐電",
+    xoris: "驅魔之刃",
 
     none: "無",
     balla: "寶拉",
@@ -1310,6 +1314,10 @@ let po = {
     ramble: "漫遊",
     lovetap: "愛擊",
     haymaker: "重拳",
+    brash: "急躁",
+    shrewd: "精明",
+    steadyslam: "穩擊",
+    tremor: "震顫",
 
     flutterfire: "激火",
     ramflare: "猛光",
