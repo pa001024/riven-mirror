@@ -232,7 +232,10 @@ export class Kitgun extends Weapon {
         }
         break;
       case "Gaze":
-        mode.range = [41, 38, 25, 22][this.grip.index];
+        if (this.grip.type === "Secondary")
+          mode.range = [41, 38, 25, 22][this.grip.index];
+        else
+          mode.range = [20, 17, 14, 11][this.grip.index];
         break;
     }
     this.modes = [mode];

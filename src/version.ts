@@ -3,7 +3,7 @@ export const version = "1.9.1";
 export const updateLogs = [
   {
     version: "1.9.1",
-    date: "2019/6/12",
+    date: "2020/6/12",
     md: {
       en: `- primary kitgun`,
       cn: `- 主武器组合枪`,

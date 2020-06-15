@@ -1037,6 +1037,7 @@ export abstract class ModBuild implements CommonBuild {
     this.standaloneElements = [];
     this._voidConvs = [];
     this._absExtra = [];
+    this._relExtra = [];
     this._physicalConv = [];
     if (this.baseId === "Knell") this._procChanceAdd = 60;
   }
