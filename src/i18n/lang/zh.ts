@@ -1263,6 +1263,7 @@ let po = {
     stropha: "诡计之刃",
     velox: "逐电",
     xoris: "驱魔之刃",
+    helstrum: "赫尔斯壮",
 
     none: "无",
     balla: "宝拉",
