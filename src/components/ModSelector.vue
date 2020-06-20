@@ -2,48 +2,48 @@
   <el-tabs class="mod-tabs" v-model="selectTab">
     <!-- 快速选择 -->
     <el-tab-pane name="fast" v-if="fast">
-      <span slot="label" class="mod-tablabel">{{$t("modselector.fastSelect")}}</span>
+      <span slot="label" class="mod-tablabel">{{ $t("modselector.fastSelect") }}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in fast" :key="index">
           <div class="mod-item" @click="handleClick(mod.id)">
-            {{$t(`modselector.fast.${mod.name}`)}}
+            {{ $t(`modselector.fast.${mod.name}`) }}
           </div>
         </div>
       </div>
     </el-tab-pane>
     <!-- 普通MOD -->
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
-      <span slot="label" class="mod-tablabel">{{tab.name}}</span>
+      <span slot="label" class="mod-tablabel">{{ tab.name }}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in tab.mods" :key="index">
           <div class="mod-item" :class="[mod.rarity]" @click="handleClick(mod.id)">
-            <WfIcon v-if="mod.elemType" :type="mod.elemType.toLowerCase()"/>
-            {{mod.name}}
+            <WfIcon v-if="mod.elemType" :type="mod.elemType.toLowerCase()" />
+            {{ mod.name }}
           </div>
         </div>
       </div>
     </el-tab-pane>
     <!-- 紫卡 -->
     <el-tab-pane name="riven" v-if="isWeaponBuild && !isCompanion && (isVirtual || !isExalted)">
-      <span slot="label" class="mod-tablabel">{{$t("modselector.rivenMod")}}</span>
+      <span slot="label" class="mod-tablabel">{{ $t("modselector.rivenMod") }}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(hiRiven, index) in modHistoty" :key="index">
           <div class="mod-item" @click="newRiven(hiRiven.qrCodeBase64)">
-            {{hiRiven.fullLocName}}
+            {{ hiRiven.fullLocName }}
           </div>
         </div>
       </div>
-      <div style="margin: 8px;">{{$t("modselector.createRiven")}}</div>
+      <div style="margin: 8px;">{{ $t("modselector.createRiven") }}</div>
       <RivenEditor style="margin: 8px;" v-model="editorRivenCode" :weapon="!isVirtual && isWeaponBuild"></RivenEditor>
       <div style="text-align: right; margin: 0">
-        <el-button type="primary" size="medium" @click="newRiven()">{{$t("modselector.ok")}}</el-button>
+        <el-button type="primary" size="medium" @click="newRiven()">{{ $t("modselector.ok") }}</el-button>
       </div>
     </el-tab-pane>
   </el-tabs>
 </template>
 
 <script lang="ts">
-import _ from "lodash";
+import { compact, map } from "lodash-es";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import RivenEditor from "@/components/RivenEditor.vue";
 import { Getter } from "vuex-class";
@@ -167,7 +167,7 @@ export default class ModSelector extends Vue {
   get fast() {
     let mod = this.type === "Weapon" ? this.build.type : this.type;
     if (mod === "Zaw") mod = "Melee";
-    return this.fastSelect[mod] && _.map(this.fastSelect[mod], (v, i) => ({ name: i, id: v }));
+    return this.fastSelect[mod] && map(this.fastSelect[mod], (v, i) => ({ name: i, id: v }));
   }
   get allowedTypes() {
     if (this.build.tags.includes("Warframe")) {
@@ -183,9 +183,9 @@ export default class ModSelector extends Vue {
     riven.qrCodeBase64 = code || this.editorRivenCode;
     if (!this.isVirtual && riven.name !== this.build.baseId)
       this.$confirm(this.$t("modselector.weaponWarnTip") as string, this.$t("modselector.weaponWarn") as string, { type: "warning" }).then(() => {
-        this.$emit("command", riven.normalMod(this.build['weapon']));
+        this.$emit("command", riven.normalMod(this.build["weapon"]));
       });
-    else this.$emit("command", riven.normalMod(this.build['weapon']));
+    else this.$emit("command", riven.normalMod(this.build["weapon"]));
   }
 
   @Watch("build")
@@ -194,7 +194,7 @@ export default class ModSelector extends Vue {
   reload() {
     console.log("fast", this.build.type, (this.build as any).weapon);
 
-    let selected = _.compact(this.build.allMods || this.build.mods);
+    let selected = compact(this.build.allMods || this.build.mods);
     let mods = [];
     if (this.type === "Weapon") {
       const { isVirtual, isExalted } = this;
@@ -319,7 +319,7 @@ export default class ModSelector extends Vue {
   handleClick(id: string | string[]) {
     if (typeof id === "string") this.$emit("command", Codex.getNormalMod(id));
     else {
-      let selected = _.compact(this.build.allMods || this.build.mods);
+      let selected = compact(this.build.allMods || this.build.mods);
       let mods =
         this.type === "Weapon"
           ? NormalModDatabase.filter(

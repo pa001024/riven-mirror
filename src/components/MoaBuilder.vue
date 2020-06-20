@@ -94,7 +94,7 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
+import { camelCase } from "lodash-es";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import "@/less/modular.less";
 import { Moa, MoaModel, MoaCore, MoaGyro, MoaBracket, MoaModelData, MoaCoreData, MoaGyroData, MoaBracketData } from "@/warframe/codex/moa";
@@ -121,7 +121,7 @@ export default class extends Vue {
   }
 
   translateMod(mod: string) {
-    return this.$t(`messages.${_.camelCase(mod)}`);
+    return this.$t(`messages.${camelCase(mod)}`);
   }
   renderProp(prop: number) {
     return (prop >= 0 ? "+" : "") + prop * 2.5 + "%";

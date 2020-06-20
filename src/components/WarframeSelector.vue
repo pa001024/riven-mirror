@@ -1,51 +1,50 @@
 <template>
   <el-tabs class="warframe-tabs" v-model="classType">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
-      <span slot="label" class="warframe-tablabel">{{$t(`warframeselector.${tab.name}`)}}</span>
+      <span slot="label" class="warframe-tablabel">{{ $t(`warframeselector.${tab.name}`) }}</span>
       <div class="warframe-select">
         <div v-for="wfClass in tab.warframes" class="warframe-item-container" :key="wfClass.id">
           <el-dropdown v-if="wfClass.warframes.length > 1" trigger="click" @command="handleCommand" placement="bottom-start">
             <div class="warframe-item">
-              {{wfClass.name}}
+              {{ wfClass.name }}
             </div>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="warframe in wfClass.warframes" :key="warframe.id" :command="warframe.id">{{warframe.name}}</el-dropdown-item>
+              <el-dropdown-item v-for="warframe in wfClass.warframes" :key="warframe.id" :command="warframe.id">{{ warframe.name }}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <div v-else class="warframe-item el-dropdown" @click="handleClick(wfClass.id)">
-            {{wfClass.name}}
+            {{ wfClass.name }}
           </div>
         </div>
       </div>
     </el-tab-pane>
     <el-tab-pane name="Companion">
-      <span slot="label" class="warframe-tablabel">{{$t(`warframeselector.companion`)}}</span>
+      <span slot="label" class="warframe-tablabel">{{ $t(`warframeselector.companion`) }}</span>
       <div class="warframe-select">
         <div v-for="wfClass in companions" class="warframe-item-container" :key="wfClass.id">
           <el-dropdown v-if="wfClass.companions.length > 1" trigger="click" @command="handleCommandCompanion" placement="bottom-start">
             <div class="warframe-item">
-              {{wfClass.name}}
+              {{ wfClass.name }}
             </div>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="warframe in wfClass.companions" :key="warframe.id" :command="warframe.id">{{warframe.name}}</el-dropdown-item>
+              <el-dropdown-item v-for="warframe in wfClass.companions" :key="warframe.id" :command="warframe.id">{{ warframe.name }}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <div v-else class="warframe-item el-dropdown" @click="handleClickCompanion(wfClass.id)">
-            {{wfClass.name}}
+            {{ wfClass.name }}
           </div>
         </div>
       </div>
     </el-tab-pane>
     <el-tab-pane name="MOA" lazy>
-      <span slot="label" class="warframe-tablabel">{{$t('moa.title')}}</span>
-      <MoaBuilder @finish="newMOA">
-      </MoaBuilder>
+      <span slot="label" class="warframe-tablabel">{{ $t("moa.title") }}</span>
+      <MoaBuilder @finish="newMOA" />
     </el-tab-pane>
   </el-tabs>
 </template>
 
 <script lang="ts">
-import _ from "lodash";
+import { map } from "lodash-es";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { Warframe, WarframeDataBase } from "@/warframe/codex";
 import { CompanionDataBase, Companion } from "@/warframe/companionbuild";
@@ -69,7 +68,7 @@ const AllTabs = {
   // Companion: "companion", // 同伴
 };
 
-@Component({ components: {MoaBuilder} })
+@Component({ components: { MoaBuilder } })
 export default class extends Vue {
   // classType = "All";
   get classType() {
@@ -83,7 +82,7 @@ export default class extends Vue {
   companions: Companion[] = [];
 
   beforeMount() {
-    this.tabs = _.map(AllTabs, (name, id) => ({ id, name, warframes: WarframeDataBase[id] }));
+    this.tabs = map(AllTabs, (name, id) => ({ id, name, warframes: WarframeDataBase[id] }));
     this.companions = CompanionDataBase.All;
   }
   handleCommand(id: string) {
@@ -144,4 +143,3 @@ export default class extends Vue {
   border-color: transparent;
 }
 </style>
-

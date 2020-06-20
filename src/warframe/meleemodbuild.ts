@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { compact } from "lodash-es";
 import { Enemy, NormalModDatabase, NormalMod, Weapon } from "./codex";
 import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
@@ -453,7 +453,7 @@ export class MeleeModBuild extends ModBuild {
   fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
     const rangeMod = this.avaliableMods.find(v => v.id === "Primed Reach");
     const comboMod = this.avaliableMods.find(v => v.id === "Drifting Contact");
-    let mods = (this._mods = _.compact(this._mods));
+    let mods = (this._mods = compact(this._mods));
     if (useRiven == 2) this.applyMod(this.riven.normalMod(this.weapon)); // 1. 将紫卡直接插入
     if (this.requireRange && rangeMod && !mods.some(v => v.id === rangeMod.id) && (useRiven === 0 || !this.riven.shortSubfix.includes("T")))
       this.applyMod(rangeMod);

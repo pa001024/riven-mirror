@@ -2,7 +2,7 @@ import Fuse from "fuse.js";
 import { WeaponDatabase, NormalModDatabase, WarframeDataBase } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import pinyin from "./pinyin";
-import _ from "lodash";
+import { camelCase } from "lodash-es";
 import { CompanionDataBase } from "@/warframe/companionbuild";
 
 /**
@@ -76,7 +76,7 @@ export class SearchEngine {
             // decs:"",
             tags: weapon.tags.toArray().map(v => {
               tagSet.add(v);
-              return i18n.t(`tags.${_.camelCase(v)}`);
+              return i18n.t(`tags.${camelCase(v)}`);
             }),
           } as SearchResult;
           // 中文优化
@@ -84,15 +84,15 @@ export class SearchEngine {
             entity.pinyin = pinyin.getCamelChars(entity.name);
           }
           // 黑话
-          if (i18n.locale.startsWith("zh") && i18n.te(`alias.${_.camelCase(weapon.name)}`)) {
-            entity.alias = i18n.t(`alias.${_.camelCase(weapon.name)}`).split(",");
+          if (i18n.locale.startsWith("zh") && i18n.te(`alias.${camelCase(weapon.name)}`)) {
+            entity.alias = i18n.t(`alias.${camelCase(weapon.name)}`).split(",");
           }
           return entity;
         })
       );
       // console.log(
       //   Array.from(tagSet)
-      //     .map(v => `"${_.camelCase(v)}":"${v}",`)
+      //     .map(v => `"${camelCase(v)}":"${v}",`)
       //     .join("\n")
       // );
     }
@@ -123,7 +123,7 @@ export class SearchEngine {
       );
       // console.log(
       //   Array.from(propSet)
-      //     .map(v => `"${_.camelCase(v)}":"${v}",`)
+      //     .map(v => `"${camelCase(v)}":"${v}",`)
       //     .join("\n")
       // );
     }
@@ -136,11 +136,11 @@ export class SearchEngine {
             name: wf.name,
             type: "search.wf",
             // decs: ""
-            tags: wf.tags.map(v => i18n.t(`tags.${_.camelCase(v)}`)),
+            tags: wf.tags.map(v => i18n.t(`tags.${camelCase(v)}`)),
           } as SearchResult;
           // 黑话
-          if (i18n.locale.startsWith("zh") && i18n.te(`alias.${_.camelCase(wf.id)}`)) {
-            entity.alias = i18n.t(`alias.${_.camelCase(wf.id)}`).split(",");
+          if (i18n.locale.startsWith("zh") && i18n.te(`alias.${camelCase(wf.id)}`)) {
+            entity.alias = i18n.t(`alias.${camelCase(wf.id)}`).split(",");
           }
           return entity;
         })
@@ -155,11 +155,11 @@ export class SearchEngine {
             name: comp.name,
             type: "search.comp",
             // decs: ""
-            tags: comp.tags.filter(v => i18n.te(`tags.${_.camelCase(v)}`)).map(v => i18n.t(`tags.${_.camelCase(v)}`)),
+            tags: comp.tags.filter(v => i18n.te(`tags.${camelCase(v)}`)).map(v => i18n.t(`tags.${camelCase(v)}`)),
           } as SearchResult;
           // 黑话
-          if (i18n.locale.startsWith("zh") && i18n.te(`alias.${_.camelCase(comp.id)}`)) {
-            entity.alias = i18n.t(`alias.${_.camelCase(comp.id)}`).split(",");
+          if (i18n.locale.startsWith("zh") && i18n.te(`alias.${camelCase(comp.id)}`)) {
+            entity.alias = i18n.t(`alias.${camelCase(comp.id)}`).split(",");
           }
           return entity;
         })

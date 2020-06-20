@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { groupBy, map } from "lodash-es";
 /**
  * 色板类
  */
@@ -795,8 +795,8 @@ export class ColorHelper {
    */
   static searchPalette(color: string | Color, deltaE: number = 50) {
     let colors = this.searchColor(color, deltaE);
-    let ps = _.groupBy(colors, v => v.id);
-    return _.map(ps, (info, id) => new MatchedPalette(this.getPalette(id), info));
+    let ps = groupBy(colors, v => v.id);
+    return map(ps, (info, id) => new MatchedPalette(this.getPalette(id), info));
   }
 
   /**

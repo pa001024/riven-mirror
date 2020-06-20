@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { camelCase } from "lodash-es";
 import { i18n } from "@/i18n";
 import { Companion } from "./companion";
 
@@ -82,14 +82,14 @@ const _moaBracket = [
 export const MoaModelData: MoaModel[] = _moaModel.map(v => ({
   index: v[0],
   name: v[1],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   mat: v[2],
   mods: v[3],
 }));
 export const MoaCoreData: MoaCore[] = _moaCore.map(v => ({
   index: v[0],
   name: v[1],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   mat: v[2],
   health: v[3],
   shield: v[4],
@@ -98,7 +98,7 @@ export const MoaCoreData: MoaCore[] = _moaCore.map(v => ({
 export const MoaGyroData: MoaGyro[] = _moaGyro.map(v => ({
   index: v[0],
   name: v[1],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   mat: v[2],
   health: v[3],
   shield: v[4],
@@ -107,7 +107,7 @@ export const MoaGyroData: MoaGyro[] = _moaGyro.map(v => ({
 export const MoaBracketData: MoaBracket[] = _moaBracket.map(v => ({
   index: v[0],
   name: v[1],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   polarities: v[2],
 }));
 
@@ -170,7 +170,7 @@ export class Moa extends Companion {
     this.polarities = this.bracket && this.bracket.polarities ? this.bracket.polarities.split("") : [];
   }
   get displayName() {
-    if (this.model) return i18n.t(`messages.${_.camelCase(this.model.name)}`);
+    if (this.model) return i18n.t(`messages.${camelCase(this.model.name)}`);
     else return "MOA";
   }
 }

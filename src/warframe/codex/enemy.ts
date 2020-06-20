@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { camelCase } from "lodash-es";
 import { hAccSum } from "../util";
 import { i18n } from "@/i18n";
 
@@ -130,7 +130,7 @@ export interface IEnemyData {
 export class EnemyData implements IEnemyData {
   id: string;
   get name() {
-    const key = `enemy.names.${_.camelCase(this.id)}`;
+    const key = `enemy.names.${camelCase(this.id)}`;
     return i18n.te(key) ? i18n.t(key) : this.id;
   }
   faction: EnemyFaction;
@@ -315,7 +315,7 @@ export interface IDamageModelData {
 export class DamageModelData implements IDamageModelData {
   id: string;
   get name() {
-    const key = `enemy.models.${_.camelCase(this.id)}`;
+    const key = `enemy.models.${camelCase(this.id)}`;
     return i18n.te(key) ? i18n.t(key) : this.id;
   }
   faction?: EnemyFaction;

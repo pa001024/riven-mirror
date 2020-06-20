@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { assign, merge } from "lodash-es";
 import Vue from "vue";
 import VueI18n from "vue-i18n";
 
@@ -75,7 +75,7 @@ const dateTimeFormats = {
 };
 
 // 配置
-const en = _.assign(elLang_en, lang_en);
+const en = assign(elLang_en, lang_en);
 
 export const vi18n = new VueI18n({
   dateTimeFormats,
@@ -99,19 +99,19 @@ export async function changeLocale(locale: string) {
     case "zh-CN":
     case "zh-SG":
       let { default: zh } = await import(/* webpackChunkName: "lang-zh" */ "./lang/zh");
-      const chs = _.assign(elLang_zh, zh);
+      const chs = assign(elLang_zh, zh);
       vi18n.setLocaleMessage(locale, chs);
       break;
     case "zh-CY":
       let [{ default: zh2 }, { default: zhCY }] = await Promise.all([import(/* webpackChunkName: "lang-zh" */ "./lang/zh"), import(/* webpackChunkName: "lang-zhCY" */ "./lang/zh-CY")]);
-      const chCY = _.merge({}, elLang_zh, zh2, zhCY);
+      const chCY = merge({}, elLang_zh, zh2, zhCY);
       vi18n.setLocaleMessage(locale, chCY);
       break;
     case "zh-TW":
     case "zh-HK":
     case "zh-MO":
       let { default: zhTW } = await import(/* webpackChunkName: "lang-zhTW" */ "./lang/zh-TW");
-      const cht = _.assign(elLang_zhTW, zhTW);
+      const cht = assign(elLang_zhTW, zhTW);
       vi18n.setLocaleMessage(locale, cht);
       break;
     default:

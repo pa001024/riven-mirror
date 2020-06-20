@@ -648,6 +648,7 @@ const data = [
   ["T7", "Automatic Trigger", [["R", 10]], Archgun, "r", "r", 10],
   ["T8", "Dual Rounds", [["S", 10]], Archgun, "r", "r", 6],
   ["T9", "Rubedo-Lined Barrel", [["D", 100 / 6]], Archgun, "r", "c", 6],
+  ["T9", "Primed Rubedo-Lined Barrel", [["D", 17]], Archgun, "r", "c", 6, 10],
   ["TA", "Hollowed Bullets", [["1", 20]], Archgun, "r", "r", 4, 3],
   ["TB", "Parallax Scope", [["0", 25]], Archgun, "-", "n", 4, 3],
   ["TC", "Critical Focus", [["cd", 10]], Archgun, "r", "r", 6],

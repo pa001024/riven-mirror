@@ -1,6 +1,5 @@
-import _ from "lodash";
+import { maxBy, max } from "lodash-es";
 import { strSimilarity } from "../util";
-import { i18n } from "@/i18n";
 import { _rivenDataBaseWeapons } from "./riven.data";
 
 /**MOD上的裂罅属性 */
@@ -331,7 +330,7 @@ export class RivenDatabase {
    */
   static findMostSimProp(prop: string) {
     if (this.hasProp(name)) return RivenPropertyDataBase.all[this.instance.propDict.get(name)];
-    let propFinded = _.maxBy(RivenPropertyDataBase.all, v => _.max([strSimilarity(prop, v.eName), strSimilarity(prop, v.name)]));
+    let propFinded = maxBy(RivenPropertyDataBase.all, v => max([strSimilarity(prop, v.eName), strSimilarity(prop, v.name)]));
     return propFinded;
   }
   /**

@@ -1,16 +1,16 @@
 <template>
   <div class="visual-skill-container">
     <div class="name">
-      <a :href="id !== name ? huijiURL : wikiaURL" target="_blank" rel="noopener noreferrer">{{name}}</a>
+      <a :href="id !== name ? huijiURL : wikiaURL" target="_blank" rel="noopener noreferrer">{{ name }}</a>
       <a style="margin-left: 8px;font-size: 9pt;" :href="huijiURLraw" target="wiki">[raw]</a>
     </div>
     <div class="id">
-      <a :href="wikiaURL" target="_blank" rel="noopener noreferrer">{{id}}</a>
+      <a :href="wikiaURL" target="_blank" rel="noopener noreferrer">{{ id }}</a>
     </div>
     <div class="common">
       <el-form label-width="60px" size="small">
         <el-form-item :label="$t('ability.base')">
-          <el-checkbox v-model="oneHand" :label="$t('ability.oneHand')"/>
+          <el-checkbox v-model="oneHand" :label="$t('ability.oneHand')" />
         </el-form-item>
         <el-form-item :label="$t('ability.type')">
           <el-checkbox-group v-model="tags">
@@ -26,108 +26,117 @@
     </div>
     <div class="props">
       <!-- damage -->
-      <el-checkbox border size="large" class="prop-header" v-model="hasDamage" :label="$t('ability.effects.damage')"/>
+      <el-checkbox border size="large" class="prop-header" v-model="hasDamage" :label="$t('ability.effects.damage')" />
       <el-form v-if="hasDamage" class="prop damage" label-width="80px" size="small">
-        <DamageItem :bind="damage" keyName="damage" required/>
-        <DamageItem :bind="damage" keyName="rangeDamage"/>
-        <NumberItem :bind="damage" keyName="duration"/>
-        <NumberItem :bind="damage" keyName="tick"/>
-        <NumberItem :bind="damage" keyName="amount"/>
-        <NumberItem :bind="damage" keyName="angel"/>
-        <NumberItem :bind="damage" keyName="range"/>
-        <NumberItem :bind="damage" keyName="distance"/>
-        <NumberItem :bind="damage" keyName="prjSpeed"/>
+        <DamageItem :bind="damage" keyName="damage" required />
+        <DamageItem :bind="damage" keyName="rangeDamage" />
+        <NumberItem :bind="damage" keyName="duration" />
+        <NumberItem :bind="damage" keyName="tick" />
+        <NumberItem :bind="damage" keyName="amount" />
+        <NumberItem :bind="damage" keyName="angel" />
+        <NumberItem :bind="damage" keyName="range" />
+        <NumberItem :bind="damage" keyName="distance" />
+        <NumberItem :bind="damage" keyName="prjSpeed" />
         <CommonItem :bind="damage" keyName="affectBy" :defaultValue="0">
           <el-select v-model="damage.affectBy" placeholder="请选择">
-            <el-option label="主武器" :value="0"/>
-            <el-option label="副武器" :value="1"/>
-            <el-option label="近战" :value="2"/>
+            <el-option label="主武器" :value="0" />
+            <el-option label="副武器" :value="1" />
+            <el-option label="近战" :value="2" />
           </el-select>
         </CommonItem>
       </el-form>
       <!-- buff -->
-      <el-checkbox border size="large" class="prop-header" v-model="hasBuff" :label="$t('ability.effects.buff')"/>
+      <el-checkbox border size="large" class="prop-header" v-model="hasBuff" :label="$t('ability.effects.buff')" />
       <el-form v-if="hasBuff" class="prop buff" label-width="80px" size="small">
-        <TargetItem :bind="buff" keyName="target"/>
-        <TextItem   :bind="buff" keyName="desc"/>
-        <EffectItem :bind="buff" keyName="effect"/>
-        <NumberItem :bind="buff" keyName="duration"/>
-        <NumberItem :bind="buff" keyName="angel"/>
-        <NumberItem :bind="buff" keyName="range"/>
-        <NumberItem :bind="buff" keyName="distance"/>
+        <TargetItem :bind="buff" keyName="target" />
+        <TextItem :bind="buff" keyName="desc" />
+        <EffectItem :bind="buff" keyName="effect" />
+        <NumberItem :bind="buff" keyName="duration" />
+        <NumberItem :bind="buff" keyName="angel" />
+        <NumberItem :bind="buff" keyName="range" />
+        <NumberItem :bind="buff" keyName="distance" />
       </el-form>
       <!-- debuff -->
-      <el-checkbox border size="large" class="prop-header" v-model="hasDebuff" :label="$t('ability.effects.debuff')"/>
+      <el-checkbox border size="large" class="prop-header" v-model="hasDebuff" :label="$t('ability.effects.debuff')" />
       <el-form v-if="hasDebuff" class="prop debuff" label-width="80px" size="small">
-        <TargetItem :bind="debuff" keyName="target"/>
-        <TextItem   :bind="debuff" keyName="desc"/>
-        <EffectItem :bind="debuff" keyName="effect"/>
-        <NumberItem :bind="debuff" keyName="duration"/>
-        <NumberItem :bind="debuff" keyName="angel"/>
-        <NumberItem :bind="debuff" keyName="range"/>
-        <NumberItem :bind="debuff" keyName="distance"/>
+        <TargetItem :bind="debuff" keyName="target" />
+        <TextItem :bind="debuff" keyName="desc" />
+        <EffectItem :bind="debuff" keyName="effect" />
+        <NumberItem :bind="debuff" keyName="duration" />
+        <NumberItem :bind="debuff" keyName="angel" />
+        <NumberItem :bind="debuff" keyName="range" />
+        <NumberItem :bind="debuff" keyName="distance" />
       </el-form>
       <!-- summon -->
-      <el-checkbox border size="large" class="prop-header" v-model="hasSummon" :label="$t('ability.effects.summon')"/>
+      <el-checkbox border size="large" class="prop-header" v-model="hasSummon" :label="$t('ability.effects.summon')" />
       <el-form v-if="hasSummon" class="prop summon" label-width="80px" size="small">
-        <NumberItem :bind="summon" keyName="health"/>
-        <NumberItem :bind="summon" keyName="duration"/>
-        <NumberItem :bind="summon" keyName="distance"/>
-        <NumberItem :bind="summon" keyName="range"/>
-        <DamageItem :bind="summon" keyName="damage"/>
-        <DamageItem :bind="summon" keyName="rangeDamage"/>
+        <NumberItem :bind="summon" keyName="health" />
+        <NumberItem :bind="summon" keyName="duration" />
+        <NumberItem :bind="summon" keyName="distance" />
+        <NumberItem :bind="summon" keyName="range" />
+        <DamageItem :bind="summon" keyName="damage" />
+        <DamageItem :bind="summon" keyName="rangeDamage" />
       </el-form>
       <!-- damageReduce -->
-      <el-checkbox border size="large" class="prop-header" v-model="hasDamageReduce" :label="$t('ability.effects.damageReduce')"/>
+      <el-checkbox border size="large" class="prop-header" v-model="hasDamageReduce" :label="$t('ability.effects.damageReduce')" />
       <el-form v-if="hasDamageReduce" class="prop damageReduce" label-width="80px" size="small">
-        <NumberItem :bind="damageReduce" keyName="durability"/>
-        <NumberItem :bind="damageReduce" keyName="rate"/>
-        <NumberItem :bind="damageReduce" keyName="times"/>
-        <TargetItem :bind="damageReduce" keyName="target"/>
+        <NumberItem :bind="damageReduce" keyName="durability" />
+        <NumberItem :bind="damageReduce" keyName="rate" />
+        <NumberItem :bind="damageReduce" keyName="times" />
+        <TargetItem :bind="damageReduce" keyName="target" />
       </el-form>
       <!-- control -->
-      <el-checkbox border size="large" class="prop-header" v-model="hasControl" :label="$t('ability.effects.control')"/>
+      <el-checkbox border size="large" class="prop-header" v-model="hasControl" :label="$t('ability.effects.control')" />
       <el-form v-if="hasControl" class="prop control" label-width="80px" size="small">
-        <NumberItem :bind="control" keyName="duration"/>
-        <NumberItem :bind="control" keyName="angel"/>
-        <NumberItem :bind="control" keyName="range"/>
-        <NumberItem :bind="control" keyName="distance"/>
+        <NumberItem :bind="control" keyName="duration" />
+        <NumberItem :bind="control" keyName="angel" />
+        <NumberItem :bind="control" keyName="range" />
+        <NumberItem :bind="control" keyName="distance" />
       </el-form>
       <!-- special -->
-      <el-checkbox border size="large" class="prop-header" v-model="hasSpecial" :label="$t('ability.effects.special')"/>
+      <el-checkbox border size="large" class="prop-header" v-model="hasSpecial" :label="$t('ability.effects.special')" />
       <el-form v-if="hasSpecial" class="prop special" label-width="80px" size="small">
         <div class="special-list" v-for="(_, i) in special" :key="i">
-          <TextItem   :bind="special[i]" keyName="desc" required/>
-          <NumberItem :bind="special[i]" keyName="val"/>
-          <el-button size="small" style="margin-bottom:8px" class="" type="danger" icon="el-icon-delete" @click="special.splice(i,1)">删除效果</el-button>
+          <TextItem :bind="special[i]" keyName="desc" required />
+          <NumberItem :bind="special[i]" keyName="val" />
+          <el-button size="small" style="margin-bottom:8px" class="" type="danger" icon="el-icon-delete" @click="special.splice(i, 1)">删除效果</el-button>
         </div>
-        <el-button size="small" style="margin-bottom:8px" type="primary" icon="el-icon-edit" @click="special.push({desc:''})">新增效果</el-button>
+        <el-button size="small" style="margin-bottom:8px" type="primary" icon="el-icon-edit" @click="special.push({ desc: '' })">新增效果</el-button>
       </el-form>
       <!-- move -->
-      <el-checkbox border size="large" class="prop-header" v-model="hasMove" :label="$t('ability.effects.move')"/>
+      <el-checkbox border size="large" class="prop-header" v-model="hasMove" :label="$t('ability.effects.move')" />
       <el-form v-if="hasMove" class="prop move" label-width="80px" size="small">
         <CommonItem :bind="move" keyName="directive" defaultValue="0">
           <el-select v-model="move.directive" placeholder="请选择">
-            <el-option label="非指向性" value="0"/>
-            <el-option label="非强制指向" value="1"/>
-            <el-option label="强制指向" value="2"/>
+            <el-option label="非指向性" value="0" />
+            <el-option label="非强制指向" value="1" />
+            <el-option label="强制指向" value="2" />
           </el-select>
         </CommonItem>
-        <NumberItem :bind="move" keyName="distance" required/>
+        <NumberItem :bind="move" keyName="distance" required />
       </el-form>
       <!-- exaltedWeapon -->
-      <el-checkbox border size="large" class="prop-header" v-model="hasExaltedWeapon" :label="$t('ability.effects.exaltedWeapon')"/>
+      <el-checkbox border size="large" class="prop-header" v-model="hasExaltedWeapon" :label="$t('ability.effects.exaltedWeapon')" />
       <el-form v-if="hasExaltedWeapon" class="prop exaltedWeapon" label-width="80px" size="small">
-        <TextItem   :bind="exaltedWeapon" keyName="weaponName" required/>
-        <EffectItem :bind="exaltedWeapon" keyName="effect"/>
+        <TextItem :bind="exaltedWeapon" keyName="weaponName" required />
+        <EffectItem :bind="exaltedWeapon" keyName="effect" />
       </el-form>
     </div>
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
+import { camelCase } from "lodash-es";
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
-import { AbilityProp, AbilityData, AbilityEnhance, AbilityFormData, AdvancedAbilityPropValue, AbilityType, WarframeProperty, AbilityPropTypes } from "@/warframe/codex";
+import {
+  AbilityProp,
+  AbilityData,
+  AbilityEnhance,
+  AbilityFormData,
+  AdvancedAbilityPropValue,
+  AbilityType,
+  WarframeProperty,
+  AbilityPropTypes,
+} from "@/warframe/codex";
 import AbilityPropValueEditor from "@/components/vse/AbilityPropValueEditor.vue";
 import DamageEditor from "@/components/vse/DamageEditor.vue";
 import EffectEditor from "@/components/vse/EffectEditor.vue";
@@ -141,64 +150,76 @@ import { i18n } from "@/i18n";
 
 @Component({ components: { AbilityPropValueEditor, DamageEditor, EffectEditor, CommonItem, NumberItem, DamageItem, EffectItem, TargetItem, TextItem } })
 export default class VisualSkill extends Vue {
-  @Model() abilityData: AbilityData
+  @Model() abilityData: AbilityData;
 
-  get id() { return this.abilityData.id }
+  get id() {
+    return this.abilityData.id;
+  }
   get name() {
-    const key = `skill.${_.camelCase(this.id)}`;
+    const key = `skill.${camelCase(this.id)}`;
     return i18n.te(key) ? i18n.t(key) : this.id;
   }
-  get wikiaURL() { return "https://warframe.fandom.com/wiki/" + this.id.replace(/ /g, "_"); }
-  get huijiURL() { return "https://warframe.huijiwiki.com/wiki/" + this.name; }
-  get huijiURLraw() { return "https://warframe.huijiwiki.com/index.php?action=raw&title=" + this.name; }
+  get wikiaURL() {
+    return "https://warframe.fandom.com/wiki/" + this.id.replace(/ /g, "_");
+  }
+  get huijiURL() {
+    return "https://warframe.huijiwiki.com/wiki/" + this.name;
+  }
+  get huijiURLraw() {
+    return "https://warframe.huijiwiki.com/index.php?action=raw&title=" + this.name;
+  }
 
-  get oneHand() { return this.abilityData.oneHand }
+  get oneHand() {
+    return this.abilityData.oneHand;
+  }
   set oneHand(value) {
-    this.abilityData.oneHand = value || undefined
+    this.abilityData.oneHand = value || undefined;
   }
   get tags() {
-    return Array(6).fill(1)
-      .map((_, i) => (this.abilityData.tags & 1 << i) && AbilityType[1 << i])
+    return Array(6)
+      .fill(1)
+      .map((_, i) => this.abilityData.tags & (1 << i) && AbilityType[1 << i])
       .filter(Boolean)
-      .map(v => i18n.t(`ability.types.${_.camelCase(v)}`))
+      .map(v => i18n.t(`ability.types.${camelCase(v)}`));
   }
   set tags(value) {
-    this.abilityData.tags = Array(6).fill(1)
+    this.abilityData.tags = Array(6)
+      .fill(1)
       .map((_, i) => AbilityType[1 << i])
-      .map((v, i) => value.includes(i18n.t(`ability.types.${_.camelCase(v)}`)) ? 1 << i : 0)
+      .map((v, i) => (value.includes(i18n.t(`ability.types.${camelCase(v)}`)) ? 1 << i : 0))
       .reduce((a, b) => a | b);
   }
-  get energyCost() { return this.abilityData.energyCost }
+  get energyCost() {
+    return this.abilityData.energyCost;
+  }
   set energyCost(value) {
     if (value) {
-      if (!this.abilityData.energyCost)
-        Vue.set(this.abilityData, "energyCost", value)
-      else
-        this.abilityData.energyCost = value;
+      if (!this.abilityData.energyCost) Vue.set(this.abilityData, "energyCost", value);
+      else this.abilityData.energyCost = value;
     } else if (this.abilityData.energyCost) {
-      Vue.delete(this.abilityData, "energyCost")
+      Vue.delete(this.abilityData, "energyCost");
     }
   }
-  get energyCostPS() { return this.abilityData.energyCostPS }
+  get energyCostPS() {
+    return this.abilityData.energyCostPS;
+  }
   set energyCostPS(value) {
     if (value) {
-      if (!this.abilityData.energyCostPS)
-        Vue.set(this.abilityData, "energyCostPS", value)
-      else
-        this.abilityData.energyCostPS = value;
+      if (!this.abilityData.energyCostPS) Vue.set(this.abilityData, "energyCostPS", value);
+      else this.abilityData.energyCostPS = value;
     } else if (this.abilityData.energyCostPS) {
-      Vue.delete(this.abilityData, "energyCostPS")
+      Vue.delete(this.abilityData, "energyCostPS");
     }
   }
-  get energyCostN() { return this.abilityData.energyCostN }
+  get energyCostN() {
+    return this.abilityData.energyCostN;
+  }
   set energyCostN(value) {
     if (value) {
-      if (!this.abilityData.energyCostN)
-        Vue.set(this.abilityData, "energyCostN", value)
-      else
-        this.abilityData.energyCostN = value;
+      if (!this.abilityData.energyCostN) Vue.set(this.abilityData, "energyCostN", value);
+      else this.abilityData.energyCostN = value;
     } else if (this.abilityData.energyCostN) {
-      Vue.delete(this.abilityData, "energyCostN")
+      Vue.delete(this.abilityData, "energyCostN");
     }
   }
 
@@ -209,13 +230,11 @@ export default class VisualSkill extends Vue {
     return this.abilityData.props && !!this.abilityData.props.Damage;
   }
   set hasDamage(value) {
-    if (!this.abilityData.props)
-      this.abilityData.props = {};
-    if (!value)
-      Vue.delete(this.abilityData.props, "Damage");
+    if (!this.abilityData.props) this.abilityData.props = {};
+    if (!value) Vue.delete(this.abilityData.props, "Damage");
     else if (!this.abilityData.props.Damage) {
       Vue.set(this.abilityData.props, "Damage", {});
-      Vue.set(this.damage, 'damage', []);
+      Vue.set(this.damage, "damage", []);
     }
   }
 
@@ -223,98 +242,73 @@ export default class VisualSkill extends Vue {
     return this.abilityData.props && !!this.abilityData.props.Buff;
   }
   set hasBuff(value) {
-    if (!this.abilityData.props)
-      this.abilityData.props = {};
-    if (!value)
-      Vue.delete(this.abilityData.props, "Buff");
-    else if (!this.abilityData.props.Buff)
-      Vue.set(this.abilityData.props, "Buff", {})
+    if (!this.abilityData.props) this.abilityData.props = {};
+    if (!value) Vue.delete(this.abilityData.props, "Buff");
+    else if (!this.abilityData.props.Buff) Vue.set(this.abilityData.props, "Buff", {});
   }
 
   get hasDebuff() {
     return this.abilityData.props && !!this.abilityData.props.Debuff;
   }
   set hasDebuff(value) {
-    if (!this.abilityData.props)
-      this.abilityData.props = {};
-    if (!value)
-      Vue.delete(this.abilityData.props, "Debuff");
-    else if (!this.abilityData.props.Debuff)
-      Vue.set(this.abilityData.props, "Debuff", {})
+    if (!this.abilityData.props) this.abilityData.props = {};
+    if (!value) Vue.delete(this.abilityData.props, "Debuff");
+    else if (!this.abilityData.props.Debuff) Vue.set(this.abilityData.props, "Debuff", {});
   }
 
   get hasSummon() {
     return this.abilityData.props && !!this.abilityData.props.Summon;
   }
   set hasSummon(value) {
-    if (!this.abilityData.props)
-      this.abilityData.props = {};
-    if (!value)
-      Vue.delete(this.abilityData.props, "Summon");
-    else if (!this.abilityData.props.Summon)
-      Vue.set(this.abilityData.props, "Summon", {})
+    if (!this.abilityData.props) this.abilityData.props = {};
+    if (!value) Vue.delete(this.abilityData.props, "Summon");
+    else if (!this.abilityData.props.Summon) Vue.set(this.abilityData.props, "Summon", {});
   }
 
   get hasDamageReduce() {
     return this.abilityData.props && !!this.abilityData.props.DamageReduce;
   }
   set hasDamageReduce(value) {
-    if (!this.abilityData.props)
-      this.abilityData.props = {};
-    if (!value)
-      Vue.delete(this.abilityData.props, "DamageReduce");
-    else if (!this.abilityData.props.DamageReduce)
-      Vue.set(this.abilityData.props, "DamageReduce", {})
+    if (!this.abilityData.props) this.abilityData.props = {};
+    if (!value) Vue.delete(this.abilityData.props, "DamageReduce");
+    else if (!this.abilityData.props.DamageReduce) Vue.set(this.abilityData.props, "DamageReduce", {});
   }
 
   get hasControl() {
     return this.abilityData.props && !!this.abilityData.props.Control;
   }
   set hasControl(value) {
-    if (!this.abilityData.props)
-      this.abilityData.props = {};
-    if (!value)
-      Vue.delete(this.abilityData.props, "Control");
-    else if (!this.abilityData.props.Control)
-      Vue.set(this.abilityData.props, "Control", {})
+    if (!this.abilityData.props) this.abilityData.props = {};
+    if (!value) Vue.delete(this.abilityData.props, "Control");
+    else if (!this.abilityData.props.Control) Vue.set(this.abilityData.props, "Control", {});
   }
 
   get hasSpecial() {
     return this.abilityData.props && !!this.abilityData.props.Special;
   }
   set hasSpecial(value) {
-    if (!this.abilityData.props)
-      this.abilityData.props = {};
-    if (!value)
-      Vue.delete(this.abilityData.props, "Special");
-    else if (!this.abilityData.props.Special)
-      Vue.set(this.abilityData.props, "Special", [{ desc: '' }])
+    if (!this.abilityData.props) this.abilityData.props = {};
+    if (!value) Vue.delete(this.abilityData.props, "Special");
+    else if (!this.abilityData.props.Special) Vue.set(this.abilityData.props, "Special", [{ desc: "" }]);
   }
 
   get hasMove() {
     return this.abilityData.props && !!this.abilityData.props.Move;
   }
   set hasMove(value) {
-    if (!this.abilityData.props)
-      this.abilityData.props = {};
-    if (!value)
-      Vue.delete(this.abilityData.props, "Move");
-    else if (!this.abilityData.props.Move)
-      Vue.set(this.abilityData.props, "Move", {})
+    if (!this.abilityData.props) this.abilityData.props = {};
+    if (!value) Vue.delete(this.abilityData.props, "Move");
+    else if (!this.abilityData.props.Move) Vue.set(this.abilityData.props, "Move", {});
   }
 
   get hasExaltedWeapon() {
     return this.abilityData.props && !!this.abilityData.props.ExaltedWeapon;
   }
   set hasExaltedWeapon(value) {
-    if (!this.abilityData.props)
-      this.abilityData.props = {};
-    if (!value)
-      Vue.delete(this.abilityData.props, "ExaltedWeapon");
-    else if (!this.abilityData.props.ExaltedWeapon)
-      Vue.set(this.abilityData.props, "ExaltedWeapon", {})
+    if (!this.abilityData.props) this.abilityData.props = {};
+    if (!value) Vue.delete(this.abilityData.props, "ExaltedWeapon");
+    else if (!this.abilityData.props.ExaltedWeapon) Vue.set(this.abilityData.props, "ExaltedWeapon", {});
   }
-
 
   get damage() {
     return this.abilityData.props.Damage;

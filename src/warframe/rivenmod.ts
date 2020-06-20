@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { camelCase, cloneDeep, maxBy, max, compact, sampleSize, round, sample, startCase } from "lodash-es";
 import { randomNormalDistribution, strSimilarity } from "./util";
 import { base62, debase62 } from "./lib/base62";
 import { Polarity, RivenProperty, RivenDatabase, RivenPropertyDataBase, NormalMod, MainTag, WeaponDatabase, RivenTypes, Weapon } from "./codex";
@@ -103,7 +103,7 @@ export class RivenMod {
 
   /** 本地化ID */
   get id() {
-    return `messages.${_.camelCase(this.name)}`;
+    return `messages.${camelCase(this.name)}`;
   }
   /** 本地化名称 */
   get locName() {
@@ -150,7 +150,7 @@ export class RivenMod {
       this.polarity = parm.polarity;
       this.upLevel = parm.upLevel;
       this.negativeUpLevel = parm.negativeUpLevel;
-      this.properties = _.cloneDeep(parm.properties);
+      this.properties = cloneDeep(parm.properties);
       this.hasNegativeProp = parm.hasNegativeProp;
       this.recycleTimes = parm.recycleTimes;
       this.rank = parm.rank;
@@ -219,8 +219,8 @@ A段位12023
         let prop =
           (i <= subfixIndex + ((rivenProps && rivenProps.length) || 0) &&
             rivenProps &&
-            _.maxBy(rivenProps, v => {
-              let s = _.max([strSimilarity(v[0].name, propLine[2]), strSimilarity(v[0].eName, propLine[2])]);
+            maxBy(rivenProps, v => {
+              let s = max([strSimilarity(v[0].name, propLine[2]), strSimilarity(v[0].eName, propLine[2])]);
               // console.log("strSimilarity: ", v[0].name, propLine[2], "s=", s);
               return s;
             })[0]) ||
@@ -246,7 +246,7 @@ A段位12023
         properties.push([prop, propValue]);
       } else {
         // 识别段位和重roll次数
-        let extra = _.compact(lines[i].split(/\D+/g));
+        let extra = compact(lines[i].split(/\D+/g));
         this.rank = (extra[0] && +extra[0]) || 0;
         this.recycleTimes = (extra[1] && +extra[1]) || 0;
         if (this.recycleTimes == 0 && this.rank > 100) {
@@ -351,13 +351,13 @@ A段位12023
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
     const weapon = this.weapon;
     // console.log(weapon, RivenPropertyDataBase[this.mod]);
-    let props = _.sampleSize(
+    let props = sampleSize(
       RivenPropertyDataBase[this.mod].filter(v => !v.onlyNegative),
       count
-    ).map(v => [v.id, _.round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1)]) as [string, number][];
+    ).map(v => [v.id, round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1)]) as [string, number][];
     if (this.hasNegativeProp) {
-      let neProp = _.sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
-      props.push([neProp.id, _.round(devi() * this.negativeUpLevel * weapon.getPropBaseValue(neProp.id), 1)]);
+      let neProp = sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
+      props.push([neProp.id, round(devi() * this.negativeUpLevel * weapon.getPropBaseValue(neProp.id), 1)]);
     }
     this.parseProps(props);
   }
@@ -395,8 +395,8 @@ A段位12023
   }
   set shortSubfix(value) {
     let props = value.split("").map(v => RivenDatabase.getPropByName(v));
-    if (props.length === 3) this.subfix = _.startCase(props[0].prefix) + "-" + props[1].prefix + props[2].subfix;
-    else if (props.length === 2) this.subfix = _.startCase(props[0].prefix) + props[1].subfix;
+    if (props.length === 3) this.subfix = startCase(props[0].prefix) + "-" + props[1].prefix + props[2].subfix;
+    else if (props.length === 2) this.subfix = startCase(props[0].prefix) + props[1].subfix;
   }
   /** 返回二维码使用的序列化字符串 */
   get qrCode() {

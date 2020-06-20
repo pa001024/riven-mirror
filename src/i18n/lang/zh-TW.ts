@@ -691,6 +691,7 @@ let po = {
     cryoCoatin: "冷凍包覆",
     combustionRounds: "燃燒彈頭",
     rubedoLinedBarrel: "紅晶槍管",
+    primedRubedoLinedBarrel: "紅晶槍管 Prime",
     magazineExtension: "擴充彈匣",
     parallaxScope: "視差瞄具",
     nebulaBore: "星雲鑽孔",

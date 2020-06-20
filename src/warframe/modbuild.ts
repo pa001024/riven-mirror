@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { cloneDeep, map, clone, chunk, forEachRight, compact, minBy, maxBy } from "lodash-es";
 import { choose } from "./util";
 import { base62, debase62 } from "./lib/base62";
 import { procDurationMap, SpecialStatusInfo } from "./status";
@@ -82,24 +82,24 @@ export abstract class ModBuild implements CommonBuild {
   }
   /** MOD列表 */
   get mods() {
-    return _.cloneDeep(this._mods);
+    return cloneDeep(this._mods);
   }
   /** filtered mods */
   get vmods() {
     return this.mods.filter(Boolean);
   }
   set mods(value) {
-    this._rawmods = _.cloneDeep(value);
+    this._rawmods = cloneDeep(value);
     this._mods = this.mapRankUpMods(value);
     this.calcMods();
     this.fastMode || this.recalcPolarizations();
   }
   /** 加成列表 */
   get buffs() {
-    return _.cloneDeep(this._buffs);
+    return cloneDeep(this._buffs);
   }
   set buffs(value) {
-    this._buffs = _.cloneDeep(value);
+    this._buffs = cloneDeep(value);
     this.calcMods();
   }
 
@@ -269,7 +269,7 @@ export abstract class ModBuild implements CommonBuild {
       this._originalDamage = 0;
       return this.mode.damage;
     }
-    let dmg = _.map(this.mode.damage, ([n, v]) => [n, v * this.initialDamageMul] as [string, number]);
+    let dmg = map(this.mode.damage, ([n, v]) => [n, v * this.initialDamageMul] as [string, number]);
     const base = dmg.reduce((r, v) => ((r += v[1]), r), 0);
     if (this._relExtra.length) dmg = dmg.concat(this._relExtra.map(([n, v]) => [n, (v * base) / 100]));
     if (this._absExtra.length) dmg = dmg.concat(this._absExtra);
@@ -330,7 +330,7 @@ export abstract class ModBuild implements CommonBuild {
     let mods = normal.map(v => {
       let key = v.substr(0, 2),
         level = v.substr(3, 4);
-      let mod = v === "01" ? this.riven.normalMod(this.weapon) : _.cloneDeep(Codex.getNormalMod(key));
+      let mod = v === "01" ? this.riven.normalMod(this.weapon) : cloneDeep(Codex.getNormalMod(key));
       if (level) mod.level = debase62(level);
       return mod;
     });
@@ -456,7 +456,7 @@ export abstract class ModBuild implements CommonBuild {
   /** 重新计算元素顺序 */
   recalcElements() {
     this._extraDmgMul = this._heatMul + this._coldMul + this._toxinMul + this._electricityMul;
-    let eleOrder = _.clone(this.elementsOrder),
+    let eleOrder = clone(this.elementsOrder),
       otherOrder = [],
       eleMul = this.elementsMul;
     let oridmg = this.initialDamage;
@@ -521,7 +521,7 @@ export abstract class ModBuild implements CommonBuild {
           break;
       }
     });
-    let combs = _.chunk(eleOrder, 2);
+    let combs = chunk(eleOrder, 2);
     // 复合元素合成
     let tmpCombs = combs.map(comb => {
       if (comb.length > 1) {
@@ -636,7 +636,7 @@ export abstract class ModBuild implements CommonBuild {
       if (rst[targetElement]) rst[targetElement] = rst[targetElement] + dpart;
       else rst[targetElement] = dpart;
     });
-    return _.map(rst, (v, i) => [i, +v]) as [string, number][];
+    return map(rst, (v, i) => [i, +v]) as [string, number][];
   }
 
   /** 模型护甲数值 */
@@ -990,7 +990,7 @@ export abstract class ModBuild implements CommonBuild {
     // 加载Mod
     this._mods.forEach(mod => {
       // 后者优先 主要用于紫卡有多个元素词条时
-      mod && _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
+      mod && forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
     });
     // 加载Buff
     this._buffs.forEach(buff => {
@@ -1050,7 +1050,7 @@ export abstract class ModBuild implements CommonBuild {
 
   /** 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
-    let mods = _.compact(this._mods);
+    let mods = compact(this._mods);
     // 如果相应的P卡已经存在则不使用
     if (mods.some(v => (mod.id !== "RIVENFAKE" && v.id === mod.id) || v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed)))
       return false;
@@ -1082,7 +1082,7 @@ export abstract class ModBuild implements CommonBuild {
     let umbraSetCount = mods.filter(v => v && v.key in umbraSet).length - 1;
     let rst = mods.map(mod => {
       if (mod && mod.key in umbraSet) {
-        let mapped = _.clone(mod);
+        let mapped = clone(mod);
         mapped.setMul = umbraSet[mod.key][umbraSetCount];
         return mapped;
       }
@@ -1214,7 +1214,7 @@ export abstract class ModBuild implements CommonBuild {
    */
   fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
     // 根据武器自动选择所有可安装的MOD
-    let mods = (this._mods = _.compact(this._mods));
+    let mods = (this._mods = compact(this._mods));
     let othermods = lib.filter(v => !mods.some(k => (v.id === k.id && (v.id === "RIVENFAKE" ? v.props[0][0] === k.props[0][0] : true)) || v.id === k.primed));
     let rivenCount = mods.reduce((a, b) => a + (b.id === "RIVENFAKE" ? 1 : 0), 0),
       rivenSlots = rivenLimit ? slots + rivenLimit - 1 : slots;
@@ -1331,7 +1331,7 @@ export abstract class ModBuild implements CommonBuild {
 
     // 计算有紫卡属性后收益最低的mod 如果不是紫卡就去掉收益最低的紫卡再计算一次
     let valueList = newBuild._mods.map((_, i) => [i, newBuild.modValue(i)]).filter(v => newBuild._mods[v[0]].id === "RIVENFAKE");
-    let removeAble = _.minBy(valueList, v => v[1]);
+    let removeAble = minBy(valueList, v => v[1]);
     // console.log("去掉该卡", newBuild._mods[removeAble[0]].name);
     newBuild._mods.splice(removeAble[0], 1);
     newBuild.calcMods();
@@ -1410,7 +1410,7 @@ export abstract class ModBuild implements CommonBuild {
       newRiven.hasNegativeProp = true;
       return newRiven;
     });
-    let bestRiven = _.maxBy(newRivens, v => {
+    let bestRiven = maxBy(newRivens, v => {
       newBuild.riven = v;
       newBuild.fill(slots, 2);
       return newBuild.compareDamage;
