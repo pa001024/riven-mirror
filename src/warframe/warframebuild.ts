@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { forEachRight, compact, clone, cloneDeep, camelCase, mapValues, map } from "lodash-es";
 import {
   WarframeDataBase,
   Warframe,
@@ -73,10 +73,10 @@ export class WarframeBuild implements CommonBuild {
   }
   /** MOD列表 */
   get mods() {
-    return _.cloneDeep(this._mods);
+    return cloneDeep(this._mods);
   }
   set mods(value) {
-    this._rawmods = _.cloneDeep(value);
+    this._rawmods = cloneDeep(value);
     this._mods = this.mapRankUpMods(value);
     this.calcMods();
     this.recalcPolarizations();
@@ -91,10 +91,10 @@ export class WarframeBuild implements CommonBuild {
   }
   /** 加成列表 */
   get buffs() {
-    return _.cloneDeep(this._buffs);
+    return cloneDeep(this._buffs);
   }
   set buffs(value) {
-    this._buffs = _.cloneDeep(value);
+    this._buffs = cloneDeep(value);
     this.calcMods();
   }
 
@@ -538,7 +538,7 @@ export class WarframeBuild implements CommonBuild {
   calcMods() {
     this.reset();
     [this._aura, this._exilus, ...this._mods].forEach(mod => {
-      mod && _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
+      mod && forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
     });
     // 加载Buff
     this._buffs.forEach(buff => {
@@ -566,7 +566,7 @@ export class WarframeBuild implements CommonBuild {
    * @memberof WarframeBuild
    */
   isValidMod(mod: NormalMod): boolean {
-    let mods = _.compact(this._mods);
+    let mods = compact(this._mods);
     // 如果相应的P卡已经存在则不使用
     if (mods.some(v => v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed))) return false;
     return true;
@@ -584,7 +584,7 @@ export class WarframeBuild implements CommonBuild {
     let umbraSetCount = mods.filter(v => v && v.key in umbraSet).length - 1;
     let rst = mods.map(mod => {
       if (mod && mod.key in umbraSet) {
-        let mapped = _.clone(mod);
+        let mapped = clone(mod);
         mapped.setMul = umbraSet[mod.key][umbraSetCount];
         return mapped;
       }
@@ -649,7 +649,7 @@ export class WarframeBuild implements CommonBuild {
    * @memberof WarframeBuild
    */
   fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
-    let mods = (this._mods = _.compact(this._mods));
+    let mods = (this._mods = compact(this._mods));
     let othermods = lib.filter(v => !mods.some(k => v.id === k.id || v.id === k.primed || v.primed === k.id));
     let sortableMods = othermods.map(v => [v, this.testMod(v)] as [NormalMod, number]).filter(v => v[1] > 0);
     console.log(sortableMods, mods.length, sortableMods.length, slots - mods.length);
@@ -775,7 +775,7 @@ export class WarframeBuild implements CommonBuild {
     let [aura, exilus, ...mods] = normal.map(v => {
       let key = v.substr(0, 2),
         level = v.substr(3, 4);
-      let mod = _.cloneDeep(Codex.getNormalMod(key));
+      let mod = cloneDeep(Codex.getNormalMod(key));
       if (level) mod.level = debase62(level);
       return mod;
     });
@@ -997,7 +997,7 @@ export class RenderedAbilities {
     return this.id.replace(/ /g, "_");
   }
   get name() {
-    const key = `skill.${_.camelCase(this.id)}`;
+    const key = `skill.${camelCase(this.id)}`;
     return i18n.te(key) ? i18n.t(key) : this.id;
   }
   constructor(data: AbilityData, build: WarframeBuild) {
@@ -1012,7 +1012,7 @@ export class RenderedAbilities {
       .fill(1)
       .map((_, i) => this.data.tags & (1 << i) && AbilityType[1 << i])
       .filter(Boolean)
-      .map(v => i18n.t(`ability.types.${_.camelCase(v)}`));
+      .map(v => i18n.t(`ability.types.${camelCase(v)}`));
   }
   get energyCost() {
     return this.data.energyCost * (2 - this.build.abilityEfficiency);
@@ -1089,13 +1089,13 @@ export class RenderedAbilities {
           return resolveBind(o);
         } else {
           // speical
-          return _.mapValues(o, val => trans(val)) as typeof o;
+          return mapValues(o, val => trans(val)) as typeof o;
         }
       }
       return o;
     };
-    return _.map(this.data.props, (v, type) => {
-      let rst = _.mapValues(v, (val, name) => {
+    return map(this.data.props, (v, type) => {
+      let rst = mapValues(v, (val, name) => {
         return ["times", "amount"].includes(name) ? Math.round(trans(val)) : trans(val);
       }) as typeof v;
       switch (type) {
@@ -1112,7 +1112,7 @@ export class RenderedAbilities {
         default:
           break;
       }
-      return [_.camelCase(type), rst] as [string, typeof v];
+      return [camelCase(type), rst] as [string, typeof v];
     });
   }
 }

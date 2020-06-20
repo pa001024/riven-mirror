@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { camelCase } from "lodash-es";
 import { i18n } from "@/i18n";
 import { _companionData } from "./companion.data";
 import { CompanionData } from "./companion.i";
@@ -23,7 +23,7 @@ export class Companion {
   constructor(data: CompanionData) {
     const base = data.className ? _companionData.find(v => v.id === data.className) : ({} as CompanionData);
     this.id = data.id;
-    const ikey = `messages.${_.camelCase(data.id)}`;
+    const ikey = `messages.${camelCase(data.id)}`;
     this.name = i18n.te(ikey) ? i18n.t(ikey) : data.id;
     if (data.tags || base.tags) this.tags = data.tags || base.tags || [];
     if (data.className) this.className = data.className;

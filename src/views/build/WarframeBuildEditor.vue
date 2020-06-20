@@ -7,64 +7,113 @@
           <el-card class="infobox">
             <!-- 二维码和名称 -->
             <div slot="header" class="core-name">
-              <span class="title">{{core.name}}</span>
+              <span class="title">{{ core.name }}</span>
               <template v-if="build.formaCount">
                 [
-                <span class="forma"> {{$t("build.formaCount", [build.formaCount])}} </span>
-                <span class="umbra" v-if="build.umbraCount"> + {{build.umbraCount}}U </span>
+                <span class="forma"> {{ $t("build.formaCount", [build.formaCount]) }} </span>
+                <span class="umbra" v-if="build.umbraCount"> + {{ build.umbraCount }}U </span>
                 ]
               </template>
-              <ShareQR :url="'https://riven.im'+$route.path"/>
+              <ShareQR :url="'https://riven.im' + $route.path" />
             </div>
             <div class="warframe-props">
               <!-- 容量 -->
               <el-row :gutter="4" class="prop-diff cost-show">
-                <el-col :span="8" class="title">{{$t('build.cost')}}</el-col>
-                <el-col :span="7" class="diff diff-ori" :class="{error: build.maxCost < build.totalCost}">
-                  {{build.maxCost - build.totalCost}}
+                <el-col :span="8" class="title">{{ $t("build.cost") }}</el-col>
+                <el-col :span="7" class="diff diff-ori" :class="{ error: build.maxCost < build.totalCost }">
+                  {{ build.maxCost - build.totalCost }}
                 </el-col>
                 <template v-if="build.totalCost > 0">
                   <el-col :span="2" class="diff-arrow">/</el-col>
                   <el-col :span="7" class="diff diff-val">
-                    {{build.maxCost}}
+                    {{ build.maxCost }}
                   </el-col>
                 </template>
               </el-row>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"
-                :name="$t('build.health')" :ori="coreBuild.health" :val="build.health"></PropDiff>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"
-                :name="$t('build.shield')" :ori="coreBuild.shield" :val="build.shield"></PropDiff>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"
-                :name="$t('build.armor')" :ori="coreBuild.armor" :val="build.armor"></PropDiff>
+              <PropDiff
+                class="select-cpmode"
+                :class="{ active: build.compareMode === 1 }"
+                @click="changeMode(1)"
+                :name="$t('build.health')"
+                :ori="coreBuild.health"
+                :val="build.health"
+              ></PropDiff>
+              <PropDiff
+                class="select-cpmode"
+                :class="{ active: build.compareMode === 3 }"
+                @click="changeMode(3)"
+                :name="$t('build.shield')"
+                :ori="coreBuild.shield"
+                :val="build.shield"
+              ></PropDiff>
+              <PropDiff
+                class="select-cpmode"
+                :class="{ active: build.compareMode === 2 }"
+                @click="changeMode(2)"
+                :name="$t('build.armor')"
+                :ori="coreBuild.armor"
+                :val="build.armor"
+              ></PropDiff>
               <PropDiff :name="$t('build.energy')" :ori="coreBuild.energy" :val="build.energy"></PropDiff>
               <PropDiff :name="$t('build.sprint')" :ori="coreBuild.sprint" :val="build.sprint" :preci="2"></PropDiff>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"
-                :name="$t('build.effectiveHealth')" :ori="coreBuild.effectiveHealth" :val="build.effectiveHealth" :preci="0"></PropDiff>
-              <br>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 4}" @click="changeMode(4)"
-                :name="$t('build.abilityStrength')" :ori="coreBuild.abilityStrength" :val="build.abilityStrength" percent :preci="0"></PropDiff>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 5}" @click="changeMode(5)"
-                :name="$t('build.abilityDuration')" :ori="coreBuild.abilityDuration" :val="build.abilityDuration" percent :preci="0"></PropDiff>
+              <PropDiff
+                class="select-cpmode"
+                :class="{ active: build.compareMode === 0 }"
+                @click="changeMode(0)"
+                :name="$t('build.effectiveHealth')"
+                :ori="coreBuild.effectiveHealth"
+                :val="build.effectiveHealth"
+                :preci="0"
+              ></PropDiff>
+              <br />
+              <PropDiff
+                class="select-cpmode"
+                :class="{ active: build.compareMode === 4 }"
+                @click="changeMode(4)"
+                :name="$t('build.abilityStrength')"
+                :ori="coreBuild.abilityStrength"
+                :val="build.abilityStrength"
+                percent
+                :preci="0"
+              ></PropDiff>
+              <PropDiff
+                class="select-cpmode"
+                :class="{ active: build.compareMode === 5 }"
+                @click="changeMode(5)"
+                :name="$t('build.abilityDuration')"
+                :ori="coreBuild.abilityDuration"
+                :val="build.abilityDuration"
+                percent
+                :preci="0"
+              ></PropDiff>
               <PropDiff :name="$t('build.abilityEfficiency')" :ori="coreBuild.abilityEfficiency" :val="build.abilityEfficiency" percent :preci="0"></PropDiff>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 6}" @click="changeMode(6)"
-                :name="$t('build.abilityRange')" :ori="coreBuild.abilityRange" :val="build.abilityRange" percent :preci="0"></PropDiff>
+              <PropDiff
+                class="select-cpmode"
+                :class="{ active: build.compareMode === 6 }"
+                @click="changeMode(6)"
+                :name="$t('build.abilityRange')"
+                :ori="coreBuild.abilityRange"
+                :val="build.abilityRange"
+                percent
+                :preci="0"
+              ></PropDiff>
             </div>
           </el-card>
           <!-- 选项区域 -->
           <el-card class="build-tools">
             <el-button-group class="build-tools-action">
-              <el-button type="primary" size="small" @click="fill()">{{$t("build.fill")}}</el-button>
-              <el-button type="primary" size="small" @click="fillEmpty()">{{$t("build.fillEmpty")}}</el-button>
-              <el-button type="primary" size="small" @click="clear()">{{$t("build.clear")}}</el-button>
+              <el-button type="primary" size="small" @click="fill()">{{ $t("build.fill") }}</el-button>
+              <el-button type="primary" size="small" @click="fillEmpty()">{{ $t("build.fillEmpty") }}</el-button>
+              <el-button type="primary" size="small" @click="clear()">{{ $t("build.clear") }}</el-button>
             </el-button-group>
             <el-form class="build-form-editor">
               <!-- 生命球 -->
-              <el-form-item :label="$t('build.healthBall')" v-if="currentTab.mods.some(v=>v&&v.id==='Health Conversion')">
-                <el-input-number class="right-side" size="small" v-model="healthBall" @change="optionChange" :min="0" :max="3"/>
+              <el-form-item :label="$t('build.healthBall')" v-if="currentTab.mods.some(v => v && v.id === 'Health Conversion')">
+                <el-input-number class="right-side" size="small" v-model="healthBall" @change="optionChange" :min="0" :max="3" />
               </el-form-item>
               <!-- 能量球 -->
-              <el-form-item :label="$t('build.energyBall')" v-if="currentTab.mods.some(v=>v&&v.id==='Energy Conversion')">
-                <el-switch class="right-side" size="small" v-model="energyBall" @change="optionChange"/>
+              <el-form-item :label="$t('build.energyBall')" v-if="currentTab.mods.some(v => v && v.id === 'Energy Conversion')">
+                <el-switch class="right-side" size="small" v-model="energyBall" @change="optionChange" />
               </el-form-item>
             </el-form>
           </el-card>
@@ -77,35 +126,70 @@
           <el-tab-pane :key="index" v-for="(item, index) in tabs" :label="item.title" :name="item.name">
             <el-row v-if="!isArchwing" type="flex" class="mod-slot-container autozoom" :gutter="12">
               <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6">
-                <LeveledModSlot icon="aura" @level="refleshMods()" @change="slotClick(-2)" @remove="slotRemove(-2)" :mod="item.aura" :build="item.build" :polarization="item.build.auraPol"/>
+                <LeveledModSlot
+                  icon="aura"
+                  @level="refleshMods()"
+                  @change="slotClick(-2)"
+                  @remove="slotRemove(-2)"
+                  :mod="item.aura"
+                  :build="item.build"
+                  :polarization="item.build.auraPol"
+                />
               </el-col>
               <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6">
-                <LeveledModSlot icon="exilus" @level="refleshMods()" @change="slotClick(-1)" @remove="slotRemove(-1)" :mod="item.exilus" :build="item.build" :polarization="item.build.exilusPol"/>
+                <LeveledModSlot
+                  icon="exilus"
+                  @level="refleshMods()"
+                  @change="slotClick(-1)"
+                  @remove="slotRemove(-1)"
+                  :mod="item.exilus"
+                  :build="item.build"
+                  :polarization="item.build.exilusPol"
+                />
               </el-col>
             </el-row>
             <el-row type="flex" class="mod-slot-container autozoom" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :animation="250" handle=".mod-title">
                 <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
-                  <LeveledModSlot @level="refleshMods()" @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
+                  <LeveledModSlot
+                    @level="refleshMods()"
+                    @change="slotClick(index)"
+                    @remove="slotRemove(index)"
+                    :mod="mod"
+                    :build="item.build"
+                    :polarization="item.build.polarizations[index]"
+                  />
                 </el-col>
               </draggable>
             </el-row>
-            <div class="buff-head">{{$t('build.buff')}}</div>
+            <div class="buff-head">{{ $t("build.buff") }}</div>
             <!-- Buff区域 -->
             <el-row type="flex" class="buff-slot-container autozoom" :gutter="12">
               <div class="block">
                 <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6" v-for="(buff, index) in item.buffs" :key="index">
                   <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)">
                     <template v-if="buff">
-                      <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">
-                        <div class="buff-name">{{$t(`buff.${buff.name}`)}}</div>
-                        <div class="buff-parm layer" v-if="buff.layerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.layer" :min="1" :max="buff.data.multiLayer.maxStack"></el-input-number></div>
-                        <div class="buff-parm power" v-if="buff.powerEnable"><el-input-number @change="refleshMods()" :step="0.5" size="mini" v-model="buff.power"></el-input-number></div>
+                      <div class="buff-title" :class="{ layers: buff.layerEnable, powers: buff.powerEnable }">
+                        <div class="buff-name">{{ $t(`buff.${buff.name}`) }}</div>
+                        <div class="buff-parm layer" v-if="buff.layerEnable">
+                          <el-input-number
+                            @change="refleshMods()"
+                            size="mini"
+                            v-model="buff.layer"
+                            :min="1"
+                            :max="buff.data.multiLayer.maxStack"
+                          ></el-input-number>
+                        </div>
+                        <div class="buff-parm power" v-if="buff.powerEnable">
+                          <el-input-number @change="refleshMods()" :step="0.5" size="mini" v-model="buff.power"></el-input-number>
+                        </div>
                       </div>
                       <div class="buff-detail" @click.stop="buffRemove(index)">
                         <div class="buff-stat">
-                          <div class="buff-prop" v-for="prop in buff.vProps" :key="prop.id">{{prop.fullName}}</div>
-                          <div class="buff-sum" v-show="item.build.buffValue(index)">{{PNNum(100 * item.build.buffValue(index))}}% {{$t("build.total")}}</div>
+                          <div class="buff-prop" v-for="prop in buff.vProps" :key="prop.id">{{ prop.fullName }}</div>
+                          <div class="buff-sum" v-show="item.build.buffValue(index)">
+                            {{ PNNum(100 * item.build.buffValue(index)) }}% {{ $t("build.total") }}
+                          </div>
                         </div>
                         <div class="buff-action">
                           <button type="button" class="buff-slot-remove">
@@ -130,24 +214,29 @@
                   <el-col>
                     <el-row>
                       <el-col class="skill-name">
-                        <a class="skill-wiki" target="_blank" :href="$t('zh') ? `https://warframe.huijiwiki.com/wiki/${abi.name}` : `https://warframe.fandom.com/wiki/${abi.url}`">{{abi.name}}</a>
-                        <a class="skill-wiki en" target="_blank" v-if="$t('zh')" :href="`https://warframe.fandom.com/wiki/${abi.url}`">{{abi.id}}</a>
+                        <a
+                          class="skill-wiki"
+                          target="_blank"
+                          :href="$t('zh') ? `https://warframe.huijiwiki.com/wiki/${abi.name}` : `https://warframe.fandom.com/wiki/${abi.url}`"
+                          >{{ abi.name }}</a
+                        >
+                        <a class="skill-wiki en" target="_blank" v-if="$t('zh')" :href="`https://warframe.fandom.com/wiki/${abi.url}`">{{ abi.id }}</a>
                       </el-col>
                       <el-col class="skill-tags">
-                        <div class="skill-tag" v-if="abi.oneHand">{{$t("ability.oneHand")}}</div>
-                        <div class="skill-tag" :key="index" v-for="(tag, index) in abi.tags">{{tag}}</div>
+                        <div class="skill-tag" v-if="abi.oneHand">{{ $t("ability.oneHand") }}</div>
+                        <div class="skill-tag" :key="index" v-for="(tag, index) in abi.tags">{{ tag }}</div>
                       </el-col>
                     </el-row>
                   </el-col>
                   <el-col class="skill-costs">
                     <div class="skill-cost">
-                      {{$t("ability.energyCost", [+abi.energyCost.toFixed(2)])}}
+                      {{ $t("ability.energyCost", [+abi.energyCost.toFixed(2)]) }}
                     </div>
                     <div class="skill-cost" v-if="abi.energyCostPS">
-                      {{$t("ability.energyCostPS", [+abi.energyCostPS.toFixed(2)])}}
+                      {{ $t("ability.energyCostPS", [+abi.energyCostPS.toFixed(2)]) }}
                     </div>
                     <div class="skill-cost" v-if="abi.energyCostN">
-                      {{$t("ability.energyCostN", [+abi.energyCostN.toFixed(2)])}}
+                      {{ $t("ability.energyCostN", [+abi.energyCostN.toFixed(2)]) }}
                     </div>
                   </el-col>
                 </el-row>
@@ -155,44 +244,44 @@
               <el-row :gutter="12">
                 <el-col class="skill-effects" :span="24">
                   <div class="skill-effect" :key="index" v-for="([name, effect], index) in abi.props">
-                    <div class="effect-name">{{$t(`ability.effects.${name}`)}}</div>
+                    <div class="effect-name">{{ $t(`ability.effects.${name}`) }}</div>
                     <div class="effect-detail">
                       <!-- special -->
                       <template v-if="effect[0]">
                         <div class="effect-prop special" :key="vn" v-for="(vv, vn) in effect">
-                          <div class="prop-name">{{$t(`ability.props.${vv.desc}`)}}</div>
-                          <div class="prop-value normal">{{vv.val}}</div>
+                          <div class="prop-name">{{ $t(`ability.props.${vv.desc}`) }}</div>
+                          <div class="prop-value normal">{{ vv.val }}</div>
                         </div>
                       </template>
                       <!-- normal -->
                       <template v-else>
                         <div class="effect-prop" :key="vn" v-for="(vv, vn) in effect">
-                          <div class="prop-name">{{$t(`ability.props.${vn}`)}}</div>
+                          <div class="prop-name">{{ $t(`ability.props.${vn}`) }}</div>
                           <div class="prop-value damage" v-if="Array.isArray(vv)">
                             <template v-if="vn === 'damage' || vn === 'rangeDamage'">
-                              <div class="dmg" :key="dname" v-for="([dname, dvalue]) in vv">
-                                <WfIcon :type="dname.toLowerCase()"/>
-                                <span class="value">{{dvalue}}</span>
+                              <div class="dmg" :key="dname" v-for="[dname, dvalue] in vv">
+                                <WfIcon :type="dname.toLowerCase()" />
+                                <span class="value">{{ dvalue }}</span>
                               </div>
                             </template>
                             <template v-else>
-                              <div class="prop" :key="pname" v-for="([pname, pvalue]) in vv">
-                                {{renderProps([pname, pvalue]).fullString}}
+                              <div class="prop" :key="pname" v-for="[pname, pvalue] in vv">
+                                {{ renderProps([pname, pvalue]).fullString }}
                               </div>
                             </template>
                           </div>
                           <!-- Exalted Weapon -->
-                          <div class="prop-value weapon" v-else-if="vn==='weaponName'">
-                            <router-link class="link-btn" :to="`/weapon/${vv}/${renderWeaponProps(abi)}`">{{renderWeapon(vv)}}</router-link>
+                          <div class="prop-value weapon" v-else-if="vn === 'weaponName'">
+                            <router-link class="link-btn" :to="`/weapon/${vv}/${renderWeaponProps(abi)}`">{{ renderWeapon(vv) }}</router-link>
                           </div>
                           <div class="prop-value normal" v-else-if="vn === 'directive'">
-                            {{$t(`ability.directives.${vv}`)}}
+                            {{ $t(`ability.directives.${vv}`) }}
                           </div>
                           <div class="prop-value normal" v-else-if="vn === 'target'">
-                            {{$t(`ability.targets.${vv}`)}}
+                            {{ $t(`ability.targets.${vv}`) }}
                           </div>
                           <div class="prop-value normal" v-else>
-                            {{$te(`ability.props.${vv}`) && $t(`ability.props.${vv}`) || vv}}
+                            {{ ($te(`ability.props.${vv}`) && $t(`ability.props.${vv}`)) || vv }}
                           </div>
                         </div>
                       </template>
@@ -214,7 +303,7 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
+import { compact } from "lodash-es";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { WarframeBuild } from "@/warframe/warframebuild";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
@@ -359,7 +448,7 @@ export default class WarframeEditor extends Vue {
   refleshMods() {
     this.build.clear();
     let { mods, aura, exilus } = this.currentTab;
-    let buffs = _.compact(this.currentTab.buffs);
+    let buffs = compact(this.currentTab.buffs);
     this.build.mods = mods;
     this.build.aura = aura;
     this.build.exilus = exilus;
@@ -394,7 +483,7 @@ export default class WarframeEditor extends Vue {
   }
   buffRemove(buffIndex: number) {
     this.currentTab.buffs[buffIndex] = null;
-    this.currentTab.buffs = _.compact(this.currentTab.buffs).concat([null]);
+    this.currentTab.buffs = compact(this.currentTab.buffs).concat([null]);
     this.refleshMods();
     this.reloadSelector();
   }
@@ -431,7 +520,7 @@ export default class WarframeEditor extends Vue {
   }
   buffSelect(buff: BuffData) {
     this.currentTab.buffs[this.selectBuffIndex] = new Buff(buff);
-    this.currentTab.buffs = _.compact(this.currentTab.buffs).concat([null]);
+    this.currentTab.buffs = compact(this.currentTab.buffs).concat([null]);
     this.refleshMods();
     this.buffDialogVisible = false;
   }

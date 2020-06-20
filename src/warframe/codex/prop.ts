@@ -1,5 +1,5 @@
+import { camelCase } from "lodash-es";
 import { i18n } from "@/i18n";
-import _ from "lodash";
 
 /**
  * 通用属性
@@ -366,10 +366,10 @@ export class ValuedProperty {
       get fullString() {
         let rn = pn;
         if (vn.endsWith(" Augment")) {
-          const skillName = "skill." + _.camelCase(vn.substr(0, vn.length - 8));
+          const skillName = "skill." + camelCase(vn.substr(0, vn.length - 8));
           return i18n.t("prop.fullName.augment", [i18n.te(skillName) ? i18n.t(skillName) : vn.substr(0, vn.length - 8)]);
         }
-        const ikey = `prop.fullName.${_.camelCase(pn)}`;
+        const ikey = `prop.fullName.${camelCase(pn)}`;
         if (i18n.te(ikey)) rn = i18n.t(ikey, [vv]);
         if (vn.startsWith("+")) rn = i18n.t("prop.fullName.teamPlus", [rn]);
         if (vn.startsWith("-")) rn = i18n.t("prop.fullName.companionPlus", [rn]);
@@ -377,10 +377,10 @@ export class ValuedProperty {
       },
       get shortString() {
         if (vn.endsWith(" Augment")) {
-          const skillName = "skill." + _.camelCase(vn.substr(0, vn.length - 8));
+          const skillName = "skill." + camelCase(vn.substr(0, vn.length - 8));
           return i18n.t("prop.fullName.augment", [i18n.te(skillName) ? i18n.t(skillName) : vn.substr(0, vn.length - 8)]);
         }
-        const ikey = `prop.shortName.${_.camelCase(vn)}`;
+        const ikey = `prop.shortName.${camelCase(vn)}`;
         if (i18n.te(ikey)) return i18n.t(ikey, [vv]);
         return vn;
       },

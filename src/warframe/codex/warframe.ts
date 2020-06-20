@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { camelCase } from "lodash-es";
 import { i18n } from "@/i18n";
 import { _warframeData, _abilityData, WarframeFunction } from "./warframe.data";
 import { AbilityData, WarframeData } from "./warframe.i";
@@ -35,7 +35,7 @@ export class Warframe implements WarframeData {
   constructor(data: WarframeData) {
     const base = data.className ? _warframeData.find(v => v.id === data.className) : ({} as WarframeData);
     this.id = data.id;
-    const ikey = `messages.${_.camelCase(data.id)}`;
+    const ikey = `messages.${camelCase(data.id)}`;
     this.name = i18n.te(ikey) ? i18n.t(ikey) : data.id;
     this.tags = data.tags || base.tags || [];
     this.description = data.description;

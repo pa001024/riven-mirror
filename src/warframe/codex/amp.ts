@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { camelCase } from "lodash-es";
 import { hAccSum } from "@/warframe/util";
 import { Weapon, WeaponTag, CoreWeaponMode, MainTag } from "@/warframe/codex/weapon";
 import { i18n } from "@/i18n";
@@ -70,8 +70,8 @@ const _ampScaffold = [
   [2, "Shraksun Scaffold", [["Void", 7500]], 0.2, 2.5, 0.2, 80, 9.1, 10, 15, /* prjSpeed */ 40],
   [3, "Klebrik Scaffold", [["Void", 320]], 0.16, 1.6, 0.14, 720, 100, 3, 25],
   [4, "Phahd Scaffold", [["Void", 6100]], 0.34, 2.6, 0.12, 80, 9.1, 20, 300, /* prjSpeed */ 100],
-  [5, "Exard Scaffold", [/*["Impact", 200], */ ["Void", 2600]], 0.17, 1.9, 0.33, 496, 10, 20, 40, /* prjSpeed */ 100],
-  [6, "Dissic Scaffold", [/*["Impact", 15], */ ["Void", 6600]], 0.03, 1.5, 0.37, 60, 100, 50, /* prjSpeed */ 100],
+  [5, "Exard Scaffold", [/*["Impact", 200], */["Void", 2600]], 0.17, 1.9, 0.33, 496, 10, 20, 40, /* prjSpeed */ 100],
+  [6, "Dissic Scaffold", [/*["Impact", 15], */["Void", 6600]], 0.03, 1.5, 0.37, 60, 100, 50, /* prjSpeed */ 100],
   [7, "Propa Scaffold", [["Void", 9000]], 0.3, 2, 0, 120, 9.1, 50, 10, /* prjSpeed */ 40],
 ] as [number, string, [string, number][], number, number, number, number, number, number, number, number?][];
 
@@ -101,7 +101,7 @@ export const NoneBraceData = {
 export const AmpPrismData: AmpPrism[] = _ampPrism.map(v => ({
   index: v[0],
   name: v[1],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   dmgs: v[2],
   critChance: v[3],
   critDamage: v[4],
@@ -117,7 +117,7 @@ export const AmpPrismData: AmpPrism[] = _ampPrism.map(v => ({
 export const AmpScaffoldData: AmpScaffold[] = _ampScaffold.map(v => ({
   index: v[0],
   name: v[1],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   dmgs: v[2],
   critChance: v[3],
   critDamage: v[4],
@@ -133,7 +133,7 @@ export const AmpScaffoldData: AmpScaffold[] = _ampScaffold.map(v => ({
 export const AmpBraceData: AmpBrace[] = _ampBrace.map(v => ({
   index: v[0],
   name: v[1],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   critChance: v[2],
   procChance: v[3],
   magazine: v[4],
@@ -226,7 +226,7 @@ export class Amp extends Weapon {
     if (this.prism || this.scaffold)
       return `${this.isPrism ? i18n.t(`messages.${this.prism.id}`) : i18n.t(`messages.${this.scaffold.id}`)}-${i18n.t(`messages.${this.brace.id}`)} ( ${
         this.buildName
-      } )`;
+        } )`;
     else return "Amp";
   }
 }

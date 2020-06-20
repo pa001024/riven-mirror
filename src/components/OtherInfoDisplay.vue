@@ -1,38 +1,38 @@
 <template>
   <div class="other-info">
     <section class="weapon">
-      <header>{{$t(build.weapon.id)}}</header>
+      <header>{{ $t(build.weapon.id) }}</header>
       <div class="links">
         <a :href="weaponWiki" target="_blank" rel="noopener noreferrer">
           <el-button size="mini" type="info" icon="el-icon-location">
-            {{$t("otherinfo.wiki")}}
+            {{ $t("otherinfo.wiki") }}
           </el-button>
         </a>
         <a :href="weaponWM" target="_blank" rel="noopener noreferrer">
           <el-button size="mini" type="info" icon="el-icon-goods">
-            {{$t("otherinfo.wm")}}
+            {{ $t("otherinfo.wm") }}
           </el-button>
         </a>
         <div class="wikitmpl">
-          <CopyText :text="`\{\{Weapon|${build.weapon.name}\}\}`" size="mini"/>
+          <CopyText :text="`\{\{Weapon|${build.weapon.name}\}\}`" size="mini" />
         </div>
       </div>
     </section>
     <section class="mod" v-for="(mod, i) in mods" :key="i">
-      <header>{{mod.name}}</header>
+      <header>{{ mod.name }}</header>
       <div class="links">
         <a :href="mod.wiki" target="_blank" rel="noopener noreferrer">
           <el-button size="mini" type="info" icon="el-icon-location">
-            {{$t("otherinfo.wiki")}}
+            {{ $t("otherinfo.wiki") }}
           </el-button>
         </a>
         <a :href="mod.wm" target="_blank" rel="noopener noreferrer">
           <el-button size="mini" type="info" icon="el-icon-goods">
-            {{$t("otherinfo.wm")}}
+            {{ $t("otherinfo.wm") }}
           </el-button>
         </a>
         <div class="wikitmpl">
-          <CopyText :text="`\{\{M|${mod.id}\}\}`" size="mini"/>
+          <CopyText :text="`\{\{M|${mod.id}\}\}`" size="mini" />
         </div>
       </div>
     </section>
@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
+import { kebabCase } from "lodash-es";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import CopyText from "@/components/CopyText.vue";
@@ -61,7 +61,7 @@ export default class OtherInfoDisplay extends Vue {
       id: v.id,
       name: v.name,
       wiki: this.$t("otherinfo.wikiurl", [v.id.replace(/ /g, "_")]),
-      wm: "https://warframe.market/items/" + _.kebabCase(v.id).replace(/-/g, "_")
+      wm: "https://warframe.market/items/" + kebabCase(v.id).replace(/-/g, "_"),
     }));
   }
 }

@@ -1,9 +1,9 @@
+import { map } from "lodash-es";
 import { hAccSum, hAccMul, hAccDiv } from "@/warframe/util";
 import { Enemy, NormalModDatabase, NormalMod, AcolyteModsList, Weapon } from "./codex";
 import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
 import { i18n } from "@/i18n";
-import _ from "lodash";
 
 /*
  * MOD自动配置模块
@@ -405,10 +405,10 @@ export class GunModBuild extends ModBuild {
     return this.compareMode == GunCompareMode.TotalDamage
       ? this.totalDamageAvg
       : this.compareMode == GunCompareMode.FirstAmmoDamage
-      ? this.firstAmmoDamage
-      : this.compareMode == GunCompareMode.BurstDamage
-      ? this.burstDamage
-      : this.sustainedDamage;
+        ? this.firstAmmoDamage
+        : this.compareMode == GunCompareMode.BurstDamage
+          ? this.burstDamage
+          : this.sustainedDamage;
   }
 
   /** [overwrite] 额外触发几率 */
@@ -458,7 +458,7 @@ export class GunModBuild extends ModBuild {
 
     if (this.zoomLevel) {
       const zoom = this.weapon.zoom[this.zoomLevel - 1];
-      _.map(zoom.props, (v, n) => this.applyProp(null, n, v));
+      map(zoom.props, (v, n) => this.applyProp(null, n, v));
     }
   }
   /**

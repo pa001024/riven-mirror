@@ -1,20 +1,18 @@
 <template>
   <div class="music-edit" tabindex="0" @keydown="keyDown" @keyup="keyUp" @mousemove="selectMove" @mouseup="selectEnd">
     <div class="edit-header setting">
-      <el-button size="small" type="primary" @click="showHelp = true">{{$t('shawzin.help')}}</el-button>
+      <el-button size="small" type="primary" @click="showHelp = true">{{ $t("shawzin.help") }}</el-button>
       <el-select style="width:90px" v-model="music.mode" size="small">
         <el-option :key="mode.name" v-for="mode in modes" :label="$t(`shawzin.${mode.name}`)" :value="mode.val" :disabled="!modeMaps[mode.val]" />
       </el-select>
       <el-select style="width:120px" v-model="instrument" size="small">
-        <el-option :label="$t('shawzin.piano')" value="piano"/>
-        <el-option :label="$t('shawzin.shawzin')" value="shawzin"/>
-        <el-option :label="$t('shawzin.lotus')" value="lotus"/>
+        <el-option :label="$t('shawzin.piano')" value="piano" />
+        <el-option :label="$t('shawzin.shawzin')" value="shawzin" />
+        <el-option :label="$t('shawzin.lotus')" value="lotus" />
       </el-select>
       <i v-if="!isLoaded" class="el-icon-loading"></i>
       <!-- 额外设置 -->
-      <el-popover
-        placement="top"
-        v-model="settingVisible">
+      <el-popover placement="top" v-model="settingVisible">
         <!-- BPM -->
         <div class="setting-line">
           <label>BPM: </label>
@@ -24,32 +22,32 @@
         </div>
         <!-- 简谱 -->
         <div class="setting-line">
-          <el-switch class="mode-select" v-model="useNumber" :active-text="$t('shawzin.number')" :inactive-text="$t('shawzin.name')"/>
+          <el-switch class="mode-select" v-model="useNumber" :active-text="$t('shawzin.number')" :inactive-text="$t('shawzin.name')" />
         </div>
         <!-- 升降符号 -->
         <div class="setting-line">
-          <el-switch class="mode-select" v-model="useSharp" :active-text="$t('shawzin.upshift')" :inactive-text="$t('shawzin.downshift')"/>
+          <el-switch class="mode-select" v-model="useSharp" :active-text="$t('shawzin.upshift')" :inactive-text="$t('shawzin.downshift')" />
         </div>
         <!-- 五线谱 -->
         <div class="setting-line">
-          <el-switch class="mode-select" v-model="showStaff" :active-text="$t('shawzin.staff')"/>
+          <el-switch class="mode-select" v-model="showStaff" :active-text="$t('shawzin.staff')" />
         </div>
         <!-- 调号 -->
         <div class="setting-line">
-          {{$t('shawzin.transpose')}}
+          {{ $t("shawzin.transpose") }}
           <el-select style="width:80px" v-model="music.numberShift" size="mini">
-            <el-option label="C" :value="0"/>
-            <el-option label="bD" :value="1"/>
-            <el-option label="D" :value="2"/>
-            <el-option label="bE" :value="3"/>
-            <el-option label="E" :value="4"/>
-            <el-option label="F" :value="5"/>
-            <el-option label="bG" :value="6"/>
-            <el-option label="G" :value="7"/>
-            <el-option label="bA" :value="8"/>
-            <el-option label="A" :value="9"/>
-            <el-option label="bB" :value="10"/>
-            <el-option label="B" :value="11"/>
+            <el-option label="C" :value="0" />
+            <el-option label="bD" :value="1" />
+            <el-option label="D" :value="2" />
+            <el-option label="bE" :value="3" />
+            <el-option label="E" :value="4" />
+            <el-option label="F" :value="5" />
+            <el-option label="bG" :value="6" />
+            <el-option label="G" :value="7" />
+            <el-option label="bA" :value="8" />
+            <el-option label="A" :value="9" />
+            <el-option label="bB" :value="10" />
+            <el-option label="B" :value="11" />
           </el-select>
         </div>
         <!-- 简谱导入导出 -->
@@ -65,7 +63,7 @@
             <el-tooltip effect="dark" :content="$t('shawzin.importMidi')" placement="bottom">
               <el-button size="small" @click="importMidi">MIDI</el-button>
             </el-tooltip>
-            <input type="file" ref="midiFile" class="el-upload__input" @change="midiFileChange">
+            <input type="file" ref="midiFile" class="el-upload__input" @change="midiFileChange" />
           </el-button-group>
         </div>
         <el-button slot="reference" size="small" icon="el-icon-setting"></el-button>
@@ -78,17 +76,17 @@
       </el-radio-group>
       <!-- 长度选择 -->
       <el-radio-group size="small" v-model="duration">
-        <el-radio-button :label="1">{{$t('shawzin.quarter')}}(J)</el-radio-button>
-        <el-radio-button :label="2">{{$t('shawzin.half')}}(K)</el-radio-button>
-        <el-radio-button :label="4">{{$t('shawzin.full')}}(L)</el-radio-button>
+        <el-radio-button :label="1">{{ $t("shawzin.quarter") }}(J)</el-radio-button>
+        <el-radio-button :label="2">{{ $t("shawzin.half") }}(K)</el-radio-button>
+        <el-radio-button :label="4">{{ $t("shawzin.full") }}(L)</el-radio-button>
       </el-radio-group>
       <!-- 操作 -->
       <el-button-group>
         <el-button size="small" type="danger" :disabled="isRecording" icon="el-icon-video-camera" @click="recordSeq"></el-button>
         <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq"></el-button>
         <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)"></el-button>
-        <el-button size="small" :disabled="!isPlaying && !isRecording && !isShowStop" @click="stopSeq()"><WfIcon type="stop" /></el-button>
-        <el-button size="small" v-model="loop" :type="loop ? 'primary' : 'normal'" @click="loop = !loop"><WfIcon type="loop" /></el-button>
+        <el-button size="small" :disabled="!isPlaying && !isRecording && !isShowStop" @click="stopSeq()"><WfIcon type="stop"/></el-button>
+        <el-button size="small" v-model="loop" :type="loop ? 'primary' : 'normal'" @click="loop = !loop"><WfIcon type="loop"/></el-button>
         <el-button size="small" @click="backspace" icon="el-icon-back"></el-button>
         <el-tooltip effect="dark" :content="$t('shawzin.importCode')" placement="bottom">
           <el-button size="small" @click="importCode" icon="el-icon-download"></el-button>
@@ -98,13 +96,19 @@
         </el-tooltip>
       </el-button-group>
       <!-- 清空 -->
-      <el-popover
-        placement="top"
-        v-model="clearConfirmVisible">
-        <p>{{$t('shawzin.clearConfirm')}}</p>
+      <el-popover placement="top" v-model="clearConfirmVisible">
+        <p>{{ $t("shawzin.clearConfirm") }}</p>
         <div style="text-align: right; margin: 0">
-          <el-button size="mini" type="text" @click="clearConfirmVisible = false">{{$t('riven.cancel')}}</el-button>
-          <el-button type="primary" size="mini" @click="clearConfirmVisible = false;clearNotes()">{{$t('riven.confirm')}}</el-button>
+          <el-button size="mini" type="text" @click="clearConfirmVisible = false">{{ $t("riven.cancel") }}</el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            @click="
+              clearConfirmVisible = false;
+              clearNotes();
+            "
+            >{{ $t("riven.confirm") }}</el-button
+          >
         </div>
         <el-button-group slot="reference">
           <el-tooltip effect="dark" :content="$t('shawzin.empty')" placement="bottom">
@@ -119,9 +123,7 @@
           <Notation v-if="showStaff" :showTrebleClef="true" :showBassClef="false">
             <Staff :notes="[0]" :duration="4" />
           </Notation>
-          <div class="note-count">
-            {{blocks.length}} {{$t("shawzin.note")}}
-          </div>
+          <div class="note-count">{{ blocks.length }} {{ $t("shawzin.note") }}</div>
         </div>
         <div class="piano">
           <div class="piano-header"></div>
@@ -131,14 +133,16 @@
               <div class="key">S</div>
             </div>
             <div class="piano-key" @click="playAndAddNote(note.code, duration)" v-for="note in notes" :key="note.name">
-              <div class="note" :class="[ useNumber && note.tone && ('tone' + note.tone) ]">{{useNumber ? (useSharp ? note.sharpNumber : note.number) : (useSharp ? note.sharpName : note.name)}}</div>
-              <div class="key">{{keyMaps[note.code]}}</div>
+              <div class="note" :class="[useNumber && note.tone && 'tone' + note.tone]">
+                {{ useNumber ? (useSharp ? note.sharpNumber : note.number) : useSharp ? note.sharpName : note.name }}
+              </div>
+              <div class="key">{{ keyMaps[note.code] }}</div>
             </div>
           </div>
         </div>
       </div>
       <!-- 钢琴窗 -->
-      <div class="piano-window" @mousedown="onCanvasDragStart" :class="{drag: isDragCanvas, draging: draggingCanvas}" ref="pianoWindow">
+      <div class="piano-window" @mousedown="onCanvasDragStart" :class="{ drag: isDragCanvas, draging: draggingCanvas }" ref="pianoWindow">
         <div class="preview-area">
           <div class="staff" v-if="showStaff">
             <Notation :showTrebleClef="true" :showBassClef="false">
@@ -146,47 +150,52 @@
             </Notation>
           </div>
           <div class="number">
-            <div class="number-note note" v-for="(note, i) in music.notes" :key="i"
-              :class="[ note.tone && ('tone' + note.tone), 'du' + note.duration ]">{{useSharp ? note.sharpNumber : note.number}}</div>
+            <div class="number-note note" v-for="(note, i) in music.notes" :key="i" :class="[note.tone && 'tone' + note.tone, 'du' + note.duration]">
+              {{ useSharp ? note.sharpNumber : note.number }}
+            </div>
           </div>
         </div>
         <div class="timelines" @mousedown="moveCursor">
           <div class="time-anchor" ref="timeAnchor"></div>
-          <div class="timeline" v-for="line in (maxLines/4)" :key="line">
-            <span>#{{line}}</span>
-            <span>{{lineToTime(line)}}</span>
+          <div class="timeline" v-for="line in maxLines / 4" :key="line">
+            <span>#{{ line }}</span>
+            <span>{{ lineToTime(line) }}</span>
           </div>
         </div>
         <div class="piano-canvas" ref="pCanvas" @mousedown="selectStart" :class="{ addmode: editMode === 'add' }">
           <div class="lines">
             <div class="line" v-for="line in maxLines" :key="line"></div>
           </div>
-          <div class="block" :class="{noevent:isSelect, selected: block.selected}" v-for="(block, index) in blocks" :key="index"
-            :style="{top:block.y+'px',left:block.x+'px',width:block.width+'px'}"
-            @mousedown.stop="singleSelectStart($event,{block, index})"
-          >{{toNote(block.y)}}<!--
-       --></div>
+          <div
+            class="block"
+            :class="{ noevent: isSelect, selected: block.selected }"
+            v-for="(block, index) in blocks"
+            :key="index"
+            :style="{ top: block.y + 'px', left: block.x + 'px', width: block.width + 'px' }"
+            @mousedown.stop="singleSelectStart($event, { block, index })"
+          >
+            {{ toNote(block.y)
+            }}<!--
+       -->
+          </div>
           <div class="select-border" v-show="isSelect" ref="selectBorder" />
         </div>
         <!-- <Spectrogram ref="spectrogram" :height="400" :timeScale="timeToPixelRatio" /> -->
       </div>
     </div>
-    <el-dialog
-      class="update-dialog"
-      :title="$t('shawzin.help')"
-      :visible.sync="showHelp">
+    <el-dialog class="update-dialog" :title="$t('shawzin.help')" :visible.sync="showHelp">
       <div class="help-item">
         <article class="md markdown-body" v-html="userGuide"></article>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="showHelp = false">{{$t('update.confirm')}}</el-button>
+        <el-button size="small" type="primary" @click="showHelp = false">{{ $t("update.confirm") }}</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import _ from "lodash";
+import { reverse, keyBy, cloneDeep } from "lodash-es";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import CopyText from "@/components/CopyText.vue";
 import Staff from "./components/Staff.vue";
@@ -336,7 +345,7 @@ const KeyMapRev = {
   k: "]",
 };
 
-const Keys = _.reverse("BCEJKMRSUhik".split(""));
+const Keys = reverse("BCEJKMRSUhik".split(""));
 
 interface MusicBlock {
   x: number;
@@ -508,7 +517,10 @@ export default class MusicEdit extends Vue {
   }
 
   get notes() {
-    return _.keyBy(Keys.map(v => new Note(v, this.music)), "code");
+    return keyBy(
+      Keys.map(v => new Note(v, this.music)),
+      "code"
+    );
   }
 
   get maxLines() {
@@ -738,7 +750,7 @@ export default class MusicEdit extends Vue {
       const last = this.blocks[this.blocks.length - 1];
       target = last.x + last.width;
     }
-    const source = _.cloneDeep(this.copyCache);
+    const source = cloneDeep(this.copyCache);
     this.blocks.forEach(b => (b.selected = false));
     const min = source.reduce((r, v) => Math.min(r, v.x), Infinity);
     const offset = target - min;

@@ -4,9 +4,9 @@
     <div class="build-list">
       <!-- 评级 -->
       <div class="build-result" v-if="builds.length">
-        <span class="rank-final">{{scoreLevelText}}</span>
-        <el-progress class="rank-progress" :show-text="false" :percentage="+(scoreLevel<0?0:scoreLevel>100?100:scoreLevel).toFixed()"></el-progress>
-        <span class="rank-progress-text">{{$t("buildview.score", [scoreLevel.toFixed()])}}</span>
+        <span class="rank-final">{{ scoreLevelText }}</span>
+        <el-progress class="rank-progress" :show-text="false" :percentage="+(scoreLevel < 0 ? 0 : scoreLevel > 100 ? 100 : scoreLevel).toFixed()"></el-progress>
+        <span class="rank-progress-text">{{ $t("buildview.score", [scoreLevel.toFixed()]) }}</span>
         <span v-html="$t('buildview.scoreResult', [score, selectCompMethodText])"></span>
         <!-- <span class="build-price">
           估价:
@@ -17,39 +17,35 @@
       <el-collapse v-model="activeNames" v-if="builds.length">
         <el-collapse-item v-for="build in builds" :key="build[0]" :name="build[0]">
           <template slot="title">
-            <div class="build-title">
-              {{$t(build[0])}} &nbsp;-&nbsp; {{build[1].compareDamage.toFixed(1)}} {{selectCompMethodText}}
-            </div>
+            <div class="build-title">{{ $t(build[0]) }} &nbsp;-&nbsp; {{ build[1].compareDamage.toFixed(1) }} {{ selectCompMethodText }}</div>
           </template>
           <el-row type="flex" :gutter="12" class="build-item autozoom" style="margin:8px;">
             <el-col class="build-card" :span="bigScreen ? 12 : 24" :sm="12" :md="6" :lg="3" v-for="mod in build[1].vmods" :key="mod.name">
               <div class="build-card-box" :class="[mod.rarity]">
                 <div class="build-card-header">
-                  <div class="build-card-name">{{mod.name}}</div>
+                  <div class="build-card-name">{{ mod.name }}</div>
                 </div>
                 <div class="build-card-body">
                   <div class="build-card-prop" v-for="prop in mod.vProps" :key="prop.id">
-                    {{prop.fullName}}
+                    {{ prop.fullName }}
                   </div>
                 </div>
               </div>
             </el-col>
           </el-row>
           <el-row class="build-prop">
-            <el-button size="small" type="primary" round @click="toBuild(build[1])">{{$t("buildview.tobuild")}}</el-button>
-            <el-tag>{{$t("buildview.panelDamage")}} {{build[1].panelDamage.toFixed(1)}} </el-tag>
-            <el-tag>{{$t("buildview.critChance")}} {{(build[1].critChance*100).toFixed(1)}}% </el-tag>
-            <el-tag>{{$t("buildview.critMul")}} {{(build[1].critMul).toFixed(1)}}x </el-tag>
-            <el-tag>{{$t("buildview.fireRate")}} {{(build[1].fireRate).toFixed(1)}} </el-tag>
-            <el-tag>{{$t("buildview.magazine")}} {{(build[1].magazineSize).toFixed(0)}} </el-tag>
-            <el-tag>{{$t("buildview.reload")}} {{(build[1].reloadTime).toFixed(1)}} </el-tag>
-            <el-tag>{{$t("buildview.status")}} {{(build[1].realProcChance*100).toFixed(1)}}% </el-tag>
+            <el-button size="small" type="primary" round @click="toBuild(build[1])">{{ $t("buildview.tobuild") }}</el-button>
+            <el-tag>{{ $t("buildview.panelDamage") }} {{ build[1].panelDamage.toFixed(1) }} </el-tag>
+            <el-tag>{{ $t("buildview.critChance") }} {{ (build[1].critChance * 100).toFixed(1) }}% </el-tag>
+            <el-tag>{{ $t("buildview.critMul") }} {{ build[1].critMul.toFixed(1) }}x </el-tag>
+            <el-tag>{{ $t("buildview.fireRate") }} {{ build[1].fireRate.toFixed(1) }} </el-tag>
+            <el-tag>{{ $t("buildview.magazine") }} {{ build[1].magazineSize.toFixed(0) }} </el-tag>
+            <el-tag>{{ $t("buildview.reload") }} {{ build[1].reloadTime.toFixed(1) }} </el-tag>
+            <el-tag>{{ $t("buildview.status") }} {{ (build[1].realProcChance * 100).toFixed(1) }}% </el-tag>
           </el-row>
         </el-collapse-item>
       </el-collapse>
-      <div class="loading" v-else>
-        <i class="el-icon-loading"></i> {{$t("buildview.loading")}}
-      </div>
+      <div class="loading" v-else><i class="el-icon-loading"></i> {{ $t("buildview.loading") }}</div>
     </div>
     <!-- 设置区域 -->
     <div class="setting">
@@ -63,35 +59,32 @@
         <!-- 选择武器 -->
         <el-form-item :label="$t('buildview.weapon')" v-if="riven.weapons.length > 1">
           <el-select v-model="selectWeapon" @change="debouncedRecalc" :placeholder="$t('buildview.selectWeapon')">
-            <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.displayName" :value="weapon.name">
-            </el-option>
+            <el-option v-for="weapon in riven.weapons" :key="weapon.name" :label="weapon.displayName" :value="weapon.name"> </el-option>
           </el-select>
         </el-form-item>
         <!-- 选择KITGUN组件 -->
         <el-form-item :label="$t('buildview.components')" v-if="riven.weapon.isKitgun">
           <el-select style="width:120px" v-model="gripId" @change="kitgunPartChange" :placeholder="$t('kitgun.selectGrip')">
-            <el-option v-for="grip in gripList" :key="grip.name" :label="$t(`messages.${grip.id}`)" :value="grip.name">
-            </el-option>
+            <el-option v-for="grip in gripList" :key="grip.name" :label="$t(`messages.${grip.id}`)" :value="grip.name"> </el-option>
           </el-select>
           <el-select style="width:120px" v-model="loaderId" @change="kitgunPartChange" :placeholder="$t('kitgun.selectLoader')">
-            <el-option v-for="loader in loaderList" :key="loader.name" :label="$t(`messages.${loader.id}`)" :value="loader.name">
-            </el-option>
+            <el-option v-for="loader in loaderList" :key="loader.name" :label="$t(`messages.${loader.id}`)" :value="loader.name"> </el-option>
           </el-select>
         </el-form-item>
         <!-- 选择比较类型 -->
         <el-form-item>
           <el-radio-group v-model="selectCompMethod" @change="debouncedRecalc">
             <el-tooltip effect="dark" :content="$t('buildview.totalDamageTip')" placement="bottom">
-              <el-radio-button :label="0">{{$t("buildview.totalDamage")}}</el-radio-button>
+              <el-radio-button :label="0">{{ $t("buildview.totalDamage") }}</el-radio-button>
             </el-tooltip>
             <el-tooltip v-if="weapon.tags.has('Sniper')" effect="dark" :content="$t('buildview.firstAmmoDamageTip')" placement="bottom">
-              <el-radio-button :label="3">{{$t("buildview.firstAmmoDamage")}}</el-radio-button>
+              <el-radio-button :label="3">{{ $t("buildview.firstAmmoDamage") }}</el-radio-button>
             </el-tooltip>
             <el-tooltip effect="dark" :content="$t('buildview.burstDamageTip')" placement="bottom">
-              <el-radio-button :label="1">{{$t("buildview.burstDamage")}}</el-radio-button>
+              <el-radio-button :label="1">{{ $t("buildview.burstDamage") }}</el-radio-button>
             </el-tooltip>
             <el-tooltip effect="dark" :content="$t('buildview.sustainedDamageTip')" placement="bottom">
-              <el-radio-button :label="2">{{$t("buildview.sustainedDamage")}}</el-radio-button>
+              <el-radio-button :label="2">{{ $t("buildview.sustainedDamage") }}</el-radio-button>
             </el-tooltip>
           </el-radio-group>
         </el-form-item>
@@ -105,19 +98,25 @@
         <el-form-item :label="$t('buildview.limitElementsType')">
           <el-tooltip effect="dark" :content="$t('buildview.limitElementsTypeTip')" placement="bottom">
             <el-select v-model="selectDamageType" @change="selectDamageTypeChange()" :placeholder="$t('buildview.unlimited')" clearable style="width: 120px;">
-              <el-option v-for="(value, name) in elementTypes" :key="name" :label="$t(`elements.${name}`)" :value="name">
-              </el-option>
+              <el-option v-for="(value, name) in elementTypes" :key="name" :label="$t(`elements.${name}`)" :value="name"> </el-option>
             </el-select>
           </el-tooltip>
         </el-form-item>
         <!-- 开镜倍率 -->
         <el-form-item :label="$t('buildview.zoom')" v-if="weapon.maxZoomLevel">
-          <el-slider v-model="zoomLevel"  style="width:200px;margin-left:8px;margin-right:16px;" :min="0" :max="weapon.maxZoomLevel" show-stops :format-tooltip="v=>(v?weapon.zoom[v-1].ratio:1)+'x'"></el-slider>
+          <el-slider
+            v-model="zoomLevel"
+            style="width:200px;margin-left:8px;margin-right:16px;"
+            :min="0"
+            :max="weapon.maxZoomLevel"
+            show-stops
+            :format-tooltip="v => (v ? weapon.zoom[v - 1].ratio : 1) + 'x'"
+          ></el-slider>
         </el-form-item>
         <!-- 爆头几率 -->
         <el-form-item :label="$t('buildview.headshotChance')">
           <el-tooltip effect="dark" :content="$t('buildview.headshotChanceTip')" placement="bottom">
-            <el-slider v-model="headShotChance" :format-tooltip="v=>v+'%'" style="width:200px;margin-left:8px;margin-right:16px;"></el-slider>
+            <el-slider v-model="headShotChance" :format-tooltip="v => v + '%'" style="width:200px;margin-left:8px;margin-right:16px;"></el-slider>
           </el-tooltip>
         </el-form-item>
         <!-- 基伤加成 -->
@@ -144,17 +143,21 @@
         </el-form-item>
         <!-- 使用MOD -->
         <el-form-item :label="$t('buildview.usemods')">
-          <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="debouncedRecalc">{{$t("buildview.heavyCaliber")}}</el-checkbox>
-          <el-checkbox v-if="riven.mod === 'Arch-Gun'" v-model="useDeadlyEfficiency" @change="debouncedRecalc">{{$t("buildview.deadlyEfficiency")}}</el-checkbox>
-          <el-checkbox v-if="weapon.tags.has('Sniper')" v-model="usePrimedChamber" @change="debouncedRecalc">{{$t("buildview.primedChamber")}}</el-checkbox>
+          <el-checkbox v-if="riven.mod === 'Rifle'" v-model="useHeavyCaliber" @change="debouncedRecalc">{{ $t("buildview.heavyCaliber") }}</el-checkbox>
+          <el-checkbox v-if="riven.mod === 'Arch-Gun'" v-model="useDeadlyEfficiency" @change="debouncedRecalc">{{
+            $t("buildview.deadlyEfficiency")
+          }}</el-checkbox>
+          <el-checkbox v-if="weapon.tags.has('Sniper')" v-model="usePrimedChamber" @change="debouncedRecalc">{{ $t("buildview.primedChamber") }}</el-checkbox>
           <el-tooltip effect="dark" :content="$t('buildview.acolyteModsTip')" placement="bottom">
-            <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">{{$t("buildview.acolyteMods")}}</el-checkbox>
+            <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">{{ $t("buildview.acolyteMods") }}</el-checkbox>
           </el-tooltip>
         </el-form-item>
         <!-- 赋能 -->
         <el-form-item :label="$t('buildview.arcanes')">
           <el-checkbox-group v-model="arcanes">
-            <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="debouncedRecalc">{{$t(`buff.${arcane.name}`)}}</el-checkbox>
+            <el-checkbox v-for="arcane in availableArcanes" :key="arcane.id" :label="arcane" @change="debouncedRecalc">{{
+              $t(`buff.${arcane.name}`)
+            }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -163,7 +166,7 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
+import { debounce } from "lodash-es";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { BaseModBuildView } from "./BaseModBuildView";
 import { GunModBuild, GunCompareMode } from "@/warframe/gunmodbuild";
@@ -177,7 +180,7 @@ import {
   Kitgun,
   RivenDatabase,
   Codex,
-  WeaponDatabase
+  WeaponDatabase,
 } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import "@/less/buildview.less";
@@ -306,7 +309,7 @@ export default class GunModBuildView extends BaseModBuildView {
   }
   // === 生命周期钩子 ===
   beforeMount() {
-    this._debouncedRecalc = _.debounce(() => {
+    this._debouncedRecalc = debounce(() => {
       this.recalc();
     }, 150);
     this.selectDamageType = localStorage.getItem("GunModBuildView.selectDamageType") || "Radiation";
@@ -327,7 +330,7 @@ export default class GunModBuildView extends BaseModBuildView {
       allowElementTypes: (this.selectDamageType && this.elementTypes[this.selectDamageType]) || null,
       extraBaseDamage: +this.extraBaseDamage,
       extraOverall: +this.extraOverall,
-      zoomLevel: this.zoomLevel
+      zoomLevel: this.zoomLevel,
     };
     super.recalc(GunModBuild, options);
   }

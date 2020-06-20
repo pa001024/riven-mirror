@@ -1,7 +1,7 @@
+import { camelCase } from "lodash-es";
 import { hAccSum } from "@/warframe/util";
 import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
-import _ from "lodash";
 import { WeaponTag, CoreWeaponMode, MainTag } from "./weapon";
 
 /**
@@ -85,7 +85,7 @@ const _kitgunChamber = [
   ], 0.25, 0.25, [23, 31, 43, 51], 100, [1, 0.5]],
   [2, "Rattleguts", [
     [["Impact", -1], ["Puncture", 7], ["Slash", 5], ["Radiation", 10]],
-    [["Impact", 2], ["Puncture", 5], ["Slash",3], ["Radiation", 9]] // Primary
+    [["Impact", 2], ["Puncture", 5], ["Slash", 3], ["Radiation", 9]] // Primary
   ], 0.19, 0.19, [29, 45, 67, 83], 26, [0.75, 0.5]],
   [3, "Tombfinger", [
     [["Impact", 12], ["Puncture", 5], ["Radiation", 43]],
@@ -125,7 +125,7 @@ const _kitgunLoader = [
 
 export const KitgunChamberData: KitgunChamber[] = _kitgunChamber.map(v => ({
   index: v[0],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   name: v[1],
   pdmgs: v[2][1],
   sdmgs: v[2][0],
@@ -138,7 +138,7 @@ export const KitgunChamberData: KitgunChamber[] = _kitgunChamber.map(v => ({
 
 export const KitgunGripData: KitgunGrip[] = _kitgunGrip.map(v => ({
   index: v[0],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   name: v[1],
   chambersData: v[2].map(k => ({
     dmgAdd: k[0],
@@ -149,7 +149,7 @@ export const KitgunGripData: KitgunGrip[] = _kitgunGrip.map(v => ({
 
 export const KitgunLoaderData: KitgunLoader[] = _kitgunLoader.map(v => ({
   index: v[0],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   name: v[1],
   critDamage: v[2],
   critChance: v[3],
@@ -260,7 +260,7 @@ export class Kitgun extends Weapon {
     }
     this.modes = this.modes.map(mode => {
       if (mode.name || mode.type) {
-        const locKey = `weaponmode.${_.camelCase(mode.name || mode.type || "default")}`;
+        const locKey = `weaponmode.${camelCase(mode.name || mode.type || "default")}`;
         if (i18n.te(locKey)) {
           mode.locName = i18n.t(locKey);
         } else {

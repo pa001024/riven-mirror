@@ -1,4 +1,3 @@
-import { Midi } from "@tonejs/midi";
 /*
 音符编码即不同位操作
 
@@ -35,7 +34,7 @@ i >> 3 得到品位
 http://www.sohu.com/a/234009955_100172496
 */
 
-import _ from "lodash";
+import { uniq } from "lodash-es";
 
 const BASESEQ = "BCEJKMRSUhik";
 const _BASE64_ST = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -62,7 +61,7 @@ const StringMap = [[], [0], [1], [0, 1], [2], [1, 2], [0, 2], [0, 1, 2]];
 const FretMap = [[0], [3], [6], [0, 2, 4], [9], [3, 5, 7], [0, 1, 3], [3, 4, 6]];
 
 /** 代码映射 */
-const CodeMap = (function() {
+const CodeMap = (function () {
   let r = {};
   for (let i = 1; i < _BASE64_ST.length; i++) {
     if ((i & 7) === 0) continue;
@@ -75,7 +74,7 @@ const CodeMap = (function() {
         dst.push(str + fre);
       });
     });
-    if (dst.length) r[c] = _.uniq(dst).sort();
+    if (dst.length) r[c] = uniq(dst).sort();
   }
   return r as { [x: string]: number[] };
 })();
@@ -281,7 +280,7 @@ export class Music {
         continue;
       }
       if (stack.length) {
-        const key = _.uniq(stack.concat(note.seq))
+        const key = uniq(stack.concat(note.seq))
           .sort()
           .join("_");
         const code = CodeMapRev[key] || BASESEQ[note.seq];
@@ -299,7 +298,7 @@ export class Music {
     const notes = value.substr(1);
     let seqs: [number, number][] = [];
     let space = this.space;
-    for (let i = 0; i < notes.length - 2; ) {
+    for (let i = 0; i < notes.length - 2;) {
       const [code, pos] = [notes[i], notes.substr(i + 1, 2)];
       const t = deibase64(pos);
       // 自动判定BPM
@@ -413,7 +412,7 @@ export class Music {
       if (i === 0 || note.duration != lastDuration) durationFlag = ["(", "=", "-", , "."][note.duration];
       rst.push(
         `${i > 0 && totalTime % 16 === 0 ? " " : ""}${durationFlag}${toneFlag}${note.codeNumber}${
-          i > 0 && note.duration != last.duration && last.duration === 0 ? ")" : ""
+        i > 0 && note.duration != last.duration && last.duration === 0 ? ")" : ""
         }`
       );
       lastDuration = note.duration || lastDuration;

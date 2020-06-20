@@ -1,7 +1,7 @@
+import { map, mapValues, repeat, lowerCase, camelCase, reduce, maxBy } from "lodash-es";
 import { i18n } from "@/i18n";
 import { ProtoWeapon, Zoom, WeaponMode } from "./weapon.i";
 import Axios from "axios";
-import _, { Omit } from "lodash";
 // build from riven-mirror-data
 import data from "../../../data/dist/weapons.data";
 import proto from "../../../data/src/proto/weapon.proto";
@@ -104,8 +104,8 @@ export class Weapon {
     // 修复过高精度
     const fixBuf = <T>(v: T) => {
       if (typeof v === "number") return +v.toFixed(3);
-      if (Array.isArray(v)) return _.map(v, fixBuf);
-      if (typeof v === "object") return _.mapValues(v as any, fixBuf);
+      if (Array.isArray(v)) return map(v, fixBuf);
+      if (typeof v === "object") return mapValues(v as any, fixBuf);
       return v;
     };
     if (data) {
@@ -122,11 +122,11 @@ export class Weapon {
         // 根据默认补全属性
         this.modes = modes.map(({ damage, ...mode }) => {
           const newMode = {
-            damage: _.map(damage, (vv, vn) => [vn, fixBuf(vv)] as [string, number]),
+            damage: map(damage, (vv, vn) => [vn, fixBuf(vv)] as [string, number]),
             ...mode,
           } as CoreWeaponMode;
           if (mode.name || mode.type) {
-            const locKey = `weaponmode.${_.camelCase(mode.name || mode.type || "default")}`;
+            const locKey = `weaponmode.${camelCase(mode.name || mode.type || "default")}`;
             if (i18n.te(locKey)) {
               newMode.locName = i18n.t(locKey);
             } else {
@@ -175,16 +175,16 @@ export class Weapon {
   }
   /** WM RIEVN URL */
   get wmrivenurl() {
-    const name = _.lowerCase(this.baseName.replace(/&/g, "and"));
+    const name = lowerCase(this.baseName.replace(/&/g, "and"));
     const tpl = `https://warframe.market/auctions/search?type=riven&weapon_url_name=${name}&polarity=any&sort_by=price_desc`;
     return tpl;
   }
   /** i18n的key */
   get id() {
-    return `messages.${_.camelCase(this.name)}`;
+    return `messages.${camelCase(this.name)}`;
   }
   get baseId() {
-    return `messages.${_.camelCase(this.baseName)}`;
+    return `messages.${camelCase(this.baseName)}`;
   }
   get locName() {
     return i18n.te(this.id) ? i18n.t(this.id) : this.name;
@@ -206,7 +206,7 @@ export class Weapon {
     return [0.1, 0.7, 0.875, 1.125, 1.305, Infinity].findIndex(v => this.disposition < v);
   }
   get starText() {
-    return _.repeat("●", this.star) + _.repeat("○", 5 - this.star);
+    return repeat("●", this.star) + repeat("○", 5 - this.star);
   }
   /** 是否是Gun */
   get isGun() {
@@ -435,7 +435,7 @@ export class WeaponBuildMode implements CoreWeaponMode {
   }
   /** 面板伤害 */
   get panelDamage() {
-    return _.reduce(this.damage, (a, b) => a + b[1], 0);
+    return reduce(this.damage, (a, b) => a + b[1], 0);
   }
 }
 
@@ -479,7 +479,7 @@ export class WeaponDatabase {
       const rst = await Axios.get(data || "https://api.riven.im/data/weapons.data", { responseType: "arraybuffer" });
       bin = rst.data;
       localStorage.setItem("weapons.data", base64arraybuffer.encode(bin));
-    } catch {}
+    } catch { }
     const msg = proto.Weapons.decode(new Uint8Array(bin));
     const decoded = proto.Weapons.toObject(msg);
     this.load(decoded.weapons as ProtoWeapon[]);
@@ -541,7 +541,7 @@ export class WeaponDatabase {
   static findMostSimRivenWeapon(name: string) {
     name = name.trim();
     if (this.hasWeapon(name)) return this.getWeaponByName(name);
-    let weaponFinded = _.maxBy(this.weapons, v => Math.max(strSimilarity(name, v.locName), strSimilarity(name, v.name)));
+    let weaponFinded = maxBy(this.weapons, v => Math.max(strSimilarity(name, v.locName), strSimilarity(name, v.name)));
     return weaponFinded;
   }
 

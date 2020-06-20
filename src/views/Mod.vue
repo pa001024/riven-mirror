@@ -5,24 +5,32 @@
         <!-- 识别区域 -->
         <el-row>
           <el-col :span="24">
-            <el-switch class="mode-select" v-model="useText" :active-text="$t('riven.manualinput')" :inactive-text="$t('riven.picupload')">
-            </el-switch>
+            <el-switch class="mode-select" v-model="useText" :active-text="$t('riven.manualinput')" :inactive-text="$t('riven.picupload')"> </el-switch>
           </el-col>
           <el-col :span="24">
             <el-popover ref="addpop" v-if="useText" placement="bottom" :width="400" v-model="editorVisible">
               <RivenEditor v-model="editorRivenCode"></RivenEditor>
               <div style="text-align: right; margin: 0">
-                <el-button size="medium" @click="editorVisible = false">{{$t("riven.cancel")}}</el-button>
-                <el-button type="primary" size="medium" @click="newRiven">{{$t("riven.confirm")}}</el-button>
+                <el-button size="medium" @click="editorVisible = false">{{ $t("riven.cancel") }}</el-button>
+                <el-button type="primary" size="medium" @click="newRiven">{{ $t("riven.confirm") }}</el-button>
               </div>
-              <el-button slot="reference" class="block btn-addriven" size="medium" icon="el-icon-plus">{{$t("riven.addriven")}}</el-button>
+              <el-button slot="reference" class="block btn-addriven" size="medium" icon="el-icon-plus">{{ $t("riven.addriven") }}</el-button>
             </el-popover>
             <template v-else>
               <el-input type="textarea" :rows="1" :placeholder="$t(`riven.pastehere`)" style="margin-bottom: 8px;"></el-input>
-              <el-upload class="upload-pic" ref="upload" drag :before-upload="onUploadStart" :on-success="onUploadSuccess" :on-error="onUploadError" :show-file-list="false" :action="ocrService">
+              <el-upload
+                class="upload-pic"
+                ref="upload"
+                drag
+                :before-upload="onUploadStart"
+                :on-success="onUploadSuccess"
+                :on-error="onUploadError"
+                :show-file-list="false"
+                :action="ocrService"
+              >
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text" v-html="$t('riven.uploadtip')"></div>
-                <div slot="tip" class="el-upload__tip">{{$t("riven.uploadlimit")}}</div>
+                <div slot="tip" class="el-upload__tip">{{ $t("riven.uploadlimit") }}</div>
               </el-upload>
             </template>
           </el-col>
@@ -33,26 +41,33 @@
             <div v-show="mod.name" class="mod-display">
               <div class="mod-props-box">
                 <div class="mod-name">
-                  <span>{{mod.fullLocName}}</span>
-                  <ShareQR :url="mod.qrCodeURL"/>
+                  <span>{{ mod.fullLocName }}</span>
+                  <ShareQR :url="mod.qrCodeURL" />
                 </div>
                 <div class="mod-props">
-                  <div v-for="(prop, i) in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop': mod.hasNegativeProp && i === mod.properties.length - 1}">
-                    {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
+                  <div
+                    v-for="(prop, i) in mod.properties"
+                    :key="prop.name"
+                    class="mod-prop"
+                    :class="{ 'negative-prop': mod.hasNegativeProp && i === mod.properties.length - 1 }"
+                  >
+                    {{ $t("prop.fullName." + prop.id, [prop.displayValue]) }}
                     <el-tooltip effect="dark" :content="$t('riven.range', prop.range)" placement="right">
-                      <el-tag v-if="prop.displayDeviation" size="small" class="mod-dis" :type="prop.deviation > 1 ? 'success' : 'danger'"> {{ prop.deviation > 1 ? $t("riven.higher") : $t("riven.lower")}} {{prop.displayDeviation}}</el-tag>
-                      <el-tag v-else size="small" class="mod-dis" type="success">{{$t("riven.average")}}</el-tag>
+                      <el-tag v-if="prop.displayDeviation" size="small" class="mod-dis" :type="prop.deviation > 1 ? 'success' : 'danger'">
+                        {{ prop.deviation > 1 ? $t("riven.higher") : $t("riven.lower") }} {{ prop.displayDeviation }}</el-tag
+                      >
+                      <el-tag v-else size="small" class="mod-dis" type="success">{{ $t("riven.average") }}</el-tag>
                     </el-tooltip>
                   </div>
                   <div class="mod-extra">
-                    <div class="extra-tag mod-rank" v-if="mod.rank">{{$t("riven.rank")}}{{mod.rank}}</div>
+                    <div class="extra-tag mod-rank" v-if="mod.rank">{{ $t("riven.rank") }}{{ mod.rank }}</div>
                     <div class="extra-tag mod-recycleTimes">
                       <i class="el-icon-refresh"></i>
-                      {{mod.recycleTimes}}
+                      {{ mod.recycleTimes }}
                     </div>
                     <!-- <div class="extra-tag mod-level">{{$t("riven.level")}}{{mod.level}}</div> -->
                     <!-- <el-tooltip effect="dark" :content="" placement="right"> -->
-                    <div class="extra-tag mod-ratio">{{$t('riven.star', [mod.starText])}} {{mod.ratio}}</div>
+                    <div class="extra-tag mod-ratio">{{ $t("riven.star", [mod.starText]) }} {{ mod.ratio }}</div>
                     <!-- </el-tooltip> -->
                   </div>
                 </div>
@@ -65,11 +80,11 @@
           <el-col :span="24">
             <div class="mod-history">
               <div class="mod-history-title">
-                {{$t("riven.history")}}
+                {{ $t("riven.history") }}
               </div>
               <div class="mod-history-list">
                 <div v-for="(hiRiven, index) in modHistoty" :key="index" @click="newBase64Text(hiRiven.qrCodeBase64)" class="mod-history-item">
-                  {{hiRiven.fullLocName}}
+                  {{ hiRiven.fullLocName }}
                   <span class="history-delete" @click.stop="removeHistory(hiRiven.qrCode)"><i class="el-icon-close"></i></span>
                 </div>
               </div>
@@ -82,7 +97,7 @@
         <el-row>
           <!-- 价格区域 -->
           <el-col :span="24" v-if="priceData.length > 0">
-            <RivenPrice :mod="mod"/>
+            <RivenPrice :mod="mod" />
           </el-col>
           <el-col :span="24">
             <component :riven="mod" :is="mod.weapon.isGun ? 'GunModBuildView' : 'MeleeModBuildView'"></component>
@@ -94,7 +109,7 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
+import { debounce } from "lodash-es";
 import axios from "axios";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import GunModBuildView from "@/views/buildview/GunModBuildView.vue";
@@ -118,7 +133,7 @@ interface OCRResult {
   success: number;
 }
 @Component({
-  components: { GunModBuildView, MeleeModBuildView, RivenEditor, ShareQR, RivenPrice }
+  components: { GunModBuildView, MeleeModBuildView, RivenEditor, ShareQR, RivenPrice },
 })
 export default class Mod extends Vue {
   // prop
@@ -250,7 +265,7 @@ export default class Mod extends Vue {
   }
   // === 生命周期钩子 ===
   beforeMount() {
-    this.debouncedmodTextChange = _.debounce(() => {
+    this.debouncedmodTextChange = debounce(() => {
       this.newModTextInput(this.modText);
       if (this.mod.name) {
         localStorage.setItem("modText", this.modText);

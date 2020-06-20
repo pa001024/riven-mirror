@@ -2,14 +2,13 @@
   <div class="riven-price" v-if="enable">
     <el-collapse>
       <el-collapse-item :title="$t(`riven.viewprice`)" name="1">
-        <RivenPriceView :weapon="mod.weapon"/>
+        <RivenPriceView :weapon="mod.weapon" />
       </el-collapse-item>
     </el-collapse>
   </div>
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { RivenMod } from "@/warframe/rivenmod";
 import { WeeklyRivenInfo } from "@/warframe/weeklyriven";

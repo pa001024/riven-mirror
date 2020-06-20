@@ -1,6 +1,6 @@
+import { camelCase } from "lodash-es";
 import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
-import _ from "lodash";
 import { WeaponTag, CoreWeaponMode, MainTag } from "./weapon";
 import { RivenDatabase } from "./riven";
 
@@ -78,7 +78,7 @@ export interface ZawStrikeModify {
 
 export const ZawStrikeData: ZawStrike[] = _zawStrike.map(v => ({
   idx: v[0],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   name: v[1],
   dmg: v[2],
   dmgs: v[3],
@@ -113,7 +113,7 @@ export interface ZawGrip {
 
 export const ZawGripData: ZawGrip[] = _zawGrip.map(v => ({
   idx: v[0],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   name: v[1],
   twoHand: !!v[2],
   dmg: v[3],
@@ -160,7 +160,7 @@ export interface ZawLinks {
 
 export const ZawLinksData: ZawLinks[] = _zawLinks.map(v => ({
   idx: v[0],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   name: v[1],
   dmg: v[2],
   speed: v[3],
@@ -266,8 +266,8 @@ export class Zaw extends Weapon {
     this.modes = [mode];
   }
   get displayName() {
-    return `${i18n.t(`messages.${_.camelCase(this.strike.id)}`)}-${i18n.t(`messages.${_.camelCase(this.grip.id)}`)}-${i18n.t(
-      `messages.${_.camelCase(this.links.id)}`
+    return `${i18n.t(`messages.${camelCase(this.strike.id)}`)}-${i18n.t(`messages.${camelCase(this.grip.id)}`)}-${i18n.t(
+      `messages.${camelCase(this.links.id)}`
     )}`;
   }
 }

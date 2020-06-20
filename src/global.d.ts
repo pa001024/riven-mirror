@@ -1,4 +1,3 @@
-import "lodash";
 import { WeaponDatabase } from "./warframe/codex";
 
 declare interface HMTStatic {

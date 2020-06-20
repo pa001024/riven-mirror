@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { camelCase, map } from "lodash-es";
 import { ValuedProperty } from "./prop";
 import { i18n } from "@/i18n";
 
@@ -86,7 +86,7 @@ export class NormalMod implements NormalModData {
         if (vn.startsWith("!")) pn[vn.substr(1)] = (pn[vn.substr(1)] || 0) + vv;
         else pn[vn] = (pn[vn] || 0) + vv;
       });
-      nprops = _.map(pn, (v, i) => [i, v] as [string, number]);
+      nprops = map(pn, (v, i) => [i, v] as [string, number]);
     }
     if (this.setMul === 1 && this.level === this.maxLevel) this._propsMax = nprops;
     return nprops;
@@ -120,7 +120,7 @@ export class NormalMod implements NormalModData {
     return this.baseCost < 0 ? Math.ceil(this.cost / 1.25) - this.cost : this.cost - Math.ceil(this.cost * 1.25);
   }
   get name() {
-    const ikey = `messages.${_.camelCase(this.id)}`;
+    const ikey = `messages.${camelCase(this.id)}`;
     let name = this.customName || (i18n.te(ikey) ? i18n.t(ikey) : this.id);
     return name || "";
   }
@@ -132,14 +132,14 @@ export class NormalMod implements NormalModData {
    * @memberof NormalMod
    */
   get shortName() {
-    const ikey = `mods.${_.camelCase(this.key === "01" ? "riven" : this.id)}`;
+    const ikey = `mods.${camelCase(this.key === "01" ? "riven" : this.id)}`;
     let name = i18n.te(ikey) ? i18n.t(ikey) : "";
     return name || this.name;
   }
 
   /** 描述 */
   get desc() {
-    let desc = i18n.t(`moddesc.${_.camelCase(this.id)}`) as string;
+    let desc = i18n.t(`moddesc.${camelCase(this.id)}`) as string;
     return desc || "";
   }
 

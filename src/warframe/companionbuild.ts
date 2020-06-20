@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { camelCase, cloneDeep, forEachRight, compact, clone } from "lodash-es";
 import { Codex, Weapon } from "./codex";
 import { i18n } from "@/i18n";
 import { NormalMod, NormalModDatabase } from "./codex/mod";
@@ -39,20 +39,20 @@ export class CompanionBuild implements CommonBuild {
   }
   /** MOD列表 */
   get mods() {
-    return _.cloneDeep(this._mods);
+    return cloneDeep(this._mods);
   }
   set mods(value) {
-    this._rawmods = _.cloneDeep(value);
+    this._rawmods = cloneDeep(value);
     this._mods = this.mapRankUpMods(value);
     this.calcMods();
     this.recalcPolarizations();
   }
   /** 加成列表 */
   get buffs() {
-    return _.cloneDeep(this._buffs);
+    return cloneDeep(this._buffs);
   }
   set buffs(value) {
-    this._buffs = _.cloneDeep(value);
+    this._buffs = cloneDeep(value);
     this.calcMods();
   }
 
@@ -62,7 +62,7 @@ export class CompanionBuild implements CommonBuild {
   }
   /** 本地化名称 */
   get name() {
-    return i18n.t(`messages.${_.camelCase(this.data.id)}`);
+    return i18n.t(`messages.${camelCase(this.data.id)}`);
   }
   /** 类型 */
   get type() {
@@ -299,7 +299,7 @@ export class CompanionBuild implements CommonBuild {
   calcMods() {
     this.reset();
     this._mods.forEach(mod => {
-      mod && _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
+      mod && forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
     });
     // 加载Buff
     this._buffs.forEach(buff => {
@@ -330,7 +330,7 @@ export class CompanionBuild implements CommonBuild {
    * @memberof companionBuild
    */
   isValidMod(mod: NormalMod): boolean {
-    let mods = _.compact(this._mods);
+    let mods = compact(this._mods);
     // 如果相应的P卡已经存在则不使用
     if (mods.some(v => v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed))) return false;
     return true;
@@ -348,7 +348,7 @@ export class CompanionBuild implements CommonBuild {
     let umbraSetCount = mods.filter(v => v && v.key in umbraSet).length - 1;
     let rst = mods.map(mod => {
       if (mod && mod.key in umbraSet) {
-        let mapped = _.clone(mod);
+        let mapped = clone(mod);
         mapped.setMul = umbraSet[mod.key][umbraSetCount];
         return mapped;
       }
@@ -413,7 +413,7 @@ export class CompanionBuild implements CommonBuild {
    * @memberof companionBuild
    */
   fillEmpty(slots = 10, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
-    let mods = (this._mods = _.compact(this._mods));
+    let mods = (this._mods = compact(this._mods));
     let othermods = lib.filter(v => !mods.some(k => v.id === k.id || v.id === k.primed || v.primed === k.id));
     let sortableMods = othermods.map(v => [v, this.testMod(v)] as [NormalMod, number]).filter(v => v[1] > 0);
     console.log(sortableMods, mods.length, sortableMods.length, slots - mods.length);
@@ -503,7 +503,7 @@ export class CompanionBuild implements CommonBuild {
     let mods = normal.map(v => {
       let key = v.substr(0, 2),
         level = v.substr(3, 4);
-      let mod = _.cloneDeep(Codex.getNormalMod(key));
+      let mod = cloneDeep(Codex.getNormalMod(key));
       if (level) mod.level = debase62(level);
       return mod;
     });
