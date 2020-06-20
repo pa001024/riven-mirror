@@ -2185,6 +2185,7 @@ let po = {
   mods: {
     primedReach: "剑风P",
     primedPressurePoint: "压迫P",
+    primedRubedoLinedBarrel: "红晶P",
     primedFeverStrike: "毒P",
     primedFury: "狂暴P",
     primedHeavyTrauma: "重创P",
