@@ -3,7 +3,6 @@ import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
 import _ from "lodash";
 import { WeaponTag, CoreWeaponMode, MainTag } from "./weapon";
-import { RivenDatabase } from "./riven";
 
 /**
  * 枪膛
@@ -76,21 +75,33 @@ export interface LoaderChamberData {
 }
 
 const _kitgunChamber = [
-  [0, "Catchmoon", [[["Impact", 41], ["Heat", 119]], [["Impact", 30], ["Heat", 66]]], 0.21, 0.21, [5, 7, 11, 13], 5.9, [0.5, 0.5]],
-  [1, "Gaze", [[["Puncture", 6], ["Radiation", 10]], [["Radiation", 29]]], 0.25, 0.25, [23, 31, 43, 51], 100, [1, 0.5]],
-  [2, "Rattleguts", [[["Impact", -1], ["Puncture", 7], ["Slash", 5], ["Radiation", 10]], [["Impact", 0.5], ["Puncture", 3.5], ["Slash", 1.5], ["Radiation", 7.5]]], 0.19, 0.19, [29, 45, 67, 83], 26, [0.75, 0.5]],
-  [3, "Tombfinger", [[["Impact", 12], ["Puncture", 5], ["Radiation", 43]], [["Puncture", 26], ["Radiation", 4]]], 0.24, 0.24, [9, 15, 23, 29], 50, [0.65, 0.5]]
+  [0, "Catchmoon", [
+    [["Impact", 89], ["Heat", 167]],
+    [["Impact", 49], ["Heat", 85]] // Primary
+  ], 0.21, 0.21, [5, 7, 11, 13], 5.9, [0.5, 0.5]],
+  [1, "Gaze", [
+    [["Puncture", 6], ["Radiation", 10]],
+    [["Radiation", 29]] // Primary
+  ], 0.25, 0.25, [23, 31, 43, 51], 100, [1, 0.5]],
+  [2, "Rattleguts", [
+    [["Impact", -1], ["Puncture", 7], ["Slash", 5], ["Radiation", 10]],
+    [["Impact", 2], ["Puncture", 5], ["Slash",3], ["Radiation", 9]] // Primary
+  ], 0.19, 0.19, [29, 45, 67, 83], 26, [0.75, 0.5]],
+  [3, "Tombfinger", [
+    [["Impact", 12], ["Puncture", 5], ["Radiation", 43]],
+    [["Puncture", 40], ["Radiation", 18]] // Primary
+  ], 0.24, 0.24, [9, 15, 23, 29], 50, [0.65, 0.5]]
 ] as [number, string, [string, number][][], number, number, number[], number, number[]][];
 
 const _kitgunGrip = [
-  [0, "Gibber", [[0, 190], [0, 720], [0, 660], [-4, 270]], "Secondary"],
-  [1, "Ramble", [[24, 150], [0.5, 720], [1.5, 530], [0, 220]], "Secondary"],
-  [2, "Lovetap", [[99, 90], [1.5, 720], [7.8, 310], [12, 150]], "Secondary"],
-  [3, "Haymaker", [[160, 70], [2, 720], [12.5, 220], [20, 130]], "Secondary"],
-  [4, "Brash", [[0, 340], [0, 480], [0, 1020], [0, 226]], "Primary"],
-  [5, "Shrewd", [[-9.5, 280], [2, 480], [0.8, 840], [7, 188]], "Primary"],
-  [6, "Steadyslam", [[39.5, 200], [6, 480], [3.8, 600], [28.5, 140]], "Primary"],
-  [7, "Tremor", [[60, 180], [8, 480], [6, 540], [43, 128]], "Primary"]
+  [0, "Gibber", [[-48, 190], [0, 720], [0, 660], [-4, 270]], "Secondary"],
+  [1, "Ramble", [[-24, 150], [0.5, 720], [1.5, 530], [0, 220]], "Secondary"],
+  [2, "Lovetap", [[51, 90], [1.5, 720], [7.8, 310], [12, 150]], "Secondary"],
+  [3, "Haymaker", [[102, 70], [2, 720], [12.5, 220], [20, 130]], "Secondary"],
+  [4, "Brash", [[-12, 340], [0, 480], [-0.5, 1020], [-10, 226]], "Primary"],
+  [5, "Shrewd", [[-6, 280], [2, 480], [-0.2, 840], [-5, 188]], "Primary"],
+  [6, "Steadyslam", [[20.5, 200], [6, 480], [2.3, 600], [14.5, 140]], "Primary"],
+  [7, "Tremor", [[41, 180], [8, 480], [4.5, 540], [29, 128]], "Primary"]
 ] as [number, string, [number, number][], string][];
 
 const _kitgunLoader = [
@@ -223,19 +234,19 @@ export class Kitgun extends Weapon {
     switch (this.name) {
       case "Catchmoon":
         mode.prjSpeed = 70;
-        mode.range = 40;
+        mode.range = this.grip.type === "Primary" ? 40 : 20;
         break;
       case "Tombfinger":
         mode.prjSpeed = 200;
         if (this.grip.type === "Primary") {
-          mode.chargeTime = 0.8;
+          mode.chargeTime = [0.5, 0.8, 1.1, 1.5][this.grip.index];
         }
         break;
       case "Gaze":
         if (this.grip.type === "Secondary")
           mode.range = [41, 38, 25, 22][this.grip.index];
         else
-          mode.range = [20, 17, 14, 11][this.grip.index];
+          mode.range = [30, 26, 20, 16][this.grip.index];
         break;
     }
     this.modes = [mode];
