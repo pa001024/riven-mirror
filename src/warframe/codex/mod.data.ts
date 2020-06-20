@@ -665,6 +665,7 @@ const data = [
   ["TO", "Resolute Focus", [["ck", 17], ["spr", -8]], Archgun, "-", "c", 4],
   ["TP", "Quick Reload", [["F", 25]], Archgun, "-", "c", 2, 3],
   ["TQ", "Ammo Chain", [["M", 16.7]], Archgun, "-", "c", 2],
+  ["TR", "Primed Rubedo Lined Barrel", [["D", 17]], Archgun, "r", "l", 6, 10],
 
   // Archmelee
   ["V0", "Poisonous Sting", [["6", 20]], Archmelee, "-", "c", 4],

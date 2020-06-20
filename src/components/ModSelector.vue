@@ -132,7 +132,7 @@ export default class ModSelector extends Vue {
       allElem: ["Primed Fever Strike", "Shocking Touch", "Molten Impact", "North Wind"],
     },
     "Arch-Gun": {
-      baseDmg: ["Rubedo-Lined Barrel", "Dual Rounds"],
+      baseDmg: ["Primed Rubedo Lined Barrel", "Dual Rounds"],
       crit: ["Parallax Scope", "Hollowed Bullets"],
       aimCrit: ["Critical Focus"],
       sliverCorrosive: ["Electrified Barrel", "Venomous Clip"],

@@ -687,6 +687,7 @@ let po = {
     cryoCoatin: "Cryo Coatin",
     combustionRounds: "Combustion Rounds",
     rubedoLinedBarrel: "Rubedo Lined Barrel",
+    primedRubedoLinedBarrel: "Primed Rubedo Lined Barrel",
     magazineExtension: "Magazine Extension",
     parallaxScope: "Parallax Scope",
     nebulaBore: "Nebula Bore",
