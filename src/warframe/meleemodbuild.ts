@@ -466,10 +466,4 @@ export class MeleeModBuild extends ModBuild {
       this.applyMod(comboMod);
     super.fillEmpty(slots, 0, lib, rivenLimit);
   }
-
-  /** [overwrite] 最大容量 */
-  get maxCost() {
-    if (this.weapon.tags.has("Exalted")) return this.weapon.tags.has("Virtual") ? 70 : 60;
-    return this.weapon.tags.has("Robotic") || this.weapon.tags.has("Arch-Melee") ? 60 : this.weapon.name === "Paracesis" ? 80 : 70;
-  }
 }

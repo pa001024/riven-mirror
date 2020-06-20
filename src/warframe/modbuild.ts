@@ -1631,9 +1631,17 @@ export abstract class ModBuild implements CommonBuild {
     return 0;
   }
 
+  /** 极化次数增加最大容量 */
+  get isExtendCost() {
+    return this.weapon.tags.has("Kuva Weapon") || this.weapon.name == "Paracesis";
+  }
   /** 最大容量 */
   get maxCost() {
-    return 60;
+    if (this.weapon.tags.has("Exalted") || this.weapon.tags.has("Virtual") || this.weapon.tags.has("Robotic Weapon") || this.weapon.tags.has("Arch-Melee"))
+      return 60;
+    const baseCost = this.isExtendCost ? Math.min(5, this.formaCount + this.umbraCount) * 2 + 60 : 60;
+    const auraCost = this.weapon.tags.has("Melee") ? 10 : 0;
+    return baseCost + auraCost;
   }
   _formaCount = 0;
   _umbraCount = 0;
