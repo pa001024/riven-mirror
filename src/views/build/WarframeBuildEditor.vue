@@ -176,7 +176,7 @@
                             @change="refleshMods()"
                             size="mini"
                             v-model="buff.layer"
-                            :min="1"
+                            :min="0"
                             :max="buff.data.multiLayer.maxStack"
                           ></el-input-number>
                         </div>

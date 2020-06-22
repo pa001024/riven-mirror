@@ -137,7 +137,7 @@
                     <template v-if="buff">
                       <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">
                         <div class="buff-name">{{$t(`buff.${buff.name}`)}}</div>
-                        <div class="buff-parm layer" v-if="buff.layerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.layer" :min="1" :max="buff.data.multiLayer.maxStack"></el-input-number></div>
+                        <div class="buff-parm layer" v-if="buff.layerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.layer" :min="0" :max="buff.data.multiLayer.maxStack"></el-input-number></div>
                         <div class="buff-parm power" v-if="buff.powerEnable"><el-input-number @change="refleshMods()" :step="0.5" size="mini" v-model="buff.power"></el-input-number></div>
                       </div>
                       <div class="buff-detail" @click.stop="buffRemove(index)">

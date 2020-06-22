@@ -13,7 +13,6 @@ import {
 import { i18n } from "@/i18n";
 import { NormalMod, NormalModDatabase } from "./codex/mod";
 import { hAccSum } from "./util";
-import { Arcane } from "./codex/arcane";
 import { Buff, BuffList } from "./codex/buff";
 import { base62, debase62 } from "./lib/base62";
 import { _abilityData } from "./codex/warframe.data";
@@ -33,14 +32,12 @@ export interface WarframeBuildOptions {
   compareMode?: WarframeCompareMode;
   energyBall?: boolean;
   healthBall?: number;
-  arcanes?: Arcane[];
 }
 
 export class WarframeBuild implements CommonBuild {
   data: Warframe;
   protected _rawmods: NormalMod[] = [];
   protected _mods: NormalMod[] = [];
-  protected _arcanes: Arcane[] = [];
   protected _buffs: Buff[] = [];
   protected _aura: NormalMod = null;
   protected _exilus: NormalMod = null;
@@ -385,12 +382,12 @@ export class WarframeBuild implements CommonBuild {
   /**
    * 应用通用属性
    *
-   * @param {(NormalMod | Arcane)} mod MOD
+   * @param {(NormalMod)} mod MOD
    * @param {string} pName 属性id或名称
    * @param {number} pValue 属性值
    * @memberof WarframeBuild
    */
-  applyProp(mod: NormalMod | Arcane, pName: string, pValue: number = 0) {
+  applyProp(mod: NormalMod, pName: string, pValue: number = 0) {
     switch (pName) {
       /** Health */ case "h":
         this._healthMul = hAccSum(this._healthMul, pValue);
@@ -500,19 +497,6 @@ export class WarframeBuild implements CommonBuild {
    */
   applyMod(mod: NormalMod) {
     this._mods.push(mod);
-    this.calcMods();
-    return this;
-  }
-
-  /**
-   * 应用赋能
-   *
-   * @param {Arcane} arc 赋能
-   * @returns
-   * @memberof WarframeBuild
-   */
-  applyArcane(arc: Arcane) {
-    this._arcanes.push(arc);
     this.calcMods();
     return this;
   }

@@ -28,6 +28,7 @@ export interface BuffData {
 export interface MultiLayer {
   /** 最大层数 */
   maxStack: number;
+  baseLayer?: number;
   stackableProps?: [string, number][];
   unstackableProps?: [string, number][][];
 }
@@ -48,10 +49,12 @@ export enum BuffType {
 export class Buff {
   data: BuffData;
   layer = 1;
+  baseLayer = 0;
   power = 1;
   constructor(data: BuffData) {
     this.data = data;
     if (data.defaultLayer) this.layer = data.defaultLayer;
+    if (data.multiLayer!.baseLayer) this.baseLayer = data.multiLayer.baseLayer;
     if (data.defaultValue) this.power = data.defaultValue;
   }
   get name() {
@@ -65,9 +68,12 @@ export class Buff {
     let pout = [];
     if (this.data.props) pout = pout.concat(this.data.props);
     if (this.data.dynamicProps) pout = pout.concat(this.data.dynamicProps.map(([n, v, p]) => [n, v * this.power + p]));
-    if (this.data.multiLayer && this.data.multiLayer.stackableProps)
-      pout = pout.concat(this.data.multiLayer.stackableProps.map(([n, v]) => [n, v * this.layer]));
-    if (this.data.multiLayer && this.data.multiLayer.unstackableProps) pout = pout.concat(this.data.multiLayer.unstackableProps[this.layer - 1]);
+    if (this.data.multiLayer) {
+      if (this.data.multiLayer.stackableProps)
+        pout = pout.concat(this.data.multiLayer.stackableProps.map(([n, v]) => [n, v * (this.layer + this.baseLayer)]));
+      if (this.data.multiLayer.unstackableProps)
+        pout = pout.concat(this.data.multiLayer.unstackableProps[this.layer - 1]);
+    }
     return pout;
   }
   /**
@@ -103,27 +109,27 @@ export class Buff {
 export const BuffList: BuffData[] = [
   // 赋能
   ...[
-    ["a3", "arcaneAgility", [["onDamaged"], ["f", 40]], "Warframe+"], // 灵敏赋能
-    ["a4", "arcaneBarrier", [["onDamaged"], ["fsr", 100]], "Warframe+"], // 壁垒赋能
-    ["a5", "arcaneAegis", [["onDamaged"], ["psr", 60]], "Warframe+"], // 神盾赋能
-    ["a6", "arcaneTrickery", [["onFinish"], ["ivb", 100]], "Warframe"], // 诡计赋能
-    ["a7", "arcaneUltimatum", [["onFinish"], ["ea", 600]], "Warframe"], // 通牒赋能
-    ["a8", "arcaneArachne", [["onWalllatch"], ["D", 100]], "Weapon"], // 蜘蛛赋能
-    ["a9", "arcaneGrace", [["onDamaged"], ["phr", 4]], "Warframe+"], // 优雅赋能
-    ["aA", "arcaneGuardian", [["onDamaged"], ["ea", 600]], "Warframe+"], // 保卫者赋能
-    ["aB", "arcanePhantasm", [["onBlock"], ["f", 40]], "Warframe+"], // 幻象赋能
-    ["aJ", "arcaneAcceleration", [["R", 60]], "Rifle"], // 加速
-    ["aK", "arcaneAvenger", [["i0", 30]], "Weapon"], // 复仇
-    ["aL", "arcaneAwakening", [["D", 100]], "Secondary"], // 觉醒
-    ["aM", "arcaneFury", [["K", 120]], "Melee"], // 狂怒
-    ["aN", "arcaneStrike", [["J", 40]], "Melee"], // 速攻
-    ["aO", "arcaneMomentum", [["F", 100]], "Sniper"], // 动量
-    ["aP", "arcanePrecision", [["D", 120]], "Secondary"], // 精确
-    ["aQ", "arcaneRage", [["D", 120]], "Primary"], // 愤怒
-    ["aR", "arcaneTempo", [["R", 60]], "Shotgun"], // 节奏
-    ["aS", "arcaneVelocity", [["R", 80]], "Secondary"], // 迅速
+    ["a3", "arcaneAgility", [["onDamaged"], ["f", 10]], "Warframe+"], // 灵敏赋能
+    ["a4", "arcaneBarrier", [["onDamaged"], ["fsr", 1]], "Warframe+"], // 壁垒赋能
+    ["a5", "arcaneAegis", [["onDamaged"], ["psr", 5]], "Warframe+"], // 神盾赋能
+    ["a6", "arcaneTrickery", [["onFinish"], ["ivb", 5]], "Warframe"], // 诡计赋能
+    ["a7", "arcaneUltimatum", [["onFinish"], ["ea", 200]], "Warframe"], // 通牒赋能
+    ["a8", "arcaneArachne", [["onWalllatch"], ["D", 25]], "Weapon"], // 蜘蛛赋能
+    ["a9", "arcaneGrace", [["onDamaged"], ["phr", 1]], "Warframe+"], // 优雅赋能
+    ["aA", "arcaneGuardian", [["onDamaged"], ["ea", 150]], "Warframe+"], // 保卫者赋能
+    ["aB", "arcanePhantasm", [["onBlock"], ["f", 10]], "Warframe+"], // 幻象赋能
+    ["aJ", "arcaneAcceleration", [["R", 15]], "Rifle"], // 加速赋能
+    ["aK", "arcaneAvenger", [["i0", 7.5]], "Weapon"], // 复仇者赋能
+    ["aL", "arcaneAwakening", [["D", 25]], "Secondary"], // 觉醒赋能
+    ["aM", "arcaneFury", [["K", 30]], "Melee"], // 狂怒赋能
+    ["aN", "arcaneStrike", [["J", 10]], "Melee"], // 速攻赋能
+    ["aO", "arcaneMomentum", [["F", 25]], "Sniper"], // 动量赋能
+    ["aP", "arcanePrecision", [["D", 50]], "Secondary"], // 精确赋能
+    ["aQ", "arcaneRage", [["D", 30]], "Primary"], // 愤怒赋能
+    ["aR", "arcaneTempo", [["R", 15]], "Shotgun"], // 节奏赋能
+    ["aS", "arcaneVelocity", [["R", 20]], "Secondary"], // 迅速赋能
     ["aT", "paxBolt", [["t", 30], ["x", 30]], "Warframe"], // 和平电闪
-    ["aU", "arcaneTanker", [["onEquip"], ["ea", 1200]], "Warframe"], // 坦克赋能
+    ["aU", "arcaneTanker", [["onEquip"], ["ea", 200]], "Warframe"], // 坦克赋能
   ].map(
     v =>
       ({
@@ -131,8 +137,10 @@ export const BuffList: BuffData[] = [
         name: v[1],
         type: BuffType.Arcane,
         target: v[3],
+        defaultLayer: 5,
         multiLayer: {
-          maxStack: 2,
+          baseLayer: 1,
+          maxStack: 5,
           stackableProps: v[2],
         },
       } as BuffData)
@@ -173,9 +181,10 @@ export const BuffList: BuffData[] = [
         name: v[1],
         type: BuffType.Arcane,
         target: v[3],
-        defaultLayer: v[4] || 4,
+        defaultLayer: v[4] || 3,
         multiLayer: {
-          maxStack: v[4] || 4,
+          baseLayer: 1,
+          maxStack: v[4] || 3,
           stackableProps: v[2],
         },
       } as BuffData)
