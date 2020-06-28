@@ -3461,7 +3461,7 @@ let po = {
       silverViral: "银病毒",
       goldCorrosive: "金腐蚀",
       goldViral: "金病毒",
-      goldGas: "金毒气",
+      gas: "毒气",
       heavyCrit: "重击双暴",
       slideCrit: "滑砍双暴",
       allStatus: "四活动",

@@ -1413,7 +1413,7 @@ let po = {
       silverViral: "Sliver Viral",
       goldCorrosive: "Gold Corrosive",
       goldViral: "Gold Viral",
-      goldGas: "Gold GAS",
+      gas: "Gas",
       heavyCrit: "Heavy CC/CD",
       slideCrit: "Slide CC/CD",
       allStatus: "4 Gold Elements",
