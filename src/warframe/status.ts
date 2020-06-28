@@ -4,7 +4,7 @@ export const procDurationMap = {
   Puncture: 6,
   Slash: 6,
   Cold: 6,
-  Electricity: 3,
+  Electricity: 6,
   Heat: 6,
   Toxin: 6,
   Blast: 6,
