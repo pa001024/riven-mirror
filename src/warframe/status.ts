@@ -4,7 +4,7 @@ export const procDurationMap = {
   Puncture: 6,
   Slash: 6,
   Cold: 6,
-  Electricity: 6,
+  Electricity: 3,
   Heat: 6,
   Toxin: 6,
   Blast: 6,
@@ -29,7 +29,7 @@ export interface SpecialStatusInfo {
   /** 覆盖率 */
   coverage: number
 
-  // [腐蚀 磁力]
+  // [腐蚀 病毒 磁力]
 
   /** 每发触发量 */
   procPerHit?: number
@@ -46,13 +46,13 @@ export interface SpecialStatusInfo {
   // [切割 毒 毒气 电]
 
   /** 弹片立即触发伤害 */
-  instantProcDamage?: number
+  //instantProcDamage?: number
   /** 每发立即触发伤害 */
-  instantProcDamagePerHit?: number
+  //instantProcDamagePerHit?: number
   /** 每秒立即触发伤害 */
-  instantProcDamagePerSecond?: number
+  //instantProcDamagePerSecond?: number
 
-  // [切割 毒 毒气]
+  // [切割 毒 毒气 电]
 
   /** 弹片潜在触发伤害 */
   latentProcDamage?: number
@@ -61,7 +61,7 @@ export interface SpecialStatusInfo {
   /** 每秒潜在触发伤害 */
   latentProcDamagePerSecond?: number
 
-  // [火 切割 毒 毒气]
+  // [火 切割 毒 毒气 电]
 
   /** 弹片平均触发伤害 */
   averageProcDamage?: number

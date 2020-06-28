@@ -562,8 +562,8 @@ export abstract class ModBuild implements CommonBuild {
         coverage: cor,
       };
       if (pellets !== 1) this._statusInfo[vn].appearRate = vv;
-      // [腐蚀 磁力]
-      if (vn === "Corrosive" || vn === "Magnetic") {
+      // [腐蚀 病毒 磁力]
+      if (vn === "Corrosive" || vn === "Viral" || vn === "Magnetic") {
         this._statusInfo[vn].procPerHit = vv * hits;
         this._statusInfo[vn].procPerSecond = vv * hits * fireRate;
       } else {
@@ -573,25 +573,23 @@ export abstract class ModBuild implements CommonBuild {
       if (vn === "Slash" || vn === "Toxin" || vn === "Gas" || vn === "Electricity" || vn === "Heat") {
         let dd = dotMap.get(vn);
         // [切割 毒 毒气 电]
+        /*{
+          if (hits !== 1) this._statusInfo[vn].instantProcDamage = dd / hits;
+          this._statusInfo[vn].instantProcDamagePerHit = dd;
+          this._statusInfo[vn].instantProcDamagePerSecond = dd * fireRate;
+        }*/
+        // [切割 毒 毒气 电]
         if (vn !== "Heat") {
-          let id = vn === "Gas" ? dotMap.get("Toxin") : dd;
-          if (hits !== 1) this._statusInfo[vn].instantProcDamage = (id + dd) / hits;
-          this._statusInfo[vn].instantProcDamagePerHit = id + dd;
-          this._statusInfo[vn].instantProcDamagePerSecond = (id + dd) * fireRate;
+          if (hits !== 1) this._statusInfo[vn].latentProcDamage = (dd / hits) * durTick;
+          this._statusInfo[vn].latentProcDamagePerHit = dd * durTick;
+          this._statusInfo[vn].latentProcDamagePerSecond = dd * fireRate * durTick;
         }
-        // [切割 毒 毒气]
-        if (vn !== "Electricity" && vn !== "Heat") {
-          let id = vn === "Gas" ? dotMap.get("Toxin") : 0;
-          if (hits !== 1) this._statusInfo[vn].latentProcDamage = id + (dd / hits) * durTick;
-          this._statusInfo[vn].latentProcDamagePerHit = id + dd * durTick;
-          this._statusInfo[vn].latentProcDamagePerSecond = id + dd * fireRate * durTick;
-        }
-        // [切割 毒 毒气 火]
+        // [火 切割 毒 电 毒气]
         if (vn === "Heat") {
           if (hits !== 1) this._statusInfo[vn].averageProcDamage = (cor * dd) / hits;
           this._statusInfo[vn].averageProcDamagePerHit = cor * dd;
           this._statusInfo[vn].averageProcDamagePerSecond = cor * dd * fireRate;
-        } else if (vn !== "Electricity") {
+        } else {
           if (hits !== 1) this._statusInfo[vn].averageProcDamage = ((vv * dd) / hits) * durTick * (1 - dutyCycle);
           this._statusInfo[vn].averageProcDamagePerHit = vv * dd * durTick * (1 - dutyCycle);
           this._statusInfo[vn].averageProcDamagePerSecond = vv * dd * fireRate * durTick * (1 - dutyCycle);
@@ -905,7 +903,7 @@ export abstract class ModBuild implements CommonBuild {
   }
   /** 毒DoT的基伤 */
   get toxinBaseDamage() {
-    return this.baseDamage * 0.5;
+    return this.baseDamage * (1 + this.toxinMul) * 0.5;
   }
   /** 毒气DoT的基伤 */
   get gasBaseDamage() {
@@ -913,7 +911,7 @@ export abstract class ModBuild implements CommonBuild {
   }
   /** 火DoT的基伤 */
   get heatBaseDamage() {
-    return this.baseDamage * 0.5;
+    return this.baseDamage * (1 + this.heatMul) * 0.5;
   }
   /** 电DoT的基伤 */
   get electricityBaseDamage() {
