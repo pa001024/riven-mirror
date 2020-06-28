@@ -1637,7 +1637,7 @@ export abstract class ModBuild implements CommonBuild {
   get maxCost() {
     if (this.weapon.tags.has("Exalted") || this.weapon.tags.has("Virtual") || this.weapon.tags.has("Robotic Weapon") || this.weapon.tags.has("Arch-Melee"))
       return 60;
-    const baseCost = this.isExtendCost ? this.formaCount + this.umbraCount * 2 + 60 : 60;
+    const baseCost = this.isExtendCost ? Math.min(5, this.formaCount + this.umbraCount) * 2 + 60 : 60;
     const auraCost = this.weapon.tags.has("Melee") ? 10 : 0;
     return baseCost + auraCost;
   }
