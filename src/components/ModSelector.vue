@@ -83,7 +83,7 @@ export default class ModSelector extends Vue {
   /** MOD快速选择 */
   fastSelect = {
     Rifle: {
-      baseDmg: ["Serration", "Split Chamber", "Heavy Caliber"],
+      baseDmg: ["Serration", "Split Chamber"],
       crit: ["Point Strike", "Vital Sense"],
       aimCrit: ["Argon Scope", "Bladed Rounds"],
       sliverCorrosive: ["Stormbringer", "Infected Clip"],
@@ -123,7 +123,9 @@ export default class ModSelector extends Vue {
     },
     Melee: {
       baseDmgRange: ["Primed Pressure Point", "Primed Reach"],
-      crit: ["Blood Rush", "Organ Shatter", "Sacrificial Steel"],
+      condiRange: ["Condition Overload", "Primed Reach"],
+      crit: ["Blood Rush", "Organ Shatter"],
+      heavyCrit: ["Sacrificial Steel", "Amalgam Organ Shatter"],
       slideCrit: ["Maiming Strike", "Blood Rush", "Organ Shatter"],
       sliverCorrosive: ["Shocking Touch", "Primed Fever Strike"],
       silverRadiation: ["Shocking Touch", "Molten Impact"],

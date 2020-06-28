@@ -3453,6 +3453,7 @@ let po = {
     fast: {
       baseDmg: "基伤多重",
       baseDmgRange: "基伤范围",
+      condiRange: "异况范围",
       crit: "双暴",
       aimCrit: "瞄准双暴",
       sliverCorrosive: "银腐蚀",
@@ -3461,6 +3462,7 @@ let po = {
       goldCorrosive: "金腐蚀",
       goldViral: "金病毒",
       goldGas: "金毒气",
+      heavyCrit: "重击双暴",
       slideCrit: "滑砍双暴",
       allStatus: "四活动",
       allElem: "四元素",
