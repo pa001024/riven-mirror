@@ -572,19 +572,19 @@ export abstract class ModBuild implements CommonBuild {
       }
       if (vn === "Slash" || vn === "Toxin" || vn === "Gas" || vn === "Electricity" || vn === "Heat") {
         let dd = dotMap.get(vn);
-        // [切割 毒 毒气 电]
-        /*{
+        // [毒气 电击]
+        if (vn === "Gas" || vn === "Electricity") {
           if (hits !== 1) this._statusInfo[vn].instantProcDamage = dd / hits;
           this._statusInfo[vn].instantProcDamagePerHit = dd;
           this._statusInfo[vn].instantProcDamagePerSecond = dd * fireRate;
-        }*/
-        // [切割 毒 毒气 电]
+        }
+        // [切割 毒素 毒气 电击]
         if (vn !== "Heat") {
           if (hits !== 1) this._statusInfo[vn].latentProcDamage = (dd / hits) * durTick;
           this._statusInfo[vn].latentProcDamagePerHit = dd * durTick;
           this._statusInfo[vn].latentProcDamagePerSecond = dd * fireRate * durTick;
         }
-        // [火 切割 毒 电 毒气]
+        // [火焰 切割 毒素 毒气 电击]
         if (vn === "Heat") {
           if (hits !== 1) this._statusInfo[vn].averageProcDamage = (cor * dd) / hits;
           this._statusInfo[vn].averageProcDamagePerHit = cor * dd;

@@ -43,16 +43,16 @@ export interface SpecialStatusInfo {
   /** 每秒触发率 */
   appearRatePerSecond?: number
 
-  // [切割 毒 毒气 电]
+  // [毒气 电击]
 
   /** 弹片立即触发伤害 */
-  //instantProcDamage?: number
+  instantProcDamage?: number
   /** 每发立即触发伤害 */
-  //instantProcDamagePerHit?: number
+  instantProcDamagePerHit?: number
   /** 每秒立即触发伤害 */
-  //instantProcDamagePerSecond?: number
+  instantProcDamagePerSecond?: number
 
-  // [切割 毒 毒气 电]
+  // [切割 毒素 毒气 电击]
 
   /** 弹片潜在触发伤害 */
   latentProcDamage?: number
@@ -61,7 +61,7 @@ export interface SpecialStatusInfo {
   /** 每秒潜在触发伤害 */
   latentProcDamagePerSecond?: number
 
-  // [火 切割 毒 毒气 电]
+  // [火焰 切割 毒素 毒气 电击]
 
   /** 弹片平均触发伤害 */
   averageProcDamage?: number
