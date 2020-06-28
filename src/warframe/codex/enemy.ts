@@ -414,7 +414,7 @@ export class SimpleDamageModel extends DamageModelData {
    */
   mapDamageShield(dmgs: [string, number][], dot = false) {
     return dmgs.map(([id, dmg]) => {
-      let dtype = Damage2_0.getDamageType((dot && id === "Gas" ? "Toxin" : id) as DamageType);
+      let dtype = Damage2_0.getDamageType((dot && id) as DamageType);
       if (!dtype) return [id, dmg];
       let SM = dtype.dmgMul[this.shieldType];
       // 毒素伤害直接穿透护盾对血量进行打击, 不计算对护盾的伤害
@@ -432,7 +432,7 @@ export class SimpleDamageModel extends DamageModelData {
    */
   mapDamageArmor(dmgs: [string, number][], dot = false) {
     return dmgs.map(([id, dmg]) => {
-      let dtype = Damage2_0.getDamageType((dot && id === "Gas" ? "Toxin" : id) as DamageType);
+      let dtype = Damage2_0.getDamageType((dot && id) as DamageType);
       if (!dtype) return [id, dmg];
       let HM = dtype.dmgMul[this.fleshType];
       let AM = dtype.dmgMul[this.armorType];
@@ -450,7 +450,7 @@ export class SimpleDamageModel extends DamageModelData {
    */
   mapDamageHealth(dmgs: [string, number][], dot = false) {
     return dmgs.map(([id, dmg]) => {
-      let dtype = Damage2_0.getDamageType((dot && id === "Gas" ? "Toxin" : id) as DamageType);
+      let dtype = Damage2_0.getDamageType((dot && id) as DamageType);
       if (!dtype) return [id, dmg];
       let HM = dtype.dmgMul[this.fleshType];
       let DM = 1 + HM;

@@ -29,7 +29,7 @@ export interface SpecialStatusInfo {
   /** 覆盖率 */
   coverage: number
 
-  // [腐蚀 磁力]
+  // [腐蚀 病毒 磁力]
 
   /** 每发触发量 */
   procPerHit?: number
@@ -43,7 +43,7 @@ export interface SpecialStatusInfo {
   /** 每秒触发率 */
   appearRatePerSecond?: number
 
-  // [切割 毒 毒气 电]
+  // [毒气 电击]
 
   /** 弹片立即触发伤害 */
   instantProcDamage?: number
@@ -52,7 +52,7 @@ export interface SpecialStatusInfo {
   /** 每秒立即触发伤害 */
   instantProcDamagePerSecond?: number
 
-  // [切割 毒 毒气]
+  // [切割 毒素 毒气 电击]
 
   /** 弹片潜在触发伤害 */
   latentProcDamage?: number
@@ -61,7 +61,7 @@ export interface SpecialStatusInfo {
   /** 每秒潜在触发伤害 */
   latentProcDamagePerSecond?: number
 
-  // [火 切割 毒 毒气]
+  // [火焰 切割 毒素 毒气 电击]
 
   /** 弹片平均触发伤害 */
   averageProcDamage?: number
