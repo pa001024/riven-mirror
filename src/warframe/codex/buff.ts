@@ -54,7 +54,7 @@ export class Buff {
   constructor(data: BuffData) {
     this.data = data;
     if (data.defaultLayer) this.layer = data.defaultLayer;
-    if (data.multiLayer!.baseLayer) this.baseLayer = data.multiLayer.baseLayer;
+    if (data.multiLayer && data.multiLayer.baseLayer) this.baseLayer = data.multiLayer.baseLayer;
     if (data.defaultValue) this.power = data.defaultValue;
   }
   get name() {
@@ -519,6 +519,15 @@ export const BuffList: BuffData[] = [
     dynamicProps: [["oad", 100, -100]],
     parms: ["status", ""],
     defaultValue: 2,
+  },
+  {
+    id: "mc",
+    name: "meleeCombo", // 连击
+    type: BuffType.TotalDamage,
+    target: "Melee",
+    dynamicProps: [["red", 25, 0]],
+    parms: ["status", ""],
+    defaultValue: 1,
   },
   {
     id: "o",

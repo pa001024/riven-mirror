@@ -36,6 +36,7 @@ export class MeleeModBuild extends ModBuild {
   private _slideCritChanceMul = 0;
   private _execDmgMul = 100;
   private _comboCritChanceMul = 0;
+  private _comboDamageMul = 0;
   private _comboProcChanceMul = 0;
   private _stealthDamageMul = 0;
   private _damagePerStatus = 0;
@@ -71,6 +72,10 @@ export class MeleeModBuild extends ModBuild {
   /** 连击数增加暴击率 */
   get comboCritChanceMul() {
     return this._comboCritChanceMul / 100;
+  }
+  /** 连击数增加最终伤害 */
+  get comboDamageMul() {
+    return this._comboDamageMul / 100;
   }
   /** 连击数增加触发率 */
   get comboProcChanceMul() {
@@ -187,6 +192,10 @@ export class MeleeModBuild extends ModBuild {
   get comboCritChance() {
     return this.comboMul * this.comboCritChanceMul;
   }
+  /** 连击数增加最终伤害 */
+  get comboDamage() {
+    return this.comboMul * this.comboDamageMul;
+  }
   /** 连击数增加触发率 */
   get comboProcChance() {
     return this.comboMul * this.comboProcChanceMul;
@@ -266,15 +275,15 @@ export class MeleeModBuild extends ModBuild {
 
   /** 平砍总伤增幅倍率 */
   get normalTotalDamageMul() {
-    return this.normalCritDamageMul * this.overallMul * this.enemyDmgMul;
+    return this.normalCritDamageMul * this.overallMul * this.enemyDmgMul * (1 + this.comboDamage);
   }
   /** 滑行总伤增幅倍率 */
   get slideTotalDamageMul() {
-    return this.slideCritDamageMul * this.overallMul * this.enemyDmgMul;
+    return this.slideCritDamageMul * this.overallMul * this.enemyDmgMul * (1 + this.comboDamage);
   }
   /** 重击总伤增幅倍率 */
   get heavyTotalDamageMul() {
-    return this.heavyCritDamageMul * this.overallMul * this.enemyDmgMul * (1 + this.comboMul);
+    return this.heavyCritDamageMul * this.overallMul * this.enemyDmgMul * (1 + this.comboDamage) * (1 + this.comboMul);
   }
 
   /** 每秒总伤害 */
@@ -381,6 +390,7 @@ export class MeleeModBuild extends ModBuild {
     this._slideCritChanceMul = 0;
     this._execDmgMul = 100;
     this._comboCritChanceMul = 0;
+    this._comboDamageMul = 0;
     this._comboProcChanceMul = 0;
     this._stealthDamageMul = 0;
     this._damagePerStatus = 0;
@@ -423,6 +433,9 @@ export class MeleeModBuild extends ModBuild {
         break;
       case "bldr":
         this._comboCritChanceMul += pValue;
+        break;
+      case "red":
+        this._comboDamageMul += pValue;
         break;
       case "sccm":
         this._comboProcChanceMul += pValue;

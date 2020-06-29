@@ -2266,6 +2266,7 @@ let po = {
       lr: "{0} Loot Radar",
       acc: "{0} Accuracy",
       range: "{0} Range",
+      red: "{0} MORE Damage stacks with Combo Multiplier",
       stick: "{0} chance for grenades to stick to surfaces",
       aimm: "{0} movement speed while aiming",
       ckm: "{0} movement speed after Heavy Attack hit",

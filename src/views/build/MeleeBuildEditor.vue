@@ -101,7 +101,7 @@
               <!-- 连击加成 -->
               <el-form-item :label="$t('buildview.comboMul')">
                 <el-tooltip effect="dark" :content="$t('buildview.comboMulTip')" placement="bottom">
-                  <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="0" :max="12" :step="2"></el-input-number>
+                  <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="0" :max="12"></el-input-number>
                 </el-tooltip>
               </el-form-item>
               <!-- 爆头几率 -->

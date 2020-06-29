@@ -268,6 +268,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "ess", dmg: true }, // extra slash state
   { id: "hm", dmg: true }, // 爆头倍率 to Headshot Multiplier
   { id: "range", nopercent: true }, // 射程
+  { id: "red", dmg: true }, // 连击额外伤害 Final Damage stacks with Combo Multiplier
 
   // ========================
 
