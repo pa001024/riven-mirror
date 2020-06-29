@@ -76,14 +76,21 @@ export abstract class BaseBuildEditor extends Vue {
   }
   reload() {
     if (this.weapon) {
-      let buffs = [null];
+      let buffs = [];
       if (this.weapon.tags.has("Exalted")) {
         if (this.weapon.baseName === "Regulators") {
-          buffs = [new Buff(BuffList.find(v => v.id === "z")), null];
+          buffs.push(new Buff(BuffList.find(v => v.id === "z")));
         } else {
-          buffs = [new Buff(BuffList.find(v => v.id === "Z")), null];
+          buffs.push(new Buff(BuffList.find(v => v.id === "Z")));
+        }
+        if (this.weapon.tags.has("Melee")) {
+          buffs.push(new Buff(BuffList.find(v => v.id === "mc")));
+          const l = new Buff(BuffList.find(v => v.id === "l"));
+          l.layer = 0;
+          buffs.push(l);
         }
       }
+      buffs.push(null);
       this.tabs = "ABC".split("").map(v => ({
         title: this.$t("zh") ? `配置${v}` : `SET ${v}`,
         name: `SET ${v}`,

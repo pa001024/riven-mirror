@@ -525,9 +525,9 @@ export const BuffList: BuffData[] = [
     name: "meleeCombo", // 连击
     type: BuffType.TotalDamage,
     target: "Melee",
-    dynamicProps: [["red", 25, 0]],
+    dynamicProps: [["red", 1, 0]],
     parms: ["status", ""],
-    defaultValue: 1,
+    defaultValue: 25,
   },
   {
     id: "o",
