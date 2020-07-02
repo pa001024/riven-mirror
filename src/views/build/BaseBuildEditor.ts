@@ -50,7 +50,7 @@ export abstract class BaseBuildEditor extends Vue {
     this.modelArmor = 0;
   }
   get isArmorDamageModel() {
-    return ["Eidolon", "Grineer", "Grineer Elite", "Corpus Elite", "Tenno"].includes(this.selectDamageModel);
+    return ["Eidolon", "Grineer", "Grineer Elite", "Corpus Elite", "Tenno", "Infested Jordas Golem"].includes(this.selectDamageModel);
   }
   dialogVisible = false;
   buffDialogVisible = false;

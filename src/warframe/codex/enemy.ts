@@ -289,6 +289,7 @@ const _damageModelList = [
   ["Infested", 3, 3, , , 0, 0],
   ["Infested Flesh", 3, 4, , , 0, 0],
   ["Infested Elite", 3, 2, , , 0, 0],
+  ["Infested Jordas Golem", 3, 5, , 0, 0, 0],
   ["Tenno", 0, 0, , 0, 0, 0],
 ] as DamageModelDataArray[];
 
@@ -432,7 +433,7 @@ export class SimpleDamageModel extends DamageModelData {
    */
   mapDamageArmor(dmgs: [string, number][], dot = false) {
     return dmgs.map(([id, dmg]) => {
-      let dtype = Damage2_0.getDamageType((dot && id) as DamageType);
+      let dtype = Damage2_0.getDamageType(id as DamageType);
       if (!dtype) return [id, dmg];
       let HM = dtype.dmgMul[this.fleshType];
       let AM = dtype.dmgMul[this.armorType];
@@ -450,7 +451,7 @@ export class SimpleDamageModel extends DamageModelData {
    */
   mapDamageHealth(dmgs: [string, number][], dot = false) {
     return dmgs.map(([id, dmg]) => {
-      let dtype = Damage2_0.getDamageType((dot && id) as DamageType);
+      let dtype = Damage2_0.getDamageType(id as DamageType);
       if (!dtype) return [id, dmg];
       let HM = dtype.dmgMul[this.fleshType];
       let DM = 1 + HM;
