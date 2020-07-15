@@ -1,8 +1,7 @@
 import { camelCase } from "lodash-es";
 import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
-import { WeaponTag, CoreWeaponMode, MainTag } from "./weapon";
-import { RivenDatabase } from "./riven";
+import { WeaponTag, CoreWeaponMode, MainTag, WeaponDatabase } from "./weapon";
 
 export enum Stance {
   Dagger, // 匕首
@@ -226,7 +225,7 @@ export class Zaw extends Weapon {
   }
   recalc() {
     this.name = this.strike.name;
-    this.disposition = RivenDatabase.getRatio(this.name);
+    this.disposition = WeaponDatabase.getWeaponByName(this.name)!.disposition;
 
     let modify = this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand;
     this.stance = modify.type;

@@ -448,15 +448,15 @@ const extraDispositionTable = [
   // zaw
   ["Balla", "Zaw", 0.9],
   ["Cyath", "Zaw", 0.9],
-  ["Dehtat", "Zaw", 1.1],
-  ["Dokrahm", "Zaw", 0.85],
+  ["Dehtat", "Zaw", 1.15],
+  ["Dokrahm", "Zaw", 0.75],
   ["Rabvee", "Zaw", 1.15],
   ["Mewan", "Zaw", 1.05],
   ["Kronsh", "Zaw", 1.15],
-  ["Ooltha", "Zaw", 1.1],
-  ["Sepfahn", "Zaw", 0.9],
-  ["Plague Keewar", "Zaw", 0.85],
-  ["Plague Kripath", "Zaw", 0.8],
+  ["Ooltha", "Zaw", 1.15],
+  ["Sepfahn", "Zaw", 0.75],
+  ["Plague Keewar", "Zaw", 0.75],
+  ["Plague Kripath", "Zaw", 0.65],
   // Amp
   ["Amp", "Amp", 0],
 ] as [string, string, number][];

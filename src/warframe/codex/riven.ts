@@ -1,6 +1,5 @@
 import { maxBy, max } from "lodash-es";
 import { strSimilarity } from "../util";
-import { _rivenDataBaseWeapons } from "./riven.data";
 
 /**MOD上的裂罅属性 */
 export interface RivenPropertyValue {
@@ -308,9 +307,6 @@ export class RivenDatabase {
       this.propDict.set(v.eName, i);
       this.propDict.set(v.name, i);
     });
-    _rivenDataBaseWeapons.forEach(v => {
-      this.ratioDict.set(v[0], v[2]);
-    });
   }
 
   static reload() {
@@ -361,15 +357,6 @@ export class RivenDatabase {
     let prop = this.getPropByName(propName);
     if (weaponType in RivenPropertyValueBaseDataBase && prop) return RivenPropertyValueBaseDataBase[weaponType][prop.id] * ratio * (prop.nopercent ? 0.1 : 10);
     else return -1;
-  }
-
-  /**
-   * 获取武器倾向值
-   *
-   * @param {string} name
-   */
-  static getRatio(name: string) {
-    return this.instance.ratioDict.get(name);
   }
 }
 
