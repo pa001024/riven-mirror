@@ -239,11 +239,17 @@ export class MeleeModBuild extends ModBuild {
     return this._baseDamageMul / 100;
   }
 
-  /** [overwrite] 触发几率 */
-  get procChance() {
-    let s = this.mode.procChance * (this.procChanceMul + this.comboProcChance) + this.procChanceAdd;
-    return s > 1 ? 1 : s < 0 ? 0 : s;
+  /** [overwrite] 真实触发几率 */
+  get realProcChance() {
+    let s = this.oriRealProcChance * (this.procChanceMul + this.comboProcChance);
+
+    if (this.procChanceAdd) {
+      const nc = 1 - (1 - s) ** this.pellets + this.procChanceAdd;
+      s = 1 - (1 - nc) ** (1 / this.pellets);
+    }
+    return s < 0 ? 0 : s;
   }
+
   /** [overwrite] 平均暴击区增幅倍率 */
   get critDamageMul() {
     return this.slideMode ? this.slideCritDamageMul : this.normalCritDamageMul;

@@ -1267,6 +1267,7 @@ let po = {
     velox: "逐电",
     xoris: "驱魔之刃",
     helstrum: "赫尔斯壮",
+    athodai: "阿索代",
 
     none: "无",
     balla: "宝拉",

@@ -511,7 +511,6 @@ export class Procs {
         this.Gas.push([dmg, ~~(6 * durationMul)]);
         break;
       // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
-      // 注:火焰触发不会叠加
       case "Heat":
         this.Heat.push([dmg, ~~(6 * durationMul)]);
         break;
@@ -810,19 +809,21 @@ export class Enemy extends EnemyData {
     let immediateDamages = dmgs.map(([vn, vv]) => {
       switch (vn) {
         // 切割伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Slash_Damage
+        // 无立即伤害
         case "Slash":
           this.currentProcs.push(DamageType.Slash, vv * procDamageMul, durationMul);
           return [DamageType.True, vv];
         // 毒素伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Toxin_Damage
+        // 无立即伤害
         case "Toxin":
           this.currentProcs.push(DamageType.Toxin, vv * procDamageMul, durationMul);
           return [DamageType.Toxin, vv];
         // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
+        // 无立即伤害
         case "Gas":
-          this.currentProcs.push(DamageType.Toxin, vv * procDamageMul, durationMul);
+          this.currentProcs.push(DamageType.Gas, vv * procDamageMul, durationMul);
           return [DamageType.Gas, vv];
         // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
-        // 注:火焰触发不会叠加
         case "Heat":
           this.currentProcs.push(DamageType.Heat, vv * procDamageMul, durationMul);
           return [DamageType.Heat, vv];
