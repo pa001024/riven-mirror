@@ -128,7 +128,7 @@ export const BuffList: BuffData[] = [
     ["aQ", "arcaneRage", [["D", 30]], "Primary"], // 愤怒赋能
     ["aR", "arcaneTempo", [["R", 15]], "Shotgun"], // 节奏赋能
     ["aS", "arcaneVelocity", [["R", 20]], "Secondary"], // 迅速赋能
-    ["aT", "paxBolt", [["t", 30], ["x", 30]], "Warframe"], // 和平电闪
+    ["aT", "paxBolt", [["t", 7.5], ["x", 7.5]], "Warframe", 3], // 和平电闪
     ["aU", "arcaneTanker", [["onEquip"], ["ea", 200]], "Warframe"], // 坦克赋能
   ].map(
     v =>
@@ -137,10 +137,10 @@ export const BuffList: BuffData[] = [
         name: v[1],
         type: BuffType.Arcane,
         target: v[3],
-        defaultLayer: 5,
+        defaultLayer: v[4] || 5,
         multiLayer: {
           baseLayer: 1,
-          maxStack: 5,
+          maxStack: v[4] || 5,
           stackableProps: v[2],
         },
       } as BuffData)
