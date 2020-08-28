@@ -1,12 +1,12 @@
 export const magic = "ALPHA";
-export const version = "1.9.2";
+export const version = "1.9.3";
 export const updateLogs = [
   {
-    version: "1.9.2",
+    version: "1.9.3",
     date: "2020/6/12",
     md: {
-      en: `- U28.2`,
-      cn: `- U28.2`,
+      en: `- U29`,
+      cn: `- U29`,
     },
   },
   {

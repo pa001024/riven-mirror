@@ -1268,6 +1268,12 @@ let po = {
     xoris: "驅魔之刃",
     helstrum: "赫爾斯壯",
     athodai: "厄索戴",
+    sepulcrum: "鑿墓者",
+    trumna: "創痍者",
+    cortege: "頌葬者",
+    zymos: "宰魔",
+    quassus: "夸瑟",
+    keratinos: "鋒角之爪",
 
     none: "無",
     balla: "寶拉",
