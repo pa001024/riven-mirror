@@ -126,10 +126,6 @@ export class Moa extends Companion {
   get mods() {
     return this.model.mods;
   }
-
-  get tags() {
-    return ["Robotic", "Animal", "MOA"];
-  }
   get buildName() {
     return `${this.model.index}${this.core.index}${this.gyro.index}${this.bracket.index}`;
   }
@@ -162,6 +158,7 @@ export class Moa extends Companion {
   }
   recalc() {
     this.id = this.model.name;
+    this.tags = ["Robotic", "Animal", "MOA"];
     const ikey = `messages.${this.model.id}`;
     this.name = i18n.te(ikey) ? i18n.t(ikey) : this.model.name;
     this.health = (40 + ((this.core ? this.core.health : 0) + (this.gyro ? this.gyro.health : 0))) * 2.5;

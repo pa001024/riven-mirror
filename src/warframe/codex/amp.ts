@@ -161,19 +161,10 @@ export class Amp extends Weapon {
   /** 充能速度 基础30点每秒 */
   reloadSpeed: number;
   pol = "";
-  get reload() {
-    return this.reloadDelay + this.magazine / this.reloadSpeed;
-  }
 
   /** 是否是棱镜 */
   get isPrism() {
     return !!this.prism;
-  }
-
-  get tags() {
-    return new WeaponTag(
-      (this.scaffold && this.scaffold.name === "Klebrik Scaffold") || (this.prism && this.prism.name === "Klamora Prism") ? ["Amp", "Continuous"] : ["Amp"]
-    );
   }
   get url() {
     return `AMP-${this.buildName}`;
@@ -201,6 +192,9 @@ export class Amp extends Weapon {
   recalc() {
     let mainPart = this.isPrism ? this.prism : this.scaffold;
     if (!mainPart) return;
+    this.tags = new WeaponTag(
+      (this.scaffold && this.scaffold.name === "Klebrik Scaffold") || (this.prism && this.prism.name === "Klamora Prism") ? ["Amp", "Continuous"] : ["Amp"]
+    );
     let brace = this.brace || NoneBraceData;
     this.name = "Amp";
     this.mod = MainTag.Amp;
@@ -219,13 +213,13 @@ export class Amp extends Weapon {
     if ((this.scaffold && this.scaffold.name === "Klebrik Scaffold") || (this.prism && this.prism.name === "Klamora Prism")) mode.trigger = "Held";
     this.reloadSpeed = 30 + brace.reloadSpeed;
     this.reloadDelay = 2 + brace.reloadDelay;
+    this.reload = this.reloadDelay + this.magazine / this.reloadSpeed;
     this.magazine = 100 + brace.magazine;
     this.modes = [mode];
   }
   get displayName() {
     if (this.prism || this.scaffold)
-      return `${this.isPrism ? i18n.t(`messages.${this.prism.id}`) : i18n.t(`messages.${this.scaffold.id}`)}-${i18n.t(`messages.${this.brace.id}`)} ( ${
-        this.buildName
+      return `${this.isPrism ? i18n.t(`messages.${this.prism.id}`) : i18n.t(`messages.${this.scaffold.id}`)}-${i18n.t(`messages.${this.brace.id}`)} ( ${this.buildName
         } )`;
     else return "Amp";
   }

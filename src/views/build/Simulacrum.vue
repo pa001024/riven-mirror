@@ -70,13 +70,13 @@ export default class Simulacrum extends Vue {
   @Prop({ required: true }) selectEnemy: Function;
   @Prop({ required: true }) enemy: Enemy;
   /** need .sync */
-  @Prop() enemyLevel: number;
+  @Prop() enemyLevel!: number;
   /** need .sync */
-  @Prop() amrorReduce: number;
+  @Prop() amrorReduce!: number;
   /** need .sync */
-  @Prop() shieldReduce: number;
+  @Prop() shieldReduce!: number;
   /** need .sync */
-  @Prop() perBullet: boolean;
+  @Prop() perBullet!: boolean;
 
   fakeAmrorReduce = this.amrorReduce;
   fakeEnemyLevel = this.enemyLevel;

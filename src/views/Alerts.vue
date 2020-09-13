@@ -345,7 +345,7 @@ export default class Alerts extends Vue {
       // 计算宽度
       let ls = document.querySelectorAll(".index > .el-col") as any,
         lastRect: DOMRect = null,
-        width = -20;
+        width = 0;
       [].forEach.call(ls, (el: HTMLElement) => {
         let rect = el.getBoundingClientRect() as DOMRect;
         if (!lastRect || lastRect.left != rect.left) {
@@ -365,7 +365,7 @@ export default class Alerts extends Vue {
     e.preventDefault();
     var delta = Math.max(-1, Math.min(1, e["wheelDelta"] || -e.detail));
     const width = document.querySelector("#app > section > main > div.wrapper.alerts-container").querySelector(".index-card.sortie").clientWidth;
-    this.scroll.scrollBy(delta * (width + 20));
+    this.scroll.scrollBy(delta * (width + 20), 0, 300);
   }
   // === 生命周期钩子 ===
   updated() {
@@ -373,7 +373,7 @@ export default class Alerts extends Vue {
   }
   mounted() {
     this.$nextTick(() => {
-      this.scroll = new BScroll(this.$refs.wrapper as Element, {
+      this.scroll = new BScroll(this.$refs.wrapper as any, {
         startX: 0,
         click: true,
         scrollX: true,
@@ -394,7 +394,7 @@ export default class Alerts extends Vue {
     this.updateTime();
     this.timerID = setInterval(this.updateTime, 1000) as any;
     this.updateStat();
-    this.statID = setInterval(_ => this.updating || this.updateStat(), 6e4) as any;
+    this.statID = setInterval((_) => this.updating || this.updateStat(), 6e4) as any;
   }
   beforeDestroy() {
     clearInterval(this.timerID);
@@ -422,7 +422,7 @@ export default class Alerts extends Vue {
         this.sentientOutposts = this.stat.sentientOutposts;
         CetusTime.calibration(this.stat.cetusCycle.expiry, this.stat.cetusCycle.isDay);
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
         setTimeout(() => this.updateStat(), 3e3);
       });

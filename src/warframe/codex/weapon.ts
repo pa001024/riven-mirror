@@ -549,27 +549,24 @@ export class WeaponDatabase {
    * 通过武器具体名称获取武器实例
    * @param name 武器具体名称
    */
-  static getWeaponsByTags(tags: string[] | number[]) {
-    if (typeof tags[0] === "number") return WeaponDatabase.weapons.filter(v => tags.every(tag => v.tags.has(MainTag[tag])));
-    return WeaponDatabase.weapons.filter(v => tags.every(tag => v.tags.has(tag)));
+  static getWeaponsByTags(tags: (string | number)[]) {
+    return WeaponDatabase.weapons.filter(v => tags.every(tag => v.tags.has(typeof tag === "number" ? MainTag[tag] : tag)));
   }
 
   /**
    * 通过武器标签(OR)获取武器实例
    * @param name 武器具体名称
    */
-  static getProtosByMultiTags(tags: string[] | number[]) {
-    if (typeof tags[0] === "number") return WeaponDatabase.protos.filter(v => tags.some(tag => v.tags.has(MainTag[tag])));
-    return WeaponDatabase.protos.filter(v => tags.some(tag => v.tags.has(tag)));
+  static getProtosByMultiTags(tags: (string | number)[]) {
+    return WeaponDatabase.protos.filter(v => tags.some(tag => v.tags.has(typeof tag === "number" ? MainTag[tag] : tag)));
   }
 
   /**
    * 通过武器标签(AND)获取武器实例
    * @param name 武器具体名称
    */
-  static getProtosByTags(tags: string[] | number[]) {
-    if (typeof tags[0] === "number") return WeaponDatabase.protos.filter(v => tags.every(tag => v.tags.has(MainTag[tag])));
-    return WeaponDatabase.protos.filter(v => tags.every(tag => v.tags.has(tag)));
+  static getProtosByTags(tags: (string | number)[]) {
+    return WeaponDatabase.protos.filter(v => tags.every(tag => v.tags.has(typeof tag === "number" ? MainTag[tag] : tag)));
   }
 
   /**

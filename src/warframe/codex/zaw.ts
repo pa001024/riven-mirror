@@ -197,12 +197,6 @@ export class Zaw extends Weapon {
   get twoHand() {
     return this.grip.twoHand;
   }
-  get slideAttack() {
-    return (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
-  }
-  get tags() {
-    return new WeaponTag(["Melee", "ZAW", this.stance]);
-  }
   get url() {
     return `ZAW-${this.strike.idx}-${this.grip.idx}-${this.links.idx}`;
   }
@@ -226,6 +220,8 @@ export class Zaw extends Weapon {
   recalc() {
     this.name = this.strike.name;
     this.disposition = WeaponDatabase.getWeaponByName(this.name)!.disposition;
+    this.slideAttack = (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
+    this.tags = new WeaponTag(["Melee", "ZAW", this.stance]);
 
     let modify = this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand;
     this.stance = modify.type;
