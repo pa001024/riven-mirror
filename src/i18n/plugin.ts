@@ -2,7 +2,7 @@ import { assign, merge } from "lodash-es";
 import Vue from "vue";
 import VueI18n from "vue-i18n";
 
-import lang_en from "./lang/en";
+import lang_en from "./lang/en.json";
 
 import elLang_en from "element-ui/lib/locale/lang/en";
 import elLang_zh from "element-ui/lib/locale/lang/zh-CN";
@@ -98,19 +98,19 @@ export async function changeLocale(locale: string) {
   switch (locale) {
     case "zh-CN":
     case "zh-SG":
-      let { default: zh } = await import(/* webpackChunkName: "lang-zh" */ "./lang/zh");
+      let { default: zh } = await import(/* webpackChunkName: "lang-zh" */ "./lang/zh-Hans.json");
       const chs = assign(elLang_zh, zh);
       vi18n.setLocaleMessage(locale, chs);
       break;
     case "zh-CY":
-      let [{ default: zh2 }, { default: zhCY }] = await Promise.all([import(/* webpackChunkName: "lang-zh" */ "./lang/zh"), import(/* webpackChunkName: "lang-zhCY" */ "./lang/zh-CY")]);
+      let [{ default: zh2 }, { default: zhCY }] = await Promise.all([import(/* webpackChunkName: "lang-zh" */ "./lang/zh-Hans.json"), import(/* webpackChunkName: "lang-zhCY" */ "./lang/zh-CY")]);
       const chCY = merge({}, elLang_zh, zh2, zhCY);
       vi18n.setLocaleMessage(locale, chCY);
       break;
     case "zh-TW":
     case "zh-HK":
     case "zh-MO":
-      let { default: zhTW } = await import(/* webpackChunkName: "lang-zhTW" */ "./lang/zh-TW");
+      let { default: zhTW } = await import(/* webpackChunkName: "lang-zhTW" */ "./lang/zh-Hant.json");
       const cht = assign(elLang_zhTW, zhTW);
       vi18n.setLocaleMessage(locale, cht);
       break;
