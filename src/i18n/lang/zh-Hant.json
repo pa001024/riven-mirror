@@ -3650,7 +3650,7 @@
       "dojo": "DOJO",
       "grineer": "GRINEER",
       "infested": "INFESTED",
-      "kiteer": "KI'TEER",
+      "kiTeer": "KI'TEER",
       "lotus": "LOTUS",
       "orokin": "OROKIN",
       "tenno": "TENNO",
@@ -3673,7 +3673,7 @@
       "redWhiteBlue": "紅/白/藍",
       "spektaka": "華麗演出",
       "halloween": "萬聖節",
-      "tenno2": "TENNO II",
+      "tennoIi": "TENNO II",
       "agony": "AGONY",
       "conquest": "CONQUEST",
       "darkness": "DARKNESS",
@@ -3684,12 +3684,16 @@
       "discord": "DISCORD",
       "rollers": "滾子",
       "transmission": "TRANSMISSION",
+      "beach": "沙灘",
+      "matisse": "MATISSE",
       "obsidian": "黑曜石",
-      "beach": "沙灘"
+      "jade": "綠寶石",
+      "opal": "蛋白石"
     },
     "title": "選擇顏色",
     "uploadtip": "將檔案拖到此處，或<em>點選上傳</em>參考圖",
     "deltaE": "容差:",
+    "limited": "限定",
     "recommand": "推薦:"
   },
   "buff": {
