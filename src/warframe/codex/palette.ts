@@ -896,6 +896,126 @@ const _paletteData = [
       "676256", "6A675A", "736C5E", "777062", "7C7769",
     ]
   },
+  {
+    id: "discord",
+    store: false,
+    colors: [
+      "7289DA", "6D82CF", "6579C2", "5D6DAE", "51639D",
+      "6E86D2", "677BC4", "5F71B4", "5365A1", "4D5B92",
+      "6A7DC9", "5F74B8", "5768A6", "4D5D95", "465587",
+      "6276BD", "596AAB", "4F619A", "47568A", "435080",
+      "FFFFFF", "FAFAFA", "F6F6F6", "EFEFEF", "E7E7E7",
+      "FDFDFD", "F6F6F6", "F0F0F0", "E8E8E8", "E0E0E0",
+      "F7F7F7", "F1F1F1", "EAEAEA", "E1E1E1", "DADADA",
+      "F2F2F2", "EBEBEB", "E4E4E4", "DCDCDC", "D5D5D5",
+      "9AAAB5", "95A6B0", "90A1AB", "8B99A4", "83919A",
+      "96A7B1", "90A1AB", "8B9BA5", "85939F", "7D8C94",
+      "93A3AE", "8D9BA7", "8694A0", "7F8E97", "79858F",
+      "8F9DA8", "88969F", "808F98", "7A8690", "748188",
+      "2B2F33", "292B2F", "25262A", "1E2021", "181A1C",
+      "292D30", "262A2D", "202226", "1A1C1E", "141718",
+      "282A2E", "222428", "1D1F20", "17191A", "111315",
+      "23272A", "202427", "1D2223", "181C1D", "141718",
+      "212528", "1F2326", "1A1C20", "161819", "121416",
+      "202427", "1D1E22", "191B1D", "131517", "0F1112",
+    ]
+  },
+  {
+    id: "rollers",
+    store: false,
+    colors: [
+      "F7A3B0", "E699A3", "CD8793", "AF737C", "95626A",
+      "FFD586", "EBC57C", "D0AD6B", "B0935B", "937B4C",
+      "FF8079", "EC7670", "CF6A63", "B05952", "934B45",
+      "B0DDF9", "A4CDE8", "92B7CF", "7E9DB0", "698697",
+      "EF880D", "DE7E0D", "C6700B", "A96109", "925308",
+      "DBD0BF", "CAC1B2", "B3AC9E", "9C9288", "817C72",
+      "579215", "518514", "43730F", "385E0D", "2D4C0B",
+      "EACA40", "D8BA3D", "BDA134", "9F8A2D", "847425",
+      "C02C2C", "B4292A", "9E2525", "8A1F1F", "741B1B",
+      "E5CB70", "D4BB66", "BBA55A", "9E8B4D", "83753F",
+      "124286", "103D7B", "0F376B", "0C2E5B", "0A264C",
+      "F3F4F1", "E0E0DE", "C2C3C0", "A4A5A2", "868686",
+      "374766", "33435F", "2D3852", "263046", "20283C",
+      "C1A475", "B3986C", "9D8560", "826E51", "6D5C42",
+      "854A12", "7C4511", "6B3C0E", "5D330D", "4E2A0B",
+      "FF831E", "ED7A1D", "D16B19", "B35D16", "974C11",
+      "7A5A21", "765822", "705326", "684E27", "604A2B",
+      "985E2F", "8B572D", "764C2B", "624025", "4F3721",
+    ]
+  },
+  {
+    id: "transmission",
+    store: false,
+    colors: [
+      "00275E", "012C64", "013169", "013770", "013E75",
+      "003971", "024076", "00477E", "004F86", "00568F",
+      "00518A", "005892", "01609A", "0169A3", "0072AB",
+      "016CA5", "0174AF", "007DB7", "0086BF", "018DC9",
+      "0088C3", "0190CB", "0197D0", "01A0DA", "01A6E0",
+      "02A1D9", "00A8E1", "00AFE8", "01B5EF", "03BBF3",
+      "02B9EF", "02BDF5", "07C2F7", "0FC8FB", "1BCBFD",
+      "11C8FA", "1DCFFF", "29D3FF", "36DAFF", "44DDFF",
+      "3ADDFE", "46E0FE", "55E5FF", "64E9FE", "76EEFE",
+      "6BEBFF", "7AF0FF", "8AF3FF", "99F8FE", "A8FCFF",
+      "9FF9FF", "AEFDFF", "B9FFFE", "C8FFFF", "D5FEFE",
+      "CDFFFF", "D8FFFF", "E4FFFF", "EEFFFF", "F5FFFF",
+      "EFFFFE", "F6FFFF", "FDFFFF", "FFFFFF", "FEFCFD",
+      "FFFFFD", "FFFBFD", "FFF6F9", "FFF0F8", "FAE8F3",
+      "FDEEF7", "F9E7F4", "F3DEF1", "EDD4EF", "E5CBE8",
+      "EAD1EE", "E3C7E7", "DBBDE7", "D3B2E2", "C5A8DC",
+      "CEAFE0", "C3A3DC", "B89AD8", "AE8ED2", "A685D0",
+      "AC8CD2", "A281CE", "9976CD", "906DC6", "8964C5",
+    ]
+  },
+  {
+    id: "obsidian",
+    store: false,
+    colors: [
+      "0C0B0E", "161819", "222428", "2E3034", "36393F",
+      "050505", "0F1112", "181A1C", "26282C", "303236",
+      "000000", "070707", "111113", "1B1D21", "292B2F",
+      "C5CAD1", "D3D7DC", "E0E4E7", "EFF1F3", "F9FBFA",
+      "BAC5CB", "C8CED5", "D5D9DF", "E2E6E9", "F2F4F5",
+      "B6C0C8", "BDC7CD", "CAD0D7", "DADCE2", "E6EAED",
+      "1A5CEB", "2167EC", "2B71F2", "327CF4", "3B85FC",
+      "1351E3", "1B5EE8", "2568EC", "2C75F1", "337DF6",
+      "0D49E0", "1551E7", "1D5FEA", "2669EF", "2C75F3",
+      "0842DE", "0E48E1", "1854E8", "1D62EA", "266EF1",
+      "4BD1D8", "5FD9E2", "79E0EB", "8FE6F1", "A0EBF9",
+      "24C7D0", "3ACDD4", "51D3E0", "6ADCE8", "80E2EE",
+      "FC5B58", "FC6863", "FF7773", "FD8582", "FE948F",
+      "FA453F", "FB4E48", "FB5C54", "FB6961", "FD7A73",
+      "789ADB", "8BABE4", "9EB7EC", "B0C8F8", "BCD3FB",
+      "5F85D0", "7093D9", "7CA1E0", "92AFE6", "A3BEEE",
+      "F37DC9", "F592CF", "F5A6DC", "FAB6E1", "FEC4EA",
+      "EA58B2", "F168BD", "F27DC9", "F393CF", "F8A4DA",
+    ]
+  },
+  {
+    id: "beach",
+    store: false,
+    colors: [
+      "FFCE24", "FFCF27", "FFCF2B", "FFD02E", "FED234",
+      "FFD030", "FED136", "FED23B", "FED23F", "FED344",
+      "FED342", "FCD346", "FDD54E", "FBD552", "FCD759",
+      "FBD756", "FAD85D", "FAD761", "F9DA69", "F8DA6D",
+      "F9D96B", "F9DA71", "F7DC78", "F8DC7D", "F6E083",
+      "F8DD82", "F6E087", "F5E18D", "F6E192", "F6E297",
+      "F5E196", "F5E49A", "F5E59F", "F5E4A3", "F6E7AA",
+      "F5E6A7", "F7E7AD", "F7E9B2", "F7EBB8", "FAEDBD",
+      "FBECBB", "FCEFC1", "FFEEC6", "FFF3CE", "FFF3D3",
+      "FFF2D0", "FFF5D6", "FFF8DD", "FEF9E2", "FFFCE6",
+      "FFFAE5", "FFFBE8", "FFFEED", "FEFEF1", "FFFFF4",
+      "FFFFF4", "FFFFF6", "FFFFFB", "FFFFFD", "FFFFFF",
+      "FFFFFD", "FFFFFF", "FFFFFF", "FCFFFE", "F7FDFF",
+      "F8FFFF", "F0FBFC", "E8FAFB", "E0F7F6", "D6F4F3",
+      "DBF4F4", "D1F2F0", "C4EDEB", "B9EAE7", "AEE5E2",
+      "B2E7E2", "A7E3DD", "9ADFD8", "8CDBD3", "80D6CC",
+      "87D8CF", "7AD5C8", "6ED0C3", "63CCBD", "59C9B7",
+      "5DCABA", "54C6B4", "4AC4AF", "42C1AD", "3CBFA9",
+    ]
+  },
 ];
 
 /**
@@ -972,7 +1092,6 @@ export class ColorHelper {
    * 获取色板信息
    *
    * @param {string} id
-   * @returns {Palette} 色板信息
    * @memberof ColorHelper
    */
   static getPalette(id: string) { return this.instance._palette.get(id); }
