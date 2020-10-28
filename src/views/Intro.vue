@@ -9,7 +9,7 @@
         <div class="action">
           <a class="btn" href="https://warframe.huijiwiki.com/wiki/blog:RivenMirror" target="_blank" v-t="'intro.a1'"></a>
           <router-link class="btn" to="/alerts" v-t="'intro.a2'"></router-link>
-          <a class="btn solid" href="https://pan.baidu.com/s/1GCB7Zh5_VcExijKgixJyCA" target="_blank" v-t="'intro.a3'"></a>(提取码: fja4)
+          <a class="btn solid" href="https://pan.baidu.com/s/1fGX4wJ3SYJKS5xchkMQsZQ" target="_blank" v-t="'intro.a3'"></a>(提取码: 1111)
         </div>
       </div>
     </div>
