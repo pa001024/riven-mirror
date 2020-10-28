@@ -85,7 +85,7 @@ import "./registerServiceWorker";
 // import FastClick from "fastclick";
 // FastClick.attach(document.body);
 
-const langParameter = location.search.match(/(?:\?|&)lang=(en|zh-CN|zh-TW|zh-CY)(?=$|&)/);
+const langParameter = location.search.match(/(?:\?|&)lang=(.+?)(?=$|&)/);
 
 import { RivenDatabase, WeaponDatabase } from "@/warframe/codex";
 

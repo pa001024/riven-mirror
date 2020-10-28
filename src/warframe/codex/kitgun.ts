@@ -78,19 +78,19 @@ const _kitgunChamber = [
   [0, "Catchmoon", [
     [["Impact", 89], ["Heat", 167]],
     [["Impact", 49], ["Heat", 85]] // Primary
-  ], 0.21, 0.21, [5, 7, 11, 13], 5.9, [0.5, 0.75]],
+  ], 0.21, 0.21, [5, 7, 11, 13], 5.9, [0.5, 0.9]],
   [1, "Gaze", [
     [["Puncture", 6], ["Radiation", 10]],
     [["Radiation", 29]] // Primary
-  ], 0.25, 0.25, [23, 31, 43, 51], 100, [1, 0.65]],
+  ], 0.25, 0.25, [23, 31, 43, 51], 100, [1, 0.85]],
   [2, "Rattleguts", [
     [["Impact", -1], ["Puncture", 7], ["Slash", 5], ["Radiation", 10]],
     [["Impact", 2], ["Puncture", 5], ["Slash", 3], ["Radiation", 9]] // Primary
-  ], 0.19, 0.19, [29, 45, 67, 83], 26, [0.75, 0.6]],
+  ], 0.19, 0.19, [29, 45, 67, 83], 26, [0.75, 0.8]],
   [3, "Tombfinger", [
     [["Impact", 12], ["Puncture", 5], ["Radiation", 43]],
     [["Puncture", 40], ["Radiation", 18]] // Primary
-  ], 0.24, 0.24, [9, 15, 23, 29], 50, [0.65, 0.6]]
+  ], 0.24, 0.24, [9, 15, 23, 29], 50, [0.65, 0.75]]
 ] as [number, string, [string, number][][], number, number, number[], number, number[]][];
 
 const _kitgunGrip = [

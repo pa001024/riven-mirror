@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.9.3";
+export const version = "1.9.4";
 export const updateLogs = [
+  {
+    version: "1.9.4",
+    date: "2020/10/28",
+    md: {
+      en: `- U29.3 Nezha Prime
+- 2020.10 Riven Disposition Changes`,
+      cn: `- U29.3 Nezha Prime
+- 2020.10 裂罅改动`,
+    },
+  },
   {
     version: "1.9.3",
     date: "2020/6/12",
@@ -37,6 +47,7 @@ export const updateLogs = [
 - 2019.12 裂罅改动`,
     },
   },
+  /*
   {
     version: "1.8.3",
     date: "2019/11/5",
@@ -56,7 +67,6 @@ export const updateLogs = [
 - 添加: 新MOD 赋能`,
     },
   },
-  /*
   {
     version: "1.8.1",
     date: "2019/9/20",
