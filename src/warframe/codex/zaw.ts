@@ -1,7 +1,7 @@
+import { camelCase } from "lodash-es";
 import { Weapon } from "@/warframe/codex";
 import { i18n } from "@/i18n";
-import _ from "lodash";
-import { WeaponTag, CoreWeaponMode, MainTag } from "./weapon";
+import { WeaponTag, CoreWeaponMode, MainTag, WeaponDatabase } from "./weapon";
 
 export enum Stance {
   Dagger, // 匕首
@@ -26,8 +26,8 @@ const _zawStrike = [
   ["6", "Dehtat", 0, [10, 2, 8], 5, 8, 8, "Rapier", "Polearm", 1.09],
   ["7", "Cyath", 6, [1, 4, 15], 0, 8, 8, "Machete", "Polearm", 1.08],
   ["8", "Mewan", 0, [7, 5, 8], -4, 8, 8, "Sword", "Polearm", 1.09],
-  ["9", "Plague Keewar", 82, [32, 1, 35, 14], -2, 8, 12, "Scythe", "Stave", 0.85],
-  ["A", "Plague Kripath", -11, [-26, 14, -7, 8], 2, 12, 8, "Rapier", "Polearm", 1.08],
+  ["9", "Plague Keewar", 82, [1, 32, 35, 14], -2, 8, 12, "Scythe", "Stave", 0.85],
+  ["A", "Plague Kripath", -11, [14, -26, -7, 8], 2, 12, 8, "Rapier", "Polearm", 1.08],
 ] as [string, string, number, number[], number, number, number, string, string, number][];
 
 export const StanceData = {
@@ -77,7 +77,7 @@ export interface ZawStrikeModify {
 
 export const ZawStrikeData: ZawStrike[] = _zawStrike.map(v => ({
   idx: v[0],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   name: v[1],
   dmg: v[2],
   dmgs: v[3],
@@ -112,7 +112,7 @@ export interface ZawGrip {
 
 export const ZawGripData: ZawGrip[] = _zawGrip.map(v => ({
   idx: v[0],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   name: v[1],
   twoHand: !!v[2],
   dmg: v[3],
@@ -159,7 +159,7 @@ export interface ZawLinks {
 
 export const ZawLinksData: ZawLinks[] = _zawLinks.map(v => ({
   idx: v[0],
-  id: _.camelCase(v[1]),
+  id: camelCase(v[1]),
   name: v[1],
   dmg: v[2],
   speed: v[3],
@@ -197,12 +197,6 @@ export class Zaw extends Weapon {
   get twoHand() {
     return this.grip.twoHand;
   }
-  get slideAttack() {
-    return (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
-  }
-  get tags() {
-    return new WeaponTag(["Melee", "ZAW", this.stance]);
-  }
   get url() {
     return `ZAW-${this.strike.idx}-${this.grip.idx}-${this.links.idx}`;
   }
@@ -225,6 +219,9 @@ export class Zaw extends Weapon {
   }
   recalc() {
     this.name = this.strike.name;
+    this.disposition = WeaponDatabase.getWeaponByName(this.name)!.disposition;
+    this.slideAttack = (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
+    this.tags = new WeaponTag(["Melee", "ZAW", this.stance]);
 
     let modify = this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand;
     this.stance = modify.type;
@@ -264,8 +261,8 @@ export class Zaw extends Weapon {
     this.modes = [mode];
   }
   get displayName() {
-    return `${i18n.t(`messages.${_.camelCase(this.strike.id)}`)}-${i18n.t(`messages.${_.camelCase(this.grip.id)}`)}-${i18n.t(
-      `messages.${_.camelCase(this.links.id)}`
+    return `${i18n.t(`messages.${camelCase(this.strike.id)}`)}-${i18n.t(`messages.${camelCase(this.grip.id)}`)}-${i18n.t(
+      `messages.${camelCase(this.links.id)}`
     )}`;
   }
 }

@@ -59,7 +59,7 @@
                   </el-col>
                 </el-row>
               </div>
-              <PropDiff :name="$t('build.status')" :ori="mode.procChance" :val="build.procChancePerHit" percent data-v-step="1"></PropDiff>
+              <PropDiff data-v-step="1" :name="$t('build.status')" :ori="build.oriRealProcChance" :val="build.realProcChance" percent></PropDiff>
               <!-- 伤害模型 -->
               <el-row :gutter="4" class="prop-diff model-selector">
                 <el-col :span="8" class="title" v-t="'build.damageModel'"></el-col>
@@ -101,7 +101,7 @@
               <!-- 连击加成 -->
               <el-form-item :label="$t('buildview.comboMul')">
                 <el-tooltip effect="dark" :content="$t('buildview.comboMulTip')" placement="bottom">
-                  <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="0" :max="12" :step="2"></el-input-number>
+                  <el-input-number class="right-side" size="small" v-model="comboMul" @change="optionChange" :min="0" :max="12"></el-input-number>
                 </el-tooltip>
               </el-form-item>
               <!-- 爆头几率 -->
@@ -145,7 +145,7 @@
                     <template v-if="buff">
                       <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">
                         <div class="buff-name">{{$t(`buff.${buff.name}`)}}</div>
-                        <div class="buff-parm layer" v-if="buff.layerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.layer" :min="1" :max="buff.data.multiLayer.maxStack"></el-input-number></div>
+                        <div class="buff-parm layer" v-if="buff.layerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.layer" :min="0" :max="buff.data.multiLayer.maxStack"></el-input-number></div>
                         <div class="buff-parm power" v-if="buff.powerEnable"><el-input-number @change="refleshMods()" :step="0.5" size="mini" v-model="buff.power"></el-input-number></div>
                       </div>
                       <div class="buff-detail" @click.stop="buffRemove(index)">

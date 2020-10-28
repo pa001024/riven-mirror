@@ -73,9 +73,10 @@
     <!-- 预览 -->
     <div class="preview" v-if="strike">
       <div class="prop">{{$t("modular.damage")}}: {{+zaw.defaultMode.panelDamage.toFixed(1)}}</div><!--
+   --><div class="prop">{{$t("build.ratio")}}: {{+zaw.disposition}}</div><!--
    --><div class="prop">{{$t("modular.slideDamage")}}: {{+zaw.slideDmg.toFixed(1)}}</div><!--
    --><div class="prop" v-for="dmg in zaw.modes[0].damage" :key="dmg[0]"><WfIcon :type="dmg[0].toLowerCase()"/> {{$t(`elements.${dmg[0]}`)}}: {{dmg[1]}}</div><!--
-   --><div class="prop" v-if="zaw.reach">{{$t("modular.range")}}: {{+(zaw.reach[0]+zaw.reach[1]).toFixed(1)}}m</div><!--
+   --><div class="prop" v-if="zaw.meleeRange">{{$t("modular.range")}}: {{zaw.meleeRange.toFixed(1)}}m</div><!--
    --><div class="prop">{{$t("modular.fireRate")}}: {{+(zaw.defaultMode.fireRate/60).toFixed(3)}}</div><!--
    --><div class="prop">{{$t("modular.critDamage")}}: {{zaw.defaultMode.critMul}}x</div><!--
    --><div class="prop">{{$t("modular.critChance")}}: {{(zaw.defaultMode.critChance*100).toFixed()}}%</div><!--

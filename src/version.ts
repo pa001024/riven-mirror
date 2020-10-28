@@ -1,6 +1,32 @@
 export const magic = "ALPHA";
-export const version = "1.8.5";
+export const version = "1.9.4";
 export const updateLogs = [
+  {
+    version: "1.9.4",
+    date: "2020/10/28",
+    md: {
+      en: `- U29.3 Nezha Prime
+- 2020.10 Riven Disposition Changes`,
+      cn: `- U29.3 Nezha Prime
+- 2020.10 裂罅改动`,
+    },
+  },
+  {
+    version: "1.9.3",
+    date: "2020/6/12",
+    md: {
+      en: `- U29`,
+      cn: `- U29`,
+    },
+  },
+  {
+    version: "1.9.1",
+    date: "2020/6/12",
+    md: {
+      en: `- primary kitgun`,
+      cn: `- 主武器组合枪`,
+    },
+  },
   {
     version: "1.8.5",
     date: "2019/12/25",
@@ -21,6 +47,7 @@ export const updateLogs = [
 - 2019.12 裂罅改动`,
     },
   },
+  /*
   {
     version: "1.8.3",
     date: "2019/11/5",
@@ -52,7 +79,6 @@ export const updateLogs = [
 - 预览: Atlas Prime/铁钩手甲 Prime/死亡魔方 Prime`,
     },
   },
-  /*
   {
     version: "1.8.0",
     date: "2019/9/8",

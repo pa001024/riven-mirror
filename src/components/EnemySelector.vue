@@ -1,11 +1,11 @@
 <template>
   <el-tabs class="enemy-tabs" v-model="enemyType">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.name">
-      <span slot="label" class="enemy-tablabel">{{tab.name}}</span>
+      <span slot="label" class="enemy-tablabel">{{ tab.name }}</span>
       <div class="enemy-select">
         <div class="enemy-item-container" v-for="enemy in tab.enemys" :key="enemy.id">
           <div class="enemy-item el-dropdown" @click="handleClick(enemy.id)">
-            {{enemy.name}}
+            {{ enemy.name }}
           </div>
         </div>
       </div>
@@ -14,24 +14,24 @@
 </template>
 
 <script lang="ts">
-
-import _ from "lodash";
+import { map } from "lodash-es";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import { EnemyFaction, EnemyData, EnemyList, Codex } from "@/warframe/codex";
 
 declare interface EnemySelectorTab {
-  id: EnemyFaction
-  name: string
-  enemys: EnemyData[]
+  id: EnemyFaction;
+  name: string;
+  enemys: EnemyData[];
 }
 
 @Component
 export default class EnemySelector extends Vue {
-  enemyType = "Grineer"
-  tabs: EnemySelectorTab[] = []
+  enemyType = "Grineer";
+  tabs: EnemySelectorTab[] = [];
   beforeMount() {
-    this.tabs = _.map(EnemyFaction, (v, n) => ({ id: EnemyFaction[n], name: n, enemys: EnemyList.filter(k => k.faction === v) }))
-      .filter(v => v.enemys.length > 0);
+    this.tabs = map(EnemyFaction, (v, n) => ({ id: EnemyFaction[n], name: n, enemys: EnemyList.filter(k => k.faction === v) })).filter(
+      v => v.enemys.length > 0
+    );
   }
   handleClick(id: string) {
     let enemy = Codex.getEnemy(id);
@@ -39,7 +39,6 @@ export default class EnemySelector extends Vue {
   }
 }
 </script>
-
 
 <style>
 .enemy-item-container {
@@ -63,4 +62,3 @@ export default class EnemySelector extends Vue {
   border-color: transparent;
 }
 </style>
-

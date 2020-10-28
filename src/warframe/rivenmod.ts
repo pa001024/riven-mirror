@@ -1,7 +1,7 @@
-import _ from "lodash";
+import { camelCase, cloneDeep, maxBy, max, compact, sampleSize, round, sample, startCase } from "lodash-es";
 import { randomNormalDistribution, strSimilarity } from "./util";
 import { base62, debase62 } from "./lib/base62";
-import { Polarity, RivenProperty, RivenDatabase, RivenPropertyDataBase, NormalMod, MainTag, WeaponDatabase, RivenTypes } from "./codex";
+import { Polarity, RivenProperty, RivenDatabase, RivenPropertyDataBase, NormalMod, MainTag, WeaponDatabase, RivenTypes, Weapon } from "./codex";
 import { HH } from "@/var";
 import { i18n } from "@/i18n";
 
@@ -103,7 +103,7 @@ export class RivenMod {
 
   /** 本地化ID */
   get id() {
-    return `messages.${_.camelCase(this.name)}`;
+    return `messages.${camelCase(this.name)}`;
   }
   /** 本地化名称 */
   get locName() {
@@ -150,7 +150,7 @@ export class RivenMod {
       this.polarity = parm.polarity;
       this.upLevel = parm.upLevel;
       this.negativeUpLevel = parm.negativeUpLevel;
-      this.properties = _.cloneDeep(parm.properties);
+      this.properties = cloneDeep(parm.properties);
       this.hasNegativeProp = parm.hasNegativeProp;
       this.recycleTimes = parm.recycleTimes;
       this.rank = parm.rank;
@@ -219,8 +219,8 @@ A段位12023
         let prop =
           (i <= subfixIndex + ((rivenProps && rivenProps.length) || 0) &&
             rivenProps &&
-            _.maxBy(rivenProps, v => {
-              let s = _.max([strSimilarity(v[0].name, propLine[2]), strSimilarity(v[0].eName, propLine[2])]);
+            maxBy(rivenProps, v => {
+              let s = max([strSimilarity(v[0].name, propLine[2]), strSimilarity(v[0].eName, propLine[2])]);
               // console.log("strSimilarity: ", v[0].name, propLine[2], "s=", s);
               return s;
             })[0]) ||
@@ -246,7 +246,7 @@ A段位12023
         properties.push([prop, propValue]);
       } else {
         // 识别段位和重roll次数
-        let extra = _.compact(lines[i].split(/\D+/g));
+        let extra = compact(lines[i].split(/\D+/g));
         this.rank = (extra[0] && +extra[0]) || 0;
         this.recycleTimes = (extra[1] && +extra[1]) || 0;
         if (this.recycleTimes == 0 && this.rank > 100) {
@@ -294,8 +294,7 @@ A段位12023
   /**
    * 识别普通MOD格式的属性
    */
-  parseProps(props: [string, number][]) {
-    const weapon = this.weapon;
+  parseProps(props: [string, number][], weapon = this.weapon) {
     this.hasNegativeProp = props.reduce((r, v, i) => {
       let prop = RivenDatabase.getPropByName(v[0]);
       const isNegative = i >= 3 || !prop.negative == v[1] < 0;
@@ -352,13 +351,13 @@ A段位12023
     let devi = () => (100 + 5 * randomNormalDistribution()) / 100;
     const weapon = this.weapon;
     // console.log(weapon, RivenPropertyDataBase[this.mod]);
-    let props = _.sampleSize(
+    let props = sampleSize(
       RivenPropertyDataBase[this.mod].filter(v => !v.onlyNegative),
       count
-    ).map(v => [v.id, _.round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1)]) as [string, number][];
+    ).map(v => [v.id, round(devi() * this.upLevel * weapon.getPropBaseValue(v.id), 1)]) as [string, number][];
     if (this.hasNegativeProp) {
-      let neProp = _.sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
-      props.push([neProp.id, _.round(devi() * this.negativeUpLevel * weapon.getPropBaseValue(neProp.id), 1)]);
+      let neProp = sample(RivenPropertyDataBase[this.mod].filter(v => !v.onlyPositive && props.every(k => k[0] !== v.id)));
+      props.push([neProp.id, round(devi() * this.negativeUpLevel * weapon.getPropBaseValue(neProp.id), 1)]);
     }
     this.parseProps(props);
   }
@@ -373,7 +372,8 @@ A段位12023
     return newMod;
   }
   /** 返回一个标准MOD对象 */
-  get normalMod(): NormalMod {
+  normalMod(weapon: Weapon): NormalMod {
+    const ratio = weapon.disposition ? weapon.disposition / this.weapon.disposition : 1;
     return new NormalMod({
       key: "01",
       id: this.fullName,
@@ -383,7 +383,7 @@ A段位12023
       cost: 10,
       level: 8,
       rarity: "x",
-      props: this.properties.map(v => [v.prop.id, v.value / 9] as [string, number]),
+      props: this.properties.map(v => [v.prop.id, (ratio * v.value) / 9] as [string, number]),
       riven: this.qrCode,
     });
   }
@@ -395,8 +395,8 @@ A段位12023
   }
   set shortSubfix(value) {
     let props = value.split("").map(v => RivenDatabase.getPropByName(v));
-    if (props.length === 3) this.subfix = _.startCase(props[0].prefix) + "-" + props[1].prefix + props[2].subfix;
-    else if (props.length === 2) this.subfix = _.startCase(props[0].prefix) + props[1].subfix;
+    if (props.length === 3) this.subfix = startCase(props[0].prefix) + "-" + props[1].prefix + props[2].subfix;
+    else if (props.length === 2) this.subfix = startCase(props[0].prefix) + props[1].subfix;
   }
   /** 返回二维码使用的序列化字符串 */
   get qrCode() {
@@ -428,12 +428,46 @@ A段位12023
     this.negativeUpLevel = -toNegaUpLevel(props.length, this.hasNegativeProp);
     this.parseDevis(props.map(([n, v]) => [n.id, v] as [string, number]));
   }
+  get qrCodeV1() {
+    return [
+      this.name,
+      this.shortSubfix,
+      base62(this.rank) + base62(this.recycleTimes),
+      this.properties.map(v => v.prop.id + base62(+(v.deviation * 10).toFixed(0))).join("."),
+    ].join("|");
+  }
+  /** 读取二维码识别后的序列化字符串 */
+  set qrCodeV1(value) {
+    let d = value.split("|");
+    if (!d[0]) return;
+    this.name = d[0];
+    if (d[1]) this.shortSubfix = d[1];
+    let weapon = WeaponDatabase.getWeaponByName(this.name);
+    this.name = weapon.name;
+    this.mod = MainTag[weapon.mod] as RivenTypes;
+    this.rank = debase62(d[2][0]);
+    this.recycleTimes = debase62(d[2].substr(1));
+    let props = d[3].split(".").map(v => {
+      let vv = debase62(v.substr(1)) / 10;
+      return [RivenDatabase.getPropByName(v[0]), vv];
+    }) as [RivenProperty, number][];
+    let lastProp = props[props.length - 1];
+    this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == lastProp[1] < 0;
+    this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
+    this.parseProps(props.map(([n, v]) => [n.id, v] as [string, number]))
+  }
   /** Base64形式的二维码 */
   get qrCodeBase64() {
     return btoa(this.qrCode);
   }
   set qrCodeBase64(value) {
     this.qrCode = atob(value);
+  }
+  get qrCodeBase64V1() {
+    return btoa(this.qrCodeV1);
+  }
+  set qrCodeBase64V1(value) {
+    this.qrCodeV1 = atob(value);
   }
   /** 网址形式的二维码 */
   get qrCodeURL() {

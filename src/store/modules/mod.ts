@@ -56,6 +56,11 @@ export default class ModModule implements Module<ModState, RootState> {
       rm.qrCodeBase64 = text;
       if (rm.name) ctx.commit(SET_NEW_RIVEN, rm);
     },
+    async newBase64TextV1(ctx, text: string) {
+      let rm = new RivenMod();
+      rm.qrCodeBase64V1 = text;
+      if (rm.name) ctx.commit(SET_NEW_RIVEN, rm);
+    },
     async removeHistory(ctx, qrcode: string) {
       ctx.commit(DELETE_HISTORY, qrcode);
     },

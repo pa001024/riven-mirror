@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { map, compact } from "lodash-es";
 import { Vue, Watch, Prop } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import { NormalMod, Buff, Weapon, BuffData, DamageModelList, SimpleDamageModel, BuffList } from "@/warframe/codex";
@@ -50,7 +50,7 @@ export abstract class BaseBuildEditor extends Vue {
     this.modelArmor = 0;
   }
   get isArmorDamageModel() {
-    return ["Eidolon", "Grineer", "Grineer Elite", "Corpus Elite", "Tenno"].includes(this.selectDamageModel);
+    return ["Eidolon", "Grineer", "Grineer Elite", "Corpus Elite", "Tenno", "Infested Jordas Golem"].includes(this.selectDamageModel);
   }
   dialogVisible = false;
   buffDialogVisible = false;
@@ -76,14 +76,21 @@ export abstract class BaseBuildEditor extends Vue {
   }
   reload() {
     if (this.weapon) {
-      let buffs = [null];
+      let buffs = [];
       if (this.weapon.tags.has("Exalted")) {
         if (this.weapon.baseName === "Regulators") {
-          buffs = [new Buff(BuffList.find(v => v.id === "z")), null];
+          buffs.push(new Buff(BuffList.find(v => v.id === "z")));
         } else {
-          buffs = [new Buff(BuffList.find(v => v.id === "Z")), null];
+          buffs.push(new Buff(BuffList.find(v => v.id === "Z")));
+        }
+        if (this.weapon.tags.has("Melee")) {
+          buffs.push(new Buff(BuffList.find(v => v.id === "mc")));
+          const l = new Buff(BuffList.find(v => v.id === "l"));
+          l.layer = 0;
+          buffs.push(l);
         }
       }
+      buffs.push(null);
       this.tabs = "ABC".split("").map(v => ({
         title: this.$t("zh") ? `配置${v}` : `SET ${v}`,
         name: `SET ${v}`,
@@ -115,7 +122,7 @@ export abstract class BaseBuildEditor extends Vue {
       if (rst[vn]) rst[vn][1] = vv;
       else rst[vn] = [0, vv];
     });
-    let emp = _.map(rst, (v, i) => [i, ...v]) as [string, number, number][];
+    let emp = map(rst, (v, i) => [i, ...v]) as [string, number, number][];
     return emp;
   }
   replaceState() {
@@ -183,11 +190,14 @@ export abstract class BaseBuildEditor extends Vue {
 
   @Watch("tabValue")
   refleshMods() {
+    let damageModel = this.build.damageModel;
     this.build.clear();
     let mods = this.currentTab.mods;
-    let buffs = _.compact(this.currentTab.buffs);
+    let buffs = compact(this.currentTab.buffs);
     this.build.mods = mods;
     this.build.buffs = buffs;
+    this.selectDamageModel = damageModel ? damageModel.id : '';
+    this.build.damageModel = damageModel;
     this.currentTab.mods = this.build.mods;
     this.replaceState();
   }
@@ -216,7 +226,7 @@ export abstract class BaseBuildEditor extends Vue {
   }
   buffSelect(buff: BuffData) {
     this.currentTab.buffs[this.selectBuffIndex] = new Buff(buff);
-    this.currentTab.buffs = _.compact(this.currentTab.buffs).concat([null]);
+    this.currentTab.buffs = compact(this.currentTab.buffs).concat([null]);
     this.refleshMods();
     this.buffDialogVisible = false;
   }
@@ -235,7 +245,7 @@ export abstract class BaseBuildEditor extends Vue {
   }
   buffRemove(buffIndex: number) {
     this.currentTab.buffs[buffIndex] = null;
-    this.currentTab.buffs = _.compact(this.currentTab.buffs).concat([null]);
+    this.currentTab.buffs = compact(this.currentTab.buffs).concat([null]);
     this.refleshMods();
     this.reloadSelector();
   }

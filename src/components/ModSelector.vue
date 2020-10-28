@@ -2,48 +2,48 @@
   <el-tabs class="mod-tabs" v-model="selectTab">
     <!-- 快速选择 -->
     <el-tab-pane name="fast" v-if="fast">
-      <span slot="label" class="mod-tablabel">{{$t("modselector.fastSelect")}}</span>
+      <span slot="label" class="mod-tablabel">{{ $t("modselector.fastSelect") }}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in fast" :key="index">
           <div class="mod-item" @click="handleClick(mod.id)">
-            {{$t(`modselector.fast.${mod.name}`)}}
+            {{ $t(`modselector.fast.${mod.name}`) }}
           </div>
         </div>
       </div>
     </el-tab-pane>
     <!-- 普通MOD -->
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
-      <span slot="label" class="mod-tablabel">{{tab.name}}</span>
+      <span slot="label" class="mod-tablabel">{{ tab.name }}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in tab.mods" :key="index">
           <div class="mod-item" :class="[mod.rarity]" @click="handleClick(mod.id)">
-            <WfIcon v-if="mod.elemType" :type="mod.elemType.toLowerCase()"/>
-            {{mod.name}}
+            <WfIcon v-if="mod.elemType" :type="mod.elemType.toLowerCase()" />
+            {{ mod.name }}
           </div>
         </div>
       </div>
     </el-tab-pane>
     <!-- 紫卡 -->
     <el-tab-pane name="riven" v-if="isWeaponBuild && !isCompanion && (isVirtual || !isExalted)">
-      <span slot="label" class="mod-tablabel">{{$t("modselector.rivenMod")}}</span>
+      <span slot="label" class="mod-tablabel">{{ $t("modselector.rivenMod") }}</span>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(hiRiven, index) in modHistoty" :key="index">
           <div class="mod-item" @click="newRiven(hiRiven.qrCodeBase64)">
-            {{hiRiven.fullLocName}}
+            {{ hiRiven.fullLocName }}
           </div>
         </div>
       </div>
-      <div style="margin: 8px;">{{$t("modselector.createRiven")}}</div>
+      <div style="margin: 8px;">{{ $t("modselector.createRiven") }}</div>
       <RivenEditor style="margin: 8px;" v-model="editorRivenCode" :weapon="!isVirtual && isWeaponBuild"></RivenEditor>
       <div style="text-align: right; margin: 0">
-        <el-button type="primary" size="medium" @click="newRiven()">{{$t("modselector.ok")}}</el-button>
+        <el-button type="primary" size="medium" @click="newRiven()">{{ $t("modselector.ok") }}</el-button>
       </div>
     </el-tab-pane>
   </el-tabs>
 </template>
 
 <script lang="ts">
-import _ from "lodash";
+import { compact, map } from "lodash-es";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import RivenEditor from "@/components/RivenEditor.vue";
 import { Getter } from "vuex-class";
@@ -86,11 +86,12 @@ export default class ModSelector extends Vue {
       baseDmg: ["Serration", "Split Chamber", "Heavy Caliber"],
       crit: ["Point Strike", "Vital Sense"],
       aimCrit: ["Argon Scope", "Bladed Rounds"],
-      sliverCorrosive: ["Infected Clip", "Stormbringer"],
-      silverRadiation: ["Hellfire", "Stormbringer"],
+      sliverCorrosive: ["Stormbringer", "Infected Clip"],
+      silverRadiation: ["Stormbringer", "Hellfire"],
       silverViral: ["Primed Cryo Rounds", "Infected Clip"],
-      goldCorrosive: ["Malignant Force", "High Voltage"],
-      gas: ["Malignant Force", "Thermite Rounds", "Infected Clip"],
+      goldCorrosive: ["High Voltage", "Malignant Force"],
+      goldViral: ["Rime Rounds", "Malignant Force"],
+      gas: ["Thermite Rounds", "Malignant Force", "Infected Clip"],
       allStatus: ["High Voltage", "Malignant Force", "Thermite Rounds", "Rime Rounds"],
       allElem: ["Primed Cryo Rounds", "Hellfire", "Stormbringer", "Infected Clip"],
     },
@@ -102,7 +103,8 @@ export default class ModSelector extends Vue {
       silverRadiation: ["Primed Charged Shell", "Incendiary Coat"],
       silverViral: ["Chilling Grasp", "Contagious Spread"],
       goldCorrosive: ["Shell Shock", "Toxic Barrage"],
-      gas: ["Toxic Barrage", "Scattering Inferno", "Contagious Spread"],
+      goldViral: ["Frigid Blast", "Toxic Barrage"],
+      gas: ["Scattering Inferno", "Toxic Barrage", "Contagious Spread"],
       allStatus: ["Shell Shock", "Toxic Barrage", "Scattering Inferno", "Frigid Blast"],
       allElem: ["Primed Charged Shell", "Contagious Spread", "Incendiary Coat", "Chilling Grasp"],
     },
@@ -111,35 +113,40 @@ export default class ModSelector extends Vue {
       crit: ["Primed Pistol Gambit", "Primed Target Cracker"],
       aimCrit: ["Hydraulic Crosshairs", "Sharpened Bullets"],
       sliverCorrosive: ["Convulsion", "Pathogen Rounds"],
-      silverRadiation: ["Primed Heated Charge", "Convulsion"],
+      silverRadiation: ["Convulsion", "Primed Heated Charge"],
       silverViral: ["Deep Freeze", "Pathogen Rounds"],
       goldCorrosive: ["Jolt", "Pistol Pestilence"],
-      gas: ["Pistol Pestilence", "Scorch", "Pathogen Rounds"],
+      goldViral: ["Frostbite", "Pistol Pestilence"],
+      gas: ["Scorch", "Pistol Pestilence", "Pathogen Rounds"],
       allStatus: ["Jolt", "Pistol Pestilence", "Scorch", "Frostbite"],
       allElem: ["Primed Heated Charge", "Deep Freeze", "Convulsion", "Pathogen Rounds"],
     },
     Melee: {
       baseDmgRange: ["Primed Pressure Point", "Primed Reach"],
-      crit: ["Blood Rush", "Organ Shatter", "Sacrificial Steel"],
+      condiRange: ["Condition Overload", "Primed Reach"],
+      crit: ["Blood Rush", "Organ Shatter"],
+      heavyCrit: ["Sacrificial Steel", "Amalgam Organ Shatter"],
       slideCrit: ["Maiming Strike", "Blood Rush", "Organ Shatter"],
-      sliverCorrosive: ["Primed Fever Strike", "Shocking Touch"],
-      silverRadiation: ["Molten Impact", "Shocking Touch"],
-      silverViral: ["Primed Fever Strike", "North Wind"],
+      sliverCorrosive: ["Shocking Touch", "Primed Fever Strike"],
+      silverRadiation: ["Shocking Touch", "Molten Impact"],
+      silverViral: ["North Wind", "Primed Fever Strike"],
       goldCorrosive: ["Voltaic Strike", "Virulent Scourge"],
-      gas: ["Primed Fever Strike", "Volcanic Edge", "Virulent Scourge"],
+      goldViral: ["Vicious Frost", "Virulent Scourge"],
+      gas: ["Volcanic Edge", "Virulent Scourge", "Primed Fever Strike"],
       allStatus: ["Voltaic Strike", "Virulent Scourge", "Volcanic Edge", "Vicious Frost"],
       condiCombo: ["Drifting Contact", "Condition Overload"],
       allElem: ["Primed Fever Strike", "Shocking Touch", "Molten Impact", "North Wind"],
     },
     "Arch-Gun": {
-      baseDmg: ["Rubedo-Lined Barrel", "Dual Rounds"],
+      baseDmg: ["Primed Rubedo-Lined Barrel", "Dual Rounds"],
       crit: ["Parallax Scope", "Hollowed Bullets"],
       aimCrit: ["Critical Focus"],
       sliverCorrosive: ["Electrified Barrel", "Venomous Clip"],
       silverRadiation: ["Electrified Barrel", "Combustion Rounds"],
       silverViral: ["Polar Magazine", "Venomous Clip"],
       goldCorrosive: ["Charged Bullets", "Contamination Casing"],
-      gas: ["Venomous Clip", "Magma Chamber", "Contamination Casing"],
+      goldViral: ["Hypothermic Shell", "Contamination Casing"],
+      gas: ["Magma Chamber", "Contamination Casing", "Venomous Clip"],
       allStatus: ["Contamination Casing", "Magma Chamber", "Charged Bullets", "Hypothermic Shell"],
       allElem: ["Electrified Barrel", "Venomous Clip", "Combustion Rounds", "Polar Magazine"],
     },
@@ -167,8 +174,7 @@ export default class ModSelector extends Vue {
   get fast() {
     let mod = this.type === "Weapon" ? this.build.type : this.type;
     if (mod === "Zaw") mod = "Melee";
-    if (mod === "Kitgun") mod = "Secondary";
-    return this.fastSelect[mod] && _.map(this.fastSelect[mod], (v, i) => ({ name: i, id: v }));
+    return this.fastSelect[mod] && map(this.fastSelect[mod], (v, i) => ({ name: i, id: v }));
   }
   get allowedTypes() {
     if (this.build.tags.includes("Warframe")) {
@@ -184,9 +190,9 @@ export default class ModSelector extends Vue {
     riven.qrCodeBase64 = code || this.editorRivenCode;
     if (!this.isVirtual && riven.name !== this.build.baseId)
       this.$confirm(this.$t("modselector.weaponWarnTip") as string, this.$t("modselector.weaponWarn") as string, { type: "warning" }).then(() => {
-        this.$emit("command", riven.normalMod);
+        this.$emit("command", riven.normalMod(this.build["weapon"]));
       });
-    else this.$emit("command", riven.normalMod);
+    else this.$emit("command", riven.normalMod(this.build["weapon"]));
   }
 
   @Watch("build")
@@ -195,7 +201,7 @@ export default class ModSelector extends Vue {
   reload() {
     console.log("fast", this.build.type, (this.build as any).weapon);
 
-    let selected = _.compact(this.build.allMods || this.build.mods);
+    let selected = compact(this.build.allMods || this.build.mods);
     let mods = [];
     if (this.type === "Weapon") {
       const { isVirtual, isExalted } = this;
@@ -320,7 +326,7 @@ export default class ModSelector extends Vue {
   handleClick(id: string | string[]) {
     if (typeof id === "string") this.$emit("command", Codex.getNormalMod(id));
     else {
-      let selected = _.compact(this.build.allMods || this.build.mods);
+      let selected = compact(this.build.allMods || this.build.mods);
       let mods =
         this.type === "Weapon"
           ? NormalModDatabase.filter(

@@ -12,7 +12,7 @@
     <div class="warframe-list">
       <div class="title">选择战甲</div>
       <el-radio-group v-model="wfClass" size="small">
-        <el-radio class="wfid" :key="id" v-for="id in wfClasses" :label="id" border/>
+        <el-radio class="wfid" :key="id" v-for="id in wfClasses" :label="id" border />
       </el-radio-group>
     </div>
     <div class="skill-list">
@@ -23,9 +23,18 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
+import { cloneDeep, mapValues, uniq } from "lodash-es";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { AbilityProp, AbilityData, AbilityEnhance, AbilityFormData, AdvancedAbilityPropValue, AbilityType, WarframeProperty, AbilityPropTypes } from "@/warframe/codex";
+import {
+  AbilityProp,
+  AbilityData,
+  AbilityEnhance,
+  AbilityFormData,
+  AdvancedAbilityPropValue,
+  AbilityType,
+  WarframeProperty,
+  AbilityPropTypes,
+} from "@/warframe/codex";
 import { _abilityData, _warframeData, registerAbilityData } from "@/warframe/codex/warframe.data";
 import VisualSkill from "@/components/VisualSkill.vue";
 import { i18n } from "@/i18n";
@@ -46,7 +55,7 @@ export default class VisualSkillEditor extends Vue {
   wfClass = "Ash";
   saveRaw = false;
   get wfClasses() {
-    return _.uniq(_warframeData.map(v => v.className || v.id));
+    return uniq(_warframeData.map(v => v.className || v.id));
   }
   get showSkills() {
     let wf = _warframeData.find(v => v.id === this.wfClass);
@@ -81,13 +90,13 @@ export default class VisualSkillEditor extends Vue {
   // === 生命周期钩子 ===
   beforeMount() {
     this.skills = _abilityData.map(v => {
-      let a = _.cloneDeep(v);
+      let a = cloneDeep(v);
       const mappv = (pv: any) => {
         if (Array.isArray(pv)) return pv.map(([vn, vv]) => (typeof vv === "number" ? [vn, { value: vv }] : [vn, vv]));
         return typeof pv === "number" ? { value: pv } : pv;
       };
-      a.props = _.mapValues(a.props, prop => {
-        return Array.isArray(prop) ? prop.map(prop => _.mapValues(prop, mappv)) : _.mapValues(prop, mappv);
+      a.props = mapValues(a.props, prop => {
+        return Array.isArray(prop) ? prop.map(prop => mapValues(prop, mappv)) : mapValues(prop, mappv);
       }) as any;
       return a;
     });

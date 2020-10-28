@@ -24,10 +24,11 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { StatusInfo } from "@/warframe/modbuild";
 
 @Component
 export default class extends Vue {
-  @Prop() info: any;
+  @Prop() info: StatusInfo;
   @Prop() common: any;
 
   get elementTypes() {

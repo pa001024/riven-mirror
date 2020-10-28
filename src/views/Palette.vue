@@ -44,6 +44,10 @@
               <div slot="header" class="palette-name">
                 {{$t(`palette.name.${palette.id}`)}}
                 <small>△E = {{formatDeltaE(palette.deltaE)}}</small>
+                <div class="platform-icon" v-if="palette.platforms.length<4">
+                  <WfIcon v-for="p in palette.platforms" :key="p" :type="p"/>
+                </div>
+                <div v-if="palette.limited" class="limited">{{$t("palette.limited")}}</div>
               </div>
               <div class="palette-show no-invert">
                 <div class="palette-cell" v-for="(color, idx) in palette.colors" :key="idx" @click="setColor(color.toString())" :title="color.toString()" :style="{'background-color': color.toString()}">
@@ -65,13 +69,13 @@ import ColorThief from "color-thief-browser";
 import { Color, PaletteData, ColorHelper } from "@/warframe/codex";
 
 @Component({
-  components: { ColorPicker }
+  components: { ColorPicker },
 })
 export default class extends Vue {
   // 参考图
   refImage = null;
   refImageURL = null;
-  paletteColors: Color[] = ["#bdaaad", "#472e25", "#cdbab8", "#584857", "#826c84", "#5e5668", "#84665c", "#928497"].map(v => new Color(v));
+  paletteColors: Color[] = ["#bdaaad", "#472e25", "#cdbab8", "#584857", "#826c84", "#5e5668", "#84665c", "#928497"].map((v) => new Color(v));
   deltaE = 30;
 
   color: {
@@ -108,7 +112,7 @@ export default class extends Vue {
     img.onload = () => {
       let colorThief = new ColorThief();
       let color = new Color(colorThief.getColor(img));
-      let palette = [color].concat(colorThief.getPalette(img, 8).map(v => new Color(v)));
+      let palette = [color].concat(colorThief.getPalette(img, 8).map((v) => new Color(v)));
       this.paletteColors = palette;
       this.setColor(color.toString());
     };
@@ -136,7 +140,7 @@ export default class extends Vue {
     img.onload = () => {
       let colorThief = new ColorThief();
       let color = new Color(colorThief.getColor(img));
-      let palette = [color].concat(colorThief.getPalette(img, 8).map(v => new Color(v)));
+      let palette = [color].concat(colorThief.getPalette(img, 8).map((v) => new Color(v)));
       this.paletteColors = palette;
       this.setColor(color.toString());
     };
@@ -152,6 +156,11 @@ export default class extends Vue {
 @import "../less/common.less";
 .palette-list {
   flex-wrap: wrap;
+  .platform-icon {
+    float: right;
+    padding: 2px;
+    font-size: 16px;
+  }
 }
 .color-picker {
   .vc-chrome {
@@ -233,6 +242,20 @@ export default class extends Vue {
       font-size: 0.8rem;
       color: @text_grey;
     }
+  }
+  .limited {
+    position: absolute;
+    right: -30px;
+    top: 11px;
+    transform: rotate(45deg) scale(0.9);
+    background: #ce0b0b;
+    color: #fff;
+    padding: 2px;
+    width: 100px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    user-select: none;
   }
 }
 .palette-show {

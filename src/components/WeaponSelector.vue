@@ -1,48 +1,43 @@
 <template>
   <el-tabs class="weapon-tabs" v-model="modType">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
-      <span slot="label" class="weapon-tablabel">{{$t(`weaponselector.${tab.name}`)}}</span>
+      <span slot="label" class="weapon-tablabel">{{ $t(`weaponselector.${tab.name}`) }}</span>
       <div class="weapon-select">
         <template v-for="(weapon, index) in tab.weapons">
-          <div class="weapon-group-header" v-if="!tab.weapons[index-1] || tab.weapons[index-1].star != weapon.star" :key="weapon.star">
-            {{weapon.starText}}
+          <div class="weapon-group-header" v-if="!tab.weapons[index - 1] || tab.weapons[index - 1].star != weapon.star" :key="weapon.star">
+            {{ weapon.starText }}
           </div>
           <div class="weapon-item-container" :key="weapon.name">
             <el-dropdown v-if="weapon.variants.length > 1" trigger="click" @command="handleCommand" placement="bottom-start">
-              <div class="weapon-item">
-                {{weapon.locName}} {{weapon.disposition}}
-              </div>
+              <div class="weapon-item">{{ weapon.locName }} {{ weapon.disposition }}</div>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="weapon in weapon.variants" :key="weapon.name" :command="weapon.name">{{weapon.displayName}}</el-dropdown-item>
+                <el-dropdown-item v-for="weapon in weapon.variants" :key="weapon.name" :command="weapon.name"
+                  >{{ weapon.displayName }} {{ weapon.disposition }}</el-dropdown-item
+                >
               </el-dropdown-menu>
             </el-dropdown>
-            <div v-else class="weapon-item el-dropdown" @click="handleClick(weapon.name)">
-              {{weapon.locName}} {{weapon.disposition}}
-            </div>
+            <div v-else class="weapon-item el-dropdown" @click="handleClick(weapon.name)">{{ weapon.locName }} {{ weapon.disposition }}</div>
           </div>
         </template>
       </div>
     </el-tab-pane>
     <el-tab-pane name="KITGUN" lazy>
-      <span slot="label" class="weapon-tablabel">{{$t('kitgun.title')}}</span>
-      <KitgunBuilder @finish="newKITGUN">
-      </KitgunBuilder>
+      <span slot="label" class="weapon-tablabel">{{ $t("kitgun.title") }}</span>
+      <KitgunBuilder @finish="newKITGUN"> </KitgunBuilder>
     </el-tab-pane>
     <el-tab-pane name="ZAW" lazy>
-      <span slot="label" class="weapon-tablabel">{{$t('zaw.title')}}</span>
-      <ZawBuilder @finish="newZAW">
-      </ZawBuilder>
+      <span slot="label" class="weapon-tablabel">{{ $t("zaw.title") }}</span>
+      <ZawBuilder @finish="newZAW"> </ZawBuilder>
     </el-tab-pane>
     <el-tab-pane name="AMP" lazy>
-      <span slot="label" class="weapon-tablabel">{{$t('amp.title')}}</span>
-      <AmpBuilder @finish="newAMP">
-      </AmpBuilder>
+      <span slot="label" class="weapon-tablabel">{{ $t("amp.title") }}</span>
+      <AmpBuilder @finish="newAMP"> </AmpBuilder>
     </el-tab-pane>
   </el-tabs>
 </template>
 
 <script lang="ts">
-import _ from "lodash";
+import { map } from "lodash-es";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import ZawBuilder from "@/components/ZawBuilder.vue";
 import KitgunBuilder from "@/components/KitgunBuilder.vue";
@@ -69,13 +64,13 @@ export default class WeaponSelector extends Vue {
   }
   tabs: WeaponSelectorTab[] = [];
   beforeMount() {
-    this.tabs = _.map(ModTypeTable, ({ name, include }, id) => ({
+    this.tabs = map(ModTypeTable, ({ name, include }, id) => ({
       id,
       name,
       // 筛选
       weapons: WeaponDatabase.getProtosByMultiTags(include)
         .filter(v => v.modes) // 给ZAW KITGUN加个链接
-        .sort((a, b) => b.disposition - a.disposition)
+        .sort((a, b) => b.disposition - a.disposition),
     }));
   }
   handleCommand(id: string) {
@@ -141,4 +136,3 @@ export default class WeaponSelector extends Vue {
   color: @theme_main;
 }
 </style>
-

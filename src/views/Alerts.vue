@@ -39,7 +39,7 @@
             <h3 slot="header"><WfIcon type="sortie" shadow/> {{$t("alerting.sortie")}}</h3>
             <ul>
               <div class="sortie-info"><!--
-             --><WfIcon :type="sortie.faction.toLowerCase()"/> {{sortie.boss}}<!--
+             --><WfIcon :type="sortie.faction"/> {{sortie.boss}}<!--
            --></div>
               <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sortie.expiry)}}</div>
               <li v-for="(v, i) in sortie.variants" :key="i">
@@ -59,13 +59,13 @@
             <ul>
               <li v-if="sentientOutposts.active">
                 <div class="info">
-                  <div class="mission">{{sentientOutposts.mission.type}}</div>
+                  <div class="mission">{{sentientOutposts.mission.type || "???"}}</div>
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <WfIcon :type="sentientOutposts.mission.faction.toLowerCase()"/> {{sentientOutposts.mission.node}}
+                    <WfIcon :type="sentientOutposts.mission.faction"/> {{sentientOutposts.mission.node}}
                   </div>
-                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.expiry, 1800)}}</div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.activation, 0, 10800)}}</div>
                 </div>
               </li>
               <li v-else>
@@ -73,7 +73,7 @@
                   <div class="mission">{{$t("alerting.inactive")}}</div>
                 </div>
                 <div class="misc">
-                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.activation, 1800)}}</div>
+                  <div class="time">{{$t("alerting.remaining")}}: {{renderTime(sentientOutposts.activation, 0, 10800)}}</div>
                 </div>
               </li>
             </ul>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <WfIcon :type="arbitration.enemy.toLowerCase()"/> {{arbitration.node}}
+                    <WfIcon :type="arbitration.enemy"/> {{arbitration.node}}
                   </div>
                   <div class="time">{{$t("alerting.remaining")}}: {{renderTime(arbitration.expiry)}}</div>
                 </div>
@@ -110,7 +110,7 @@
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <WfIcon :type="v.mission.faction.toLowerCase()"/> {{v.mission.node}}
+                    <WfIcon :type="v.mission.faction"/> {{v.mission.node}}
                   </div>
                   <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
                 </div>
@@ -186,7 +186,7 @@
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <WfIcon :type="v.enemy.toLowerCase()"/> {{v.node}}
+                    <WfIcon :type="v.enemy"/> {{v.node}}
                   </div>
                   <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
                 </div>
@@ -206,7 +206,7 @@
                 </div>
                 <div class="misc">
                   <div class="node">
-                    <WfIcon :type="v.enemy.toLowerCase()"/> {{v.node}}
+                    <WfIcon :type="v.enemy"/> {{v.node}}
                   </div>
                   <div class="time">{{$t("alerting.remaining")}}: {{renderTime(v.expiry)}}</div>
                 </div>
@@ -222,11 +222,11 @@
               <li v-for="(v, i) in invasions" :key="i">
                 <div class="info">
                   <div class="reward">
-                    <WfIcon :type="v.attackingFaction.toLowerCase()"/>
+                    <WfIcon :type="v.attackingFaction"/>
                     {{v.attackerReward.itemString || '-'}}
                   </div>
                   <div class="reward">
-                    <WfIcon :type="v.defendingFaction.toLowerCase()"/>
+                    <WfIcon :type="v.defendingFaction"/>
                     {{v.defenderReward.itemString || '-'}}
                   </div>
                 </div>
@@ -279,7 +279,7 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import BScroll from "better-scroll";
 import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert, Nightwave, Kuva, Arbitration, SentientOutpost } from "@/warframe/worldstat";
-import { CetusTime, FortunaTime, EarthTime } from "@/warframe/gametime";
+import { CetusTime, FortunaTime, EarthTime, SentientTime } from "@/warframe/gametime";
 import { Getter, Action } from "vuex-class";
 import "../less/alert.less";
 
@@ -293,6 +293,7 @@ export default class Alerts extends Vue {
   cetusTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
   fortunaTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
   earthTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
+  sentientTime = { active: true, text: "00:00" };
   timerID: number;
   statID: number;
   updating = false;
@@ -319,9 +320,10 @@ export default class Alerts extends Vue {
     return this.$refs.wrapper as HTMLDivElement;
   }
 
-  renderTime(time: string, offset?: number) {
+  renderTime(time: string, offset?: number, period?: number) {
     let sec = ~~(Date.parse(time) / 1e3) - this.seconds;
     if (offset) sec += offset;
+    if (period) while (sec < 0) sec += period;
     if (sec < 0) return "00:00:00";
     let min = ~~(sec / 60);
     let hou = ~~(min / 60);
@@ -343,7 +345,7 @@ export default class Alerts extends Vue {
       // 计算宽度
       let ls = document.querySelectorAll(".index > .el-col") as any,
         lastRect: DOMRect = null,
-        width = -20;
+        width = 0;
       [].forEach.call(ls, (el: HTMLElement) => {
         let rect = el.getBoundingClientRect() as DOMRect;
         if (!lastRect || lastRect.left != rect.left) {
@@ -363,7 +365,7 @@ export default class Alerts extends Vue {
     e.preventDefault();
     var delta = Math.max(-1, Math.min(1, e["wheelDelta"] || -e.detail));
     const width = document.querySelector("#app > section > main > div.wrapper.alerts-container").querySelector(".index-card.sortie").clientWidth;
-    this.scroll.scrollBy(delta * (width + 20));
+    this.scroll.scrollBy(delta * (width + 20), 0, 300);
   }
   // === 生命周期钩子 ===
   updated() {
@@ -371,7 +373,7 @@ export default class Alerts extends Vue {
   }
   mounted() {
     this.$nextTick(() => {
-      this.scroll = new BScroll(this.$refs.wrapper as Element, {
+      this.scroll = new BScroll(this.$refs.wrapper as any, {
         startX: 0,
         click: true,
         scrollX: true,
@@ -392,7 +394,7 @@ export default class Alerts extends Vue {
     this.updateTime();
     this.timerID = setInterval(this.updateTime, 1000) as any;
     this.updateStat();
-    this.statID = setInterval(_ => this.updating || this.updateStat(), 6e4) as any;
+    this.statID = setInterval((_) => this.updating || this.updateStat(), 6e4) as any;
   }
   beforeDestroy() {
     clearInterval(this.timerID);
@@ -420,7 +422,7 @@ export default class Alerts extends Vue {
         this.sentientOutposts = this.stat.sentientOutposts;
         CetusTime.calibration(this.stat.cetusCycle.expiry, this.stat.cetusCycle.isDay);
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
         setTimeout(() => this.updateStat(), 3e3);
       });
@@ -430,6 +432,7 @@ export default class Alerts extends Vue {
     this.cetusTime = { isDay: CetusTime.isDay, phase: CetusTime.phaseText, text: CetusTime.text };
     this.fortunaTime = { isDay: FortunaTime.isDay, phase: FortunaTime.phaseText, text: FortunaTime.text };
     this.earthTime = { isDay: EarthTime.isDay, phase: EarthTime.phaseText, text: EarthTime.text };
+    this.sentientTime = { active: SentientTime.isActive, text: SentientTime.text };
   }
 }
 </script>

@@ -85,7 +85,7 @@ import "./registerServiceWorker";
 // import FastClick from "fastclick";
 // FastClick.attach(document.body);
 
-const langParameter = location.search.match(/(?:\?|&)lang=(en|zh-CN|zh-TW|zh-CY)(?=$|&)/);
+const langParameter = location.search.match(/(?:\?|&)lang=(.+?)(?=$|&)/);
 
 import { RivenDatabase, WeaponDatabase } from "@/warframe/codex";
 
@@ -98,6 +98,9 @@ createApp({
 
   afterApp({ app, store }) {
     app.$mount("#app");
+    if (navigator.language.startsWith("zh") && Date.now() < new Date("2020/4/5").valueOf()) {
+      document.body.style.filter = "grayscale(1)";
+    }
   },
   locale: (langParameter && langParameter[1]) || localStorage.getItem("lang"),
 });

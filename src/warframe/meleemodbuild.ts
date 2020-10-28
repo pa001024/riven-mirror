@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { compact } from "lodash-es";
 import { Enemy, NormalModDatabase, NormalMod, Weapon } from "./codex";
 import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
@@ -36,6 +36,7 @@ export class MeleeModBuild extends ModBuild {
   private _slideCritChanceMul = 0;
   private _execDmgMul = 100;
   private _comboCritChanceMul = 0;
+  private _comboDamageMul = 0;
   private _comboProcChanceMul = 0;
   private _stealthDamageMul = 0;
   private _damagePerStatus = 0;
@@ -71,6 +72,10 @@ export class MeleeModBuild extends ModBuild {
   /** 连击数增加暴击率 */
   get comboCritChanceMul() {
     return this._comboCritChanceMul / 100;
+  }
+  /** 连击数增加最终伤害 */
+  get comboDamageMul() {
+    return this._comboDamageMul / 100;
   }
   /** 连击数增加触发率 */
   get comboProcChanceMul() {
@@ -187,6 +192,10 @@ export class MeleeModBuild extends ModBuild {
   get comboCritChance() {
     return this.comboMul * this.comboCritChanceMul;
   }
+  /** 连击数增加最终伤害 */
+  get comboDamage() {
+    return this.comboMul * this.comboDamageMul;
+  }
   /** 连击数增加触发率 */
   get comboProcChance() {
     return this.comboMul * this.comboProcChanceMul;
@@ -230,15 +239,17 @@ export class MeleeModBuild extends ModBuild {
     return this._baseDamageMul / 100;
   }
 
-  /** [overwrite] 触发几率 */
-  get procChance() {
-    let s = this.mode.procChance * (this.procChanceMul + this.comboProcChance) + this.procChanceAdd;
-    return s > 1 ? 1 : s < 0 ? 0 : s;
-  }
   /** [overwrite] 真实触发几率 */
   get realProcChance() {
-    return 1 - (1 - this.procChance) ** (1 / this.mode.pellets);
+    let s = this.oriRealProcChance * (this.procChanceMul + this.comboProcChance);
+
+    if (this.procChanceAdd) {
+      const nc = 1 - (1 - s) ** this.pellets + this.procChanceAdd;
+      s = 1 - (1 - nc) ** (1 / this.pellets);
+    }
+    return s < 0 ? 0 : s;
   }
+
   /** [overwrite] 平均暴击区增幅倍率 */
   get critDamageMul() {
     return this.slideMode ? this.slideCritDamageMul : this.normalCritDamageMul;
@@ -270,15 +281,15 @@ export class MeleeModBuild extends ModBuild {
 
   /** 平砍总伤增幅倍率 */
   get normalTotalDamageMul() {
-    return this.normalCritDamageMul * this.overallMul * this.enemyDmgMul;
+    return this.normalCritDamageMul * this.overallMul * this.enemyDmgMul * (1 + this.comboDamage);
   }
   /** 滑行总伤增幅倍率 */
   get slideTotalDamageMul() {
-    return this.slideCritDamageMul * this.overallMul * this.enemyDmgMul;
+    return this.slideCritDamageMul * this.overallMul * this.enemyDmgMul * (1 + this.comboDamage);
   }
   /** 重击总伤增幅倍率 */
   get heavyTotalDamageMul() {
-    return this.heavyCritDamageMul * this.overallMul * this.enemyDmgMul * (1 + this.comboMul);
+    return this.heavyCritDamageMul * this.overallMul * this.enemyDmgMul * (1 + this.comboDamage) * (1 + this.comboMul);
   }
 
   /** 每秒总伤害 */
@@ -368,7 +379,7 @@ export class MeleeModBuild extends ModBuild {
       ("Primed Pressure Point" === mod.id && this._mods.some(v => v && v.id === "Sacrificial Pressure"))
     )
       return false;
-    if (this.weapon.tags.has("Exalted")) {
+    if (this.weapon.tags.has("Exalted") && !this.weapon.tags.has("Virtual")) {
       return !["Weeping Wounds", "Blood Rush", "Maiming Strike", "Focused Defense"].includes(mod.id);
     }
     return true;
@@ -385,6 +396,7 @@ export class MeleeModBuild extends ModBuild {
     this._slideCritChanceMul = 0;
     this._execDmgMul = 100;
     this._comboCritChanceMul = 0;
+    this._comboDamageMul = 0;
     this._comboProcChanceMul = 0;
     this._stealthDamageMul = 0;
     this._damagePerStatus = 0;
@@ -428,6 +440,9 @@ export class MeleeModBuild extends ModBuild {
       case "bldr":
         this._comboCritChanceMul += pValue;
         break;
+      case "red":
+        this._comboDamageMul += pValue;
+        break;
       case "sccm":
         this._comboProcChanceMul += pValue;
         break;
@@ -457,8 +472,8 @@ export class MeleeModBuild extends ModBuild {
   fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
     const rangeMod = this.avaliableMods.find(v => v.id === "Primed Reach");
     const comboMod = this.avaliableMods.find(v => v.id === "Drifting Contact");
-    let mods = (this._mods = _.compact(this._mods));
-    if (useRiven == 2) this.applyMod(this.riven.normalMod); // 1. 将紫卡直接插入
+    let mods = (this._mods = compact(this._mods));
+    if (useRiven == 2) this.applyMod(this.riven.normalMod(this.weapon)); // 1. 将紫卡直接插入
     if (this.requireRange && rangeMod && !mods.some(v => v.id === rangeMod.id) && (useRiven === 0 || !this.riven.shortSubfix.includes("T")))
       this.applyMod(rangeMod);
     if (
@@ -469,11 +484,5 @@ export class MeleeModBuild extends ModBuild {
     )
       this.applyMod(comboMod);
     super.fillEmpty(slots, 0, lib, rivenLimit);
-  }
-
-  /** [overwrite] 最大容量 */
-  get maxCost() {
-    if (this.weapon.tags.has("Exalted")) return this.weapon.tags.has("Virtual") ? 70 : 60;
-    return this.weapon.tags.has("Robotic") || this.weapon.tags.has("Arch-Melee") ? 60 : this.weapon.name === "Paracesis" ? 80 : 70;
   }
 }

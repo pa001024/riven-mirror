@@ -1,7 +1,7 @@
+import { map, mapValues, repeat, lowerCase, camelCase, reduce, maxBy } from "lodash-es";
 import { i18n } from "@/i18n";
 import { ProtoWeapon, Zoom, WeaponMode } from "./weapon.i";
 import Axios from "axios";
-import _, { Omit } from "lodash";
 // build from riven-mirror-data
 import data from "../../../data/dist/weapons.data";
 import proto from "../../../data/src/proto/weapon.proto";
@@ -104,8 +104,8 @@ export class Weapon {
     // 修复过高精度
     const fixBuf = <T>(v: T) => {
       if (typeof v === "number") return +v.toFixed(3);
-      if (Array.isArray(v)) return _.map(v, fixBuf);
-      if (typeof v === "object") return _.mapValues(v as any, fixBuf);
+      if (Array.isArray(v)) return map(v, fixBuf);
+      if (typeof v === "object") return mapValues(v as any, fixBuf);
       return v;
     };
     if (data) {
@@ -122,11 +122,11 @@ export class Weapon {
         // 根据默认补全属性
         this.modes = modes.map(({ damage, ...mode }) => {
           const newMode = {
-            damage: _.map(damage, (vv, vn) => [vn, fixBuf(vv)] as [string, number]),
+            damage: map(damage, (vv, vn) => [vn, fixBuf(vv)] as [string, number]),
             ...mode,
           } as CoreWeaponMode;
           if (mode.name || mode.type) {
-            const locKey = `weaponmode.${_.camelCase(mode.name || mode.type || "default")}`;
+            const locKey = `weaponmode.${camelCase(mode.name || mode.type || "default")}`;
             if (i18n.te(locKey)) {
               newMode.locName = i18n.t(locKey);
             } else {
@@ -175,16 +175,16 @@ export class Weapon {
   }
   /** WM RIEVN URL */
   get wmrivenurl() {
-    const name = _.lowerCase(this.baseName.replace(/&/g, "and"));
+    const name = lowerCase(this.baseName.replace(/&/g, "and"));
     const tpl = `https://warframe.market/auctions/search?type=riven&weapon_url_name=${name}&polarity=any&sort_by=price_desc`;
     return tpl;
   }
   /** i18n的key */
   get id() {
-    return `messages.${_.camelCase(this.name)}`;
+    return `messages.${camelCase(this.name)}`;
   }
   get baseId() {
-    return `messages.${_.camelCase(this.baseName)}`;
+    return `messages.${camelCase(this.baseName)}`;
   }
   get locName() {
     return i18n.te(this.id) ? i18n.t(this.id) : this.name;
@@ -206,7 +206,7 @@ export class Weapon {
     return [0.1, 0.7, 0.875, 1.125, 1.305, Infinity].findIndex(v => this.disposition < v);
   }
   get starText() {
-    return _.repeat("●", this.star) + _.repeat("○", 5 - this.star);
+    return repeat("●", this.star) + repeat("○", 5 - this.star);
   }
   /** 是否是Gun */
   get isGun() {
@@ -435,28 +435,28 @@ export class WeaponBuildMode implements CoreWeaponMode {
   }
   /** 面板伤害 */
   get panelDamage() {
-    return _.reduce(this.damage, (a, b) => a + b[1], 0);
+    return reduce(this.damage, (a, b) => a + b[1], 0);
   }
 }
 
 const extraDispositionTable = [
   // kitguns
   ["Gaze", "Kitgun", 1],
-  ["Rattleguts", "Kitgun", 0.9],
-  ["Tombfinger", "Kitgun", 0.85],
-  ["Catchmoon", "Kitgun", 0.8],
+  ["Rattleguts", "Kitgun", 0.75],
+  ["Tombfinger", "Kitgun", 0.7],
+  ["Catchmoon", "Kitgun", 0.5],
   // zaw
-  ["Balla", "Zaw", 1],
-  ["Cyath", "Zaw", 1],
-  ["Dehtat", "Zaw", 1],
-  ["Dokrahm", "Zaw", 1],
-  ["Rabvee", "Zaw", 1],
-  ["Mewan", "Zaw", 1],
-  ["Kronsh", "Zaw", 1],
-  ["Ooltha", "Zaw", 1],
-  ["Sepfahn", "Zaw", 1],
-  ["Plague Keewar", "Zaw", 1],
-  ["Plague Kripath", "Zaw", 1],
+  ["Balla", "Zaw", 0.9],
+  ["Cyath", "Zaw", 0.9],
+  ["Dehtat", "Zaw", 1.2],
+  ["Dokrahm", "Zaw", 0.75],
+  ["Rabvee", "Zaw", 1.25],
+  ["Mewan", "Zaw", 1.05],
+  ["Kronsh", "Zaw", 1.3],
+  ["Ooltha", "Zaw", 1.15],
+  ["Sepfahn", "Zaw", 0.7],
+  ["Plague Keewar", "Zaw", 0.75],
+  ["Plague Kripath", "Zaw", 0.6],
   // Amp
   ["Amp", "Amp", 0],
 ] as [string, string, number][];
@@ -479,7 +479,7 @@ export class WeaponDatabase {
       const rst = await Axios.get(data || "https://api.riven.im/data/weapons.data", { responseType: "arraybuffer" });
       bin = rst.data;
       localStorage.setItem("weapons.data", base64arraybuffer.encode(bin));
-    } catch {}
+    } catch { }
     const msg = proto.Weapons.decode(new Uint8Array(bin));
     const decoded = proto.Weapons.toObject(msg);
     this.load(decoded.weapons as ProtoWeapon[]);
@@ -541,7 +541,7 @@ export class WeaponDatabase {
   static findMostSimRivenWeapon(name: string) {
     name = name.trim();
     if (this.hasWeapon(name)) return this.getWeaponByName(name);
-    let weaponFinded = _.maxBy(this.weapons, v => Math.max(strSimilarity(name, v.locName), strSimilarity(name, v.name)));
+    let weaponFinded = maxBy(this.weapons, v => Math.max(strSimilarity(name, v.locName), strSimilarity(name, v.name)));
     return weaponFinded;
   }
 
@@ -549,27 +549,24 @@ export class WeaponDatabase {
    * 通过武器具体名称获取武器实例
    * @param name 武器具体名称
    */
-  static getWeaponsByTags(tags: string[] | number[]) {
-    if (typeof tags[0] === "number") return WeaponDatabase.weapons.filter(v => tags.every(tag => v.tags.has(MainTag[tag])));
-    return WeaponDatabase.weapons.filter(v => tags.every(tag => v.tags.has(tag)));
+  static getWeaponsByTags(tags: (string | number)[]) {
+    return WeaponDatabase.weapons.filter(v => tags.every(tag => v.tags.has(typeof tag === "number" ? MainTag[tag] : tag)));
   }
 
   /**
    * 通过武器标签(OR)获取武器实例
    * @param name 武器具体名称
    */
-  static getProtosByMultiTags(tags: string[] | number[]) {
-    if (typeof tags[0] === "number") return WeaponDatabase.protos.filter(v => tags.some(tag => v.tags.has(MainTag[tag])));
-    return WeaponDatabase.protos.filter(v => tags.some(tag => v.tags.has(tag)));
+  static getProtosByMultiTags(tags: (string | number)[]) {
+    return WeaponDatabase.protos.filter(v => tags.some(tag => v.tags.has(typeof tag === "number" ? MainTag[tag] : tag)));
   }
 
   /**
    * 通过武器标签(AND)获取武器实例
    * @param name 武器具体名称
    */
-  static getProtosByTags(tags: string[] | number[]) {
-    if (typeof tags[0] === "number") return WeaponDatabase.protos.filter(v => tags.every(tag => v.tags.has(MainTag[tag])));
-    return WeaponDatabase.protos.filter(v => tags.every(tag => v.tags.has(tag)));
+  static getProtosByTags(tags: (string | number)[]) {
+    return WeaponDatabase.protos.filter(v => tags.every(tag => v.tags.has(typeof tag === "number" ? MainTag[tag] : tag)));
   }
 
   /**

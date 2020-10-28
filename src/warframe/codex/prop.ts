@@ -1,5 +1,5 @@
+import { camelCase } from "lodash-es";
 import { i18n } from "@/i18n";
-import _ from "lodash";
 
 /**
  * 通用属性
@@ -107,6 +107,16 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "p5", dmg: true }, // 物理转冰伤 Physical to Cold
   { id: "p6", dmg: true }, // 物理转毒伤 Physical to Toxin
   { id: "p7", dmg: true }, // 物理转电伤 Physical to Electricity
+  // init more 赤毒武器加成
+  { id: "b4", dmg: true }, // Initial Heat 初始火伤
+  { id: "b5", dmg: true }, // Initial Cold 初始冰伤
+  { id: "b6", dmg: true }, // Initial Toxin 初始毒伤
+  { id: "b7", dmg: true }, // Initial Electricity 初始电伤
+  { id: "b8", dmg: true }, // Initial Impact 初始冲击
+  { id: "b9", dmg: true }, // Initial Puncture 初始穿刺
+  { id: "bA", dmg: true }, // Initial Slash 初始切割
+  { id: "bM", dmg: true }, // Initial Magnetic 初始磁力
+  { id: "bR", dmg: true }, // Initial Radiation 初始辐射
   // 战甲
   { id: "h" }, // Health
   { id: "s" }, // Shield
@@ -258,6 +268,7 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "ess", dmg: true }, // extra slash state
   { id: "hm", dmg: true }, // 爆头倍率 to Headshot Multiplier
   { id: "range", nopercent: true }, // 射程
+  { id: "red", dmg: true }, // 连击额外伤害 Final Damage stacks with Combo Multiplier
 
   // ========================
 
@@ -356,10 +367,10 @@ export class ValuedProperty {
       get fullString() {
         let rn = pn;
         if (vn.endsWith(" Augment")) {
-          const skillName = "skill." + _.camelCase(vn.substr(0, vn.length - 8));
+          const skillName = "skill." + camelCase(vn.substr(0, vn.length - 8));
           return i18n.t("prop.fullName.augment", [i18n.te(skillName) ? i18n.t(skillName) : vn.substr(0, vn.length - 8)]);
         }
-        const ikey = `prop.fullName.${_.camelCase(pn)}`;
+        const ikey = `prop.fullName.${camelCase(pn)}`;
         if (i18n.te(ikey)) rn = i18n.t(ikey, [vv]);
         if (vn.startsWith("+")) rn = i18n.t("prop.fullName.teamPlus", [rn]);
         if (vn.startsWith("-")) rn = i18n.t("prop.fullName.companionPlus", [rn]);
@@ -367,10 +378,10 @@ export class ValuedProperty {
       },
       get shortString() {
         if (vn.endsWith(" Augment")) {
-          const skillName = "skill." + _.camelCase(vn.substr(0, vn.length - 8));
+          const skillName = "skill." + camelCase(vn.substr(0, vn.length - 8));
           return i18n.t("prop.fullName.augment", [i18n.te(skillName) ? i18n.t(skillName) : vn.substr(0, vn.length - 8)]);
         }
-        const ikey = `prop.shortName.${_.camelCase(vn)}`;
+        const ikey = `prop.shortName.${camelCase(vn)}`;
         if (i18n.te(ikey)) return i18n.t(ikey, [vv]);
         return vn;
       },

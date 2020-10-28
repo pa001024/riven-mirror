@@ -18,6 +18,7 @@
     "lib": ["dom", "dom.iterable", "esnext", "scripthost"],
     "sourceMap": false,
     "pretty": false,
+    "resolveJsonModule": true,
     "types": ["lodash", "animejs", "axios", "vue", "vuex", "vuex-class", "vue-i18n"]
   }
 }

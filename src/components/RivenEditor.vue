@@ -2,49 +2,79 @@
   <div class="rivenedit">
     <el-row :gutter="20">
       <el-col :span="24">
-        <el-cascader v-if="!weapon" filterable :filter-method="handleSearch" class="weapon-picker"
-          :props="{ expandTrigger: 'hover' }" size="small" :placeholder="$t('rivenedit.selectWeapon')"
-          :options="nameOptions" :show-all-levels="false" v-model="selectWeapon" @change="handleChange"/>
+        <el-cascader
+          v-if="!weapon"
+          filterable
+          :filter-method="handleSearch"
+          class="weapon-picker"
+          :props="{ expandTrigger: 'hover' }"
+          size="small"
+          :placeholder="$t('rivenedit.selectWeapon')"
+          :options="nameOptions"
+          :show-all-levels="false"
+          v-model="selectWeapon"
+          @change="handleChange"
+        />
         <template v-if="mod">
           <div class="prop-picker" v-for="(prop, index) in props" :key="index">
             <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
               <div>
-                <div class="prop-button" @click.stop="is21Negative=!is21Negative" v-if="index === 2">
-                  <el-checkbox style="pointer-events: none;" :value="is21Negative">{{$t("rivenedit.isNegative")}}</el-checkbox>
+                <div class="prop-button" @click.stop="is21Negative = !is21Negative" v-if="index === 2">
+                  <el-checkbox style="pointer-events: none;" :value="is21Negative">{{ $t("rivenedit.isNegative") }}</el-checkbox>
                 </div>
-                <div class="prop-button"
-                  v-for="vprop in (index === 3 || is21Negative && index === 2 ? allProps.filter(v => !v.onlyPositive) : allProps.filter(v => !v.onlyNegative))"
-                  :key="vprop.id" size="small" @click="propClick(index, vprop.id)"
+                <div
+                  class="prop-button"
+                  v-for="vprop in index === 3 || (is21Negative && index === 2) ? allProps.filter(v => !v.onlyPositive) : allProps.filter(v => !v.onlyNegative)"
+                  :key="vprop.id"
+                  size="small"
+                  @click="propClick(index, vprop.id)"
                 >
-                  {{$t("prop.shortName." + vprop.id)}} ({{index === 0 ? vprop.prefix : (index === 1 ? vprop.prefix + " / " + vprop.subfix : vprop.subfix)}})
+                  {{ $t("prop.shortName." + vprop.id) }} ({{ index === 0 ? vprop.prefix : index === 1 ? vprop.prefix + " / " + vprop.subfix : vprop.subfix }})
                 </div>
               </div>
               <el-button class="prop-select" size="small" slot="reference">
-                {{prop.id && $t("prop.shortName." + prop.id) || $t("rivenedit.selectProp")}}
+                {{ (prop.id && $t("prop.shortName." + prop.id)) || $t("rivenedit.selectProp") }}
                 <span class="prop-arrow">
-                  <i class="el-icon-arrow-up" :class="{'is-reverse': prop.visable}"></i>
+                  <i class="el-icon-arrow-up" :class="{ 'is-reverse': prop.visable }"></i>
                 </span>
               </el-button>
             </el-popover>
-            <el-input-number v-if="legacyRivenEditor"
-              class="prop-number" v-model="prop.value" :disabled="!prop.id" @input="handleInput"
-              controls-position="right" :placeholder="$t('rivenedit.inputValue')"
-              :precision="1" :step="0.1" size="small"/>
+            <el-input-number
+              v-if="legacyRivenEditor"
+              class="prop-number"
+              v-model="prop.value"
+              :disabled="!prop.id"
+              @input="handleInput"
+              controls-position="right"
+              :placeholder="$t('rivenedit.inputValue')"
+              :precision="1"
+              :step="0.1"
+              size="small"
+            />
             <div class="prop-slider" v-else>
-              <label :style="[prop.value < (prop.max + prop.min)/2 && { right: 0 }, prop.value === 0 && { display: 'none' }]">
-                {{+prop.value.toFixed(1)}}
+              <label :style="[prop.value < (prop.max + prop.min) / 2 && { right: 0 }, prop.value === 0 && { display: 'none' }]">
+                {{ +prop.value.toFixed(1) }}
               </label>
               <el-slider
-                class="slider" v-model="prop.value" :disabled="!prop.id" @change="handleInput"
-                :precision="1" :step="0.1" :min="prop.min" :max="prop.max" size="small" :format-tooltip="v=>v+'%'"/>
+                class="slider"
+                v-model="prop.value"
+                :disabled="!prop.id"
+                @change="handleInput"
+                :precision="1"
+                :step="0.1"
+                :min="prop.min"
+                :max="prop.max"
+                size="small"
+                :format-tooltip="v => v + '%'"
+              />
             </div>
             <button class="prop-remove" @click="removeProp(index)">
               <i class="el-icon-remove"></i>
             </button>
           </div>
           <div class="mode-swtich">
-            <el-switch size="small" v-model="legacyRivenEditor"/>
-            <Tip style="margin-left: 6px;" :content="$t('setting.legacyrivenTip')"/>
+            <el-switch size="small" v-model="legacyRivenEditor" />
+            <Tip style="margin-left: 6px;" :content="$t('setting.legacyrivenTip')" />
           </div>
         </template>
       </el-col>
@@ -52,7 +82,7 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
+import { last, forEach } from "lodash-es";
 import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
 import { RivenProperty, RivenPropertyDataBase, RivenDatabase, ModTypeTable, MainTag, Weapon, WeaponDatabase, RivenTypes } from "@/warframe/codex";
 import { RivenMod, toNegaUpLevel, toUpLevel } from "@/warframe/rivenmod";
@@ -105,7 +135,7 @@ export default class RivenEditor extends Vue {
   /** 武器变更 */
   @Watch("weapon")
   handleChange() {
-    const weapon = this.weapon || WeaponDatabase.getWeaponByName(_.last(this.selectWeapon));
+    const weapon = this.weapon || WeaponDatabase.getWeaponByName(last(this.selectWeapon));
     this.riven = new RivenMod();
     [this.riven.name, this.riven.mod] = [weapon.baseName, MainTag[weapon.mod] as RivenTypes];
     this.mod = weapon.modText;
@@ -130,13 +160,13 @@ export default class RivenEditor extends Vue {
   }
   /** 选择属性 */
   propClick(index: number, id: string) {
-    const weapon = this.weapon || WeaponDatabase.getWeaponByName(_.last(this.selectWeapon));
+    const weapon = this.weapon || WeaponDatabase.getWeaponByName(last(this.selectWeapon));
     this.props[index].id = id;
     this.props[index].prop = RivenDatabase.getPropByName(id);
     this.props[index].visable = false;
 
     let props = this.props.filter(v => v.prop);
-    let lastProp = _.last(props),
+    let lastProp = last(props),
       hasNegative = !lastProp.prop.negative !== lastProp.value >= 0;
     let pUpLevel = toUpLevel(props.length, hasNegative),
       nUpLevel = toNegaUpLevel(props.length, hasNegative);
@@ -162,10 +192,10 @@ export default class RivenEditor extends Vue {
   }
   /** 重新自动填充数值 */
   refill() {
-    const weapon = this.weapon || WeaponDatabase.getWeaponByName(_.last(this.selectWeapon));
+    const weapon = this.weapon || WeaponDatabase.getWeaponByName(last(this.selectWeapon));
     let props = this.props.filter(v => v.prop);
     if (props.length > 1) {
-      let lastProp = _.last(props),
+      let lastProp = last(props),
         hasNegative = this.is21Negative || !lastProp.prop.negative !== lastProp.value >= 0 || props.length > 3;
       this.is21Negative = false;
       // 正面属性增幅, 负面属性增幅
@@ -182,12 +212,15 @@ export default class RivenEditor extends Vue {
   }
   updateRiven() {
     this.riven.subfix = "";
-    this.riven.parseProps(this.props.filter(v => v.id).map(v => [v.id, v.value] as [string, number]));
+    this.riven.parseProps(
+      this.props.filter(v => v.id).map(v => [v.id, v.value] as [string, number]),
+      this.weapon || undefined
+    );
     this.$emit("change", this.riven.qrCodeBase64);
   }
   // === 生命周期钩子 ===
   beforeMount() {
-    _.forEach(ModTypeTable, ({ name, include }, id) => {
+    forEach(ModTypeTable, ({ name, include }, id) => {
       let protos = WeaponDatabase.protos
         .filter(v => include.includes(v.mod) && v.disposition > 0.1)
         .map(v => ({

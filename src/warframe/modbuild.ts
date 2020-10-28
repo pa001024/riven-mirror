@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { cloneDeep, map, clone, chunk, forEachRight, compact, minBy, maxBy } from "lodash-es";
 import { choose } from "./util";
 import { base62, debase62 } from "./lib/base62";
 import { procDurationMap, SpecialStatusInfo } from "./status";
@@ -24,6 +24,8 @@ import {
 import { RivenMod, toUpLevel, toNegaUpLevel, ValuedRivenProperty } from "./rivenmod";
 import { HH } from "@/var";
 import { CommonBuild } from "./commonbuild";
+
+export type StatusInfo = { [key: string]: SpecialStatusInfo };
 
 // 基础类
 export abstract class ModBuild implements CommonBuild {
@@ -80,24 +82,24 @@ export abstract class ModBuild implements CommonBuild {
   }
   /** MOD列表 */
   get mods() {
-    return _.cloneDeep(this._mods);
+    return cloneDeep(this._mods);
   }
   /** filtered mods */
   get vmods() {
     return this.mods.filter(Boolean);
   }
   set mods(value) {
-    this._rawmods = _.cloneDeep(value);
+    this._rawmods = cloneDeep(value);
     this._mods = this.mapRankUpMods(value);
     this.calcMods();
     this.fastMode || this.recalcPolarizations();
   }
   /** 加成列表 */
   get buffs() {
-    return _.cloneDeep(this._buffs);
+    return cloneDeep(this._buffs);
   }
   set buffs(value) {
-    this._buffs = _.cloneDeep(value);
+    this._buffs = cloneDeep(value);
     this.calcMods();
   }
 
@@ -124,7 +126,7 @@ export abstract class ModBuild implements CommonBuild {
   protected _initialDamageMul = 100;
 
   protected _extraProcChance: [string, number][] = [];
-  protected _statusInfo: { [key: string]: SpecialStatusInfo } = null;
+  protected _statusInfo: StatusInfo = null;
   /** 快速模式 */
   fastMode = false;
 
@@ -249,6 +251,8 @@ export abstract class ModBuild implements CommonBuild {
 
   // abs-extra prop
   _absExtra: [string, number][] = [];
+  // rel-extra prop
+  _relExtra: [string, number][] = [];
   // 物理转伤
   _physicalConv: [string, number][] = [];
   // 虚空转伤
@@ -261,11 +265,13 @@ export abstract class ModBuild implements CommonBuild {
 
   /** 武器原本伤害 */
   get initialDamage() {
-    if (this.initialDamageMul === 1 && !this._absExtra.length) {
+    if (this.initialDamageMul === 1 && !this._absExtra.length && !this._relExtra.length) {
       this._originalDamage = 0;
       return this.mode.damage;
     }
-    let dmg = _.map(this.mode.damage, ([n, v]) => [n, v * this.initialDamageMul] as [string, number]);
+    let dmg = map(this.mode.damage, ([n, v]) => [n, v * this.initialDamageMul] as [string, number]);
+    const base = dmg.reduce((r, v) => ((r += v[1]), r), 0);
+    if (this._relExtra.length) dmg = dmg.concat(this._relExtra.map(([n, v]) => [n, (v * base) / 100]));
     if (this._absExtra.length) dmg = dmg.concat(this._absExtra);
     this._originalDamage = 0;
     return dmg;
@@ -324,7 +330,7 @@ export abstract class ModBuild implements CommonBuild {
     let mods = normal.map(v => {
       let key = v.substr(0, 2),
         level = v.substr(3, 4);
-      let mod = v === "01" ? this.riven.normalMod : _.cloneDeep(Codex.getNormalMod(key));
+      let mod = v === "01" ? this.riven.normalMod(this.weapon) : cloneDeep(Codex.getNormalMod(key));
       if (level) mod.level = debase62(level);
       return mod;
     });
@@ -450,7 +456,7 @@ export abstract class ModBuild implements CommonBuild {
   /** 重新计算元素顺序 */
   recalcElements() {
     this._extraDmgMul = this._heatMul + this._coldMul + this._toxinMul + this._electricityMul;
-    let eleOrder = _.clone(this.elementsOrder),
+    let eleOrder = clone(this.elementsOrder),
       otherOrder = [],
       eleMul = this.elementsMul;
     let oridmg = this.initialDamage;
@@ -515,7 +521,7 @@ export abstract class ModBuild implements CommonBuild {
           break;
       }
     });
-    let combs = _.chunk(eleOrder, 2);
+    let combs = chunk(eleOrder, 2);
     // 复合元素合成
     let tmpCombs = combs.map(comb => {
       if (comb.length > 1) {
@@ -556,8 +562,8 @@ export abstract class ModBuild implements CommonBuild {
         coverage: cor,
       };
       if (pellets !== 1) this._statusInfo[vn].appearRate = vv;
-      // [腐蚀 磁力]
-      if (vn === "Corrosive" || vn === "Magnetic") {
+      // [腐蚀 病毒 磁力]
+      if (vn === "Corrosive" || vn === "Viral" || vn === "Magnetic") {
         this._statusInfo[vn].procPerHit = vv * hits;
         this._statusInfo[vn].procPerSecond = vv * hits * fireRate;
       } else {
@@ -566,26 +572,24 @@ export abstract class ModBuild implements CommonBuild {
       }
       if (vn === "Slash" || vn === "Toxin" || vn === "Gas" || vn === "Electricity" || vn === "Heat") {
         let dd = dotMap.get(vn);
-        // [切割 毒 毒气 电]
+        // [毒气 电击]
+        if (vn === "Gas" || vn === "Electricity") {
+          if (hits !== 1) this._statusInfo[vn].instantProcDamage = dd / hits;
+          this._statusInfo[vn].instantProcDamagePerHit = dd;
+          this._statusInfo[vn].instantProcDamagePerSecond = dd * fireRate;
+        }
+        // [切割 毒素 毒气 电击]
         if (vn !== "Heat") {
-          let id = vn === "Gas" ? dotMap.get("Toxin") : dd;
-          if (hits !== 1) this._statusInfo[vn].instantProcDamage = (id + dd) / hits;
-          this._statusInfo[vn].instantProcDamagePerHit = id + dd;
-          this._statusInfo[vn].instantProcDamagePerSecond = (id + dd) * fireRate;
+          if (hits !== 1) this._statusInfo[vn].latentProcDamage = (dd / hits) * durTick;
+          this._statusInfo[vn].latentProcDamagePerHit = dd * durTick;
+          this._statusInfo[vn].latentProcDamagePerSecond = dd * fireRate * durTick;
         }
-        // [切割 毒 毒气]
-        if (vn !== "Electricity" && vn !== "Heat") {
-          let id = vn === "Gas" ? dotMap.get("Toxin") : 0;
-          if (hits !== 1) this._statusInfo[vn].latentProcDamage = id + (dd / hits) * durTick;
-          this._statusInfo[vn].latentProcDamagePerHit = id + dd * durTick;
-          this._statusInfo[vn].latentProcDamagePerSecond = id + dd * fireRate * durTick;
-        }
-        // [切割 毒 毒气 火]
+        // [火焰 切割 毒素 毒气 电击]
         if (vn === "Heat") {
           if (hits !== 1) this._statusInfo[vn].averageProcDamage = (cor * dd) / hits;
           this._statusInfo[vn].averageProcDamagePerHit = cor * dd;
           this._statusInfo[vn].averageProcDamagePerSecond = cor * dd * fireRate;
-        } else if (vn !== "Electricity") {
+        } else {
           if (hits !== 1) this._statusInfo[vn].averageProcDamage = ((vv * dd) / hits) * durTick * (1 - dutyCycle);
           this._statusInfo[vn].averageProcDamagePerHit = vv * dd * durTick * (1 - dutyCycle);
           this._statusInfo[vn].averageProcDamagePerSecond = vv * dd * fireRate * durTick * (1 - dutyCycle);
@@ -630,7 +634,7 @@ export abstract class ModBuild implements CommonBuild {
       if (rst[targetElement]) rst[targetElement] = rst[targetElement] + dpart;
       else rst[targetElement] = dpart;
     });
-    return _.map(rst, (v, i) => [i, +v]) as [string, number][];
+    return map(rst, (v, i) => [i, +v]) as [string, number][];
   }
 
   /** 模型护甲数值 */
@@ -701,25 +705,33 @@ export abstract class ModBuild implements CommonBuild {
     return this.oriHeadShotMul * this.headShotMulMul;
   }
 
-  /** 触发率是否存在跃迁 */
-  get isStatusJump() {
-    let neededMul = (1 - this.mode.procChance) / this.mode.procChance;
-    let procChanceProp = this.riven.properties.find(v => v.prop.id === "2");
-    if (procChanceProp) return procChanceProp.value + 2.4 > neededMul;
-    return 2.4 > neededMul;
-  }
-
   /** 触发几率 */
   get procChance() {
-    let s = this.mode.procChance * this.procChanceMul + this.procChanceAdd;
-    return s > 1 ? 1 : s < 0 ? 0 : s;
+    const s = ~~this.realProcChance + 1 - (1 - (this.realProcChance % 1)) ** this.pellets;
+    return s < 0 ? 0 : s;
   }
   /** 真实触发几率 */
-  abstract get realProcChance(): number;
+  get realProcChance() {
+    let s = this.oriRealProcChance * this.procChanceMul;
+
+    if (this.procChanceAdd) {
+      const nc = 1 - (1 - s) ** this.pellets + this.procChanceAdd;
+      s = 1 - (1 - nc) ** (1 / this.pellets);
+    }
+    return s < 0 ? 0 : s;
+  }
+
+  get oriRealProcChance() {
+    // TODO: 临时 需更新data
+    // const s = this.mode.procChance / this.mode.pellets;
+    // const hasMulti = this.weapon.modes.some(v => v.pellets > 1);
+    // return hasMulti ? s * 3 : s;
+    return this.mode.procChance;
+  }
 
   /** 触发权重 */
   get procWeights() {
-    let pw = this.baseDmg.map(([vn, vv]) => (["Impact", "Puncture", "Slash"].includes(vn) ? [vn, vv * 4] : [vn, vv])) as [string, number][];
+    let pw = this.baseDmg.map(([vn, vv]) => [vn, vv]) as [string, number][];
     let pwT = pw.reduce((a, b) => a + b[1], 0);
     let rst = pw.map(([vn, vv]) => [vn, vv / pwT] as [string, number]);
     return rst;
@@ -740,8 +752,8 @@ export abstract class ModBuild implements CommonBuild {
       });
     }
     // 防止触发率溢出
-    let totalChance = opM.reduce((a, b) => a + b[1], 0);
-    if (totalChance > 1) return opM.map(([vn, vv]) => [vn, vv / totalChance]) as [string, number][];
+    // let totalChance = opM.reduce((a, b) => a + b[1], 0);
+    // if (totalChance > 1) return opM.map(([vn, vv]) => [vn, vv / totalChance]) as [string, number][];
     return opM;
   }
 
@@ -794,7 +806,7 @@ export abstract class ModBuild implements CommonBuild {
   }
   /** 每秒触发率 */
   get procChancePerSecond() {
-    return 1 - (1 - this.procChancePerHit) ** this.fireRate;
+    return ~~this.procChancePerHit * this.fireRate + 1 - (1 - (this.procChancePerHit % 1)) ** this.fireRate;
   }
   /** 平均状态量期望 */
   get averageProcQE() {
@@ -895,7 +907,7 @@ export abstract class ModBuild implements CommonBuild {
   }
   /** 毒气DoT的基伤 */
   get gasBaseDamage() {
-    return this.baseDamage * (1 + this.toxinMul) ** 2 * 0.25;
+    return this.baseDamage * 0.5;
   }
   /** 火DoT的基伤 */
   get heatBaseDamage() {
@@ -976,7 +988,7 @@ export abstract class ModBuild implements CommonBuild {
     // 加载Mod
     this._mods.forEach(mod => {
       // 后者优先 主要用于紫卡有多个元素词条时
-      mod && _.forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
+      mod && forEachRight(mod.props, prop => this.applyProp(mod, prop[0], prop[1]));
     });
     // 加载Buff
     this._buffs.forEach(buff => {
@@ -1023,6 +1035,7 @@ export abstract class ModBuild implements CommonBuild {
     this.standaloneElements = [];
     this._voidConvs = [];
     this._absExtra = [];
+    this._relExtra = [];
     this._physicalConv = [];
     if (this.baseId === "Knell") this._procChanceAdd = 60;
   }
@@ -1035,7 +1048,7 @@ export abstract class ModBuild implements CommonBuild {
 
   /** 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
-    let mods = _.compact(this._mods);
+    let mods = compact(this._mods);
     // 如果相应的P卡已经存在则不使用
     if (mods.some(v => (mod.id !== "RIVENFAKE" && v.id === mod.id) || v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed)))
       return false;
@@ -1067,7 +1080,7 @@ export abstract class ModBuild implements CommonBuild {
     let umbraSetCount = mods.filter(v => v && v.key in umbraSet).length - 1;
     let rst = mods.map(mod => {
       if (mod && mod.key in umbraSet) {
-        let mapped = _.clone(mod);
+        let mapped = clone(mod);
         mapped.setMul = umbraSet[mod.key][umbraSetCount];
         return mapped;
       }
@@ -1199,14 +1212,14 @@ export abstract class ModBuild implements CommonBuild {
    */
   fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
     // 根据武器自动选择所有可安装的MOD
-    let mods = (this._mods = _.compact(this._mods));
+    let mods = (this._mods = compact(this._mods));
     let othermods = lib.filter(v => !mods.some(k => (v.id === k.id && (v.id === "RIVENFAKE" ? v.props[0][0] === k.props[0][0] : true)) || v.id === k.primed));
     let rivenCount = mods.reduce((a, b) => a + (b.id === "RIVENFAKE" ? 1 : 0), 0),
       rivenSlots = rivenLimit ? slots + rivenLimit - 1 : slots;
     if (useRiven > 0) {
-      if (useRiven == 2) this.applyMod(this.riven.normalMod);
+      if (useRiven == 2) this.applyMod(this.riven.normalMod(this.weapon));
       // 1. 将紫卡直接插入
-      else othermods.push(this.riven.normalMod); // 1. 将紫卡作为一张普卡进行计算
+      else othermods.push(this.riven.normalMod(this.weapon)); // 1. 将紫卡作为一张普卡进行计算
     }
     // 有目标时计算复合元素收益
     if (this.damageModel || this.target) {
@@ -1316,7 +1329,7 @@ export abstract class ModBuild implements CommonBuild {
 
     // 计算有紫卡属性后收益最低的mod 如果不是紫卡就去掉收益最低的紫卡再计算一次
     let valueList = newBuild._mods.map((_, i) => [i, newBuild.modValue(i)]).filter(v => newBuild._mods[v[0]].id === "RIVENFAKE");
-    let removeAble = _.minBy(valueList, v => v[1]);
+    let removeAble = minBy(valueList, v => v[1]);
     // console.log("去掉该卡", newBuild._mods[removeAble[0]].name);
     newBuild._mods.splice(removeAble[0], 1);
     newBuild.calcMods();
@@ -1395,7 +1408,7 @@ export abstract class ModBuild implements CommonBuild {
       newRiven.hasNegativeProp = true;
       return newRiven;
     });
-    let bestRiven = _.maxBy(newRivens, v => {
+    let bestRiven = maxBy(newRivens, v => {
       newBuild.riven = v;
       newBuild.fill(slots, 2);
       return newBuild.compareDamage;
@@ -1552,6 +1565,34 @@ export abstract class ModBuild implements CommonBuild {
       case "eA":
         /* Initial Slash 初始切割 */ this._absExtra.push(["Slash", pValue]);
         break;
+
+      case "b4":
+        /** Initial Heat 初始火伤 */ this._relExtra.push(["Heat", pValue]);
+        break;
+      case "b5":
+        /** Initial Cold 初始冰伤 */ this._relExtra.push(["Cold", pValue]);
+        break;
+      case "b6":
+        /** Initial Toxin 初始毒伤 */ this._relExtra.push(["Toxin", pValue]);
+        break;
+      case "b7":
+        /** Initial Electricity 初始电伤 */ this._relExtra.push(["Electricity", pValue]);
+        break;
+      case "b8":
+        /** Initial Impact 初始冲击 */ this._relExtra.push(["Impact", pValue]);
+        break;
+      case "b9":
+        /** Initial Puncture 初始穿刺 */ this._relExtra.push(["Puncture", pValue]);
+        break;
+      case "bA":
+        /** Initial Slash 初始切割 */ this._relExtra.push(["Slash", pValue]);
+        break;
+      case "bM":
+        /** Initial Magnetic 初始磁力 */ this._relExtra.push(["Magnetic", pValue]);
+        break;
+      case "bR":
+        /** Initial Radiation 初始辐射 */ this._relExtra.push(["Radiation", pValue]);
+        break;
       default:
     }
   }
@@ -1588,9 +1629,17 @@ export abstract class ModBuild implements CommonBuild {
     return 0;
   }
 
+  /** 极化次数增加最大容量 */
+  get isExtendCost() {
+    return this.weapon.tags.has("Kuva Weapon") || this.weapon.name == "Paracesis";
+  }
   /** 最大容量 */
   get maxCost() {
-    return 60;
+    if (this.weapon.tags.has("Exalted") || this.weapon.tags.has("Virtual") || this.weapon.tags.has("Robotic Weapon") || this.weapon.tags.has("Arch-Melee"))
+      return 60;
+    const baseCost = this.isExtendCost ? Math.min(5, this.formaCount + this.umbraCount) * 2 + 60 : 60;
+    const auraCost = this.weapon.tags.has("Melee") ? 10 : 0;
+    return baseCost + auraCost;
   }
   _formaCount = 0;
   _umbraCount = 0;

@@ -7,69 +7,113 @@
           <el-card class="infobox">
             <!-- 二维码和名称 -->
             <div slot="header" class="core-name">
-              <span class="title">{{core.name}}</span>
+              <span class="title">{{ core.name }}</span>
               <template v-if="build.formaCount">
                 [
-                <span class="forma"> {{$t("build.formaCount", [build.formaCount])}} </span>
-                <span class="umbra" v-if="build.umbraCount"> + {{build.umbraCount}}U </span>
+                <span class="forma"> {{ $t("build.formaCount", [build.formaCount]) }} </span>
+                <span class="umbra" v-if="build.umbraCount"> + {{ build.umbraCount }}U </span>
                 ]
               </template>
-              <ShareQR :url="'https://riven.im'+$route.path"/>
+              <ShareQR :url="'https://riven.im' + $route.path" />
             </div>
             <div class="warframe-props">
               <!-- 容量 -->
               <el-row :gutter="4" class="prop-diff cost-show">
-                <el-col :span="8" class="title">{{$t('build.cost')}}</el-col>
-                <el-col :span="7" class="diff diff-ori" :class="{error: build.maxCost < build.totalCost}">
-                  {{build.maxCost - build.totalCost}}
+                <el-col :span="8" class="title">{{ $t("build.cost") }}</el-col>
+                <el-col :span="7" class="diff diff-ori" :class="{ error: build.maxCost < build.totalCost }">
+                  {{ build.maxCost - build.totalCost }}
                 </el-col>
                 <template v-if="build.totalCost > 0">
                   <el-col :span="2" class="diff-arrow">/</el-col>
                   <el-col :span="7" class="diff diff-val">
-                    {{build.maxCost}}
+                    {{ build.maxCost }}
                   </el-col>
                 </template>
               </el-row>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 1}" @click="changeMode(1)"
-                :name="$t('build.health')" :ori="coreBuild.health" :val="build.health"></PropDiff>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 3}" @click="changeMode(3)"
-                :name="$t('build.shield')" :ori="coreBuild.shield" :val="build.shield"></PropDiff>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 2}" @click="changeMode(2)"
-                :name="$t('build.armor')" :ori="coreBuild.armor" :val="build.armor"></PropDiff>
-              <PropDiff class="select-cpmode" :class="{active: build.compareMode === 0}" @click="changeMode(0)"
-                :name="$t('build.effectiveHealth')" :ori="coreBuild.effectiveHealth" :val="build.effectiveHealth" :preci="0"></PropDiff>
+              <PropDiff
+                class="select-cpmode"
+                :class="{ active: build.compareMode === 1 }"
+                @click="changeMode(1)"
+                :name="$t('build.health')"
+                :ori="coreBuild.health"
+                :val="build.health"
+              ></PropDiff>
+              <PropDiff
+                class="select-cpmode"
+                :class="{ active: build.compareMode === 3 }"
+                @click="changeMode(3)"
+                :name="$t('build.shield')"
+                :ori="coreBuild.shield"
+                :val="build.shield"
+              ></PropDiff>
+              <PropDiff
+                class="select-cpmode"
+                :class="{ active: build.compareMode === 2 }"
+                @click="changeMode(2)"
+                :name="$t('build.armor')"
+                :ori="coreBuild.armor"
+                :val="build.armor"
+              ></PropDiff>
+              <PropDiff
+                class="select-cpmode"
+                :class="{ active: build.compareMode === 0 }"
+                @click="changeMode(0)"
+                :name="$t('build.effectiveHealth')"
+                :ori="coreBuild.effectiveHealth"
+                :val="build.effectiveHealth"
+                :preci="0"
+              ></PropDiff>
               <template v-if="build.attackBuild">
-                <br>
+                <br />
                 <PropDiff :name="$t('build.critMul')" :ori="build.attackBuild.mode.critMul" :val="build.attackBuild.critMul" subfix="x"></PropDiff>
                 <PropDiff :name="$t('build.critChance')" :ori="build.attackBuild.mode.critChance" :val="build.attackBuild.critChance" percent></PropDiff>
-                <PropDiff :name="$t('build.status')" :ori="build.attackBuild.mode.procChance" :val="build.attackBuild.procChancePerHit" percent data-v-step="1"></PropDiff>
-                <br>
-                <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :icon="dname.toLowerCase()" :name="$t(`elements.${dname}`)" :ori="ori" :val="val"></PropDiff>
-                <br>
+                <PropDiff
+                  :name="$t('build.status')"
+                  :ori="build.attackBuild.mode.procChance"
+                  :val="build.attackBuild.procChancePerHit"
+                  percent
+                  data-v-step="1"
+                ></PropDiff>
+                <br />
+                <PropDiff
+                  v-for="[dname, ori, val] in mergedDmg"
+                  :key="dname"
+                  :icon="dname.toLowerCase()"
+                  :name="$t(`elements.${dname}`)"
+                  :ori="ori"
+                  :val="val"
+                ></PropDiff>
+                <br />
                 <PropDiff :name="$t('build.panelDamage')" :ori="build.attackBuild.originalDamage" :val="build.attackBuild.panelDamage"></PropDiff>
-                <PropDiff :name="$t('build.attackDamage')" :ori="build.attackBuild.oriTotalDamage" :val="build.attackBuild.normalDamage"
-                    class="select-cpmode" :class="{active: build.compareMode === 4}" @click="changeMode(4)"></PropDiff>
+                <PropDiff
+                  :name="$t('build.attackDamage')"
+                  :ori="build.attackBuild.oriTotalDamage"
+                  :val="build.attackBuild.normalDamage"
+                  class="select-cpmode"
+                  :class="{ active: build.compareMode === 4 }"
+                  @click="changeMode(4)"
+                ></PropDiff>
               </template>
             </div>
           </el-card>
           <!-- 选项区域 -->
           <el-card class="build-tools">
             <el-button-group class="build-tools-action">
-              <el-button type="primary" size="small" @click="fill()">{{$t("build.fill")}}</el-button>
-              <el-button type="primary" size="small" @click="fillEmpty()">{{$t("build.fillEmpty")}}</el-button>
-              <el-button type="primary" size="small" @click="clear()">{{$t("build.clear")}}</el-button>
+              <el-button type="primary" size="small" @click="fill()">{{ $t("build.fill") }}</el-button>
+              <el-button type="primary" size="small" @click="fillEmpty()">{{ $t("build.fillEmpty") }}</el-button>
+              <el-button type="primary" size="small" @click="clear()">{{ $t("build.clear") }}</el-button>
             </el-button-group>
             <el-form class="build-form-editor">
               <!-- 生命 -->
-              <el-form-item :label="$t('buildview.healthLinkRef')" v-if="currentTab.mods.some(v=>v&&v.id==='Link Health')">
+              <el-form-item :label="$t('buildview.healthLinkRef')" v-if="currentTab.mods.some(v => v && v.id === 'Link Health')">
                 <el-input-number class="right-side fill" size="small" v-model="healthLinkRef" @change="optionChange" />
               </el-form-item>
               <!-- 护盾 -->
-              <el-form-item :label="$t('buildview.shieldLinkRef')" v-if="currentTab.mods.some(v=>v&&v.id==='Link Shields')">
+              <el-form-item :label="$t('buildview.shieldLinkRef')" v-if="currentTab.mods.some(v => v && v.id === 'Link Shields')">
                 <el-input-number class="right-side fill" size="small" v-model="shieldLinkRef" @change="optionChange" />
               </el-form-item>
               <!-- 护甲 -->
-              <el-form-item :label="$t('buildview.armorLinkRef')" v-if="currentTab.mods.some(v=>v&&v.id==='Link Armor')">
+              <el-form-item :label="$t('buildview.armorLinkRef')" v-if="currentTab.mods.some(v => v && v.id === 'Link Armor')">
                 <el-input-number class="right-side fill" size="small" v-model="armorLinkRef" @change="optionChange" />
               </el-form-item>
             </el-form>
@@ -84,26 +128,45 @@
             <el-row type="flex" class="mod-slot-container autozoom" :gutter="12">
               <draggable class="block" v-model="item.mods" @end="refleshMods()" :animation="250" handle=".mod-title">
                 <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6" v-for="(mod, index) in item.mods" :key="index">
-                  <LeveledModSlot @level="refleshMods()" @change="slotClick(index)" @remove="slotRemove(index)" :mod="mod" :build="item.build" :polarization="item.build.polarizations[index]"/>
+                  <LeveledModSlot
+                    @level="refleshMods()"
+                    @change="slotClick(index)"
+                    @remove="slotRemove(index)"
+                    :mod="mod"
+                    :build="item.build"
+                    :polarization="item.build.polarizations[index]"
+                  />
                 </el-col>
               </draggable>
             </el-row>
-            <div class="buff-head">{{$t('build.buff')}}</div>
+            <div class="buff-head">{{ $t("build.buff") }}</div>
             <!-- Buff区域 -->
             <el-row type="flex" class="buff-slot-container autozoom" :gutter="12">
               <div class="block">
                 <el-col class="list-complete-item" :span="bigScreen ? 12 : 24" :sm="12" :md="12" :lg="6" v-for="(buff, index) in item.buffs" :key="index">
                   <div class="buff-slot" :class="[{ active: !buff }]" @click="!buff && buffClick(index)">
                     <template v-if="buff">
-                      <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">
-                        <div class="buff-name">{{$t(`buff.${buff.name}`)}}</div>
-                        <div class="buff-parm layer" v-if="buff.layerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.layer" :min="1" :max="buff.data.multiLayer.maxStack"></el-input-number></div>
-                        <div class="buff-parm power" v-if="buff.powerEnable"><el-input-number @change="refleshMods()" :step="0.5" size="mini" v-model="buff.power"></el-input-number></div>
+                      <div class="buff-title" :class="{ layers: buff.layerEnable, powers: buff.powerEnable }">
+                        <div class="buff-name">{{ $t(`buff.${buff.name}`) }}</div>
+                        <div class="buff-parm layer" v-if="buff.layerEnable">
+                          <el-input-number
+                            @change="refleshMods()"
+                            size="mini"
+                            v-model="buff.layer"
+                            :min="1"
+                            :max="buff.data.multiLayer.maxStack"
+                          ></el-input-number>
+                        </div>
+                        <div class="buff-parm power" v-if="buff.powerEnable">
+                          <el-input-number @change="refleshMods()" :step="0.5" size="mini" v-model="buff.power"></el-input-number>
+                        </div>
                       </div>
                       <div class="buff-detail" @click.stop="buffRemove(index)">
                         <div class="buff-stat">
-                          <div class="buff-prop" v-for="prop in buff.vProps" :key="prop.id">{{prop.fullName}}</div>
-                          <div class="buff-sum" v-show="item.build.buffValue(index)">{{PNNum(100 * item.build.buffValue(index))}}% {{$t("build.total")}}</div>
+                          <div class="buff-prop" v-for="prop in buff.vProps" :key="prop.id">{{ prop.fullName }}</div>
+                          <div class="buff-sum" v-show="item.build.buffValue(index)">
+                            {{ PNNum(100 * item.build.buffValue(index)) }}% {{ $t("build.total") }}
+                          </div>
                         </div>
                         <div class="buff-action">
                           <button type="button" class="buff-slot-remove">
@@ -130,7 +193,7 @@
   </div>
 </template>
 <script lang="ts">
-import _ from "lodash";
+import { compact, map } from "lodash-es";
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import ModSelector from "@/components/ModSelector.vue";
@@ -268,7 +331,7 @@ export default class CompanionEditor extends Vue {
   refleshMods() {
     this.build.clear();
     let { mods } = this.currentTab;
-    let buffs = _.compact(this.currentTab.buffs);
+    let buffs = compact(this.currentTab.buffs);
     this.build.mods = mods;
     this.build.buffs = buffs;
     this.currentTab.mods = this.build.mods;
@@ -299,7 +362,7 @@ export default class CompanionEditor extends Vue {
   }
   buffRemove(buffIndex: number) {
     this.currentTab.buffs[buffIndex] = null;
-    this.currentTab.buffs = _.compact(this.currentTab.buffs).concat([null]);
+    this.currentTab.buffs = compact(this.currentTab.buffs).concat([null]);
     this.refleshMods();
     this.reloadSelector();
   }
@@ -335,7 +398,7 @@ export default class CompanionEditor extends Vue {
   }
   buffSelect(buff: BuffData) {
     this.currentTab.buffs[this.selectBuffIndex] = new Buff(buff);
-    this.currentTab.buffs = _.compact(this.currentTab.buffs).concat([null]);
+    this.currentTab.buffs = compact(this.currentTab.buffs).concat([null]);
     this.refleshMods();
     this.buffDialogVisible = false;
   }
@@ -399,7 +462,7 @@ export default class CompanionEditor extends Vue {
       if (rst[vn]) rst[vn][1] = vv;
       else rst[vn] = [0, vv];
     });
-    let emp = _.map(rst, (v, i) => [i, ...v]) as [string, number, number][];
+    let emp = map(rst, (v, i) => [i, ...v]) as [string, number, number][];
     return emp;
   }
 }

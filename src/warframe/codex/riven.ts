@@ -1,7 +1,5 @@
-import _ from "lodash";
+import { maxBy, max } from "lodash-es";
 import { strSimilarity } from "../util";
-import { i18n } from "@/i18n";
-import { _rivenDataBaseWeapons } from "./riven.data";
 
 /**MOD上的裂罅属性 */
 export interface RivenPropertyValue {
@@ -223,7 +221,7 @@ const RPVBArchgun = {
   Z: -9, // 后坐力
 };
 const RPVBMelee = {
-  0: 20, // 暴击率
+  0: 18, // 暴击率
   1: 9, // 暴击伤害
   2: 9, // 触发几率
   3: 10, // 触发时间
@@ -309,9 +307,6 @@ export class RivenDatabase {
       this.propDict.set(v.eName, i);
       this.propDict.set(v.name, i);
     });
-    _rivenDataBaseWeapons.forEach(v => {
-      this.ratioDict.set(v[0], v[2]);
-    });
   }
 
   static reload() {
@@ -331,7 +326,7 @@ export class RivenDatabase {
    */
   static findMostSimProp(prop: string) {
     if (this.hasProp(name)) return RivenPropertyDataBase.all[this.instance.propDict.get(name)];
-    let propFinded = _.maxBy(RivenPropertyDataBase.all, v => _.max([strSimilarity(prop, v.eName), strSimilarity(prop, v.name)]));
+    let propFinded = maxBy(RivenPropertyDataBase.all, v => max([strSimilarity(prop, v.eName), strSimilarity(prop, v.name)]));
     return propFinded;
   }
   /**
@@ -362,15 +357,6 @@ export class RivenDatabase {
     let prop = this.getPropByName(propName);
     if (weaponType in RivenPropertyValueBaseDataBase && prop) return RivenPropertyValueBaseDataBase[weaponType][prop.id] * ratio * (prop.nopercent ? 0.1 : 10);
     else return -1;
-  }
-
-  /**
-   * 获取武器倾向值
-   *
-   * @param {string} name
-   */
-  static getRatio(name: string) {
-    return this.instance.ratioDict.get(name);
   }
 }
 

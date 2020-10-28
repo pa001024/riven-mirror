@@ -1,27 +1,27 @@
 <template>
   <el-row class="price-box">
-    <el-col :xs="24" :md="8" v-for="price in prices" :key="price.name" class="price-view" :class=[price.name]>
+    <el-col :xs="24" :md="8" v-for="price in prices" :key="price.name" class="price-view" :class="[price.name]">
       <div class="price avg">
         <div class="header">
-          {{price.name === "veliedPrice" ? $t(`weaponselector.${weapon.modText.toLowerCase()}`) : $t(weapon.baseId)}} {{$t(`riven.${price.name}`)}}
+          {{ price.name === "veliedPrice" ? $t(`weaponselector.${weapon.modText.toLowerCase()}`) : $t(weapon.baseId) }} {{ $t(`riven.${price.name}`) }}
         </div>
-        <div class="value">{{formatPrice(price.avg)}}</div>
+        <div class="value">{{ formatPrice(price.avg) }}</div>
         <div class="title" v-t="'riven.avg'"></div>
       </div>
       <div class="price stddev">
-        <div class="value">{{formatPrice(price.stddev)}}</div>
+        <div class="value">{{ formatPrice(price.stddev) }}</div>
         <div class="title" v-t="'riven.stddev'"></div>
       </div>
       <div class="price min">
-        <div class="value">{{formatPrice(price.min)}}</div>
+        <div class="value">{{ formatPrice(price.min) }}</div>
         <div class="title" v-t="'riven.min'"></div>
       </div>
       <div class="price max">
-        <div class="value">{{formatPrice(price.max)}}</div>
+        <div class="value">{{ formatPrice(price.max) }}</div>
         <div class="title" v-t="'riven.max'"></div>
       </div>
       <div class="price pop">
-        <div class="value">{{formatPrice(price.pop)}}</div>
+        <div class="value">{{ formatPrice(price.pop) }}</div>
         <div class="title" v-t="'riven.pop'"></div>
       </div>
     </el-col>
@@ -29,7 +29,6 @@
 </template>
 
 <script lang="ts">
-import _ from "lodash";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import { RivenMod } from "@/warframe/rivenmod";
@@ -65,7 +64,7 @@ export default class RivenPrice extends Vue {
     return [
       { name: "veliedPrice", ...this.veliedPrice }, //
       { name: "unrolledPrice", ...this.unrolledPrice },
-      { name: "rolledPrice", ...this.rolledPrice }
+      { name: "rolledPrice", ...this.rolledPrice },
     ];
   }
 

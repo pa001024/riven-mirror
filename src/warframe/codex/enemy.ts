@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { camelCase } from "lodash-es";
 import { hAccSum } from "../util";
 import { i18n } from "@/i18n";
 
@@ -38,13 +38,14 @@ const _damageTypeDatabase = {
   Cold: ["Elemental", null, [0, 0, -0.25, 0, -0.5, 0.25, 0, 0, 0, 0.5, 0, 0, 0.25]],
   Electricity: ["Elemental", null, [0, 0, 0, 0, 0, 0, 0.5, 0.5, 0, 0, 0, 0, -0.5]],
   Heat: ["Elemental", null, [0, 0.25, 0, 0.25, 0.5, 0, 0, 0, 0, 0, -0.5, 0, 0]],
-  Toxin: ["Elemental", null, [0.5, 0, -0.5, 0, 0, 0, -0.25, -0.25, 0, NaN, NaN, 0.25, 0]],
+  Toxin: ["Elemental", null, [0.5, 0, -0.5, 0, 0, 0, -0.25, -0.25, 0, NaN, NaN, 0, 0]],
   Blast: ["Combined", "Cold+Heat", [0, 0, 0.5, 0, 0, -0.5, 0.75, 0, 0, 0, 0, -0.25, 0]],
   Corrosive: ["Combined", "Electricity+Toxin", [0, 0, 0.75, 0, 0, 0, 0, 0, 0, 0, -0.5, 0.75, 0]],
   Gas: ["Combined", "Heat+Toxin", [-0.25, -0.5, 0, 0.75, 0.5, 0, 0, 0, 0, 0, 0, 0, 0]],
   Magnetic: ["Combined", "Cold+Electricity", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0.75, 0.75, 0, -0.5]],
   Radiation: ["Combined", "Electricity+Heat", [0, 0, -0.75, -0.5, 0, 0.5, 0, 0.25, 0, -0.25, 0, 0, 0.75]],
   Viral: ["Combined", "Cold+Toxin", [0.5, 0.75, 0, -0.5, 0, 0, -0.25, 0, 0, 0, 0, 0, 0]],
+  True: ["Standalone", null, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NaN, NaN]],
   Void: ["Standalone", null, [0, -0.5, -0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
 } as { [key: string]: [string, string, number[]] };
 
@@ -129,7 +130,7 @@ export interface IEnemyData {
 export class EnemyData implements IEnemyData {
   id: string;
   get name() {
-    const key = `enemy.names.${_.camelCase(this.id)}`;
+    const key = `enemy.names.${camelCase(this.id)}`;
     return i18n.te(key) ? i18n.t(key) : this.id;
   }
   faction: EnemyFaction;
@@ -288,6 +289,7 @@ const _damageModelList = [
   ["Infested", 3, 3, , , 0, 0],
   ["Infested Flesh", 3, 4, , , 0, 0],
   ["Infested Elite", 3, 2, , , 0, 0],
+  ["Infested Jordas Golem", 3, 5, , 0, 0, 0],
   ["Tenno", 0, 0, , 0, 0, 0],
 ] as DamageModelDataArray[];
 
@@ -314,7 +316,7 @@ export interface IDamageModelData {
 export class DamageModelData implements IDamageModelData {
   id: string;
   get name() {
-    const key = `enemy.models.${_.camelCase(this.id)}`;
+    const key = `enemy.models.${camelCase(this.id)}`;
     return i18n.te(key) ? i18n.t(key) : this.id;
   }
   faction?: EnemyFaction;
@@ -366,7 +368,12 @@ export class SimpleDamageModel extends DamageModelData {
    * @memberof Enemy
    */
   mapDamage(dmgs: [string, number][], critChance: number = 0, threshold = 300) {
-    if (this.ignoreProc > 3) return this.mapEidolonDmg(dmgs.filter(v => v[0] === "Void"), critChance, threshold > 300 ? 300 : threshold);
+    if (this.ignoreProc > 3)
+      return this.mapEidolonDmg(
+        dmgs.filter(v => v[0] === "Void"),
+        critChance,
+        threshold > 300 ? 300 : threshold
+      );
     if (this.ignoreProc > 2) return this.mapEidolonDmg(dmgs, critChance, threshold > 300 ? 300 : threshold);
     else return this.mapDamageNormal(dmgs);
   }
@@ -408,7 +415,7 @@ export class SimpleDamageModel extends DamageModelData {
    */
   mapDamageShield(dmgs: [string, number][], dot = false) {
     return dmgs.map(([id, dmg]) => {
-      let dtype = Damage2_0.getDamageType((dot && id === "Gas" ? "Toxin" : id) as DamageType);
+      let dtype = Damage2_0.getDamageType((dot && id) as DamageType);
       if (!dtype) return [id, dmg];
       let SM = dtype.dmgMul[this.shieldType];
       // 毒素伤害直接穿透护盾对血量进行打击, 不计算对护盾的伤害
@@ -426,7 +433,7 @@ export class SimpleDamageModel extends DamageModelData {
    */
   mapDamageArmor(dmgs: [string, number][], dot = false) {
     return dmgs.map(([id, dmg]) => {
-      let dtype = Damage2_0.getDamageType((dot && id === "Gas" ? "Toxin" : id) as DamageType);
+      let dtype = Damage2_0.getDamageType(id as DamageType);
       if (!dtype) return [id, dmg];
       let HM = dtype.dmgMul[this.fleshType];
       let AM = dtype.dmgMul[this.armorType];
@@ -444,7 +451,7 @@ export class SimpleDamageModel extends DamageModelData {
    */
   mapDamageHealth(dmgs: [string, number][], dot = false) {
     return dmgs.map(([id, dmg]) => {
-      let dtype = Damage2_0.getDamageType((dot && id === "Gas" ? "Toxin" : id) as DamageType);
+      let dtype = Damage2_0.getDamageType(id as DamageType);
       if (!dtype) return [id, dmg];
       let HM = dtype.dmgMul[this.fleshType];
       let DM = 1 + HM;
@@ -476,6 +483,8 @@ export class Procs {
   Slash: [number, number][] = [];
   Heat: [number, number][] = [];
   Toxin: [number, number][] = [];
+  Gas: [number, number][] = [];
+  Electricity: [number, number][] = [];
   Viral: number = 0;
   HeatProc: number = 0;
 
@@ -495,13 +504,19 @@ export class Procs {
         break;
       // 毒素伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E7%B4%A0%E4%BC%A4%E5%AE%B3
       case "Toxin":
+        this.Toxin.push([dmg, ~~(6 * durationMul)]);
+        break;
+      // 毒气伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E6%AF%92%E6%B0%94%E4%BC%A4%E5%AE%B3
       case "Gas":
-        this.Toxin.push([dmg, ~~(8 * durationMul)]);
+        this.Gas.push([dmg, ~~(6 * durationMul)]);
         break;
       // 火焰伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%81%AB%E7%84%B0%E4%BC%A4%E5%AE%B3
-      // 注:火焰触发不会叠加
       case "Heat":
-        this.Heat.push([dmg, ~~(8 * durationMul)]);
+        this.Heat.push([dmg, ~~(6 * durationMul)]);
+        break;
+      // 电击伤害: https://warframe.huijiwiki.com/wiki/%E4%BC%A4%E5%AE%B3_2.0/%E7%94%B5%E5%87%BB%E4%BC%A4%E5%AE%B3
+      case "Electricity":
+        this.Electricity.push([dmg, ~~(6 * durationMul)]);
         break;
     }
   }
@@ -519,12 +534,18 @@ export class Procs {
     this.Slash = this.Slash.filter(v => --v[1] > 0) as [number, number][];
     let totalToxin = this.Toxin.reduce((a, b) => a + b[0], 0);
     this.Toxin = this.Toxin.filter(v => --v[1] > 0) as [number, number][];
+    let totalGas = this.Gas.reduce((a, b) => a + b[0], 0);
+    this.Gas = this.Gas.filter(v => --v[1] > 0) as [number, number][];
     let totalHeat = this.Heat.reduce((a, b) => a + b[0], 0);
     this.Heat = this.Heat.filter(v => --v[1] > 0) as [number, number][];
+    let totalElectricity = this.Electricity.reduce((a, b) => a + b[0], 0);
+    this.Electricity = this.Electricity.filter(v => --v[1] > 0) as [number, number][];
     let dmgs = [];
     if (totalSlash > 0) dmgs.push([DamageType.True, procDamageMul * totalSlash]);
     if (totalToxin > 0) dmgs.push([DamageType.Toxin, procDamageMul * totalToxin]);
+    if (totalGas > 0) dmgs.push([DamageType.Gas, procDamageMul * totalGas]);
     if (totalHeat > 0) dmgs.push([DamageType.Heat, procDamageMul * totalHeat]);
+    if (totalElectricity > 0) dmgs.push([DamageType.Electricity, procDamageMul * totalElectricity]);
     return dmgs;
   }
 }
@@ -536,6 +557,10 @@ export interface EnemyTimelineState {
   shield: number;
   armor: number;
   isDoT: boolean;
+}
+
+function trans(start: number, end: number, curr_lvl: number) {
+  return Math.min(1, (Math.max(curr_lvl, start) - start) / (end - start));
 }
 
 export class Enemy extends EnemyData {
@@ -586,21 +611,30 @@ export class Enemy extends EnemyData {
    * = 基础生命 × ( 1 + ( 当前等级 − 基础等级 )^2 × 0.015 )
    */
   get health() {
-    return this.baseHealth * (1 + (this.level - this.baseLevel) ** 2 * 0.015);
+    const high = 1 + (this.level - this.baseLevel) ** 0.5 * 10.75;
+    const low = 1 + (this.level - this.baseLevel) ** 2 * 0.015;
+    const ratio = trans(70 + this.baseLevel, 85, this.level);
+    return this.baseHealth * ((1 - ratio) * low + ratio * high);
   }
   /**
    * 当前等级基础护盾
    * = 基础护盾 × ( 1 + ( 当前等级 − 基础等级 )^2 × 0.0075 )
    */
   get shield() {
-    return this.baseShield * (1 + (this.level - this.baseLevel) ** 2 * 0.0075);
+    const high = 1 + (this.level - this.baseLevel) ** 0.75 * 1.6;
+    const low = 1 + (this.level - this.baseLevel) ** 2 * 0.0075;
+    const ratio = trans(70 + this.baseLevel, 85, this.level);
+    return this.baseShield * ((1 - ratio) * low + ratio * high);
   }
   /**
    * 当前等级基础护甲
    * = 基础护甲 × ( 1 + ( 当前等级 − 基础等级 )^1.75 × 0.005 )
    */
   get armor() {
-    return this.baseArmor * (1 + (this.level - this.baseLevel) ** 1.75 * 0.005);
+    const high = 1 + (this.level - this.baseLevel) ** 0.75 * 0.4;
+    const low = 1 + (this.level - this.baseLevel) ** 1.75 * 0.005;
+    const ratio = trans(70 + this.baseLevel, 85, this.level);
+    return this.baseArmor * ((1 - ratio) * low + ratio * high);
   }
 
   /**
@@ -775,19 +809,21 @@ export class Enemy extends EnemyData {
     let immediateDamages = dmgs.map(([vn, vv]) => {
       switch (vn) {
         // 切割伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Slash_Damage
+        // 无立即伤害
         case "Slash":
           this.currentProcs.push(DamageType.Slash, vv * procDamageMul, durationMul);
           return [DamageType.True, vv];
         // 毒素伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Toxin_Damage
+        // 无立即伤害
         case "Toxin":
           this.currentProcs.push(DamageType.Toxin, vv * procDamageMul, durationMul);
           return [DamageType.Toxin, vv];
         // 毒气伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Gas_Damage
+        // 无立即伤害
         case "Gas":
-          this.currentProcs.push(DamageType.Toxin, vv * procDamageMul * procDamageMul, durationMul);
-          return [DamageType.Toxin, vv];
+          this.currentProcs.push(DamageType.Gas, vv * procDamageMul, durationMul);
+          return [DamageType.Gas, vv];
         // 火焰伤害: https://warframe.huijiwiki.com/wiki/Damage_2.0/Heat_Damage
-        // 注:火焰触发不会叠加
         case "Heat":
           this.currentProcs.push(DamageType.Heat, vv * procDamageMul, durationMul);
           return [DamageType.Heat, vv];
@@ -834,7 +870,11 @@ export class Enemy extends EnemyData {
       let bh = bls >= 1 ? 1 : bls;
       // 夜灵算法 https://warframe.huijiwiki.com/wiki/%E5%8D%9A%E5%AE%A2:%E5%A4%9C%E7%81%B5%E5%85%86%E5%8A%9B%E4%BD%BF%E4%BC%A4%E5%AE%B3%E6%9C%BA%E5%88%B6
       if (this.ignoreProc > 2) {
-        this.applyEidolonDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]), critChance, threshold * this.resistence * bh); // 不足一个的乘以阈值
+        this.applyEidolonDmg(
+          dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]),
+          critChance,
+          threshold * this.resistence * bh
+        ); // 不足一个的乘以阈值
       } else if (this.ignoreProc === 2) {
         this.applyDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]));
       } else {
@@ -866,7 +906,12 @@ export class Enemy extends EnemyData {
           this.currentProcs.HeatProc = newHeat > 1 ? 1 : newHeat;
         }
         // [5.DoT伤害]
-        if (this.ignoreProc === 0) this.applyDoTDmg(dotDamageMap.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]), durationMul, procDamageMul);
+        if (this.ignoreProc === 0)
+          this.applyDoTDmg(
+            dotDamageMap.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]),
+            durationMul,
+            procDamageMul
+          );
         // [6.将病毒下降的血量恢复 / 火减甲]
         this.currentHealth /= 1 - 0.5 * currentViral;
         this.currentArmor /= 1 - 0.5 * currentHeat;

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { isArray, map, mapValues, reverse } from "lodash-es";
 import axios from "axios";
 import { Translator } from "@/warframe/translate";
 import { i18n } from "../i18n";
@@ -532,19 +532,19 @@ export class WorldStat {
    * @param obj 需要翻译的对象
    */
   deepTranslate<T extends Object>(obj: T, namespace = "messages"): T {
-    if (_.isArray(obj))
-      return _.map(obj, v =>
+    if (isArray(obj))
+      return map(obj, v =>
         typeof v === "string" ? Translator.getLocText(v, namespace) : typeof v === "object" ? this.deepTranslate(v, namespace) : v
       ) as any;
     else
-      return _.mapValues(obj, (v, i) =>
+      return mapValues(obj, (v, i) =>
         typeof v === "string"
           ? i === "node" || i === "location"
             ? this.nodeTranslate(v)
             : Translator.getLocText(v, namespace)
           : typeof v === "object"
-          ? this.deepTranslate(v, namespace)
-          : v
+            ? this.deepTranslate(v, namespace)
+            : v
       ) as T;
   }
   /**
@@ -627,7 +627,7 @@ export class WorldStat {
    */
   get news() {
     if (!this.data) return [];
-    return _.reverse(
+    return reverse(
       this.deepTranslate(this.data.news.filter(v => v.translations.en)).map(v => {
         if (v.translations[i18n.locale.substr(0, 2)]) v.message = v.translations[i18n.locale.substr(0, 2)];
         return v;
@@ -638,7 +638,7 @@ export class WorldStat {
   /** 事件 */
   get event() {
     if (!this.data) return [];
-    return _.reverse(
+    return reverse(
       this.deepTranslate(this.data.news.filter(v => v.translations.en)).map(v => {
         if (v.translations[i18n.locale.substr(0, 2)]) v.message = v.translations[i18n.locale.substr(0, 2)];
         return v;
@@ -662,9 +662,7 @@ export class WorldStat {
     if (!this.data) return [];
     let data = this.data.syndicateMissions.find(v => v.syndicate === "Ostrons");
     if (!data) return [];
-    return this.deepTranslate(
-      data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")).filter(k => !k.match(/^\d/))), v))
-    );
+    return this.deepTranslate(data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(\d+)X (.+)$/, "$1 $2"))), v)));
   }
 
   /**
@@ -674,9 +672,7 @@ export class WorldStat {
     if (!this.data) return [];
     let data = this.data.syndicateMissions.find(v => v.syndicate === "Solaris United");
     if (!data) return [];
-    return this.deepTranslate(
-      data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(.+) X(\d+)$/, "$2 $1")).filter(k => !k.match(/^\d/))), v))
-    );
+    return this.deepTranslate(data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(\d+)X (.+)$/, "$1 $2"))), v)));
   }
 
   /**

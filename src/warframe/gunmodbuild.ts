@@ -1,9 +1,9 @@
+import { map } from "lodash-es";
 import { hAccSum, hAccMul, hAccDiv } from "@/warframe/util";
 import { Enemy, NormalModDatabase, NormalMod, AcolyteModsList, Weapon } from "./codex";
 import { ModBuild } from "./modbuild";
 import { RivenMod } from "./rivenmod";
 import { i18n } from "@/i18n";
-import _ from "lodash";
 
 /*
  * MOD自动配置模块
@@ -267,7 +267,8 @@ export class GunModBuild extends ModBuild {
 
   /** [overwrite] 每发触发率 */
   get procChancePerHit() {
-    return this.isLaser ? this.procChance : 1 - (1 - this.procChance) ** this.multishotMul;
+    const p = this.procChance;
+    return this.isLaser ? p : ~~p * this.multishotMul + 1 - (1 - (p % 1)) ** this.multishotMul;
   }
 
   /** [overwrite] 面板基础伤害增幅倍率 */
@@ -279,10 +280,6 @@ export class GunModBuild extends ModBuild {
     // 私法系列的暴击强化可以直接加在这里 因为白字无加成 去掉不暴击的概率
     let upLvlChance = this.critChance >= 1 ? this.critLevelUpChance : this.critChance * this.critLevelUpChance;
     return this.calcCritDamage(this.critChance + upLvlChance, this.critMul, this.headShotChance, this.headShotMul);
-  }
-  /** 每个弹片触发几率 */
-  get realProcChance() {
-    return 1 - (1 - this.procChance) ** (1 / this.mode.pellets);
   }
   /** 平均射速增幅倍率  */
   get sustainedFireRateMul() {
@@ -408,10 +405,10 @@ export class GunModBuild extends ModBuild {
     return this.compareMode == GunCompareMode.TotalDamage
       ? this.totalDamageAvg
       : this.compareMode == GunCompareMode.FirstAmmoDamage
-      ? this.firstAmmoDamage
-      : this.compareMode == GunCompareMode.BurstDamage
-      ? this.burstDamage
-      : this.sustainedDamage;
+        ? this.firstAmmoDamage
+        : this.compareMode == GunCompareMode.BurstDamage
+          ? this.burstDamage
+          : this.sustainedDamage;
   }
 
   /** [overwrite] 额外触发几率 */
@@ -461,7 +458,7 @@ export class GunModBuild extends ModBuild {
 
     if (this.zoomLevel) {
       const zoom = this.weapon.zoom[this.zoomLevel - 1];
-      _.map(zoom.props, (v, n) => this.applyProp(null, n, v));
+      map(zoom.props, (v, n) => this.applyProp(null, n, v));
     }
   }
   /**
