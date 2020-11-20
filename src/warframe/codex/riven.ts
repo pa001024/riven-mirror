@@ -325,7 +325,7 @@ export class RivenDatabase {
    * @param prop 属性名称
    */
   static findMostSimProp(prop: string) {
-    if (this.hasProp(name)) return RivenPropertyDataBase.all[this.instance.propDict.get(name)];
+    if (this.hasProp(prop)) return RivenPropertyDataBase.all[this.instance.propDict.get(prop)];
     let propFinded = maxBy(RivenPropertyDataBase.all, v => max([strSimilarity(prop, v.eName), strSimilarity(prop, v.name)]));
     return propFinded;
   }
