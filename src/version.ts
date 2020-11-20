@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.9.4";
+export const version = "1.10.0";
 export const updateLogs = [
+  {
+    version: "1.10.0",
+    date: "2020/11/20",
+    md: {
+      en: `- U29.5
+- NEW KITGUNS`,
+      cn: `- U29.5
+- 组合枪改动`,
+    },
+  },
   {
     version: "1.9.4",
     date: "2020/10/28",
@@ -37,6 +47,7 @@ export const updateLogs = [
 - PC版本正式发布 请前往主页下载`,
     },
   },
+  /*
   {
     version: "1.8.4",
     date: "2019/12/18",
@@ -47,7 +58,6 @@ export const updateLogs = [
 - 2019.12 裂罅改动`,
     },
   },
-  /*
   {
     version: "1.8.3",
     date: "2019/11/5",
