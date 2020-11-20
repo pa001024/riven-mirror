@@ -1279,6 +1279,12 @@
     "vitrica": "金璃剑",
     "zaktiPrime": "毒芽 Prime",
     "guandaoPrime": "关刀 Prime",
+    "proboscisCernos": "刺吸西诺斯",
+    "pulmonars": "感染连枷",
+    "bubonico": "横痃重炮",
+    "sporothrix": "孢丝感染枪",
+    "morgha": "置灵者",
+    "arumSpinosa": "疆南星刺",
 
     "none": "无",
     "balla": "宝拉",
@@ -1325,6 +1331,8 @@
     "gaze": "凝目",
     "rattleguts": "响胆",
     "tombfinger": "墓指",
+    "sporelacer": "孢射",
+    "vermisplicer": "虫置",
 
     "gibber": "碎语",
     "ramble": "漫游",
@@ -1334,6 +1342,8 @@
     "shrewd": "精明",
     "steadyslam": "稳击",
     "tremor": "震颤",
+    "palmaris": "掌筋",
+    "ulnaris": "尺骨",
 
     "flutterfire": "激火",
     "ramflare": "猛光",
@@ -1351,6 +1361,10 @@
     "stitch": "穿纫",
     "killstream": "连杀",
     "splat": "溅击",
+    "arcroid": "弃脓",
+    "thymoid": "抑脓",
+    "marcoArcroid": "巨匣弃脓",
+    "marcoThymoid": "巨匣抑脓",
 
     "raplakPrism": "拉普拉克棱镜",
     "shwaakPrism": "施瓦克棱镜",
@@ -3631,7 +3645,9 @@
       "catchmoon": "能量穿透弹",
       "gaze": "射线",
       "rattleguts": "全自动",
-      "tombfinger": "小型榴弹"
+      "tombfinger": "小型榴弹",
+      "sporelacer": "自动索敌射线",
+      "vermisplicer": "小型榴弹"
     }
   },
   "moa": {
