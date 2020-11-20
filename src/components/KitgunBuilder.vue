@@ -10,7 +10,7 @@
       <div class="part-box" v-for="item in chamberList" :key="item.id">
         <el-radio class="part" v-model="chamber" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunChamber${item.name}.m.png`" :alt="item.name" width="100%">
+            <img :src="`https://cdn.riven.im/img/kitgunChamber${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.id}`)}}
@@ -26,7 +26,7 @@
       <div class="part-box" v-for="item in gripList" :key="item.id">
         <el-radio class="part" v-model="grip" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunGrip${item.name}.m.png`" :alt="item.name" width="100%">
+            <img :src="`https://cdn.riven.im/img/kitgunGrip${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.id}`)}}
@@ -44,7 +44,7 @@
       <div class="part-box" v-for="item in loaderList" :key="item.id">
         <el-radio class="part" v-model="loader" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunLoader${item.name}.m.png`" :alt="item.name" width="100%">
+            <img :src="`https://cdn.riven.im/img/kitgunLoader${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.id}`)}}
@@ -97,11 +97,19 @@ export default class extends Vue {
   grip: KitgunGrip = null;
   loader: KitgunLoader = null;
 
-  get kitgun() { return new Kitgun(this.chamber, this.grip, this.loader); }
-  get type() { return MainTag[this.kitgun.tags.mainTag]; }
+  get kitgun() {
+    return new Kitgun(this.chamber, this.grip, this.loader);
+  }
+  get type() {
+    return MainTag[this.kitgun.tags.mainTag];
+  }
 
-  loadGrip(grip: KitgunGrip) { return Kitgun.loadGrip(this.chamber, grip); }
-  loadLoader(loader: KitgunLoader) { return Kitgun.loadLoader(this.chamber, loader); }
+  loadGrip(grip: KitgunGrip) {
+    return Kitgun.loadGrip(this.chamber, grip);
+  }
+  loadLoader(loader: KitgunLoader) {
+    return Kitgun.loadLoader(this.chamber, loader);
+  }
 
   finish() {
     this.$emit("finish", this.kitgun);
