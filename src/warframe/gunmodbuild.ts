@@ -117,7 +117,7 @@ export class GunModBuild extends ModBuild {
   /** 使用重口径 */
   useHeavyCaliber = true;
   /** 使用金首发 */
-  usePrimedChamber = false;
+  usePrimedChamber = true;
   /** 使用致命效率 */
   useDeadlyEfficiency = false;
   /** 使用猎人战备  0=不用 1=自动选择 2=必须用 */
@@ -405,10 +405,10 @@ export class GunModBuild extends ModBuild {
     return this.compareMode == GunCompareMode.TotalDamage
       ? this.totalDamageAvg
       : this.compareMode == GunCompareMode.FirstAmmoDamage
-        ? this.firstAmmoDamage
-        : this.compareMode == GunCompareMode.BurstDamage
-          ? this.burstDamage
-          : this.sustainedDamage;
+      ? this.firstAmmoDamage
+      : this.compareMode == GunCompareMode.BurstDamage
+      ? this.burstDamage
+      : this.sustainedDamage;
   }
 
   /** [overwrite] 额外触发几率 */
