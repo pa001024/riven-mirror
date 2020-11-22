@@ -75,6 +75,7 @@ export interface LoaderChamberData {
   procChance?: number;
 }
 
+// prettier-ignore
 const _kitgunChamber = [
   [0, "Catchmoon", [
     [["Impact", 89], ["Heat", 167]],
@@ -102,6 +103,7 @@ const _kitgunChamber = [
   ], 0.25, 0.25, [23, 31, 37, 43, 51, 49, 85, 113], 5.4, [0.5, 0.5]],
 ] as [number, string, [string, number][][], number, number, number[], number, number[]][];
 
+// prettier-ignore
 const _kitgunGrip = [
   [0, "Gibber", [[-48, 190], [0, 720], [0, 660], [-4, 270], [0, 190], [0, 720]], "Secondary"],
   [1, "Ramble", [[-24, 150], [0.5, 720], [1.5, 530], [0, 220], [48, 150], [0.3, 720]], "Secondary"],
@@ -116,6 +118,7 @@ const _kitgunGrip = [
   [9, "Tremor", [[41, 180], [8, 480], [4.5, 540], [29, 128], [106, 180], [2, 480]], "Primary"]
 ] as [number, string, [number, number][], string][];
 
+// prettier-ignore
 const _kitgunLoader = [
   [0, "Flutterfire", -0.3, -0.08, 0.14, 0, 1, []],
   [1, "Ramflare", -0.3, -0.08, 0.14, 0.4, 3, []],
@@ -135,8 +138,8 @@ const _kitgunLoader = [
   [15, "Splat", 0.3, 0.14, -0.08, 0.4, 3, []],
   [16, "Arcroid", 0, 0.03, 0.03, 0.2, 2, []],
   [17, "Thymoid", 0, 0, 0, 1, 5, []],
-  [18, "Marco Arcroid", 0, 0.03, 0.03, 1.6, 6, []],
-  [19, "Marco Thymoid", 0, 0, 0, 1.8, 7, []],
+  [18, "MarcoArcroid", 0, 0.03, 0.03, 1.6, 6, []],
+  [19, "MarcoThymoid", 0, 0, 0, 1.8, 7, []],
 ] as [number, string, number, number, number, number, number, LoaderChamberData[]][];
 
 export const KitgunChamberData: KitgunChamber[] = _kitgunChamber.map(v => ({
@@ -158,9 +161,9 @@ export const KitgunGripData: KitgunGrip[] = _kitgunGrip.map(v => ({
   name: v[1],
   chambersData: v[2].map(k => ({
     dmgAdd: k[0],
-    fireRate: k[1]
+    fireRate: k[1],
   })),
-  type: v[3]
+  type: v[3],
 }));
 
 export const KitgunLoaderData: KitgunLoader[] = _kitgunLoader.map(v => ({
@@ -172,7 +175,7 @@ export const KitgunLoaderData: KitgunLoader[] = _kitgunLoader.map(v => ({
   procChance: v[4],
   reloadTime: v[5],
   magazineIndex: v[6],
-  chambersData: v[7]
+  chambersData: v[7],
 }));
 
 export const NoneKitgunGripData: number[] = [4, 0, 3, 4, 4, 4];
@@ -207,7 +210,7 @@ export class Kitgun extends Weapon {
       critChance: (data && data.critChance) || loader.critChance,
       procChance: (data && data.procChance) || loader.procChance,
       reload: (data && data.reload) || loader.reloadTime,
-      magazine: chamber.magazine[loader.magazineIndex]
+      magazine: chamber.magazine[loader.magazineIndex],
     } as KitgunLoaderDisplay;
   }
   get url() {
@@ -236,9 +239,12 @@ export class Kitgun extends Weapon {
     this.name = this.chamber.name;
     this.disposition = this.chamber.disposition[this.grip.type === "Primary" ? 1 : 0];
     const mode = {} as CoreWeaponMode;
-    const dmgs = this.grip.type === "Primary" ? this.chamber.pdmgs : this.chamber.sdmgs
+    const dmgs = this.grip.type === "Primary" ? this.chamber.pdmgs : this.chamber.sdmgs;
     mode.damage = dmgs
-      .map(([n, v]) => [n, hAccSum(v, (this.name === "Tombfinger" && this.grip.type === "Secondary" && n === "Radiation" ? 4 : 1) * grip.dmgAdd)] as [string, number])
+      .map(
+        ([n, v]) =>
+          [n, hAccSum(v, (this.name === "Tombfinger" && this.grip.type === "Secondary" && n === "Radiation" ? 4 : 1) * grip.dmgAdd)] as [string, number]
+      )
       .filter(v => v[1] > 0);
     mode.critMul = hAccSum(loader.critDamage, this.chamber.name === "Sporelacer" && this.grip.type === "Primary" ? 3 : 2);
     mode.critChance = hAccSum(this.chamber.critChance, loader.critChance);
@@ -258,14 +264,15 @@ export class Kitgun extends Weapon {
       case "Tombfinger":
         mode.prjSpeed = 200;
         if (this.grip.type === "Primary") {
-          mode.chargeTime = [0.5, 0.8, 1.1, 1.5][this.grip.index];
+          mode.chargeTime = [0.5, 0.8, 1.0, 1.1, 1.5][this.grip.index % 5];
         }
         break;
       case "Gaze":
-        if (this.grip.type === "Secondary")
-          mode.range = [41, 38, 25, 22][this.grip.index];
-        else
-          mode.range = [30, 26, 20, 16][this.grip.index];
+        if (this.grip.type === "Secondary") {
+          mode.range = [41, 39, 38, 25, 22][this.grip.index % 5];
+        } else {
+          mode.range = [30, 26, 23, 20, 16][this.grip.index % 5];
+        }
         break;
     }
     this.modes = [mode];
@@ -289,7 +296,7 @@ export class Kitgun extends Weapon {
       } else mode.locName = i18n.t("weaponmode.default");
       return mode;
     });
-    let tags = (this.grip.type === "Primary") ? ["Primary", "Rifle", "Assault Rifle", "Kitgun"] : ["Secondary", "Kitgun"];
+    let tags = this.grip.type === "Primary" ? ["Primary", "Rifle", "Assault Rifle", "Kitgun"] : ["Secondary", "Kitgun"];
     if (this.grip.type === "Primary") {
       if (this.name === "Catchmoon") {
         tags = ["Primary", "Shotgun", "Kitgun"];
