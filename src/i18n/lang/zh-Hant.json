@@ -1425,6 +1425,7 @@
     "imperatorVandalAtmosphere": "凱旋將軍破壞者 (大氣層內)",
     "larkspurAtmosphere": "翠雀 (大氣層內)",
     "kuvaAyangaAtmosphere": "赤毒 怒雷 (大氣層內)",
+    "morghaAtmosphere": "葬棺者 (大氣層內)",
     "ferrite": "鐵氧體",
     "nanoSpores": "納米孢子",
     "alloyPlate": "合金板",
@@ -3615,8 +3616,8 @@
       "gaze": "射線",
       "rattleguts": "全自動",
       "tombfinger": "小型榴彈",
-      "sporelacer": "自動索敵射線",
-      "vermisplicer": "小型榴彈"
+      "sporelacer": "子母榴彈",
+      "vermisplicer": "自動索敵射線"
     }
   },
   "moa": {
