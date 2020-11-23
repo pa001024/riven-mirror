@@ -817,12 +817,10 @@ export let _abilityData: AbilityData[] = [
       Control: { duration: D(12), range: R(19) },
     },
   },
-  {
-    id: "Virulence",
-    tags: 1,
-    energyCost: 25,
-    props: { Damage: { damage: [["Puncture", 200]], angel: 10, range: R(16) } },
-  },
+  {id:"Virulence",
+   tags:1,
+   energyCost:25,
+   props:{Damage:{damage:[["Puncture",S(200)]],angel:10,range:R(16)}}},
   {
     id: "Larva",
     tags: 16,
