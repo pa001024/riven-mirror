@@ -821,7 +821,7 @@ export let _abilityData: AbilityData[] = [
     id: "Virulence",
     tags: 1,
     energyCost: 25,
-    props: { Damage: { damage: [["Puncture", 200]], angel: 10, range: R(16) } },
+    props: { Damage: { damage: [["Puncture", S(200)]], angel: 10, range: R(16) } },
   },
   {
     id: "Larva",
@@ -1572,6 +1572,21 @@ export let _abilityData: AbilityData[] = [
     energyCost: 100,
     props: { Buff: { effect: [["R", D(75)], ["J", D(40)], ["F", D(50)], ["hr", D(100)]] }, Damage: { damage: [["Impact", S(200)], ["Puncture", S(200)]] } },
   },
+  // Grendel
+  { id: "Feast", tags: 16, energyCost: 25 },
+  { id: "Nourish", tags: 2, energyCost: 50 },
+  { id: "Regurgitate", tags: 1, energyCost: 0 },
+  { id: "Pulverize", tags: 5, energyCost: 0, energyCostPS: 10 },
+  // Protea
+  { id: "Grenade Fan", tags: 3, energyCost: 25, },
+  { id: "Blaze Artillery", tags: 1, energyCost: 50, },
+  { id: "Dispensary", tags: 2, energyCost: 75, },
+  { id: "Temporal Anchor", tags: 7, energyCost: 100, },
+  // Xaku
+  { id: "Xata's Whisper", tags: 2, energyCost: 25 },
+  { id: "Grasp of Lohk", tags: 32, energyCost: 50 },
+  { id: "The Lost", tags: 2, energyCost: 75 },
+  { id: "The Vast Untime", tags: 3, energyCost: 100 },
 ];
 
 export function registerAbilityData(newData: AbilityData[]) {
