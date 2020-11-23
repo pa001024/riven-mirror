@@ -591,13 +591,11 @@ export let _abilityData: AbilityData[] = [
       },
     },
   },
-  { id: "Cataclysm", tags: 0, energyCost: 100, props: {} },
   {
-    id: "Decoy",
-    tags: 32,
-    energyCost: 25,
-    props: { Summon: { health: 200, duration: D(25) } },
-  },
+    id:"Cataclysm",
+    tags:1,
+    energyCost:100,
+    props:{Damage:{damage:[["Physical",S(500)],["Physical",S(300)]],duration:D(30),range:R(16)}}},
   {
     id: "Invisibility",
     tags: 2,
