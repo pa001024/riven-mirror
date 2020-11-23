@@ -815,10 +815,13 @@ export let _abilityData: AbilityData[] = [
       Control: { duration: D(12), range: R(19) },
     },
   },
-  {id:"Virulence",
-   tags:1,
-   energyCost:25,
-   props:{Damage:{damage:[["Puncture",S(200)]],angel:10,range:R(16)}}},
+  {
+    id:"Virulence",
+    tags:1,
+    energyCost:25,
+    props:{Damage:{damage:[["Puncture",S(200)]],angel:10,range:R(16,0)},
+    Special:[{desc:"满突变层数效果",val:S(20200)},{desc:"满突变层数效果（增生突变）",val:S(60200,0)}]}
+  },
   {
     id: "Larva",
     tags: 16,
