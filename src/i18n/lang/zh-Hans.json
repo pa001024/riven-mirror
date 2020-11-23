@@ -2169,7 +2169,19 @@
     "machRush": "马赫冲驰",
     "kineticPlating": "动能镀层",
     "thermalSunder": "热能抽离",
-    "redline": "赤限"
+    "redline": "赤限",
+    "grenadeFan": "手雷散射",
+    "blazeArtillery": "炽烈炮击",
+    "dispensary": "后勤支援",
+    "temporalAnchor": "时泊之锚",
+    "feast": "大块朵颐",
+    "nourish": "消化滋养",
+    "regurgitate": "剧烈反刍",
+    "pulverize": "肉弹碾压",
+    "xataSWhisper": "真理密语",
+    "graspOfLohk": "虚空之握",
+    "theLost": "失落之技",
+    "theVastUntime": "超维炼狱"
   },
   "messagesExtend": {
     "blueprint": "蓝图",
