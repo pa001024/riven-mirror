@@ -1594,7 +1594,35 @@ export let _abilityData: AbilityData[] = [
     id:"The Vast Untime",
     tags:3,
     energyCost:100,
-    props:{Damage:{damage:[["Void",S(1200)]],duration:D(25),range:R(25)},DamageReduce:{rate:75}}}
+    props:{Damage:{damage:[["Void",S(1200)]],duration:D(25),range:R(25)},DamageReduce:{rate:75}}
+  },
+  {
+    id:"Grenade Fan",
+    tags:3,
+    energyCost:25,
+    props:{Damage:{damage:[["Slash",S(500)]],duration:D(13),range:R(5),amount:3,angel:135},
+    Buff:{effect:[["r",S(50)]],duration:D(13)}}
+  },
+  {
+    id:"Blaze Artillery",
+    tags:1,
+    energyCost:50,
+    props:{Damage:{damage:[["Heat",S(500)]],duration:D(3),range:R(30),tick:D(3)},
+    Special:[{desc:"每次命中额外伤害",val:S(500)},{desc:"火焰触发几率",val:100}]}
+  },
+  {
+    id:"Dispensary",
+    tags:2,
+    energyCost:75,
+    props:{Special:[{desc:"额外掉落率",val:S(25)}],
+    Buff:{effect:[["h",100],["e",25],["M",1]],duration:D(25)}}
+  },
+  {
+    id:"Temporal Anchor",
+    tags:7,
+    energyCost:100,
+    props:{Damage:{damage:[["Blast",S(25)]],duration:D(8),range:R(15)},
+    Special:[{desc:"致死伤害生命恢复",val:5}]}}
 ];
 
 export function registerAbilityData(newData: AbilityData[]) {
