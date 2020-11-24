@@ -1622,7 +1622,34 @@ export let _abilityData: AbilityData[] = [
     tags:7,
     energyCost:100,
     props:{Damage:{damage:[["Blast",S(25)]],duration:D(8),range:R(15)},
-    Special:[{desc:"致死伤害生命恢复",val:5}]}}
+    Special:[{desc:"致死伤害生命恢复",val:5}]}
+  },
+  {
+    id:"Feast",
+    tags:16,
+    energyCost:25,
+    props:{Damage:{damage:[["Toxin",S(500)]],distance:R(25),range:R(8)},
+    Special:[{desc:"每秒护甲移除",val:S(5,0)}]}
+  },
+  {
+    id:"Nourish",
+    tags:2,
+    energyCost:50,
+    props:{}
+  },
+  {
+    id:"Regurgitate",
+    tags:1,
+    energyCost:0,
+    props:{Damage:{damage:[["Toxin",S(1200)]],range:R(5)}}
+  },
+  {
+    id:"Pulverize",
+    tags:5,
+    energyCost:0,
+    energyCostPS:10,
+    props:{Damage:{damage:[["Toxin",25],["Impact",4000],["Impact",500]],range:R(15)}}
+  },
 ];
 
 export function registerAbilityData(newData: AbilityData[]) {
