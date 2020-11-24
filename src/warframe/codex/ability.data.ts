@@ -1571,6 +1571,30 @@ export let _abilityData: AbilityData[] = [
     energyCost: 100,
     props: { Buff: { effect: [["R", D(75)], ["J", D(40)], ["F", D(50)], ["hr", D(100)]] }, Damage: { damage: [["Impact", S(200)], ["Puncture", S(200)]] } },
   },
+  {id:"Xata's Whisper",
+   tags:2,
+   energyCost:25,
+   props:{Buff:{desc:"100%重置Sentient伤害适应",target:0,effect:[["Void",S(26)]],duration:D(35)}},
+   oneHand:true
+  },
+  {
+    id:"Grasp of Lohk",
+    tags:33,
+    energyCost:50,
+    props:{Special:[{desc:"技能实际伤害受目标等级倍率影响"}],
+    Damage:{damage:[["Void",S(50)]],amount:R(6),duration:D(12),range:R(7.5),distance:R(15)}}
+  },
+  {
+    id:"The Lost",
+    tags:2,
+    energyCost:75,
+    props:{}
+  },
+  {
+    id:"The Vast Untime",
+    tags:3,
+    energyCost:100,
+    props:{Damage:{damage:[["Void",S(1200)]],duration:D(25),range:R(25)},DamageReduce:{rate:75}}}
 ];
 
 export function registerAbilityData(newData: AbilityData[]) {
