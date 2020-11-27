@@ -591,13 +591,11 @@ export let _abilityData: AbilityData[] = [
       },
     },
   },
-  { id: "Cataclysm", tags: 0, energyCost: 100, props: {} },
   {
-    id: "Decoy",
-    tags: 32,
-    energyCost: 25,
-    props: { Summon: { health: 200, duration: D(25) } },
-  },
+    id:"Cataclysm",
+    tags:1,
+    energyCost:100,
+    props:{Damage:{damage:[["Physical",S(500)],["Physical",S(300)]],duration:D(30),range:R(16)}}},
   {
     id: "Invisibility",
     tags: 2,
@@ -818,10 +816,11 @@ export let _abilityData: AbilityData[] = [
     },
   },
   {
-    id: "Virulence",
-    tags: 1,
-    energyCost: 25,
-    props: { Damage: { damage: [["Puncture", S(200)]], angel: 10, range: R(16) } },
+    id:"Virulence",
+    tags:1,
+    energyCost:25,
+    props:{Damage:{damage:[["Puncture",S(200)]],angel:10,range:R(16,0)},
+    Special:[{desc:"满突变层数效果",val:S(20200)},{desc:"满突变层数效果（增生突变）",val:S(60200)}]}
   },
   {
     id: "Larva",
@@ -1572,21 +1571,88 @@ export let _abilityData: AbilityData[] = [
     energyCost: 100,
     props: { Buff: { effect: [["R", D(75)], ["J", D(40)], ["F", D(50)], ["hr", D(100)]] }, Damage: { damage: [["Impact", S(200)], ["Puncture", S(200)]] } },
   },
-  // Grendel
-  { id: "Feast", tags: 16, energyCost: 25 },
-  { id: "Nourish", tags: 2, energyCost: 50 },
-  { id: "Regurgitate", tags: 1, energyCost: 0 },
-  { id: "Pulverize", tags: 5, energyCost: 0, energyCostPS: 10 },
-  // Protea
-  { id: "Grenade Fan", tags: 3, energyCost: 25, },
-  { id: "Blaze Artillery", tags: 1, energyCost: 50, },
-  { id: "Dispensary", tags: 2, energyCost: 75, },
-  { id: "Temporal Anchor", tags: 7, energyCost: 100, },
   // Xaku
-  { id: "Xata's Whisper", tags: 2, energyCost: 25 },
-  { id: "Grasp of Lohk", tags: 32, energyCost: 50 },
-  { id: "The Lost", tags: 2, energyCost: 75 },
-  { id: "The Vast Untime", tags: 3, energyCost: 100 },
+  {id:"Xata's Whisper",
+   tags:2,
+   energyCost:25,
+   props:{Buff:{desc:"100%重置Sentient伤害适应",target:0,effect:[["Void",S(26)]],duration:D(35)}},
+   oneHand:true
+  },
+  {
+    id:"Grasp of Lohk",
+    tags:33,
+    energyCost:50,
+    props:{Special:[{desc:"技能实际伤害受目标等级倍率影响"}],
+    Damage:{damage:[["Void",S(50)]],amount:R(6),duration:D(12),range:R(7.5),distance:R(15)}}
+  },
+  {
+    id:"The Lost",
+    tags:2,
+    energyCost:75,
+    props:{}
+  },
+  {
+    id:"The Vast Untime",
+    tags:3,
+    energyCost:100,
+    props:{Damage:{damage:[["Void",S(1200)]],duration:D(25),range:R(25)},DamageReduce:{rate:75}}
+  },
+  // Protea
+  {
+    id:"Grenade Fan",
+    tags:3,
+    energyCost:25,
+    props:{Damage:{damage:[["Slash",S(500)]],duration:D(13),range:R(5),amount:3,angel:135},
+    Buff:{effect:[["r",S(50)]],duration:D(13)}}
+  },
+  {
+    id:"Blaze Artillery",
+    tags:1,
+    energyCost:50,
+    props:{Damage:{damage:[["Heat",S(500)]],duration:D(3),range:R(30),tick:D(3)},
+    Special:[{desc:"每次命中额外伤害",val:S(500)},{desc:"火焰触发几率",val:100}]}
+  },
+  {
+    id:"Dispensary",
+    tags:2,
+    energyCost:75,
+    props:{Special:[{desc:"额外掉落率",val:S(25)}],
+    Buff:{effect:[["h",100],["e",25],["M",1]],duration:D(25)}}
+  },
+  {
+    id:"Temporal Anchor",
+    tags:7,
+    energyCost:100,
+    props:{Damage:{damage:[["Blast",S(25)]],duration:D(8),range:R(15)},
+    Special:[{desc:"致死伤害生命恢复",val:5}]}
+  },
+  // Grendel
+  {
+    id:"Feast",
+    tags:16,
+    energyCost:25,
+    props:{Damage:{damage:[["Toxin",S(500)]],distance:R(25),range:R(8)},
+    Special:[{desc:"每秒护甲移除",val:S(5,0)}]}
+  },
+  {
+    id:"Nourish",
+    tags:2,
+    energyCost:50,
+    props:{}
+  },
+  {
+    id:"Regurgitate",
+    tags:1,
+    energyCost:0,
+    props:{Damage:{damage:[["Toxin",S(1200)]],range:R(5)}}
+  },
+  {
+    id:"Pulverize",
+    tags:5,
+    energyCost:0,
+    energyCostPS:10,
+    props:{Damage:{damage:[["Toxin",25],["Impact",4000],["Impact",500]],range:R(15)}}
+  },
 ];
 
 export function registerAbilityData(newData: AbilityData[]) {
