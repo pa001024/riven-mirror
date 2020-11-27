@@ -1196,9 +1196,9 @@ export const _warframeData: WarframeData[] = [
     energy: 153,
     sprint: 1,
     abilities: ["Xata's Whisper", "Grasp of Lohk", "The Lost", "The Vast Untime"],
-    aura: "r",
+    aura: "-",
     introduced: "17.12",
-    polarities: ["-", "d"],
+    polarities: ["d", "d"],
     sex: "Male",
   },
   {
