@@ -1571,6 +1571,7 @@ export let _abilityData: AbilityData[] = [
     energyCost: 100,
     props: { Buff: { effect: [["R", D(75)], ["J", D(40)], ["F", D(50)], ["hr", D(100)]] }, Damage: { damage: [["Impact", S(200)], ["Puncture", S(200)]] } },
   },
+  // Xaku
   {id:"Xata's Whisper",
    tags:2,
    energyCost:25,
@@ -1596,6 +1597,7 @@ export let _abilityData: AbilityData[] = [
     energyCost:100,
     props:{Damage:{damage:[["Void",S(1200)]],duration:D(25),range:R(25)},DamageReduce:{rate:75}}
   },
+  // Protea
   {
     id:"Grenade Fan",
     tags:3,
@@ -1624,6 +1626,7 @@ export let _abilityData: AbilityData[] = [
     props:{Damage:{damage:[["Blast",S(25)]],duration:D(8),range:R(15)},
     Special:[{desc:"致死伤害生命恢复",val:5}]}
   },
+  // Grendel
   {
     id:"Feast",
     tags:16,

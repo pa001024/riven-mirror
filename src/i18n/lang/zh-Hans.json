@@ -1285,6 +1285,8 @@
     "sporothrix": "孢丝感染枪",
     "morgha": "置灵者",
     "arumSpinosa": "疆南星刺",
+    "catabolyst": "异化者",
+    "ironbride": "铁嫁",
 
     "none": "无",
     "balla": "宝拉",
@@ -1443,6 +1445,8 @@
     "imperatorVandalAtmosphere": "凯旋将军破坏者 (大气层内)",
     "larkspurAtmosphere": "翠雀 (大气层内)",
     "kuvaAyangaAtmosphere": "赤毒 怒雷 (大气层内)",
+    "mausolonAtmosphere": "惩戒者",
+    "morghaAtmosphere": "置灵者 (大气层内)",
 
     "ferrite": "铁氧体",
     "nanoSpores": "纳米孢子",
@@ -2165,7 +2169,19 @@
     "machRush": "马赫冲驰",
     "kineticPlating": "动能镀层",
     "thermalSunder": "热能抽离",
-    "redline": "赤限"
+    "redline": "赤限",
+    "grenadeFan": "手雷散射",
+    "blazeArtillery": "炽烈炮击",
+    "dispensary": "后勤支援",
+    "temporalAnchor": "时泊之锚",
+    "feast": "大块朵颐",
+    "nourish": "消化滋养",
+    "regurgitate": "剧烈反刍",
+    "pulverize": "肉弹碾压",
+    "xataSWhisper": "真理密语",
+    "graspOfLohk": "虚空之握",
+    "theLost": "失落之技",
+    "theVastUntime": "超维炼狱"
   },
   "messagesExtend": {
     "blueprint": "蓝图",
@@ -2398,7 +2414,34 @@
     "bombExplosion": "炸弹爆炸",
     "cubeExplosion": "方块爆炸",
     "blobImpact": "球体撞击",
-    "blobExplosion": "球体爆炸"
+    "blobExplosion": "球体爆炸",
+    "held": "长按",
+    "secondaryFire": "次要射击",
+    "beamAoE": "射线范围伤害",
+    "primary": "主要模式",
+    "partialReloadImpact": "部分装填",
+    "reloadFromEmptyImpact": "空匣装填",
+    "reloadFromEmptyExplosion": "空匣装填爆炸",
+    "areaAttacks": "范围攻击",
+    "clusterBombExplosion": "集束炸弹爆炸",
+    "clusterBombContact": "集束炸弹碰撞",
+    "unchargedShotExplosion": "非蓄力射击爆炸",
+    "spearThrowCharged": "蓄力",
+    "spearExplosionQuickShot": "快速射击爆炸",
+    "spearThrowQuickShot": "快速射击",
+    "spearExplosionCharged": "蓄力爆炸",
+    "burstRadialAttack": "点射范围攻击",
+    "chargedShotProjectile": "蓄力投射物",
+    "chargedShotExplosion": "蓄力爆炸",
+    "autoRadialAttack": "全自动范围攻击",
+    "semiRadialAttack": "半自动范围攻击",
+    "throwExplosion": "投掷爆炸",
+    "chargedThrowExplosion": "蓄力投掷爆炸",
+    "autoMode": "全自动",
+    "active": "手动引爆",
+    "autoBurst": "全自动连射",
+    "quickShot": "未完全蓄力射击",
+    "quickShotArea": "未完全蓄力范围伤害"
   },
   "alerting": {
     "sortie": "突击",
@@ -3646,8 +3689,8 @@
       "gaze": "射线",
       "rattleguts": "全自动",
       "tombfinger": "小型榴弹",
-      "sporelacer": "自动索敌射线",
-      "vermisplicer": "小型榴弹"
+      "sporelacer": "子母榴弹",
+      "vermisplicer": "自动索敌射线"
     }
   },
   "moa": {
