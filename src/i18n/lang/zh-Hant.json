@@ -1278,6 +1278,7 @@
     "pulmonars": "伏魔之息",
     "bubonico": "疫囊毒砲",
     "sporothrix": "毒孢步槍",
+    "catabolyst": "異化者",
     "morgha": "葬棺者",
     "arumSpinosa": "蘭膜星",
     "none": "無",
@@ -2141,7 +2142,19 @@
     "machRush": "馬赫衝馳",
     "kineticPlating": "動能鍍層",
     "thermalSunder": "熱能抽離",
-    "redline": "赤限"
+    "redline": "赤限",
+    "xata'sWhisper":  "真理腐咒",
+    "graspOfLohk":  "虛空支配",
+    "theLost":  "迷蹤三絕",
+    "theVastUntime":  "時空超脫",
+    "grenadeFan": "弧切手榴彈",
+    "blazeArtillery": "烈焰火砲",
+    "dispensary": "補給機",
+    "temporalAchor":  "時空定錨",
+    "feast":  "大快朵頤",
+    "nourish":  "消化滋養",
+    "regurgitate":  "反芻砲彈",
+    "pulverize":  "碾壓粉碎"
   },
   "messagesExtend": {
     "blueprint": "藍圖",
