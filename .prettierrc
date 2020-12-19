@@ -4,5 +4,6 @@
   "bracketSpacing": true,
   "jsxBracketSameLine": true,
   "semi": true,
-  "trailingComma": "es5"
+  "trailingComma": "es5",
+  "arrowParens": "avoid"
 }
