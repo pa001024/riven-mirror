@@ -15,7 +15,7 @@
   "dependencies": {
     "@tonejs/midi": "^2.0.25",
     "animejs": "^3.2.1",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "base64-arraybuffer": "^0.2.0",
     "better-scroll": "^2.0.5",
     "color-thief-browser": "^2.0.2",
