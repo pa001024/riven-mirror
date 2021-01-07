@@ -717,8 +717,11 @@ export class Enemy extends EnemyData {
       let dtype = Damage2_0.getDamageType(id as DamageType);
       if (!dtype) return [id, dmg];
       let HM = dtype.dmgMul[this.fleshType];
+      if (isNaN(HM)) return [id, 0];
       let AM = dtype.dmgMul[this.armorType];
+      if (isNaN(AM)) AM = 0;
       let DM = ((1 + HM) * (1 + AM)) / (1 + (this.currentArmor * (1 - AM)) / 300);
+      console.log(id, dmg * DM * (1 - this.resistence))
       return [id, dmg * DM * (1 - this.resistence)];
     }) as [string, number][];
   }
