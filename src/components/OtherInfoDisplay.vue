@@ -8,6 +8,11 @@
             {{ $t("otherinfo.wiki") }}
           </el-button>
         </a>
+        <a v-if="weaponWikiEn !== weaponWiki" :href="weaponWikiEn" target="_blank" rel="noopener noreferrer">
+          <el-button size="mini" type="info" icon="el-icon-location">
+            {{ $t("otherinfo.wikien") }}
+          </el-button>
+        </a>
         <a :href="weaponWM" target="_blank" rel="noopener noreferrer">
           <el-button size="mini" type="info" icon="el-icon-goods">
             {{ $t("otherinfo.wm") }}
@@ -51,6 +56,9 @@ export default class OtherInfoDisplay extends Vue {
 
   get weaponWiki() {
     return this.$t("otherinfo.wikiurl", [this.build.weapon.url]);
+  }
+  get weaponWikiEn() {
+    return this.$t("otherinfo.wikiurlen", [this.build.weapon.url]);
   }
   get weaponWM() {
     return "https://warframe.market/items/" + this.build.weapon.wmurl;
