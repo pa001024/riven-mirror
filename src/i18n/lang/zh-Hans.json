@@ -227,7 +227,6 @@
     "counterPulse": "反转脉冲",
     "envelopingCloud": "包覆游云",
     "targetFixation": "目标入定",
-
     "primedRegen": "重生 Prime",
     "coolantLeak": "冷却液外泄",
     "animalInstinct": "动物本能",
@@ -318,7 +317,6 @@
     "repairKit": "修补套件",
     "scanAquaticLifeforms": "扫描水生生命体",
     "trample": "践踏",
-
     "maimingStrike": "致残突击",
     "bloodRush": "急进猛突",
     "voltaicStrike": "伏打电能",
@@ -749,7 +747,6 @@
     "meleeGuidance": "近战指引",
     "swiftMomentum": "迅敏动量",
     "aerodynamic": "空气动力",
-
     "shotgunRivenMod": "霰弹枪裂罅MOD",
     "meleeRivenMod": "近战裂罅MOD",
     "rifleRivenMod": "步枪裂罅MOD",
@@ -823,9 +820,7 @@
     "protonJet": "质子 喷射",
     "protonPulse": "质子 脉动",
     "protonSnap": "质子 猛扑",
-
     "legendaryFusionCore": "传说核心",
-
     "dexDakra": "DEX 达克拉双剑",
     "endura": "三叶坚韧",
     "dualZoren": "佐伦双斧",
@@ -1288,7 +1283,6 @@
     "catabolyst": "异化者",
     "ironbride": "铁嫁",
     "cedo": "塞多",
-
     "none": "无",
     "balla": "宝拉",
     "dokrahm": "多克拉姆",
@@ -1301,7 +1295,6 @@
     "mewan": "密丸",
     "plagueKeewar": "瘟疫 奇沃",
     "plagueKripath": "瘟疫 克里帕丝",
-
     "peye": "佩耶",
     "plagueAkwin": "瘟疫 艾克文",
     "laka": "拉卡",
@@ -1312,7 +1305,6 @@
     "plagueBokwin": "瘟疫 柏克文",
     "kroostra": "克鲁斯查",
     "shtung": "石当",
-
     "jai": "翟",
     "jaiIi": "翟 II",
     "ruhang": "如杭",
@@ -1329,14 +1321,12 @@
     "ekwanaRuhangIi": "伊克瓦纳 如杭 II",
     "vargeetJaiIi": "瓦吉特 翟 II",
     "vargeetRuhangIi": "瓦吉特 如杭 II",
-
     "catchmoon": "捕月",
     "gaze": "凝目",
     "rattleguts": "响胆",
     "tombfinger": "墓指",
     "sporelacer": "孢射",
     "vermisplicer": "虫置",
-
     "gibber": "碎语",
     "ramble": "漫游",
     "lovetap": "爱击",
@@ -1347,7 +1337,6 @@
     "tremor": "震颤",
     "palmaris": "掌筋",
     "ulnaris": "尺骨",
-
     "flutterfire": "激火",
     "ramflare": "猛光",
     "zipfire": "速火",
@@ -1368,7 +1357,6 @@
     "thymoid": "抑脓",
     "marcoArcroid": "巨匣弃脓",
     "marcoThymoid": "巨匣抑脓",
-
     "raplakPrism": "拉普拉克棱镜",
     "shwaakPrism": "施瓦克棱镜",
     "granmuPrism": "格兰姆棱镜",
@@ -1376,7 +1364,6 @@
     "canticPrism": "堪提克棱镜",
     "legaPrism": "勒咖棱镜",
     "klamoraPrism": "克拉莫阿棱镜",
-
     "penchaScaffold": "潘查支架",
     "shraksunScaffold": "施拉克孙支架",
     "klebrikScaffold": "克莱布里克支架",
@@ -1384,7 +1371,6 @@
     "exardScaffold": "艾克萨德支架",
     "dissicScaffold": "迪斯克支架",
     "propaScaffold": "普洛帕支架",
-
     "clapkraBrace": "克拉普拉克曲柄",
     "juttniBrace": "加特尼曲柄",
     "lohrinBrace": "洛林曲柄",
@@ -1392,7 +1378,6 @@
     "suoBrace": "梭曲柄",
     "plagaBrace": "普拉咖曲柄",
     "certusBrace": "瑟图斯曲柄",
-
     "lambeoMoa": "拉姆比欧恐鸟",
     "oloroMoa": "欧罗若恐鸟",
     "paraMoa": "帕拉恐鸟",
@@ -1410,7 +1395,6 @@
     "gauthBracket": "高斯脚架",
     "jonsinBracket": "将信脚架",
     "tianBracket": "天脚架",
-
     "valkyrTalons": "Valkyr之爪",
     "ironStaff": "金箍铁棒",
     "ironStaffPrime": "金箍铁棒 Prime",
@@ -1428,13 +1412,11 @@
     "regulatorsPrime": "监察者双枪 Prime",
     "garudasTalons": "Garuda的利爪",
     "darkSplitSwordHeavyBlade": "暗黑分合剑 (巨刃)",
-
     "lanzo": "兰佐鱼叉",
     "peram": "佩拉姆鱼叉",
     "tulok": "图洛克鱼叉",
     "unarmed": "空手",
     "amp": "增幅器",
-
     "cyngasAtmosphere": "合成燃气炮 (大气层内)",
     "dualDecurionAtmosphere": "什长双枪 (大气层内)",
     "phaedraAtmosphere": "菲德菈 (大气层内)",
@@ -1448,7 +1430,6 @@
     "kuvaAyangaAtmosphere": "赤毒 怒雷 (大气层内)",
     "mausolonAtmosphere": "惩戒者",
     "morghaAtmosphere": "置灵者 (大气层内)",
-
     "ferrite": "铁氧体",
     "nanoSpores": "纳米孢子",
     "alloyPlate": "合金板",
@@ -1486,7 +1467,6 @@
     "rivenSliver": "裂罅碎银",
     "nistlepod": "尼蒐荚",
     "grokdrul": "葛克度",
-
     "amesha": "AMESHA",
     "elytron": "ELYTRON",
     "itzal": "ITZAL",
@@ -1598,7 +1578,6 @@
     "xaku": "XAKU",
     "protea": "PROTEA",
     "grendel": "GRENDEL",
-
     "maduraiLens": "MADURAI晶体",
     "naramonLens": "NARAMON晶体",
     "vazarinLens": "VAZARIN晶体",
@@ -1892,7 +1871,6 @@
     "ignisTowsunSkin": "伊格尼斯 夏至外观",
     "simaLuxxumOrnament": "矽镁 乐升饰物",
     "vezLuxxumOrnament": "时光 乐升饰物",
-
     "captainVor": "VOR 上尉",
     "councilorVayHek": "Vay Hek 委员",
     "generalSargasRuk": "Sargas Ruk 将军",
@@ -1951,7 +1929,6 @@
     "plainsOfEidolon": "夜灵平野",
     "vitusEssence": "生息精华",
     "orbVallis": "奥布山谷",
-
     "creditsCache": "现金匣",
     "creditCache": "现金匣",
     "assassinateTheCommander": "刺杀指挥官",
@@ -1967,7 +1944,6 @@
     "cullTheEnemy": "宰杀敌人",
     "weakenTheGrineerFoothold": "削弱 Grineer 的据点",
     "sabotageTheEnemySupplyLines": "破坏 Grineer 的补给线",
-
     "venusCullJobExterminate": "猎人杀手",
     "resourceTheft": "资源搜掠",
     "picketDuty": "岗哨职责",
@@ -2881,7 +2857,6 @@
       "rmh": "恢复 {0} 最大生命值",
       "chf": "有 {0} 的几率",
       "rd": "反射 {0} 受到的伤害",
-
       "augment": "{0}强化",
       "ify": "如果目标距离 {0} 米外",
       "onHeadshot": "爆头后:",
@@ -2901,13 +2876,11 @@
       "onBlock": "格挡后:",
       "onAimGliding": "飞身瞄准时:",
       "onLand": "旋身飞跃落地后{0}秒内",
-
       "allowsTheKubrowToUseFinisherAttacksOnAnEnemy": "使库狛可以处决敌人",
       "sentinelHasA3MFreezeAuraSlowingIncomingEnemiesBy10": "守护拥有3米范围的冰冷气场，减缓来袭敌人10%的动作速度。",
       "whenShieldRunsOut": "当护盾耗尽时",
       "applyingASlashStatusToAnEnemyCausesTheCompanionToAttackThem": "让你的同伴攻击受到切割异常状态的敌人",
       "openALockedLocker": "打开锁住的柜子",
-
       "teamPlus": "队友 {0}",
       "companionPlus": "同伴 {0}"
     },
@@ -3114,7 +3087,6 @@
       "sr": "硬直回复速度",
       "fl": "飞行速度",
       "eh": "生命值 (固定点数)",
-
       "ify": "远距离",
       "onHeadshot": "爆头",
       "onHeadshotKill": "爆头击杀",
@@ -3725,7 +3697,6 @@
       "canticPrism": "三点射激光",
       "legaPrism": "火焰喷射器",
       "klamoraPrism": "短程能量束",
-
       "penchaScaffold": "蓄力激光",
       "shraksunScaffold": "短程榴弹",
       "klebrikScaffold": "追踪激光",
@@ -4236,11 +4207,9 @@
   "shawzin": {
     "title": "三线琴",
     "help": "使用说明",
-
     "piano": "钢琴",
     "shawzin": "三线琴",
     "lotus": "莲花三线琴",
-
     "pentatonicMinor": "五声小调",
     "pentatonicMajor": "五声大调",
     "chromatic": "半音",
@@ -4250,7 +4219,6 @@
     "hirajoshi": "平调子",
     "phrygian": "弗吉利亚调式",
     "yo": "Yo调式",
-
     "number": "简谱",
     "name": "音名",
     "upshift": "升号",
