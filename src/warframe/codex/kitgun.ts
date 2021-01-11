@@ -273,6 +273,13 @@ export class Kitgun extends Weapon {
         } else {
           mode.range = [30, 26, 23, 20, 16][this.grip.index % 5];
         }
+      case "Vermisplicer":
+        if (this.grip.type === "Secondary") {
+          mode.range = [31, 28, 21, 15, 12][this.grip.index % 5];
+        } else {
+          mode.range = [30, 28, 26, 20, 16][this.grip.index % 5];
+        }
+        break;
         break;
     }
     this.modes = [mode];
