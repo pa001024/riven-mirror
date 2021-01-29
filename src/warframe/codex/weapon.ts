@@ -2,12 +2,12 @@ import { map, mapValues, repeat, lowerCase, camelCase, reduce, maxBy } from "lod
 import { i18n } from "@/i18n";
 import { ProtoWeapon, Zoom, WeaponMode } from "./weapon.i";
 import Axios from "axios";
+import base64arraybuffer from "base64-arraybuffer";
 // build from riven-mirror-data
 import data from "../../../data/dist/weapons.data";
 import proto from "../../../data/src/proto/weapon.proto";
 import { strSimilarity } from "../util";
-import { RivenDatabase } from "./riven";
-import base64arraybuffer from "base64-arraybuffer";
+import { RivenDatabase, KitgunChamberData, ZawStrikeData } from ".";
 
 export enum MainTag {
   Rifle,
@@ -441,22 +441,9 @@ export class WeaponBuildMode implements CoreWeaponMode {
 
 const extraDispositionTable = [
   // kitguns
-  ["Gaze", "Kitgun", 1],
-  ["Rattleguts", "Kitgun", 0.75],
-  ["Tombfinger", "Kitgun", 0.7],
-  ["Catchmoon", "Kitgun", 0.5],
+  ...KitgunChamberData.map(v => [v.name, v.disposition]),
   // zaw
-  ["Balla", "Zaw", 0.9],
-  ["Cyath", "Zaw", 0.9],
-  ["Dehtat", "Zaw", 1.2],
-  ["Dokrahm", "Zaw", 0.75],
-  ["Rabvee", "Zaw", 1.25],
-  ["Mewan", "Zaw", 1.05],
-  ["Kronsh", "Zaw", 1.3],
-  ["Ooltha", "Zaw", 1.15],
-  ["Sepfahn", "Zaw", 0.7],
-  ["Plague Keewar", "Zaw", 0.75],
-  ["Plague Kripath", "Zaw", 0.6],
+  ...ZawStrikeData.map(v => [v.name, v.disposition]),
   // Amp
   ["Amp", "Amp", 0],
 ] as [string, string, number][];
@@ -479,7 +466,7 @@ export class WeaponDatabase {
       const rst = await Axios.get(data || "https://api.riven.im/data/weapons.data", { responseType: "arraybuffer" });
       bin = rst.data;
       localStorage.setItem("weapons.data", base64arraybuffer.encode(bin));
-    } catch { }
+    } catch {}
     const msg = proto.Weapons.decode(new Uint8Array(bin));
     const decoded = proto.Weapons.toObject(msg);
     this.load(decoded.weapons as ProtoWeapon[]);

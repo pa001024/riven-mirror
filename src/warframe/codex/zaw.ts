@@ -67,6 +67,7 @@ export interface ZawStrike {
   status: number;
   oneHand: ZawStrikeModify;
   twoHand: ZawStrikeModify;
+  disposition: number;
 }
 export interface ZawStrikeModify {
   dmg: number;
@@ -86,6 +87,7 @@ export const ZawStrikeData: ZawStrike[] = _zawStrike.map(v => ({
   status: v[6],
   oneHand: { dmg: 1, slide: StanceData[v[7]][1], type: v[7], range: RangeData[v[7]] },
   twoHand: { dmg: v[9], slide: StanceData[v[8]][1], type: v[8], range: RangeData[v[8]] },
+  disposition: v[9],
 }));
 
 const _zawGrip = [
@@ -219,7 +221,7 @@ export class Zaw extends Weapon {
   }
   recalc() {
     this.name = this.strike.name;
-    this.disposition = WeaponDatabase.getWeaponByName(this.name)!.disposition;
+    this.disposition = this.strike.disposition;
     this.slideAttack = (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
     this.tags = new WeaponTag(["Melee", "ZAW", this.stance]);
 
