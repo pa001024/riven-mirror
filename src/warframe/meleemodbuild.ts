@@ -41,7 +41,7 @@ export class MeleeModBuild extends ModBuild {
   private _stealthDamageMul = 0;
   private _damagePerStatus = 0;
   private _extraStatusCount = 0;
-  private _heavyDamageMul = 0;
+  private _heavyBaseDamageMul = 0;
   private _windUpMul = 0;
 
   /** 范围增幅倍率 */
@@ -228,7 +228,7 @@ export class MeleeModBuild extends ModBuild {
       0,
       this.critChanceLock != -1
         ? this.critChanceLock // Locked
-        : this.mode.critChance * (this.critChanceMul * 2 + this.comboCritChance) + this.critChanceAdd
+        : this.mode.critChance * ((this.critChanceMul - 1) * 2 + 1 + this.comboCritChance) + this.critChanceAdd
     );
   }
 
@@ -278,6 +278,10 @@ export class MeleeModBuild extends ModBuild {
   get heavyCritDamageMul() {
     return this.calcCritDamage(this.heavyCritChance, this.critMul, 0, 2, this.stealthDamageMul);
   }
+  /** 重击平均暴击区增幅倍率 */
+  get oriHeavyCritDamageMul() {
+    return this.calcCritDamage(this.heavyCritChance, this.critMul, 0, 2, this.stealthDamageMul);
+  }
 
   /** 平砍总伤增幅倍率 */
   get normalTotalDamageMul() {
@@ -290,6 +294,10 @@ export class MeleeModBuild extends ModBuild {
   /** 重击总伤增幅倍率 */
   get heavyTotalDamageMul() {
     return this.heavyCritDamageMul * this.overallMul * this.enemyDmgMul * (1 + this.comboDamage) * (1 + this.comboMul);
+  }
+  /** 原重击总伤增幅倍率 */
+  get oriHeavyTotalDamageMul() {
+    return this.oriCritDamageMul * (1 + this.comboMul);
   }
 
   /** 每秒总伤害 */
@@ -326,18 +334,48 @@ export class MeleeModBuild extends ModBuild {
   get slideDamagePS() {
     return this.slideDamage * this.fireRate;
   }
+
   /** 重击伤害 */
   get heavyDamage() {
-    return this.panelDamage * this.heavyAttackMul * this.heavyTotalDamageMul;
+    return this.panelHeavyDamage * this.heavyAttackMul * this.heavyTotalDamageMul;
   }
   /** 原重击伤害 */
   get oriHeavyDamage() {
-    return this.originalDamage * this.heavyAttackMul * this.heavyTotalDamageMul;
+    return this.originalDamage * this.heavyAttackMul * this.oriHeavyTotalDamageMul;
   }
 
   /** 面板滑行伤害 */
   get panelSlideDamage() {
     return this.panelDamage * this.slideAttackMul;
+  }
+  /** 重击面板伤害 */
+  get panelHeavyDamage() {
+    if (this.damageModel) {
+      return this.dmgHeavy.reduce((r, [_, v]) => r + v, 0);
+    }
+    return this.panelHeavyDamageRaw;
+  }
+  /** 重击真实伤害模型映射输出 */
+  get dmgHeavy() {
+    if (this.damageModel)
+      return this.damageModel.mapDamage(this.dmgRawHeavy, this.critChance, this.weapon.tags.has("Sniper") ? 300 : 300 / this.fireRate) as [string, number][];
+    return this.dmgRawHeavy;
+  }
+  /** 重击所有伤害类型面板 */
+  get dmgRawHeavy() {
+    return this.baseDmg.map(([i, v]) => [i, v * this.panelHeavyBaseDamage]).filter(v => v[1] > 0) as [string, number][];
+  }
+  /** 重击无模型面板伤害 */
+  get panelHeavyDamageRaw() {
+    return this.originalDamage * this.heavyBaseDamageMul;
+  }
+  /** 重击面板基础伤害 */
+  get panelHeavyBaseDamage() {
+    return this.originalDamage * this.heavyBaseDamageMul;
+  }
+  /** 重击面板基础伤害增幅倍率 */
+  get heavyBaseDamageMul() {
+    return (this._baseDamageMul + this._heavyBaseDamageMul) / 100;
   }
 
   /** [overwrite] 用于比较的伤害 */
@@ -401,7 +439,7 @@ export class MeleeModBuild extends ModBuild {
     this._stealthDamageMul = 0;
     this._damagePerStatus = 0;
     this._extraStatusCount = 0;
-    this._heavyDamageMul = 0;
+    this._heavyBaseDamageMul = 0;
     this._windUpMul = 0;
   }
 
@@ -436,6 +474,9 @@ export class MeleeModBuild extends ModBuild {
         break;
       case "X":
         /* 处决伤害 execDmg */ this._execDmgMul += pValue;
+        break;
+      case "hd":
+        /* 重击伤害 */ this._heavyBaseDamageMul += pValue;
         break;
       case "bldr":
         this._comboCritChanceMul += pValue;
