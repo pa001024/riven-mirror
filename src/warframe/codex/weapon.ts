@@ -439,15 +439,6 @@ export class WeaponBuildMode implements CoreWeaponMode {
   }
 }
 
-const extraDispositionTable = [
-  // kitguns
-  ...KitgunChamberData.map(v => [v.name, v.disposition]),
-  // zaw
-  ...ZawStrikeData.map(v => [v.name, v.disposition]),
-  // Amp
-  ["Amp", "Amp", 0],
-] as [string, string, number][];
-
 /** split variants format to normal format */
 export class WeaponDatabase {
   static weapons: Weapon[];
@@ -472,6 +463,15 @@ export class WeaponDatabase {
     this.load(decoded.weapons as ProtoWeapon[]);
   }
   static load(weapons: ProtoWeapon[]) {
+    const extraDispositionTable = [
+      // kitguns
+      ...KitgunChamberData.map(v => [v.name, v.disposition]),
+      // zaw
+      ...ZawStrikeData.map(v => [v.name, v.disposition]),
+      // Amp
+      ["Amp", "Amp", 0],
+    ] as [string, string, number][];
+
     let rst: Weapon[] = [];
     this.protos = [];
     weapons.forEach(root => {
