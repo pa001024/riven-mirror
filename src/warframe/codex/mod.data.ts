@@ -322,7 +322,7 @@ const data = [
   ["Cs", "Smite Infested", [["I", 5]], Melee, "r", "c", 4],
   ["Ct", "Smite Corrupted", [["od", 5]], Melee, "r", "c", 4],
   ["Cu", "Seismic Wave", [["msd", 50]], Melee, "r", "c", 6, 3],
-  ["Cv", "True Punishment", [["0", 10], ["Q", -2.5]], Melee, "=", "n", 4, 3],
+  ["Cv", "True Punishment", [["O", 25], ["N", -0.5]], Melee, "=", "n", 4, 3],
   ["Cw", "Power Throw", [["P", 0.1]], "Glaive", "r", "r", 4],
   ["Cx", "Quick Return", [["bnc", -1]], "Glaive", "-", "n", 4, 3],
   ["Cy", "Rebound", [["bnc", 1]], "Glaive", "-", "n", 4, 3],
