@@ -465,9 +465,9 @@ export class WeaponDatabase {
   static load(weapons: ProtoWeapon[]) {
     const extraDispositionTable = [
       // kitguns
-      ...KitgunChamberData.map(v => [v.name, v.disposition]),
+      ...KitgunChamberData.map(v => [v.name, "Kitgun", v.disposition[0]]),
       // zaw
-      ...ZawStrikeData.map(v => [v.name, v.disposition]),
+      ...ZawStrikeData.map(v => [v.name, "Zaw", v.disposition]),
       // Amp
       ["Amp", "Amp", 0],
     ] as [string, string, number][];

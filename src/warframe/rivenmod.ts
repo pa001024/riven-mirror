@@ -373,7 +373,8 @@ A段位12023
   }
   /** 返回一个标准MOD对象 */
   normalMod(weapon: Weapon): NormalMod {
-    const ratio = weapon.disposition ? weapon.disposition / this.weapon.disposition : 1;
+    const ratio = weapon.disposition && this.weapon.disposition ? weapon.disposition / this.weapon.disposition : 1;
+    console.log(this);
     return new NormalMod({
       key: "01",
       id: this.fullName,
@@ -454,7 +455,7 @@ A段位12023
     let lastProp = props[props.length - 1];
     this.hasNegativeProp = props.length === 4 || !lastProp[0].negative == lastProp[1] < 0;
     this.upLevel = toUpLevel(props.length, this.hasNegativeProp);
-    this.parseProps(props.map(([n, v]) => [n.id, v] as [string, number]))
+    this.parseProps(props.map(([n, v]) => [n.id, v] as [string, number]));
   }
   /** Base64形式的二维码 */
   get qrCodeBase64() {
