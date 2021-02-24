@@ -8,6 +8,7 @@
     "music": "{0} Edit"
   },
   "messages": {
+    "impossible": "Impossible",
     "legendaryFusionCore": "Legendary Fusion Core",
     "dexDakra": "Dex Dakra",
     "endura": "Endura",
@@ -162,6 +163,7 @@
     "karak": "Karak",
     "karakWraith": "Karak Wraith",
     "tenora": "Tenora",
+    "tenoraPrime": "Tenora Prime",
     "harpak": "Harpak",
     "phage": "Phage",
     "sanctiTigris": "Sancti Tigris",
@@ -306,6 +308,7 @@
     "maraDetron": "Mara Detron",
     "euphonaPrime": "Euphona Prime",
     "pandero": "Pandero",
+    "panderoPrime": "Pandero Prime",
     "aklato": "Aklato",
     "azima": "Azima",
     "spira": "Spira",
