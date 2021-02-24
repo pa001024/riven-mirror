@@ -555,7 +555,7 @@ export abstract class ModBuild implements CommonBuild {
       if (vv <= 0) return;
       let dur = procDurationMap[vn] * this.procDurationMul;
       let durTick = Math.max(0, ~~dur) + 1;
-      let cor = 1 - (1 - vv) ** (hits * sustainedFireRate * dur);
+      let cor = vv >= 1 ? 1 : 1 - (1 - vv) ** (hits * sustainedFireRate * dur);
       this._statusInfo[vn] = {
         proportion: vv / pwAll,
         duration: dur,
