@@ -222,7 +222,7 @@ export default class RivenEditor extends Vue {
   beforeMount() {
     forEach(ModTypeTable, ({ name, include }, id) => {
       let protos = WeaponDatabase.protos
-        .filter(v => include.includes(v.mod) && v.disposition > 0.1)
+        .filter(v => include.includes(v.mod) && v.disposition > 0)
         .map(v => ({
           value: v.name,
           label: this.$t(v.id) as string,

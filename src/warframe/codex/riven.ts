@@ -295,6 +295,8 @@ export class RivenDatabase {
     Kitgun: propRegExpsFactory("Kitgun"),
     Melee: propRegExpsFactory("Melee"),
     Zaw: propRegExpsFactory("Zaw"),
+    "Arch-Gun": propRegExpsFactory("Arch-Gun"),
+    "Arch-Melee": propRegExpsFactory("Arch-Melee"),
   };
   static PrefixAll = new RegExp(
     `(?:${RivenPropertyDataBase.all.map(v => v.prefix).join("|")})(?:-|${RivenPropertyDataBase.all.map(v => v.subfix).join("|")})`,
