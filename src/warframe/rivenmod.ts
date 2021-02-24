@@ -374,7 +374,6 @@ A段位12023
   /** 返回一个标准MOD对象 */
   normalMod(weapon: Weapon): NormalMod {
     const ratio = weapon.disposition && this.weapon.disposition ? weapon.disposition / this.weapon.disposition : 1;
-    console.log(this);
     return new NormalMod({
       key: "01",
       id: this.fullName,

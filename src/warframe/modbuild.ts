@@ -810,9 +810,11 @@ export abstract class ModBuild implements CommonBuild {
   }
   /** 平均状态量期望 */
   get averageProcQE() {
-    return map(this._statusInfo, (v, type) => {
-      return (type === "Blast" ? 2 : 1) * v.coverage;
-    }).reduce((a, b) => a + b);
+    // before 27.2
+    // return map(this._statusInfo, (v, type) => {
+    //   return (type === "Blast" ? 2 : 1) * v.coverage;
+    // }).reduce((a, b) => a + b);
+    return map(this._statusInfo, v => v.coverage).reduce((a, b) => a + b);
   }
 
   /** 面板基础伤害增幅倍率 */
