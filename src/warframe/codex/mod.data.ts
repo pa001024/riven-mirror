@@ -458,6 +458,9 @@ const data = [
   ["Ho", "Mecha Pulse", [["Killing a Marked Enemy grants +15% Armor for 5s for each enemy within 7.5m."]], Warframe, "r", "r", 6, 3],
   ["Hp", "Synth Reflex", [["hr", 25]], Exilus, "r", "r", 4, 3],
   ["Hq", "Strain Consume", [["Dead maggots within 5m are consumed, restoring 1% Missing Health."]], Warframe, "-", "r", 2, 3],
+  ["Hr", "Carnis Carapace", [["a", 10], ["h", 15]], Warframe, "d", "n", 4],
+  ["Hs", "Carnis Mandible", [["A", 15], ["2", 10]], Melee, "-", "c", 4],
+  ["Ht", "Carnis Stinger", [["A", 15], ["2", 10]], Secondary, "-", "r", 4],
 
   // 特殊功能
   ["I7", "Agility Drift", [["adr", 2], ["ev", 1]], Exilus, "d", "r", 4],
