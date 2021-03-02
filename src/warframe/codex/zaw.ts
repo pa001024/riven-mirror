@@ -17,17 +17,17 @@ export enum Stance {
 }
 
 const _zawStrike = [
-  ["0", "Balla", 0, [12, 1, 7], 5, 8, 8, "Dagger", "Stave", 1],
-  ["1", "Dokrahm", 85, [7, 3, 10], 5, 8, 8, "Scythe", "HeavyBlade", 0.93],
-  ["2", "Kronsh", 10, [0, 14, 6], -4, 8, 8, "Machete", "Polearm", 1.07],
-  ["3", "Ooltha", 0, [8, 2, 10], 0, 8, 8, "Sword", "Stave", 1],
-  ["4", "Rabvee", 10, [1, 12, 7], -4, 8, 8, "Machete", "Hammer", 1.08],
-  ["5", "Sepfahn", 2, [5, 2, 13], 0, 10, 10, "Nikana", "Stave", 1],
-  ["6", "Dehtat", 0, [10, 2, 8], 5, 8, 8, "Rapier", "Polearm", 1.09],
-  ["7", "Cyath", 6, [1, 4, 15], 0, 8, 8, "Machete", "Polearm", 1.08],
-  ["8", "Mewan", 0, [7, 5, 8], -4, 8, 8, "Sword", "Polearm", 1.09],
-  ["9", "Plague Keewar", 82, [1, 32, 35, 14], -2, 8, 12, "Scythe", "Stave", 0.85],
-  ["A", "Plague Kripath", -11, [14, -26, -7, 8], 2, 12, 8, "Rapier", "Polearm", 1.08],
+  ["0", "Balla", 0, [12, 1, 7], 5, 8, 8, "Dagger", "Stave", 0.9],
+  ["1", "Dokrahm", 85, [7, 3, 10], 5, 8, 8, "Scythe", "HeavyBlade", 0.75],
+  ["2", "Kronsh", 10, [0, 14, 6], -4, 8, 8, "Machete", "Polearm", 1.3],
+  ["3", "Ooltha", 0, [8, 2, 10], 0, 8, 8, "Sword", "Stave", 1.2],
+  ["4", "Rabvee", 10, [1, 12, 7], -4, 8, 8, "Machete", "Hammer", 1.3],
+  ["5", "Sepfahn", 2, [5, 2, 13], 0, 10, 10, "Nikana", "Stave", 0.7],
+  ["6", "Dehtat", 0, [10, 2, 8], 5, 8, 8, "Rapier", "Polearm", 1.2],
+  ["7", "Cyath", 6, [1, 4, 15], 0, 8, 8, "Machete", "Polearm", 0.9],
+  ["8", "Mewan", 0, [7, 5, 8], -4, 8, 8, "Sword", "Polearm", 1.1],
+  ["9", "Plague Keewar", 82, [1, 32, 35, 14], -2, 8, 12, "Scythe", "Stave", 0.75],
+  ["A", "Plague Kripath", -11, [14, -26, -7, 8], 2, 12, 8, "Rapier", "Polearm", 0.6],
 ] as [string, string, number, number[], number, number, number, string, string, number][];
 
 export const StanceData = {

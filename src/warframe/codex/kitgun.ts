@@ -246,7 +246,7 @@ export class Kitgun extends Weapon {
           [n, hAccSum(v, (this.name === "Tombfinger" && this.grip.type === "Secondary" && n === "Radiation" ? 4 : 1) * grip.dmgAdd)] as [string, number]
       )
       .filter(v => v[1] > 0);
-    mode.critMul = hAccSum(loader.critDamage, this.chamber.name === "Sporelacer" && this.grip.type === "Primary" ? 3 : 2);
+    mode.critMul = hAccSum(loader.critDamage, this.chamber.name === "Sporelacer" && this.grip.type === "Secondary" ? 3 : 2);
     mode.critChance = hAccSum(this.chamber.critChance, loader.critChance);
     mode.procChance = hAccSum(this.chamber.procChance, loader.procChance);
     mode.fireRate = grip.fireRate;
