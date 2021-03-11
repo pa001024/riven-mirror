@@ -335,7 +335,11 @@ export const _warframeData: WarframeData[] = [
     introduced: "24",
     polarities: ["-", "d"],
     sex: "Female",
-    lvlUps: [["h", 200], ["e", 125], ["s", 200]],
+    lvlUps: [
+      ["h", 200],
+      ["e", 125],
+      ["s", 200],
+    ],
   },
   {
     id: "Gauss",
@@ -454,7 +458,10 @@ export const _warframeData: WarframeData[] = [
     introduced: "18.5",
     polarities: ["d", "d"],
     sex: "Male",
-    lvlUps: [["h", 300], ["e", 50]],
+    lvlUps: [
+      ["h", 300],
+      ["e", 50],
+    ],
   },
   {
     id: "Inaros Prime",
@@ -472,7 +479,10 @@ export const _warframeData: WarframeData[] = [
     introduced: "28.2",
     polarities: ["r", "d", "d"],
     sex: "Male",
-    lvlUps: [["h", 300], ["e", 50]],
+    lvlUps: [
+      ["h", 300],
+      ["e", 50],
+    ],
   },
   {
     id: "Ivara",
@@ -771,7 +781,12 @@ export const _warframeData: WarframeData[] = [
     introduced: "19.5",
     polarities: ["r", "d"],
     sex: "Male",
-    lvlUps: [["h", 300], ["e", 50], ["a", 50], ["t", 15]],
+    lvlUps: [
+      ["h", 300],
+      ["e", 50],
+      ["a", 50],
+      ["t", 15],
+    ],
   },
   {
     id: "Nova",
@@ -889,6 +904,20 @@ export const _warframeData: WarframeData[] = [
     introduced: "20",
     polarities: ["-", "-"],
     sex: "Female",
+  },
+  {
+    id: "Octavia Prime",
+    className: "Octavia",
+    // description: "Compose her song and then conduct the mighty Mandachord, turning bass, beat and melody into an anthem of devastation.",
+    health: 100,
+    shield: 100,
+    armor: 150,
+    energy: 175,
+    sprint: 1.05,
+    // passiveDescription: "Briefly replenish energy for Octavia and nearby allies when abilities are activated.",
+    aura: "-",
+    introduced: "29.9",
+    polarities: ["d", "-", "-"],
   },
   {
     id: "Protea",

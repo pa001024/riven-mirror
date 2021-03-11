@@ -298,7 +298,8 @@ export class GunModBuild extends ModBuild {
   get effectiveMagazineSize() {
     return ~~(this.magazineSize / this.ammoCost);
   }
-  /** 平均射速
+  /**
+   * [overwrite] 平均射速
    * <version1> = 1/(1/射速+装填/弹匣)
    * <version2> = mf/(m-1+max(1,rf))
    */

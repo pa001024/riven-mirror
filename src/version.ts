@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.10.2";
+export const version = "1.11.1";
 export const updateLogs = [
+  {
+    version: "1.11.0",
+    date: "2020/2/24",
+    md: {
+      en: `- [February 2021 Riven Disposition Updates](https://forums.warframe.com/topic/1250453-february-2021-riven-disposition-updates/)
+- Octavia Prime: Update 29.9.0`,
+      cn: `- [2021二月裂罅倾向调整](https://forums.warframe.com/topic/1250453-february-2021-riven-disposition-updates/)
+- Octavia Prime: U29.9.0`,
+    },
+  },
   {
     version: "1.10.0",
     date: "2020/11/20",

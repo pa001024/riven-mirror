@@ -322,7 +322,7 @@ const data = [
   ["Cs", "Smite Infested", [["I", 5]], Melee, "r", "c", 4],
   ["Ct", "Smite Corrupted", [["od", 5]], Melee, "r", "c", 4],
   ["Cu", "Seismic Wave", [["msd", 50]], Melee, "r", "c", 6, 3],
-  ["Cv", "True Punishment", [["0", 10], ["Q", -2.5]], Melee, "=", "n", 4, 3],
+  ["Cv", "True Punishment", [["O", 25], ["N", -0.5]], Melee, "=", "n", 4, 3],
   ["Cw", "Power Throw", [["P", 0.1]], "Glaive", "r", "r", 4],
   ["Cx", "Quick Return", [["bnc", -1]], "Glaive", "-", "n", 4, 3],
   ["Cy", "Rebound", [["bnc", 1]], "Glaive", "-", "n", 4, 3],
@@ -458,6 +458,9 @@ const data = [
   ["Ho", "Mecha Pulse", [["Killing a Marked Enemy grants +15% Armor for 5s for each enemy within 7.5m."]], Warframe, "r", "r", 6, 3],
   ["Hp", "Synth Reflex", [["hr", 25]], Exilus, "r", "r", 4, 3],
   ["Hq", "Strain Consume", [["Dead maggots within 5m are consumed, restoring 1% Missing Health."]], Warframe, "-", "r", 2, 3],
+  ["Hr", "Carnis Carapace", [["a", 10], ["h", 15]], Warframe, "d", "n", 4],
+  ["Hs", "Carnis Mandible", [["A", 15], ["2", 10]], Melee, "-", "c", 4],
+  ["Ht", "Carnis Stinger", [["A", 15], ["2", 10]], Secondary, "-", "r", 4],
 
   // 特殊功能
   ["I7", "Agility Drift", [["adr", 2], ["ev", 1]], Exilus, "d", "r", 4],

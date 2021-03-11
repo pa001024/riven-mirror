@@ -549,13 +549,13 @@ export abstract class ModBuild implements CommonBuild {
     let dotMap = new Map(this.dotBaseDamageMap as [string, number][]);
     let pwAll = this.procChanceMap.reduce((a, b) => a + b[1], 0);
     this._statusInfo = {};
-    const { pellets, fireRate, dutyCycle } = this;
+    const { pellets, sustainedFireRate, fireRate, dutyCycle } = this;
     const hits = this.weapon.tags.has("Continuous") ? 1 : pellets;
     this.procChanceMap.forEach(([vn, vv]) => {
       if (vv <= 0) return;
       let dur = procDurationMap[vn] * this.procDurationMul;
       let durTick = Math.max(0, ~~dur) + 1;
-      let cor = Math.min(1, Math.max(vv * hits * fireRate * dur, 0));
+      let cor = vv >= 1 ? 1 : 1 - (1 - vv) ** (hits * sustainedFireRate * dur);
       this._statusInfo[vn] = {
         proportion: vv / pwAll,
         duration: dur,
@@ -810,18 +810,11 @@ export abstract class ModBuild implements CommonBuild {
   }
   /** 平均状态量期望 */
   get averageProcQE() {
-    let mergedMap = {},
-      asQE = 0;
-    this.procChanceMap.forEach(v => {
-      let k = v[0] === "Gas" ? "Toxin" : v[0];
-      mergedMap[k] = (mergedMap[k] || 0) + v[1];
-    });
-    Object.keys(mergedMap).forEach(v => {
-      let single = mergedMap[v] * procDurationMap[v] * this.procDurationMul;
-      // 爆炸双倍异况
-      asQE += (v === "Blast" ? 2 : 1) * (single > 1 ? 1 : single);
-    });
-    return asQE;
+    // before 27.2
+    // return map(this._statusInfo, (v, type) => {
+    //   return (type === "Blast" ? 2 : 1) * v.coverage;
+    // }).reduce((a, b) => a + b);
+    return map(this._statusInfo, v => v.coverage).reduce((a, b) => a + b);
   }
 
   /** 面板基础伤害增幅倍率 */
@@ -922,6 +915,10 @@ export abstract class ModBuild implements CommonBuild {
     let fr = (this.mode.fireRate * this.fireRateMul * this.finalSpeedMul) / 60;
     // 攻速下限
     return fr < 0.05 ? 0.05 : fr;
+  }
+  /** 持续平均攻速 */
+  get sustainedFireRate() {
+    return this.fireRate;
   }
   /** 原平均暴击区增幅倍率 */
   get oriCritDamageMul() {

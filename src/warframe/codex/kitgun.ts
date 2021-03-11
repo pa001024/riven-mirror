@@ -80,7 +80,7 @@ const _kitgunChamber = [
   [0, "Catchmoon", [
     [["Impact", 89], ["Heat", 167]],
     [["Impact", 49], ["Heat", 85]] // Primary
-  ], 0.21, 0.21, [5, 7, 9, 11, 13, 17, 23, 39], 5.9, [0.5, 0.9]],
+  ], 0.21, 0.21, [5, 7, 9, 11, 13, 17, 23, 39], 5.9, [0.5, 1]],
   [1, "Gaze", [
     [["Puncture", 6], ["Radiation", 10]],
     [["Radiation", 29]] // Primary
@@ -88,7 +88,7 @@ const _kitgunChamber = [
   [2, "Rattleguts", [
     [["Impact", -1], ["Puncture", 7], ["Slash", 5], ["Radiation", 10]],
     [["Impact", 2], ["Puncture", 5], ["Slash", 3], ["Radiation", 9]] // Primary
-  ], 0.19, 0.19, [29, 45, 57, 67, 83, 75, 111, 153], 26, [0.75, 0.8]],
+  ], 0.19, 0.19, [29, 45, 57, 67, 83, 75, 111, 153], 26, [0.75, 0.9]],
   [3, "Tombfinger", [
     [["Impact", 12], ["Puncture", 5], ["Radiation", 43]],
     [["Puncture", 40], ["Radiation", 18]] // Primary
@@ -246,7 +246,7 @@ export class Kitgun extends Weapon {
           [n, hAccSum(v, (this.name === "Tombfinger" && this.grip.type === "Secondary" && n === "Radiation" ? 4 : 1) * grip.dmgAdd)] as [string, number]
       )
       .filter(v => v[1] > 0);
-    mode.critMul = hAccSum(loader.critDamage, this.chamber.name === "Sporelacer" && this.grip.type === "Primary" ? 3 : 2);
+    mode.critMul = hAccSum(loader.critDamage, this.chamber.name === "Sporelacer" && this.grip.type === "Secondary" ? 3 : 2);
     mode.critChance = hAccSum(this.chamber.critChance, loader.critChance);
     mode.procChance = hAccSum(this.chamber.procChance, loader.procChance);
     mode.fireRate = grip.fireRate;
@@ -273,6 +273,13 @@ export class Kitgun extends Weapon {
         } else {
           mode.range = [30, 26, 23, 20, 16][this.grip.index % 5];
         }
+      case "Vermisplicer":
+        if (this.grip.type === "Secondary") {
+          mode.range = [31, 28, 21, 15, 12][this.grip.index % 5];
+        } else {
+          mode.range = [30, 28, 26, 20, 16][this.grip.index % 5];
+        }
+        break;
         break;
     }
     this.modes = [mode];

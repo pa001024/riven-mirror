@@ -17,17 +17,17 @@ export enum Stance {
 }
 
 const _zawStrike = [
-  ["0", "Balla", 0, [12, 1, 7], 5, 8, 8, "Dagger", "Stave", 1],
-  ["1", "Dokrahm", 85, [7, 3, 10], 5, 8, 8, "Scythe", "HeavyBlade", 0.93],
-  ["2", "Kronsh", 10, [0, 14, 6], -4, 8, 8, "Machete", "Polearm", 1.07],
-  ["3", "Ooltha", 0, [8, 2, 10], 0, 8, 8, "Sword", "Stave", 1],
-  ["4", "Rabvee", 10, [1, 12, 7], -4, 8, 8, "Machete", "Hammer", 1.08],
-  ["5", "Sepfahn", 2, [5, 2, 13], 0, 10, 10, "Nikana", "Stave", 1],
-  ["6", "Dehtat", 0, [10, 2, 8], 5, 8, 8, "Rapier", "Polearm", 1.09],
-  ["7", "Cyath", 6, [1, 4, 15], 0, 8, 8, "Machete", "Polearm", 1.08],
-  ["8", "Mewan", 0, [7, 5, 8], -4, 8, 8, "Sword", "Polearm", 1.09],
-  ["9", "Plague Keewar", 82, [1, 32, 35, 14], -2, 8, 12, "Scythe", "Stave", 0.85],
-  ["A", "Plague Kripath", -11, [14, -26, -7, 8], 2, 12, 8, "Rapier", "Polearm", 1.08],
+  ["0", "Balla", 0, [12, 1, 7], 5, 8, 8, "Dagger", "Stave", 0.9],
+  ["1", "Dokrahm", 85, [7, 3, 10], 5, 8, 8, "Scythe", "HeavyBlade", 0.75],
+  ["2", "Kronsh", 10, [0, 14, 6], -4, 8, 8, "Machete", "Polearm", 1.3],
+  ["3", "Ooltha", 0, [8, 2, 10], 0, 8, 8, "Sword", "Stave", 1.2],
+  ["4", "Rabvee", 10, [1, 12, 7], -4, 8, 8, "Machete", "Hammer", 1.3],
+  ["5", "Sepfahn", 2, [5, 2, 13], 0, 10, 10, "Nikana", "Stave", 0.7],
+  ["6", "Dehtat", 0, [10, 2, 8], 5, 8, 8, "Rapier", "Polearm", 1.2],
+  ["7", "Cyath", 6, [1, 4, 15], 0, 8, 8, "Machete", "Polearm", 0.9],
+  ["8", "Mewan", 0, [7, 5, 8], -4, 8, 8, "Sword", "Polearm", 1.1],
+  ["9", "Plague Keewar", 82, [1, 32, 35, 14], -2, 8, 12, "Scythe", "Stave", 0.75],
+  ["A", "Plague Kripath", -11, [14, -26, -7, 8], 2, 12, 8, "Rapier", "Polearm", 0.6],
 ] as [string, string, number, number[], number, number, number, string, string, number][];
 
 export const StanceData = {
@@ -67,6 +67,7 @@ export interface ZawStrike {
   status: number;
   oneHand: ZawStrikeModify;
   twoHand: ZawStrikeModify;
+  disposition: number;
 }
 export interface ZawStrikeModify {
   dmg: number;
@@ -86,6 +87,7 @@ export const ZawStrikeData: ZawStrike[] = _zawStrike.map(v => ({
   status: v[6],
   oneHand: { dmg: 1, slide: StanceData[v[7]][1], type: v[7], range: RangeData[v[7]] },
   twoHand: { dmg: v[9], slide: StanceData[v[8]][1], type: v[8], range: RangeData[v[8]] },
+  disposition: v[9],
 }));
 
 const _zawGrip = [
@@ -219,7 +221,7 @@ export class Zaw extends Weapon {
   }
   recalc() {
     this.name = this.strike.name;
-    this.disposition = WeaponDatabase.getWeaponByName(this.name)!.disposition;
+    this.disposition = this.strike.disposition;
     this.slideAttack = (this.grip.twoHand ? this.strike.twoHand : this.strike.oneHand).slide;
     this.tags = new WeaponTag(["Melee", "ZAW", this.stance]);
 
