@@ -189,6 +189,7 @@ const data = [
   ["5t", "Fomorian Accelerant", [["Flak now bounces up to 1x and travels 15% faster."]], "Drakgoon", "r", "c", 4, 3],
   ["5u", "Primed Charged Shell", [["7", 15]], Shotgun, "-", "l", 6, 10],
   ["5v", "Amalgam Shotgun Spazz", [["R", 14], ["!R", 1], ["rvs", 7.5]], Shotgun, "r", "g", 6],
+  ["5w", "Primed Chilling Grasp", [["5", 15]], Shotgun, "d", "l", 6, 10],
 
   // 手枪 90 ~ Bz
   ["90", "Hornet Strike", [["D", 20]], Secondary, "r", "c", 4, 10],
