@@ -208,6 +208,8 @@ const linkedMods = [
   ["Enhanced Vitality", "Link Health"], // 生命
   ["Calculated Redirection", "Link Shields"], // 护盾
   ["Metal Fiber", "Link Armor"], // 护甲
+  ["Pistol Gambit", "Primed Pistol Gambit", "Creeping Bullseye"], // 暴击
+  ["Point Strike", "Critical Delay"], // 暴击
 ];
 /**
  * 普通MOD信息
