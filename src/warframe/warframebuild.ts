@@ -564,7 +564,7 @@ export class WarframeBuild implements CommonBuild {
    * @memberof WarframeBuild
    */
   mapRankUpMods(mods: NormalMod[]): NormalMod[] {
-    let umbraSet = { Ha: [1, 1.25, 1.75], Hb: [1, 1.25, 1.75], Hc: [1, 1.25, 1.5] };
+    let umbraSet = { Ha: [1, 1.25, 1.75], Hb: [1, 1.25, 1.75], Hc: [1, 1.25, 1.75] };
     let umbraSetCount = mods.filter(v => v && v.key in umbraSet).length - 1;
     let rst = mods.map(mod => {
       if (mod && mod.key in umbraSet) {

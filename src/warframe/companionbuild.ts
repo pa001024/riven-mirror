@@ -344,18 +344,7 @@ export class CompanionBuild implements CommonBuild {
    * @memberof companionBuild
    */
   mapRankUpMods(mods: NormalMod[]): NormalMod[] {
-    let umbraSet = { Ha: [1, 1.25, 1.75], Hb: [1, 1.25, 1.75], Hc: [1, 1.25, 1.5] };
-    let umbraSetCount = mods.filter(v => v && v.key in umbraSet).length - 1;
-    let rst = mods.map(mod => {
-      if (mod && mod.key in umbraSet) {
-        let mapped = clone(mod);
-        mapped.setMul = umbraSet[mod.key][umbraSetCount];
-        return mapped;
-      }
-      return mod;
-    });
-    // console.log(rst);
-    return rst;
+    return mods;
   }
 
   /**
