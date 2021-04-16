@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.11.1";
+export const version = "1.12.0";
 export const updateLogs = [
+  {
+    version: "1.12.0",
+    date: "2020/4/16",
+    md: {
+      en: `- Update 30`,
+      cn: `- U30`,
+    },
+  },
   {
     version: "1.11.0",
     date: "2020/2/24",
