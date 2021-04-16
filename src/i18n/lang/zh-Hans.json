@@ -1292,6 +1292,9 @@
     "ironbride": "铁嫁",
     "cedo": "塞多",
     "verglas": "冰凇",
+    "shadowClaws": "幽影之爪",
+    "halikarWraith": "哈利卡 亡魂",
+    "epitaph": "葬铭",
     "none": "无",
     "balla": "宝拉",
     "dokrahm": "多克拉姆",
@@ -2171,7 +2174,15 @@
     "xataSWhisper": "真理密语",
     "graspOfLohk": "虚空之握",
     "theLost": "失落之技",
-    "theVastUntime": "超维炼狱"
+    "theVastUntime": "超维炼狱",
+    "ophidianBite": "毒蛇之咬",
+    "vialRush": "药瓶冲撞",
+    "transmutationProbe": "炼制探头",
+    "catalyze": "催化刺激",
+    "reap": "收割",
+    "sow": "播种",
+    "gloom": "惨淡",
+    "exaltedShadow": "显赫幽影"
   },
   "messagesExtend": {
     "blueprint": "蓝图",
