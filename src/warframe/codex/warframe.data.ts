@@ -320,6 +320,18 @@ export const _warframeData: WarframeData[] = [
     sex: "Female",
   },
   {
+    id: "Gara Prime",
+    className: "Gara",
+    health: 120,
+    shield: 100,
+    armor: 190,
+    energy: 150,
+    sprint: 1.15,
+    aura: "d",
+    introduced: "30.3",
+    polarities: ["r", "r", "-"],
+  },
+  {
     id: "Garuda",
     // name: "garuda",
     tags: ["DPS", "Support"],
