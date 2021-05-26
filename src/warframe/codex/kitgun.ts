@@ -80,7 +80,7 @@ const _kitgunChamber = [
   [0, "Catchmoon", [
     [["Impact", 89], ["Heat", 167]],
     [["Impact", 49], ["Heat", 85]] // Primary
-  ], 0.21, 0.21, [5, 7, 9, 11, 13, 17, 23, 39], 5.9, [0.5, 1]],
+  ], 0.21, 0.21, [5, 7, 9, 11, 13, 17, 23, 39], 5.9, [0.5, 1.05]],
   [1, "Gaze", [
     [["Puncture", 6], ["Radiation", 10]],
     [["Radiation", 29]] // Primary
@@ -88,19 +88,19 @@ const _kitgunChamber = [
   [2, "Rattleguts", [
     [["Impact", -1], ["Puncture", 7], ["Slash", 5], ["Radiation", 10]],
     [["Impact", 2], ["Puncture", 5], ["Slash", 3], ["Radiation", 9]] // Primary
-  ], 0.19, 0.19, [29, 45, 57, 67, 83, 75, 111, 153], 26, [0.75, 0.9]],
+  ], 0.19, 0.19, [29, 45, 57, 67, 83, 75, 111, 153], 26, [0.75, 1]],
   [3, "Tombfinger", [
     [["Impact", 12], ["Puncture", 5], ["Radiation", 43]],
     [["Puncture", 40], ["Radiation", 18]] // Primary
-  ], 0.24, 0.24, [9, 15, 19, 23, 29, 31, 35, 49], 50, [0.65, 0.75]],
+  ], 0.24, 0.24, [9, 15, 19, 23, 29, 31, 35, 49], 50, [0.65, 0.85]],
   [4, "Sporelacer", [
     [["Impact", -39], ["Toxin", 103]],
     [["Impact", 21], ["Toxin", 69]] // Primary
-  ], 0.21, 0.21, [5, 7, 9, 11, 13, 17, 23, 39], 5.9, [0.5, 0.5]],
+  ], 0.21, 0.21, [5, 7, 9, 11, 13, 17, 23, 39], 5.9, [0.55, 1]],
   [5, "Vermisplicer", [
     [["Impact", 1.5], ["Puncture", 3.5], ["Slash", 4.5], ["Toxin", 4.5]],
     [["Impact", 5], ["Puncture", 6], ["Slash", 10], ["Toxin", 12]] // Primary
-  ], 0.25, 0.25, [23, 31, 37, 43, 51, 49, 85, 113], 5.4, [0.5, 0.5]],
+  ], 0.25, 0.25, [23, 31, 37, 43, 51, 49, 85, 113], 5.4, [1, 0.85]],
 ] as [number, string, [string, number][][], number, number, number[], number, number[]][];
 
 // prettier-ignore

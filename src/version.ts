@@ -1,6 +1,16 @@
 export const magic = "ALPHA";
-export const version = "1.12.0";
+export const version = "1.13.0";
 export const updateLogs = [
+  {
+    version: "1.13.0",
+    date: "2020/5/26",
+    md: {
+      en: `- Update 30.3
+- [May 2021 Riven Disposition Updates](https://forums.warframe.com/topic/1250453-february-2021-riven-disposition-updates/)`,
+      cn: `- 更新 U30.3
+- [2021五月裂罅倾向调整](https://forums.warframe.com/topic/1265139-may-2021-riven-disposition-updates/)`,
+    },
+  },
   {
     version: "1.12.0",
     date: "2020/4/16",
@@ -55,6 +65,7 @@ export const updateLogs = [
       cn: `- 主武器组合枪`,
     },
   },
+  /*
   {
     version: "1.8.5",
     date: "2019/12/25",
@@ -65,7 +76,6 @@ export const updateLogs = [
 - PC版本正式发布 请前往主页下载`,
     },
   },
-  /*
   {
     version: "1.8.4",
     date: "2019/12/18",
