@@ -60,7 +60,7 @@ const data = [
   ["1K", "Fanged Fusillade", [["A", 20]], Rifle, "-", "r", 6],
   ["1L", "Rupture", [["8", 5]], Rifle, "-", "n", 4],
   ["1M", "Crash Course", [["8", 20]], Rifle, "-", "r", 6],
-  ["1N", "Critical Delay", [["0", 8], ["R", -6]], Rifle, "-", "r", 4],
+  ["1N", "Critical Delay", [["0", 187 / 6], ["R", -6]], Rifle, "-", "r", 4],
   ["1O", "Adhesive Blast", [["stick", 100 / 6]], "Launcher", "r", "r", 4],
   ["1P", "Sinister Reach", [["ar", 3]], "Continuous", "-", "c", 2, 3],
   ["1Q", "Vile Acceleration", [["R", 15], ["D", -2.5]], Rifle, "-", "r", 4],
@@ -189,6 +189,7 @@ const data = [
   ["5t", "Fomorian Accelerant", [["Flak now bounces up to 1x and travels 15% faster."]], "Drakgoon", "r", "c", 4, 3],
   ["5u", "Primed Charged Shell", [["7", 15]], Shotgun, "-", "l", 6, 10],
   ["5v", "Amalgam Shotgun Spazz", [["R", 14], ["!R", 1], ["rvs", 7.5]], Shotgun, "r", "g", 6],
+  ["5w", "Primed Chilling Grasp", [["5", 15]], Shotgun, "d", "l", 6, 10],
 
   // 手枪 90 ~ Bz
   ["90", "Hornet Strike", [["D", 20]], Secondary, "r", "c", 4, 10],
@@ -219,7 +220,7 @@ const data = [
   ["9P", "Scorch", [["4", 15], ["2", 15]], Secondary, "r", "r", 4, 3],
   ["9Q", "Frostbite", [["5", 15], ["2", 15]], Secondary, "r", "r", 4, 3],
   ["9R", "Ice Storm", [["L", 10], ["5", 10]], Secondary, "r", "r", 6, 3],
-  ["9S", "Creeping Bullseye", [["0", 8], ["R", -6]], Secondary, "-", "r", 4],
+  ["9S", "Creeping Bullseye", [["0", 187 / 6], ["R", -6]], Secondary, "-", "r", 4],
   ["9T", "Expel Corpus", [["C", 5]], Secondary, "r", "c", 4],
   ["9U", "Expel Grineer", [["G", 5]], Secondary, "r", "c", 4],
   ["9V", "Expel Infested", [["I", 5]], Secondary, "r", "c", 4],
