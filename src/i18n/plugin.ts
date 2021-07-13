@@ -1,6 +1,7 @@
 import { assign, merge } from "lodash-es";
 import Vue from "vue";
 import VueI18n from "vue-i18n";
+import type { DateTimeFormats, DateTimeFormat } from "vue-i18n";
 
 import lang_en from "./lang/en.json";
 
@@ -11,7 +12,7 @@ import localStorage from "universal-localstorage";
 
 Vue.use(VueI18n);
 
-const cnDF = {
+const cnDF: DateTimeFormat = {
   short: {
     year: "numeric",
     month: "short",
@@ -39,7 +40,7 @@ const cnDF = {
   }
 };
 
-const dateTimeFormats = {
+const dateTimeFormats: DateTimeFormats = {
   en: {
     short: {
       year: "numeric",
