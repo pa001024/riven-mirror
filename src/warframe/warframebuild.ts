@@ -552,7 +552,7 @@ export class WarframeBuild implements CommonBuild {
   isValidMod(mod: NormalMod): boolean {
     let mods = compact(this._mods);
     // 如果相应的P卡已经存在则不使用
-    if (mods.some(v => v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed))) return false;
+    if (mods.some(v => v.id === mod.primed || v.primed === mod.id || (v.primed && v.primed === mod.primed))) return false;
     return true;
   }
 
