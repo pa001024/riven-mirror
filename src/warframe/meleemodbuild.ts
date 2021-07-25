@@ -109,7 +109,7 @@ export class MeleeModBuild extends ModBuild {
           this.weapon.tags
             .toArray()
             .concat([this.weapon.name, this.weapon.baseName])
-            .includes(v.type) && !v.props.some(p => p[0].startsWith("on"))
+            .includes(v.type) && !v.props[0][0].startsWith("on")
       );
     }
     // 自动配卡优化
