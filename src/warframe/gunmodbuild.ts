@@ -38,6 +38,7 @@ export interface GunModBuildOptions {
   burstSampleSize?: number;
   zoomLevel?: number;
   modeIndex?: number;
+  calcCondiOver?: boolean;
 }
 /** 枪类 */
 export class GunModBuild extends ModBuild {
@@ -54,6 +55,8 @@ export class GunModBuild extends ModBuild {
   private _firstAmmoMul = 100;
   private _slashWhenCrit = 0;
   private _rangeLimitAdd = 0;
+  private _damagePerStatus = 0;
+  private _extraStatusCount = 0;
 
   /** 多重增幅倍率 */
   get multishotMul() {
@@ -65,11 +68,11 @@ export class GunModBuild extends ModBuild {
   }
   /** 换弹增幅倍率 */
   get reloadSpeedMul() {
-    return this._reloadSpeedMul / 100;
+    return Math.max(0, this._reloadSpeedMul / 100);
   }
   /** 最大弹匣增幅倍率 */
   get maxAmmoMul() {
-    return this._maxAmmoMul / 100;
+    return Math.max(0, this._maxAmmoMul / 100);
   }
   /** 变焦增幅倍率 */
   get zoomMul() {
@@ -109,6 +112,10 @@ export class GunModBuild extends ModBuild {
     if (this.mode.prjSpeed) return (this.prjSpeed / this.mode.prjSpeed) * raw;
     return raw;
   }
+  /** 每个状态额外伤害(异况量化) */
+  get damagePerStatus() {
+    return this._damagePerStatus / 100;
+  }
 
   // 额外参数
 
@@ -124,6 +131,8 @@ export class GunModBuild extends ModBuild {
   useHunterMunitions = 1;
   /** 开镜倍率 */
   zoomLevel = 0;
+  /** 属性期望套用到异况加成 */
+  calcCondiOver = true;
 
   constructor(weapon: Weapon = null, riven: RivenMod = null, options: GunModBuildOptions = null, fast = false) {
     super(weapon, riven, fast);
@@ -164,6 +173,7 @@ export class GunModBuild extends ModBuild {
     this.burstSampleSize = typeof options.burstSampleSize !== "undefined" ? options.burstSampleSize : this.burstSampleSize;
     this.zoomLevel = typeof options.zoomLevel !== "undefined" ? options.zoomLevel : this.zoomLevel;
     this.modeIndex = typeof options.modeIndex !== "undefined" ? options.modeIndex : this.modeIndex;
+    this.calcCondiOver = typeof options.calcCondiOver !== "undefined" ? options.calcCondiOver : this.calcCondiOver;
   }
   get options(): GunModBuildOptions {
     return {
@@ -182,6 +192,7 @@ export class GunModBuild extends ModBuild {
       burstSampleSize: this.burstSampleSize,
       zoomLevel: this.zoomLevel,
       modeIndex: this.modeIndex,
+      calcCondiOver: this.calcCondiOver,
     };
   }
   /** 生成伤害时间线 */
@@ -275,6 +286,14 @@ export class GunModBuild extends ModBuild {
   get panelBaseDamageMul() {
     return hAccMul(this.baseDamageMul, this.multishotMul);
   }
+
+  /** [overwrite] 全局伤害增幅倍率 */
+  get overallMul() {
+    if (this.damagePerStatus > 0)
+      return this._overallMul / 100 + this.damagePerStatus * (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount);
+    return this._overallMul / 100;
+  }
+
   /** [overwrite] 平均暴击区增幅倍率 */
   get critDamageMul() {
     // 私法系列的暴击强化可以直接加在这里 因为白字无加成 去掉不暴击的概率
@@ -406,10 +425,10 @@ export class GunModBuild extends ModBuild {
     return this.compareMode == GunCompareMode.TotalDamage
       ? this.totalDamageAvg
       : this.compareMode == GunCompareMode.FirstAmmoDamage
-      ? this.firstAmmoDamage
-      : this.compareMode == GunCompareMode.BurstDamage
-      ? this.burstDamage
-      : this.sustainedDamage;
+        ? this.firstAmmoDamage
+        : this.compareMode == GunCompareMode.BurstDamage
+          ? this.burstDamage
+          : this.sustainedDamage;
   }
 
   /** [overwrite] 额外触发几率 */
@@ -454,6 +473,8 @@ export class GunModBuild extends ModBuild {
     this._critLevelUpChance = 0;
     this._firstAmmoMul = 100;
     this._slashWhenCrit = 0;
+    this._damagePerStatus = 0;
+    this._extraStatusCount = 0;
 
     // 开镜加成
 
@@ -543,6 +564,12 @@ export class GunModBuild extends ModBuild {
         break;
       case "vth":
         /* 虚空转换火焰 voidConvs */ this._voidConvs.push(["Heat", pValue]);
+        break;
+      case "ga":
+        /* 镀层异况 */ this._damagePerStatus = this._damagePerStatus += pValue;
+        break;
+      case "esc":
+        /* 异况数量 */ this._extraStatusCount = this._extraStatusCount += pValue;
         break;
       default:
         super.applyProp(mod, pName, pValue);

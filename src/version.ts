@@ -1,6 +1,20 @@
 export const magic = "ALPHA";
-export const version = "1.14.0";
+export const version = "1.14.1";
 export const updateLogs = [
+  {
+    version: "1.14.1",
+    date: "2020/7/27",
+    md: {
+      en: `- Fix: Autobuilding of Galvanized mods which problem like coexistence and priority
+- Added: Add tenet buff
+- Added: Autobuilding for combination elements
+- Added: Guns status calculation and related buffs `,
+      cn: `- 修复: 镀层MOD共存和优先选择问题
+- 新增: 添加信条buff
+- 新增: 自动配卡适配组合元素
+- 新增: 枪械异况计算及相关BUFF`,
+    },
+  },
   {
     version: "1.14.0",
     date: "2020/7/14",
@@ -37,6 +51,7 @@ export const updateLogs = [
 - Octavia Prime: U29.9.0`,
     },
   },
+  /*
   {
     version: "1.10.0",
     date: "2020/11/20",
@@ -73,7 +88,6 @@ export const updateLogs = [
       cn: `- 主武器组合枪`,
     },
   },
-  /*
   {
     version: "1.8.5",
     date: "2019/12/25",
