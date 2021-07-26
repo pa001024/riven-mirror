@@ -131,7 +131,7 @@ const data = [
   ["2Z", "Amalgam Argonak Metal Auger", [["P", 0.5], ["si", 1]], "Argonak", "-", "r", 6],
   ["30", "Galvanized Chamber", [["S", 80 / 11], ["onKill"], ["S", 150 / 11]], Rifle, "r", "r", 6, 10],
   ["31", "Galvanized Scope", [["onHeadshot"], ["0", 120 / 11], ["onHeadshotKill"], ["0", 200 / 11]], Rifle, "r", "r", 2, 10],
-  ["32", "Galvanized Aptitude", [["2", 80 / 11], ["onKill"], ["gco", 80 / 11]], Rifle, "d", "r", 2, 10],
+  ["32", "Galvanized Aptitude", [["2", 80 / 11], ["onKill"], ["ga", 80 / 11]], Rifle, "d", "r", 2, 10],
 
   // 霰弹枪 50 ~ 8z
   ["50", "Point Blank", [["D", 15]], Shotgun, "r", "c", 4],
@@ -195,7 +195,7 @@ const data = [
   ["5w", "Primed Chilling Grasp", [["5", 15]], Shotgun, "d", "l", 6, 10],
   ["5x", "Galvanized Hell", [["S", 110 / 11], ["onKill"], ["S", 120 / 11]], Shotgun, "r", "r", 4, 10],
   ["5y", "Galvanized Acceleration", [["V", 30 / 11], ["onKill"], ["V", 60 / 11]], Shotgun, "r", "r", 2, 10],
-  ["5z", "Galvanized Savvy", [["2", 80 / 11], ["onKill"], ["gco", 80 / 11]], Shotgun, "d", "r", 2, 10],
+  ["5z", "Galvanized Savvy", [["2", 80 / 11], ["onKill"], ["ga", 80 / 11]], Shotgun, "d", "r", 2, 10],
 
   // 手枪 90 ~ Bz
   ["90", "Hornet Strike", [["D", 20]], Secondary, "r", "c", 4, 10],
@@ -272,7 +272,7 @@ const data = [
   ["A9", "Amalgam Barrel Diffusion", [["S", 18], ["!S", 2], ["dgs", 10]], Secondary, "r", "g", 10],
   ["Aa", "Galvanized Diffusion", [["S", 110 / 11], ["onKill"], ["S", 120 / 11]], Secondary, "r", "r", 4, 10],
   ["97", "Galvanized Crosshairs", [["onHeadshot"], ["0", 120 / 11], ["onHeadshotKill"], ["0", 200 / 11]], Secondary, "r", "r", 2, 10],
-  ["9k", "Galvanized Shot", [["2", 80 / 11], ["onKill"], ["gco", 120 / 11]], Secondary, "d", "r", 2, 10],
+  ["9k", "Galvanized Shot", [["2", 80 / 11], ["onKill"], ["ga", 120 / 11]], Secondary, "d", "r", 2, 10],
 
   // 近战 C0 ~ Fz
   ["C0", "Pressure Point", [["K", 20]], Melee, "r", "n", 4],

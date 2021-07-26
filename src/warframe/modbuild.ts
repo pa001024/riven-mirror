@@ -1664,7 +1664,7 @@ export abstract class ModBuild implements CommonBuild {
 
   /** 极化次数增加最大容量 */
   get isExtendCost() {
-    return this.weapon.tags.has("Kuva Weapon") || this.weapon.name == "Paracesis";
+    return this.weapon.tags.has("Kuva Weapon") || this.weapon.tags.has("Tenet Weapon") || this.weapon.name == "Paracesis";
   }
   /** 最大容量 */
   get maxCost() {
