@@ -2510,7 +2510,13 @@
     "thirdAttack": "第三攻击",
     "toxicSpine": "有毒脊椎",
     "unchargedAoE": "不蓄力AoE",
-    "unchargedDirectHit": "不蓄力直接命中"
+    "unchargedDirectHit": "不蓄力直接命中",
+    "chargedExplosion": "蓄力爆炸",
+    "stormpathSlideAttack": "风暴路径滑行攻击",
+    "charged": "蓄力",
+    "energyDisk": "能量盘",
+    "quickShotExplosion": "快速射击爆炸",
+    "tendril": "卷须"
   },
   "alerting": {
     "sortie": "突击",
