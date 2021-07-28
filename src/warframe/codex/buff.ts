@@ -382,6 +382,33 @@ export const BuffList: BuffData[] = [
     defaultValue: 100,
   },
   {
+    id: "gf",
+    name: "firerate", // 通用攻速
+    type: BuffType.BaseDamage,
+    target: "Gun",
+    dynamicProps: [["R", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100,
+  },
+  {
+    id: "gr",
+    name: "reload", // 装填速度 (通用)
+    type: BuffType.Speed,
+    target: "Gun",
+    dynamicProps: [["F", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100,
+  },
+  {
+    id: "gm",
+    name: "magazine", // 弹匣容量 (通用)
+    type: BuffType.Speed,
+    target: "Gun",
+    dynamicProps: [["L", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100,
+  },
+  {
     id: "B",
     name: "ballisticBattery", // 女枪1 弹道蓄能 (加数值)
     type: BuffType.BaseDamage,
