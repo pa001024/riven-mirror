@@ -242,6 +242,10 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "iX" }, // 处决 Finisher Damage
 
   // rel-inc extend 扩展相对增加
+  { id: "e0", dmg: true }, // 总暴击率
+  { id: "e1", dmg: true }, // 总暴击伤害
+  { id: "e2" }, // 总触发率
+  { id: "e3" }, // 总触发时间
   { id: "hd", dmg: true }, // 重击伤害
   { id: "wu" }, // 重击速度
   { id: "ccb" }, // 格挡获取连击数
@@ -252,7 +256,6 @@ export const CommonPropertyDataBase: { [key: string]: CommonProperty } = [
   { id: "oad", dmg: true }, // 最终伤害
   { id: "ds", dmg: true }, // 偷袭伤害
   { id: "sd", dmg: true }, // 触发伤害
-  { id: "fcd", dmg: true }, // 最终暴伤
   { id: "smd", dmg: true }, // 对Sentient伤害 Damage to Sentients
   { id: "dmg", dmg: true }, // 伤害
   { id: "cwh", dmg: true }, // 爆头暴击率

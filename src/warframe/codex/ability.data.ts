@@ -1529,7 +1529,7 @@ export let _abilityData: AbilityData[] = [
     id: "Energy Shell",
     tags: 2,
     energyCost: 25,
-    props: { Buff: { effect: [["4", 50], ["fcd", 200]], duration: D(22) } },
+    props: { Buff: { effect: [["4", 50], ["e1", 200]], duration: D(22) } },
   },
   {
     id: "Disarray",
