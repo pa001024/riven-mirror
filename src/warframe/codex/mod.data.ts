@@ -271,8 +271,9 @@ const data = [
   ["A8", "Synth Charge", [["lsb", 50]], Secondary, "r", "r", 6, 3],
   ["A9", "Amalgam Barrel Diffusion", [["S", 18], ["!S", 2], ["dgs", 10]], Secondary, "r", "g", 10],
   ["Aa", "Galvanized Diffusion", [["S", 110 / 11], ["onKill"], ["S", 120 / 11]], Secondary, "r", "r", 4, 10],
-  ["97", "Galvanized Crosshairs", [["onHeadshot"], ["0", 120 / 11], ["onHeadshotKill"], ["0", 200 / 11]], Secondary, "r", "r", 2, 10],
-  ["9k", "Galvanized Shot", [["2", 80 / 11], ["onKill"], ["ga", 120 / 11]], Secondary, "d", "r", 2, 10],
+  ["Ab", "Galvanized Crosshairs", [["onHeadshot"], ["0", 120 / 11], ["onHeadshotKill"], ["0", 200 / 11]], Secondary, "r", "r", 2, 10],
+  ["Ac", "Galvanized Shot", [["2", 80 / 11], ["onKill"], ["ga", 120 / 11]], Secondary, "d", "r", 2, 10],
+  ["Ad", "Deadly Maneuvers", [["e0", 400]], "Magnus", "-", "r", 4, 3],
 
   // 近战 C0 ~ Fz
   ["C0", "Pressure Point", [["K", 20]], Melee, "r", "n", 4],

@@ -109,17 +109,20 @@ export abstract class ModBuild implements CommonBuild {
   protected _extraDmgMul = 100;
   protected _critChanceMul = 100;
   protected _critChanceAdd = 0;
+  protected _critChanceExtra = 100;
   protected _critWhenHeadshotAdd = 0;
   protected _critMulMul = 100;
+  protected _critMulExtra = 100;
   protected _procChanceMul = 100;
   protected _procChanceAdd = 0;
+  protected _procChanceExtra = 100;
   protected _procDurationMul = 100;
+  protected _procDurationExtra = 100;
   protected _procDamageMul = 100;
   protected _enemyDmgMul = [100, 100, 100, 100, 100];
   protected _fireRateMul = 100;
   protected _headShotMulMul = 100;
   protected _overallMul = 100;
-  protected _finalCritMulMul = 100;
   protected _allEnemyDmgMul = 0;
   protected _multishotMul = 100;
   protected _critChanceLock = -100;
@@ -197,9 +200,21 @@ export abstract class ModBuild implements CommonBuild {
   get overallMul() {
     return this._overallMul / 100;
   }
+  /** 全局暴击率增幅倍率 */
+  get finalCritChanceMul() {
+    return this._critChanceExtra / 100;
+  }
   /** 全局暴击伤害增幅倍率 */
   get finalCritMulMul() {
-    return this._finalCritMulMul / 100;
+    return this._critMulExtra / 100;
+  }
+  /** 全局触发率增幅倍率 */
+  get finalProcChanceMul() {
+    return this._procChanceExtra / 100;
+  }
+  /** 全局触发率时间增幅倍率 */
+  get finalProcDurationMul() {
+    return this._procDurationExtra / 100;
   }
   /** 额外触发几率 */
   get extraProcChance() {
@@ -351,7 +366,10 @@ export abstract class ModBuild implements CommonBuild {
   /** 暴击率 */
   get critChance() {
     if (this.critChanceLock != -1) return this.critChanceLock;
-    return Math.max(0, this.mode.critChance * this.critChanceMul + this.critChanceAdd + this.headShotChance * this.critWhenHeadshotAdd);
+    return Math.max(
+      0,
+      (this.mode.critChance * this.critChanceMul + this.critChanceAdd + this.headShotChance * this.critWhenHeadshotAdd) * this.finalCritChanceMul
+    );
   }
   /** 暴击倍率 */
   get critMul() {
@@ -968,10 +986,8 @@ export abstract class ModBuild implements CommonBuild {
 
   /** 应用MOD */
   applyMod(mod: NormalMod | NormalMod[]) {
-    if (Array.isArray(mod))
-      this._mods.push(...mod);
-    else
-      this._mods.push(mod);
+    if (Array.isArray(mod)) this._mods.push(...mod);
+    else this._mods.push(mod);
     this.calcMods();
     return this;
   }
@@ -1011,6 +1027,10 @@ export abstract class ModBuild implements CommonBuild {
     this._critWhenHeadshotAdd = 0;
     this._procChanceMul = 100;
     this._procChanceAdd = 0;
+    this._critChanceExtra = 100;
+    this._critMulExtra = 100;
+    this._procChanceExtra = 100;
+    this._procDurationExtra = 100;
     this._procDurationMul = 100;
     this._procDamageMul = 100;
     this._enemyDmgMul = [100, 100, 100, 100, 100];
@@ -1027,7 +1047,6 @@ export abstract class ModBuild implements CommonBuild {
     this._combElementsOrder = [];
     this._extraProcChance = [];
     this._overallMul = 100 + this.extraOverall;
-    this._finalCritMulMul = 100;
     this._allEnemyDmgMul = 0;
     this._multishotMul = 100;
     this._critChanceLock = -100;
@@ -1248,17 +1267,11 @@ export abstract class ModBuild implements CommonBuild {
     function getComb<T extends NormalMod>(arr: T[], maxL: number) {
       const len = maxL ? Math.min(arr.length, maxL) : arr.length;
       const rst: [T, T][] = [];
-      for (let i = 0; i < len; i++)
-        for (let j = i + 1; j < len; j++)
-          if (arr[i].elemType !== arr[j].elemType)
-            rst.push([arr[i], arr[j]]);
+      for (let i = 0; i < len; i++) for (let j = i + 1; j < len; j++) if (arr[i].elemType !== arr[j].elemType) rst.push([arr[i], arr[j]]);
       return rst;
     }
 
-    let sortableMods = [
-      ...othermods.map(v => [[v], 0] as [NormalMod[], number]),
-      ...elementsGroups.map(v => [v, 0] as [NormalMod[], number])
-    ];
+    let sortableMods = [...othermods.map(v => [[v], 0] as [NormalMod[], number]), ...elementsGroups.map(v => [v, 0] as [NormalMod[], number])];
     let iteration = 0;
     while (mods.length < rivenSlots && sortableMods.length > 0) {
       ++iteration;
@@ -1270,7 +1283,9 @@ export abstract class ModBuild implements CommonBuild {
         // if (v[0][0].id !== "RIVENFAKE") console.log(`[第${iteration}次迭代]测试收益(在[${this._mods.map(v => v.name).join(",")}]中): [`, v[0].join(), "]的收益是", v[1]);
       });
       // 3. 把所有卡按收益排序 []
-      sortableMods.sort((a, b) => (b[1] == a[1] ? (NormalCardDependTable[a[0][0].id] === b[0][0].id ? 1 : b[0][0].name.localeCompare(a[0][0].name)) : b[1] - a[1]));
+      sortableMods.sort((a, b) =>
+        b[1] == a[1] ? (NormalCardDependTable[a[0][0].id] === b[0][0].id ? 1 : b[0][0].name.localeCompare(a[0][0].name)) : b[1] - a[1]
+      );
       if (sortableMods.length > 0) {
         // console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
         // 4. 将收益最高的一项插入并移出数组
@@ -1344,17 +1359,17 @@ export abstract class ModBuild implements CommonBuild {
     // 将属性虚拟成MOD
     let fakeMods = avaliableProps.map(
       v =>
-      ({
-        key: "01",
-        id: "RIVENFAKE",
-        name: v.prop.sName,
-        type: "",
-        desc: "裂罅MOD",
-        polarity: "r",
-        cost: 18,
-        rarity: "x",
-        props: [[v.prop.id, v.value]] as [string, number][],
-      } as NormalMod)
+        ({
+          key: "01",
+          id: "RIVENFAKE",
+          name: v.prop.sName,
+          type: "",
+          desc: "裂罅MOD",
+          polarity: "r",
+          cost: 18,
+          rarity: "x",
+          props: [[v.prop.id, v.value]] as [string, number][],
+        } as NormalMod)
     );
     let rivenArea = this.avaliableMods.concat(fakeMods);
     // 将紫卡属性作为虚拟MOD参与正常fill
@@ -1523,8 +1538,17 @@ export abstract class ModBuild implements CommonBuild {
       case "sd":
         /* 触发伤害 procDamageMul */ this._procDamageMul = this._procDamageMul + pValue;
         break;
-      case "fcd":
-        /* 最终暴伤 finalCritMulMul */ this._finalCritMulMul = (this._finalCritMulMul * (100 + pValue)) / 100;
+      case "e0":
+        /* 总暴击率 */ this._critChanceExtra += (this._critChanceExtra * (100 + pValue)) / 100;
+        break;
+      case "e1":
+        /* 总暴击伤害 */ this._critMulExtra = (this._critMulExtra * (100 + pValue)) / 100;
+        break;
+      case "e2":
+        /* 总触发率 */ this._procChanceExtra += (this._procChanceExtra * (100 + pValue)) / 100;
+        break;
+      case "e3":
+        /* 总触发时间 */ this._procDurationExtra += (this._procDurationExtra * (100 + pValue)) / 100;
         break;
       case "i0":
         /* 加法暴击 critChanceAdd */ this._critChanceAdd = this._critChanceAdd + pValue;
@@ -1598,7 +1622,6 @@ export abstract class ModBuild implements CommonBuild {
       case "eA":
         /* Initial Slash 初始切割 */ this._absExtra.push(["Slash", pValue]);
         break;
-
       case "b4":
         /** Initial Heat 初始火伤 */ this._relExtra.push(["Heat", pValue]);
         break;

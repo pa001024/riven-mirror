@@ -812,7 +812,7 @@ export const BuffList: BuffData[] = [
     name: "electricShield", // 电盾
     type: BuffType.Other,
     target: "Ranged",
-    props: [["fcd", 100]],
+    props: [["e1", 100]],
     multiLayer: {
       maxStack: 48,
       stackableProps: [["eed", 50]],
@@ -824,7 +824,7 @@ export const BuffList: BuffData[] = [
     name: "energyShell", // 能量护罩
     type: BuffType.Other,
     target: "Ranged",
-    props: [["fcd", 100], ["efd", 50]],
+    props: [["e1", 100], ["efd", 50]],
   },
   {
     id: "e",
@@ -841,7 +841,7 @@ export const BuffList: BuffData[] = [
     name: "mutalistQuanta", // 异融量子枪次要
     type: BuffType.Other,
     target: "Ranged",
-    props: [["fcd", 25], ["i0", 25], ["oad", -33.3]],
+    props: [["e1", 25], ["i0", 25], ["oad", -33.3]],
     multiLayer: {
       maxStack: 3,
       unstackableProps: [[["eed", 100]], [["eed", 366.6]], [["eed", 500]]],

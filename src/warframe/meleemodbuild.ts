@@ -210,7 +210,7 @@ export class MeleeModBuild extends ModBuild {
       0,
       this.critChanceLock != -1
         ? this.critChanceLock // Locked
-        : this.mode.critChance * (this.critChanceMul + this.comboCritChance) + this.critChanceAdd
+        : (this.mode.critChance * (this.critChanceMul + this.comboCritChance) + this.critChanceAdd) * this.finalCritChanceMul
     );
   }
   /** 滑行暴击率 */
@@ -219,7 +219,7 @@ export class MeleeModBuild extends ModBuild {
       0,
       this.critChanceLock != -1
         ? this.critChanceLock // Locked
-        : this.mode.critChance * (this.critChanceMul + this.slideCritChanceMul + this.comboCritChance) + this.critChanceAdd
+        : (this.mode.critChance * (this.critChanceMul + this.slideCritChanceMul + this.comboCritChance) + this.critChanceAdd) * this.finalCritChanceMul
     );
   }
   /** 重击暴击率 */
@@ -376,7 +376,10 @@ export class MeleeModBuild extends ModBuild {
   /** 重击面板基础伤害增幅倍率 */
   get heavyBaseDamageMul() {
     if (this.damagePerStatus > 0)
-      return  (this._baseDamageMul + this._heavyBaseDamageMul) / 100 + this.damagePerStatus * (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount);
+      return (
+        (this._baseDamageMul + this._heavyBaseDamageMul) / 100 +
+        this.damagePerStatus * (this.calcCondiOver ? this.averageProcQE + this._extraStatusCount : this._extraStatusCount)
+      );
     return (this._baseDamageMul + this._heavyBaseDamageMul) / 100;
   }
 
