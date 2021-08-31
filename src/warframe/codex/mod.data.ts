@@ -129,9 +129,13 @@ const data = [
   ["2X", "Amalgam Javlok Magazine Warp", [["L", 7.5], ["rd", 1000], ["U", 15]], "Javlok", "-", "r", 6],
   ["2Y", "Amalgam Daikyu Target Acquired", [["hm", 12.5], ["+0.5% Life Steal on Nikanas"], ["10% chance to pickup used arrows."]], "Daikyu", "r", "r", 10],
   ["2Z", "Amalgam Argonak Metal Auger", [["P", 0.5], ["si", 1]], "Argonak", "-", "r", 6],
+  ["2a", "Primed Magazine Warp", [["L", 5]], Rifle, "-", "l", 4, 10],
   ["30", "Galvanized Chamber", [["S", 80 / 11], ["onKill"], ["S", 150 / 11]], Rifle, "r", "r", 6, 10],
   ["31", "Galvanized Scope", [["onHeadshot"], ["0", 120 / 11], ["onHeadshotKill"], ["0", 200 / 11]], Rifle, "r", "r", 2, 10],
   ["32", "Galvanized Aptitude", [["2", 80 / 11], ["onKill"], ["ga", 80 / 11]], Rifle, "d", "r", 2, 10],
+  ["3A", "Exposing Harpoon", [["0", 50]], "Harpak", "-", "r", 4],
+  ["3B", "Meticulous Aim", [["hm", 17.5], ["oad", -7.5]], "Vulkar", "-", "r", 4, 3],
+  ["3C", "Precision Strike", [["e0", 37.5]], "Tonkor", "-", "r", 4, 3],
 
   // 霰弹枪 50 ~ 8z
   ["50", "Point Blank", [["D", 15]], Shotgun, "r", "c", 4],
@@ -196,6 +200,8 @@ const data = [
   ["5x", "Galvanized Hell", [["S", 110 / 11], ["onKill"], ["S", 120 / 11]], Shotgun, "r", "r", 4, 10],
   ["5y", "Galvanized Acceleration", [["V", 30 / 11], ["onKill"], ["V", 60 / 11]], Shotgun, "r", "r", 2, 10],
   ["5z", "Galvanized Savvy", [["2", 80 / 11], ["onKill"], ["ga", 80 / 11]], Shotgun, "d", "r", 2, 10],
+  ["60", "Primed Tactical Pump", [["F", 5]], Shotgun, "-", "l", 2, 10],
+  ["6A", "Efficient Beams", [["2", 25]], "Convectrix", "-", "r", 4],
 
   // 手枪 90 ~ Bz
   ["90", "Hornet Strike", [["D", 20]], Secondary, "r", "c", 4, 10],
@@ -273,7 +279,8 @@ const data = [
   ["Aa", "Galvanized Diffusion", [["S", 110 / 11], ["onKill"], ["S", 120 / 11]], Secondary, "r", "r", 4, 10],
   ["Ab", "Galvanized Crosshairs", [["onHeadshot"], ["0", 120 / 11], ["onHeadshotKill"], ["0", 200 / 11]], Secondary, "r", "r", 2, 10],
   ["Ac", "Galvanized Shot", [["2", 80 / 11], ["onKill"], ["ga", 120 / 11]], Secondary, "d", "r", 2, 10],
-  ["Ad", "Deadly Maneuvers", [["e0", 400]], "Magnus", "-", "r", 4, 3],
+  ["Ad", "Deadly Maneuvers", [["e0", 100]], "Magnus", "-", "r", 4, 3],
+  ["Ae", "Dizzying Rounds", [["2", 50]], "Bronco", "-", "r", 4, 3],
 
   // 近战 C0 ~ Fz
   ["C0", "Pressure Point", [["K", 20]], Melee, "r", "n", 4],

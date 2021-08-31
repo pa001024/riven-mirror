@@ -1,6 +1,15 @@
 export const magic = "ALPHA";
-export const version = "1.14.1";
+export const version = "1.14.2";
 export const updateLogs = [
+  {
+    version: "1.14.2",
+    date: "2020/9/1",
+    md: {
+      en: `- Add: New weapons/mods`,
+      cn: `- 新增: 麦格努斯 Prime / 斯特朗 Prime
+- 新增: 添加使徒/玻璃匠MOD`,
+    },
+  },
   {
     version: "1.14.1",
     date: "2020/7/27",
