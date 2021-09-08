@@ -3,7 +3,7 @@ export const version = "1.14.2";
 export const updateLogs = [
   {
     version: "1.14.2",
-    date: "2020/9/1",
+    date: "2021/9/1",
     md: {
       en: `- Add: New weapons/mods`,
       cn: `- 新增: 麦格努斯 Prime / 斯特朗 Prime
@@ -12,7 +12,7 @@ export const updateLogs = [
   },
   {
     version: "1.14.1",
-    date: "2020/7/27",
+    date: "2021/7/27",
     md: {
       en: `- Fix: Autobuilding of Galvanized mods which problem like coexistence and priority
 - Added: Add tenet buff
@@ -26,7 +26,7 @@ export const updateLogs = [
   },
   {
     version: "1.14.0",
-    date: "2020/7/14",
+    date: "2021/7/14",
     md: {
       en: `- Update 30.5`,
       cn: `- 更新 U30.5`,
@@ -34,7 +34,7 @@ export const updateLogs = [
   },
   {
     version: "1.13.0",
-    date: "2020/5/26",
+    date: "2021/5/26",
     md: {
       en: `- Update 30.3
 - [May 2021 Riven Disposition Updates](https://forums.warframe.com/topic/1250453-february-2021-riven-disposition-updates/)`,
@@ -44,7 +44,7 @@ export const updateLogs = [
   },
   {
     version: "1.12.0",
-    date: "2020/4/16",
+    date: "2021/4/16",
     md: {
       en: `- Update 30`,
       cn: `- U30`,
@@ -52,7 +52,7 @@ export const updateLogs = [
   },
   {
     version: "1.11.0",
-    date: "2020/2/24",
+    date: "2021/2/24",
     md: {
       en: `- [February 2021 Riven Disposition Updates](https://forums.warframe.com/topic/1250453-february-2021-riven-disposition-updates/)
 - Octavia Prime: Update 29.9.0`,
