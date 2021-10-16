@@ -202,6 +202,9 @@ const data = [
   ["5z", "Galvanized Savvy", [["2", 80 / 11], ["onKill"], ["ga", 80 / 11]], Shotgun, "d", "r", 2, 10],
   ["60", "Primed Tactical Pump", [["F", 5]], Shotgun, "-", "l", 2, 10],
   ["6A", "Efficient Beams", [["2", 25]], "Convectrix", "-", "r", 4],
+  ["6B", "Primed Cleanse Corpus", [["C", 5]], Shotgun, "r", "r", 4, 10],
+  ["6C", "Primed Cleanse Grineer", [["G", 5]], Shotgun, "r", "r", 4, 10],
+  ["6D", "Primed Cleanse Infested", [["I", 5]], Shotgun, "r", "r", 4, 10],
 
   // 手枪 90 ~ Bz
   ["90", "Hornet Strike", [["D", 20]], Secondary, "r", "c", 4, 10],

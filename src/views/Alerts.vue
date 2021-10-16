@@ -278,7 +278,7 @@
 <script lang="ts">
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import BScroll from "better-scroll";
-import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert, Nightwave, Kuva, Arbitration, SentientOutpost, SteelPath } from "@/warframe/worldstat";
+import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert, Nightwave, Kuva, Arbitration, SentientOutpost } from "@/warframe/worldstat";
 import { CetusTime, FortunaTime, EarthTime, SentientTime } from "@/warframe/gametime";
 import { Getter, Action } from "vuex-class";
 import "../less/alert.less";
@@ -307,7 +307,6 @@ export default class Alerts extends Vue {
   alerts: Alert[] = [];
   news: News[] = [];
   fissures: Fissure[] = [];
-  steelPath: SteelPath = this.stat.steelPath;
   invasions: Invasion[] = [];
   ostrons: Job[] = [];
   solarisUnited: Job[] = [];
@@ -362,7 +361,7 @@ export default class Alerts extends Vue {
     let wrapperWidth = (this.$refs.wrapper as HTMLElement).getBoundingClientRect().width;
     this.scrollEnable = wrapperWidth < this.scrollWidth;
   }
-  scrollHorizontally(e: MouseWheelEvent) {
+  scrollHorizontally(e: MouseEvent) {
     e.preventDefault();
     var delta = Math.max(-1, Math.min(1, e["wheelDelta"] || -e.detail));
     const width = document.querySelector("#app > section > main > div.wrapper.alerts-container").querySelector(".index-card.sortie").clientWidth;
