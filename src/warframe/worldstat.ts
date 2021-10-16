@@ -9,6 +9,7 @@ export interface WarframeStat {
   events: Event[];
   alerts: Alert[];
   sortie: Sortie;
+  steelPath: SteelPath;
   syndicateMissions: SyndicateMission[];
   fissures: Fissure[];
   globalUpgrades: GlobalUpgrade[];
@@ -495,6 +496,27 @@ export interface Translations {
   tc?: string;
 }
 
+export interface SteelPath {
+  currentReward: CurrentReward;
+  activation: string;
+  expiry: string;
+  remaining: string;
+  rotation: CurrentReward[];
+  evergreens: CurrentReward[];
+  incursions: Incursions;
+}
+
+export interface Incursions {
+  id: string;
+  activation: string;
+  expiry: string;
+}
+
+export interface CurrentReward {
+  name: string;
+  cost: number;
+}
+
 /**
  * Warframe World Stat from https://api.warframestat.us/
  *
@@ -516,7 +538,7 @@ export class WorldStat {
         .get(this.APIBase, {
           timeout: 10e3,
           headers: {
-            "Accept-Language": "English",
+            // "Accept-Language": "English",
           },
         })
         .then(data => {
@@ -533,9 +555,7 @@ export class WorldStat {
    */
   deepTranslate<T extends Object>(obj: T, namespace = "messages"): T {
     if (isArray(obj))
-      return map(obj, v =>
-        typeof v === "string" ? Translator.getLocText(v, namespace) : typeof v === "object" ? this.deepTranslate(v, namespace) : v
-      ) as any;
+      return map(obj, v => (typeof v === "string" ? Translator.getLocText(v, namespace) : typeof v === "object" ? this.deepTranslate(v, namespace) : v)) as any;
     else
       return mapValues(obj, (v, i) =>
         typeof v === "string"
@@ -543,8 +563,8 @@ export class WorldStat {
             ? this.nodeTranslate(v)
             : Translator.getLocText(v, namespace)
           : typeof v === "object"
-            ? this.deepTranslate(v, namespace)
-            : v
+          ? this.deepTranslate(v, namespace)
+          : v
       ) as T;
   }
   /**

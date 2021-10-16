@@ -588,7 +588,9 @@
     "harness": "Harness",
     "fuselage": "Fuselage",
     "engines": "Engines",
-    "avionics": "Avionics"
+    "avionics": "Avionics",
+    "immortalSkin": "Immortal Skin",
+    "mask": "Mask"
   },
   "weaponmode": {
     "default": "Default",
@@ -612,7 +614,8 @@
     "kuva": "Kuva",
     "arbitration": "Arbitration",
     "sentientOutposts": "Sentient Outpost",
-    "inactive": "Inactive"
+    "inactive": "Inactive",
+    "steelpath": "Steel Path"
   },
   "prop": {
     "fullName": {
@@ -1285,7 +1288,8 @@
       "infested": "Infested (Infested)",
       "infestedFlesh": "Infested (Infested Flesh)",
       "infestedElite": "Infested (Fossilized)",
-      "tenno": "Tenno (Flesh + Ferrite Armor)"
+      "tenno": "Tenno (Flesh + Ferrite Armor)",
+      "eidolonShield": "Eidolon Shield"
     }
   },
   "buildview": {
@@ -1414,7 +1418,9 @@
     },
     "weaponWarn": "WARNING",
     "weaponWarnTip": "Chosen riven is not available for this weapon (you may choose wrong weapon), confirm operation?",
-    "rivenexists": "Riven mod already exists"
+    "rivenexists": "Riven mod already exists",
+    "ability": "Ability",
+    "tank": "Tank"
   },
   "timeline": {
     "table": "TABLE",
@@ -1551,7 +1557,9 @@
       "catchmoon": "Energy Shotgun",
       "gaze": "Continuous",
       "rattleguts": "Full-auto",
-      "tombfinger": "Launcher"
+      "tombfinger": "Launcher",
+      "sporelacer": "",
+      "vermisplicer": ""
     }
   },
   "amp": {
@@ -2014,7 +2022,11 @@
     "control": "Control",
     "archwing": "Archwing",
     "roboticWeapon": "Robotic Weapon",
-    "kuvaWeapon": "Kuva Weapon"
+    "kuvaWeapon": "Kuva Weapon",
+    "amp": "Amp",
+    "atmosphere": "Atmosphere",
+    "kitgun": "Kitgun",
+    "zaw": "Zaw"
   },
   "info": {
     "nav": "NAV",
