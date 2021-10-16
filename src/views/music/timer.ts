@@ -2,7 +2,7 @@
 const requestAnimFrame = (function() {
   return (
     window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
+    window["webkitRequestAnimationFrame"] ||
     (window as any).mozRequestAnimationFrame ||
     (window as any).oRequestAnimationFrame ||
     (window as any).msRequestAnimationFrame ||
