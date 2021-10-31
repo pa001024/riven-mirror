@@ -130,7 +130,7 @@
           <el-tooltip effect="dark" :content="$t('buildview.requireComboTip')" placement="bottom">
             <el-checkbox v-model="requireCombo" @change="debouncedRecalc">{{ $t("buildview.requireCombo") }}</el-checkbox>
           </el-tooltip>
-          <!-- 异况数字化 -->
+          <!-- 异况量化 -->
           <el-tooltip effect="dark" :content="$t('buildview.condiOverTip')" placement="bottom">
             <el-checkbox v-model="calcCondiOver" @change="debouncedRecalc">{{ $t("buildview.condiOver") }}</el-checkbox>
           </el-tooltip>
@@ -173,7 +173,7 @@ export default class MeleeModBuildView extends BaseModBuildView {
   requireRange = true;
   /** 需求连击 */
   requireCombo = true;
-  /** 异况数字化 */
+  /** 异况量化 */
   calcCondiOver = false;
 
   strikeList = ZawStrikeData;
