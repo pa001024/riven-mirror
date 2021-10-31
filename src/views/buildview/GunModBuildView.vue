@@ -151,6 +151,10 @@
           <el-tooltip effect="dark" :content="$t('buildview.acolyteModsTip')" placement="bottom">
             <el-checkbox v-model="useAcolyteMods" @change="useAcolyteModsChange">{{ $t("buildview.acolyteMods") }}</el-checkbox>
           </el-tooltip>
+          <!-- 异况量化 -->
+          <el-tooltip effect="dark" :content="$t('buildview.condiOverTip')" placement="bottom">
+            <el-checkbox v-model="calcCondiOver" @change="debouncedRecalc">{{ $t("buildview.condiOver") }}</el-checkbox>
+          </el-tooltip>
         </el-form-item>
         <!-- 赋能 -->
         <el-form-item :label="$t('buildview.arcanes')">
@@ -209,6 +213,8 @@ export default class GunModBuildView extends BaseModBuildView {
   extraOverall = 0;
   /** 开镜倍率 */
   zoomLevel = 0;
+  /** 异况量化 */
+  calcCondiOver = false;
 
   chamberList = KitgunChamberData;
   gripList = KitgunGripData;
@@ -325,6 +331,7 @@ export default class GunModBuildView extends BaseModBuildView {
       useHeavyCaliber: this.useHeavyCaliber,
       useDeadlyEfficiency: this.useDeadlyEfficiency,
       usePrimedChamber: this.usePrimedChamber,
+      calcCondiOver: this.calcCondiOver,
       useHunterMunitions: this.useHunterMunitions ? (this.notMustUseHunterMunitions ? 1 : 2) : 0,
       headShotChance: this.headShotChance / 100,
       allowElementTypes: (this.selectDamageType && this.elementTypes[this.selectDamageType]) || null,

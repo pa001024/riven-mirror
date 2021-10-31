@@ -2,6 +2,16 @@ export const magic = "ALPHA";
 export const version = "1.14.2";
 export const updateLogs = [
   {
+    version: "1.15.0",
+    date: "2021/10/31",
+    md: {
+      en: `- Fix: Gun weapons condi-over calc
+- Fix: [September 2021 Riven Disposition Updates](https://forums.warframe.com/topic/1279830-september-2021-riven-disposition-updates/)`,
+      cn: `- 修复: 紫卡分析界面非近战武器异况量化计算开关
+- Fix: [9月裂罅更新](https://forums.warframe.com/topic/1279830-september-2021-riven-disposition-updates/)`,
+    },
+  },
+  {
     version: "1.14.2",
     date: "2021/9/1",
     md: {
@@ -42,6 +52,7 @@ export const updateLogs = [
 - [2021五月裂罅倾向调整](https://forums.warframe.com/topic/1265139-may-2021-riven-disposition-updates/)`,
     },
   },
+  /*
   {
     version: "1.12.0",
     date: "2021/4/16",
@@ -60,7 +71,6 @@ export const updateLogs = [
 - Octavia Prime: U29.9.0`,
     },
   },
-  /*
   {
     version: "1.10.0",
     date: "2020/11/20",
