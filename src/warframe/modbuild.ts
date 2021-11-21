@@ -20,6 +20,7 @@ import {
   SimpleDamageModel,
   WeaponBuildMode,
   MainTag,
+  FleshType,
 } from "./codex";
 import { RivenMod, toUpLevel, toNegaUpLevel, ValuedRivenProperty } from "./rivenmod";
 import { HH } from "@/var";
@@ -108,17 +109,20 @@ export abstract class ModBuild implements CommonBuild {
   protected _extraDmgMul = 100;
   protected _critChanceMul = 100;
   protected _critChanceAdd = 0;
+  protected _critChanceExtra = 100;
   protected _critWhenHeadshotAdd = 0;
   protected _critMulMul = 100;
+  protected _critMulExtra = 100;
   protected _procChanceMul = 100;
   protected _procChanceAdd = 0;
+  protected _procChanceExtra = 100;
   protected _procDurationMul = 100;
+  protected _procDurationExtra = 100;
   protected _procDamageMul = 100;
   protected _enemyDmgMul = [100, 100, 100, 100, 100];
   protected _fireRateMul = 100;
   protected _headShotMulMul = 100;
   protected _overallMul = 100;
-  protected _finalCritMulMul = 100;
   protected _allEnemyDmgMul = 0;
   protected _multishotMul = 100;
   protected _critChanceLock = -100;
@@ -196,9 +200,21 @@ export abstract class ModBuild implements CommonBuild {
   get overallMul() {
     return this._overallMul / 100;
   }
+  /** 全局暴击率增幅倍率 */
+  get finalCritChanceMul() {
+    return this._critChanceExtra / 100;
+  }
   /** 全局暴击伤害增幅倍率 */
   get finalCritMulMul() {
-    return this._finalCritMulMul / 100;
+    return this._critMulExtra / 100;
+  }
+  /** 全局触发率增幅倍率 */
+  get finalProcChanceMul() {
+    return this._procChanceExtra / 100;
+  }
+  /** 全局触发率时间增幅倍率 */
+  get finalProcDurationMul() {
+    return this._procDurationExtra / 100;
   }
   /** 额外触发几率 */
   get extraProcChance() {
@@ -350,7 +366,10 @@ export abstract class ModBuild implements CommonBuild {
   /** 暴击率 */
   get critChance() {
     if (this.critChanceLock != -1) return this.critChanceLock;
-    return Math.max(0, this.mode.critChance * this.critChanceMul + this.critChanceAdd + this.headShotChance * this.critWhenHeadshotAdd);
+    return Math.max(
+      0,
+      (this.mode.critChance * this.critChanceMul + this.critChanceAdd + this.headShotChance * this.critWhenHeadshotAdd) * this.finalCritChanceMul
+    );
   }
   /** 暴击倍率 */
   get critMul() {
@@ -966,8 +985,9 @@ export abstract class ModBuild implements CommonBuild {
   }
 
   /** 应用MOD */
-  applyMod(mod: NormalMod) {
-    this._mods.push(mod);
+  applyMod(mod: NormalMod | NormalMod[]) {
+    if (Array.isArray(mod)) this._mods.push(...mod);
+    else this._mods.push(mod);
     this.calcMods();
     return this;
   }
@@ -1007,6 +1027,10 @@ export abstract class ModBuild implements CommonBuild {
     this._critWhenHeadshotAdd = 0;
     this._procChanceMul = 100;
     this._procChanceAdd = 0;
+    this._critChanceExtra = 100;
+    this._critMulExtra = 100;
+    this._procChanceExtra = 100;
+    this._procDurationExtra = 100;
     this._procDurationMul = 100;
     this._procDamageMul = 100;
     this._enemyDmgMul = [100, 100, 100, 100, 100];
@@ -1023,7 +1047,6 @@ export abstract class ModBuild implements CommonBuild {
     this._combElementsOrder = [];
     this._extraProcChance = [];
     this._overallMul = 100 + this.extraOverall;
-    this._finalCritMulMul = 100;
     this._allEnemyDmgMul = 0;
     this._multishotMul = 100;
     this._critChanceLock = -100;
@@ -1040,14 +1063,14 @@ export abstract class ModBuild implements CommonBuild {
   /** 清除所有MOD并重置属性增幅器 */
   clear() {
     this._mods = [];
-    this.reset();
+    this.calcMods();
   }
 
   /** 检测当前MOD是否可用 */
   isValidMod(mod: NormalMod) {
     let mods = compact(this._mods);
     // 如果相应的P卡已经存在则不使用
-    if (mods.some(v => (mod.id !== "RIVENFAKE" && v.id === mod.id) || v.id === mod.primed || v.primed === mod.id || (mod.primed && v.primed === mod.primed)))
+    if (mods.some(v => (mod.id !== "RIVENFAKE" && v.id === mod.id) || v.id === mod.primed || v.primed === mod.id || (v.primed && v.primed === mod.primed)))
       return false;
     // 只允许选择的元素
     if (this.allowElementTypes) if (mod.props.some(v => ExtraDmgSet.has(v[0]))) if (!mod.props.some(v => this.allowElementTypes.includes(v[0]))) return false;
@@ -1133,7 +1156,26 @@ export abstract class ModBuild implements CommonBuild {
    * @param mod NormalMod
    * @return MOD增幅数值
    */
-  testMod(mod: NormalMod) {
+  testMod(mod: NormalMod | NormalMod[]) {
+    if (Array.isArray(mod)) {
+      if (mod.length === 0) return -1;
+      if (mod.length === 1) {
+        mod = mod[0];
+      } else {
+        if (mod.some(m => !this.isValidMod(m))) return -1;
+        if (mod.some(m => this.isNoNeedMod(m))) return -1;
+        if (mod.length + this._mods.length > 8) return -1;
+        let oldVal = this.compareDamage;
+        const oldLen = this._mods.length;
+        this._mods.push(...mod);
+        this.calcMods();
+        let newVal = this.compareDamage;
+        this._mods.length = oldLen;
+        this.calcMods();
+        return newVal / oldVal - 1;
+      }
+    }
+
     // MOD查重
     if (!this.isValidMod(mod)) return -1;
     if (this.isNoNeedMod(mod)) return -1;
@@ -1180,10 +1222,11 @@ export abstract class ModBuild implements CommonBuild {
     }
     // 通用方法
     let oldVal = this.compareDamage;
+    const oldLen = this._mods.length;
     this._mods.push(mod);
     this.calcMods();
     let newVal = this.compareDamage;
-    this._mods.pop();
+    this._mods.length = oldLen;
     this.calcMods();
     return newVal / oldVal - 1;
   }
@@ -1210,7 +1253,7 @@ export abstract class ModBuild implements CommonBuild {
   fillEmpty(slots = 8, useRiven = 0, lib = this.avaliableMods, rivenLimit = 0) {
     // 根据武器自动选择所有可安装的MOD
     let mods = (this._mods = compact(this._mods));
-    let othermods = lib.filter(v => !mods.some(k => (v.id === k.id && (v.id === "RIVENFAKE" ? v.props[0][0] === k.props[0][0] : true)) || v.id === k.primed));
+    let othermods = lib.filter(v => !mods.some(k => (v.id === k.id && (v.id === "RIVENFAKE" ? v.props[0][0] === k.props[0][0] : true)) || v.primed === k.id));
     let rivenCount = mods.reduce((a, b) => a + (b.id === "RIVENFAKE" ? 1 : 0), 0),
       rivenSlots = rivenLimit ? slots + rivenLimit - 1 : slots;
     if (useRiven > 0) {
@@ -1218,30 +1261,38 @@ export abstract class ModBuild implements CommonBuild {
       // 1. 将紫卡直接插入
       else othermods.push(this.riven.normalMod(this.weapon)); // 1. 将紫卡作为一张普卡进行计算
     }
-    // 有目标时计算复合元素收益
-    if (this.damageModel || this.target) {
-      const elmMods = lib.filter(v => v.isElement);
-      console.log(elmMods);
+    const elmMods = othermods.filter(v => v.isElement && !othermods.some(mod => mod.primed === v.id)).sort((a, b) => b.props[0][1] - a.props[0][1]);
+    // 获取所有元素组合
+    const elementsGroups = getComb(elmMods, 4);
+    function getComb<T extends NormalMod>(arr: T[], maxL: number) {
+      const len = maxL ? Math.min(arr.length, maxL) : arr.length;
+      const rst: [T, T][] = [];
+      for (let i = 0; i < len; i++) for (let j = i + 1; j < len; j++) if (arr[i].elemType !== arr[j].elemType) rst.push([arr[i], arr[j]]);
+      return rst;
     }
 
-    let sortableMods = othermods.map(v => [v, 0] as [NormalMod, number]);
+    let sortableMods = [...othermods.map(v => [[v], 0] as [NormalMod[], number]), ...elementsGroups.map(v => [v, 0] as [NormalMod[], number])];
+    let iteration = 0;
     while (mods.length < rivenSlots && sortableMods.length > 0) {
+      ++iteration;
       // 2. 计算收益
       // console.log("开始计算收益: ", this._mods.length)
       sortableMods.forEach(v => {
-        if (v[0].id === "RIVENFAKE" ? rivenCount >= rivenLimit : mods.length - rivenCount >= rivenSlots - rivenLimit) v[1] = -2;
+        if (v[0][0].id === "RIVENFAKE" ? rivenCount >= rivenLimit : mods.length - rivenCount >= rivenSlots - rivenLimit) v[1] = -2;
         else v[1] = this.testMod(v[0]);
-        // v[0].id === "RIVENFAKE" && console.log("测试收益: ", this._mods.map(v => v.name).join(","), v[0].props[0][1], v[0].name, "的收益是", v[1]);
+        // if (v[0][0].id !== "RIVENFAKE") console.log(`[第${iteration}次迭代]测试收益(在[${this._mods.map(v => v.name).join(",")}]中): [`, v[0].join(), "]的收益是", v[1]);
       });
       // 3. 把所有卡按收益排序 []
-      sortableMods.sort((a, b) => (b[1] == a[1] ? (NormalCardDependTable[a[0].id] === b[0].id ? 1 : b[0].name.localeCompare(a[0].name)) : b[1] - a[1]));
+      sortableMods.sort((a, b) =>
+        b[1] == a[1] ? (NormalCardDependTable[a[0][0].id] === b[0][0].id ? 1 : b[0][0].name.localeCompare(a[0][0].name)) : b[1] - a[1]
+      );
       if (sortableMods.length > 0) {
         // console.log("计算收益最高值: ", sortableMods[0][0].name, "的收益是", sortableMods[0][1]);
         // 4. 将收益最高的一项插入并移出数组
         let expMod = sortableMods.shift();
         // 跳过负收益 (可能是被过滤的)
         if (expMod[1] < 0) break;
-        if (expMod[0].id === "RIVENFAKE") rivenCount++;
+        if (expMod[0][0].id === "RIVENFAKE") rivenCount++;
         this.applyMod(expMod[0]);
         // 5. 重复以上步骤直到卡槽充满
       }
@@ -1487,8 +1538,17 @@ export abstract class ModBuild implements CommonBuild {
       case "sd":
         /* 触发伤害 procDamageMul */ this._procDamageMul = this._procDamageMul + pValue;
         break;
-      case "fcd":
-        /* 最终暴伤 finalCritMulMul */ this._finalCritMulMul = (this._finalCritMulMul * (100 + pValue)) / 100;
+      case "e0":
+        /* 总暴击率 */ this._critChanceExtra += (this._critChanceExtra * (100 + pValue)) / 100;
+        break;
+      case "e1":
+        /* 总暴击伤害 */ this._critMulExtra = (this._critMulExtra * (100 + pValue)) / 100;
+        break;
+      case "e2":
+        /* 总触发率 */ this._procChanceExtra += (this._procChanceExtra * (100 + pValue)) / 100;
+        break;
+      case "e3":
+        /* 总触发时间 */ this._procDurationExtra += (this._procDurationExtra * (100 + pValue)) / 100;
         break;
       case "i0":
         /* 加法暴击 critChanceAdd */ this._critChanceAdd = this._critChanceAdd + pValue;
@@ -1562,7 +1622,6 @@ export abstract class ModBuild implements CommonBuild {
       case "eA":
         /* Initial Slash 初始切割 */ this._absExtra.push(["Slash", pValue]);
         break;
-
       case "b4":
         /** Initial Heat 初始火伤 */ this._relExtra.push(["Heat", pValue]);
         break;
@@ -1628,7 +1687,7 @@ export abstract class ModBuild implements CommonBuild {
 
   /** 极化次数增加最大容量 */
   get isExtendCost() {
-    return this.weapon.tags.has("Kuva Weapon") || this.weapon.name == "Paracesis";
+    return this.weapon.tags.has("Kuva Weapon") || this.weapon.tags.has("Tenet Weapon") || this.weapon.name == "Paracesis";
   }
   /** 最大容量 */
   get maxCost() {

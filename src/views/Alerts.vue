@@ -361,7 +361,7 @@ export default class Alerts extends Vue {
     let wrapperWidth = (this.$refs.wrapper as HTMLElement).getBoundingClientRect().width;
     this.scrollEnable = wrapperWidth < this.scrollWidth;
   }
-  scrollHorizontally(e: MouseWheelEvent) {
+  scrollHorizontally(e: MouseEvent) {
     e.preventDefault();
     var delta = Math.max(-1, Math.min(1, e["wheelDelta"] || -e.detail));
     const width = document.querySelector("#app > section > main > div.wrapper.alerts-container").querySelector(".index-card.sortie").clientWidth;

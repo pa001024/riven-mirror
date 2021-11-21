@@ -198,7 +198,7 @@ export class Kitgun extends Weapon {
   static loadGrip(chamber: KitgunChamber, grip: KitgunGrip) {
     const data = { ...grip.chambersData[chamber.index], type: grip.type };
     if (grip.type === "Primary") {
-      data.type = chamber.name === "Catchmoon" ? "Shotgun" : "Rifle";
+      data.type = (chamber.name === "Catchmoon" || chamber.name === "Sporelacer") ? "Shotgun" : "Rifle";
     }
     return data;
   }
@@ -305,7 +305,7 @@ export class Kitgun extends Weapon {
     });
     let tags = this.grip.type === "Primary" ? ["Primary", "Rifle", "Assault Rifle", "Kitgun"] : ["Secondary", "Kitgun"];
     if (this.grip.type === "Primary") {
-      if (this.name === "Catchmoon") {
+      if (this.name === "Catchmoon" || this.name === "Sporelacer") {
         tags = ["Primary", "Shotgun", "Kitgun"];
       }
     } else if (this.name === "Gaze") {

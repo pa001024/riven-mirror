@@ -197,6 +197,13 @@ export const BuffList: BuffData[] = [
     ["b8", "kuvaImpact", [["b8", 1, 0]], "Kuva Weapon"], // 初始冲击
     ["bM", "kuvaMagnetic", [["bM", 1, 0]], "Kuva Weapon"], // 初始磁力
     ["bR", "kuvaRadiation", [["bR", 1, 0]], "Kuva Weapon"], // 初始辐射
+    ["t4", "tenetHeat", [["b4", 1, 0]], "Tenet Weapon"], // 初始火伤
+    ["t5", "tenetCold", [["b5", 1, 0]], "Tenet Weapon"], // 初始冰伤
+    ["t6", "tenetToxin", [["b6", 1, 0]], "Tenet Weapon"], // 初始毒伤
+    ["t7", "tenetElectricity", [["b7", 1, 0]], "Tenet Weapon"], // 初始电伤
+    ["t8", "tenetImpact", [["b8", 1, 0]], "Tenet Weapon"], // 初始冲击
+    ["tM", "tenetMagnetic", [["bM", 1, 0]], "Tenet Weapon"], // 初始磁力
+    ["tR", "tenetRadiation", [["bR", 1, 0]], "Tenet Weapon"], // 初始辐射
   ].map(
     v =>
       ({
@@ -371,6 +378,33 @@ export const BuffList: BuffData[] = [
     type: BuffType.BaseDamage,
     target: "Gun",
     dynamicProps: [["S", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100,
+  },
+  {
+    id: "gf",
+    name: "firerate", // 通用攻速
+    type: BuffType.BaseDamage,
+    target: "Gun",
+    dynamicProps: [["R", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100,
+  },
+  {
+    id: "gr",
+    name: "reload", // 装填速度 (通用)
+    type: BuffType.Speed,
+    target: "Gun",
+    dynamicProps: [["F", 1, 0]],
+    parms: ["power", "%"],
+    defaultValue: 100,
+  },
+  {
+    id: "gm",
+    name: "magazine", // 弹匣容量 (通用)
+    type: BuffType.Speed,
+    target: "Gun",
+    dynamicProps: [["L", 1, 0]],
     parms: ["power", "%"],
     defaultValue: 100,
   },
@@ -609,7 +643,7 @@ export const BuffList: BuffData[] = [
     id: "C",
     name: "conditionOverlord", // 异况超量 次方计算
     type: BuffType.BaseDamage,
-    target: "Melee",
+    target: "All",
     multiLayer: {
       maxStack: 16,
       stackableProps: [["esc", 1]],
@@ -778,7 +812,7 @@ export const BuffList: BuffData[] = [
     name: "electricShield", // 电盾
     type: BuffType.Other,
     target: "Ranged",
-    props: [["fcd", 100]],
+    props: [["e1", 100]],
     multiLayer: {
       maxStack: 48,
       stackableProps: [["eed", 50]],
@@ -790,7 +824,7 @@ export const BuffList: BuffData[] = [
     name: "energyShell", // 能量护罩
     type: BuffType.Other,
     target: "Ranged",
-    props: [["fcd", 100], ["efd", 50]],
+    props: [["e1", 100], ["efd", 50]],
   },
   {
     id: "e",
@@ -807,7 +841,7 @@ export const BuffList: BuffData[] = [
     name: "mutalistQuanta", // 异融量子枪次要
     type: BuffType.Other,
     target: "Ranged",
-    props: [["fcd", 25], ["i0", 25], ["oad", -33.3]],
+    props: [["e1", 25], ["i0", 25], ["oad", -33.3]],
     multiLayer: {
       maxStack: 3,
       unstackableProps: [[["eed", 100]], [["eed", 366.6]], [["eed", 500]]],

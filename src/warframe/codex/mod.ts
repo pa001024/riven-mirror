@@ -178,6 +178,11 @@ export class NormalMod implements NormalModData {
       },
       level
     );
+
+  }
+
+  toString() {
+    return this.name || '';
   }
 
   constructor(data: NormalModData, userLevel?: number) {
@@ -210,13 +215,15 @@ const linkedMods = [
   ["Metal Fiber", "Link Armor"], // 护甲
   ["Pistol Gambit", "Primed Pistol Gambit", "Creeping Bullseye"], // 暴击
   ["Point Strike", "Critical Delay"], // 暴击
+  ["Fury", "Primed Fury", "Berserker Fury"], // 攻速
 ];
 /**
  * 普通MOD信息
  */
 export const NormalModDatabase = _normalModSource.map(v => {
+  const prefixs = ["Primed ", "Galvanized ", "Amalgam "];
   let linked = linkedMods.find(k => v[1] === k[0]);
-  let pr = _normalModSource.find(k => (linked ? k[1] === linked[1] : k[1] === "Primed " + v[1] || k[1] === "Amalgam " + v[1]));
+  let pr = _normalModSource.find(k => (linked ? k[1] === linked[1] : prefixs.some(p => p + k[1] === v[1])));
   return new NormalMod({
     key: v[0],
     id: v[1],
@@ -260,3 +267,5 @@ export const AcolyteModsList: string[] = [
 ];
 
 export const VirtualMeleeMods = ["D3", "D4", "D5", "D6"];
+
+(window as any).NormalModDatabase = NormalModDatabase;

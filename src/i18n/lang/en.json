@@ -588,7 +588,9 @@
     "harness": "Harness",
     "fuselage": "Fuselage",
     "engines": "Engines",
-    "avionics": "Avionics"
+    "avionics": "Avionics",
+    "immortalSkin": "Immortal Skin",
+    "mask": "Mask"
   },
   "weaponmode": {
     "default": "Default",
@@ -612,7 +614,8 @@
     "kuva": "Kuva",
     "arbitration": "Arbitration",
     "sentientOutposts": "Sentient Outpost",
-    "inactive": "Inactive"
+    "inactive": "Inactive",
+    "steelpath": "Steel Path"
   },
   "prop": {
     "fullName": {
@@ -709,7 +712,8 @@
       "sccm": "{0} Status Chance stacks with Combo Multiplier",
       "ccws": "{0} combo chance when Slash status deals damage",
       "bsk": "{0} Final Attack Speed",
-      "co": "{0} Final Damage stacks with Status Types",
+      "ga": "{0} Final Damage stacks with Status Types",
+      "co": "{0} Melee Damage stacks with Status Types",
       "gdr": "parry taunts enemies within {0} meters to target you instead of allies.",
       "hlr": "{0} Healed when hitting a target affected by status",
       "exd": "{0} Bonus Damage",
@@ -720,7 +724,7 @@
       "ac": "{0} chance to apply Slice on Crit",
       "ds": "{0} Damage when Stealth",
       "sd": "{0} Status Damage",
-      "fcd": "{0} MORE Crit Damage",
+      "e1": "{0} MORE Crit Damage",
       "i0": "{0} flat Crit Chance",
       "smd": "{0} Damage to Sentient",
       "dmg": "{0} Damage",
@@ -952,6 +956,7 @@
       "sccm": "Combo Status Chance",
       "ccws": "Combo when Slash",
       "bsk": "Final Attack Speed",
+      "ga": "Status Stack Damage",
       "co": "Status Stack Damage",
       "gdr": "Taunt",
       "hlr": "Heal",
@@ -964,7 +969,7 @@
       "ac": "Slice on Crit",
       "ds": "Damage when Stealth",
       "sd": "Status Damage",
-      "fcd": "Final Crit Damage",
+      "e1": "Final Crit Damage",
       "i0": "Crit Chance ADD",
       "smd": "Sentient Damage",
       "dmg": "Damage",
@@ -1283,7 +1288,8 @@
       "infested": "Infested (Infested)",
       "infestedFlesh": "Infested (Infested Flesh)",
       "infestedElite": "Infested (Fossilized)",
-      "tenno": "Tenno (Flesh + Ferrite Armor)"
+      "tenno": "Tenno (Flesh + Ferrite Armor)",
+      "eidolonShield": "Eidolon Shield"
     }
   },
   "buildview": {
@@ -1412,7 +1418,9 @@
     },
     "weaponWarn": "WARNING",
     "weaponWarnTip": "Chosen riven is not available for this weapon (you may choose wrong weapon), confirm operation?",
-    "rivenexists": "Riven mod already exists"
+    "rivenexists": "Riven mod already exists",
+    "ability": "Ability",
+    "tank": "Tank"
   },
   "timeline": {
     "table": "TABLE",
@@ -1549,7 +1557,9 @@
       "catchmoon": "Energy Shotgun",
       "gaze": "Continuous",
       "rattleguts": "Full-auto",
-      "tombfinger": "Launcher"
+      "tombfinger": "Launcher",
+      "sporelacer": "",
+      "vermisplicer": ""
     }
   },
   "amp": {
@@ -1692,6 +1702,9 @@
     "baseDamage": "Base Damage (Common)",
     "critChance": "Crit Chance (Common)",
     "multishot": "Multishot (Common)",
+    "firerate": "Firerate (Common)",
+    "reload": "Reload (Common)",
+    "magazine": "Magazine (Common)",
     "combo": "Combo (Sniper)",
     "meleeCombo": "Combo (Melee)",
     "finalDamage": "Final Damage (Common)",
@@ -1751,6 +1764,13 @@
     "kuvaImpact": "Kuva (Impact)",
     "kuvaMagnetic": "Kuva (Magnetic)",
     "kuvaRadiation": "Kuva (Radiation)",
+    "tenetHeat": "Tenet (Heat)",
+    "tenetCold": "Tenet (Cold)",
+    "tenetToxin": "Tenet (Toxin)",
+    "tenetElectricity": "Tenet (Electricity)",
+    "tenetImpact": "Tenet (Impact)",
+    "tenetMagnetic": "Tenet (Magnetic)",
+    "tenetRadiation": "Tenet (Radiation)",
     "strength": "Ability Strength",
     "charm": "Charm",
     "unairu": "Unairu Wisp",
@@ -2002,7 +2022,11 @@
     "control": "Control",
     "archwing": "Archwing",
     "roboticWeapon": "Robotic Weapon",
-    "kuvaWeapon": "Kuva Weapon"
+    "kuvaWeapon": "Kuva Weapon",
+    "amp": "Amp",
+    "atmosphere": "Atmosphere",
+    "kitgun": "Kitgun",
+    "zaw": "Zaw"
   },
   "info": {
     "nav": "NAV",

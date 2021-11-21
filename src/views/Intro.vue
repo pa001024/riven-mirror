@@ -104,7 +104,7 @@
         </el-row>
       </div>
     </div>
-    <div class="section sponser">
+    <!-- <div class="section sponser">
       <div class="container">
         <h1 class="title" v-t="'intro.sponser'"></h1>
         <div class="sponser-list">
@@ -118,7 +118,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="section footer white-bg">
       <div class="container">
         <div class="line">

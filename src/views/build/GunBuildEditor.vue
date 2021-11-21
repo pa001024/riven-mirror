@@ -108,6 +108,12 @@
                   <el-slider class="right-side fill" v-model="headShotChance" size="small" :format-tooltip="v=>v+'%'" @change="optionChange"></el-slider>
                 </el-tooltip>
               </el-form-item>
+              <!-- 异况数字化 -->
+              <el-form-item :label="$t('buildview.condiOver')">
+                <el-tooltip effect="dark" :content="$t('buildview.condiOverTip')" placement="bottom">
+                  <el-switch class="right-side" size="small" v-model="calcCondiOver" @change="optionChange"></el-switch>
+                </el-tooltip>
+              </el-form-item>
               <!-- 等级调整 -->
               <el-form-item :label="$t('buildview.levelSetting')">
                 <el-switch class="right-side" size="small" v-model="levelSetting"></el-switch>
@@ -248,6 +254,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
 
   amrorReduce = 0;
   shieldReduce = 0;
+  calcCondiOver = true;
 
   enemyData: EnemyData = null;
   enemy: Enemy = null;
@@ -256,6 +263,7 @@ export default class GunBuildEditor extends BaseBuildEditor {
 
   @Watch("weapon")
   reload() {
+    this.calcCondiOver = !this.weapon.tags.has("Virtual");
     super.reload();
 
     this.build.target = this.enemy;
@@ -277,7 +285,8 @@ export default class GunBuildEditor extends BaseBuildEditor {
     return {
       // headShotChance: this.headShotChance / 100,
       amrorReduce: this.amrorReduce / 100,
-      burstSampleSize: this.burstSampleSize
+      burstSampleSize: this.burstSampleSize,
+      calcCondiOver: this.calcCondiOver
     };
   }
 

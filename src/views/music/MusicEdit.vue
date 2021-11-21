@@ -846,7 +846,7 @@ export default class MusicEdit extends Vue {
     this.stopSeq();
   }
 
-  scrollHorizontally(e: MouseWheelEvent) {
+  scrollHorizontally(e: WheelEvent) {
     e.preventDefault();
     var delta = Math.max(-1, Math.min(1, e["wheelDelta"] || -e.detail));
     this.pianoWindow.scrollLeft -= delta * 40;
