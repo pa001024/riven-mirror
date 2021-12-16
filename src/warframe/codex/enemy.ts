@@ -890,7 +890,8 @@ export class Enemy extends EnemyData {
         this.applyDmg(dmgs.map(([vn, vv]) => [vn, (vv * bh) / pellets] as [string, number]));
         // [3.腐蚀扒皮] 计算腐蚀触发(连续)
         if (procChance[DamageType.Corrosive] > 0) {
-          this.currentArmor *= 0.75 ** (procChance[DamageType.Corrosive] * bh);
+          let calArmor = this.currentArmor * 0.75 ** (procChance[DamageType.Corrosive] * bh);
+          this.currentArmor = Math.max(this.armor * 0.2, calArmor);
         }
         // [4.1.磁力少盾]
         if (procChance[DamageType.Magnetic] > 0) {
