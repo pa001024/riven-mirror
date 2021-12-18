@@ -34,6 +34,14 @@
         {{fortunaTime.text}}
       </div>
     </div>
+    <div class="time-block cambion">
+      <div class="time-header">
+        {{$t("time.cambion")}} {{cambionTime.phase}}
+      </div>
+      <div class="time-clock">
+        {{cambionTime.text}}
+      </div>
+    </div>
     <div class="time-block earth">
       <div class="time-header">
         {{$t("time.earth")}} {{earthTime.phase}}
@@ -49,7 +57,7 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { i18n } from "@/i18n";
 import Axios from "axios";
-import { CetusTime, EarthTime, FortunaTime } from "@/warframe/gametime";
+import { CetusTime, EarthTime, FortunaTime, CambionTime } from "@/warframe/gametime";
 import localStorage from "universal-localstorage";
 
 interface WarframeTime {
@@ -121,6 +129,7 @@ export default class MiniClock extends Vue {
   cetusTime: WarframeTime = { phase: "", text: "00:00" }
   earthTime: WarframeTime = { phase: "", text: "00:00" }
   fortunaTime: WarframeTime = { phase: "", text: "00:00" }
+  cambionTime: WarframeTime = { phase: "", text: "00:00" }
   timerID: any;
   timeReminder = new TimeReminder();
   now: number;
@@ -155,6 +164,7 @@ export default class MiniClock extends Vue {
     this.cetusTime = { phase: CetusTime.phaseText, text: CetusTime.text };
     this.earthTime = { phase: EarthTime.phaseText, text: EarthTime.text };
     this.fortunaTime = { phase: FortunaTime.phaseText, text: FortunaTime.text };
+    this.cambionTime = { phase: CambionTime.phaseText, text: CambionTime.text };
     this.timeReminder.testSchedule();
     this.cetusFutureTimes = CetusTime.futures(5);
   }

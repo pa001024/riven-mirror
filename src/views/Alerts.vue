@@ -22,6 +22,14 @@
                   </div>
                 </div>
               </el-carousel-item>
+              <el-carousel-item class="cambion" :class="[cambionTime.isDay ? 'day' : 'night']">
+                <div class="clock-body">
+                  <div class="block">
+                    <div class="time">{{cambionTime.text}}</div>
+                    <div class="title">{{$t("time.cambion")}} - {{cambionTime.phase}}</div>
+                  </div>
+                </div>
+              </el-carousel-item>
               <el-carousel-item class="earth" :class="[earthTime.isDay ? 'day' : 'night']">
                 <div class="clock-body">
                   <div class="block">
@@ -270,6 +278,22 @@
             </ul>
           </el-card>
         </el-col>
+        <!-- 火卫二赏金 -->
+        <el-col :xs="24" :sm="12" :lg="8" v-if="entrati.length > 0">
+          <el-card class="index-card entrati">
+            <h3 slot="header"><WfIcon type="entrati" shadow/> {{$t("alerting.entrati")}}</h3>
+            <ul>
+              <li v-for="(v, i) in entrati" :key="i">
+                <div class="info">
+                  <div class="mission">{{v.type}}</div>
+                  <div class="reward">
+                    <div class="reward-item" v-for="reward in v.rewardPool" :key="reward">{{reward}}</div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </el-card>
+        </el-col>
       </el-row>
     </div>
   </div>
@@ -279,7 +303,7 @@
 import { Vue, Component, Watch, Prop } from "vue-property-decorator";
 import BScroll from "better-scroll";
 import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert, Nightwave, Kuva, Arbitration, SentientOutpost } from "@/warframe/worldstat";
-import { CetusTime, FortunaTime, EarthTime, SentientTime } from "@/warframe/gametime";
+import { CetusTime, FortunaTime, CambionTime, EarthTime, SentientTime } from "@/warframe/gametime";
 import { Getter, Action } from "vuex-class";
 import "../less/alert.less";
 
@@ -292,6 +316,7 @@ interface WarframeTime {
 export default class Alerts extends Vue {
   cetusTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
   fortunaTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
+  cambionTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
   earthTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
   sentientTime = { active: true, text: "00:00" };
   timerID: number;
@@ -310,6 +335,7 @@ export default class Alerts extends Vue {
   invasions: Invasion[] = [];
   ostrons: Job[] = [];
   solarisUnited: Job[] = [];
+  entrati: Job[] = [];
   voidTrader: VoidTrader = null;
   nightwave: Nightwave = null;
   kuva: Kuva[] = [];
@@ -415,6 +441,7 @@ export default class Alerts extends Vue {
         this.invasions = this.stat.invasions;
         this.ostrons = this.stat.ostrons;
         this.solarisUnited = this.stat.solarisUnited;
+        this.entrati = this.stat.entrati;
         this.voidTrader = this.stat.voidTrader;
         this.nightwave = this.stat.nightwave;
         this.kuva = this.stat.kuva || [];
@@ -431,6 +458,7 @@ export default class Alerts extends Vue {
     this.seconds = ~~(Date.now() / 1e3);
     this.cetusTime = { isDay: CetusTime.isDay, phase: CetusTime.phaseText, text: CetusTime.text };
     this.fortunaTime = { isDay: FortunaTime.isDay, phase: FortunaTime.phaseText, text: FortunaTime.text };
+    this.cambionTime = { isDay: CambionTime.isDay, phase: CambionTime.phaseText, text: CambionTime.text };
     this.earthTime = { isDay: EarthTime.isDay, phase: EarthTime.phaseText, text: EarthTime.text };
     this.sentientTime = { active: SentientTime.isActive, text: SentientTime.text };
   }
