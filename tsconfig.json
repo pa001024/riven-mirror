@@ -19,6 +19,9 @@
     "sourceMap": false,
     "pretty": false,
     "resolveJsonModule": true,
-    "types": ["lodash", "animejs", "axios", "vue", "vuex", "vuex-class", "vue-i18n"]
+    "types": ["lodash", "animejs", "axios", "vue", "vuex", "vuex-class", "vue-i18n"],
+    "strict": false,
+    "importHelpers": true,
+    "forceConsistentCasingInFileNames": true
   }
 }

@@ -68,6 +68,15 @@
 加载过程分为网络过程和本地过程 离线自动降级
 
 
+## 贡献
+
+没什么要求，直接提交MR即可。
+
+本地编译设置下镜像：
+```bash
+yarn config set ELECTRON_MIRROR http://npm.taobao.org/mirrors/electron/
+yarn config set ELECTRON_BUILDER_BINARIES_MIRROR https://npm.taobao.org/mirrors/electron-builder-binaries/
+```
 
 
 ## change log
