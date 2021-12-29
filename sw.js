@@ -11,7 +11,7 @@ var precaches = self.__precacheManifest || [];
 var cdnPrecache = [
   "eidolon-day.m.jpg",
   "eidolon-night.m.jpg",
-].map(v => ({ url: "https://cdn.riven.im/img/" + v }));
+].map(v => ({ url: "https://rm-img.oss-accelerate.aliyuncs.com/img/" + v }));
 workbox.precaching.precacheAndRoute(precaches.concat(cdnPrecache));
 
 workbox.routing.registerRoute(

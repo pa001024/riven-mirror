@@ -83,7 +83,7 @@ class TimeReminder {
         if (!this.notification) {
           this.notification = new Notification(i18n.t("reminder.notificationTitle") as string, {
             body: i18n.t("reminder.notificationBody", [this.minutesInAdvance]) as string,
-            icon: "https://cdn.riven.im/img/eidolon-night.m.jpg"
+            icon: "https://rm-img.oss-accelerate.aliyuncs.com/img/eidolon-night.m.jpg"
           });
           this.notification.onclick = () => {
             this.removeSchedule(v);
