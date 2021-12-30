@@ -110,3 +110,10 @@ export class FortunaTime {
     return i18n.t("time.warm").toString(); // 0 ~ 400s
   }
 }
+
+export class CambionTime extends CetusTime{
+  /** 返回 Fass/Vome */
+  static get phaseText() {
+        return this.isDay ? i18n.t("time.fass").toString() : i18n.t("time.vome").toString();
+  }
+}

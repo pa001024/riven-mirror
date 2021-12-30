@@ -10,7 +10,7 @@
       <div class="part-box" v-for="item in chamberList" :key="item.id">
         <el-radio class="part" v-model="chamber" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunChamber${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
+            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/kitgunChamber${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.id}`)}}
@@ -26,7 +26,7 @@
       <div class="part-box" v-for="item in gripList" :key="item.id">
         <el-radio class="part" v-model="grip" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunGrip${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
+            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/kitgunGrip${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.id}`)}}
@@ -44,7 +44,7 @@
       <div class="part-box" v-for="item in loaderList" :key="item.id">
         <el-radio class="part" v-model="loader" :label="item" border>
           <div class="snapshot">
-            <img :src="`https://cdn.riven.im/img/kitgunLoader${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
+            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/kitgunLoader${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%">
           </div>
           <div class="name">
             {{$t(`messages.${item.id}`)}}
