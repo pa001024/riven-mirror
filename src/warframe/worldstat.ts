@@ -25,6 +25,7 @@ export interface WarframeStat {
   cetusCycle: CetusCycle;
   constructionProgress: ConstructionProgress;
   vallisCycle: VallisCycle;
+  cambionCycle: CambionCycle;
   nightwave: Nightwave;
   sentientOutposts: SentientOutpost;
   kuva: Kuva[];
@@ -109,6 +110,14 @@ export interface VallisCycle {
   expiry: string;
   isWarm: boolean;
   timeLeft: string;
+  shortString: string;
+}
+
+export interface CambionCycle {
+  id: string;
+  expiry: string;
+  timeLeft: string;
+  active: string;
   shortString: string;
 }
 
@@ -355,6 +364,7 @@ export interface SyndicateMission {
   activation: string;
   expiry: string;
   syndicate: string;
+  syndicateKey: string;
   nodes: string[];
   jobs: Job[];
   eta: string;
@@ -680,7 +690,7 @@ export class WorldStat {
    */
   get ostrons() {
     if (!this.data) return [];
-    let data = this.data.syndicateMissions.find(v => v.syndicate === "Ostrons");
+    let data = this.data.syndicateMissions.find(v => v.syndicateKey === "Ostrons");
     if (!data) return [];
     return this.deepTranslate(data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(\d+)X (.+)$/, "$1 $2"))), v)));
   }
@@ -690,7 +700,17 @@ export class WorldStat {
    */
   get solarisUnited() {
     if (!this.data) return [];
-    let data = this.data.syndicateMissions.find(v => v.syndicate === "Solaris United");
+    let data = this.data.syndicateMissions.find(v => v.syndicateKey === "Solaris United");
+    if (!data) return [];
+    return this.deepTranslate(data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(\d+)X (.+)$/, "$1 $2"))), v)));
+  }
+
+  /**
+   * 火卫二平原赏金信息
+   */
+  get entrati() {
+    if (!this.data) return [];
+    let data = this.data.syndicateMissions.find(v => v.syndicateKey === "Entrati");
     if (!data) return [];
     return this.deepTranslate(data.jobs.map(v => (v.rewardPool && (v.rewardPool = v.rewardPool.map(k => k.replace(/(\d+)X (.+)$/, "$1 $2"))), v)));
   }
@@ -761,5 +781,12 @@ export class WorldStat {
    */
   get vallisCycle() {
     return this.data.vallisCycle;
+  }
+
+  /**
+   * 殁世幽都时间
+   */
+  get cambionCycle() {
+    return this.data.cambionCycle;
   }
 }
