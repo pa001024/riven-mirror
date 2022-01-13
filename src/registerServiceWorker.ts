@@ -22,7 +22,7 @@ const isLocalhost = Boolean(
 );
 // The URL constructor is available in all browsers that support SW.
 const publicUrl = new URL(
-  "https://riven.im/",
+  "https://riven-im.vercel.app/",
   window.location.toString()
 );
 

@@ -13,7 +13,7 @@
                 <span class="umbra" v-if="build.umbraCount"> + {{build.umbraCount}}U </span>
                 ]
               </template>
-              <ShareQR :url="'https://riven.im'+$route.path"/>
+              <ShareQR :url="'https://riven-im.vercel.app'+$route.path"/>
             </div>
             <div class="weapon-capacity"></div>
             <div class="weapon-props">
