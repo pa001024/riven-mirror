@@ -2,10 +2,10 @@
   <div class="music-edit" tabindex="0" @keydown="keyDown" @keyup="keyUp" @mousemove="selectMove" @mouseup="selectEnd">
     <div class="edit-header setting">
       <el-button size="small" type="primary" @click="showHelp = true">{{ $t("shawzin.help") }}</el-button>
-      <el-select style="width:90px" v-model="music.mode" size="small">
+      <el-select style="width: 90px" v-model="music.mode" size="small">
         <el-option :key="mode.name" v-for="mode in modes" :label="$t(`shawzin.${mode.name}`)" :value="mode.val" :disabled="!modeMaps[mode.val]" />
       </el-select>
-      <el-select style="width:120px" v-model="instrument" size="small">
+      <el-select style="width: 120px" v-model="instrument" size="small">
         <el-option :label="$t('shawzin.piano')" value="piano" />
         <el-option :label="$t('shawzin.shawzin')" value="shawzin" />
         <el-option :label="$t('shawzin.lotus')" value="lotus" />
@@ -16,7 +16,7 @@
         <!-- BPM -->
         <div class="setting-line">
           <label>BPM: </label>
-          <el-select style="width:80px" size="small" v-model="music.bpm">
+          <el-select style="width: 80px" size="small" v-model="music.bpm">
             <el-option v-for="item in bpms" :key="item" :label="item" :value="item" />
           </el-select>
         </div>
@@ -35,7 +35,7 @@
         <!-- 调号 -->
         <div class="setting-line">
           {{ $t("shawzin.transpose") }}
-          <el-select style="width:80px" v-model="music.numberShift" size="mini">
+          <el-select style="width: 80px" v-model="music.numberShift" size="mini">
             <el-option label="C" :value="0" />
             <el-option label="bD" :value="1" />
             <el-option label="D" :value="2" />
@@ -85,8 +85,8 @@
         <el-button size="small" type="danger" :disabled="isRecording" icon="el-icon-video-camera" @click="recordSeq"></el-button>
         <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq"></el-button>
         <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)"></el-button>
-        <el-button size="small" :disabled="!isPlaying && !isRecording && !isShowStop" @click="stopSeq()"><WfIcon type="stop"/></el-button>
-        <el-button size="small" v-model="loop" :type="loop ? 'primary' : 'normal'" @click="loop = !loop"><WfIcon type="loop"/></el-button>
+        <el-button size="small" :disabled="!isPlaying && !isRecording && !isShowStop" @click="stopSeq()"><WfIcon type="stop" /></el-button>
+        <el-button size="small" v-model="loop" :type="loop ? 'primary' : 'normal'" @click="loop = !loop"><WfIcon type="loop" /></el-button>
         <el-button size="small" @click="backspace" icon="el-icon-back"></el-button>
         <el-tooltip effect="dark" :content="$t('shawzin.importCode')" placement="bottom">
           <el-button size="small" @click="importCode" icon="el-icon-download"></el-button>
@@ -524,7 +524,7 @@ export default class MusicEdit extends Vue {
   }
 
   get maxLines() {
-    return 4 * this.music.bpm;
+    return 12 * this.music.bpm;
   }
 
   toNote(y: number) {
@@ -636,10 +636,7 @@ export default class MusicEdit extends Vue {
   /** 时轴缩放 */
   scaleAndMove(to: 1 | -1) {
     let selected = this.blocks.find(b => b.selected);
-    this.scale(to)
-      .selectTo(1)
-      .move(to, 0)
-      .selectAll(false);
+    this.scale(to).selectTo(1).move(to, 0).selectAll(false);
     selected.selected = true;
     selected.x -= to * ROW_WIDTH;
     return this;
@@ -647,9 +644,7 @@ export default class MusicEdit extends Vue {
   /** 插入空白 */
   insert(space = 1) {
     const selected = this.blocks.find(b => b.selected);
-    this.selectTo(1)
-      .move(space, 0)
-      .selectAll(false);
+    this.selectTo(1).move(space, 0).selectAll(false);
     selected.selected = true;
     return this;
   }
