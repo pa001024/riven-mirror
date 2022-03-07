@@ -105,11 +105,7 @@ export class MeleeModBuild extends ModBuild {
     if ((this.weapon = weapon)) {
       this._mode = this.weapon.defaultMode;
       this.avaliableMods = NormalModDatabase.filter(
-        v =>
-          this.weapon.tags
-            .toArray()
-            .concat([this.weapon.name, this.weapon.baseName])
-            .includes(v.type) && !v.props[0][0].startsWith("on")
+        v => this.weapon.tags.toArray().concat([this.weapon.name, this.weapon.baseName]).includes(v.type) && !v.props[0][0].startsWith("on")
       );
     }
     // 自动配卡优化
@@ -175,6 +171,11 @@ export class MeleeModBuild extends ModBuild {
   get slideMode() {
     return this.compareMode === MeleeCompareMode.SlideDamage || this.compareMode === MeleeCompareMode.SlideDamagePS;
   }
+
+  get heavyMode() {
+    return this.compareMode === MeleeCompareMode.HeavyDamage;
+  }
+
   /** 滑行攻击倍率 */
   get slideAttackMul() {
     return this.weapon.slideAttack;
@@ -202,7 +203,7 @@ export class MeleeModBuild extends ModBuild {
   }
   /** [overwrite] 暴击率 */
   get critChance() {
-    return this.slideMode ? this.slideCritChance : this.normalCritChance;
+    return this.heavyMode ? this.heavyCritChance : this.slideMode ? this.slideCritChance : this.normalCritChance;
   }
   /** 平砍暴击率 */
   get normalCritChance() {
@@ -365,9 +366,13 @@ export class MeleeModBuild extends ModBuild {
   get dmgRawHeavy() {
     return this.baseDmg.map(([i, v]) => [i, v * this.panelHeavyBaseDamage]).filter(v => v[1] > 0) as [string, number][];
   }
+  /** 重击面板伤害增幅倍率 */
+  get heavyPanelDamageMul() {
+    return this.panelBaseDamageMul * this.extraDmgMul;
+  }
   /** 重击无模型面板伤害 */
   get panelHeavyDamageRaw() {
-    return this.originalDamage * this.heavyBaseDamageMul;
+    return this.originalDamage * this.heavyPanelDamageMul;
   }
   /** 重击面板基础伤害 */
   get panelHeavyBaseDamage() {
