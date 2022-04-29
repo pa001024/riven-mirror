@@ -1,6 +1,14 @@
 export const magic = "ALPHA";
-export const version = "1.16.0";
+export const version = "1.17.0";
 export const updateLogs = [
+  {
+    version: "1.17.0",
+    date: "2022/4/29",
+    md: {
+      en: `- update: U32`,
+      cn: `- 更新: U32`,
+    },
+  },
   {
     version: "1.16.0",
     date: "2021/12/19",
@@ -42,6 +50,7 @@ export const updateLogs = [
 - 新增: 枪械异况计算及相关BUFF`,
     },
   },
+  /*
   {
     version: "1.14.0",
     date: "2021/7/14",
@@ -60,7 +69,6 @@ export const updateLogs = [
 - [2021五月裂罅倾向调整](https://forums.warframe.com/topic/1265139-may-2021-riven-disposition-updates/)`,
     },
   },
-  /*
   {
     version: "1.12.0",
     date: "2021/4/16",
