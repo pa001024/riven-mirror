@@ -22,7 +22,7 @@
     "copy-text-to-clipboard": "^2.2.0",
     "core-js": "^3.7.0",
     "decko": "^1.2.0",
-    "dexie": "^3.0.3",
+    "dexie": "^3.2.2",
     "echarts": "^4.9.0",
     "element-ui": "^2.14.1",
     "fastclick": "^1.0.6",
