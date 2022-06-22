@@ -152,7 +152,7 @@
           <ul class="clear">
             <li><a href="https://www.warframe.com/" target="_blank" v-t="'intro.fav1'"></a></li>
             <li><a href="https://warframe.huijiwiki.com/" target="_blank" v-t="'intro.fav2'"></a></li>
-            <li><a href="https://warframe.love/" target="_blank" v-t="'intro.fav3'"></a></li>
+            <li><a href="https://warframe.icu/" target="_blank" v-t="'intro.fav3'"></a></li>
             <li><a href="https://warframe.fandom.com/" target="_blank" v-t="'intro.fav4'"></a></li>
             <li><a href="https://wfa.richasy.cn/" target="_blank" v-t="'intro.fav5'"></a></li>
           </ul>
