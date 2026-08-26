@@ -2,7 +2,9 @@
   <el-tabs class="mod-tabs" v-model="selectTab">
     <!-- 快速选择 -->
     <el-tab-pane name="fast" v-if="fast">
-      <template #label><span class="mod-tablabel">{{ $t("modselector.fastSelect") }}</span></template>
+      <template #label
+        ><span class="mod-tablabel">{{ $t("modselector.fastSelect") }}</span></template
+      >
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in fast" :key="index">
           <div class="mod-item" @click="handleClick(mod.id)">
@@ -13,7 +15,9 @@
     </el-tab-pane>
     <!-- 普通MOD -->
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
-      <template #label><span class="mod-tablabel">{{ tab.name }}</span></template>
+      <template #label
+        ><span class="mod-tablabel">{{ tab.name }}</span></template
+      >
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in tab.mods" :key="index">
           <div class="mod-item" :class="[mod.rarity]" @click="handleClick(mod.id)">
@@ -25,7 +29,9 @@
     </el-tab-pane>
     <!-- 紫卡 -->
     <el-tab-pane name="riven" v-if="isWeaponBuild && !isCompanion && (isVirtual || !isExalted)">
-      <template #label><span class="mod-tablabel">{{ $t("modselector.rivenMod") }}</span></template>
+      <template #label
+        ><span class="mod-tablabel">{{ $t("modselector.rivenMod") }}</span></template
+      >
       <div class="mod-select">
         <div class="mod-item-container" v-for="(hiRiven, index) in modHistoty" :key="index">
           <div class="mod-item" @click="newRiven(hiRiven.qrCodeBase64)">
@@ -33,8 +39,8 @@
           </div>
         </div>
       </div>
-      <div style="margin: 8px;">{{ $t("modselector.createRiven") }}</div>
-      <RivenEditor style="margin: 8px;" v-model="editorRivenCode" :weapon="!isVirtual && isWeaponBuild"></RivenEditor>
+      <div style="margin: 8px">{{ $t("modselector.createRiven") }}</div>
+      <RivenEditor style="margin: 8px" v-model="editorRivenCode" :weapon="!isVirtual && isWeaponBuild"></RivenEditor>
       <div style="text-align: right; margin: 0">
         <el-button type="primary" size="default" @click="newRiven()">{{ $t("modselector.ok") }}</el-button>
       </div>
@@ -57,7 +63,7 @@ declare interface ModSelectorTab {
 }
 
 @Component({ components: { RivenEditor } })
-class ModSelector extends Vue  {
+class ModSelector extends Vue {
   get modHistoty(): RivenMod[] {
     return this.$store.getters.modHistoty;
   }
@@ -142,14 +148,14 @@ class ModSelector extends Vue  {
       baseDmg: ["Primed Rubedo-Lined Barrel", "Dual Rounds"],
       crit: ["Parallax Scope", "Hollowed Bullets"],
       aimCrit: ["Critical Focus"],
-      sliverCorrosive: ["Electrified Barrel", "Venomous Clip"],
-      silverRadiation: ["Electrified Barrel", "Combustion Rounds"],
-      silverViral: ["Polar Magazine", "Venomous Clip"],
+      sliverCorrosive: ["Electrified Barrel", "Primed Venomous Clip"],
+      silverRadiation: ["Electrified Barrel", "Primed Combustion Rounds"],
+      silverViral: ["Polar Magazine", "Primed Polar Magazine", "Primed Venomous Clip"],
       goldCorrosive: ["Charged Bullets", "Contamination Casing"],
       goldViral: ["Hypothermic Shell", "Contamination Casing"],
-      gas: ["Magma Chamber", "Contamination Casing", "Venomous Clip"],
+      gas: ["Magma Chamber", "Contamination Casing", "Primed Venomous Clip"],
       allStatus: ["Contamination Casing", "Magma Chamber", "Charged Bullets", "Hypothermic Shell"],
-      allElem: ["Electrified Barrel", "Venomous Clip", "Combustion Rounds", "Polar Magazine"],
+      allElem: ["Electrified Barrel", "Venomous Clip", "Primed Venomous Clip", "Combustion Rounds", "Primed Combustion Rounds", "Primed Polar Magazine"],
     },
     Archwing: {
       skill: ["Primed Morphic Transformer", "Efficient Transferral", "System Reroute", "Energy Amplifier", "Auxiliary Power"],
