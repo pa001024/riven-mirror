@@ -6,16 +6,17 @@
         <div class="core-info" v-if="core">
           <el-card class="infobox">
             <!-- 二维码和名称 -->
-            <div slot="header" class="core-name">
-              <span class="title">{{ core.name }}</span>
-              <template v-if="build.formaCount">
-                [
-                <span class="forma"> {{ $t("build.formaCount", [build.formaCount]) }} </span>
-                <span class="umbra" v-if="build.umbraCount"> + {{ build.umbraCount }}U </span>
-                ]
-              </template>
-              <ShareQR :url="'https://riven-im.vercel.app' + $route.path" />
-            </div>
+            <template #header
+              ><div class="core-name">
+                <span class="title">{{ core.name }}</span>
+                <template v-if="build.formaCount">
+                  [
+                  <span class="forma"> {{ $t("build.formaCount", [build.formaCount]) }} </span>
+                  <span class="umbra" v-if="build.umbraCount"> + {{ build.umbraCount }}U </span>
+                  ]
+                </template>
+                <ShareQR :url="'https://riven-im.vercel.app' + $route.path" /></div
+            ></template>
             <div class="warframe-props">
               <!-- 容量 -->
               <el-row :gutter="4" class="prop-diff cost-show">
@@ -174,14 +175,14 @@
                         <div class="buff-parm layer" v-if="buff.layerEnable">
                           <el-input-number
                             @change="refleshMods()"
-                            size="mini"
+                            size="small"
                             v-model="buff.layer"
                             :min="0"
                             :max="buff.data.multiLayer.maxStack"
                           ></el-input-number>
                         </div>
                         <div class="buff-parm power" v-if="buff.powerEnable">
-                          <el-input-number @change="refleshMods()" :step="0.5" size="mini" v-model="buff.power"></el-input-number>
+                          <el-input-number @change="refleshMods()" :step="0.5" size="small" v-model="buff.power"></el-input-number>
                         </div>
                       </div>
                       <div class="buff-detail" @click.stop="buffRemove(index)">
@@ -209,38 +210,40 @@
         <el-tabs v-model="currentAbility">
           <el-tab-pane :key="index" v-for="(abi, index) in build.Abilities" :label="abi.name" :name="String(index)">
             <el-card class="skill-container">
-              <div slot="header">
-                <el-row type="flex" justify="space-between">
-                  <el-col>
-                    <el-row>
-                      <el-col class="skill-name">
-                        <a
-                          class="skill-wiki"
-                          target="_blank"
-                          :href="$t('zh') ? `https://warframe.huijiwiki.com/wiki/${abi.name}` : `https://warframe.fandom.com/wiki/${abi.url}`"
-                          >{{ abi.name }}</a
-                        >
-                        <a class="skill-wiki en" target="_blank" v-if="$t('zh')" :href="`https://warframe.fandom.com/wiki/${abi.url}`">{{ abi.id }}</a>
-                      </el-col>
-                      <el-col class="skill-tags">
-                        <div class="skill-tag" v-if="abi.oneHand">{{ $t("ability.oneHand") }}</div>
-                        <div class="skill-tag" :key="index" v-for="(tag, index) in abi.tags">{{ tag }}</div>
-                      </el-col>
-                    </el-row>
-                  </el-col>
-                  <el-col class="skill-costs">
-                    <div class="skill-cost">
-                      {{ $t("ability.energyCost", [+abi.energyCost.toFixed(2)]) }}
-                    </div>
-                    <div class="skill-cost" v-if="abi.energyCostPS">
-                      {{ $t("ability.energyCostPS", [+abi.energyCostPS.toFixed(2)]) }}
-                    </div>
-                    <div class="skill-cost" v-if="abi.energyCostN">
-                      {{ $t("ability.energyCostN", [+abi.energyCostN.toFixed(2)]) }}
-                    </div>
-                  </el-col>
-                </el-row>
-              </div>
+              <template #header
+                ><div>
+                  <el-row type="flex" justify="space-between">
+                    <el-col>
+                      <el-row>
+                        <el-col class="skill-name">
+                          <a
+                            class="skill-wiki"
+                            target="_blank"
+                            :href="$t('zh') ? `https://warframe.huijiwiki.com/wiki/${abi.name}` : `https://warframe.fandom.com/wiki/${abi.url}`"
+                            >{{ abi.name }}</a
+                          >
+                          <a class="skill-wiki en" target="_blank" v-if="$t('zh')" :href="`https://warframe.fandom.com/wiki/${abi.url}`">{{ abi.id }}</a>
+                        </el-col>
+                        <el-col class="skill-tags">
+                          <div class="skill-tag" v-if="abi.oneHand">{{ $t("ability.oneHand") }}</div>
+                          <div class="skill-tag" :key="index" v-for="(tag, index) in abi.tags">{{ tag }}</div>
+                        </el-col>
+                      </el-row>
+                    </el-col>
+                    <el-col class="skill-costs">
+                      <div class="skill-cost">
+                        {{ $t("ability.energyCost", [+abi.energyCost.toFixed(2)]) }}
+                      </div>
+                      <div class="skill-cost" v-if="abi.energyCostPS">
+                        {{ $t("ability.energyCostPS", [+abi.energyCostPS.toFixed(2)]) }}
+                      </div>
+                      <div class="skill-cost" v-if="abi.energyCostN">
+                        {{ $t("ability.energyCostN", [+abi.energyCostN.toFixed(2)]) }}
+                      </div>
+                    </el-col>
+                  </el-row>
+                </div></template
+              >
               <el-row :gutter="12">
                 <el-col class="skill-effects" :span="24">
                   <div class="skill-effect" :key="index" v-for="([name, effect], index) in abi.props">
@@ -249,8 +252,8 @@
                       <!-- special -->
                       <template v-if="effect[0]">
                         <div class="effect-prop special" :key="vn" v-for="(vv, vn) in effect">
-                          <div class="prop-name">{{ $t(`ability.props.${vv.desc}`) }}</div>
-                          <div class="prop-value normal">{{ vv.val }}</div>
+                          <div class="prop-name">{{ $t(`ability.props.${(vv as any).desc}`) }}</div>
+                          <div class="prop-value normal">{{ (vv as any).val }}</div>
                         </div>
                       </template>
                       <!-- normal -->
@@ -266,7 +269,7 @@
                             </template>
                             <template v-else>
                               <div class="prop" :key="pname" v-for="[pname, pvalue] in vv">
-                                {{ renderProps([pname, pvalue]).fullString }}
+                                {{ renderProps([pname, pvalue as number]).fullString }}
                               </div>
                             </template>
                           </div>
@@ -294,17 +297,17 @@
         </el-tabs>
       </el-col>
     </el-row>
-    <el-dialog :title="$t('build.selectMod')" :visible.sync="modDialogVisible" width="600">
+    <el-dialog :title="$t('build.selectMod')" v-model="modDialogVisible" width="600px">
       <ModSelector :type="selectModType" ref="selector" :build="build" @command="modSelect($event)" />
     </el-dialog>
-    <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
+    <el-dialog :title="$t('build.selectBuff')" v-model="buffDialogVisible" width="600px">
       <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
     </el-dialog>
   </div>
 </template>
 <script lang="ts">
 import { compact } from "lodash-es";
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, toNative } from "vue-facing-decorator";
 import { WarframeBuild } from "@/warframe/warframebuild";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import ModSelector from "@/components/ModSelector.vue";
@@ -314,7 +317,6 @@ import ShareQR from "@/components/ShareQR.vue";
 import { NormalMod, Buff, Warframe, WarframeDataBase, ValuedProperty, BuffData, RivenDatabase, AbilityPropTypes, WeaponDatabase } from "@/warframe/codex";
 import "@/less/builder.less";
 import { i18n } from "@/i18n";
-import { Getter, Action } from "vuex-class";
 import { base62 } from "@/warframe/lib/base62";
 
 interface BuildSelectorTab {
@@ -329,26 +331,36 @@ interface BuildSelectorTab {
 
 @Component({
   components: { PropDiff, LeveledModSlot, ModSelector, ShareQR, BuffSelector },
-  beforeRouteEnter(to, from, next) {
-    const core = WarframeDataBase.getWarframeById(to.params.id.replace(/_/g, " "));
-    if (core) {
-      document.title = i18n.t("title.sub", [i18n.t("title.weapon", [core.name])]);
-      next();
-    } else next("/WarframeNotFound");
+  options: {
+    beforeRouteEnter(to, from, next) {
+      const core = WarframeDataBase.getWarframeById(String(to.params.id).replace(/_/g, " "));
+      if (core) {
+        document.title = i18n.t("title.sub", [i18n.t("title.weapon", [core.name])]);
+        next();
+      } else next("/WarframeNotFound");
+    },
   },
 })
-export default class WarframeEditor extends Vue {
-  @Getter("bigScreen") bigScreen: boolean;
+class WarframeEditor extends Vue {
+  get bigScreen(): boolean {
+    return this.$store.getters.bigScreen;
+  }
   modDialogVisible = false;
   buffDialogVisible = false;
-  @Getter("savedBuilds") savedBuilds: { [key: string]: string };
-  @Action("setBuild") setBuild: (build: WarframeBuild) => void;
+  get savedBuilds(): { [key: string]: string } {
+    return this.$store.getters.savedBuilds;
+  }
+  setBuild(build: WarframeBuild): any {
+    return this.$store.dispatch("setBuild", build);
+  }
 
   get id() {
-    return this.$route.params.id;
+    const id = this.$route.params.id;
+    return (Array.isArray(id) ? id[0] : id) || "";
   }
   get code() {
-    return this.$route.params.code || this.savedBuilds[this.core.id];
+    const code = this.$route.params.code;
+    return (Array.isArray(code) ? code[0] : code) || this.savedBuilds[this.core.id];
   }
 
   tabs: BuildSelectorTab[] = [];
@@ -578,4 +590,6 @@ export default class WarframeEditor extends Vue {
     this.reloadSelector();
   }
 }
+
+export default toNative(WarframeEditor);
 </script>

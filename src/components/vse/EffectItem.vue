@@ -4,15 +4,16 @@
   </CommonItem>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import EffectEditor from "@/components/vse/EffectEditor.vue";
 import CommonItem from "@/components/vse/CommonItem.vue";
 
 @Component({ components: { CommonItem, EffectEditor } })
-export default class DamageItem extends Vue {
-  @Model() bind
+class DamageItem extends Vue  {
+  @Prop() bind
   @Prop() keyName: string;
   @Prop({ type: Boolean }) required: boolean;
 }
 
+export default toNative(DamageItem);
 </script>

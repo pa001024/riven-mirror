@@ -29,3 +29,6 @@ pb
 
 #Electron-builder output
 /dist_electron
+
+# mig
+scripts/

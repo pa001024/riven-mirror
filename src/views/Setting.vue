@@ -2,9 +2,11 @@
   <el-row>
     <el-col>
       <el-card class="setting">
-        <span slot="header">{{$t("setting.lang")}}</span>
+        <template #header
+          ><span>{{ $t("setting.lang") }}</span></template
+        >
         <div class="switch-lang">
-          <span class="lang" @click="setDefaultLang()">{{$t("setting.default")}}</span>
+          <span class="lang" @click="setDefaultLang()">{{ $t("setting.default") }}</span>
           <span class="lang" @click="setlang('en')">English</span>
           <span class="lang" @click="setlang('zh-CN')">简体中文</span>
           <span class="lang" @click="setlang('zh-TW')">繁體中文</span>
@@ -14,7 +16,9 @@
     </el-col>
     <el-col>
       <el-card class="setting">
-        <span slot="header">{{$t("setting.bugreport")}}</span>
+        <template #header
+          ><span>{{ $t("setting.bugreport") }}</span></template
+        >
         <div class="bug-report">
           <a class="link-btn" v-if="$t('zh')" href="https://shimo.im/forms/asziAvyhSicaOQQy/fill" target="_blank" rel="noopener">极镜用户反馈单</a>
           <a class="link-btn" v-else href="https://shimo.im/forms/olzb8RdscGgJzOZx/fill" target="_blank" rel="noopener">Riven.IM User Feedback</a>
@@ -25,64 +29,66 @@
     </el-col>
     <el-col>
       <el-card class="setting">
-        <span slot="header">{{$t("setting.ui")}}</span>
+        <template #header
+          ><span>{{ $t("setting.ui") }}</span></template
+        >
         <div class="setting-items">
           <!-- 平台设置 -->
           <div class="setting-item">
             <div class="title">
-              {{$t('setting.platform')}}
+              {{ $t("setting.platform") }}
             </div>
             <div class="padding"></div>
             <div class="content">
-              <el-radio-group class="will-invert" v-model="platform" size="mini">
-                <el-radio-button label="pc">{{$t('setting.pc')}}</el-radio-button>
-                <el-radio-button label="ps4">{{$t('setting.ps4')}}</el-radio-button>
-                <el-radio-button label="xb1">{{$t('setting.xb1')}}</el-radio-button>
-                <el-radio-button label="swi">{{$t('setting.swi')}}</el-radio-button>
+              <el-radio-group class="will-invert" v-model="platform" size="small">
+                <el-radio-button label="pc">{{ $t("setting.pc") }}</el-radio-button>
+                <el-radio-button label="ps4">{{ $t("setting.ps4") }}</el-radio-button>
+                <el-radio-button label="xb1">{{ $t("setting.xb1") }}</el-radio-button>
+                <el-radio-button label="swi">{{ $t("setting.swi") }}</el-radio-button>
               </el-radio-group>
             </div>
           </div>
           <!-- 夜间设置 -->
           <div class="setting-item">
             <div class="title">
-              {{$t('setting.nightmode')}}
+              {{ $t("setting.nightmode") }}
             </div>
             <div class="padding"></div>
             <div class="content">
-              <el-switch size="small" v-model="nightMode"/>
+              <el-switch size="small" v-model="nightMode" />
             </div>
           </div>
           <!-- 大屏模式 -->
           <div class="setting-item">
             <div class="title">
-              {{$t('setting.bigmode')}}
-              <Tip :content="$t('setting.bigmodeTip')"/>
+              {{ $t("setting.bigmode") }}
+              <Tip :content="$t('setting.bigmodeTip')" />
             </div>
             <div class="padding"></div>
             <div class="content">
-              <el-switch size="small" v-model="bigScreen"/>
+              <el-switch size="small" v-model="bigScreen" />
             </div>
           </div>
           <!-- 紫卡编辑器 -->
           <div class="setting-item">
             <div class="title">
-              {{$t('setting.legacyriven')}}
-              <Tip :content="$t('setting.legacyrivenTip')"/>
+              {{ $t("setting.legacyriven") }}
+              <Tip :content="$t('setting.legacyrivenTip')" />
             </div>
             <div class="padding"></div>
             <div class="content">
-              <el-switch size="small" v-model="legacyRivenEditor"/>
+              <el-switch size="small" v-model="legacyRivenEditor" />
             </div>
           </div>
           <!-- 爆发采样大小 -->
           <div class="setting-item">
             <div class="title">
-              {{$t('setting.burstsamplesize')}}
-              <Tip :content="$t('setting.burstsamplesizeTip')"/>
+              {{ $t("setting.burstsamplesize") }}
+              <Tip :content="$t('setting.burstsamplesizeTip')" />
             </div>
             <div class="padding"></div>
             <div class="content">
-              <el-radio-group class="will-invert" v-model="burstSampleSize" size="mini">
+              <el-radio-group class="will-invert" v-model="burstSampleSize" size="small">
                 <el-radio-button :label="0"></el-radio-button>
                 <el-radio-button :label="0.5"></el-radio-button>
                 <el-radio-button :label="1"></el-radio-button>
@@ -93,11 +99,11 @@
           <!-- 配置缓存 -->
           <div class="setting-item">
             <div class="title">
-              {{$t('setting.savedBuilds')}}
+              {{ $t("setting.savedBuilds") }}
             </div>
             <div class="padding"></div>
             <div class="content">
-              <el-button type="danger" size="mini" @click="handleClearBuilds">{{$t('setting.clear')}}</el-button>
+              <el-button type="danger" size="small" @click="handleClearBuilds">{{ $t("setting.clear") }}</el-button>
             </div>
           </div>
         </div>
@@ -106,26 +112,30 @@
   </el-row>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
+import { nextTick } from "vue";
 import { i18n } from "@/i18n";
 import { changeLocale } from "@/i18n/plugin";
 import { HMT } from "@/service/HMT";
-import { Getter, Action } from "vuex-class";
 
 @Component
-export default class Setting extends Vue {
+class Setting extends Vue {
   setlang(lang: string) {
     changeLocale(lang);
     HMT.langSelect(lang);
-    Vue.nextTick(() => location.reload());
+    nextTick(() => location.reload());
   }
   setDefaultLang() {
     changeLocale(null);
-    Vue.nextTick(() => location.reload());
+    nextTick(() => location.reload());
   }
 
-  @Getter("invert") invert: boolean;
-  @Action("setInvert") setInvert: (value: boolean) => void;
+  get invert(): boolean {
+    return this.$store.getters.invert;
+  }
+  setInvert(value: boolean): any {
+    return this.$store.dispatch("setInvert", value);
+  }
   // 夜间模式
   get nightMode() {
     return this.invert;
@@ -134,8 +144,12 @@ export default class Setting extends Vue {
     this.setInvert(val);
   }
 
-  @Getter("bigScreen") _bigScreen: boolean;
-  @Action("setBigScreen") setBigScreen: (value: boolean) => void;
+  get _bigScreen(): boolean {
+    return this.$store.getters.bigScreen;
+  }
+  setBigScreen(value: boolean): any {
+    return this.$store.dispatch("setBigScreen", value);
+  }
   // 大屏模式
   get bigScreen() {
     return this._bigScreen;
@@ -144,8 +158,12 @@ export default class Setting extends Vue {
     this.setBigScreen(val);
   }
 
-  @Getter("legacyRivenEditor") _legacyRivenEditor: boolean;
-  @Action("setLegacyRivenEditor") setLegacyRivenEditor: (value: boolean) => void;
+  get _legacyRivenEditor(): boolean {
+    return this.$store.getters.legacyRivenEditor;
+  }
+  setLegacyRivenEditor(value: boolean): any {
+    return this.$store.dispatch("setLegacyRivenEditor", value);
+  }
   // 老版本紫卡编辑器
   get legacyRivenEditor() {
     return this._legacyRivenEditor;
@@ -154,8 +172,12 @@ export default class Setting extends Vue {
     this.setLegacyRivenEditor(val);
   }
 
-  @Getter("burstSampleSize") _burstSampleSize: number;
-  @Action("setBurstSampleSize") setBurstSampleSize: (value: number) => void;
+  get _burstSampleSize(): number {
+    return this.$store.getters.burstSampleSize;
+  }
+  setBurstSampleSize(value: number): any {
+    return this.$store.dispatch("setBurstSampleSize", value);
+  }
   // 老版本紫卡编辑器
   get burstSampleSize() {
     return this._burstSampleSize;
@@ -164,8 +186,12 @@ export default class Setting extends Vue {
     this.setBurstSampleSize(+val);
   }
 
-  @Getter("platform") _platform: string;
-  @Action("setPlatform") setPlatform: (value: string) => void;
+  get _platform(): string {
+    return this.$store.getters.platform;
+  }
+  setPlatform(value: string): any {
+    return this.$store.dispatch("setPlatform", value);
+  }
   // 老版本紫卡编辑器
   get platform() {
     return this._platform;
@@ -174,13 +200,17 @@ export default class Setting extends Vue {
     this.setPlatform(val);
   }
 
-  @Action("clearBuilds") clearBuilds: () => void;
+  clearBuilds(): any {
+    return this.$store.dispatch("clearBuilds");
+  }
 
   handleClearBuilds() {
     this.clearBuilds();
     this.$message.success(this.$t("setting.cleared") as string);
   }
 }
+
+export default toNative(Setting);
 </script>
 <style lang="less">
 @import "../less/common.less";

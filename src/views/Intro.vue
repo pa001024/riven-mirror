@@ -168,11 +168,11 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 import localStorage from "universal-localstorage";
 
 @Component({ components: {} })
-export default class extends Vue {
+class Intro extends Vue  {
   touse(e: MouseEvent) {
     e.preventDefault();
     this.$router.push("/alerts");
@@ -182,6 +182,8 @@ export default class extends Vue {
     localStorage.setItem("0w0", "yes");
   }
 }
+
+export default toNative(Intro);
 </script>
 <style lang="less">
 .sponser {

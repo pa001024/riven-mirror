@@ -1,16 +1,16 @@
 <template>
-  <el-input class="copytext-input" :value="text" :size="size" ref="copytext" @focus="$refs.copytext.select()">
-    <el-button slot="append" @click="doCopy">
-      <WfIcon type="copy" />{{$t("app.copy")}}
-    </el-button>
+  <el-input class="copytext-input" :value="text" :size="size as any" ref="copytext" @focus="($refs.copytext as any).select()">
+    <template #append
+      ><el-button @click="doCopy"> <WfIcon type="copy" />{{ $t("app.copy") }} </el-button></template
+    >
   </el-input>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import copy from "copy-text-to-clipboard";
 
 @Component
-export default class CopyText extends Vue {
+class CopyText extends Vue {
   @Prop() text: string;
   @Prop() size: string;
   @Prop() message: string;
@@ -24,6 +24,8 @@ export default class CopyText extends Vue {
     });
   }
 }
+
+export default toNative(CopyText);
 </script>
 <style lang="less">
 .copytext-input {

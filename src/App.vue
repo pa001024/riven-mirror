@@ -1,24 +1,15 @@
 <template>
-  <el-container id="app" :class="{fullpage:isFullPage, nosidebar:isIndexPage}">
+  <el-container id="app" :class="{ fullpage: isFullPage, nosidebar: isIndexPage }">
     <header class="main-header" v-if="!isFullPage">
-      <router-link tag="div" class="site-logo" to="/">
-        <!-- <i class="i-mirror-logo"></i> -->
-        <WfIcon type="logo" />
-        <!-- <h1>Riven.IM
-          <span class="beta">{{magic}} {{version}}</span>
-        </h1> -->
+      <router-link to="/" custom v-slot="{ navigate }">
+        <div class="site-logo" @click="navigate">
+          <WfIcon type="logo" />
+        </div>
       </router-link>
-      <Search style="margin-left: 8px"/>
-      <MiniClock v-if="!isIndexPage" class="hidden-xs-only header-watch"/>
+      <Search style="margin-left: 8px" />
+      <MiniClock v-if="!isIndexPage" class="hidden-xs-only header-watch" />
       <!-- padding -->
       <div class="app-nav-pad"></div>
-      <!-- PC端用户登录界面 -->
-      <!-- <router-link to="/login" class="app-login-container">
-        <div class="hidden-xs-only app-login">
-          <WfIcon type="fingerprint"/>
-          <span class="app-login-title">{{$t("app.login")}}</span>
-        </div>
-      </router-link> -->
       <!-- 移动端菜单按钮 -->
       <button class="app-nav-button hidden-sm-and-up" @click="menuOpen = !menuOpen">
         <WfIcon type="menu"></WfIcon>
@@ -26,10 +17,12 @@
     </header>
     <!-- 移动端弹出菜单 -->
     <transition name="el-zoom-in-top">
-      <div class="app-nav-menu hidden-sm-and-up" v-if="menuOpen" @click="menuOpen=false" tabindex="0">
-        <router-link v-for="link in links" :key="link.title" tag="div" :to="link.path" class="menu-item" :exact="link.exact">
-          <WfIcon :type="link.icon"></WfIcon>
-          <span class="app-nav-title">{{$t(link.title)}}</span>
+      <div class="app-nav-menu hidden-sm-and-up" v-if="menuOpen" @click="menuOpen = false" tabindex="0">
+        <router-link v-for="link in links" :key="link.title" :to="link.path" custom v-slot="{ navigate, isActive, isExactActive }">
+          <div class="menu-item" :class="{ 'router-link-active': link.exact ? isExactActive : isActive }" @click="navigate">
+            <WfIcon :type="link.icon"></WfIcon>
+            <span class="app-nav-title">{{ $t(link.title) }}</span>
+          </div>
         </router-link>
       </div>
     </transition>
@@ -38,29 +31,31 @@
       <el-aside width="60px" class="pc-aside hidden-xs-only" v-if="!isIndexPage">
         <div class="aside-nav-menu">
           <el-tooltip v-for="link in links" :key="link.title" :content="$t(link.title)" placement="right" :enterable="false">
-            <router-link tag="div" :to="link.path" class="menu-item" :exact="link.exact">
-              <WfIcon :type="link.icon"></WfIcon>
+            <router-link :to="link.path" custom v-slot="{ navigate, isActive, isExactActive }">
+              <div class="menu-item" :class="{ 'router-link-active': link.exact ? isExactActive : isActive }" @click="navigate">
+                <WfIcon :type="link.icon"></WfIcon>
+              </div>
             </router-link>
           </el-tooltip>
         </div>
       </el-aside>
-      <main class="main-container" @click="menuOpen=false">
-        <keep-alive>
-          <router-view/>
-        </keep-alive>
-        <el-dialog
-          class="update-dialog"
-          :title="$t('update.title')"
-          :visible.sync="updateMessageVisible"
-          :before-close="readUpdate">
-          <div class="update-item" :key="i" v-for="(v,i) in updateLogs">
-            <div class="title">{{v.version}}</div>
-            <div class="date">{{$d(new Date(v.date), 'short')}}</div>
+      <main class="main-container" @click="menuOpen = false">
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
+        <el-dialog class="update-dialog" :title="$t('update.title')" v-model="updateMessageVisible" :before-close="readUpdate">
+          <div class="update-item" :key="i" v-for="(v, i) in updateLogs">
+            <div class="title">{{ v.version }}</div>
+            <div class="date">{{ $d(new Date(v.date), "short") }}</div>
             <article class="md markdown-body" v-html="renderMD($t('zh') ? v.md.cn : v.md.en)"></article>
           </div>
-          <span slot="footer" class="dialog-footer">
-            <el-button size="small" type="primary" @click="readUpdate">{{$t('update.confirm')}}</el-button>
-          </span>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button size="small" type="primary" @click="readUpdate">{{ $t("update.confirm") }}</el-button>
+            </span>
+          </template>
         </el-dialog>
       </main>
     </el-container>
@@ -68,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
+import { Vue, Component, Watch, toNative } from "vue-facing-decorator";
 import MiniClock from "@/components/MiniClock.vue";
 import WfIcon from "@/components/WfIcon.vue";
 import Search from "@/components/Search.vue";
@@ -77,23 +72,31 @@ import { i18n } from "@/i18n";
 import markdown from "markdown-it";
 import { magic, version, updateLogs } from "@/version";
 import localStorage from "universal-localstorage";
-import { Getter, Action } from "vuex-class";
 import "./less/app.less";
-import { changeLocale } from "./i18n/plugin";
-import { HMT } from "./service/HMT";
 
 const md = markdown();
 
 @Component({ components: { MiniClock, WfIcon, Search } })
-export default class App extends Vue {
+class App extends Vue {
   menuOpen = false;
   updateMessageVisible = false;
 
-  @Getter("invert") invert: boolean;
-  @Getter("bigScreen") bigScreen: boolean;
+  get invert(): boolean {
+    return this.$store.getters.invert;
+  }
+  get bigScreen(): boolean {
+    return this.$store.getters.bigScreen;
+  }
 
   @Watch("invert")
+  onInvertChange() {
+    this.themeChange();
+  }
   @Watch("bigScreen")
+  onBigScreenChange() {
+    this.themeChange();
+  }
+
   themeChange() {
     document.querySelector("html").className = [this.invert && "invert-theme", this.bigScreen && "bigmode"].filter(Boolean).join(" ");
   }
@@ -101,10 +104,10 @@ export default class App extends Vue {
   viewParameter = location.search.match(/(?:\?|&)view=iframe(?=$|&)/);
 
   get isIndexPage() {
-    return this.isFullPage || ["VisualSkillEditor", "Login", "ForgetPass", "EULA"].includes(this.$route.name);
+    return this.isFullPage || ["VisualSkillEditor", "Login", "ForgetPass", "EULA"].includes(this.$route.name as string);
   }
   get isFullPage() {
-    return !!this.viewParameter || ["Master"].includes(this.$route.name);
+    return !!this.viewParameter || ["Master"].includes(this.$route.name as string);
   }
   get magic() {
     return magic;
@@ -154,7 +157,7 @@ export default class App extends Vue {
     if (!localStorage.getItem("114514"))
       if (localStorage.getItem("since")) {
         // 7天后
-        if ((i18n.locale === "zh-CN" || i18n.locale === "zh-CY") && Date.now() - localStorage.getItem("since") > 7 * 864e5) {
+        if ((i18n.locale === "zh-CN" || i18n.locale === "zh-CY") && Date.now() - Number(localStorage.getItem("since")) > 7 * 864e5) {
           this.$confirm("你已经使用一段时间本工具了，如果你觉得本工具对你有帮助，要发电支持一下吗?", "暗示", {
             confirmButtonText: "支持一下",
             cancelButtonText: "忽略",
@@ -177,8 +180,10 @@ export default class App extends Vue {
             });
         }
       } else {
-        localStorage.setItem("since", Date.now());
+        localStorage.setItem("since", String(Date.now()));
       }
   }
 }
+
+export default toNative(App);
 </script>

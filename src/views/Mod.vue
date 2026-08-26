@@ -8,16 +8,18 @@
             <el-switch class="mode-select" v-model="useText" :active-text="$t('riven.manualinput')" :inactive-text="$t('riven.picupload')"> </el-switch>
           </el-col>
           <el-col :span="24">
-            <el-popover ref="addpop" v-if="useText" placement="bottom" :width="400" v-model="editorVisible">
+            <el-popover ref="addpop" v-if="useText" placement="bottom" :width="400" v-model:visible="editorVisible">
               <RivenEditor v-model="editorRivenCode"></RivenEditor>
               <div style="text-align: right; margin: 0">
-                <el-button size="medium" @click="editorVisible = false">{{ $t("riven.cancel") }}</el-button>
-                <el-button type="primary" size="medium" @click="newRiven">{{ $t("riven.confirm") }}</el-button>
+                <el-button size="default" @click="editorVisible = false">{{ $t("riven.cancel") }}</el-button>
+                <el-button type="primary" size="default" @click="newRiven">{{ $t("riven.confirm") }}</el-button>
               </div>
-              <el-button slot="reference" class="block btn-addriven" size="medium" icon="el-icon-plus">{{ $t("riven.addriven") }}</el-button>
+              <template #reference
+                ><el-button class="block btn-addriven" size="default"><i class="el-icon-plus"></i>{{ $t("riven.addriven") }}</el-button></template
+              >
             </el-popover>
             <template v-else>
-              <el-input type="textarea" :rows="1" :placeholder="$t(`riven.pastehere`)" style="margin-bottom: 8px;"></el-input>
+              <el-input type="textarea" :rows="1" :placeholder="$t(`riven.pastehere`)" style="margin-bottom: 8px"></el-input>
               <el-upload
                 class="upload-pic"
                 ref="upload"
@@ -30,7 +32,9 @@
               >
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text" v-html="$t('riven.uploadtip')"></div>
-                <div slot="tip" class="el-upload__tip">{{ $t("riven.uploadlimit") }}</div>
+                <template #tip
+                  ><div class="el-upload__tip">{{ $t("riven.uploadlimit") }}</div></template
+                >
               </el-upload>
             </template>
           </el-col>
@@ -111,12 +115,11 @@
 <script lang="ts">
 import { debounce } from "lodash-es";
 import axios from "axios";
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, toNative } from "vue-facing-decorator";
 import GunModBuildView from "@/views/buildview/GunModBuildView.vue";
 import MeleeModBuildView from "@/views/buildview/MeleeModBuildView.vue";
 import ShareQR from "@/components/ShareQR.vue";
 import RivenPrice from "@/components/RivenPrice.vue";
-import { Getter, Action } from "vuex-class";
 import { HH } from "@/var";
 import "../less/mod.less";
 import { HMT } from "@/service/HMT";
@@ -135,7 +138,7 @@ interface OCRResult {
 @Component({
   components: { GunModBuildView, MeleeModBuildView, RivenEditor, ShareQR, RivenPrice },
 })
-export default class Mod extends Vue {
+class Mod extends Vue {
   // prop
   @Prop() source: string;
 
@@ -146,14 +149,30 @@ export default class Mod extends Vue {
   debouncedmodTextChange: () => void;
   editorVisible = false;
   editorRivenCode = "";
-  @Getter("mod") mod: RivenMod;
-  @Getter("modHistoty") modHistoty: RivenMod[];
-  @Action("newBase64Text") newBase64Text: (text: string) => void;
-  @Action("newModTextInput") newModTextInput: (text: string) => void;
-  @Action("removeHistory") removeHistory: (qrcode: string) => void;
-  @Getter("priceData") priceData: WeeklyRivenInfo[];
-  @Getter("lastWeekly") lastWeekly: number;
-  @Action("getWeekly") getWeekly: () => void;
+  get mod(): RivenMod {
+    return this.$store.getters.mod;
+  }
+  get modHistoty(): RivenMod[] {
+    return this.$store.getters.modHistoty;
+  }
+  newBase64Text(text: string): any {
+    return this.$store.dispatch("newBase64Text", text);
+  }
+  newModTextInput(text: string): any {
+    return this.$store.dispatch("newModTextInput", text);
+  }
+  removeHistory(qrcode: string): any {
+    return this.$store.dispatch("removeHistory", qrcode);
+  }
+  get priceData(): WeeklyRivenInfo[] {
+    return this.$store.getters.priceData;
+  }
+  get lastWeekly(): number {
+    return this.$store.getters.lastWeekly;
+  }
+  getWeekly(): any {
+    return this.$store.dispatch("getWeekly");
+  }
 
   readQRCode(file: File) {
     return new Promise((resolve: (msg: string) => void, reject) => {
@@ -284,8 +303,12 @@ export default class Mod extends Vue {
     }
   }
   mounted() {
-    let popper = (this.$refs.addpop as Vue).$refs.popper as Element;
-    popper.className += " rivenedit-popper";
+    // el-popover 的 popper 是懒创建的（且组件本身受 v-if="useText" 控制），
+    // mounted 时可能还没渲染出来，必须判空
+    let popper = (this.$refs.addpop as any)?.$refs?.popper as Element | undefined;
+    if (popper) popper.className += " rivenedit-popper";
   }
 }
+
+export default toNative(Mod);
 </script>

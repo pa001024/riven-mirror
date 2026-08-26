@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { i18n } from "@/i18n";
 import { Weapon } from "@/warframe/codex";
 // import InfoRadar from "@/components/InfoRadar.vue";
@@ -59,7 +59,7 @@ import { Weapon } from "@/warframe/codex";
 @Component({
   components: {}
 })
-export default class WeaponInfobox extends Vue {
+class WeaponInfobox extends Vue  {
   @Prop() weapon: Weapon;
   imgSrc = "/img/LOGO@4x.png";
   name = "Loading...";
@@ -75,6 +75,8 @@ export default class WeaponInfobox extends Vue {
     return damage.map(v => ({ icon: v[0].toLowerCase(), val: v[1] }));
   }
 }
+
+export default toNative(WeaponInfobox);
 </script>
 
 <style lang="less" >

@@ -9,20 +9,23 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { RivenMod } from "@/warframe/rivenmod";
 import { WeeklyRivenInfo } from "@/warframe/weeklyriven";
-import { Getter, Action } from "vuex-class";
 import { MainTag } from "@/warframe/codex";
 import RivenPriceView from "@/components/RivenPriceView.vue";
 
 @Component({ components: { RivenPriceView } })
-export default class RivenPrice extends Vue {
+class RivenPrice extends Vue  {
   @Prop() mod: RivenMod;
-  @Getter("priceData") priceData: WeeklyRivenInfo[];
+  get priceData(): WeeklyRivenInfo[] {
+    return this.$store.getters.priceData;
+  }
 
   get enable() {
     return this.priceData;
   }
 }
+
+export default toNative(RivenPrice);
 </script>

@@ -1,24 +1,21 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import { createStore as createVuexStore, Store } from "vuex";
 import RootState from "./state";
 import Mod from "@/store/modules/mod";
 import User from "@/store/modules/user";
 import Theme from "@/store/modules/theme";
 import Build from "./modules/build";
 
-Vue.use(Vuex);
-
-export function createStore(initState: any = {}) {
+export function createStore(initState: any = {}): Store<RootState> {
   const { title, url, origin, locale, csrf, mod, user, theme, build } = initState;
-  const state = { title, url, origin, locale, csrf };
-  const store = new Vuex.Store<RootState>({
+  const state = { title, url, origin, locale, csrf } as RootState;
+  const store = createVuexStore<RootState>({
     state,
     modules: {
       mod: new Mod(mod),
       user: new User(user),
       theme: new Theme(theme),
-      build: new Build(build)
-    }
+      build: new Build(build),
+    },
   });
   return store;
 }

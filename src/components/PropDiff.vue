@@ -18,13 +18,13 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import WfIcon from "@/components/WfIcon.vue";
 
 @Component({
   components: { WfIcon }
 })
-export default class extends Vue {
+class PropDiff extends Vue  {
   @Prop() name: string;
   @Prop() icon: string;
   @Prop() subfix: string;
@@ -52,6 +52,8 @@ export default class extends Vue {
     this.$emit("click", e);
   }
 }
+
+export default toNative(PropDiff);
 </script>
 <style lang="less">
 @import "../less/common.less";

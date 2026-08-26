@@ -29,17 +29,18 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import { RivenMod } from "@/warframe/rivenmod";
 import { WeeklyRivenInfo } from "@/warframe/weeklyriven";
-import { Getter, Action } from "vuex-class";
 import { MainTag, Weapon } from "@/warframe/codex";
 
 @Component({ components: {} })
-export default class RivenPrice extends Vue {
+class RivenPrice extends Vue  {
   @Prop() weapon: Weapon;
-  @Getter("priceData") priceData: WeeklyRivenInfo[];
+  get priceData(): WeeklyRivenInfo[] {
+    return this.$store.getters.priceData;
+  }
 
   get enable() {
     return this.priceData;
@@ -79,6 +80,8 @@ export default class RivenPrice extends Vue {
   }
   // mounted() {}
 }
+
+export default toNative(RivenPrice);
 </script>
 
 <style lang="less">

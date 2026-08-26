@@ -24,7 +24,7 @@
 </template>
 <script lang="ts">
 import { cloneDeep, mapValues, uniq } from "lodash-es";
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 import {
   AbilityProp,
   AbilityData,
@@ -49,7 +49,7 @@ function convertSkills(src: string) {
     .replace(/"(\w+?)":/g, "$1:");
 }
 @Component({ components: { VisualSkill } })
-export default class VisualSkillEditor extends Vue {
+class VisualSkillEditor extends Vue  {
   skills: AbilityData[] = null;
   skillNameMap: { [name: string]: number } = null;
   wfClass = "Ash";
@@ -103,6 +103,8 @@ export default class VisualSkillEditor extends Vue {
     this.skillNameMap = this.skills.reduce((a, b, i) => ((a[b.id] = i), a), {});
   }
 }
+
+export default toNative(VisualSkillEditor);
 </script>
 
 <style lang="less" scoped>

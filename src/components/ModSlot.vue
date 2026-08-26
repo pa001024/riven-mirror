@@ -24,13 +24,13 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { NormalMod } from "@/warframe/codex";
 import { ModBuild } from "@/warframe/modbuild";
 import "@/less/modslot.less";
 
 @Component
-export default class ModSlot extends Vue {
+class ModSlot extends Vue  {
   @Prop() mod: NormalMod;
   @Prop() build: ModBuild;
   @Prop() polarization: string;
@@ -51,4 +51,6 @@ export default class ModSlot extends Vue {
     return { np: this.mod.polarity === this.polarization, wp: this.polarization && this.mod.polarity !== this.polarization };
   }
 }
+
+export default toNative(ModSlot);
 </script>

@@ -5,7 +5,7 @@
         <!-- 武器信息区域 -->
         <div class="weapon-display">
           <el-card class="weapon-box">
-            <div slot="header" class="weapon-name">
+            <template #header><div class="weapon-name">
               <span class="title">{{weapon.displayName}}</span>
               <template v-if="build.formaCount">
                 [
@@ -14,14 +14,14 @@
                 ]
               </template>
               <ShareQR :url="'https://riven-im.vercel.app'+$route.path"/>
-            </div>
+            </div></template>
             <div class="weapon-capacity"></div>
             <div class="weapon-props">
               <!-- 武器模式 -->
               <el-row :gutter="4" class="prop-diff model-selector" v-if="weapon.modes.length>1">
                 <el-col :span="8" class="title" v-t="'build.weaponMode'"></el-col>
                 <el-col :span="16">
-                  <el-select size="mini" class="model-name" v-model="build.modeIndex" :placeholder="$t('build.weaponModeTip')" @change="modeIndexChange()">
+                  <el-select size="small" class="model-name" v-model="build.modeIndex" :placeholder="$t('build.weaponModeTip')" @change="modeIndexChange()">
                     <el-option v-for="(item, k) in weapon.modes" :key="k" :label="item.locName" :value="k" />
                   </el-select>
                 </el-col>
@@ -64,7 +64,7 @@
               <el-row :gutter="4" class="prop-diff model-selector">
                 <el-col :span="8" class="title" v-t="'build.damageModel'"></el-col>
                 <el-col :span="16">
-                  <el-select size="mini" class="model-name" v-model="selectDamageModel" clearable :placeholder="$t('build.damageModelTip')">
+                  <el-select size="small" class="model-name" v-model="selectDamageModel" clearable :placeholder="$t('build.damageModelTip')">
                     <el-option v-for="item in dmgModels" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
                 </el-col>
@@ -72,7 +72,7 @@
               <el-row :gutter="4" class="prop-diff model-selector model-selector-armor" v-if="isArmorDamageModel">
                 <el-col :span="8" class="title" v-t="'build.damageModelArmor'"></el-col>
                 <el-col :span="16">
-                  <el-input size="mini" class="armor-value" v-model="modelArmor" clearable :placeholder="$t('build.armorValueTip')"/>
+                  <el-input size="small" class="armor-value" v-model="modelArmor" clearable :placeholder="$t('build.armorValueTip')"/>
                 </el-col>
               </el-row>
               <PropDiff v-for="[dname, ori, val] in mergedDmg" :key="dname" :icon="dname.toLowerCase()" :name="$t(`elements.${dname}`)" :ori="ori" :val="val"></PropDiff>
@@ -145,8 +145,8 @@
                     <template v-if="buff">
                       <div class="buff-title" :class="{layers: buff.layerEnable, powers: buff.powerEnable}">
                         <div class="buff-name">{{$t(`buff.${buff.name}`)}}</div>
-                        <div class="buff-parm layer" v-if="buff.layerEnable"><el-input-number @change="refleshMods()" size="mini" v-model="buff.layer" :min="0" :max="buff.data.multiLayer.maxStack"></el-input-number></div>
-                        <div class="buff-parm power" v-if="buff.powerEnable"><el-input-number @change="refleshMods()" :step="0.5" size="mini" v-model="buff.power"></el-input-number></div>
+                        <div class="buff-parm layer" v-if="buff.layerEnable"><el-input-number @change="refleshMods()" size="small" v-model="buff.layer" :min="0" :max="buff.data.multiLayer.maxStack"></el-input-number></div>
+                        <div class="buff-parm power" v-if="buff.powerEnable"><el-input-number @change="refleshMods()" :step="0.5" size="small" v-model="buff.power"></el-input-number></div>
                       </div>
                       <div class="buff-detail" @click.stop="buffRemove(index)">
                         <div class="buff-stat">
@@ -192,17 +192,17 @@
         </el-tabs>
       </el-col>
     </el-row>
-    <el-dialog :title="$t('build.selectMod')" :visible.sync="dialogVisible" width="600">
+    <el-dialog :title="$t('build.selectMod')" v-model="dialogVisible" width="600px">
       <ModSelector type="Weapon" ref="selector" :build="build" @command="modSelect($event)"></ModSelector>
     </el-dialog>
-    <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
+    <el-dialog :title="$t('build.selectBuff')" v-model="buffDialogVisible" width="600px">
       <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
     </el-dialog>
     <v-tour name="baseTour" :steps="steps" :options="{labels:$t('tour.labels')}" :callbacks="{onStop:onTourStop}"></v-tour>
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, toNative } from "vue-facing-decorator";
 import PropDiff from "@/components/PropDiff.vue";
 import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
@@ -240,7 +240,7 @@ declare interface BuildSelectorTab {
     BuildMinimap,
   },
 })
-export default class MeleeBuildEditor extends BaseBuildEditor {
+class MeleeBuildEditor extends BaseBuildEditor  {
   @Prop() weapon: Weapon;
 
   get build() {
@@ -312,4 +312,6 @@ export default class MeleeBuildEditor extends BaseBuildEditor {
     super.onMounted();
   }
 }
+
+export default toNative(MeleeBuildEditor);
 </script>

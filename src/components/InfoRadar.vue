@@ -1,19 +1,18 @@
 <template>
-  <div class="info-radar" ref="chart">
-  </div>
+  <div class="info-radar" ref="chart"></div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, toNative } from "vue-facing-decorator";
 
-import echarts from "echarts/lib/echarts";
+import * as echarts from "echarts/lib/echarts";
 // 引入雷达图
 import "echarts/lib/chart/radar";
 // 设置echarts主题
 import "@/echart.theme";
 
 @Component({ components: {} })
-export default class InfoRadar extends Vue {
+class InfoRadar extends Vue {
   @Prop() val: [string, number][];
 
   get radarData() {
@@ -24,12 +23,12 @@ export default class InfoRadar extends Vue {
         itemStyle: {
           normal: {
             barBorderColor: "rgba(0,0,0,0)",
-            color: "rgba(0,0,0,0)"
+            color: "rgba(0,0,0,0)",
           },
           emphasis: {
             barBorderColor: "rgba(0,0,0,0)",
-            color: "rgba(0,0,0,0)"
-          }
+            color: "rgba(0,0,0,0)",
+          },
         },
         data: [
           {
@@ -37,21 +36,21 @@ export default class InfoRadar extends Vue {
             name: "1",
             areaStyle: {
               normal: {
-                color: "rgba(255, 255, 255, 0.5)"
-              }
-            }
+                color: "rgba(255, 255, 255, 0.5)",
+              },
+            },
           },
-        ]
-      }
+        ],
+      },
     ] as any[];
 
     const options = {
       radar: [
         {
-          indicator: this.val.map(v => ({ text: v[0] }))
-        }
+          indicator: this.val.map(v => ({ text: v[0] })),
+        },
       ],
-      series
+      series,
     };
     return options;
   }
@@ -80,31 +79,39 @@ export default class InfoRadar extends Vue {
             name: {
               // formatter: "【{value}】",
               textStyle: {
-                color: "#72ACD1"
-              }
+                color: "#72ACD1",
+              },
             },
             splitArea: {
               areaStyle: {
-                color: ["rgba(114, 172, 209, 0.2)", "rgba(114, 172, 209, 0.4)", "rgba(114, 172, 209, 0.6)", "rgba(114, 172, 209, 0.8)", "rgba(114, 172, 209, 1)"],
+                color: [
+                  "rgba(114, 172, 209, 0.2)",
+                  "rgba(114, 172, 209, 0.4)",
+                  "rgba(114, 172, 209, 0.6)",
+                  "rgba(114, 172, 209, 0.8)",
+                  "rgba(114, 172, 209, 1)",
+                ],
                 shadowColor: "rgba(0, 0, 0, 0.3)",
-                shadowBlur: 10
-              }
+                shadowBlur: 10,
+              },
             },
             axisLine: {
               lineStyle: {
-                color: "rgba(255, 255, 255, 0.5)"
-              }
+                color: "rgba(255, 255, 255, 0.5)",
+              },
             },
             splitLine: {
               lineStyle: {
-                color: "rgba(255, 255, 255, 0.5)"
-              }
-            }
-          }
-        ]
+                color: "rgba(255, 255, 255, 0.5)",
+              },
+            },
+          },
+        ],
       });
       this.myChart.setOption(this.radarData);
     });
   }
 }
+
+export default toNative(InfoRadar);
 </script>

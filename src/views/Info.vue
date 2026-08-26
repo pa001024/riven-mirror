@@ -4,7 +4,7 @@
       <div class="info-header-outer">
         <header class="info-header">
           <div class="header-block">
-            <h1 :class="{en:!$t('zh')}" v-t="weapon.id"></h1>
+            <h1 :class="{ en: !$t('zh') }" v-t="weapon.id"></h1>
             <h2 v-if="$t('zh')" v-text="weapon.name"></h2>
           </div>
         </header>
@@ -19,54 +19,53 @@
     </el-header>
     <div class="info-body">
       <div class="info-box">
-        <WeaponInfobox :weapon="weapon"/>
+        <WeaponInfobox :weapon="weapon" />
       </div>
       <div class="info-data" v-show="activeTab === 'data'">
         <header class="nav-header">
-          <WfIcon type="compass"/>
-          {{$t("info.nav")}}
+          <WfIcon type="compass" />
+          {{ $t("info.nav") }}
         </header>
         <div class="info-btn-box">
-          <router-link :to="'/weapon/'+weapon.url" class="info-btn">
-            <WfIcon type="extension"/>
-            {{$t("navigate.weapon")}}
+          <router-link :to="'/weapon/' + weapon.url" class="info-btn">
+            <WfIcon type="extension" />
+            {{ $t("navigate.weapon") }}
           </router-link>
           <a :href="$t('otherinfo.wikiurl', [weapon.url])" target="_blank" rel="noopener noreferrer" class="info-btn">
-            {{$t("otherinfo.wiki")}}
+            {{ $t("otherinfo.wiki") }}
           </a>
           <a v-if="$t('zh')" :href="$t('otherinfo.wikiurlen', [weapon.url])" target="_blank" rel="noopener noreferrer" class="info-btn">
-            {{$t("otherinfo.wikien")}}
+            {{ $t("otherinfo.wikien") }}
           </a>
           <a :href="weapon.wmrivenurl" target="_blank" rel="noopener noreferrer" class="info-btn">
-            {{$t("otherinfo.wmriven")}}
+            {{ $t("otherinfo.wmriven") }}
           </a>
           <a :href="`https://riven.market/list/PC/${weapon.baseurl}`" target="_blank" rel="noopener noreferrer" class="info-btn">
-            {{$t("otherinfo.rm")}}
+            {{ $t("otherinfo.rm") }}
           </a>
           <a v-if="weapon.wmurl" :href="`https://warframe.market/items/${weapon.wmurl}`" target="_blank" rel="noopener noreferrer" class="info-btn">
-            {{$t("otherinfo.wm")}}
+            {{ $t("otherinfo.wm") }}
           </a>
         </div>
         <header class="nav-header">
-          <WfIcon type="stats"/>
-          {{$t("info.riven")}}
+          <WfIcon type="stats" />
+          {{ $t("info.riven") }}
         </header>
         <div class="info-riven-price riven-price">
-          <RivenPriceView :weapon="weapon"/>
+          <RivenPriceView :weapon="weapon" />
         </div>
       </div>
     </div>
   </el-container>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, toNative } from "vue-facing-decorator";
 import { i18n } from "@/i18n";
 import { Zaw, Kitgun, Amp, RivenDatabase, Weapon, WeaponDatabase } from "@/warframe/codex";
 import WeaponInfobox from "@/components/infobox/WeaponInfobox.vue";
 import RivenPriceView from "@/components/RivenPriceView.vue";
 import { RivenMod } from "../warframe/rivenmod";
 // import InfoRadar from "@/components/InfoRadar.vue";
-import { Getter, Action } from "vuex-class";
 
 function loadWeapon(id: string) {
   if (id.startsWith("ZAW-")) {
@@ -81,20 +80,26 @@ function loadWeapon(id: string) {
 }
 @Component({
   components: { WeaponInfobox, RivenPriceView },
-  beforeRouteEnter(to, from, next) {
-    const weapon = loadWeapon(to.params.id);
-    if (weapon) {
-      document.title = i18n.t("title.sub", [i18n.t("title.info", [weapon.displayName])]);
-      next();
-    } else next("/NotFound");
-  }
+  options: {
+    beforeRouteEnter(to, from, next) {
+      const weapon = loadWeapon(String(to.params.id));
+      if (weapon) {
+        document.title = i18n.t("title.sub", [i18n.t("title.info", [weapon.displayName])]);
+        next();
+      } else next("/NotFound");
+    },
+  },
 })
-export default class WeaponInfo extends Vue {
+class WeaponInfo extends Vue {
   @Prop() id: string;
   private _weapon: Weapon;
   private _lastid = "";
-  @Getter("lastWeekly") lastWeekly: number;
-  @Action("getWeekly") getWeekly: () => void;
+  get lastWeekly(): number {
+    return this.$store.getters.lastWeekly;
+  }
+  getWeekly(): any {
+    return this.$store.dispatch("getWeekly");
+  }
 
   activeTab = "data";
 
@@ -118,9 +123,11 @@ export default class WeaponInfo extends Vue {
     }
   }
 }
+
+export default toNative(WeaponInfo);
 </script>
 
-<style lang="less" >
+<style lang="less">
 @import "../less/common.less";
 .weapon-info {
   margin: 0;
@@ -245,4 +252,3 @@ export default class WeaponInfo extends Vue {
   }
 }
 </style>
-

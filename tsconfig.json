@@ -1,27 +1,36 @@
 {
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "vite.config.ts", "vite.electron.config.ts"],
+  "exclude": ["node_modules", "dist", "dist-electron", "data/node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
-    "jsxFactory": "h",
-    "allowSyntheticDefaultImports": true,
+    "jsxImportSource": "vue",
+
+    /* vue-facing-decorator / decko 依赖 stage-2 装饰器 */
     "experimentalDecorators": true,
-    "allowJs": true,
-    "module": "esnext",
-    "target": "es2015",
-    "moduleResolution": "node",
-    "isolatedModules": false,
-    "lib": ["dom", "dom.iterable", "esnext", "scripthost"],
-    "sourceMap": false,
-    "pretty": false,
-    "resolveJsonModule": true,
-    "types": ["lodash", "animejs", "axios", "vue", "vuex", "vuex-class", "vue-i18n"],
+    "useDefineForClassFields": false,
+
     "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": false,
+    "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "forceConsistentCasingInFileNames": true
+    "sourceMap": false,
+    "noEmit": true,
+    "types": ["node", "vite/client", "vite-plugin-pwa/client"]
   }
 }

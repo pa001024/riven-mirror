@@ -30,7 +30,7 @@ export default class BuildModule implements Module<BuildState, RootState> {
     [CLEAR_BUILD](state) {
       state.savedBuilds = {};
       localStorage.removeItem("savedBuilds");
-    }
+    },
   };
 
   actions: ActionTree<BuildState, RootState> = {
@@ -43,19 +43,19 @@ export default class BuildModule implements Module<BuildState, RootState> {
     },
     async clearBuilds(ctx) {
       ctx.commit(CLEAR_BUILD);
-    }
+    },
   };
 
   getters: GetterTree<BuildState, RootState> = {
     burstSampleSize: state => state.burstSampleSize,
-    savedBuilds: state => state.savedBuilds
+    savedBuilds: state => state.savedBuilds,
   };
 
   constructor(initState: BuildState) {
     this.state = {
       burstSampleSize: localStorage.getItem("burstSampleSize") || 0,
       savedBuilds: localStorage.getItem("savedBuilds") ? JSON.parse(localStorage.getItem("savedBuilds")) : {},
-      ...initState
+      ...initState,
     };
   }
 }

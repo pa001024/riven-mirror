@@ -7,19 +7,19 @@
       :fetch-suggestions="querySearch"
       :placeholder="'Riven.IM '+version"
       @select="handleSelect">
-      <i
+      <template #suffix><i
         class="el-icon-search el-input__icon"
-        slot="suffix"
+       
         @click="handleIconClick">
-      </i>
-      <template slot-scope="{ item }">
+      </i></template>
+      <template v-slot="{ item }">
         <HighlightedSearchResult :data="item"/>
       </template>
     </el-autocomplete>
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 
 import { SearchEngine, SearchResult, IndexedSearchResult } from "@/search";
 import { version } from "@/version";
@@ -27,7 +27,7 @@ import { WeaponDatabase } from "@/warframe/codex";
 import HighlightedSearchResult from "./HighlightedSearchResult";
 
 @Component({ components: { HighlightedSearchResult } })
-export default class Search extends Vue {
+class Search extends Vue  {
   data = "";
   engine = new SearchEngine();
   querySearch(query: string, cb: (rs: any) => void) {
@@ -57,6 +57,8 @@ export default class Search extends Vue {
     return version;
   }
 }
+
+export default toNative(Search);
 </script>
 
 <style lang="less">

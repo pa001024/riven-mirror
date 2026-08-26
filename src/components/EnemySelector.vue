@@ -1,7 +1,7 @@
 <template>
   <el-tabs class="enemy-tabs" v-model="enemyType">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.name">
-      <span slot="label" class="enemy-tablabel">{{ tab.name }}</span>
+      <template #label><span class="enemy-tablabel">{{ tab.name }}</span></template>
       <div class="enemy-select">
         <div class="enemy-item-container" v-for="enemy in tab.enemys" :key="enemy.id">
           <div class="enemy-item el-dropdown" @click="handleClick(enemy.id)">
@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { map } from "lodash-es";
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 import { EnemyFaction, EnemyData, EnemyList, Codex } from "@/warframe/codex";
 
 declare interface EnemySelectorTab {
@@ -25,7 +25,7 @@ declare interface EnemySelectorTab {
 }
 
 @Component
-export default class EnemySelector extends Vue {
+class EnemySelector extends Vue  {
   enemyType = "Grineer";
   tabs: EnemySelectorTab[] = [];
   beforeMount() {
@@ -38,6 +38,8 @@ export default class EnemySelector extends Vue {
     this.$emit("select", enemy);
   }
 }
+
+export default toNative(EnemySelector);
 </script>
 
 <style>

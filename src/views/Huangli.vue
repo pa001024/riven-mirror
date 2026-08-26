@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 
 // 伪随机
 function random(dayseed: number, indexseed: number) {
@@ -135,7 +135,7 @@ const areas = ["贴吧", "氏族", "区域频道", "联盟"];
 const stars = "水星,金星,地球,月球,火星,火卫一,谷神星,木星,欧罗巴,土星,天王星,海王星,冥王星,赛德娜,阋神星,虚空".split(",");
 
 @Component
-export default class Huangli extends Vue {
+class Huangli extends Vue  {
   today = new Date();
   get iday() {
     return this.today.getFullYear() * 10000 + (this.today.getMonth() + 1) * 100 + this.today.getDate();
@@ -212,6 +212,8 @@ export default class Huangli extends Vue {
     return "今天是" + this.today.getFullYear() + "年" + (this.today.getMonth() + 1) + "月" + this.today.getDate() + "日 星期" + weeks[this.today.getDay()];
   }
 }
+
+export default toNative(Huangli);
 </script>
 
 <style lang="less">

@@ -39,6 +39,10 @@ export class ValuedRivenProperty {
     if (val[0] != "-") return "+" + val;
     else return val;
   }
+  /** 是否为负属性 */
+  get isNegative() {
+    return this.value < 0;
+  }
   /** 根据属性基础值计算属性偏差值 */
   get value() {
     return this.deviation * this.baseValue * this.upLevel;

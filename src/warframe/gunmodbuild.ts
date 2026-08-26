@@ -139,11 +139,7 @@ export class GunModBuild extends ModBuild {
     if ((this.weapon = weapon)) {
       this._mode = this.weapon.defaultMode;
       this.avaliableMods = NormalModDatabase.filter(
-        v =>
-          this.weapon.tags
-            .toArray()
-            .concat([this.weapon.name, this.weapon.baseName])
-            .includes(v.type) && !v.props[0][0].startsWith("on")
+        v => this.weapon.tags.toArray().concat([this.weapon.name, this.weapon.baseName]).includes(v.type) && !v.props[0][0].startsWith("on")
       );
     }
     const chargemodeindex = weapon.modes.findIndex(v => v.type === "charge");
@@ -351,11 +347,11 @@ export class GunModBuild extends ModBuild {
   }
   /** 所有伤害(首发) */
   get totalDmgFirst() {
-    return this.baseDmg.map(([i, v]) => [i, (v * this.firstAmmoDamage) / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
+    return this.baseDmg.map(([i, v]) => [i, (v * this.firstAmmoDamage) / this.extraDmgMul] as [string, number]).filter(v => v[1] > 0) as [string, number][];
   }
   /** 无模型所有伤害(首发) */
   get totalDmgFirstRaw() {
-    return this.baseDmg.map(([i, v]) => [i, (v * this.firstAmmoDamageRaw) / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
+    return this.baseDmg.map(([i, v]) => [i, (v * this.firstAmmoDamageRaw) / this.extraDmgMul] as [string, number]).filter(v => v[1] > 0) as [string, number][];
   }
   /** 计算首发的总伤害 */
   get totalDamageAvg() {

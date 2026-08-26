@@ -3,9 +3,8 @@
     <div class="master" v-if="questions.length">
       <div class="master-header">
         <div class="title">
-          <span style="font-size:40px"><WfIcon type="tenno"/></span>
-Warframe知识程度测验
-2019年 - A卷
+          <span style="font-size: 40px"><WfIcon type="tenno" /></span>
+          Warframe知识程度测验 2019年 - A卷
         </div>
         <div class="desc">
           <!-- 联办: 极镜、Warframe中文维基 -->
@@ -13,18 +12,18 @@ Warframe知识程度测验
       </div>
       <div class="master-stat">
         <div class="progress">
-          答题进度: <span>第{{showIndex+1}} / {{this.questions.length}}</span> 题
+          答题进度: <span>第{{ showIndex + 1 }} / {{ questions.length }}</span> 题
           <el-progress :percentage="progress" />
         </div>
-        <div class="time" v-if="started">此题答题时间剩余: {{time}}秒</div>
+        <div class="time" v-if="started">此题答题时间剩余: {{ time }}秒</div>
       </div>
       <div class="master-body">
         <!-- 问题 -->
         <div class="questions">
           <div class="question">
             <div class="title">
-              {{showIndex+1}}.
-              {{questions[showIndex].text}}
+              {{ showIndex + 1 }}.
+              {{ questions[showIndex].text }}
             </div>
             <div class="options">
               <el-radio-group v-model="answers[showIndex]" v-if="questions[showIndex].type === 2">
@@ -32,10 +31,10 @@ Warframe知识程度测验
                 <el-radio :label="0">错误</el-radio>
               </el-radio-group>
               <el-checkbox-group v-model="answers[showIndex]" v-else-if="questions[showIndex].type === 1">
-                <el-checkbox :label="i" v-for="(o,i) in questions[showIndex].options" :key="i">{{o}}</el-checkbox>
+                <el-checkbox :label="i" v-for="(o, i) in questions[showIndex].options" :key="i">{{ o }}</el-checkbox>
               </el-checkbox-group>
-              <el-radio-group v-model="answers[i]" v-else>
-                <el-radio :label="i" v-for="(o,i) in questions[showIndex].options" :key="i">{{o}}</el-radio>
+              <el-radio-group v-model="answers[showIndex]" v-else>
+                <el-radio :label="i" v-for="(o, i) in questions[showIndex].options" :key="i">{{ o }}</el-radio>
               </el-radio-group>
             </div>
           </div>
@@ -53,9 +52,8 @@ Warframe知识程度测验
   </div>
 </template>
 
-
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 import axios from "axios";
 
 enum QuestionType {
@@ -63,7 +61,7 @@ enum QuestionType {
   Multi,
   Check,
   Image,
-  Text
+  Text,
 }
 
 interface Question {
@@ -74,17 +72,17 @@ interface Question {
 }
 
 @Component({ components: {} })
-export default class Master extends Vue {
+class Master extends Vue {
   questions: Question[] = [];
   countDown: number;
-  answers: (number | number[])[] = null;
+  answers: any[] = [];
   showIndex = 0;
   time = 30;
   get progress() {
     const p = (this.showIndex / this.questions.length) * 100;
     return +p.toFixed(0);
   }
-  timer: number = 0;
+  timer: number | ReturnType<typeof setInterval> = 0;
   get started() {
     return this.timer !== 0;
   }
@@ -119,6 +117,8 @@ export default class Master extends Vue {
     this.loadDataOnline();
   }
 }
+
+export default toNative(Master);
 </script>
 <style lang="less">
 .master-header {

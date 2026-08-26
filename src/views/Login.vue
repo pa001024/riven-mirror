@@ -4,30 +4,29 @@
     <el-form v-loading="loading" :rules="rules" ref="loginForm" :model="user" class="login-box">
       <el-form-item prop="login">
         <el-input :placeholder="$t('app.loginHint')" type="text" v-model="user.login">
-          <WfIcon slot="prefix" type="mail" class="input-icon"/>
+          <template #prefix><WfIcon type="mail" class="input-icon"/></template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
         <el-input :placeholder="$t('app.passwordHint')" type="password" v-model="user.password">
-          <WfIcon slot="prefix" type="lock" class="input-icon"/>
+          <template #prefix><WfIcon type="lock" class="input-icon"/></template>
         </el-input>
       </el-form-item>
       <el-form-item style="margin-bottom: -14px">
         <input :style="'margin-top:'+(isLogin ? 18 : 8)+'px'" type="submit" class="block btn-login" :class="{'is-disabled': !canLogin}" :disabled="!canLogin" :value="isLogin ? $t('app.loginbtn') : $t('app.registerbtn')">
-        <el-button style="margin-right: 12px;" type="text" @click="isLogin=!isLogin">{{isLogin ? $t('app.registerbtn') : $t('app.loginbtn')}}</el-button>
+        <el-button style="margin-right: 12px;" link @click="isLogin=!isLogin">{{isLogin ? $t('app.registerbtn') : $t('app.loginbtn')}}</el-button>
         <router-link class="link-btn" to="/forgetpass" v-t="'app.loginforget'"></router-link>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-import { Getter, Action } from "vuex-class";
-import anime from "animejs";
+import { Vue, Component, toNative } from "vue-facing-decorator";
+import { animate } from "animejs";
 import "@/less/login.less";
 
 @Component({ components: {} })
-export default class Login extends Vue {
+class Login extends Vue  {
   user = {
     login: "",
     password: ""
@@ -36,8 +35,12 @@ export default class Login extends Vue {
   isLogin = true
   get canLogin() { return false }
 
-  @Getter("loginLoading") loading: boolean;
-  @Action("login") login: (user: { login: string, password: string }) => void;
+  get loading(): boolean {
+    return this.$store.getters.loginLoading;
+  }
+  login(user: { login: string, password: string }): any {
+    return this.$store.dispatch("login", user);
+  }
 
   get rules() {
     return {
@@ -63,8 +66,7 @@ export default class Login extends Vue {
         if (valid) {
           this.login(this.user);
         } else {
-          anime({
-            targets: ".login-box",
+          animate(".login-box", {
             keyframes: [
               { translateX: -8 },
               { translateX: 8 },
@@ -72,8 +74,8 @@ export default class Login extends Vue {
             ],
             loop: 5,
             duration: 40,
-            direction: "alternate",
-            easing: "easeInOutSine"
+            alternate: true,
+            ease: "inOutSine"
           })
           // console.error('error submit', this.user);
         }
@@ -82,4 +84,6 @@ export default class Login extends Vue {
     }
   }
 }
+
+export default toNative(Login);
 </script>

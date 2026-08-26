@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Staff from './Staff';
+import Staff from './Staff.vue';
 export default {
   props: {
     showTrebleClef: {

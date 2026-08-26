@@ -1,7 +1,7 @@
 <template>
   <el-tabs class="buff-tabs" v-model="selectTab">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
-      <span slot="label" class="buff-tablabel">{{tab.name}}</span>
+      <template #label><span class="buff-tablabel">{{tab.name}}</span></template>
       <div class="buff-select">
         <div class="buff-item-container" v-for="buff in tab.buffs" :key="buff.id">
           <div class="buff-item el-dropdown" @click="handleClick(buff.id)">
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, toNative } from "vue-facing-decorator";
 import { BuffData, Codex, BuffList, BuffType } from "@/warframe/codex";
 import { ModBuild } from "@/warframe/modbuild";
 
@@ -25,7 +25,7 @@ declare interface BuffSelectorTab {
 }
 
 @Component
-export default class extends Vue {
+class BuffSelector extends Vue  {
   @Prop() build: ModBuild;
 
   selectTab = "";
@@ -72,6 +72,8 @@ export default class extends Vue {
     }
   }
 }
+
+export default toNative(BuffSelector);
 </script>
 
 

@@ -17,14 +17,14 @@
         <input style="width:50px;text-align:center;" class="text-input" @change="saveReminder" autocomplete="off" type="text" v-model="timeReminder.minutesInAdvance">
         {{$t("reminder.settingSubfix")}}
       </div>
-      <div slot="reference" class="time-block cetus">
+      <template #reference><div class="time-block cetus">
         <div class="time-header">
           {{$t("time.cetus")}} {{cetusTime.phase}}
         </div>
         <div class="time-clock">
           {{cetusTime.text}}
         </div>
-      </div>
+      </div></template>
     </el-popover>
     <div class="time-block fortuna">
       <div class="time-header">
@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 import { i18n } from "@/i18n";
 import Axios from "axios";
 import { CetusTime, EarthTime, FortunaTime, CambionTime } from "@/warframe/gametime";
@@ -125,7 +125,7 @@ class TimeReminder {
   }
 }
 @Component
-export default class MiniClock extends Vue {
+class MiniClock extends Vue  {
   cetusTime: WarframeTime = { phase: "", text: "00:00" }
   earthTime: WarframeTime = { phase: "", text: "00:00" }
   fortunaTime: WarframeTime = { phase: "", text: "00:00" }
@@ -169,6 +169,8 @@ export default class MiniClock extends Vue {
     this.cetusFutureTimes = CetusTime.futures(5);
   }
 }
+
+export default toNative(MiniClock);
 </script>
 
 <style>

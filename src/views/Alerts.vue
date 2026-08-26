@@ -44,7 +44,7 @@
         <!-- 突击 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="sortie.id">
           <el-card class="index-card sortie">
-            <h3 slot="header"><WfIcon type="sortie" shadow/> {{$t("alerting.sortie")}}</h3>
+            <template #header><h3><WfIcon type="sortie" shadow/> {{$t("alerting.sortie")}}</h3></template>
             <ul>
               <div class="sortie-info"><!--
              --><WfIcon :type="sortie.faction"/> {{sortie.boss}}<!--
@@ -63,7 +63,7 @@
         <!-- S船 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="sentientOutposts">
           <el-card class="index-card sentientOutposts">
-            <h3 slot="header"><WfIcon type="sentient" shadow/> {{$t("alerting.sentientOutposts")}}</h3>
+            <template #header><h3><WfIcon type="sentient" shadow/> {{$t("alerting.sentientOutposts")}}</h3></template>
             <ul>
               <li v-if="sentientOutposts.active">
                 <div class="info">
@@ -90,7 +90,7 @@
         <!-- 仲裁 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="arbitration">
           <el-card class="index-card arbitration">
-            <h3 slot="header"><WfIcon type="arbitration" shadow/> {{$t("alerting.arbitration")}}</h3>
+            <template #header><h3><WfIcon type="arbitration" shadow/> {{$t("alerting.arbitration")}}</h3></template>
             <ul>
               <li>
                 <div class="info">
@@ -109,7 +109,7 @@
         <!-- 警报 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="alerts.length > 0">
           <el-card class="index-card alert">
-            <h3 slot="header"><WfIcon type="alert" shadow/> {{$t("alerting.alerts")}}</h3>
+            <template #header><h3><WfIcon type="alert" shadow/> {{$t("alerting.alerts")}}</h3></template>
             <ul>
               <li v-for="(v, i) in alerts" :key="i">
                 <div class="info">
@@ -129,7 +129,7 @@
         <!-- 电波 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="nightwave && nightwave.activeChallenges.length > 0">
           <el-card class="index-card nightwave">
-            <h3 slot="header"><WfIcon type="radio" shadow/> {{$t("alerting.nightwave")}}</h3>
+            <template #header><h3><WfIcon type="radio" shadow/> {{$t("alerting.nightwave")}}</h3></template>
             <ul>
               <li v-for="(v, i) in nightwave.activeChallenges" :key="i">
                 <div class="info">
@@ -150,7 +150,7 @@
         <!-- 新闻 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="news.length > 0">
           <el-card class="index-card news">
-            <h3 slot="header"><WfIcon type="earth" shadow/> {{$t("alerting.news")}}</h3>
+            <template #header><h3><WfIcon type="earth" shadow/> {{$t("alerting.news")}}</h3></template>
             <ul>
               <li v-for="(v, i) in news" :key="i">
                 <i class="el-icon-caret-right"></i>
@@ -162,7 +162,7 @@
         <!-- 虚空商人 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="voidTrader">
           <el-card class="index-card voidtrader">
-            <h3 slot="header"><WfIcon type="voidtrader" shadow/> {{$t("alerting.voidTrader")}}</h3>
+            <template #header><h3><WfIcon type="voidtrader" shadow/> {{$t("alerting.voidTrader")}}</h3></template>
             <ul>
               <li>
                 <div class="location">{{voidTrader.location}}</div>
@@ -186,7 +186,7 @@
         <!-- 赤毒 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="kuva.length > 0">
           <el-card class="index-card kuva">
-            <h3 slot="header"><WfIcon type="kuva" shadow/> {{$t("alerting.kuva")}}</h3>
+            <template #header><h3><WfIcon type="kuva" shadow/> {{$t("alerting.kuva")}}</h3></template>
             <ul>
               <li v-for="(v, i) in kuva" :key="i">
                 <div class="info">
@@ -205,7 +205,7 @@
         <!-- 裂缝 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="fissures.length > 0">
           <el-card class="index-card fissure">
-            <h3 slot="header"><WfIcon type="fissure" shadow/> {{$t("alerting.fissures")}}</h3>
+            <template #header><h3><WfIcon type="fissure" shadow/> {{$t("alerting.fissures")}}</h3></template>
             <ul>
               <li v-for="(v, i) in fissures" :key="i">
                 <div class="info">
@@ -225,7 +225,7 @@
         <!-- 入侵 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="invasions.length > 0">
           <el-card class="index-card invasion">
-            <h3 slot="header"><WfIcon type="invasion" shadow/> {{$t("alerting.invasion")}}</h3>
+            <template #header><h3><WfIcon type="invasion" shadow/> {{$t("alerting.invasion")}}</h3></template>
             <ul>
               <li v-for="(v, i) in invasions" :key="i">
                 <div class="info">
@@ -249,7 +249,7 @@
         <!-- 地球赏金 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="ostrons.length > 0">
           <el-card class="index-card ostrons">
-            <h3 slot="header"><WfIcon type="ostrons" shadow/> {{$t("alerting.ostrons")}}</h3>
+            <template #header><h3><WfIcon type="ostrons" shadow/> {{$t("alerting.ostrons")}}</h3></template>
             <ul>
               <li v-for="(v, i) in ostrons" :key="i">
                 <div class="info">
@@ -265,7 +265,7 @@
         <!-- 金星赏金 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="solarisUnited.length > 0">
           <el-card class="index-card solarisUnited">
-            <h3 slot="header"><WfIcon type="fortuna" shadow/> {{$t("alerting.solarisUnited")}}</h3>
+            <template #header><h3><WfIcon type="fortuna" shadow/> {{$t("alerting.solarisUnited")}}</h3></template>
             <ul>
               <li v-for="(v, i) in solarisUnited" :key="i">
                 <div class="info">
@@ -281,7 +281,7 @@
         <!-- 火卫二赏金 -->
         <el-col :xs="24" :sm="12" :lg="8" v-if="entrati.length > 0">
           <el-card class="index-card entrati">
-            <h3 slot="header"><WfIcon type="entrati" shadow/> {{$t("alerting.entrati")}}</h3>
+            <template #header><h3><WfIcon type="entrati" shadow/> {{$t("alerting.entrati")}}</h3></template>
             <ul>
               <li v-for="(v, i) in entrati" :key="i">
                 <div class="info">
@@ -300,11 +300,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, toNative } from "vue-facing-decorator";
 import BScroll from "better-scroll";
 import { WorldStat, Sortie, News, Fissure, Invasion, Job, VoidTrader, Alert, Nightwave, Kuva, Arbitration, SentientOutpost } from "@/warframe/worldstat";
 import { CetusTime, FortunaTime, CambionTime, EarthTime, SentientTime } from "@/warframe/gametime";
-import { Getter, Action } from "vuex-class";
 import "../less/alert.less";
 
 interface WarframeTime {
@@ -313,7 +312,7 @@ interface WarframeTime {
   text: string;
 }
 @Component
-export default class Alerts extends Vue {
+class Alerts extends Vue  {
   cetusTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
   fortunaTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
   cambionTime: WarframeTime = { isDay: true, phase: "黎明", text: "00:00" };
@@ -360,7 +359,9 @@ export default class Alerts extends Vue {
     return `${day !== 0 ? day + ":" : ""}${hou < 10 ? "0" + hou : hou}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
   }
 
-  @Getter("platform") platform: string;
+  get platform(): string {
+    return this.$store.getters.platform;
+  }
 
   // === 事件处理 ===
   @Watch("$route")
@@ -463,4 +464,6 @@ export default class Alerts extends Vue {
     this.sentientTime = { active: SentientTime.isActive, text: SentientTime.text };
   }
 }
+
+export default toNative(Alerts);
 </script>

@@ -1,8 +1,9 @@
 import QRious from "qrious";
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { h } from "vue";
+import { Vue, Component, Watch, Prop, toNative } from "vue-facing-decorator";
 
 @Component({ name: "qrcode" })
-export default class qrcode extends Vue {
+class qrcode extends Vue {
   /**
    * The options for the QR code generator.
    * {@link https://github.com/neocotic/qrious#api}
@@ -14,7 +15,7 @@ export default class qrcode extends Vue {
    */
   @Prop({
     type: String,
-    default: "canvas"
+    default: "canvas",
   })
   tag: string;
 
@@ -23,12 +24,14 @@ export default class qrcode extends Vue {
    */
   @Prop({
     type: String,
-    default: ""
+    default: "",
   })
   value: string;
 
-  render(createElement: typeof Vue.prototype.$createElement) {
-    return createElement(this.tag, this.$slots.default);
+  // Vue 3 的 render 不再接收 createElement，改用从 vue 导入的 h；
+  // 且 $slots.default 在 Vue 3 中是函数，需要调用后才拿到 VNode 数组
+  render() {
+    return h(this.tag, this.$slots.default?.());
   }
 
   @Watch("options")
@@ -38,7 +41,7 @@ export default class qrcode extends Vue {
       new QRious({
         element: this.$el,
         value: String(this.value),
-        ...this.options
+        ...this.options,
       });
     }
   }
@@ -47,3 +50,5 @@ export default class qrcode extends Vue {
     this.generate();
   }
 }
+
+export default toNative(qrcode);

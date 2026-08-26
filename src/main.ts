@@ -1,77 +1,78 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from "vue";
-
-Vue.config.productionTip = false;
-Vue.config.performance = true;
+import { createApp as createVueApp, type App as VueApp } from "vue";
 
 // 全局组件
 import draggable from "vuedraggable";
-Vue.component("draggable", draggable);
 import qrcode from "@/components/QRCode";
-Vue.component("qrcode", qrcode);
 import WfIcon from "./components/WfIcon.vue";
-Vue.component("WfIcon", WfIcon);
 import Tip from "./components/Tip.vue";
-Vue.component("Tip", Tip);
 
-// Element UI
-import Element from "element-ui";
-import "./less/ele/index.css";
+// Element Plus
+import ElementPlus from "element-plus";
+import "element-plus/dist/index.css";
+import elLocaleEn from "element-plus/es/locale/lang/en";
+import elLocaleZhCn from "element-plus/es/locale/lang/zh-cn";
+import elLocaleZhTw from "element-plus/es/locale/lang/zh-tw";
+import "./less/ele/theme.less";
+import "./less/ele/icons.css";
 import "./less/ele/display.css";
 import "./less/app.less";
 
 import { i18n } from "./i18n/";
-Vue.use(Element, { i18n: (key, value) => i18n.t(key, value) });
 
 // i18n
-import { changeLocale, vi18n } from "./i18n/plugin";
+import { changeLocale, vi18n, global as i18nGlobal } from "./i18n/plugin";
 
 // tour
-import VueTour from "vue-tour";
-import "vue-tour/dist/vue-tour.css";
-Vue.use(VueTour);
+import VueTour from "v3-tour";
+import "v3-tour/dist/vue-tour.css";
 
 import { createRouter } from "./router";
 import { createStore } from "./store";
 import App from "./App.vue";
 
-// import Worker from "worker-loader!./worker/main";
+/** vue-i18n 的 locale 串映射到 Element Plus 的语言包 */
+function resolveElementLocale(locale: string) {
+  if (!locale) return elLocaleEn;
+  if (/^zh[-_](tw|hk|mo|hant)/i.test(locale)) return elLocaleZhTw;
+  if (/^zh/i.test(locale)) return elLocaleZhCn;
+  return elLocaleEn;
+}
 
-// const worker = new Worker();
-
-// worker.postMessage({ a: 1 });
-// worker.onmessage = (event) => { };
-
-// worker.addEventListener("message", (event) => { });
+export interface CreateAppResult {
+  app: VueApp<Element>;
+  router: ReturnType<typeof createRouter>;
+  store: ReturnType<typeof createStore>;
+}
 
 export async function createApp({ beforeApp = () => {}, afterApp = () => {}, locale }: any = {}) {
   const store = createStore();
   const router = createRouter();
   // load extra i18n file
   await changeLocale(locale);
-  if (!locale) console.log("using lang", locale || vi18n.locale);
-  i18n.inject(vi18n);
+  if (!locale) console.log("using lang", locale || i18nGlobal.locale);
+  i18n.inject(i18nGlobal);
 
-  await beforeApp({
-    router,
-    store,
-  });
+  await beforeApp({ router, store });
 
   store.dispatch("load");
 
-  let app = new Vue({
-    i18n: vi18n,
-    router,
-    store,
-    render: h => h(App),
-  });
+  const app = createVueApp(App);
 
-  const result = {
-    app,
-    router,
-    store,
-  };
+  app.use(vi18n);
+  app.use(router);
+  app.use(store);
+  app.use(ElementPlus, { locale: resolveElementLocale(i18n.locale) });
+  app.use(VueTour);
+
+  // 全局组件注册（Vue 3 走 app 实例，不再是 Vue.component）
+  app.component("draggable", draggable);
+  app.component("qrcode", qrcode);
+  app.component("WfIcon", WfIcon);
+  app.component("Tip", Tip);
+
+  app.config.performance = true;
+
+  const result: CreateAppResult = { app, router, store };
 
   await afterApp(result);
 
@@ -81,26 +82,21 @@ export async function createApp({ beforeApp = () => {}, afterApp = () => {}, loc
 // ServiceWorker
 import "./registerServiceWorker";
 
-// FastClick
-// import FastClick from "fastclick";
-// FastClick.attach(document.body);
-
 const langParameter = location.search.match(/(?:\?|&)lang=(.+?)(?=$|&)/);
 
 import { RivenDatabase, WeaponDatabase } from "@/warframe/codex";
 
 createApp({
-  async beforeApp({ router }) {
-    // await loadAsyncComponents({ router });
+  async beforeApp() {
     RivenDatabase.reload();
     await WeaponDatabase.loadDataOnline();
   },
 
-  afterApp({ app, store }) {
-    app.$mount("#app");
-    if (navigator.language.startsWith("zh") && Date.now() < new Date("2020/4/5").valueOf()) {
-      document.body.style.filter = "grayscale(1)";
-    }
+  async afterApp({ app, router }: CreateAppResult) {
+    // Vue Router 4+ 首次导航是异步的，等就绪再挂载可避免首屏闪烁
+    await router.isReady();
+    app.mount("#app");
   },
+
   locale: (langParameter && langParameter[1]) || localStorage.getItem("lang"),
 });

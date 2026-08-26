@@ -42,7 +42,7 @@
         <div class="item enemy-action">
           <div class="key">{{$t("enemy.action")}}</div>
           <div class="value control">
-            <el-checkbox :value="perBullet" @change="$emit('update:perBullet', $event)">{{$t('enemy.perBullet')}}</el-checkbox>
+            <el-checkbox :model-value="perBullet" @change="$emit('update:perBullet', $event)">{{$t('enemy.perBullet')}}</el-checkbox>
           </div>
           <div class="value control"><el-button size="small" @click="selectEnemy(null)">{{$t("enemy.reselect")}}</el-button></div>
         </div>
@@ -56,7 +56,7 @@
 
 
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, toNative } from "vue-facing-decorator";
 import EnemySelector from "@/components/EnemySelector.vue";
 import EnemyTimeline from "@/components/EnemyTimeline.vue";
 import { Enemy } from "@/warframe/codex";
@@ -65,7 +65,7 @@ import { ModBuild } from "@/warframe/modbuild";
 @Component({
   components: { EnemySelector, EnemyTimeline },
 })
-export default class Simulacrum extends Vue {
+class Simulacrum extends Vue  {
   @Prop({ required: true }) build: ModBuild;
   @Prop({ required: true }) selectEnemy: Function;
   @Prop({ required: true }) enemy: Enemy;
@@ -90,4 +90,6 @@ export default class Simulacrum extends Vue {
     this.fakeAmrorReduce = this.amrorReduce;
   }
 }
+
+export default toNative(Simulacrum);
 </script>

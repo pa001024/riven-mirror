@@ -39,7 +39,7 @@ export default class UserModule implements Module<UserState, RootState> {
       if (!["pc", "ps4", "xb1", "swi"].includes(platform)) platform = "pc";
       state.platform = platform;
       localStorage.setItem("platform", platform);
-    }
+    },
   };
 
   actions: ActionTree<UserState, RootState> = {
@@ -48,9 +48,7 @@ export default class UserModule implements Module<UserState, RootState> {
       try {
         const res = await axios.post(`${ctx.rootState.origin}/login`, {
           user: login,
-          hash: shajs("sha256")
-            .update(`_R_M^${password}^P_A_`)
-            .digest("hex")
+          hash: shajs("sha256").update(`_R_M^${password}^P_A_`).digest("hex"),
         });
         const data = res.data as BasicResult;
         if (data && data.code === 200) {
@@ -65,13 +63,13 @@ export default class UserModule implements Module<UserState, RootState> {
     async resetpassword(ctx, { login }: { login: string }) {},
     async setPlatform(ctx, platform: string) {
       ctx.commit(SET_PLATFORM, platform);
-    }
+    },
   };
 
   getters: GetterTree<UserState, RootState> = {
     session: state => state.session,
     loginLoading: state => state.loginLoading,
-    platform: state => state.platform
+    platform: state => state.platform,
   };
 
   constructor(initState: UserState) {
@@ -81,7 +79,7 @@ export default class UserModule implements Module<UserState, RootState> {
       session: null,
       loginLoading: false,
       platform: platform || "pc",
-      ...initState
+      ...initState,
     };
   }
 }

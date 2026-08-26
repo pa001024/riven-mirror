@@ -1,12 +1,16 @@
-import { Vue, Watch, Prop } from "vue-property-decorator";
+import { Vue, Prop, ComponentBase } from "vue-facing-decorator";
 import { RivenMod } from "@/warframe/rivenmod";
 import { WeaponDatabase, Buff } from "@/warframe/codex";
 import { ModBuild } from "@/warframe/modbuild";
 import { GunModBuild } from "@/warframe/gunmodbuild";
-import { Getter } from "vuex-class";
+
+// 抽象基类需要带括号形式（@ComponentBase 的类型只收非抽象构造器，运行时等价）
+@ComponentBase()
 
 export abstract class BaseModBuildView extends Vue {
-  @Getter("bigScreen") bigScreen: boolean;
+  get bigScreen(): boolean {
+    return this.$store.getters.bigScreen;
+  }
   @Prop() riven: RivenMod;
   selectWeapon = "";
   get weapon() {

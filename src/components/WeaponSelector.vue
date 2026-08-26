@@ -1,20 +1,24 @@
 <template>
   <el-tabs class="weapon-tabs" v-model="modType">
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
-      <span slot="label" class="weapon-tablabel">{{ $t(`weaponselector.${tab.name}`) }}</span>
+      <template #label
+        ><span class="weapon-tablabel">{{ $t(`weaponselector.${tab.name}`) }}</span></template
+      >
       <div class="weapon-select">
-        <template v-for="(weapon, index) in tab.weapons">
-          <div class="weapon-group-header" v-if="!tab.weapons[index - 1] || tab.weapons[index - 1].star != weapon.star" :key="weapon.star">
+        <template v-for="(weapon, index) in tab.weapons" :key="weapon.name">
+          <div class="weapon-group-header" v-if="!tab.weapons[index - 1] || tab.weapons[index - 1].star != weapon.star">
             {{ weapon.starText }}
           </div>
-          <div class="weapon-item-container" :key="weapon.name">
+          <div class="weapon-item-container">
             <el-dropdown v-if="weapon.variants.length > 1" trigger="click" @command="handleCommand" placement="bottom-start">
               <div class="weapon-item">{{ weapon.locName }} {{ weapon.disposition }}</div>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="weapon in weapon.variants" :key="weapon.name" :command="weapon.name"
-                  >{{ weapon.displayName }} {{ weapon.disposition }}</el-dropdown-item
-                >
-              </el-dropdown-menu>
+              <template #dropdown
+                ><el-dropdown-menu>
+                  <el-dropdown-item v-for="variant in weapon.variants" :key="variant.name" :command="variant.name"
+                    >{{ variant.displayName }} {{ variant.disposition }}</el-dropdown-item
+                  >
+                </el-dropdown-menu></template
+              >
             </el-dropdown>
             <div v-else class="weapon-item el-dropdown" @click="handleClick(weapon.name)">{{ weapon.locName }} {{ weapon.disposition }}</div>
           </div>
@@ -22,15 +26,21 @@
       </div>
     </el-tab-pane>
     <el-tab-pane name="KITGUN" lazy>
-      <span slot="label" class="weapon-tablabel">{{ $t("kitgun.title") }}</span>
+      <template #label
+        ><span class="weapon-tablabel">{{ $t("kitgun.title") }}</span></template
+      >
       <KitgunBuilder @finish="newKITGUN"> </KitgunBuilder>
     </el-tab-pane>
     <el-tab-pane name="ZAW" lazy>
-      <span slot="label" class="weapon-tablabel">{{ $t("zaw.title") }}</span>
+      <template #label
+        ><span class="weapon-tablabel">{{ $t("zaw.title") }}</span></template
+      >
       <ZawBuilder @finish="newZAW"> </ZawBuilder>
     </el-tab-pane>
     <el-tab-pane name="AMP" lazy>
-      <span slot="label" class="weapon-tablabel">{{ $t("amp.title") }}</span>
+      <template #label
+        ><span class="weapon-tablabel">{{ $t("amp.title") }}</span></template
+      >
       <AmpBuilder @finish="newAMP"> </AmpBuilder>
     </el-tab-pane>
   </el-tabs>
@@ -38,7 +48,7 @@
 
 <script lang="ts">
 import { map } from "lodash-es";
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 import ZawBuilder from "@/components/ZawBuilder.vue";
 import KitgunBuilder from "@/components/KitgunBuilder.vue";
 import AmpBuilder from "@/components/AmpBuilder.vue";
@@ -53,7 +63,7 @@ declare interface WeaponSelectorTab {
 const AllTabs = Object.assign({}, ModTypeTable, { KITGUN: "KITGUN", ZAW: "ZAW", AMP: "AMP" });
 
 @Component({ components: { ZawBuilder, KitgunBuilder, AmpBuilder } })
-export default class WeaponSelector extends Vue {
+class WeaponSelector extends Vue {
   // modType = "Rifle";
   get modType() {
     let val = location.hash && location.hash.split("#")[1].trim();
@@ -100,6 +110,8 @@ export default class WeaponSelector extends Vue {
     this.$router.push({ name: "BuildEditor", params: { id: amp.url } });
   }
 }
+
+export default toNative(WeaponSelector);
 </script>
 
 <style lang="less">

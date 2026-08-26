@@ -4,7 +4,7 @@
   </svg>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { SVGData } from "../assets/svgicons";
 
 const AliasTable = {
@@ -24,7 +24,7 @@ const AliasTable = {
 };
 
 @Component({})
-export default class WfIcon extends Vue {
+class WfIcon extends Vue  {
   @Prop() type: string;
   @Prop({ type: Boolean }) shadow: boolean;
   get name() {
@@ -43,6 +43,8 @@ export default class WfIcon extends Vue {
     return `0 0 ${vs} ${vs}`;
   }
 }
+
+export default toNative(WfIcon);
 </script>
 
 <style lang="less">

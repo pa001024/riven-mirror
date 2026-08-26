@@ -12,7 +12,7 @@
       </el-select>
       <i v-if="!isLoaded" class="el-icon-loading"></i>
       <!-- 额外设置 -->
-      <el-popover placement="top" v-model="settingVisible">
+      <el-popover placement="top" v-model:visible="settingVisible">
         <!-- BPM -->
         <div class="setting-line">
           <label>BPM: </label>
@@ -35,7 +35,7 @@
         <!-- 调号 -->
         <div class="setting-line">
           {{ $t("shawzin.transpose") }}
-          <el-select style="width: 80px" v-model="music.numberShift" size="mini">
+          <el-select style="width: 80px" v-model="music.numberShift" size="small">
             <el-option label="C" :value="0" />
             <el-option label="bD" :value="1" />
             <el-option label="D" :value="2" />
@@ -54,10 +54,10 @@
         <div class="setting-line">
           <el-button-group>
             <el-tooltip effect="dark" :content="$t('shawzin.importNumberSeqs')" placement="bottom">
-              <el-button size="small" @click="importNumberSeqs" icon="el-icon-download"></el-button>
+              <el-button size="small" @click="importNumberSeqs"><i class="el-icon-download"></i></el-button>
             </el-tooltip>
             <el-tooltip effect="dark" :content="$t('shawzin.copyNumberSeqs')" placement="bottom">
-              <el-button size="small" @click="copyNumberSeqs" icon="el-icon-copy-document"></el-button>
+              <el-button size="small" @click="copyNumberSeqs"><i class="el-icon-copy-document"></i></el-button>
             </el-tooltip>
             <!-- MIDI导入 -->
             <el-tooltip effect="dark" :content="$t('shawzin.importMidi')" placement="bottom">
@@ -66,7 +66,9 @@
             <input type="file" ref="midiFile" class="el-upload__input" @change="midiFileChange" />
           </el-button-group>
         </div>
-        <el-button slot="reference" size="small" icon="el-icon-setting"></el-button>
+        <template #reference
+          ><el-button size="small"><i class="el-icon-setting"></i></el-button
+        ></template>
       </el-popover>
       <!-- 工具选择 -->
       <el-radio-group size="small" v-model="editMode">
@@ -82,27 +84,27 @@
       </el-radio-group>
       <!-- 操作 -->
       <el-button-group>
-        <el-button size="small" type="danger" :disabled="isRecording" icon="el-icon-video-camera" @click="recordSeq"></el-button>
-        <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" icon="el-icon-video-play" @click="playSeq"></el-button>
-        <el-button size="small" type="primary" v-else icon="el-icon-video-pause" @click="stopSeq(true)"></el-button>
+        <el-button size="small" type="danger" :disabled="isRecording" @click="recordSeq"><i class="el-icon-video-camera"></i></el-button>
+        <el-button size="small" type="primary" v-if="!isPlaying" :disabled="isRecording" @click="playSeq"><i class="el-icon-video-play"></i></el-button>
+        <el-button size="small" type="primary" v-else @click="stopSeq(true)"><i class="el-icon-video-pause"></i></el-button>
         <el-button size="small" :disabled="!isPlaying && !isRecording && !isShowStop" @click="stopSeq()"><WfIcon type="stop" /></el-button>
-        <el-button size="small" v-model="loop" :type="loop ? 'primary' : 'normal'" @click="loop = !loop"><WfIcon type="loop" /></el-button>
-        <el-button size="small" @click="backspace" icon="el-icon-back"></el-button>
+        <el-button size="small" v-model="loop" :type="loop ? 'primary' : 'default'" @click="loop = !loop"><WfIcon type="loop" /></el-button>
+        <el-button size="small" @click="backspace"><i class="el-icon-back"></i></el-button>
         <el-tooltip effect="dark" :content="$t('shawzin.importCode')" placement="bottom">
-          <el-button size="small" @click="importCode" icon="el-icon-download"></el-button>
+          <el-button size="small" @click="importCode"><i class="el-icon-download"></i></el-button>
         </el-tooltip>
         <el-tooltip effect="dark" :content="$t('shawzin.copyCode')" placement="bottom">
-          <el-button size="small" @click="copyCode" icon="el-icon-copy-document"></el-button>
+          <el-button size="small" @click="copyCode"><i class="el-icon-copy-document"></i></el-button>
         </el-tooltip>
       </el-button-group>
       <!-- 清空 -->
-      <el-popover placement="top" v-model="clearConfirmVisible">
+      <el-popover placement="top" v-model:visible="clearConfirmVisible">
         <p>{{ $t("shawzin.clearConfirm") }}</p>
         <div style="text-align: right; margin: 0">
-          <el-button size="mini" type="text" @click="clearConfirmVisible = false">{{ $t("riven.cancel") }}</el-button>
+          <el-button size="small" link @click="clearConfirmVisible = false">{{ $t("riven.cancel") }}</el-button>
           <el-button
             type="primary"
-            size="mini"
+            size="small"
             @click="
               clearConfirmVisible = false;
               clearNotes();
@@ -110,11 +112,12 @@
             >{{ $t("riven.confirm") }}</el-button
           >
         </div>
-        <el-button-group slot="reference">
-          <el-tooltip effect="dark" :content="$t('shawzin.empty')" placement="bottom">
-            <el-button size="small" type="danger" icon="el-icon-delete"></el-button>
-          </el-tooltip>
-        </el-button-group>
+        <template #reference
+          ><el-button-group>
+            <el-tooltip effect="dark" :content="$t('shawzin.empty')" placement="bottom">
+              <el-button size="small" type="danger"><i class="el-icon-delete"></i></el-button>
+            </el-tooltip> </el-button-group
+        ></template>
       </el-popover>
     </div>
     <div class="view-area">
@@ -174,8 +177,7 @@
             :style="{ top: block.y + 'px', left: block.x + 'px', width: block.width + 'px' }"
             @mousedown.stop="singleSelectStart($event, { block, index })"
           >
-            {{ toNote(block.y)
-            }}<!--
+            {{ toNote(block.y) }}<!--
        -->
           </div>
           <div class="select-border" v-show="isSelect" ref="selectBorder" />
@@ -183,20 +185,22 @@
         <!-- <Spectrogram ref="spectrogram" :height="400" :timeScale="timeToPixelRatio" /> -->
       </div>
     </div>
-    <el-dialog class="update-dialog" :title="$t('shawzin.help')" :visible.sync="showHelp">
+    <el-dialog class="update-dialog" :title="$t('shawzin.help')" v-model="showHelp">
       <div class="help-item">
         <article class="md markdown-body" v-html="userGuide"></article>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="showHelp = false">{{ $t("update.confirm") }}</el-button>
-      </span>
+      <template #footer
+        ><span class="dialog-footer">
+          <el-button size="small" type="primary" @click="showHelp = false">{{ $t("update.confirm") }}</el-button>
+        </span></template
+      >
     </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { reverse, keyBy, cloneDeep } from "lodash-es";
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, toNative } from "vue-facing-decorator";
 import CopyText from "@/components/CopyText.vue";
 import Staff from "./components/Staff.vue";
 import Notation from "./components/Notation.vue";
@@ -431,7 +435,7 @@ const ROW_WIDTH = 20,
   COL_HEIGHT = 32;
 /* Shawzin */
 @Component({ components: { CopyText, Staff, Notation } })
-export default class MusicEdit extends Vue {
+class MusicEdit extends Vue {
   editMode = "move";
   /** 乐器 */
   instrument = "lotus";
@@ -1368,6 +1372,8 @@ export default class MusicEdit extends Vue {
     this.pushState();
   }
 }
+
+export default toNative(MusicEdit);
 </script>
 
 <style lang="less">
@@ -1407,7 +1413,9 @@ export default class MusicEdit extends Vue {
     user-select: none;
     width: 20px;
     background: #000;
-    box-shadow: inset 0 -1px 2px hsla(0, 0%, 100%, 0.4), 0 2px 3px rgba(0, 0, 0, 0.4);
+    box-shadow:
+      inset 0 -1px 2px hsla(0, 0%, 100%, 0.4),
+      0 2px 3px rgba(0, 0, 0, 0.4);
     border-width: 3px 2px 2px;
     border-style: solid;
     border-color: #555 #222 #111 #777;
@@ -1527,7 +1535,12 @@ export default class MusicEdit extends Vue {
     width: 90px;
     height: 32px;
     background: linear-gradient(30deg, #f5f5f5, #fff);
-    box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 #fff, inset 1px 0 0 #fff, inset -1px 0 0 #fff, 0 4px 3px rgba(0, 0, 0, 0.3);
+    box-shadow:
+      inset 0 1px 0 #fff,
+      inset 0 -1px 0 #fff,
+      inset 1px 0 0 #fff,
+      inset -1px 0 0 #fff,
+      0 4px 3px rgba(0, 0, 0, 0.3);
     border: solid 1px #ccc;
     border-radius: 0 0 3px 3px;
     position: relative;

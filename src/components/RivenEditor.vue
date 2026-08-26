@@ -17,10 +17,10 @@
         />
         <template v-if="mod">
           <div class="prop-picker" v-for="(prop, index) in props" :key="index">
-            <el-popover v-model="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
+            <el-popover v-model:visible="prop.visable" @blur="prop.visable = false" placement="bottom" width="400" trigger="click">
               <div>
                 <div class="prop-button" @click.stop="is21Negative = !is21Negative" v-if="index === 2">
-                  <el-checkbox style="pointer-events: none;" :value="is21Negative">{{ $t("rivenedit.isNegative") }}</el-checkbox>
+                  <el-checkbox style="pointer-events: none" :model-value="is21Negative">{{ $t("rivenedit.isNegative") }}</el-checkbox>
                 </div>
                 <div
                   class="prop-button"
@@ -32,12 +32,13 @@
                   {{ $t("prop.shortName." + vprop.id) }} ({{ index === 0 ? vprop.prefix : index === 1 ? vprop.prefix + " / " + vprop.subfix : vprop.subfix }})
                 </div>
               </div>
-              <el-button class="prop-select" size="small" slot="reference">
-                {{ (prop.id && $t("prop.shortName." + prop.id)) || $t("rivenedit.selectProp") }}
-                <span class="prop-arrow">
-                  <i class="el-icon-arrow-up" :class="{ 'is-reverse': prop.visable }"></i>
-                </span>
-              </el-button>
+              <template #reference
+                ><el-button class="prop-select" size="small">
+                  {{ (prop.id && $t("prop.shortName." + prop.id)) || $t("rivenedit.selectProp") }}
+                  <span class="prop-arrow">
+                    <i class="el-icon-arrow-up" :class="{ 'is-reverse': prop.visable }"></i>
+                  </span> </el-button
+              ></template>
             </el-popover>
             <el-input-number
               v-if="legacyRivenEditor"
@@ -74,7 +75,7 @@
           </div>
           <div class="mode-swtich">
             <el-switch size="small" v-model="legacyRivenEditor" />
-            <Tip style="margin-left: 6px;" :content="$t('setting.legacyrivenTip')" />
+            <Tip style="margin-left: 6px" :content="$t('setting.legacyrivenTip')" />
           </div>
         </template>
       </el-col>
@@ -83,10 +84,9 @@
 </template>
 <script lang="ts">
 import { last, forEach } from "lodash-es";
-import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, Model, toNative } from "vue-facing-decorator";
 import { RivenProperty, RivenPropertyDataBase, RivenDatabase, ModTypeTable, MainTag, Weapon, WeaponDatabase, RivenTypes } from "@/warframe/codex";
 import { RivenMod, toNegaUpLevel, toUpLevel } from "@/warframe/rivenmod";
-import { Getter, Action } from "vuex-class";
 import pinyin from "../search/pinyin";
 
 interface CascaderValue {
@@ -104,13 +104,17 @@ interface EditorProp {
   max: number;
 }
 
-const defalutEditorProp = () => ({ id: "", prop: null, value: 0, visable: false, min: -1, max: 1 } as EditorProp);
+const defalutEditorProp = () => ({ id: "", prop: null, value: 0, visable: false, min: -1, max: 1 }) as EditorProp;
 
 @Component
-export default class RivenEditor extends Vue {
+class RivenEditor extends Vue {
   // Vuex
-  @Getter("legacyRivenEditor") _legacyRivenEditor: boolean;
-  @Action("setLegacyRivenEditor") setLegacyRivenEditor: (value: boolean) => void;
+  get _legacyRivenEditor(): boolean {
+    return this.$store.getters.legacyRivenEditor;
+  }
+  setLegacyRivenEditor(value: boolean): any {
+    return this.$store.dispatch("setLegacyRivenEditor", value);
+  }
   // 老版本紫卡编辑器
   get legacyRivenEditor() {
     return this._legacyRivenEditor;
@@ -119,10 +123,11 @@ export default class RivenEditor extends Vue {
     this.setLegacyRivenEditor(val);
   }
 
-  @Model("change") value;
+  // Vue 3 的 v-model 默认走 modelValue / update:modelValue
+  @Model() value;
   @Prop() weapon: Weapon;
   riven: RivenMod = null;
-  nameOptions: CascaderValue[] = [];
+  nameOptions: any[] = [];
   selectWeapon = [];
   mod = "";
   props: EditorProp[] = [];
@@ -143,7 +148,7 @@ export default class RivenEditor extends Vue {
     this.props = [defalutEditorProp()];
     this.updateRiven();
   }
-  handleSearch(node: CascaderValue, keyword: string) {
+  handleSearch(node: any, keyword: string) {
     const k = keyword.toLowerCase(),
       v = node.value.toLowerCase();
     if (this.$t("zh")) {
@@ -216,7 +221,7 @@ export default class RivenEditor extends Vue {
       this.props.filter(v => v.id).map(v => [v.id, v.value] as [string, number]),
       this.weapon || undefined
     );
-    this.$emit("change", this.riven.qrCodeBase64);
+    this.$emit("update:modelValue", this.riven.qrCodeBase64);
   }
   // === 生命周期钩子 ===
   beforeMount() {
@@ -237,6 +242,8 @@ export default class RivenEditor extends Vue {
     if (this.weapon) this.handleChange();
   }
 }
+
+export default toNative(RivenEditor);
 </script>
 
 <style lang="less">

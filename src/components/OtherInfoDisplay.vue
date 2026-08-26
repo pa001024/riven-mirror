@@ -4,22 +4,22 @@
       <header>{{ $t(build.weapon.id) }}</header>
       <div class="links">
         <a :href="weaponWiki" target="_blank" rel="noopener noreferrer">
-          <el-button size="mini" type="info" icon="el-icon-location">
+          <el-button size="small" type="info"><i class="el-icon-location"></i>
             {{ $t("otherinfo.wiki") }}
           </el-button>
         </a>
         <a v-if="weaponWikiEn !== weaponWiki" :href="weaponWikiEn" target="_blank" rel="noopener noreferrer">
-          <el-button size="mini" type="info" icon="el-icon-location">
+          <el-button size="small" type="info"><i class="el-icon-location"></i>
             {{ $t("otherinfo.wikien") }}
           </el-button>
         </a>
         <a :href="weaponWM" target="_blank" rel="noopener noreferrer">
-          <el-button size="mini" type="info" icon="el-icon-goods">
+          <el-button size="small" type="info"><i class="el-icon-goods"></i>
             {{ $t("otherinfo.wm") }}
           </el-button>
         </a>
         <div class="wikitmpl">
-          <CopyText :text="`\{\{Weapon|${build.weapon.name}\}\}`" size="mini" />
+          <CopyText :text="`\{\{Weapon|${build.weapon.name}\}\}`" size="small" />
         </div>
       </div>
     </section>
@@ -27,17 +27,17 @@
       <header>{{ mod.name }}</header>
       <div class="links">
         <a :href="mod.wiki" target="_blank" rel="noopener noreferrer">
-          <el-button size="mini" type="info" icon="el-icon-location">
+          <el-button size="small" type="info"><i class="el-icon-location"></i>
             {{ $t("otherinfo.wiki") }}
           </el-button>
         </a>
         <a :href="mod.wm" target="_blank" rel="noopener noreferrer">
-          <el-button size="mini" type="info" icon="el-icon-goods">
+          <el-button size="small" type="info"><i class="el-icon-goods"></i>
             {{ $t("otherinfo.wm") }}
           </el-button>
         </a>
         <div class="wikitmpl">
-          <CopyText :text="`\{\{M|${mod.id}\}\}`" size="mini" />
+          <CopyText :text="`\{\{M|${mod.id}\}\}`" size="small" />
         </div>
       </div>
     </section>
@@ -46,12 +46,12 @@
 
 <script lang="ts">
 import { kebabCase } from "lodash-es";
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import CopyText from "@/components/CopyText.vue";
 
 @Component({ components: { CopyText } })
-export default class OtherInfoDisplay extends Vue {
+class OtherInfoDisplay extends Vue  {
   @Prop() build: ModBuild;
 
   get weaponWiki() {
@@ -73,6 +73,8 @@ export default class OtherInfoDisplay extends Vue {
     }));
   }
 }
+
+export default toNative(OtherInfoDisplay);
 </script>
 <style lang="less">
 @import "../less/common.less";

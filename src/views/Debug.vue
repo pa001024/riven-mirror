@@ -4,13 +4,15 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 import { DamageSystem } from "@/components/DamageSystem";
 
 @Component({ components: { DamageSystem } })
-export default class Debug extends Vue {
+class Debug extends Vue  {
   text = "123";
 }
+
+export default toNative(Debug);
 </script>
 <style lang="less">
 </style>

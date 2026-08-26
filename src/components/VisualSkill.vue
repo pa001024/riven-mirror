@@ -2,7 +2,7 @@
   <div class="visual-skill-container">
     <div class="name">
       <a :href="id !== name ? huijiURL : wikiaURL" target="_blank" rel="noopener noreferrer">{{ name }}</a>
-      <a style="margin-left: 8px;font-size: 9pt;" :href="huijiURLraw" target="wiki">[raw]</a>
+      <a style="margin-left: 8px; font-size: 9pt" :href="huijiURLraw" target="wiki">[raw]</a>
     </div>
     <div class="id">
       <a :href="wikiaURL" target="_blank" rel="noopener noreferrer">{{ id }}</a>
@@ -99,9 +99,11 @@
         <div class="special-list" v-for="(_, i) in special" :key="i">
           <TextItem :bind="special[i]" keyName="desc" required />
           <NumberItem :bind="special[i]" keyName="val" />
-          <el-button size="small" style="margin-bottom:8px" class="" type="danger" icon="el-icon-delete" @click="special.splice(i, 1)">删除效果</el-button>
+          <el-button size="small" style="margin-bottom: 8px" class="" type="danger" @click="special.splice(i, 1)"
+            ><i class="el-icon-delete"></i>删除效果</el-button
+          >
         </div>
-        <el-button size="small" style="margin-bottom:8px" type="primary" icon="el-icon-edit" @click="special.push({ desc: '' })">新增效果</el-button>
+        <el-button size="small" style="margin-bottom: 8px" type="primary" @click="special.push({ desc: '' })"><i class="el-icon-edit"></i>新增效果</el-button>
       </el-form>
       <!-- move -->
       <el-checkbox border size="large" class="prop-header" v-model="hasMove" :label="$t('ability.effects.move')" />
@@ -126,7 +128,7 @@
 </template>
 <script lang="ts">
 import { camelCase } from "lodash-es";
-import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
+import { Vue, Component, Model, toNative } from "vue-facing-decorator";
 import {
   AbilityProp,
   AbilityData,
@@ -149,7 +151,7 @@ import TextItem from "@/components/vse/TextItem.vue";
 import { i18n } from "@/i18n";
 
 @Component({ components: { AbilityPropValueEditor, DamageEditor, EffectEditor, CommonItem, NumberItem, DamageItem, EffectItem, TargetItem, TextItem } })
-export default class VisualSkill extends Vue {
+class VisualSkill extends Vue {
   @Model() abilityData: AbilityData;
 
   get id() {
@@ -194,10 +196,9 @@ export default class VisualSkill extends Vue {
   }
   set energyCost(value) {
     if (value) {
-      if (!this.abilityData.energyCost) Vue.set(this.abilityData, "energyCost", value);
-      else this.abilityData.energyCost = value;
+      this.abilityData.energyCost = value;
     } else if (this.abilityData.energyCost) {
-      Vue.delete(this.abilityData, "energyCost");
+      delete this.abilityData.energyCost;
     }
   }
   get energyCostPS() {
@@ -205,10 +206,9 @@ export default class VisualSkill extends Vue {
   }
   set energyCostPS(value) {
     if (value) {
-      if (!this.abilityData.energyCostPS) Vue.set(this.abilityData, "energyCostPS", value);
-      else this.abilityData.energyCostPS = value;
+      this.abilityData.energyCostPS = value;
     } else if (this.abilityData.energyCostPS) {
-      Vue.delete(this.abilityData, "energyCostPS");
+      delete this.abilityData.energyCostPS;
     }
   }
   get energyCostN() {
@@ -216,10 +216,9 @@ export default class VisualSkill extends Vue {
   }
   set energyCostN(value) {
     if (value) {
-      if (!this.abilityData.energyCostN) Vue.set(this.abilityData, "energyCostN", value);
-      else this.abilityData.energyCostN = value;
+      this.abilityData.energyCostN = value;
     } else if (this.abilityData.energyCostN) {
-      Vue.delete(this.abilityData, "energyCostN");
+      delete this.abilityData.energyCostN;
     }
   }
 
@@ -231,10 +230,10 @@ export default class VisualSkill extends Vue {
   }
   set hasDamage(value) {
     if (!this.abilityData.props) this.abilityData.props = {};
-    if (!value) Vue.delete(this.abilityData.props, "Damage");
+    if (!value) delete this.abilityData.props.Damage;
     else if (!this.abilityData.props.Damage) {
-      Vue.set(this.abilityData.props, "Damage", {});
-      Vue.set(this.damage, "damage", []);
+      this.abilityData.props.Damage = { damage: [] };
+      this.damage.damage = [];
     }
   }
 
@@ -243,8 +242,8 @@ export default class VisualSkill extends Vue {
   }
   set hasBuff(value) {
     if (!this.abilityData.props) this.abilityData.props = {};
-    if (!value) Vue.delete(this.abilityData.props, "Buff");
-    else if (!this.abilityData.props.Buff) Vue.set(this.abilityData.props, "Buff", {});
+    if (!value) delete this.abilityData.props.Buff;
+    else if (!this.abilityData.props.Buff) this.abilityData.props.Buff = {};
   }
 
   get hasDebuff() {
@@ -252,8 +251,8 @@ export default class VisualSkill extends Vue {
   }
   set hasDebuff(value) {
     if (!this.abilityData.props) this.abilityData.props = {};
-    if (!value) Vue.delete(this.abilityData.props, "Debuff");
-    else if (!this.abilityData.props.Debuff) Vue.set(this.abilityData.props, "Debuff", {});
+    if (!value) delete this.abilityData.props.Debuff;
+    else if (!this.abilityData.props.Debuff) this.abilityData.props.Debuff = {};
   }
 
   get hasSummon() {
@@ -261,8 +260,8 @@ export default class VisualSkill extends Vue {
   }
   set hasSummon(value) {
     if (!this.abilityData.props) this.abilityData.props = {};
-    if (!value) Vue.delete(this.abilityData.props, "Summon");
-    else if (!this.abilityData.props.Summon) Vue.set(this.abilityData.props, "Summon", {});
+    if (!value) delete this.abilityData.props.Summon;
+    else if (!this.abilityData.props.Summon) this.abilityData.props.Summon = {};
   }
 
   get hasDamageReduce() {
@@ -270,8 +269,8 @@ export default class VisualSkill extends Vue {
   }
   set hasDamageReduce(value) {
     if (!this.abilityData.props) this.abilityData.props = {};
-    if (!value) Vue.delete(this.abilityData.props, "DamageReduce");
-    else if (!this.abilityData.props.DamageReduce) Vue.set(this.abilityData.props, "DamageReduce", {});
+    if (!value) delete this.abilityData.props.DamageReduce;
+    else if (!this.abilityData.props.DamageReduce) this.abilityData.props.DamageReduce = {};
   }
 
   get hasControl() {
@@ -279,8 +278,8 @@ export default class VisualSkill extends Vue {
   }
   set hasControl(value) {
     if (!this.abilityData.props) this.abilityData.props = {};
-    if (!value) Vue.delete(this.abilityData.props, "Control");
-    else if (!this.abilityData.props.Control) Vue.set(this.abilityData.props, "Control", {});
+    if (!value) delete this.abilityData.props.Control;
+    else if (!this.abilityData.props.Control) this.abilityData.props.Control = {};
   }
 
   get hasSpecial() {
@@ -288,8 +287,8 @@ export default class VisualSkill extends Vue {
   }
   set hasSpecial(value) {
     if (!this.abilityData.props) this.abilityData.props = {};
-    if (!value) Vue.delete(this.abilityData.props, "Special");
-    else if (!this.abilityData.props.Special) Vue.set(this.abilityData.props, "Special", [{ desc: "" }]);
+    if (!value) delete this.abilityData.props.Special;
+    else if (!this.abilityData.props.Special) this.abilityData.props.Special = [{ desc: "" }];
   }
 
   get hasMove() {
@@ -297,8 +296,8 @@ export default class VisualSkill extends Vue {
   }
   set hasMove(value) {
     if (!this.abilityData.props) this.abilityData.props = {};
-    if (!value) Vue.delete(this.abilityData.props, "Move");
-    else if (!this.abilityData.props.Move) Vue.set(this.abilityData.props, "Move", {});
+    if (!value) delete this.abilityData.props.Move;
+    else if (!this.abilityData.props.Move) this.abilityData.props.Move = { distance: 0 };
   }
 
   get hasExaltedWeapon() {
@@ -306,8 +305,8 @@ export default class VisualSkill extends Vue {
   }
   set hasExaltedWeapon(value) {
     if (!this.abilityData.props) this.abilityData.props = {};
-    if (!value) Vue.delete(this.abilityData.props, "ExaltedWeapon");
-    else if (!this.abilityData.props.ExaltedWeapon) Vue.set(this.abilityData.props, "ExaltedWeapon", {});
+    if (!value) delete this.abilityData.props.ExaltedWeapon;
+    else if (!this.abilityData.props.ExaltedWeapon) this.abilityData.props.ExaltedWeapon = { weaponName: "" };
   }
 
   get damage() {
@@ -338,6 +337,8 @@ export default class VisualSkill extends Vue {
     return this.abilityData.props.ExaltedWeapon;
   }
 }
+
+export default toNative(VisualSkill);
 </script>
 
 <style lang="less" scoped>

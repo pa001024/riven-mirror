@@ -5,11 +5,11 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { FFT } from "../fft";
 
 @Component({ components: {} })
-export default class Spectrogram extends Vue {
+class Spectrogram extends Vue  {
   audioContext: AudioContext;
   @Prop({ default: 1024 }) fftSamples: number;
   @Prop() pixelRatio: number;
@@ -179,4 +179,6 @@ export default class Spectrogram extends Vue {
     return newMatrix;
   }
 }
+
+export default toNative(Spectrogram);
 </script>

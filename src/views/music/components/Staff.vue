@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch, Prop, Inject } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, Inject, toNative } from "vue-facing-decorator";
 
 import TrebleClef from "./TrebleClef.vue";
 import BassClef from "./BassClef.vue";
@@ -129,7 +129,7 @@ interface Position {
 
 /* 五线谱 */
 @Component({ components: { TrebleClef, BassClef, Note, Sharp } })
-export default class Staff extends Vue {
+class Staff extends Vue  {
   @Inject({ default: false }) showTrebleClef: boolean;
   @Inject({ default: false }) showBassClef: boolean;
 
@@ -284,6 +284,8 @@ export default class Staff extends Vue {
     this.$emit("click", e);
   }
 }
+
+export default toNative(Staff);
 </script>
 
 <style scoped>

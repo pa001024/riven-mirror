@@ -1,0 +1,64 @@
+/**
+ * Element Plus 主题桥接层
+ *
+ * 旧版用的是 element-ui 定制编译出来的 index.css（主色 #6199ff）。
+ * Element Plus 改成 CSS 变量驱动，这里把它的变量接到项目自己的主题变量上，
+ * 保证亮色 / invert（暗色）两套主题下 Element 组件配色与原来一致。
+ */
+
+:root {
+  --el-color-primary: #6199ff;
+  --el-color-primary-light-3: #85b0ff;
+  --el-color-primary-light-5: #a0c2ff;
+  --el-color-primary-light-7: #bcd4ff;
+  --el-color-primary-light-8: #caddff;
+  --el-color-primary-light-9: #e8f0ff;
+  --el-color-primary-dark-2: #4e7acc;
+
+  --el-color-success: #67c23a;
+  --el-color-danger: #f56c6c;
+  --el-color-error: #f56c6c;
+
+  --el-text-color-primary: var(--text_main);
+  --el-text-color-regular: var(--text_grey);
+  --el-text-color-secondary: var(--text_halfgrey);
+  --el-text-color-placeholder: var(--text_sliver);
+  --el-border-color: var(--text_sliver_light);
+  --el-border-color-light: var(--theme_border);
+  --el-border-color-lighter: var(--theme_border);
+  --el-border-radius-base: 4px;
+  --el-font-size-base: 14px;
+}
+
+/* invert 主题（项目自己的暗色模式，挂在 html.invert-theme 上） */
+.invert-theme {
+  --el-color-primary: #7e5200;
+  --el-color-primary-light-3: #a06a04;
+  --el-color-primary-light-5: #b8790a;
+  --el-color-primary-light-7: #4a3000;
+  --el-color-primary-light-8: #2f1f00;
+  --el-color-primary-light-9: #170f00;
+  --el-color-primary-dark-2: #5c3c00;
+
+  --el-bg-color: var(--theme_back);
+  --el-bg-color-page: var(--theme_mainback);
+  --el-bg-color-overlay: var(--theme_mainback);
+  --el-fill-color: var(--theme_mainback);
+  --el-fill-color-light: var(--theme_mainback);
+  --el-fill-color-lighter: var(--theme_back);
+  --el-fill-color-blank: var(--theme_back);
+
+  --el-text-color-primary: var(--text_main);
+  --el-text-color-regular: var(--text_grey);
+  --el-text-color-secondary: var(--text_halfgrey);
+  --el-text-color-placeholder: var(--text_sliver);
+  --el-text-color-disabled: var(--text_sliver);
+
+  --el-border-color: var(--text_sliver);
+  --el-border-color-light: var(--text_sliver);
+  --el-border-color-lighter: var(--text_sliver_light);
+  --el-border-color-extra-light: var(--text_sliver_light);
+
+  --el-mask-color: #00000080;
+  --el-box-shadow-light: 0 2px 12px 0 var(--shadow);
+}

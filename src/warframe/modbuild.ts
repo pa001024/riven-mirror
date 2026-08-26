@@ -634,11 +634,11 @@ export abstract class ModBuild implements CommonBuild {
 
   /** 所有伤害 */
   get totalDmg() {
-    return this.baseDmg.map(([i, v]) => [i, (v * this.totalDamage) / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
+    return this.baseDmg.map(([i, v]) => [i, (v * this.totalDamage) / this.extraDmgMul] as [string, number]).filter(v => v[1] > 0) as [string, number][];
   }
   /** 无模型所有伤害 */
   get totalDmgRaw() {
-    return this.baseDmg.map(([i, v]) => [i, (v * this.totalDamageRaw) / this.extraDmgMul]).filter(v => v[1] > 0) as [string, number][];
+    return this.baseDmg.map(([i, v]) => [i, (v * this.totalDamageRaw) / this.extraDmgMul] as [string, number]).filter(v => v[1] > 0) as [string, number][];
   }
   /**
    * 所有伤害类型(基础)
@@ -675,7 +675,7 @@ export abstract class ModBuild implements CommonBuild {
   }
   /** 所有伤害类型面板 */
   get dmgRaw() {
-    return this.baseDmg.map(([i, v]) => [i, v * this.panelBaseDamage]).filter(v => v[1] > 0) as [string, number][];
+    return this.baseDmg.map(([i, v]) => [i, v * this.panelBaseDamage] as [string, number]).filter(v => v[1] > 0) as [string, number][];
   }
   /** 真实伤害模型映射输出 */
   get dmg() {
@@ -688,7 +688,7 @@ export abstract class ModBuild implements CommonBuild {
     if (this.damageModel)
       return this.damageModel.mapDamage(this.dmgRaw, Math.floor(this.critChance), this.weapon.tags.has("Sniper") ? 300 : 300 / this.fireRate) as [
         string,
-        number
+        number,
       ][];
     return this.dmgRaw;
   }
@@ -697,7 +697,7 @@ export abstract class ModBuild implements CommonBuild {
     if (this.damageModel)
       return this.damageModel.mapDamage(this.dmgRaw, Math.ceil(this.critChance), this.weapon.tags.has("Sniper") ? 300 : 300 / this.fireRate) as [
         string,
-        number
+        number,
       ][];
     return this.dmgRaw;
   }
@@ -1369,7 +1369,7 @@ export abstract class ModBuild implements CommonBuild {
           cost: 18,
           rarity: "x",
           props: [[v.prop.id, v.value]] as [string, number][],
-        } as NormalMod)
+        }) as NormalMod
     );
     let rivenArea = this.avaliableMods.concat(fakeMods);
     // 将紫卡属性作为虚拟MOD参与正常fill
@@ -1758,7 +1758,7 @@ export abstract class ModBuild implements CommonBuild {
       "-",
       d,
       "=",
-      "w",
+      w,
     }
     const delta = mods
       .map((v, i) => [i, v ? v.delta : 0])

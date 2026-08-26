@@ -895,7 +895,7 @@ export class WarframeBuild implements CommonBuild {
       "-",
       d,
       "=",
-      "w",
+      w,
     }
     const delta = mods
       .map((v, i) => [i, v ? v.delta : 0])
@@ -1070,7 +1070,7 @@ export class RenderedAbilities {
             if (aap.maxValue) value = Math.min(value, aap.maxValue);
             return +value.toFixed(2);
           };
-          return resolveBind(o);
+          return resolveBind(o as AdvancedAbilityPropValue);
         } else {
           // speical
           return mapValues(o, val => trans(val)) as typeof o;

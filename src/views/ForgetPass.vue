@@ -4,7 +4,7 @@
     <el-form :rules="rules" ref="loginForm" :model="user" class="login-box">
       <el-form-item prop="login">
         <el-input :placeholder="$t('app.loginHint')" type="email" v-model="user.login">
-          <WfIcon slot="prefix" type="mail" class="input-icon"/>
+          <template #prefix><WfIcon type="mail" class="input-icon"/></template>
         </el-input>
       </el-form-item>
       <el-form-item>
@@ -14,20 +14,23 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { Getter, Action } from "vuex-class";
-import anime from "animejs";
+import { Vue, Component, toNative } from "vue-facing-decorator";
+import { animate } from "animejs";
 import "@/less/login.less";
 
 @Component({ components: {} })
-export default class ForgetPass extends Vue {
+class ForgetPass extends Vue  {
   user = {
     login: "",
   }
 
   isLogin = true
-  @Getter("loginLoading") loading: boolean;
-  @Action("resetpassword") resetpassword: (user: { login: string }) => void;
+  get loading(): boolean {
+    return this.$store.getters.loginLoading;
+  }
+  resetpassword(user: { login: string }): any {
+    return this.$store.dispatch("resetpassword", user);
+  }
 
   get rules() {
     return {
@@ -49,8 +52,7 @@ export default class ForgetPass extends Vue {
         if (valid) {
           this.resetpassword(this.user);
         } else {
-          anime({
-            targets: ".login-box",
+          animate(".login-box", {
             keyframes: [
               { translateX: -8 },
               { translateX: 8 },
@@ -58,8 +60,8 @@ export default class ForgetPass extends Vue {
             ],
             loop: 5,
             duration: 40,
-            direction: "alternate",
-            easing: "easeInOutSine"
+            alternate: true,
+            ease: "inOutSine"
           })
           // console.error('error submit', this.user);
         }
@@ -68,4 +70,6 @@ export default class ForgetPass extends Vue {
     }
   }
 }
+
+export default toNative(ForgetPass);
 </script>

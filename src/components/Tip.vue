@@ -4,9 +4,11 @@
   </el-tooltip>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 @Component({})
-export default class Tip extends Vue {
+class Tip extends Vue  {
   @Prop() content;
 }
+
+export default toNative(Tip);
 </script>

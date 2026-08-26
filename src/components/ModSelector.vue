@@ -2,7 +2,7 @@
   <el-tabs class="mod-tabs" v-model="selectTab">
     <!-- 快速选择 -->
     <el-tab-pane name="fast" v-if="fast">
-      <span slot="label" class="mod-tablabel">{{ $t("modselector.fastSelect") }}</span>
+      <template #label><span class="mod-tablabel">{{ $t("modselector.fastSelect") }}</span></template>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in fast" :key="index">
           <div class="mod-item" @click="handleClick(mod.id)">
@@ -13,7 +13,7 @@
     </el-tab-pane>
     <!-- 普通MOD -->
     <el-tab-pane v-for="tab in tabs" :key="tab.id" :name="tab.id">
-      <span slot="label" class="mod-tablabel">{{ tab.name }}</span>
+      <template #label><span class="mod-tablabel">{{ tab.name }}</span></template>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(mod, index) in tab.mods" :key="index">
           <div class="mod-item" :class="[mod.rarity]" @click="handleClick(mod.id)">
@@ -25,7 +25,7 @@
     </el-tab-pane>
     <!-- 紫卡 -->
     <el-tab-pane name="riven" v-if="isWeaponBuild && !isCompanion && (isVirtual || !isExalted)">
-      <span slot="label" class="mod-tablabel">{{ $t("modselector.rivenMod") }}</span>
+      <template #label><span class="mod-tablabel">{{ $t("modselector.rivenMod") }}</span></template>
       <div class="mod-select">
         <div class="mod-item-container" v-for="(hiRiven, index) in modHistoty" :key="index">
           <div class="mod-item" @click="newRiven(hiRiven.qrCodeBase64)">
@@ -36,7 +36,7 @@
       <div style="margin: 8px;">{{ $t("modselector.createRiven") }}</div>
       <RivenEditor style="margin: 8px;" v-model="editorRivenCode" :weapon="!isVirtual && isWeaponBuild"></RivenEditor>
       <div style="text-align: right; margin: 0">
-        <el-button type="primary" size="medium" @click="newRiven()">{{ $t("modselector.ok") }}</el-button>
+        <el-button type="primary" size="default" @click="newRiven()">{{ $t("modselector.ok") }}</el-button>
       </div>
     </el-tab-pane>
   </el-tabs>
@@ -44,9 +44,8 @@
 
 <script lang="ts">
 import { compact, map } from "lodash-es";
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, toNative } from "vue-facing-decorator";
 import RivenEditor from "@/components/RivenEditor.vue";
-import { Getter } from "vuex-class";
 import { NormalMod, NormalModDatabase, VirtualMeleeMods, Codex, AcolyteModsList, MainTag } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
 import { CommonBuild } from "@/warframe/commonbuild";
@@ -58,8 +57,10 @@ declare interface ModSelectorTab {
 }
 
 @Component({ components: { RivenEditor } })
-export default class ModSelector extends Vue {
-  @Getter("modHistoty") modHistoty: RivenMod[];
+class ModSelector extends Vue  {
+  get modHistoty(): RivenMod[] {
+    return this.$store.getters.modHistoty;
+  }
   @Prop({ type: String, default: "Warframe" }) type: "Warframe" | "Aura" | "Exilus" | "Companion" | "Weapon" | "Archwing";
 
   @Prop() build: CommonBuild;
@@ -348,6 +349,8 @@ export default class ModSelector extends Vue {
     this.reload();
   }
 }
+
+export default toNative(ModSelector);
 </script>
 <style lang="less">
 @import "../less/common.less";

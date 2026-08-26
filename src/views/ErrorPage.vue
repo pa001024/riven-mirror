@@ -18,14 +18,16 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 @Component
-export default class ErrorPage extends Vue {
+class ErrorPage extends Vue  {
   goBack(e: MouseEvent) {
     e.preventDefault()
     this.$router.replace('/')
   }
 }
+
+export default toNative(ErrorPage);
 </script>
 
 

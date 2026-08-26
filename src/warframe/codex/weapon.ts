@@ -2,7 +2,7 @@ import { map, mapValues, repeat, lowerCase, camelCase, reduce, maxBy } from "lod
 import { i18n } from "@/i18n";
 import { ProtoWeapon, Zoom, WeaponMode } from "./weapon.i";
 import Axios from "axios";
-import base64arraybuffer from "base64-arraybuffer";
+import { encode as b64encode, decode as b64decode } from "base64-arraybuffer";
 // build from riven-mirror-data
 import data from "../../../data/dist/weapons.data";
 import proto from "../../../data/src/proto/weapon.proto";
@@ -451,12 +451,12 @@ export class WeaponDatabase {
     const cache = localStorage.getItem("weapons.data");
     let bin: ArrayBuffer;
     if (cache) {
-      bin = base64arraybuffer.decode(cache);
+      bin = b64decode(cache);
     }
     try {
       const rst = await Axios.get(data || "https://api.riven.im/data/weapons.data", { responseType: "arraybuffer" });
       bin = rst.data;
-      localStorage.setItem("weapons.data", base64arraybuffer.encode(bin));
+      localStorage.setItem("weapons.data", b64encode(bin));
     } catch {}
     const msg = proto.Weapons.decode(new Uint8Array(bin));
     const decoded = proto.Weapons.toObject(msg);

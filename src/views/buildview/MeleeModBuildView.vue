@@ -15,10 +15,10 @@
       </div>
       <el-collapse v-model="activeNames" v-if="builds.length">
         <el-collapse-item v-for="build in builds" :key="build[0]" :name="build[0]">
-          <template slot="title">
+          <template #title>
             <div class="build-title">{{ $t(build[0]) }} &nbsp;-&nbsp; {{ build[1].compareDamage.toFixed(1) }} {{ selectCompMethodText }}</div>
           </template>
-          <el-row type="flex" :gutter="12" class="build-item autozoom" style="margin:8px;">
+          <el-row type="flex" :gutter="12" class="build-item autozoom" style="margin: 8px">
             <el-col class="build-card" :span="bigScreen ? 12 : 24" :sm="12" :md="6" :lg="3" v-for="mod in build[1].vmods" :key="mod.name">
               <div class="build-card-box" :class="[mod.rarity]">
                 <div class="build-card-header">
@@ -46,7 +46,7 @@
     </div>
     <!-- 设置区域 -->
     <div class="setting">
-      <el-form :inline="true" class="build-form-inline" :size="bigScreen ? 'mini' : 'small'">
+      <el-form :inline="true" class="build-form-inline" :size="bigScreen ? 'small' : 'default'">
         <!-- 武器模式 -->
         <el-form-item :label="$t('build.weaponMode')" v-if="weapon.modes.length > 1">
           <el-select v-model="modeIndex" @change="debouncedRecalc" :placeholder="$t('build.weaponMode')">
@@ -62,10 +62,10 @@
         </el-form-item>
         <!-- 选择ZAW组件 -->
         <el-form-item :label="$t('buildview.components')" v-if="riven.weapon.isZaw">
-          <el-select style="width:140px" v-model="gripId" @change="zawPartChange" :placeholder="$t('zaw.selectGrip')">
+          <el-select style="width: 140px" v-model="gripId" @change="zawPartChange" :placeholder="$t('zaw.selectGrip')">
             <el-option v-for="grip in gripList" :key="grip.name" :label="$t(`messages.${grip.id}`)" :value="grip.name"> </el-option>
           </el-select>
-          <el-select style="width:160px" v-model="linksId" @change="zawPartChange" :placeholder="$t('zaw.selectLinks')">
+          <el-select style="width: 160px" v-model="linksId" @change="zawPartChange" :placeholder="$t('zaw.selectLinks')">
             <el-option v-for="links in linksList" :key="links.name" :label="$t(`messages.${links.id}`)" :value="links.name"> </el-option>
           </el-select>
         </el-form-item>
@@ -93,7 +93,7 @@
         <!-- 限制元素类型 -->
         <el-form-item :label="$t('buildview.limitElementsType')">
           <el-tooltip effect="dark" :content="$t('buildview.limitElementsTypeTip')" placement="bottom">
-            <el-select v-model="selectDamageType" @change="selectDamageTypeChange()" :placeholder="$t('buildview.unlimited')" clearable style="width: 120px;">
+            <el-select v-model="selectDamageType" @change="selectDamageTypeChange()" :placeholder="$t('buildview.unlimited')" clearable style="width: 120px">
               <el-option v-for="(value, name) in elementTypes" :key="name" :label="$t(`elements.${name}`)" :value="name"> </el-option>
             </el-select>
           </el-tooltip>
@@ -101,22 +101,24 @@
         <!-- 基伤加成 -->
         <el-form-item :label="$t('buildview.extraBaseDamage')">
           <el-tooltip effect="dark" placement="bottom">
-            <div slot="content">
-              <div v-html="$t('buildview.extraBaseDamageTip')"></div>
-            </div>
-            <el-input class="chroma-dmg" v-model="extraBaseDamage" style="width:120px">
-              <template slot="append">%</template>
+            <template #content
+              ><div>
+                <div v-html="$t('buildview.extraBaseDamageTip')"></div></div
+            ></template>
+            <el-input class="chroma-dmg" v-model="extraBaseDamage" style="width: 120px">
+              <template #append>%</template>
             </el-input>
           </el-tooltip>
         </el-form-item>
         <!-- 总伤加成 -->
         <el-form-item :label="$t('buildview.extraOverall')">
           <el-tooltip effect="dark" placement="bottom">
-            <div slot="content">
-              <div v-html="$t('buildview.extraOverallTip')"></div>
-            </div>
-            <el-input class="chroma-dmg" v-model="extraOverall" style="width:120px">
-              <template slot="append">%</template>
+            <template #content
+              ><div>
+                <div v-html="$t('buildview.extraOverallTip')"></div></div
+            ></template>
+            <el-input class="chroma-dmg" v-model="extraOverall" style="width: 120px">
+              <template #append>%</template>
             </el-input>
           </el-tooltip>
         </el-form-item>
@@ -150,7 +152,7 @@
 
 <script lang="ts">
 import { debounce } from "lodash-es";
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, toNative } from "vue-facing-decorator";
 import { BaseModBuildView } from "./BaseModBuildView";
 import { MeleeModBuild, MeleeCompareMode } from "@/warframe/meleemodbuild";
 import { ZawStrikeData, ZawGripData, ZawLinksData, ZawStrike, ZawGrip, ZawLinks, Zaw, RivenDatabase, Codex, WeaponDatabase, Weapon } from "@/warframe/codex";
@@ -159,7 +161,7 @@ import "@/less/buildview.less";
 import localStorage from "universal-localstorage";
 
 @Component
-export default class MeleeModBuildView extends BaseModBuildView {
+class MeleeModBuildView extends BaseModBuildView {
   builds: [string, MeleeModBuild][] = [];
   /** 连击倍率 */
   comboMul = 4;
@@ -280,4 +282,6 @@ export default class MeleeModBuildView extends BaseModBuildView {
     this.debouncedRecalc();
   }
 }
+
+export default toNative(MeleeModBuildView);
 </script>

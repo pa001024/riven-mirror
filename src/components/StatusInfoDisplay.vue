@@ -2,39 +2,39 @@
   <div class="status-info">
     <div class="info-block">
       <div class="info-element-title">
-        {{$t(`statusinfo.total`)}}
+        {{ $t(`statusinfo.total`) }}
       </div>
       <div class="info-inline-element" v-for="(valContent, valKey) in common" :key="valKey">
-        <div class="info-title">{{$t(`statusinfo.${valKey}`)}}</div>
-        <div class="info-value">{{renderProps(valKey, valContent)}}</div>
+        <div class="info-title">{{ $t(`statusinfo.${valKey}`) }}</div>
+        <div class="info-value">{{ renderProps(valKey, valContent) }}</div>
       </div>
     </div>
     <div class="info-block" v-for="(elValue, elType) in elementTypes" :key="elType">
       <div class="info-element-title">
-        <WfIcon :type="elType.toLowerCase()"/>
-        {{$t(`elements.${elType}`)}}
+        <WfIcon :type="elType.toLowerCase()" />
+        {{ $t(`elements.${elType}`) }}
       </div>
       <div class="info-inline-element" v-for="(valContent, valKey) in elValue" :key="valKey">
-        <div class="info-title">{{$t(`statusinfo.${valKey}`)}}</div>
-        <div class="info-value">{{renderProps(valKey, valContent)}}</div>
+        <div class="info-title">{{ $t(`statusinfo.${valKey}`) }}</div>
+        <div class="info-value">{{ renderProps(valKey, valContent) }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { StatusInfo } from "@/warframe/modbuild";
 
 @Component
-export default class extends Vue {
+class StatusInfoDisplay extends Vue {
   @Prop() info: StatusInfo;
   @Prop() common: any;
 
   get elementTypes() {
     return this.info;
   }
-  renderProps(vn: string, vv: number) {
+  renderProps(vn: string | number, vv: number) {
     switch (vn) {
       case "appearRate":
       case "proportion":
@@ -49,6 +49,8 @@ export default class extends Vue {
     }
   }
 }
+
+export default toNative(StatusInfoDisplay);
 </script>
 <style lang="less">
 @import "../less/common.less";

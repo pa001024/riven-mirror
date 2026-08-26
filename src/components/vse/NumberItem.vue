@@ -4,15 +4,16 @@
   </CommonItem>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import AbilityPropValueEditor from "@/components/vse/AbilityPropValueEditor.vue";
 import CommonItem from "@/components/vse/CommonItem.vue";
 
 @Component({ components: { CommonItem, AbilityPropValueEditor } })
-export default class NumberItem extends Vue {
-  @Model() bind
+class NumberItem extends Vue  {
+  @Prop() bind
   @Prop() keyName: string;
   @Prop({ type: Boolean }) required: boolean;
 }
 
+export default toNative(NumberItem);
 </script>

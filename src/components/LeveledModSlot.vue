@@ -7,7 +7,7 @@
       <div class="mod-title">
         <div class="mod-polarity" :class="costClass"><WfIcon :type="mod.polarity" />{{ cost }}</div>
         <div class="mod-name" @click="$emit('change')">{{ mod.name }}</div>
-        <div class="mod-level"><el-input-number size="mini" @change="$emit('level')" v-model="mod.level" :min="0" :max="mod.maxLevel"></el-input-number></div>
+        <div class="mod-level"><el-input-number size="small" @change="$emit('level')" v-model="mod.level" :min="0" :max="mod.maxLevel"></el-input-number></div>
       </div>
       <div class="mod-detail" @click.stop="$emit('remove')">
         <div class="mod-stat">
@@ -28,13 +28,13 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { WarframeBuild } from "@/warframe/warframebuild";
 import { NormalMod } from "@/warframe/codex";
 import "@/less/modslot.less";
 
 @Component
-export default class LeveledModSlot extends Vue {
+class LeveledModSlot extends Vue  {
   @Prop() mod: NormalMod;
   @Prop() build: WarframeBuild;
   @Prop() polarization: string;
@@ -61,4 +61,6 @@ export default class LeveledModSlot extends Vue {
     };
   }
 }
+
+export default toNative(LeveledModSlot);
 </script>

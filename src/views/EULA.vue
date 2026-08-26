@@ -1,7 +1,7 @@
 <template>
   <div class="eula-container">
     <el-card class="eula">
-      <span slot="header">最终用户许可协议(EULA)</span>
+      <template #header><span>最终用户许可协议(EULA)</span></template>
       <div class="content">
         使用该软件(网站)，即表明您同意接受本协议的全部条款。<br>
         1. 用户可以以个人名义使用本软件(网站)，但不得用于商业用途<br>
@@ -12,7 +12,7 @@
     </el-card>
     <br>
     <el-card class="eula">
-      <span slot="header">隐私政策</span>
+      <template #header><span>隐私政策</span></template>
       <div class="content">
         若非必要，软件不会以任何形式读取或保存你的个人信息，以下是例外情况：<br>
         1. 用户主动授权<br>
@@ -22,12 +22,14 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 
 @Component
-export default class EULA extends Vue {
+class EULA extends Vue  {
 
 }
+
+export default toNative(EULA);
 </script>
 <style lang="less">
 

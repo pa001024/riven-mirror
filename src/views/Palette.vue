@@ -4,7 +4,7 @@
       <!-- RGB输入 -->
       <el-col :md="12" :lg="8">
         <el-card>
-          <div slot="header" class="title">{{$t("palette.title")}}</div>
+          <template #header><div class="title">{{$t("palette.title")}}</div></template>
           <el-upload class="upload-refimage" drag :show-file-list="false" :style="{'background-image': `url(${refImageURL})`}" action="never" :before-upload="refImageUpload">
             <div class="upload-inner">
               <i class="el-icon-upload"></i>
@@ -41,14 +41,14 @@
         <el-row class="palette-list" type="flex" :gutter="20">
           <el-col :md="12" :lg="6" :xl="4" v-for="palette in matchedPalettes" :key="palette.id">
             <el-card class="palette-box" :class="{dark: color.hsl.l < 0.5}">
-              <div slot="header" class="palette-name">
+              <template #header><div class="palette-name">
                 {{$t(`palette.name.${palette.id}`)}}
                 <small>△E = {{formatDeltaE(palette.deltaE)}}</small>
                 <div class="platform-icon" v-if="palette.platforms.length<4">
                   <WfIcon v-for="p in palette.platforms" :key="p" :type="p"/>
                 </div>
                 <div v-if="palette.limited" class="limited">{{$t("palette.limited")}}</div>
-              </div>
+              </div></template>
               <div class="palette-show no-invert">
                 <div class="palette-cell" v-for="(color, idx) in palette.colors" :key="idx" @click="setColor(color.toString())" :title="color.toString()" :style="{'background-color': color.toString()}">
                   <i v-if="palette.match.includes(idx)" class="el-icon-check"></i>
@@ -62,8 +62,8 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { Chrome as ColorPicker } from "vue-color";
+import { Vue, Component, Watch, toNative } from "vue-facing-decorator";
+import { ChromePicker as ColorPicker } from "vue-color";
 import tinycolor from "tinycolor2";
 import ColorThief from "color-thief-browser";
 import { Color, PaletteData, ColorHelper } from "@/warframe/codex";
@@ -71,7 +71,7 @@ import { Color, PaletteData, ColorHelper } from "@/warframe/codex";
 @Component({
   components: { ColorPicker },
 })
-export default class extends Vue {
+class Palette extends Vue  {
   // 参考图
   refImage = null;
   refImageURL = null;
@@ -151,6 +151,8 @@ export default class extends Vue {
     return +s.toFixed(1);
   }
 }
+
+export default toNative(Palette);
 </script>
 <style lang="less">
 @import "../less/common.less";

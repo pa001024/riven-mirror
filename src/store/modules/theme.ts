@@ -35,7 +35,7 @@ export default class ThemeModule implements Module<ThemeState, RootState> {
       state.legacyRivenEditor = legacyRivenEditor;
       if (legacyRivenEditor) localStorage.setItem("legacyRivenEditor", "1");
       else localStorage.removeItem("legacyRivenEditor");
-    }
+    },
   };
 
   actions: ActionTree<ThemeState, RootState> = {
@@ -47,14 +47,14 @@ export default class ThemeModule implements Module<ThemeState, RootState> {
     },
     async setLegacyRivenEditor(ctx, legacyRivenEditor: boolean) {
       ctx.commit(SET_LEGACYRIVENEDITOR, legacyRivenEditor);
-    }
+    },
   };
 
   getters: GetterTree<ThemeState, RootState> = {
     invert: state => state.invert,
     theme: state => state.theme,
     bigScreen: state => state.bigScreen,
-    legacyRivenEditor: state => state.legacyRivenEditor
+    legacyRivenEditor: state => state.legacyRivenEditor,
   };
 
   constructor(initState: ThemeState) {
@@ -63,7 +63,7 @@ export default class ThemeModule implements Module<ThemeState, RootState> {
       theme: "defalut",
       bigScreen: !!localStorage.getItem("bigScreen"),
       legacyRivenEditor: !!localStorage.getItem("legacyRivenEditor"),
-      ...initState
+      ...initState,
     };
   }
 }

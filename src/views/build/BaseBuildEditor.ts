@@ -1,9 +1,8 @@
 import { map, compact } from "lodash-es";
-import { Vue, Watch, Prop } from "vue-property-decorator";
+import { Vue, Watch, Prop, ComponentBase } from "vue-facing-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import { NormalMod, Buff, Weapon, BuffData, DamageModelList, SimpleDamageModel, BuffList } from "@/warframe/codex";
 import { RivenMod } from "@/warframe/rivenmod";
-import { Getter, Action } from "vuex-class";
 import localStorage from "universal-localstorage";
 
 declare interface BuildSelectorTab {
@@ -13,13 +12,24 @@ declare interface BuildSelectorTab {
   mods: NormalMod[];
   buffs: Buff[];
 }
+// 抽象基类需要带括号形式（@ComponentBase 的类型只收非抽象构造器，运行时等价）
+@ComponentBase()
 export abstract class BaseBuildEditor extends Vue {
-  @Getter("bigScreen") bigScreen: boolean;
-  @Getter("burstSampleSize") burstSampleSize: number;
-  @Getter("savedBuilds") savedBuilds: { [key: string]: string };
-  @Action("setBuild") setBuild: (build: ModBuild) => void;
+  get bigScreen(): boolean {
+    return this.$store.getters.bigScreen;
+  }
+  get burstSampleSize(): number {
+    return this.$store.getters.burstSampleSize;
+  }
+  get savedBuilds(): { [key: string]: string } {
+    return this.$store.getters.savedBuilds;
+  }
+  setBuild(build: ModBuild): any {
+    return this.$store.dispatch("setBuild", build);
+  }
   get code() {
-    return this.$route.params.code || this.savedBuilds[this.weapon.name];
+    const code = this.$route.params.code;
+    return (Array.isArray(code) ? code[0] : code) || this.savedBuilds[this.weapon.name];
   }
   @Prop({ default: 0 }) modeIndex: number;
 

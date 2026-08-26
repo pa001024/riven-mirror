@@ -3,19 +3,19 @@
     <el-row :gutter="14">
       <el-row type="flex" justify="center">
         <el-col :sm="24" :md="12" :lg="8" style="padding:0 11px;">
-          <el-dropdown class="simulator-new" :class="{ 'is-disabled': openCountdown > 0 }"  size="medium" split-button type="primary" @click="simulatorNew" @command="newTypeSelect" trigger="click">
+          <el-dropdown class="simulator-new" :class="{ 'is-disabled': openCountdown > 0 }"  size="default" split-button type="primary" @click="simulatorNew" @command="newTypeSelect" trigger="click">
             <i class="el-icon-plus"></i> {{openCountdown > 0 ? $t("simulator.pleaseWait",[openCountdown]) :  $t("simulator.open",[$t(`simulator.${newType.toLowerCase() || "random"}`)])}}
-            <el-dropdown-menu slot="dropdown">
+            <template #dropdown><el-dropdown-menu>
               <el-dropdown-item command="">{{$t("simulator.random")}}</el-dropdown-item>
               <el-dropdown-item command="Rifle">{{$t("simulator.rifle")}}</el-dropdown-item>
               <el-dropdown-item command="Shotgun">{{$t("simulator.shotgun")}}</el-dropdown-item>
               <el-dropdown-item command="Secondary">{{$t("simulator.secondary")}}</el-dropdown-item>
               <el-dropdown-item command="Melee">{{$t("simulator.melee")}}</el-dropdown-item>
-            </el-dropdown-menu>
+            </el-dropdown-menu></template>
           </el-dropdown>
         </el-col>
         <el-col :sm="24" :md="12" :lg="8" style="padding:0 11px;">
-          <el-button class="simulator-roll" type="primary" size="medium" :disabled="refreshCountdown > 0 || !hasChoosen" icon="el-icon-refresh" @click="simulatorRoll">{{refreshCountdown > 0 ? $t("simulator.pleaseWait",[refreshCountdown]) : $t("simulator.recycle")}}</el-button>
+          <el-button class="simulator-roll" type="primary" size="default" :disabled="refreshCountdown > 0 || !hasChoosen" @click="simulatorRoll"><i class="el-icon-refresh"></i>{{refreshCountdown > 0 ? $t("simulator.pleaseWait",[refreshCountdown]) : $t("simulator.recycle")}}</el-button>
         </el-col>
       </el-row>
       <el-row type="flex" :gutter="14" justify="center">
@@ -24,10 +24,10 @@
           <el-col :sm="24" :md="12" :lg="8" v-if="mod">
             <div v-show="mod.name" class="mod-display">
               <el-card class="mod-props-box index-card">
-                <h3 slot="header" class="mod-name">
+                <template #header><h3 class="mod-name">
                   <span>{{mod.fullLocName}}</span>
                   <span class="mod-recycle"><i class="el-icon-refresh"></i>{{mod.recycleTimes}}</span>
-                </h3>
+                </h3></template>
                 <ul>
                   <div v-for="prop in mod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
                     {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
@@ -41,9 +41,9 @@
                     <div style="text-align:center;">
                       {{$t("riven.sharetip")}}
                     </div>
-                    <el-button slot="reference" icon="el-icon-search" @click="toRiven(mod)">{{$t("simulator.analyze")}}</el-button>
+                    <template #reference><el-button @click="toRiven(mod)"><i class="el-icon-search"></i>{{$t("simulator.analyze")}}</el-button></template>
                   </el-popover>
-                  <el-button class="simulator-choose" type="primary" plain icon="el-icon-check" v-if="newMod" @click="choose(false)">{{$t("simulator.choose")}}</el-button>
+                  <el-button class="simulator-choose" type="primary" plain v-if="newMod" @click="choose(false)"><i class="el-icon-check"></i>{{$t("simulator.choose")}}</el-button>
                 </div>
               </el-card>
             </div>
@@ -54,10 +54,10 @@
           <el-col :sm="24" :md="12" :lg="8" v-if="newMod && !hasChoosen">
             <div class="mod-display">
               <el-card class="mod-props-box index-card">
-                <h3 slot="header" class="mod-name">
+                <template #header><h3 class="mod-name">
                   <span>{{newMod.fullLocName}}</span>
                   <span class="mod-recycle"><i class="el-icon-refresh"></i>{{newMod.recycleTimes}}</span>
-                </h3>
+                </h3></template>
                 <ul class="mod-ul">
                   <div v-for="prop in newMod.properties" :key="prop.name" class="mod-prop" :class="{'negative-prop':prop.isNegative}">
                     {{$t("prop.fullName." + prop.id, [prop.displayValue])}}
@@ -71,9 +71,9 @@
                     <div style="text-align:center;">
                       {{$t("riven.sharetip")}}
                     </div>
-                    <el-button slot="reference" icon="el-icon-search" @click="toRiven(newMod)">{{$t("simulator.analyze")}}</el-button>
+                    <template #reference><el-button @click="toRiven(newMod)"><i class="el-icon-search"></i>{{$t("simulator.analyze")}}</el-button></template>
                   </el-popover>
-                  <el-button class="simulator-choose" type="primary" plain icon="el-icon-check" v-if="newMod" @click="choose(true)">{{$t("simulator.choose")}}</el-button>
+                  <el-button class="simulator-choose" type="primary" plain v-if="newMod" @click="choose(true)"><i class="el-icon-check"></i>{{$t("simulator.choose")}}</el-button>
                 </div>
               </el-card>
             </div>
@@ -84,7 +84,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, toNative } from "vue-facing-decorator";
 import qrcode from "@/components/QRCode";
 import { RivenMod } from "@/warframe/rivenmod";
 import "../less/alert.less";
@@ -110,7 +110,7 @@ function countDown(sec = 3, tickCallback: (sec: number) => void) {
 @Component({
   components: { qrcode }
 })
-export default class Simulator extends Vue {
+class Simulator extends Vue  {
   mod = new RivenMod();
   newMod: RivenMod = null;
   openCountdown = 0;
@@ -161,6 +161,8 @@ export default class Simulator extends Vue {
     else this.mod.random();
   }
 }
+
+export default toNative(Simulator);
 </script>
 <style lang="less">
 @import "../less/common.less";

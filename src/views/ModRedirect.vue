@@ -2,16 +2,19 @@
   <div class="mod-redirect-container"></div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
-import { Getter, Action } from "vuex-class";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { RivenMod } from "@/warframe/rivenmod";
 
 @Component({ components: {} })
-export default class ModRedirect extends Vue {
+class ModRedirect extends Vue  {
   // prop
   @Prop() source: string;
-  @Getter("mod") mod: RivenMod;
-  @Action("newBase64TextV1") newBase64TextV1: (text: string) => void;
+  get mod(): RivenMod {
+    return this.$store.getters.mod;
+  }
+  newBase64TextV1(text: string): any {
+    return this.$store.dispatch("newBase64TextV1", text);
+  }
 
   // === 生命周期钩子 ===
   beforeMount() {
@@ -22,5 +25,7 @@ export default class ModRedirect extends Vue {
     }
   }
 }
+
+export default toNative(ModRedirect);
 </script>
 <style lang="less"></style>

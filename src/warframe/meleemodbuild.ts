@@ -364,7 +364,7 @@ export class MeleeModBuild extends ModBuild {
   }
   /** 重击所有伤害类型面板 */
   get dmgRawHeavy() {
-    return this.baseDmg.map(([i, v]) => [i, v * this.panelHeavyBaseDamage]).filter(v => v[1] > 0) as [string, number][];
+    return this.baseDmg.map(([i, v]) => [i, v * this.panelHeavyBaseDamage] as [string, number]).filter(v => v[1] > 0) as [string, number][];
   }
   /** 重击面板伤害增幅倍率 */
   get heavyPanelDamageMul() {

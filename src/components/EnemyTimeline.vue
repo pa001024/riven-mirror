@@ -1,20 +1,23 @@
 <template>
   <el-tabs class="timeline-tabs" v-model="visType">
     <el-tab-pane name="chart">
-      <span slot="label" class="enemy-tablabel">{{$t("timeline.chart")}}</span>
+      <template #label
+        ><span class="enemy-tablabel">{{ $t("timeline.chart") }}</span></template
+      >
       <!-- echart 图表 -->
-      <div class="timeline-chart" ref="chart">
-      </div>
+      <div class="timeline-chart" ref="chart"></div>
     </el-tab-pane>
     <el-tab-pane name="table">
-      <span slot="label" class="enemy-tablabel">{{$t("timeline.table")}}</span>
+      <template #label
+        ><span class="enemy-tablabel">{{ $t("timeline.table") }}</span></template
+      >
       <div class="timeline-text">
         <div class="item">
-          <div class="time">{{$t("timeline.time")}}</div>
-          <div class="hit">{{$t("timeline.hit")}} x {{$t("timeline.ammo")}}</div>
-          <div class="dot" v-if="hasDoT">{{$t("timeline.dot")}}</div>
-          <div class="hp">{{$t("timeline.hp")}}</div>
-          <div class="ar" v-if="hasArmorChange">{{$t("timeline.ar")}}</div>
+          <div class="time">{{ $t("timeline.time") }}</div>
+          <div class="hit">{{ $t("timeline.hit") }} x {{ $t("timeline.ammo") }}</div>
+          <div class="dot" v-if="hasDoT">{{ $t("timeline.dot") }}</div>
+          <div class="hp">{{ $t("timeline.hp") }}</div>
+          <div class="ar" v-if="hasArmorChange">{{ $t("timeline.ar") }}</div>
         </div>
         <div class="item" v-for="(text, sec) in timelineTable" :key="sec">
           <div class="time" v-text="text.time"></div>
@@ -29,9 +32,9 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, toNative } from "vue-facing-decorator";
 
-import echarts from "echarts/lib/echarts";
+import * as echarts from "echarts/lib/echarts";
 // 引入柱状图
 import "echarts/lib/chart/bar";
 import "echarts/lib/chart/line";
@@ -44,7 +47,7 @@ import { EnemyTimelineState } from "@/warframe/codex";
 import "@/echart.theme";
 
 @Component
-export default class EnemyTimeline extends Vue {
+class EnemyTimeline extends Vue {
   @Prop() timeline: EnemyTimelineState[];
   @Prop({ type: Boolean }) perBullet: boolean;
   visType = "chart";
@@ -68,7 +71,7 @@ export default class EnemyTimeline extends Vue {
           ammo: "...",
           dot: 0,
           hp: "...",
-          ar: "..."
+          ar: "...",
         });
         i = this.timeline.length - 1;
         v = this.timeline[i];
@@ -84,7 +87,7 @@ export default class EnemyTimeline extends Vue {
             ammo: this.perBullet ? 0 : ammo,
             dot,
             hp: ~~v.health,
-            ar: ~~v.armor
+            ar: ~~v.armor,
           });
         }
         if (v.armor != this.timeline[0].armor) this.hasArmorChange = true;
@@ -101,7 +104,7 @@ export default class EnemyTimeline extends Vue {
             ammo: this.perBullet ? 1 : ammo,
             dot: 0,
             hp: ~~v.health,
-            ar: ~~v.armor
+            ar: ~~v.armor,
           });
           // console.log("HIT", hit)
         }
@@ -116,7 +119,7 @@ export default class EnemyTimeline extends Vue {
       hit: isNaN(v.ammo) ? v.ammo : v.ammo ? `${(v.hit / v.ammo).toFixed()} x ${v.ammo}` : this.$t("timeline.reload"),
       dot: v.dot,
       hp: isNaN(v.hp) || v.hp > 0 ? v.hp : this.$t("timeline.dead"),
-      ar: v.ar
+      ar: v.ar,
     }));
   }
 
@@ -170,14 +173,14 @@ export default class EnemyTimeline extends Vue {
         itemStyle: {
           normal: {
             barBorderColor: "rgba(0,0,0,0)",
-            color: "rgba(0,0,0,0)"
+            color: "rgba(0,0,0,0)",
           },
           emphasis: {
             barBorderColor: "rgba(0,0,0,0)",
-            color: "rgba(0,0,0,0)"
-          }
+            color: "rgba(0,0,0,0)",
+          },
         },
-        data: hp
+        data: hp,
       },
       {
         name: this.$t("timeline.dot"),
@@ -186,10 +189,10 @@ export default class EnemyTimeline extends Vue {
         label: {
           normal: {
             show: !isLargeData,
-            position: "bottom"
-          }
+            position: "bottom",
+          },
         },
-        data: pd
+        data: pd,
       },
       {
         name: this.$t("timeline.hit"),
@@ -198,26 +201,26 @@ export default class EnemyTimeline extends Vue {
         label: {
           normal: {
             show: !isLargeData,
-            position: "top"
-          }
+            position: "top",
+          },
         },
-        data: dd
+        data: dd,
       },
       {
         name: this.$t("timeline.ar"),
         type: "line",
-        data: this.hasArmorChange && ar
-      }
+        data: this.hasArmorChange && ar,
+      },
     ] as any[];
 
     let option = {
       xAxis: {
         type: "category",
         splitLine: { show: false },
-        data: tm
+        data: tm,
       },
       yAxis: { type: "value" },
-      series
+      series,
     };
     return option;
   }
@@ -234,20 +237,22 @@ export default class EnemyTimeline extends Vue {
       this.myChart.setOption({
         tooltip: {
           trigger: "axis",
-          axisPointer: { type: "shadow" }
+          axisPointer: { type: "shadow" },
         },
         grid: {
           top: "4%",
           left: "0%",
           right: "2%",
           bottom: "0%",
-          containLabel: true
-        }
+          containLabel: true,
+        },
       });
       this.myChart.setOption(this.timelineData);
     });
   }
 }
+
+export default toNative(EnemyTimeline);
 </script>
 
 <style lang="less">

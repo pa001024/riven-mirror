@@ -44,12 +44,12 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 import { RivenMod } from "@/warframe/rivenmod";
 
 @Component({ components: {} })
-export default class BuildMinimap extends Vue {
+class BuildMinimap extends Vue  {
   @Prop() build: ModBuild;
 
   get isMelee() {
@@ -121,6 +121,8 @@ export default class BuildMinimap extends Vue {
 
   imgSrc = "";
 }
+
+export default toNative(BuildMinimap);
 </script>
 <style lang="less">
 @import "../less/common.less";

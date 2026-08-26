@@ -43,7 +43,7 @@ export default class ModModule implements Module<ModState, RootState> {
       state.lastWeekly = Date.now();
       localStorage.setItem("priceData", JSON.stringify(state.priceData));
       localStorage.setItem("lastWeekly", String(state.lastWeekly));
-    }
+    },
   };
 
   actions: ActionTree<ModState, RootState> = {
@@ -69,14 +69,14 @@ export default class ModModule implements Module<ModState, RootState> {
         mod: new RivenMod(localStorage.getItem("lastMod") || "Rubico|01S|C3l|0Ii.1Eu.SBG.3-9Q", true),
         history: localStorage.getItem("modHistory") ? JSON.parse(localStorage.getItem("modHistory")).map((v: string) => new RivenMod(v)) : [],
         priceData: localStorage.getItem("priceData") ? JSON.parse(localStorage.getItem("priceData")) : [],
-        lastWeekly: localStorage.getItem("lastWeekly") ? JSON.parse(localStorage.getItem("lastWeekly")) : 0
+        lastWeekly: localStorage.getItem("lastWeekly") ? JSON.parse(localStorage.getItem("lastWeekly")) : 0,
       });
     },
     async getWeekly(ctx) {
       const APIBASE = "https://api.riven.im/api/riven";
       const data = await axios.get(APIBASE);
       ctx.commit(NEW_PRICE_DATA, data.data);
-    }
+    },
   };
 
   getters: GetterTree<ModState, RootState> = {
@@ -84,7 +84,7 @@ export default class ModModule implements Module<ModState, RootState> {
     mod: state => state.mod,
     modHistoty: state => state.history,
     priceData: state => state.priceData,
-    lastWeekly: state => state.lastWeekly
+    lastWeekly: state => state.lastWeekly,
   };
 
   constructor(initState: ModState) {
@@ -93,7 +93,7 @@ export default class ModModule implements Module<ModState, RootState> {
       history: [],
       priceData: [],
       lastWeekly: 0,
-      ...initState
+      ...initState,
     };
   }
 }

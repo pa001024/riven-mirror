@@ -1,8 +1,8 @@
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import "./ProbabilityVisualization.less";
 
 @Component({})
-export default class ProbabilityVisualization extends Vue {
+class ProbabilityVisualization extends Vue  {
   @Prop({ type: Number }) criti: number;
   @Prop({ type: Number }) critMul: number;
   @Prop({ type: Number, default: 1 }) multi: number;
@@ -111,3 +111,5 @@ export default class ProbabilityVisualization extends Vue {
     );
   }
 }
+
+export default toNative(ProbabilityVisualization);

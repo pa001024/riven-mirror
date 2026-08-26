@@ -6,7 +6,7 @@
         <div class="core-info" v-if="core">
           <el-card class="infobox">
             <!-- 二维码和名称 -->
-            <div slot="header" class="core-name">
+            <template #header><div class="core-name">
               <span class="title">{{ core.name }}</span>
               <template v-if="build.formaCount">
                 [
@@ -15,7 +15,7 @@
                 ]
               </template>
               <ShareQR :url="'https://riven-im.vercel.app' + $route.path" />
-            </div>
+            </div></template>
             <div class="warframe-props">
               <!-- 容量 -->
               <el-row :gutter="4" class="prop-diff cost-show">
@@ -151,14 +151,14 @@
                         <div class="buff-parm layer" v-if="buff.layerEnable">
                           <el-input-number
                             @change="refleshMods()"
-                            size="mini"
+                            size="small"
                             v-model="buff.layer"
                             :min="1"
                             :max="buff.data.multiLayer.maxStack"
                           ></el-input-number>
                         </div>
                         <div class="buff-parm power" v-if="buff.powerEnable">
-                          <el-input-number @change="refleshMods()" :step="0.5" size="mini" v-model="buff.power"></el-input-number>
+                          <el-input-number @change="refleshMods()" :step="0.5" size="small" v-model="buff.power"></el-input-number>
                         </div>
                       </div>
                       <div class="buff-detail" @click.stop="buffRemove(index)">
@@ -184,17 +184,17 @@
         </el-tabs>
       </el-col>
     </el-row>
-    <el-dialog :title="$t('build.selectMod')" :visible.sync="modDialogVisible" width="600">
+    <el-dialog :title="$t('build.selectMod')" v-model="modDialogVisible" width="600px">
       <ModSelector :type="selectModType" ref="selector" :build="build" @command="modSelect($event)" />
     </el-dialog>
-    <el-dialog :title="$t('build.selectBuff')" :visible.sync="buffDialogVisible" width="600">
+    <el-dialog :title="$t('build.selectBuff')" v-model="buffDialogVisible" width="600px">
       <BuffSelector ref="buffselector" :build="build" @command="buffSelect($event)"></BuffSelector>
     </el-dialog>
   </div>
 </template>
 <script lang="ts">
 import { compact, map } from "lodash-es";
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, toNative } from "vue-facing-decorator";
 import LeveledModSlot from "@/components/LeveledModSlot.vue";
 import ModSelector from "@/components/ModSelector.vue";
 import BuffSelector from "@/components/BuffSelector.vue";
@@ -203,7 +203,6 @@ import ShareQR from "@/components/ShareQR.vue";
 import { NormalMod, Buff, ValuedProperty, BuffData, RivenDatabase, AbilityPropTypes, WeaponDatabase } from "@/warframe/codex";
 import "@/less/builder.less";
 import { i18n } from "@/i18n";
-import { Getter, Action } from "vuex-class";
 import { base62 } from "@/warframe/lib/base62";
 import { CompanionDataBase, CompanionBuild, Companion } from "@/warframe/companionbuild";
 import { Moa } from "@/warframe/codex/moa";
@@ -218,33 +217,43 @@ interface BuildSelectorTab {
 
 @Component({
   components: { PropDiff, LeveledModSlot, ModSelector, ShareQR, BuffSelector },
-  beforeRouteEnter(to, from, next) {
-    const id = to.params.id.replace(/_/g, " ");
-    if (id.startsWith("MOA-")) {
-      const moa = new Moa(id);
-      document.title = i18n.t("title.sub", [i18n.t("title.weapon", [moa.name])]);
-      next();
-    } else {
-      const core = CompanionDataBase.getCompanionById(id);
-      if (core) {
-        document.title = i18n.t("title.sub", [i18n.t("title.weapon", [core.name])]);
+  options: {
+    beforeRouteEnter(to, from, next) {
+      const id = String(to.params.id).replace(/_/g, " ");
+      if (id.startsWith("MOA-")) {
+        const moa = new Moa(id);
+        document.title = i18n.t("title.sub", [i18n.t("title.weapon", [moa.name])]);
         next();
-      } else next("/CompanionNotFound");
-    }
+      } else {
+        const core = CompanionDataBase.getCompanionById(id);
+        if (core) {
+          document.title = i18n.t("title.sub", [i18n.t("title.weapon", [core.name])]);
+          next();
+        } else next("/CompanionNotFound");
+      }
+    },
   },
 })
-export default class CompanionEditor extends Vue {
-  @Getter("bigScreen") bigScreen: boolean;
+class CompanionEditor extends Vue  {
+  get bigScreen(): boolean {
+    return this.$store.getters.bigScreen;
+  }
   modDialogVisible = false;
   buffDialogVisible = false;
-  @Getter("savedBuilds") savedBuilds: { [key: string]: string };
-  @Action("setBuild") setBuild: (build: CompanionBuild) => void;
+  get savedBuilds(): { [key: string]: string } {
+    return this.$store.getters.savedBuilds;
+  }
+  setBuild(build: CompanionBuild): any {
+    return this.$store.dispatch("setBuild", build);
+  }
 
   get id() {
-    return this.$route.params.id;
+    const id = this.$route.params.id;
+    return (Array.isArray(id) ? id[0] : id) || "";
   }
   get code() {
-    return this.$route.params.code || this.savedBuilds[this.core.id];
+    const code = this.$route.params.code;
+    return (Array.isArray(code) ? code[0] : code) || this.savedBuilds[this.core.id];
   }
 
   tabs: BuildSelectorTab[] = [];
@@ -466,4 +475,6 @@ export default class CompanionEditor extends Vue {
     return emp;
   }
 }
+
+export default toNative(CompanionEditor);
 </script>

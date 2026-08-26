@@ -9,12 +9,12 @@
   </el-row>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, Prop, toNative } from "vue-facing-decorator";
 import { i18n } from "@/i18n";
 import { UserMeta } from "@/service/user";
 
 @Component
-export default class UserProfile extends Vue {
+class UserProfile extends Vue  {
   @Prop() user: string;
   userMeta: UserMeta = null;
 
@@ -23,6 +23,8 @@ export default class UserProfile extends Vue {
 
   }
 }
+
+export default toNative(UserProfile);
 </script>
 <style lang="less">
 </style>

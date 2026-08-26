@@ -1,8 +1,8 @@
-import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { ModBuild } from "@/warframe/modbuild";
 
 @Component
-export class DamageSystem extends Vue {
+class DamageSystemClass extends Vue {
   @Prop() build: ModBuild;
 
   stateText = "";
@@ -15,3 +15,6 @@ export class DamageSystem extends Vue {
     );
   }
 }
+
+export const DamageSystem = toNative(DamageSystemClass);
+export default DamageSystem;

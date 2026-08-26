@@ -11,20 +11,20 @@
         </el-option>
       </el-select>
       <AbilityPropValueEditor v-model="dmgs[index][1]" />
-      <el-button type="danger" icon="el-icon-delete" circle @click="dmgs.splice(index, 1)"></el-button>
+      <el-button type="danger" circle @click="dmgs.splice(index, 1)"><i class="el-icon-delete"></i></el-button>
     </div>
     <div class="new-damage-item">
-      <el-button type="primary" icon="el-icon-plus" @click="addnewdamage">添加新伤害类型</el-button>
+      <el-button type="primary" @click="addnewdamage"><i class="el-icon-plus"></i>添加新伤害类型</el-button>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch, Prop, Model } from "vue-property-decorator";
+import { Vue, Component, Model, toNative } from "vue-facing-decorator";
 import { AbilityPropValue } from "@/warframe/codex";
 import AbilityPropValueEditor from "@/components/vse/AbilityPropValueEditor.vue";
 
 @Component({ components: { AbilityPropValueEditor } })
-export default class DamageEditor extends Vue {
+class DamageEditor extends Vue  {
   @Model() dmgs: [string, AbilityPropValue][]
   get DT_TYPES() {
     return ["Physical", "Impact", "Puncture", "Slash", "Cold", "Electricity", "Heat", "Toxin", "Blast", "Corrosive", "Gas", "Magnetic", "Radiation", "Viral", "True", "Void",]
@@ -34,6 +34,7 @@ export default class DamageEditor extends Vue {
   }
 }
 
+export default toNative(DamageEditor);
 </script>
 
 <style lang="less" scoped>

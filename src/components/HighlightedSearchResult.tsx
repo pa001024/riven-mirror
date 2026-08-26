@@ -1,8 +1,8 @@
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, toNative } from "vue-facing-decorator";
 import { IndexedSearchResult } from "@/search";
 
 @Component({ components: {} })
-export default class HighlightedSearchResult extends Vue {
+class HighlightedSearchResult extends Vue  {
   @Prop() data: IndexedSearchResult;
 
   render() {
@@ -80,3 +80,5 @@ export default class HighlightedSearchResult extends Vue {
     return rst;
   }
 }
+
+export default toNative(HighlightedSearchResult);

@@ -1,9 +1,9 @@
 <template>
-  <component :is="weapon.isGun ? 'GunBuildEditor' : 'MeleeBuildEditor'" :weapon="weapon" :modeIndex="modeIndex"/>
+  <component :is="weapon.isGun ? 'GunBuildEditor' : 'MeleeBuildEditor'" :weapon="weapon" :modeIndex="modeIndex" />
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch, Prop } from "vue-property-decorator";
+import { Vue, Component, Watch, toNative } from "vue-facing-decorator";
 import GunBuildEditor from "@/views/build/GunBuildEditor.vue";
 import MeleeBuildEditor from "@/views/build/MeleeBuildEditor.vue";
 import { Weapon, RivenDatabase, Zaw, Kitgun, Amp, WeaponDatabase } from "@/warframe/codex";
@@ -22,17 +22,21 @@ function loadWeapon(id: string) {
 }
 @Component({
   components: { GunBuildEditor, MeleeBuildEditor },
-  beforeRouteEnter(to, from, next) {
-    const weapon = loadWeapon(to.params.id);
-    if (weapon) {
-      document.title = i18n.t("title.sub", [i18n.t("title.weapon", [weapon.displayName])]);
-      next();
-    } else next("/WeaponNotFound");
-  }
+  // vue-facing-decorator 的路由守卫要放进 options 才会合并进组件选项
+  options: {
+    beforeRouteEnter(to, from, next) {
+      const weapon = loadWeapon(String(to.params.id));
+      if (weapon) {
+        document.title = i18n.t("title.sub", [i18n.t("title.weapon", [weapon.displayName])]);
+        next();
+      } else next("/WeaponNotFound");
+    },
+  },
 })
-export default class BuildEditor extends Vue {
+class BuildEditor extends Vue {
   get id() {
-    return this.$route.params.id;
+    const id = this.$route.params.id;
+    return (Array.isArray(id) ? id[0] : id) || "";
   }
   get modeIndex() {
     const mode = this.$route.params.mode || "0";
@@ -55,4 +59,6 @@ export default class BuildEditor extends Vue {
   }
   // === 生命周期钩子 ===
 }
+
+export default toNative(BuildEditor);
 </script>
