@@ -177,6 +177,39 @@ Warframe Wiki (fandom)  ─┼─> data/ bun run fetch ─> data/tmp/*.json
 
 **fetch 机制**：`data/src/fetch.ts` 双通道——先试普通 HTTP raw（居民网络最快），失败的用 **Bun.WebView 无头浏览器**（Windows 走 Chrome）过 Cloudflare 挑战再抓；WebView 每次运行用独立 profile（避免残留 Chrome 锁），navigate/evaluate 都带超时防挂死。判定成败按 **body 内容**而非 HTTP 状态码（fandom 概率性 403 但 body 可能是真实数据）。`Module:Weapons/data` 是分发器，真实武器数据在 `Module:Weapons/data/{primary,secondary,melee,archwing,companion,railjack,modular,misc}` 8 个分区里，`build.ts` 的 `wikia-Weapons.json` case 会合并它们。灰机（huijiwiki）对数据中心 IP 有 Cloudflare「Under Attack Mode」全站拦截（`api.php` 也 403），抓不到时 `zh-Hans` 保持旧值、构建照样通过（应用不 import 这些文件）；`Data:DictCY.tab` 已 404，`zh-CY.json` 不再更新。
 
+## 6.1 静态图片 / 音频资源（本地化，不走 OSS）
+
+部件图标、星球背景、乐器采样已**全部下载到 `public/`**，运行时不再依赖任何外链 OSS：
+
+```
+public/img/<name>.m.png              部件图标 + 星球背景（<planet>-<day|night>.m.jpg）
+public/instruments/<inst>/<note>.mp3 乐器采样（piano / shawzin / lotus）
+```
+
+引用一律用**公共根路径** `/img/...`、`/instruments/...`（与 `app.less` / `ErrorPage` 既有写法一致）。涉及文件：
+
+| 文件 | 用途 |
+| --- | --- |
+| `src/components/{Amp,Moa,Kitgun,Zaw}Builder.vue` | 部件图标，按数据表 `name`/`id` 拼 URL |
+| `src/less/alert.less`、`src/components/MiniClock.vue` | 星球背景 / 通知图标 |
+| `src/views/music/MusicEdit.vue` | `instrumentResource` 的采样目录 |
+
+**文件名拼接规则**（改数据表时要注意，拼错就 404）：
+
+- Amp / Moa：`/img/${lodash camelCase(name)}.m.png`（如 `Raplak Prism` → `raplakPrism`）
+- Kitgun / Zaw：`/img/<前缀>${name 去空格}.m.png`，前缀分别是
+  `kitgunChamber|kitgunGrip|kitgunLoader`、`zawStrike|zawGrip|zawLink`
+- Zaw 环接部第二处替换：`name.replace(/II/g, "2")`（`Jai II` → `zawLinkJai2`）
+
+配套脚本（新增/刷新/校验资源时用）：
+
+```bash
+bun scripts/download-oss-assets.mjs   # 从原 OSS 重新拉取全部资源到 public/
+bun scripts/verify-local-assets.mjs   # 从 src 数据表独立推导文件名，比对 public/ 是否齐
+```
+
+`verify-local-assets.mjs` 是防回归的关键：它不读模板，而是**从 `amp.ts`/`moa.ts`/`kitgun.ts`/`zaw.ts` 的 name 字段重新推导**期望文件名，因此能抓住拼接规则写错的情况。改动 builder 模板的 URL 规则后请同步更新它。
+
 ## 7. 常见坑
 
 1. **`data/` 是 git submodule**，clone 后要 `git submodule update --init --recursive`，否则 `src/warframe/codex/weapon.ts` 的 import 直接挂。
@@ -187,6 +220,9 @@ Warframe Wiki (fandom)  ─┼─> data/ bun run fetch ─> data/tmp/*.json
 6. **`strict: false`**，大量隐式 any。不要为了"修类型"顺手打开 strict，会炸出上千个错误。
 7. **Node 内置模块会被 Vite externalize**：像 `sha.js` 这类 CJS 依赖在顶层 `require('buffer')`，浏览器里得到空 stub 导致 `Buffer.from` 直接崩，模块图求值失败、应用永远停在 loading 转圈（连 console 错误都不一定打出来）。已在 `vite.config.ts` 里 alias `buffer: "buffer/"` + `define: { global: "globalThis" }` 修掉。新加依赖若仍 import `fs`/`buffer`/`path` 等内置模块，启动时若报 "has been externalized" 警告要按同样思路处理（装对应 polyfill 或换浏览器版实现）。
 8. **`bun run build` 通过 ≠ 应用能跑**。构建不做类型检查（见第 5 条），也不验证运行时挂载。迁移类改动后建议用 `bun run dev` + 无头浏览器（Bun.WebView）实际加载页面确认 `#app` 不再停留在 `cssloading`。
+9. **模板里的表达式写错，构建一样通过**。Vite 不校验模板内的 JS 表达式/变量是否存在。批量改 `<img :src="...">` 这类字符串模板时，若残留未定义变量（如 `${base}`），`bun run build` 照样成功，但运行时 URL 会变成 `undefinedimg/...`、图片静默全挂。**改完必须 grep 复查模板 + 实跑资源 URL**（见 6.1 的 `verify-local-assets.mjs`）。
+10. **本机 shell 的 `sed` 匹配不了含 `${...}` 的模式**（`${base}`、`\${base}`、`[$]{base}` 全部不生效，而单独匹配 `img` 正常，疑似 Bash 包装层对 `${}` 做了处理）。**批量文本替换改用 Python 脚本**（`io.open(path, newline="")` 保持原换行），别跟 sed 较劲。
+11. **别对从未格式化过的文件跑 prettier**。部分老组件（如 `MiniClock.vue`）历史上没走过 prettier，直接 `prettier --write` 会引入上百行无关 churn（`{{$t()}}` → `{{ $t() }}`、加尾逗号等）。这类文件只手工改目标行；仅对已是 prettier 风格的文件跑格式化。
 
 ## 8. 修改边界
 

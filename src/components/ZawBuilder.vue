@@ -10,7 +10,7 @@
       <div class="part-box" v-for="item in strikeList" :key="item.name">
         <el-radio class="part" :model-value="strike as any" @update:model-value="strike = $event as any" :label="item as any" border>
           <div class="snapshot">
-            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/zawStrike${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%" />
+            <img :src="`/img/zawStrike${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%" />
           </div>
           <div class="name">
             {{ $t(`messages.${item.id}`) }}
@@ -28,7 +28,7 @@
       <div class="part-box" v-for="item in gripList" :key="item.name">
         <el-radio class="part" :model-value="grip as any" @update:model-value="grip = $event as any" :label="item as any" border>
           <div class="snapshot">
-            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/zawGrip${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%" />
+            <img :src="`/img/zawGrip${item.name.replace(/ /g, '')}.m.png`" :alt="item.name" width="100%" />
           </div>
           <div class="name">
             {{ $t(`messages.${item.id}`) }}
@@ -48,11 +48,7 @@
       <div class="part-box" v-for="item in linksList" :key="item.name">
         <el-radio class="part" :model-value="links as any" @update:model-value="links = $event as any" :label="item as any" border>
           <div class="snapshot">
-            <img
-              :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/zawLink${item.name.replace(/II/g, '2').replace(/ /g, '')}.m.png`"
-              :alt="item.name"
-              width="100%"
-            />
+            <img :src="`/img/zawLink${item.name.replace(/II/g, '2').replace(/ /g, '')}.m.png`" :alt="item.name" width="100%" />
           </div>
           <div class="name">
             {{ $t(`messages.${item.id}`) }}

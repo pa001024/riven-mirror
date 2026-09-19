@@ -89,11 +89,6 @@ export default defineConfig(({ command, mode }) => ({
             handler: "CacheFirst",
             options: { cacheName: "rm-cdn", cacheableResponse: { statuses: [0, 200] }, expiration: { maxEntries: 200 } },
           },
-          {
-            urlPattern: /^https:\/\/rm-img\.oss-accelerate\.aliyuncs\.com\/.+/,
-            handler: "CacheFirst",
-            options: { cacheName: "rm-img", cacheableResponse: { statuses: [0, 200] }, expiration: { maxEntries: 200 } },
-          },
         ],
       },
     }),

@@ -11,7 +11,7 @@
       <div class="part-box" v-for="item in modelList" :key="item.name">
         <el-radio class="part" :model-value="model as any" @update:model-value="model = $event as any" :label="item as any" border>
           <div class="snapshot">
-            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/${item.id}.m.png`" :alt="item.name" width="100%" />
+            <img :src="`/img/${item.id}.m.png`" :alt="item.name" width="100%" />
           </div>
           <div class="name">
             {{ $t(`messages.${item.id}`) }}
@@ -27,7 +27,7 @@
       <div class="part-box" v-for="item in coreList" :key="item.name">
         <el-radio class="part" :model-value="core as any" @update:model-value="core = $event as any" :label="item as any" border>
           <div class="snapshot">
-            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/${item.id}.m.png`" :alt="item.name" width="100%" />
+            <img :src="`/img/${item.id}.m.png`" :alt="item.name" width="100%" />
           </div>
           <div class="name">
             {{ $t(`messages.${item.id}`) }}
@@ -45,7 +45,7 @@
       <div class="part-box" v-for="item in gyroList" :key="item.name">
         <el-radio class="part" :model-value="gyro as any" @update:model-value="gyro = $event as any" :label="item as any" border>
           <div class="snapshot">
-            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/${item.id}.m.png`" :alt="item.name" width="100%" />
+            <img :src="`/img/${item.id}.m.png`" :alt="item.name" width="100%" />
           </div>
           <div class="name">
             {{ $t(`messages.${item.id}`) }}
@@ -63,7 +63,7 @@
       <div class="part-box" v-for="item in bracketList" :key="item.name">
         <el-radio class="part" :model-value="bracket as any" @update:model-value="bracket = $event as any" :label="item as any" border>
           <div class="snapshot">
-            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/${item.id}.m.png`" :alt="item.name" width="100%" />
+            <img :src="`/img/${item.id}.m.png`" :alt="item.name" width="100%" />
           </div>
           <div class="name">
             {{ $t(`messages.${item.id}`) }}

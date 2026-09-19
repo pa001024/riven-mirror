@@ -6,7 +6,7 @@
       <div class="part-box" v-for="item in prismList" :key="item.index">
         <el-radio class="part" :model-value="prism as any" @update:model-value="prism = $event as any" :label="item as any" border @change="scaffold = null">
           <div class="snapshot">
-            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/${item.id}.m.png`" :alt="item.id" height="100%" />
+            <img :src="`/img/${item.id}.m.png`" :alt="item.id" height="100%" />
           </div>
           <div class="name">{{ $t(`messages.${item.id}`) }}</div>
           <div class="type">{{ $t(`amp.type.${item.id}`) }}</div>
@@ -19,7 +19,7 @@
       <div class="part-box" v-for="item in scaffoldList" :key="item.index">
         <el-radio class="part" :model-value="scaffold as any" @update:model-value="scaffold = $event as any" :label="item as any" border @change="prism = null">
           <div class="snapshot">
-            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/${item.id}.m.png`" :alt="item.id" height="100%" />
+            <img :src="`/img/${item.id}.m.png`" :alt="item.id" height="100%" />
           </div>
           <div class="name">{{ $t(`messages.${item.id}`) }}</div>
           <div class="type">{{ $t(`amp.type.${item.id}`) }}</div>
@@ -32,7 +32,7 @@
       <div class="part-box" v-for="item in braceList" :key="item.index">
         <el-radio class="part" :model-value="brace as any" @update:model-value="brace = $event as any" :label="item as any" border>
           <div class="snapshot">
-            <img :src="`https://rm-img.oss-accelerate.aliyuncs.com/img/${item.id}.m.png`" :alt="item.id" height="100%" />
+            <img :src="`/img/${item.id}.m.png`" :alt="item.id" height="100%" />
           </div>
           <div class="name">{{ $t(`messages.${item.id}`) }}</div>
           <div class="prop">
